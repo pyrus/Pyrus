@@ -9,7 +9,7 @@
  * - package.phar
  * - remote undownloaded package
  */
-class PEAR2_Package implements IteratorAggregate, ArrayAccess
+class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
 {
     /**
      * The actual package representation
@@ -21,7 +21,7 @@ class PEAR2_Package implements IteratorAggregate, ArrayAccess
     function __construct($packagedescription, $forceremote = false)
     {
         if ($forceremote) {
-            $this->internal = new PEAR2_Package_Remote($packagedescription);
+            $this->internal = new PEAR2_Pyrus_Package_Remote($packagedescription);
         } else {
             $class = $this->_parsePackageDescription($packagedescription);
             $this->internal = new $class($packagedescription, $this);
@@ -66,12 +66,12 @@ class PEAR2_Package implements IteratorAggregate, ArrayAccess
 
     function isRemote()
     {
-        return $this->internal instanceof PEAR2_Package_Remote;
+        return $this->internal instanceof PEAR2_Pyrus_Package_Remote;
     }
 
     function download()
     {
-        if ($this->internal instanceof PEAR2_Package_Remote) {
+        if ($this->internal instanceof PEAR2_Pyrus_Package_Remote) {
             $this->internal = $this->internal->download();
         }
     }
@@ -79,11 +79,11 @@ class PEAR2_Package implements IteratorAggregate, ArrayAccess
     function _parsePackageDescription($package)
     {
         if (strpos($package, 'http://') === 0) {
-            return 'PEAR2_Package_Remote';
+            return 'PEAR2_Pyrus_Package_Remote';
         }
         try {
-            $info = PEAR2_Registry::parsePackageName($package);
-            return 'PEAR2_Package_Remote';
+            $info = PEAR2_Pyrus_Registry::parsePackageName($package);
+            return 'PEAR2_Pyrus_Package_Remote';
         } catch (Exception $e) {
             // not a remote package
             if (file_exists($package)) {
@@ -95,23 +95,23 @@ class PEAR2_Package implements IteratorAggregate, ArrayAccess
                         $first4 = fread($f, 4);
                         fclose($f);
                         if ($first4 == '<?xml') {
-                            return 'PEAR2_Package_Xml';
+                            return 'PEAR2_Pyrus_Package_Xml';
                         }
-                        return 'PEAR2_Package_Tar';
+                        return 'PEAR2_Pyrus_Package_Tar';
                     }
                 } else {
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
-                            return 'PEAR2_Package_Xml';
+                            return 'PEAR2_Pyrus_Package_Xml';
                         case 'tar' :
                         case 'tgz' :
-                            return 'PEAR2_Package_Tar';
+                            return 'PEAR2_Pyrus_Package_Tar';
                         case 'phar' :
-                            return 'PEAR2_Package_Phar';
+                            return 'PEAR2_Pyrus_Package_Phar';
                     }
                 }
             }
-            throw new PEAR2_Package_Exception('package "' . $package . '" is unknown');
+            throw new PEAR2_Pyrus_Package_Exception('package "' . $package . '" is unknown');
         }
     }
 }

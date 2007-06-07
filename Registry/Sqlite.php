@@ -210,7 +210,7 @@
  *
  * </pre>
  */
-class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
+class PEAR2_Pyrus_Registry_Sqlite implements PEAR2_Pyrus_IRegistry
 {
     /**
      * The database resource
@@ -258,7 +258,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
             $saveparam = $this->parsedPackageNameToString($param);
             // process the array
             if (!isset($param['package'])) {
-                throw new PEAR2_Registry_Exception('parsePackageName(): array $param ' .
+                throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): array $param ' .
                     'must contain a valid package name in index "param"');
             }
             if (!isset($param['uri'])) {
@@ -275,7 +275,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
                     // uri package
                     $param = array('uri' => $param, 'channel' => '__uri');
                 } elseif($components['scheme'] != 'channel') {
-                    throw new PEAR2_Registry_Exception('parsePackageName(): only channel:// uris may ' .
+                    throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): only channel:// uris may ' .
                         'be downloaded, not "' . $param . '"');//, 'invalid');
                 }
             }
@@ -290,7 +290,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
             if (!isset($components['scheme'])) {
                 if (strpos($components['path'], '/') !== false) {
                     if ($components['path']{0} == '/') {
-                        throw new PEAR2_Registry_Exception('parsePackageName(): this is not ' .
+                        throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): this is not ' .
                             'a package name, it begins with "/" in "' . $param . '"');
                     }
                     $parts = explode('/', $components['path']);
@@ -346,7 +346,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
             if (strpos($param['package'], '-')) {
                 $test = explode('-', $param['package']);
                 if (count($test) != 2) {
-                    throw new PEAR2_Registry_Exception('parsePackageName(): only one version/state ' .
+                    throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): only one version/state ' .
                         'delimiter "-" is allowed in "' . $saveparam . '"');
                 }
                 list($param['package'], $param['version']) = $test;
@@ -355,12 +355,12 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         // validation
         $info = $this->channelExists($param['channel']);
         if (!$info) {
-            throw new PEAR2_Registry_Exception('unknown channel "' . $param['channel'] .
+            throw new PEAR2_Pyrus_Registry_Exception('unknown channel "' . $param['channel'] .
                 '" in "' . $saveparam . '"', 'channel');
         }
         $chan = $this->getChannel($param['channel']);
         if (!$chan) {
-            throw new PEAR2_Registry_Exception("Exception: corrupt registry, could not " .
+            throw new PEAR2_Pyrus_Registry_Exception("Exception: corrupt registry, could not " .
                 "retrieve channel " . $param['channel'] . " information");
         }
         $param['channel'] = $chan->getName();
@@ -368,24 +368,24 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $vpackage = $chan->getValidationPackage();
         // validate package name
         if (!$validate->validPackageName($param['package'], $vpackage['_content'])) {
-            throw new PEAR2_Registry_Exception('parsePackageName(): invalid package name "' .
+            throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): invalid package name "' .
                 $param['package'] . '" in "' . $saveparam . '"');
         }
         if (isset($param['group'])) {
             if (!PEAR_Validate::validGroupName($param['group'])) {
-                throw new PEAR2_Registry_Exception('parsePackageName(): dependency group "' . $param['group'] .
+                throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): dependency group "' . $param['group'] .
                     '" is not a valid group name in "' . $saveparam . '"');
             }
         }
         if (isset($param['state'])) {
             if (!in_array(strtolower($param['state']), $validate->getValidStates())) {
-                throw new PEAR2_Registry_Exception('parsePackageName(): state "' . $param['state']
+                throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): state "' . $param['state']
                     . '" is not a valid state in "' . $saveparam . '"');
             }
         }
         if (isset($param['version'])) {
             if (isset($param['state'])) {
-                throw new PEAR2_Registry_Exception('parsePackageName(): cannot contain both ' .
+                throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): cannot contain both ' .
                     'a version and a stability (state) in "' . $saveparam . '"',
                     'version/state');
             }
@@ -395,7 +395,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
                 unset($param['version']);
             } else {
                 if (!$validate->validVersion($param['version'])) {
-                    throw new PEAR2_Registry_Exception('parsePackageName(): "' . $param['version'] .
+                    throw new PEAR2_Pyrus_Registry_Exception('parsePackageName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"');
                 }                    
@@ -471,13 +471,13 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         }
         $this->database = new SQLiteDatabase($path, 0666, $error);
         if (!$this->database) {
-            throw new PEAR2_Registry_Exception('Cannot open SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot open SQLite registry: ' . $error);
         }
         if (@$this->database->singleQuery('SELECT version FROM pearregistryversion') == '1.0.0') {
             return;
         }
         if (!$this->database->queryExec('BEGIN', $error)) {
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
           CREATE TABLE packages (
@@ -503,7 +503,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
           
         $query = '
@@ -519,7 +519,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -535,7 +535,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -553,7 +553,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -570,7 +570,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -588,7 +588,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -602,7 +602,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -616,7 +616,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -630,7 +630,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -644,7 +644,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -657,7 +657,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -684,7 +684,7 @@ class PEAR2_Registry_Sqlite implements PEAR2_IRegistry
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -696,7 +696,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -719,7 +719,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -749,7 +749,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
 
         $query = '
@@ -781,7 +781,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channels
@@ -797,7 +797,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channel_server_rest
@@ -812,7 +812,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channel_server_rest
@@ -827,7 +827,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channels
@@ -846,7 +846,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channel_server_rest
@@ -861,7 +861,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channel_server_rest
@@ -876,7 +876,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         $query = '
             INSERT INTO channels
@@ -892,7 +892,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $worked = @$this->database->queryExec($query, $error);
         if (!$worked) {
             @$this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
         @$this->database->queryExec('COMMIT');
     }
@@ -900,13 +900,13 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
     /**
      * Add an installed package to the registry
      *
-     * @param PEAR2_PackageFile_v2 $pf
+     * @param PEAR2_Pyrus_PackageFile_v2 $pf
      */
-    function installPackage(PEAR2_PackageFile_v2 $pf)
+    function installPackage(PEAR2_Pyrus_PackageFile_v2 $pf)
     {
         if ($this->database->singleQuery('SELECT name FROM packages WHERE name="' .
               $pf->getName() . '" AND channel="' . $pf->getChannel() . '"')) {
-            throw new PEAR2_Registry_Exception('Error: package ' .
+            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                 $pf->getChannel() . '/' . $pf->getName() . ' has already been installed');
         }
         $this->database->queryExec('BEGIN');
@@ -939,11 +939,11 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
               \'' . sqlite_escape_string($pf->getNotes()) . '\',
               NULL,
               "2.0.0",
-              "' . PEAR2_Config::configSnapshot() . '"
+              "' . PEAR2_Pyrus_Config::configSnapshot() . '"
              )
             ')) {
             $this->database->queryExec('ROLLBACK');
-            throw new PEAR2_Registry_Exception('Error: package ' .
+            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                 $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
         }
         foreach ($pf->getMaintainers() as $maintainer) {
@@ -961,17 +961,17 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                  )
                 ')) {
                 $this->database->queryExec('ROLLBACK');
-                throw new PEAR2_Registry_Exception('Error: package ' .
+                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                     $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
             }
         }
-        $curconfig = PEAR2_Config::current();
+        $curconfig = PEAR2_Pyrus_Config::current();
         $roles = array();
-        foreach (PEAR2_Installer_Role::getValidRoles($pf->getPackageType()) as $role) {
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($pf->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
             $roles[$role] =
-                PEAR2_Installer_Role::factory($pf, $role)->getLocationConfig();
+                PEAR2_Pyrus_Installer_Role::factory($pf, $role)->getLocationConfig();
         }
         foreach ($pf->installcontents as $file) {
             if (!@$this->database->queryExec('
@@ -986,7 +986,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                  )
                 ')) {
                 $this->database->queryExec('ROLLBACK');
-                throw new PEAR2_Registry_Exception('Error: package ' .
+                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                     $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
             }
         }
@@ -1024,7 +1024,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                              )
                             ')) {
                             $this->database->queryExec('ROLLBACK');
-                            throw new PEAR2_Registry_Exception('Error: package ' .
+                            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                 $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
                         }
                         if (isset($d['exclude'])) {
@@ -1047,7 +1047,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                                      )
                                     ')) {
                                     $this->database->queryExec('ROLLBACK');
-                                    throw new PEAR2_Registry_Exception('Error: package ' .
+                                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                         $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
                                 }                        
                             }
@@ -1093,7 +1093,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                              )
                             ')) {
                             $this->database->queryExec('ROLLBACK');
-                            throw new PEAR2_Registry_Exception('Error: package ' .
+                            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                 $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
                         }
                         if (isset($d['exclude'])) {
@@ -1116,7 +1116,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                                      )
                                     ')) {
                                     $this->database->queryExec('ROLLBACK');
-                                    throw new PEAR2_Registry_Exception('Error: package ' .
+                                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                         $pf->getChannel() . '/' . $pf->getName() . ' could not be installed in registry');
                                 }                        
                             }
@@ -1134,7 +1134,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         if (!$this->database->singleQuery('SELECT package FROM packages WHERE package="' .
               sqlite_escape_string($package) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"')) {
-            throw new PEAR2_Registry_Exception('Unknown package ' . $channel . '/' .
+            throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel . '/' .
                 $package);
         }
         $this->database->queryExec('DELETE FROM packages WHERE package="' .
@@ -1142,7 +1142,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
               sqlite_escape_string($channel) . '"');
     }
 
-    function upgradePackage(PEAR2_PackageFile_v2 $package)
+    function upgradePackage(PEAR2_Pyrus_PackageFile_v2 $package)
     {
         if (!$this->database->singleQuery('SELECT package FROM packages WHERE package="' .
               sqlite_escape_string($package) . '" AND channel = "' .
@@ -1176,7 +1176,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
               channel="' . sqlite_escape_string($channel) . '"')) {
             return $a;
         }
-        throw new PEAR2_Registry_Exception('Unknown channel/alias: ' . $channel);
+        throw new PEAR2_Pyrus_Registry_Exception('Unknown channel/alias: ' . $channel);
     }
 
     function channelExists($channel, $strict = true)
@@ -1203,7 +1203,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $this->assertChannelExists($channel);
         if (!@$this->database->queryExec('UPDATE channels SET alias=\'' .
               sqlite_escape_string($alias) . '\'', $error)) {
-            throw new PEAR2_Registry_Exception('Cannot set channel ' .
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot set channel ' .
                 $channel . ' alias to ' . $alias . ': ' . $error);
         }
     }
@@ -1212,7 +1212,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
     {
         if ($this->database->singleQuery('SELECT channel FROM channels WHERE channel="' .
               $channel->getName() . '"')) {
-            throw new PEAR2_Registry_Exception('Error: channel ' .
+            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' .
                 $channel->getName() . ' has already been discovered');
         }
         $validate = $channel->getValidationPackage();
@@ -1231,7 +1231,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
             \'' . sqlite_escape_string(serialize($channel->lastModified())) . '\'
             )
             ')) {
-            throw new PEAR2_Registry_Exception('Error: channel ' . $channel->getName() .
+            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
                 ' could not be added to the registry');    
         }
         if (!@$this->database->queryExec('
@@ -1244,7 +1244,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
             ' . $channel->getPort() . '
             )
             ')) {
-            throw new PEAR2_Registry_Exception('Error: channel ' . $channel->getName() .
+            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
                 ' could not be added to the registry');    
         }
         $servers = array(false);
@@ -1262,7 +1262,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                     ' . $channel->getPort($mirror['attribs']['host']) . '
                     )
                     ')) {
-                    throw new PEAR2_Registry_Exception('Error: channel ' . $channel->getName() .
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
                         ' could not be added to the registry');    
                 }
             }
@@ -1290,7 +1290,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
                         "' . $function['attribs'][$attrib] . '"
                         )
                         ')) {
-                        throw new PEAR2_Registry_Exception('Error: channel ' . $channel->getName() .
+                        throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
                             ' could not be added to the registry');    
                     }
                 }
@@ -1311,7 +1311,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
         $error = '';
         if (!@$this->database->queryExec('DELETE FROM channels WHERE channel="' .
               sqlite_escape_string($channel) . '"', $error)) {
-            throw new PEAR2_Registry_Exception('Cannot delete channel ' .
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot delete channel ' .
                 $channel . ': ' . $error);
         }
     }
@@ -1319,10 +1319,10 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
     function __get($var)
     {
         if ($var == 'package') {
-            return new PEAR2_Registry_Sqlite_Package($this);
+            return new PEAR2_Pyrus_Registry_Sqlite_Package($this);
         }
         if ($var == 'channel') {
-            return new PEAR2_Registry_Sqlite_Channel($this);
+            return new PEAR2_Pyrus_Registry_Sqlite_Channel($this);
         }
     }
 
@@ -1333,7 +1333,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
             package = \'' . sqlite_escape_string($package) . '\' AND
             channel = \'' . sqlite_escape_string($channel) . '\'', true);
         if (!$info) {
-            throw new PEAR2_Registry_Exception('Cannot retrieve ' . $field .
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
                 ': ' . $this->database->error_string($this->database->lastError()));
         }
         return $info;

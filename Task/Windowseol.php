@@ -30,10 +30,10 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Task_Windowseol extends PEAR2_Task_Common
+class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
 {
     var $type = 'simple';
-    var $phase = PEAR2_TASK_PACKAGE;
+    var $phase = PEAR2_PYRUS_TASK_PACKAGE;
     var $_replacements;
 
     /**
@@ -46,7 +46,7 @@ class PEAR2_Task_Windowseol extends PEAR2_Task_Common
     static function validateXml($pkg, $xml, &$config, $fileXml)
     {
         if ($xml != '') {
-            return array(PEAR2_TASK_ERROR_INVALID, 'no attributes allowed');
+            return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'no attributes allowed');
         }
         return true;
     }
@@ -72,7 +72,7 @@ class PEAR2_Task_Windowseol extends PEAR2_Task_Common
      */
     function startSession($pkg, $contents, $dest)
     {
-        PEAR2_Log::log(3, "replacing all line endings with \\r\\n in $dest");
+        PEAR2_Pyrus_Log::log(3, "replacing all line endings with \\r\\n in $dest");
         return preg_replace("/\r\n|\n\r|\r|\n/", "\r\n", $contents);
     }
 }

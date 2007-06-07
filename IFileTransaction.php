@@ -1,5 +1,5 @@
 <?php
-interface PEAR2_IFileTransaction
+interface PEAR2_Pyrus_IFileTransaction
 {
     public function check($data, &$errors);
     public function commit($data, &$errors);

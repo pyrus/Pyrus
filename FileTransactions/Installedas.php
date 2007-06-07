@@ -1,10 +1,10 @@
 <?php
-class PEAR2_FileTransactions_Installedas implements PEAR2_IFileTransaction
+class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTransaction
 {
     private $_dirTree = array();
     private $pkginfo;
 
-    public function reset(PEAR2_Package $package)
+    public function reset(PEAR2_Pyrus_Package $package)
     {
         $this->pkginfo = $package;
         $this->_dirTree = array();

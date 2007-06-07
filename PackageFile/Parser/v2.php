@@ -30,7 +30,7 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_PackageFile_Parser_v2 extends PEAR2_XMLParser
+class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
 {
     var $_config;
     var $_logger;
@@ -84,12 +84,12 @@ class PEAR2_PackageFile_Parser_v2 extends PEAR2_XMLParser
      * @param string|false name of the archive this package.xml came from, if any
      * @param string class name to instantiate and return.  This must be PEAR_PackageFile_v2 or
      *               a subclass
-     * @return PEAR2_PackageFile_v2
+     * @return PEAR2_Pyrus_PackageFile_v2
      */
-    function parse($data, $file, $archive = false, $class = 'PEAR2_PackageFile_v2')
+    function parse($data, $file, $archive = false, $class = 'PEAR2_Pyrus_PackageFile_v2')
     {
         $ret = new $class;
-        $ret->setConfig(PEAR2_Config::current());
+        $ret->setConfig(PEAR2_Pyrus_Config::current());
         if (isset($this->_logger)) {
             $ret->setLogger($this->_logger);
         }

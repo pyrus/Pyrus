@@ -1,10 +1,10 @@
 <?php
 /**
- * PEAR's master configuration manager
+ * Pyrus's master configuration manager
  *
- * Unlike PEAR version 1.x, the new PEAR configuration manager is tightly bound
+ * Unlike PEAR version 1.x, the new Pyrus configuration manager is tightly bound
  * to include_path, and will search through include_path for system configuration
- * PEAR installations.
+ * Pyrus installations.
  * 
  * The User configuration file will be looked for in these locations:
  *
@@ -19,7 +19,7 @@
  *   This is looked up directly in the windows registry using COM
  * - current directory
  */
-class PEAR2_Config
+class PEAR2_Pyrus_Config
 {
     private $pearDir;
     private $_userFile;
@@ -135,7 +135,7 @@ class PEAR2_Config
             return self::$_current;
         }
         // default
-        return new PEAR2_Config(getcwd());
+        return new PEAR2_Pyrus_Config(getcwd());
     }
 
     private function _locateLocalSettingsDirectory()
@@ -171,8 +171,8 @@ class PEAR2_Config
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
-     * in, PEAR2_Config will attempt to guess at the config file location as
-     * documented in the class docblock {@link PEAR2_Config}.
+     * in, PEAR2_Pyrus_Config will attempt to guess at the config file location as
+     * documented in the class docblock {@link PEAR2_Pyrus_Config}.
      * @param string $pearDirectory
      * @param string|false $userfile
      */
@@ -185,7 +185,7 @@ class PEAR2_Config
             if (!$x) {
                 $errors = libxml_get_errors();
                 libxml_clear_errors();
-                throw PEAR2_Config_Exception::invalidConfig($pearDirectory, $errors);
+                throw PEAR2_Pyrus_Config_Exception::invalidConfig($pearDirectory, $errors);
             }
             $unsetvalues = array_diff(array_keys((array) $x), self::$pearConfigNames);
             // remove values that are not recognized system config variables
@@ -225,7 +225,7 @@ class PEAR2_Config
         if (!$x) {
             $errors = libxml_get_errors();
             libxml_clear_errors();
-            throw PEAR2_Config_Exception::invalidConfig($userfile, $errors);
+            throw PEAR2_Pyrus_Config_Exception::invalidConfig($userfile, $errors);
         }
         $unsetvalues = array_diff(array_keys((array) $x), self::$userConfigNames);
         // remove values that are not recognized user config variables
@@ -339,7 +339,7 @@ class PEAR2_Config
     public function __get($value)
     {
         if ($value == 'registry') {
-            return PEAR2_Registry::singleton($this->pearDir);
+            return PEAR2_Pyrus_Registry::singleton($this->pearDir);
         }
         if ($value == 'systemvars') {
             return self::$pearConfigNames;
@@ -351,7 +351,7 @@ class PEAR2_Config
             return $this->pearDir;
         }
         if (!in_array($value, array_merge(self::$pearConfigNames, self::$userConfigNames))) {
-            throw PEAR2_Config_Exception::unknownValue($this->pearDir, $value);
+            throw PEAR2_Pyrus_Config_Exception::unknownValue($this->pearDir, $value);
         }
         if (!isset($this->$value)) {
             return str_replace('@php_dir@', $this->pearDir, self::$defaults[$value]);
@@ -367,10 +367,10 @@ class PEAR2_Config
     public function __set($key, $value)
     {
         if ($key == 'php_dir') {
-            throw new PEAR2_Config_Exception('Cannot set php_dir, move the repository');
+            throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository');
         }
         if (!isset(self::$defaults[$key])) {
-            throw PEAR2_Config_Exception::unknownValue($key);
+            throw PEAR2_Pyrus_Config_Exception::unknownValue($key);
         }
         if (isset(self::$pearConfigNames[$key])) {
             // global config

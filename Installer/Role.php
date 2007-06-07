@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Installer_Role
+ * PEAR2_Pyrus_Installer_Role
  *
  * PHP versions 5
  *
@@ -29,18 +29,18 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Installer_Role
+class PEAR2_Pyrus_Installer_Role
 {
     static private $_roles;
     /**
      * Set up any additional configuration variables that file roles require
      *
      * Never call this directly, it is called by the PEAR_Config constructor
-     * @param PEAR2_Config
+     * @param PEAR2_Pyrus_Config
      * @access private
      * @static
      */
-    public static function initializeConfig(PEAR2_Config $config)
+    public static function initializeConfig(PEAR2_Pyrus_Config $config)
     {
         if (!isset(self::$_roles)) {
             self::registerRoles();
@@ -54,10 +54,10 @@ class PEAR2_Installer_Role
     }
 
     /**
-     * @param PEAR2_PackageFile_v2
+     * @param PEAR2_Pyrus_PackageFile_v2
      * @param string role name
-     * @param PEAR2_Config
-     * @return PEAR2_Installer_Role_Common
+     * @param PEAR2_Pyrus_Config
+     * @return PEAR2_Pyrus_Installer_Role_Common
      * @static
      */
     static function factory($pkg, $role)
@@ -68,8 +68,8 @@ class PEAR2_Installer_Role
         if (!in_array($role, self::getValidRoles($pkg->getPackageType()))) {
             return $a;
         }
-        $a = 'PEAR2_Installer_Role_' . ucfirst($role);
-        return new $a(PEAR2_Config::current());
+        $a = 'PEAR2_Pyrus_Installer_Role_' . ucfirst($role);
+        return new $a(PEAR2_Pyrus_Config::current());
     }
 
     /**
@@ -96,7 +96,7 @@ class PEAR2_Installer_Role
         $ret[$release] = array();
         foreach (self::$_roles as $role => $okreleases) {
             if (in_array($release, $okreleases['releasetypes'])) {
-                $ret[$release][] = strtolower(str_replace('PEAR2_Installer_Role_', '', $role));
+                $ret[$release][] = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '', $role));
             }
         }
         return $ret[$release];
@@ -125,7 +125,7 @@ class PEAR2_Installer_Role
             $ret = array();
             foreach (self::$_roles as $role => $okreleases) {
                 if ($okreleases['installable']) {
-                    $ret[] = strtolower(str_replace('PEAR2_Installer_Role_', '', $role));
+                    $ret[] = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '', $role));
                 }
             }
         }
@@ -155,7 +155,7 @@ class PEAR2_Installer_Role
             $ret = array();
             foreach (self::$_roles as $role => $okreleases) {
                 if ($okreleases['honorsbaseinstall']) {
-                    $ret[] = strtolower(str_replace('PEAR2_Installer_Role_', '', $role));
+                    $ret[] = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '', $role));
                 }
             }
         }
@@ -182,7 +182,7 @@ class PEAR2_Installer_Role
             $ret = array();
             foreach (self::$_roles as $role => $okreleases) {
                 if ($okreleases['phpfile']) {
-                    $ret[] = strtolower(str_replace('PEAR2_Installer_Role_', '', $role));
+                    $ret[] = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '', $role));
                 }
             }
         }
@@ -204,22 +204,22 @@ class PEAR2_Installer_Role
     static function registerRoles($dir = null)
     {
         self::$_roles = array();
-        $parser = new PEAR2_XMLParser;
+        $parser = new PEAR2_Pyrus_XMLParser;
         if ($dir === null) {
             $dir = dirname(__FILE__) . '/Role';
         }
         if (!file_exists($dir) || !is_dir($dir)) {
-            throw new PEAR2_Installer_Role_Exception("registerRoles: opendir($dir) failed");
+            throw new PEAR2_Pyrus_Installer_Role_Exception("registerRoles: opendir($dir) failed");
         }
         $dp = @opendir($dir);
         if (empty($dp)) {
-            throw new PEAR2_Installer_Role_Exception("registerRoles: opendir($dir) failed");
+            throw new PEAR2_Pyrus_Installer_Role_Exception("registerRoles: opendir($dir) failed");
         }
         while ($entry = readdir($dp)) {
             if ($entry{0} == '.' || substr($entry, -4) != '.xml') {
                 continue;
             }
-            $class = "PEAR2_Installer_Role_".substr($entry, 0, -4);
+            $class = "PEAR2_Pyrus_Installer_Role_".substr($entry, 0, -4);
             // List of roles
             if (!isset(self::$_roles[$class])) {
                 $file = "$dir/$entry";
@@ -245,13 +245,13 @@ class PEAR2_Installer_Role
     /**
      * Retrieve configuration information about a file role from its XML info
      *
-     * @param string $role Role Classname, as in "PEAR2_Installer_Role_Data"
+     * @param string $role Role Classname, as in "PEAR2_Pyrus_Installer_Role_Data"
      * @return array
      */
     static function getInfo($role)
     {
         if (empty(self::$_roles[$role])) {
-            throw new PEAR2_Installer_Role_Exception('Unknown Role class: "' . $role . '"');
+            throw new PEAR2_Pyrus_Installer_Role_Exception('Unknown Role class: "' . $role . '"');
         }
         return self::$_roles[$role];
     }

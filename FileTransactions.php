@@ -1,5 +1,5 @@
 <?php
-class PEAR2_FileTransactions
+class PEAR2_Pyrus_FileTransactions
 {
     private $fileOperations;
     static private $_registeredTransactions =
@@ -43,9 +43,9 @@ class PEAR2_FileTransactions
     {
         if ($type == 'chmod') {
             $octmode = decoct($data[0]);
-            PEAR2_Log::log(3, "adding to transaction: $type $octmode $data[1]");
+            PEAR2_Pyrus_Log::log(3, "adding to transaction: $type $octmode $data[1]");
         } else {
-            PEAR2_Log::log(3, "adding to transaction: $type " . implode(" ", $data));
+            PEAR2_Pyrus_Log::log(3, "adding to transaction: $type " . implode(" ", $data));
         }
         $this->fileOperations[] = array($type, $data);
     }
@@ -61,7 +61,7 @@ class PEAR2_FileTransactions
     function commit()
     {
         $n = count($this->fileOperations);
-        PEAR2_Log::log(2, "about to commit $n file operations");
+        PEAR2_Pyrus_Log::log(2, "about to commit $n file operations");
         // {{{ first, check permissions and such manually
         $errors = array();
         
@@ -78,7 +78,7 @@ class PEAR2_FileTransactions
                     break;
                 case 'delete' :
                     if (!file_exists($data[0])) {
-                        PEAR2_Log::log(2, "warning: file $data[0] doesn'" .
+                        PEAR2_Pyrus_Log::log(2, "warning: file $data[0] doesn'" .
                             "t exist, can't be deleted");
                     }
                     // check that directory is writable
@@ -108,7 +108,7 @@ class PEAR2_FileTransactions
         if (count($errors) > 0) {
             foreach ($errors as $error) {
                 if (!isset($this->_options['soft'])) {
-                    PEAR2_Log::log(1, $error);
+                    PEAR2_Pyrus_Log::log(1, $error);
                 }
             }
             if (!isset($this->_options['ignore-errors'])) {
@@ -121,29 +121,29 @@ class PEAR2_FileTransactions
             switch ($type) {
                 case 'backup' :
                     if (!@copy($data[0], $data[0] . '.bak')) {
-                        PEAR2_Log::log(1, 'Could not copy ' . $data[0] . ' to ' . $data[0] .
+                        PEAR2_Pyrus_Log::log(1, 'Could not copy ' . $data[0] . ' to ' . $data[0] .
                             '.bak ' . $php_errormsg);
                         return false;
                     }
-                    PEAR2_Log::log(3, "+ backup $data[0] to $data[0].bak");
+                    PEAR2_Pyrus_Log::log(3, "+ backup $data[0] to $data[0].bak");
                     break;
                 case 'chmod' :
                     if (!@chmod($data[1], $data[0])) {
-                        PEAR2_Log::log(1, 'Could not chmod ' . $data[1] . ' to ' .
+                        PEAR2_Pyrus_Log::log(1, 'Could not chmod ' . $data[1] . ' to ' .
                             decoct($data[0]) . ' ' . $php_errormsg);
                         return false;
                     }
                     $octmode = decoct($data[0]);
-                    PEAR2_Log::log(3, "+ chmod $octmode $data[1]");
+                    PEAR2_Pyrus_Log::log(3, "+ chmod $octmode $data[1]");
                     break;
                 case 'delete' :
                     if (file_exists($data[0])) {
                         if (!@unlink($data[0])) {
-                            PEAR2_Log::log(1, 'Could not delete ' . $data[0] . ' ' .
+                            PEAR2_Pyrus_Log::log(1, 'Could not delete ' . $data[0] . ' ' .
                                 $php_errormsg);
                             return false;
                         }
-                        PEAR2_Log::log(3, "+ rm $data[0]");
+                        PEAR2_Pyrus_Log::log(3, "+ rm $data[0]");
                     }
                     break;
                 case 'mkdir' :
@@ -151,7 +151,7 @@ class PEAR2_FileTransactions
                 case 'removebackup' :
                     if (file_exists($data[0] . '.bak') && is_writable($data[0] . '.bak')) {
                         unlink($data[0] . '.bak');
-                        PEAR2_Log::log(3, "+ rm backup of $data[0] ($data[0].bak)");
+                        PEAR2_Pyrus_Log::log(3, "+ rm backup of $data[0] ($data[0].bak)");
                     }
                     break;
                 default :
@@ -159,15 +159,15 @@ class PEAR2_FileTransactions
                     $callback->commit($data, $errors);
             }
         }
-        PEAR2_Log::log(2, "successfully committed $n file operations");
+        PEAR2_Pyrus_Log::log(2, "successfully committed $n file operations");
         $this->fileOperations = array();
         return true;
     }
 
-    function registerTransaction($name, PEAR2_IFileTransaction $callback)
+    function registerTransaction($name, PEAR2_Pyrus_IFileTransaction $callback)
     {
         if (in_array($name, array_keys(self::$_registeredTransactions), true)) {
-            throw new PEAR2_FileTransactions_Exception('transaction type ' . $name .
+            throw new PEAR2_Pyrus_FileTransactions_Exception('transaction type ' . $name .
                 ' is already registered');
         }
         self::$_registeredTransactions[$name] = $callback;
@@ -176,7 +176,7 @@ class PEAR2_FileTransactions
     function rollback()
     {
         $n = count($this->fileOperations);
-        PEAR2_Log::log(2, "rolling back $n file operations");
+        PEAR2_Pyrus_Log::log(2, "rolling back $n file operations");
         foreach ($this->fileOperations as $tr) {
             list($type, $data) = $tr;
             switch ($type) {
@@ -184,7 +184,7 @@ class PEAR2_FileTransactions
                     if (file_exists($data[0] . '.bak')) {
                         @unlink($data[0]);
                         @copy($data[0] . '.bak', $data[0]);
-                        PEAR2_Log::log(3, "+ restore $data[0] from $data[0].bak");
+                        PEAR2_Pyrus_Log::log(3, "+ restore $data[0] from $data[0].bak");
                     }
                     break;
                 case 'chmod' :
@@ -193,7 +193,7 @@ class PEAR2_FileTransactions
                     break;
                 case 'mkdir' :
                     @rmdir($data[0]);
-                    PEAR2_Log::log(3, "+ rmdir $data[0]");
+                    PEAR2_Pyrus_Log::log(3, "+ rmdir $data[0]");
                     break;
                 default :
                     $callback = self::$_registeredTransactions[$type];

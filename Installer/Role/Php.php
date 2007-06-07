@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Installer_Role_Php
+ * PEAR2_Pyrus_Installer_Role_Php
  *
  * PHP versions 4 and 5
  *
@@ -30,5 +30,5 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Installer_Role_Php extends PEAR2_Installer_Role_Common {}
+class PEAR2_Pyrus_Installer_Role_Php extends PEAR2_Pyrus_Installer_Role_Common {}
 ?>

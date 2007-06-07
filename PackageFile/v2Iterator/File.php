@@ -7,7 +7,7 @@
 /**
  * Traverse the complete <contents> tag, one <dir> at a time
  */
-class PEAR2_PackageFile_v2Iterator_File extends RecursiveIteratorIterator
+class PEAR2_Pyrus_PackageFile_v2Iterator_File extends RecursiveIteratorIterator
 {
     function next()
     {
@@ -29,11 +29,11 @@ class PEAR2_PackageFile_v2Iterator_File extends RecursiveIteratorIterator
  * - $file->name      as object member, to access attributes
  * - $file->tasks     as pseudo-object, to access each task
  */
-class PEAR2_PackageFile_v2Iterator_FileTag extends ArrayObject
+class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
 {
     public $dir;
     /**
-     * @var PEAR2_PackageFile_v2
+     * @var PEAR2_Pyrus_PackageFile_v2
      */
     private $_packagefile;
     function __construct($a, $t, $parent)
@@ -91,13 +91,13 @@ class PEAR2_PackageFile_v2Iterator_FileTag extends ArrayObject
     {
         if (strpos($var, $this->_packagefile->getTasksNs()) === 0) {
             // setting a file task
-            if ($value instanceof PEAR2_Task_Common) {
+            if ($value instanceof PEAR2_Pyrus_Task_Common) {
                 $this->_packagefile->setFileAttribute($this->_dir .
                     $this['attribs']['name'], $var, $value->getArrayCopy());
                 return;
             }
-            throw new PEAR2_PackageFile_Exception('Cannot set ' . $var . ' to non-' .
-                'PEAR2_Task_Common object in file ' . $this->dir .
+            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' to non-' .
+                'PEAR2_Pyrus_Task_Common object in file ' . $this->dir .
                 $this['attribs']['name']);
         }
         $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'],
@@ -108,17 +108,17 @@ class PEAR2_PackageFile_v2Iterator_FileTag extends ArrayObject
 /**
  * Traverse the current <dir> in the <contents> tag
  */
-class PEAR2_PackageFile_v2Iterator_FileContents extends RecursiveArrayIterator
+class PEAR2_Pyrus_PackageFile_v2Iterator_FileContents extends RecursiveArrayIterator
 {
     protected $tag;
     protected $dir = '';
     private $_packagefile;
-    function __construct($arr, $tag, PEAR2_PackageFile_v2 $parent, $dir = '')
+    function __construct($arr, $tag, PEAR2_Pyrus_PackageFile_v2 $parent, $dir = '')
     {
         $this->tag = $tag;
         $this->dir = $dir;
         $this->_packagefile = $parent;
-        if ($arr instanceof PEAR2_PackageFile_v2Iterator_FileTag) {
+        if ($arr instanceof PEAR2_Pyrus_PackageFile_v2Iterator_FileTag) {
             $arr = $arr->getArrayCopy();
         }
         parent::__construct($arr);
@@ -142,17 +142,17 @@ class PEAR2_PackageFile_v2Iterator_FileContents extends RecursiveArrayIterator
         }
         if (isset($arr['attribs'])) unset($arr['attribs']);
         if (isset($arr[0])) {
-            return new PEAR2_PackageFile_v2Iterator_FileContentsMulti($arr, $this->key(),
+            return new PEAR2_Pyrus_PackageFile_v2Iterator_FileContentsMulti($arr, $this->key(),
                 $this->_packagefile, $dir . $now);
         }
-        return new PEAR2_PackageFile_v2Iterator_FileContents($arr, $this->key(),
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents($arr, $this->key(),
             $this->_packagefile, $dir . $now);
     }
 
     function hasChildren()
     {
         $arr = $this->current();
-        if (!($arr instanceof PEAR2_PackageFile_v2Iterator_FileTag) && !is_array($arr)) {
+        if (!($arr instanceof PEAR2_Pyrus_PackageFile_v2Iterator_FileTag) && !is_array($arr)) {
             return false;
         }
         if (isset($arr['file']) || isset($arr['dir']) || isset($arr[0])) {
@@ -164,14 +164,14 @@ class PEAR2_PackageFile_v2Iterator_FileContents extends RecursiveArrayIterator
     function current()
     {
         $x = parent::current();
-        return new PEAR2_PackageFile_v2Iterator_FileTag($x, $this->dir, $this->_packagefile);
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileTag($x, $this->dir, $this->_packagefile);
     }
 }
 
 /**
  * iterator for tags with multiple sub-tags
  */
-class PEAR2_PackageFile_v2Iterator_FileContentsMulti extends PEAR2_PackageFile_v2Iterator_FileContents
+class PEAR2_Pyrus_PackageFile_v2Iterator_FileContentsMulti extends PEAR2_Pyrus_PackageFile_v2Iterator_FileContents
 {
     function key()
     {
@@ -182,7 +182,7 @@ class PEAR2_PackageFile_v2Iterator_FileContentsMulti extends PEAR2_PackageFile_v
 /**
  * Filter out the attributes meta-information when traversing the file list
  */
-class PEAR2_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilterIterator
+class PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilterIterator
 {
     function accept()
     {
@@ -198,18 +198,18 @@ class PEAR2_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilterIter
     }
 }
 
-class PEAR2_PackageFile_v2Iterator_FileInstallationFilter extends
-    PEAR2_PackageFile_v2Iterator_FileAttribsFilter
+class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends
+    PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter
 {
     static private $_parent;
     static private $_installGroup;
-    static function setParent(PEAR2_PackageFile_v2 $parent)
+    static function setParent(PEAR2_Pyrus_PackageFile_v2 $parent)
     {
         self::$_parent = $parent;
-        $depchecker = new PEAR2_Dependency_Validator(PEAR2_Config::current(), array(),
+        $depchecker = new PEAR2_Pyrus_Dependency_Validator(PEAR2_Pyrus_Config::current(), array(),
             array('channel' => self::$_parent->getChannel(),
                   'package' => self::$_parent->getPackage()),
-            PEAR2_Validate::INSTALLING);
+            PEAR2_Pyrus_Validate::INSTALLING);
         foreach (self::$_parent->installGroup as $instance) {
             try {
                 if (isset($instance['installconditions'])) {

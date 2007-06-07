@@ -1,5 +1,5 @@
 <?php
-class PEAR2_FileTransactions_Rmdir implements PEAR2_IFileTransaction
+class PEAR2_Pyrus_FileTransactions_Rmdir implements PEAR2_Pyrus_IFileTransaction
 {
     public function check($data, &$errors)
     {
@@ -21,7 +21,7 @@ class PEAR2_FileTransactions_Rmdir implements PEAR2_IFileTransaction
                 }
                 closedir($testme);
                 if (!@rmdir($data[0])) {
-                    PEAR2_Log::log(1, 'Could not rmdir ' . $data[0] . ' ' .
+                    PEAR2_Pyrus_Log::log(1, 'Could not rmdir ' . $data[0] . ' ' .
                         $php_errormsg);
                     return false;
                 }

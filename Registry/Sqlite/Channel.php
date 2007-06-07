@@ -1,10 +1,10 @@
 <?php
-class PEAR2_Registry_Sqlite_Channel extends PEAR2_Registry_Sqlite
-    implements ArrayAccess, PEAR2_IChannelFile
+class PEAR2_Pyrus_Registry_Sqlite_Channel extends PEAR2_Pyrus_Registry_Sqlite
+    implements ArrayAccess, PEAR2_Pyrus_IChannelFile
 {
     private $_channelname;
     private $_mirror;
-    function __construct(PEAR2_Registry_Sqlite $cloner)
+    function __construct(PEAR2_Pyrus_Registry_Sqlite $cloner)
     {
         parent::__construct(dirname($cloner->getDatabase()));
     }
@@ -70,10 +70,10 @@ class PEAR2_Registry_Sqlite_Channel extends PEAR2_Registry_Sqlite
  	          'FROM channels WHERE ' .
  	          'channel=\'' . sqlite_escape_string($this->_channelname) . '\'');
         if ($r == $packagename) {
-            return 'PEAR2_Validate';
+            return 'PEAR2_Pyrus_Validate';
         }
         if ($r == 'PEAR_Validate' || $r == 'PEAR_Validate_PECL') {
-            return str_replace('PEAR_', 'PEAR2_', $r);
+            return str_replace('PEAR_', 'PEAR2_Pyrus_', $r);
         }
         return $r;
  	}
@@ -87,14 +87,14 @@ class PEAR2_Registry_Sqlite_Channel extends PEAR2_Registry_Sqlite
  	function __get($value)
  	{
  	    if (!isset($this->_channelname)) {
- 	        throw new PEAR2_Registry_Exception('Action requested for unknown channel');
+ 	        throw new PEAR2_Pyrus_Registry_Exception('Action requested for unknown channel');
  	    }
  	    switch ($value) {
  	        case 'mirror' :
- 	            $a = new PEAR2_Registry_Sqlite_Channel_Mirror($this, $this->_channelname);
+ 	            $a = new PEAR2_Pyrus_Registry_Sqlite_Channel_Mirror($this, $this->_channelname);
  	            return $a;
  	        case 'mirrors' :
- 	            $a = new PEAR2_Registry_Sqlite_Channel_Mirrors($this, $this->_channelname);
+ 	            $a = new PEAR2_Pyrus_Registry_Sqlite_Channel_Mirrors($this, $this->_channelname);
  	            return $a;
  	    }
  	}

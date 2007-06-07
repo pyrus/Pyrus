@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Package_Phar
+class PEAR2_Pyrus_Package_Phar
 {
     private $_fp;
     private $_packagename;
@@ -12,17 +12,17 @@ class PEAR2_Package_Phar
     /**
      * @param string $package path to package file
      */
-    function __construct($package, PEAR2_Package $parent)
+    function __construct($package, PEAR2_Pyrus_Package $parent)
     {
         $this->_parent = $parent;
         $this->_packagename = $package;
         $fp = fopen($package, 'rb');
         if (!$fp) {
-            throw new PEAR2_Package_Phar_Exception('Cannot open package ' . $package);
+            throw new PEAR2_Pyrus_Package_Phar_Exception('Cannot open package ' . $package);
         }
         fclose($fp);
         if (!class_exists('Phar')) {
-            throw new PEAR2_Package_Phar_Exception('Phar extension is required to ' .
+            throw new PEAR2_Pyrus_Package_Phar_Exception('Phar extension is required to ' .
                 'read Phars');
         }
     }
@@ -125,7 +125,7 @@ class PEAR2_Package_Phar
             return;
         }
         $packagexml = false;
-        $where = (string) PEAR2_Config::current()->temp_dir;
+        $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
         $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
@@ -139,7 +139,7 @@ class PEAR2_Package_Phar
         try {
             $phar = new Phar($this->_packagename);
         } catch (Exception $e) {
-            throw new PEAR2_Package_Phar_Exception('Unable to open phar ' .
+            throw new PEAR2_Pyrus_Package_Phar_Exception('Unable to open phar ' .
                 $this->package, $e);
         }
         foreach ($phar as $file) {
@@ -156,7 +156,7 @@ class PEAR2_Package_Phar
             $gp = fopen('phar://' . $this->_packagename . '/' . $file->getFileName());
             $amount = stream_copy_to_stream($gp, $fp, $file->getSize());
             if ($amount != $file->getSize()) {
-                throw new PEAR2_Package_Phar_Exception(
+                throw new PEAR2_Pyrus_Package_Phar_Exception(
                     'Unable to fully extract ' . $header['filename'] . ' from ' .
                     $this->_packagename);
             }
@@ -173,9 +173,9 @@ class PEAR2_Package_Phar
             }
         }
         if (!$packagexml) {
-            throw new PEAR2_Package_Phar_Exception('Phar ' . $this->_packagename .
+            throw new PEAR2_Pyrus_Package_Phar_Exception('Phar ' . $this->_packagename .
                 ' does not contain a package.xml file');
         }
-        $this->_packagefile = new PEAR2_Package_Xml($packagexml, $this->_parent);
+        $this->_packagefile = new PEAR2_Pyrus_Package_Xml($packagexml, $this->_parent);
     }
 }

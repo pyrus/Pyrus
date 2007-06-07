@@ -1,2 +1,2 @@
 <?php
-class PEAR2_Dependency_Exception extends PEAR2_Exception {}
+class PEAR2_Pyrus_Dependency_Exception extends PEAR2_Exception {}

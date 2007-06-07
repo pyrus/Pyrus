@@ -29,7 +29,7 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_PackageFile_v2
+class PEAR2_Pyrus_PackageFile_v2
 {
 
     /**
@@ -64,9 +64,9 @@ class PEAR2_PackageFile_v2
      * This is set to the highest validation level that has been validated
      *
      * If the package.xml is invalid or unknown, this is set to 0.  If
-     * normal validation has occurred, this is set to PEAR2_Validate::NORMAL.  If
-     * downloading/installation validation has occurred it is set to PEAR2_Validate::DOWNLOADING
-     * or INSTALLING, and so on up to PEAR2_Validate::PACKAGING.  This allows validation
+     * normal validation has occurred, this is set to PEAR2_Pyrus_Validate::NORMAL.  If
+     * downloading/installation validation has occurred it is set to PEAR2_Pyrus_Validate::DOWNLOADING
+     * or INSTALLING, and so on up to PEAR2_Pyrus_Validate::PACKAGING.  This allows validation
      * "caching" to occur, which is particularly important for package validation, so
      * that PHP files are not validated twice
      * @var int
@@ -81,7 +81,7 @@ class PEAR2_PackageFile_v2
     var $_filesValid = false;
 
     /**
-     * @var PEAR2_Config
+     * @var PEAR2_Pyrus_Config
      * @access protected
      */
     var $_config;
@@ -127,7 +127,7 @@ class PEAR2_PackageFile_v2
      */
     function __construct()
     {
-        $this->_stack = new PEAR_ErrorStack('PEAR2_PackageFile_v2', false, null);
+        $this->_stack = new PEAR_ErrorStack('PEAR2_Pyrus_PackageFile_v2', false, null);
         $this->_isValid = false;
     }
 
@@ -150,13 +150,13 @@ class PEAR2_PackageFile_v2
      * @param PEAR_Config
      * @param array options
      * @param array package name as returned from {@link PEAR_Registry::parsePackageName()}
-     * @param int PEAR2_Validate::* constant
-     * @return PEAR2_Dependency_Validator
+     * @param int PEAR2_Pyrus_Validate::* constant
+     * @return PEAR2_Pyrus_Dependency_Validator
      * @access protected
      */
-    function getPEARDependency2($c, $o, $p, $s = PEAR2_Validate::INSTALLING)
+    function getPEARDependency2($c, $o, $p, $s = PEAR2_Pyrus_Validate::INSTALLING)
     {
-        $z = new PEAR2_Dependency_Validator($c, $o, $p, $s);
+        $z = new PEAR2_Pyrus_Dependency_Validator($c, $o, $p, $s);
         return $z;
     }
 
@@ -289,7 +289,7 @@ class PEAR2_PackageFile_v2
             return false;
         }
         $this->_stack->getErrors(true);
-        if (!$pf1->validate(PEAR2_Validate::NORMAL)) {
+        if (!$pf1->validate(PEAR2_Pyrus_Validate::NORMAL)) {
             return false;
         }
         $pass = true;
@@ -795,7 +795,7 @@ class PEAR2_PackageFile_v2
      */
     function toArray($forreg = false)
     {
-        if (!$this->validate(PEAR2_Validate::NORMAL)) {
+        if (!$this->validate(PEAR2_Pyrus_Validate::NORMAL)) {
             return false;
         }
         return $this->getArray($forreg);
@@ -1228,7 +1228,7 @@ class PEAR2_PackageFile_v2
             }
             $depchecker = $this->getPEARDependency2($this->_config, array(),
                 array('channel' => $this->getChannel(), 'package' => $this->getPackage()),
-                PEAR2_Validate::INSTALLING);
+                PEAR2_Pyrus_Validate::INSTALLING);
             foreach ($release as $instance) {
                 try {
                     if (isset($instance['installconditions'])) {
@@ -1284,7 +1284,7 @@ class PEAR2_PackageFile_v2
             return $contents;
         }
         // no releases matched
-        throw new PEAR2_PackageFile_Exception('No releases in package.xml matched the existing operating ' .
+        throw new PEAR2_Pyrus_PackageFile_Exception('No releases in package.xml matched the existing operating ' .
             'system, extensions installed, or architecture, cannot install');
     }
 
@@ -1840,7 +1840,7 @@ class PEAR2_PackageFile_v2
             $file = $tar->extractInString($file);
             $tar->popErrorHandling();
             if (PEAR::isError($file)) {
-                throw new PEAR2_PackageFile_Exception("Cannot locate file '$file' in archive");
+                throw new PEAR2_Pyrus_PackageFile_Exception("Cannot locate file '$file' in archive");
             }
             return $file;
         }
@@ -1887,14 +1887,14 @@ class PEAR2_PackageFile_v2
         return $this->_v2Validator->analyzeSourceCode($file, $string);
     }
 
-    function validate($state = PEAR2_Validate::NORMAL)
+    function validate($state = PEAR2_Pyrus_Validate::NORMAL)
     {
         if (!isset($this->_packageInfo) || !is_array($this->_packageInfo)) {
             return false;
         }
         if (!isset($this->_v2Validator) ||
-              ($this->_v2Validator instanceof PEAR2_PackageFile_v2_Validator)) {
-            $this->_v2Validator = new PEAR2_PackageFile_v2_Validator;
+              ($this->_v2Validator instanceof PEAR2_Pyrus_PackageFile_v2_Validator)) {
+            $this->_v2Validator = new PEAR2_Pyrus_PackageFile_v2_Validator;
         }
         if (isset($this->_packageInfo['xsdversion'])) {
             unset($this->_packageInfo['xsdversion']);
@@ -1934,8 +1934,8 @@ class PEAR2_PackageFile_v2
         $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), $task);
         $task = str_replace(' ', '/', ucwords($task));
         $test = str_replace('/', '_', $task);
-        if (class_exists("PEAR2_Task_$test")) {
-            return "PEAR2_Task_$test";
+        if (class_exists("PEAR2_Pyrus_Task_$test")) {
+            return "PEAR2_Pyrus_Task_$test";
         }
         $ps = (strtolower(substr(PHP_OS, 0, 3)) == 'win') ? ';' : ':';
         $fp = @fopen("PEAR2/Task/$task.php", 'r', true);
@@ -1943,8 +1943,8 @@ class PEAR2_PackageFile_v2
             return false;
         }
         fclose($fp);
-        if (class_exists("PEAR2_Task_$test")) {
-            return "PEAR2_Task_$test";
+        if (class_exists("PEAR2_Pyrus_Task_$test")) {
+            return "PEAR2_Pyrus_Task_$test";
         }
         return false;
     }
@@ -2033,18 +2033,18 @@ class PEAR2_PackageFile_v2
                 //     echo $file->name;
                 //     $file->installed_as = 'hi';
                 // }
-                return new PEAR2_PackageFile_v2Iterator_File(
-                        new PEAR2_PackageFile_v2Iterator_FileAttribsFilter(
-                        new PEAR2_PackageFile_v2Iterator_FileContents(
+                return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
+                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter(
+                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
                             $this->_packageInfo['contents'], 'contents', $this)),
                             RecursiveIteratorIterator::LEAVES_ONLY);
             case 'installcontents' :
                 // force autoload if not existing
-                class_exists('PEAR2_PackageFile_v2Iterator_File', true);
-                PEAR2_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
-                return new PEAR2_PackageFile_v2Iterator_File(
-                        new PEAR2_PackageFile_v2Iterator_FileInstallationFilter(
-                        new PEAR2_PackageFile_v2Iterator_FileContents(
+                class_exists('PEAR2_Pyrus_PackageFile_v2Iterator_File', true);
+                PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
+                return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
+                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
+                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
                             $this->_packageInfo['contents'], 'contents', $this)),
                             RecursiveIteratorIterator::LEAVES_ONLY);
             case 'installGroup' :
@@ -2077,8 +2077,8 @@ class PEAR2_PackageFile_v2
 
     function asXml()
     {
-        $a = new PEAR2_PackageFile_v2_Generator($this);
-        return $a->toXml(PEAR2_Validate::NORMAL);
+        $a = new PEAR2_Pyrus_PackageFile_v2_Generator($this);
+        return $a->toXml(PEAR2_Pyrus_Validate::NORMAL);
     }
 }
 ?>

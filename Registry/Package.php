@@ -1,9 +1,9 @@
 <?php
-class PEAR2_Registry_Package implements ArrayAccess
+class PEAR2_Pyrus_Registry_Package implements ArrayAccess
 {
     private $_packagename;
     private $_reg;
-    function __construct(PEAR2_IRegistry $cloner)
+    function __construct(PEAR2_Pyrus_IRegistry $cloner)
     {
         $this->_reg = $cloner;
     }
@@ -40,7 +40,7 @@ class PEAR2_Registry_Package implements ArrayAccess
  	function __get($var)
  	{
  	    if (!isset($this->_packagename)) {
- 	        throw new PEAR2_Registry_Exception('Attempt to retrieve ' . $var .
+ 	        throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
  	    }
  	    return $this->_reg->packageInfo($this->_packagename['package'], 

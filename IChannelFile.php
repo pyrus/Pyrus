@@ -1,5 +1,5 @@
 <?php
-interface PEAR2_IChannelFile
+interface PEAR2_Pyrus_IChannelFile
 {
     public function getName();
     public function getPort($mirror = false);

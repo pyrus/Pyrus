@@ -22,14 +22,14 @@
 /**#@+
  * Error codes for task validation routines
  */
-define('PEAR2_TASK_ERROR_NOATTRIBS', 1);
-define('PEAR2_TASK_ERROR_MISSING_ATTRIB', 2);
-define('PEAR2_TASK_ERROR_WRONG_ATTRIB_VALUE', 3);
-define('PEAR2_TASK_ERROR_INVALID', 4);
+define('PEAR2_PYRUS_TASK_ERROR_NOATTRIBS', 1);
+define('PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB', 2);
+define('PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE', 3);
+define('PEAR2_PYRUS_TASK_ERROR_INVALID', 4);
 /**#@-*/
-define('PEAR2_TASK_PACKAGE', 1);
-define('PEAR2_TASK_INSTALL', 2);
-define('PEAR2_TASK_PACKAGEANDINSTALL', 3);
+define('PEAR2_PYRUS_TASK_PACKAGE', 1);
+define('PEAR2_PYRUS_TASK_INSTALL', 2);
+define('PEAR2_PYRUS_TASK_PACKAGEANDINSTALL', 3);
 /**
  * A task is an operation that manipulates the contents of a file.
  *
@@ -58,7 +58,7 @@ define('PEAR2_TASK_PACKAGEANDINSTALL', 3);
  * @since      Class available since Release 1.4.0a1
  * @abstract
  */
-class PEAR2_Task_Common
+class PEAR2_Pyrus_Task_Common
 {
     /**
      * Valid types for this version are 'simple' and 'multiple'
@@ -74,7 +74,7 @@ class PEAR2_Task_Common
     /**
      * Determines which install phase this task is executed under
      */
-    var $phase = PEAR2_TASK_INSTALL;
+    var $phase = PEAR2_PYRUS_TASK_INSTALL;
     /**
      * @access protected
      */

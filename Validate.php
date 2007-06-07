@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Validate
+ * PEAR2_Pyrus_Validate
  *
  * PHP versions 4 and 5
  *
@@ -30,7 +30,7 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Validate
+class PEAR2_Pyrus_Validate
 {
 /**#@+
  * Constants for install stage
@@ -47,9 +47,9 @@ class PEAR2_Validate
      */
     var $_packagexml;
     /**
-     * @var int one of the PEAR2_Validate::* constants
+     * @var int one of the PEAR2_Pyrus_Validate::* constants
      */
-    var $_state = PEAR2_Validate::NORMAL;
+    var $_state = PEAR2_Pyrus_Validate::NORMAL;
     /**
      * Format: ('error' => array('field' => name, 'reason' => reason), 'warning' => same)
      * @var array
@@ -163,7 +163,7 @@ class PEAR2_Validate
     }
 
     /**
-     * @param int one of the PEAR2_Validate::* constants
+     * @param int one of the PEAR2_Pyrus_Validate::* constants
      */
     function validate($state = null)
     {
@@ -203,8 +203,8 @@ class PEAR2_Validate
      */
     function validatePackageName()
     {
-        if ($this->_state == PEAR2_Validate::PACKAGING ||
-              $this->_state == PEAR2_Validate::NORMAL) {
+        if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING ||
+              $this->_state == PEAR2_Pyrus_Validate::NORMAL) {
             if (($this->_packagexml->getPackagexmlVersion() == '2.0' ||
                  $this->_packagexml->getPackagexmlVersion() == '2.1') &&
                   $this->_packagexml->getExtends()) {
@@ -247,7 +247,7 @@ class PEAR2_Validate
      */
     function validateVersion()
     {
-        if ($this->_state != PEAR2_Validate::PACKAGING) {
+        if ($this->_state != PEAR2_Pyrus_Validate::PACKAGING) {
             if (!$this->validVersion($this->_packagexml->getVersion())) {
                 $this->_addFailure('version',
                     'Invalid version number "' . $this->_packagexml->getVersion() . '"');
@@ -285,7 +285,7 @@ class PEAR2_Validate
             case 'beta' :
                 // check for a package that extends a package,
                 // like Foo and Foo2
-                if ($this->_state == PEAR2_Validate::PACKAGING) {
+                if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
                     if (substr($versioncomponents[2], 1, 2) == 'rc') {
                         $this->_addFailure('version', 'Release Candidate versions ' .
                             'must have capital RC, not lower-case rc');
@@ -442,8 +442,8 @@ class PEAR2_Validate
      */
     function validateDate()
     {
-        if ($this->_state == PEAR2_Validate::NORMAL ||
-              $this->_state == PEAR2_Validate::PACKAGING) {
+        if ($this->_state == PEAR2_Pyrus_Validate::NORMAL ||
+              $this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
 
             if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/',
                   $this->_packagexml->getDate(), $res) ||
@@ -456,7 +456,7 @@ class PEAR2_Validate
             }
 
 
-            if ($this->_state == PEAR2_Validate::PACKAGING &&
+            if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING &&
                   $this->_packagexml->getDate() != date('Y-m-d')) {
                 $this->_addWarning('date', 'Release Date "' .
                     $this->_packagexml->getDate() . '" is not today');
@@ -476,7 +476,7 @@ class PEAR2_Validate
         }
         // packager automatically sets time, so only validate if
         // pear validate is called
-        if ($this->_state = PEAR2_Validate::NORMAL) {
+        if ($this->_state = PEAR2_Pyrus_Validate::NORMAL) {
             if (!preg_match('/\d\d:\d\d:\d\d/',
                   $this->_packagexml->getTime())) {
                 $this->_addFailure('time', 'invalid release time "' .
@@ -498,14 +498,14 @@ class PEAR2_Validate
     function validateState()
     {
         // this is the closest to "final" php4 can get
-        if (!PEAR2_Validate::validState($this->_packagexml->getState())) {
+        if (!PEAR2_Pyrus_Validate::validState($this->_packagexml->getState())) {
             if (strtolower($this->_packagexml->getState() == 'rc')) {
                 $this->_addFailure('state', 'RC is not a state, it is a version ' .
                     'postfix, use ' . $this->_packagexml->getVersion() . 'RC1, state beta');
             }
             $this->_addFailure('state', 'invalid release state "' .
                 $this->_packagexml->getState() . '", must be one of: ' .
-                implode(', ', PEAR2_Validate::getValidStates()));
+                implode(', ', PEAR2_Pyrus_Validate::getValidStates()));
             return false;
         }
         return true;

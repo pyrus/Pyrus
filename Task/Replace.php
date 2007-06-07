@@ -30,10 +30,10 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Task_Replace extends PEAR2_Task_Common
+class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
 {
     var $type = 'simple';
-    var $phase = PEAR2_TASK_PACKAGEANDINSTALL;
+    var $phase = PEAR2_PYRUS_TASK_PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
@@ -46,27 +46,27 @@ class PEAR2_Task_Replace extends PEAR2_Task_Common
     static function validateXml($pkg, $xml, $config, $fileXml)
     {
         if (!isset($xml['attribs'])) {
-            return array(PEAR2_TASK_ERROR_NOATTRIBS);
+            return array(PEAR2_PYRUS_TASK_ERROR_NOATTRIBS);
         }
         if (!isset($xml['attribs']['type'])) {
-            return array(PEAR2_TASK_ERROR_MISSING_ATTRIB, 'type');
+            return array(PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB, 'type');
         }
         if (!isset($xml['attribs']['to'])) {
-            return array(PEAR2_TASK_ERROR_MISSING_ATTRIB, 'to');
+            return array(PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB, 'to');
         }
         if (!isset($xml['attribs']['from'])) {
-            return array(PEAR2_TASK_ERROR_MISSING_ATTRIB, 'from');
+            return array(PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB, 'from');
         }
         if ($xml['attribs']['type'] == 'pear-config') {
             if (!in_array($xml['attribs']['to'], $config->systemvars)) {
-                return array(PEAR2_TASK_ERROR_WRONG_ATTRIB_VALUE, 'to', $xml['attribs']['to'],
+                return array(PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE, 'to', $xml['attribs']['to'],
                     $config->systemvars);
             }
         } elseif ($xml['attribs']['type'] == 'php-const') {
             if (defined($xml['attribs']['to'])) {
                 return true;
             } else {
-                return array(PEAR2_TASK_ERROR_WRONG_ATTRIB_VALUE, 'to', $xml['attribs']['to'],
+                return array(PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE, 'to', $xml['attribs']['to'],
                     array('valid PHP constant'));
             }
         } elseif ($xml['attribs']['type'] == 'package-info') {
@@ -77,14 +77,14 @@ class PEAR2_Task_Replace extends PEAR2_Task_Common
                     'date', 'time'))) {
                 return true;
             } else {
-                return array(PEAR2_TASK_ERROR_WRONG_ATTRIB_VALUE, 'to', $xml['attribs']['to'],
+                return array(PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE, 'to', $xml['attribs']['to'],
                     array('name', 'summary', 'channel', 'notes', 'extends', 'description',
                     'release_notes', 'license', 'release-license', 'license-uri',
                     'version', 'api-version', 'state', 'api-state', 'release_date',
                     'date', 'time'));
             }
         } else {
-            return array(PEAR2_TASK_ERROR_WRONG_ATTRIB_VALUE, 'type', $xml['attribs']['type'],
+            return array(PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE, 'type', $xml['attribs']['type'],
                 array('pear-config', 'package-info', 'php-const'));
         }
         return true;
@@ -117,7 +117,7 @@ class PEAR2_Task_Replace extends PEAR2_Task_Common
             $a = $a['attribs'];
             $to = '';
             if ($a['type'] == 'pear-config') {
-                if ($this->installphase == PEAR2_TASK_PACKAGE) {
+                if ($this->installphase == PEAR2_PYRUS_TASK_PACKAGE) {
                     return false;
                 }
                 if (false) {// $this->config->isDefinedLayer('ftp')) {
@@ -131,24 +131,24 @@ class PEAR2_Task_Replace extends PEAR2_Task_Common
                     $to = $this->config->{$a['to']};
                 }
                 if (is_null($to)) {
-                    PEAR2_Log::log(0, "$dest: invalid pear-config replacement: $a[to]");
+                    PEAR2_Pyrus_Log::log(0, "$dest: invalid pear-config replacement: $a[to]");
                     return false;
                 }
             } elseif ($a['type'] == 'php-const') {
-                if ($this->installphase == PEAR2_TASK_PACKAGE) {
+                if ($this->installphase == PEAR2_PYRUS_TASK_PACKAGE) {
                     return false;
                 }
                 if (defined($a['to'])) {
                     $to = constant($a['to']);
                 } else {
-                    PEAR2_Log::log(0, "$dest: invalid php-const replacement: $a[to]");
+                    PEAR2_Pyrus_Log::log(0, "$dest: invalid php-const replacement: $a[to]");
                     return false;
                 }
             } else {
                 if ($t = $pkg->packageInfo($a['to'])) {
                     $to = $t;
                 } else {
-                    PEAR2_Log::log(0, "$dest: invalid package-info replacement: $a[to]");
+                    PEAR2_Pyrus_Log::log(0, "$dest: invalid package-info replacement: $a[to]");
                     return false;
                 }
             }
@@ -157,7 +157,7 @@ class PEAR2_Task_Replace extends PEAR2_Task_Common
                 $subst_to[] = $to;
             }
         }
-        PEAR2_Log::log(3, "doing " . sizeof($subst_from) .
+        PEAR2_Pyrus_Log::log(3, "doing " . sizeof($subst_from) .
             " substitution(s) for $dest");
         if (sizeof($subst_from)) {
             $contents = str_replace($subst_from, $subst_to, $contents);

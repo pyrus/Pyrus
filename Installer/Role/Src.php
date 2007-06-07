@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Installer_Role_Src
+ * PEAR2_Pyrus_Installer_Role_Src
  *
  * PHP versions 4 and 5
  *
@@ -30,7 +30,7 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Installer_Role_Src extends PEAR2_Installer_Role_Common
+class PEAR2_Pyrus_Installer_Role_Src extends PEAR2_Pyrus_Installer_Role_Common
 {
     function setup(&$installer, $pkg, $atts, $file)
     {

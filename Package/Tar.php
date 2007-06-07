@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Package_Tar implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
 {
     private $_fp;
     private $_packagename;
@@ -12,7 +12,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
     /**
      * @param string $package path to package file
      */
-    function __construct($package, PEAR2_Package $parent)
+    function __construct($package, PEAR2_Pyrus_Package $parent)
     {
         $this->_parent = $parent;
         $this->_packagename = $package;
@@ -26,7 +26,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
         }
         $this->_fp = fopen($package, 'rb');
         if (!$this->_fp) {
-            throw new PEAR2_Package_Tar_Exception('Cannot open package ' . $package);
+            throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package ' . $package);
         }
     }
 
@@ -55,7 +55,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
 
     function __destruct()
     {
-        usort(self::$_tempfiles, array('PEAR2_Package_Tar', 'sortstuff'));
+        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Tar', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
             if (!file_exists($fileOrDir)) continue;
             if (is_file($fileOrDir)) {
@@ -152,7 +152,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
     private function _processHeader($rawHeader)
     {
         if (strlen($rawHeader) < 512 || $rawHeader == pack("a512", "")) {
-            throw new PEAR2_Package_Tar_Exception(
+            throw new PEAR2_Pyrus_Package_Tar_Exception(
                 'Error: "' . $this->_packagename . '" has corrupted tar header');
         }
 
@@ -178,7 +178,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
         }
 
         if (strlen($rawHeader) != 512) {
-            throw new PEAR2_Package_Tar_Exception(
+            throw new PEAR2_Pyrus_Package_Tar_Exception(
                 'Invalid block size : ' . strlen($rawHeader));
         }
         $header = $this->_processHeader($rawHeader);
@@ -202,7 +202,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
             $rawHeader = $newHeader;
         }
         if ($this->_maliciousFilename($header['filename'])) {
-            throw new PEAR2_Package_Tar_Exception('Malicious .tar detected, file "' .
+            throw new PEAR2_Pyrus_Package_Tar_Exception('Malicious .tar detected, file "' .
                 $header['filename'] .
                 '" will not install in desired directory tree');
         }
@@ -225,7 +225,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
                 return true;
             }
 
-            throw new PEAR2_Package_Tar_Exception(
+            throw new PEAR2_Pyrus_Package_Tar_Exception(
                 'Invalid checksum for header of file "' . $header['filename'] .
 	            '" : ' . $checksum . ' calculated, ' .
 			    $header['checksum'] . ' expected');
@@ -272,7 +272,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
             return;
         }
         $packagexml = false;
-        $where = (string) PEAR2_Config::current()->temp_dir;
+        $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
         $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
@@ -302,7 +302,7 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
             $fp = fopen($extract, 'wb');
             $amount = stream_copy_to_stream($this->_fp, $fp, $this->_internalFileLength);
             if ($amount != $this->_internalFileLength) {
-                throw new PEAR2_Package_Tar_Exception(
+                throw new PEAR2_Pyrus_Package_Tar_Exception(
                     'Unable to fully extract ' . $header['filename'] . ' from ' .
                     $this->_packagename);
             }
@@ -322,9 +322,9 @@ class PEAR2_Package_Tar implements ArrayAccess, Iterator
             }
         } while ($this->_internalFileLength);
         if (!$packagexml) {
-            throw new PEAR2_Package_Tar_Exception('Archive ' . $this->_packagename .
+            throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->_packagename .
                 ' does not contain a package.xml file');
         }
-        $this->_packagefile = new PEAR2_Package_Xml($packagexml, $this->_parent);
+        $this->_packagefile = new PEAR2_Pyrus_Package_Xml($packagexml, $this->_parent);
     }
 }

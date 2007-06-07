@@ -1,8 +1,8 @@
 <?php
-class PEAR2_Registry_Sqlite_Package extends PEAR2_Registry_Sqlite implements ArrayAccess
+class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite implements ArrayAccess
 {
     private $_packagename;
-    function __construct(PEAR2_Registry_Sqlite $cloner)
+    function __construct(PEAR2_Pyrus_Registry_Sqlite $cloner)
     {
         parent::__construct($cloner->getDatabase());
     }
@@ -40,7 +40,7 @@ class PEAR2_Registry_Sqlite_Package extends PEAR2_Registry_Sqlite implements Arr
  	function __get($var)
  	{
  	    if (!isset($this->_packagename)) {
- 	        throw new PEAR2_Registry_Exception('Attempt to retrieve ' . $var .
+ 	        throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
  	    }
  	    $info = $this->parsePackageName($this->_packagename);

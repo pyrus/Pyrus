@@ -35,7 +35,7 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_PackageFile_v2_Generator
+class PEAR2_Pyrus_PackageFile_v2_Generator
 {
    /**
     * default options for the serialization
@@ -98,9 +98,9 @@ http://pear.php.net/dtd/package-2.0.xsd',
      */
     var $_packagefile;
     /**
-     * @param PEAR2_PackageFile_v2
+     * @param PEAR2_Pyrus_PackageFile_v2
      */
-    function __construct(PEAR2_PackageFile_v2 $packagefile)
+    function __construct(PEAR2_Pyrus_PackageFile_v2 $packagefile)
     {
         $this->_packagefile = $packagefile;
     }
@@ -153,7 +153,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             return PEAR::raiseError('PEAR_Packagefile_v2::toTgz: unable to save package.xml as' .
                 ' "' . $where . DIRECTORY_SEPARATOR . 'package.xml"');
         }
-        if (!$this->_packagefile->validate(PEAR2_Validate::PACKAGING)) {
+        if (!$this->_packagefile->validate(PEAR2_Pyrus_Validate::PACKAGING)) {
             return PEAR::raiseError('PEAR_Packagefile_v2::toTgz: invalid package.xml');
         }
         $ext = $compress ? '.tgz' : '.tar';
@@ -219,7 +219,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                             $task = "PEAR_Task_$tag";
                             $task = new $task($this->_packagefile->_config,
                                 $this->_packagefile->_logger,
-                                PEAR2_TASK_PACKAGE);
+                                PEAR2_PYRUS_TASK_PACKAGE);
                             $task->init($raw, $atts, null);
                             $res = $task->startSession($this->_packagefile, $contents, $tfile);
                             if (!$res) {
@@ -248,7 +248,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         } else {
             $name = 'package.xml';
         }
-        $packagexml = $this->toPackageFile($where, PEAR2_Validate::PACKAGING, $name);
+        $packagexml = $this->toPackageFile($where, PEAR2_Pyrus_Validate::PACKAGING, $name);
         if ($packagexml) {
             $tar = new Archive_Tar($dest_package, $compress);
             $tar->setErrorHandling(PEAR_ERROR_RETURN); // XXX Don't print errors
@@ -268,7 +268,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             // add the package.xml version 1.0
             if ($pf1 !== null) {
                 $pfgen = &$pf1->getDefaultGenerator();
-                $packagexml1 = $pfgen->toPackageFile($where, PEAR2_Validate::PACKAGING,
+                $packagexml1 = $pfgen->toPackageFile($where, PEAR2_Pyrus_Validate::PACKAGING,
                     'package.xml', true);
                 if (!$tar->addModify(array($packagexml1), '', $where)) {
                     return $packager->raiseError(
@@ -279,7 +279,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         }
     }
 
-    function toPackageFile($where = null, $state = PEAR2_Validate::NORMAL, $name = 'package.xml')
+    function toPackageFile($where = null, $state = PEAR2_Pyrus_Validate::NORMAL, $name = 'package.xml')
     {
         if (!$this->_packagefile->validate($state)) {
             return PEAR::raiseError('PEAR_Packagefile_v2::toPackageFile: invalid package.xml',
@@ -310,7 +310,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
      *
      * @return string XML data
      */
-    function toXml($state = PEAR2_Validate::NORMAL, $options = array())
+    function toXml($state = PEAR2_Pyrus_Validate::NORMAL, $options = array())
     {
         $this->_packagefile->setDate(date('Y-m-d'));
         $this->_packagefile->setTime(date('H:i:s'));
@@ -329,7 +329,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         if (isset($arr['_lastversion'])) {
             unset($arr['_lastversion']);
         }
-        if ($state ^ PEAR2_Validate::PACKAGING && !isset($arr['bundle'])) {
+        if ($state ^ PEAR2_Pyrus_Validate::PACKAGING && !isset($arr['bundle'])) {
             $use = $this->_recursiveXmlFilelist($arr['contents']['dir']['file']);
             unset($arr['contents']['dir']['file']);
             if (isset($use['dir'])) {
@@ -1509,7 +1509,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     */
     function raiseError($msg, $code)
     {
-        throw new PEAR2_PackageFile_Exception($msg, $code);
+        throw new PEAR2_Pyrus_PackageFile_Exception($msg, $code);
     }
 }
 ?>

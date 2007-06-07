@@ -24,11 +24,11 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a5
  */
-class PEAR2_Validator_PECL extends PEAR2_Validate
+class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
 {
     function validateVersion()
     {
-        if ($this->_state == PEAR2_Validate::PACKAGING) {
+        if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
             $version = $this->_packagexml->getVersion();
             $versioncomponents = explode('.', $version);
             $last = array_pop($versioncomponents);

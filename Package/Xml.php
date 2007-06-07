@@ -1,12 +1,12 @@
 <?php
-class PEAR2_Package_Xml implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Package_Xml implements ArrayAccess, Iterator
 {
     private $_parent;
     private $_packagefile;
-    function __construct($package, PEAR2_Package $parent)
+    function __construct($package, PEAR2_Pyrus_Package $parent)
     {
         $this->_parent = $parent;
-        $this->_packagefile = new PEAR2_PackageFile($package);
+        $this->_packagefile = new PEAR2_Pyrus_PackageFile($package);
     }
 
     function offsetExists($offset)

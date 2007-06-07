@@ -36,11 +36,11 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
-class PEAR2_Dependency_Validator
+class PEAR2_Pyrus_Dependency_Validator
 {
     /**
-     * One of the PEAR2_Validate::* states
-     * @see PEAR2_Validate::NORMAL
+     * One of the PEAR2_Pyrus_Validate::* states
+     * @see PEAR2_Pyrus_Validate::NORMAL
      * @var integer
      */
     var $_state;
@@ -70,10 +70,10 @@ class PEAR2_Dependency_Validator
      * @param PEAR_Config
      * @param array installation options
      * @param array format of PEAR_Registry::parsedPackageName()
-     * @param int installation state (one of PEAR2_Validate::*)
+     * @param int installation state (one of PEAR2_Pyrus_Validate::*)
      */
-    function __construct(PEAR2_Config $config, $installoptions, $package,
-                              $state = PEAR2_Validate::INSTALLING)
+    function __construct(PEAR2_Pyrus_Config $config, $installoptions, $package,
+                              $state = PEAR2_Pyrus_Validate::INSTALLING)
     {
         $this->_config = $config;
         if (isset($installoptions['packagingroot'])) {
@@ -155,8 +155,8 @@ class PEAR2_Dependency_Validator
      */
     function validateOsDependency($dep)
     {
-        if ($this->_state != PEAR2_Validate::INSTALLING &&
-              $this->_state != PEAR2_Validate::DOWNLOADING) {
+        if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
+              $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
         if (isset($dep['conflicts'])) {
@@ -260,7 +260,7 @@ class PEAR2_Dependency_Validator
      */
     function validateArchDependency($dep)
     {
-        if ($this->_state != PEAR2_Validate::INSTALLING) {
+        if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING) {
             return true;
         }
         if (isset($dep['conflicts'])) {
@@ -315,8 +315,8 @@ class PEAR2_Dependency_Validator
 
     function validateExtensionDependency($dep, $required = true)
     {
-        if ($this->_state != PEAR2_Validate::INSTALLING &&
-              $this->_state != PEAR2_Validate::DOWNLOADING) {
+        if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
+              $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
         $loaded = $this->extension_loaded($dep['name']);
@@ -453,8 +453,8 @@ class PEAR2_Dependency_Validator
 
     function validatePhpDependency($dep)
     {
-        if ($this->_state != PEAR2_Validate::INSTALLING &&
-              $this->_state != PEAR2_Validate::DOWNLOADING) {
+        if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
+              $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
         $version = $this->phpversion();
@@ -575,8 +575,8 @@ class PEAR2_Dependency_Validator
      */
     function validatePackageDependency($dep, $required, $params, $depv1 = false)
     {
-        if ($this->_state != PEAR2_Validate::INSTALLING &&
-              $this->_state != PEAR2_Validate::DOWNLOADING) {
+        if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
+              $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
         if (isset($dep['providesextension'])) {
@@ -592,10 +592,10 @@ class PEAR2_Dependency_Validator
                 }
             }
         }
-        if ($this->_state == PEAR2_Validate::INSTALLING) {
+        if ($this->_state == PEAR2_Pyrus_Validate::INSTALLING) {
             return $this->_validatePackageInstall($dep, $required, $depv1);
         }
-        if ($this->_state == PEAR2_Validate::DOWNLOADING) {
+        if ($this->_state == PEAR2_Pyrus_Validate::DOWNLOADING) {
             return $this->_validatePackageDownload($dep, $required, $params, $depv1);
         }
     }
@@ -850,7 +850,7 @@ class PEAR2_Dependency_Validator
                 foreach ($info as $package => $ds) {
                     foreach ($ds as $d) {
                         $d['dep']['package'] = $d['dep']['name'];
-                        $checker = new PEAR2_Dependency_Validator($this->_config, $this->_options,
+                        $checker = new PEAR2_Pyrus_Dependency_Validator($this->_config, $this->_options,
                             array('channel' => $channel, 'package' => $package), $this->_state);
                         $dep = $d['dep'];
                         $required = $d['type'] == 'required';
@@ -944,7 +944,7 @@ class PEAR2_Dependency_Validator
                             foreach ($info as $package => $ds) {
                                 foreach ($ds as $d) {
                                     $d['dep']['package'] = $d['dep']['name'];
-                                    $checker = new PEAR2_Dependency_Validator($this->_config, $this->_options,
+                                    $checker = new PEAR2_Pyrus_Dependency_Validator($this->_config, $this->_options,
                                         array('channel' => $channel, 'package' => $package),
                                         $this->_state);
                                     $dep = $d['dep'];
@@ -1027,7 +1027,7 @@ class PEAR2_Dependency_Validator
                         }
                     }
                     foreach ($ds as $d) {
-                        $checker = new PEAR2_Dependency_Validator($this->_config, $this->_options,
+                        $checker = new PEAR2_Pyrus_Dependency_Validator($this->_config, $this->_options,
                             array('channel' => $channel, 'package' => $package), $this->_state);
                         $dep = $d['dep'];
                         $required = $d['type'] == 'required';
@@ -1057,7 +1057,7 @@ class PEAR2_Dependency_Validator
         if (isset($this->_options['ignore-errors'])) {
             return $this->warning($msg);
         }
-        throw new PEAR2_Dependency_Exception(sprintf($msg, $this->_registry->parsedPackageNameToString(
+        throw new PEAR2_Pyrus_Dependency_Exception(sprintf($msg, $this->_registry->parsedPackageNameToString(
             $this->_currentPackage, true)));
     }
 

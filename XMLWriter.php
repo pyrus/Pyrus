@@ -4,7 +4,7 @@
  * @package PEAR_SimpleChannelServer
  * @subpackage XML
  */
-class PEAR2_XMLWriter
+class PEAR2_Pyrus_XMLWriter
 {
     function toString($array)
     {
@@ -29,7 +29,7 @@ class PEAR2_XMLWriter
         $w->setIndentString(' ');
         $w->startDocument('1.0', 'UTF-8');
         if (count($array) != 1) {
-            throw new PEAR2_XMLWriter_Exception('Cannot serialize array to' .
+            throw new PEAR2_Pyrus_XMLWriter_Exception('Cannot serialize array to' .
                 'XML, array must have exactly 1 element');
         }
         $depth = $curdepth = 0;

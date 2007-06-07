@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Config_Exception extends PEAR2_Exception
+class PEAR2_Pyrus_Config_Exception extends PEAR2_Exception
 {
     static private $errors = array(
         'invalidConfig' => array(
@@ -12,11 +12,11 @@ class PEAR2_Config_Exception extends PEAR2_Exception
 
     static function invalidConfig($path)
     {
-        return new PEAR2_Config_Exception(self::$errors, $path);
+        return new PEAR2_Pyrus_Config_Exception(self::$errors, $path);
     }
 
     static function unknownValue($value)
     {
-        return new PEAR2_Config_Exception(self::$errors, $value);
+        return new PEAR2_Pyrus_Config_Exception(self::$errors, $value);
     }
 }

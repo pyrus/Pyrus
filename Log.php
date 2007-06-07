@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Log
+class PEAR2_Pyrus_Log
 {
     static public $log = array();
     static public function log($level, $message)

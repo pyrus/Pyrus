@@ -1,11 +1,11 @@
 <?php
-class PEAR2_Registry_Sqlite_Channel_Mirror extends PEAR2_Registry_Sqlite
+class PEAR2_Pyrus_Registry_Sqlite_Channel_Mirror extends PEAR2_Pyrus_Registry_Sqlite
     implements ArrayAccess, Iterator
 {
     private $_channelname;
     private $_mirror;
     private $_mirrorIndex;
-    function __construct(PEAR2_Registry_Sqlite $cloner, $channel)
+    function __construct(PEAR2_Pyrus_Registry_Sqlite $cloner, $channel)
     {
         $this->_channelname = $channel;
         parent::__construct($cloner->getDatabase());
@@ -61,10 +61,10 @@ class PEAR2_Registry_Sqlite_Channel_Mirror extends PEAR2_Registry_Sqlite
  	function __get($value)
  	{
  	    if (!isset($this->_channelname)) {
- 	        throw new PEAR2_Registry_Exception('Action requested for unknown channel');
+ 	        throw new PEAR2_Pyrus_Registry_Exception('Action requested for unknown channel');
  	    }
  	    if (!isset($this->_mirror)) {
- 	        throw new PEAR2_Registry_Exception('Action requested for unknown mirror of ' .
+ 	        throw new PEAR2_Pyrus_Registry_Exception('Action requested for unknown mirror of ' .
  	          'channel ' . $this->_channelname);
  	    }
  	    switch ($value) {

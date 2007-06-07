@@ -1,12 +1,12 @@
 <?php
-class PEAR2_Package_Remote
+class PEAR2_Pyrus_Package_Remote
 {
     private $parent;
     private $info;
     /**
      * @param string $package path to package file
      */
-    function __construct($package, PEAR2_Package $parent)
+    function __construct($package, PEAR2_Pyrus_Package $parent)
     {
         $this->_parent = $parent;
         $this->_info = $package;
@@ -16,7 +16,7 @@ class PEAR2_Package_Remote
     /**
      * Convert this remote packagefile into a local .tar, .tgz or .phar
      *
-     * @return PEAR2_Package_Tar|PEAR2_Package_Tgz|PEAR2_Package_Phar
+     * @return PEAR2_Pyrus_Package_Tar|PEAR2_Pyrus_Package_Tgz|PEAR2_Pyrus_Package_Phar
      */
     function download()
     {
@@ -31,7 +31,7 @@ class PEAR2_Package_Remote
             $this->_type = 'url';
             $callback = $this->_downloader->ui ?
                 array(&$this->_downloader, '_downloadCallback') : null;
-            $dir = PEAR2_Config::current()->download_dir;
+            $dir = PEAR2_Pyrus_Config::current()->download_dir;
             $file = $this->_downloader->downloadHttp($param, $this->_downloader->ui,
                 $dir, $callback);
             $this->_downloader->popErrorHandling();

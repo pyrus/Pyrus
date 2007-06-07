@@ -4,7 +4,7 @@
  * @package PEAR2
  * @subpackage XML
  */
-class PEAR2_XMLParser
+class PEAR2_Pyrus_XMLParser
 {
     /**
      * Recursively merge in new XML values

@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Downloader
+class PEAR2_Pyrus_Downloader
 {
     /**
      * Download using the cURL extension
@@ -15,7 +15,7 @@ class PEAR2_Downloader
                               $accept = false)
     {
         if (!function_exists('curl_init')) {
-            throw new PEAR2_Exception('Cannot download with cURL - cURL extension is not enabled');
+            throw new PEAR2_Pyrus_Exception('Cannot download with cURL - cURL extension is not enabled');
         }
         $c = curl_init();
         if (is_array($url)) {
@@ -151,10 +151,10 @@ class PEAR2_Downloader
         }
         $info = parse_url($url);
         if (!isset($info['scheme']) || !in_array($info['scheme'], array('http', 'https'))) {
-            throw new PEAR2_Exception('Cannot download non-http URL "' . $url . '"');
+            throw new PEAR2_Pyrus_Exception('Cannot download non-http URL "' . $url . '"');
         }
         if (!isset($info['host'])) {
-            throw new PEAR2_Exception('Cannot download from non-URL "' . $url . '"');
+            throw new PEAR2_Pyrus_Exception('Cannot download from non-URL "' . $url . '"');
         } else {
             $host = isset($info['host']) ? $info['host'] : null;
             $port = isset($info['port']) ? $info['port'] : null;
@@ -163,7 +163,7 @@ class PEAR2_Downloader
         if (isset($this)) {
             $config = &$this->config;
         } else {
-            $config = PEAR2_Config::singleton();
+            $config = PEAR2_Pyrus_Config::singleton();
         }
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
         if ($config->http_proxy && 
@@ -194,7 +194,7 @@ class PEAR2_Downloader
                     call_user_func($callback, 'connfailed', array($proxy_host, $proxy_port,
                                                                   $errno, $errstr));
                 }
-                throw new PEAR2_Exception("Connection to `$proxy_host:$proxy_port' failed: $errstr", $errno);
+                throw new PEAR2_Pyrus_Exception("Connection to `$proxy_host:$proxy_port' failed: $errstr", $errno);
             }
             if ($lastmodified === false || $lastmodified) {
                 $request = "GET $url HTTP/1.1\r\n";
@@ -211,7 +211,7 @@ class PEAR2_Downloader
                     call_user_func($callback, 'connfailed', array($host, $port,
                                                                   $errno, $errstr));
                 }
-                throw new PEAR2_Exception("Connection to `$host:$port' failed: $errstr", $errno);
+                throw new PEAR2_Pyrus_Exception("Connection to `$host:$port' failed: $errstr", $errno);
             }
             if ($lastmodified === false || $lastmodified) {
                 $request = "GET $path HTTP/1.1\r\n";
@@ -263,7 +263,7 @@ class PEAR2_Downloader
                     return false;
                 }
                 if (! in_array($reply, array(200, 301, 302, 303, 305, 307))) {
-                    throw new PEAR2_Exception("File http://$host:$port$path not valid (received: $line)");
+                    throw new PEAR2_Pyrus_Exception("File http://$host:$port$path not valid (received: $line)");
                 }
             }
         }
@@ -274,10 +274,10 @@ class PEAR2_Downloader
                     return $this->downloadHttp($headers['location'],
                             $ui, $save_dir, $callback, $lastmodified, $accept);
                 } else {
-                    throw new PEAR2_Exception("File http://$host:$port$path not valid (redirection looped more than 5 times)");
+                    throw new PEAR2_Pyrus_Exception("File http://$host:$port$path not valid (redirection looped more than 5 times)");
                 }
             } else {
-                throw new PEAR2_Exception("File http://$host:$port$path not valid (redirected but no location)");
+                throw new PEAR2_Pyrus_Exception("File http://$host:$port$path not valid (redirected but no location)");
             }
         }
         if (isset($headers['content-disposition']) &&
@@ -298,7 +298,7 @@ class PEAR2_Downloader
             if ($callback) {
                 call_user_func($callback, 'writefailed', array($dest_file, $php_errormsg));
             }
-            throw new PEAR2_Exception("could not open $dest_file for writing");
+            throw new PEAR2_Pyrus_Exception("could not open $dest_file for writing");
         }
         if (isset($headers['content-length'])) {
             $length = $headers['content-length'];
@@ -319,7 +319,7 @@ class PEAR2_Downloader
                 if ($callback) {
                     call_user_func($callback, 'writefailed', array($dest_file, $php_errormsg));
                 }
-                throw new PEAR2_Exception("$dest_file: write failed ($php_errormsg)");
+                throw new PEAR2_Pyrus_Exception("$dest_file: write failed ($php_errormsg)");
             }
         }
         fclose($fp);

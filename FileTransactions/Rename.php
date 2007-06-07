@@ -1,5 +1,5 @@
 <?php
-class PEAR2_FileTransactions_Rename implements PEAR2_IFileTransaction
+class PEAR2_Pyrus_FileTransactions_Rename implements PEAR2_Pyrus_IFileTransaction
 {
     public function check($data, &$errors)
     {
@@ -27,7 +27,7 @@ class PEAR2_FileTransactions_Rename implements PEAR2_IFileTransaction
                 $extra = '';
             }
             if (!isset($this->_options['soft'])) {
-                PEAR2_Log::log(1, 'Could not delete ' . $data[1] . ', cannot rename ' .
+                PEAR2_Pyrus_Log::log(1, 'Could not delete ' . $data[1] . ', cannot rename ' .
                     $data[0] . $extra);
             }
             if (!isset($this->_options['ignore-errors'])) {
@@ -37,20 +37,20 @@ class PEAR2_FileTransactions_Rename implements PEAR2_IFileTransaction
         // permissions issues with rename - copy() is far superior
         $perms = @fileperms($data[0]);
         if (!@copy($data[0], $data[1])) {
-            PEAR2_Log::log(1, 'Could not rename ' . $data[0] . ' to ' . $data[1] .
+            PEAR2_Pyrus_Log::log(1, 'Could not rename ' . $data[0] . ' to ' . $data[1] .
                 ' ' . $php_errormsg);
             return false;
         }
         // copy over permissions, otherwise they are lost
         @chmod($data[1], $perms);
         @unlink($data[0]);
-        PEAR2_Log::log(3, "+ mv $data[0] $data[1]");
+        PEAR2_Pyrus_Log::log(3, "+ mv $data[0] $data[1]");
     }
 
     public function rollback($data, &$errors)
     {
         @unlink($data[0]);
-        PEAR2_Log::log(3, "+ rm $data[0]");
+        PEAR2_Pyrus_Log::log(3, "+ rm $data[0]");
     }
 
     public function cleanup(){}

@@ -1,11 +1,11 @@
 <?php
-interface PEAR2_IRegistry
+interface PEAR2_Pyrus_IRegistry
 {
-    public function installPackage(PEAR2_PackageFile_v2 $info);
-    public function upgradePackage(PEAR2_PackageFile_v2 $info);
+    public function installPackage(PEAR2_Pyrus_PackageFile_v2 $info);
+    public function upgradePackage(PEAR2_Pyrus_PackageFile_v2 $info);
     public function uninstallPackage($name, $channel);
-    public function addChannel(PEAR2_ChannelFile $channel);
-    public function updateChannel(PEAR2_ChannelFile $channel);
+    public function addChannel(PEAR2_Pyrus_ChannelFile $channel);
+    public function updateChannel(PEAR2_Pyrus_ChannelFile $channel);
     public function deleteChannel($channel);
     public function packageExists($package, $channel);
     public function channelAlias($channel);

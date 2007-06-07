@@ -9,31 +9,31 @@
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
  */
-class PEAR2_Registry
+class PEAR2_Pyrus_Registry
 {
     public $sqlite;
     static private $_registries = array();
     protected function __construct($path)
     {
-        $this->sqlite = new PEAR2_Registry_Sqlite($path);
-        $this->_xml = new PEAR2_Registry_Xml($path, $this->sqlite);
+        $this->sqlite = new PEAR2_Pyrus_Registry_Sqlite($path);
+        $this->_xml = new PEAR2_Pyrus_Registry_Xml($path, $this->sqlite);
     }
 
     static public function singleton($path)
     {
         if (!isset(self::$_registries[$path])) {
-            self::$_registries[$path] = new PEAR2_Registry($path);
+            self::$_registries[$path] = new PEAR2_Pyrus_Registry($path);
         }
         return self::$_registries[$path];
     }
 
-    public function installPackage(PEAR2_PackageFile_v2 $info)
+    public function installPackage(PEAR2_Pyrus_PackageFile_v2 $info)
     {
         $this->sqlite->installPackage($info);
         $this->_xml->installPackage($info);
     }
 
-    public function upgradePackage(PEAR2_PackageFile_v2 $info)
+    public function upgradePackage(PEAR2_Pyrus_PackageFile_v2 $info)
     {
         $this->_xml->upgradePackage($info);
         $this->sqlite->upgradePackage($info);
@@ -46,12 +46,12 @@ class PEAR2_Registry
         $this->_xml->uninstallPackage($name, $channel, $version);
     }
 
-    public function addChannel(PEAR2_ChannelFile $channel)
+    public function addChannel(PEAR2_Pyrus_ChannelFile $channel)
     {
         $this->sqlite->channel['add'] = $channel;
     }
 
-    public function updateChannel(PEAR2_ChannelFile $channel)
+    public function updateChannel(PEAR2_Pyrus_ChannelFile $channel)
     {
         $this->sqlite->channel['update'] = $channel;
     }
@@ -78,7 +78,7 @@ class PEAR2_Registry
     static public function parsePackageName($pname) 
     {
         if (!count(self::$_registries)) {
-            $registry = new PEAR2_Registry_Sqlite(false);
+            $registry = new PEAR2_Pyrus_Registry_Sqlite(false);
         } else {
             reset(self::$_registries);
             $registry = current(self::$_registries);

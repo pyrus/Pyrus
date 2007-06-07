@@ -19,23 +19,23 @@
 //
 // $Id: Validator.php,v 1.1 2006/12/28 20:42:32 cellog Exp $
 /**
- * Private validation class used by PEAR2_PackageFile_v2 - do not use directly, its
+ * Private validation class used by PEAR2_Pyrus_PackageFile_v2 - do not use directly, its
  * sole purpose is to split up the PEAR/PackageFile/v2.php file to make it smaller
  * @author Greg Beaver <cellog@php.net>
  * @access private
  */
-class PEAR2_PackageFile_v2_Validator
+class PEAR2_Pyrus_PackageFile_v2_Validator
 {
     /**
      * @var array
      */
     var $_packageInfo;
     /**
-     * @var PEAR2_PackageFile_v2
+     * @var PEAR2_Pyrus_PackageFile_v2
      */
     var $_pf;
     /**
-     * @var PEAR2_ErrorStack
+     * @var PEAR2_Pyrus_ErrorStack
      */
     var $_stack;
     /**
@@ -51,10 +51,10 @@ class PEAR2_PackageFile_v2_Validator
      */
     var $_curState = 0;
     /**
-     * @param PEAR2_PackageFile_v2
+     * @param PEAR2_Pyrus_PackageFile_v2
      * @param int
      */
-    function validate(&$pf, $state = PEAR2_Validate::NORMAL)
+    function validate(&$pf, $state = PEAR2_Pyrus_Validate::NORMAL)
     {
         $this->_pf = &$pf;
         $this->_curState = $state;
@@ -245,7 +245,7 @@ class PEAR2_PackageFile_v2_Validator
         $this->_validateRelease();
         if (!$this->_stack->hasErrors()) {
             try {
-                $validator = PEAR2_Config::current()
+                $validator = PEAR2_Pyrus_Config::current()
                     ->registry->sqlite->channel[$this->_pf->getChannel()]
                     ->getValidationObject($this->_pf->getPackage());
                 $validator->setPackageFile($this->_pf);
@@ -273,7 +273,7 @@ class PEAR2_PackageFile_v2_Validator
             }
         }
         $this->_pf->_isValid = $this->_isValid = !$this->_stack->hasErrors('error');
-        if ($this->_isValid && $state == PEAR2_Validate::PACKAGING && !$this->_filesValid) {
+        if ($this->_isValid && $state == PEAR2_Pyrus_Validate::PACKAGING && !$this->_filesValid) {
             if ($this->_pf->getPackageType() == 'bundle') {
                 if ($this->_analyzeBundledPackages()) {
                     $this->_filesValid = $this->_pf->_filesValid = true;
@@ -879,7 +879,7 @@ class PEAR2_PackageFile_v2_Validator
             );
             foreach ($groups as $group) {
                 if ($this->_stupidSchemaValidate($structure, $group, '<group>')) {
-                    if (!PEAR2_Validate::validGroupName($group['attribs']['name'])) {
+                    if (!PEAR2_Pyrus_Validate::validGroupName($group['attribs']['name'])) {
                         $this->_invalidDepGroupName($group['attribs']['name']);
                     }
                     foreach (array('package', 'subpackage', 'extension') as $type) {
@@ -1100,7 +1100,7 @@ class PEAR2_PackageFile_v2_Validator
                     $save['name'] = $dirs . '/' . $save['name'];
                 }
                 unset($file['attribs']);
-                if (count($file) && $this->_curState != PEAR2_Validate::DOWNLOADING) { // has tasks
+                if (count($file) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
                     foreach ($file as $task => $value) {
                         if ($tagClass = $this->_pf->getTask($task)) {
                             if (!is_array($value) || !isset($value[0])) {
@@ -1314,7 +1314,7 @@ class PEAR2_PackageFile_v2_Validator
      */
     function _validateRole($role)
     {
-        return in_array($role, PEAR2_Installer_Role::getValidRoles($this->_pf->getPackageType()));
+        return in_array($role, PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType()));
     }
 
     function _pearVersionTooLow($version)
@@ -1370,7 +1370,7 @@ class PEAR2_PackageFile_v2_Validator
     {
         $this->_stack->push(__FUNCTION__, 'error', array(
             'file' => $file, 'dir' => $dir, 'role' => $role,
-            'roles' => PEAR2_Installer_Role::getValidRoles($this->_pf->getPackageType())),
+            'roles' => PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType())),
             'File "%file%" in directory "%dir%" has invalid role "%role%", should be one of %roles%');
     }
 
@@ -1495,21 +1495,21 @@ class PEAR2_PackageFile_v2_Validator
     function _invalidTask($task, $ret, $file)
     {
         switch ($ret[0]) {
-            case PEAR2_TASK_ERROR_MISSING_ATTRIB :
+            case PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB :
                 $info = array('attrib' => $ret[1], 'task' => $task, 'file' => $file);
                 $msg = 'task <%task%> is missing attribute "%attrib%" in file %file%';
             break;
-            case PEAR2_TASK_ERROR_NOATTRIBS :
+            case PEAR2_PYRUS_TASK_ERROR_NOATTRIBS :
                 $info = array('task' => $task, 'file' => $file);
                 $msg = 'task <%task%> has no attributes in file %file%';
             break;
-            case PEAR2_TASK_ERROR_WRONG_ATTRIB_VALUE :
+            case PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE :
                 $info = array('attrib' => $ret[1], 'values' => $ret[3],
                     'was' => $ret[2], 'task' => $task, 'file' => $file);
                 $msg = 'task <%task%> attribute "%attrib%" has the wrong value "%was%" '.
                     'in file %file%, expecting one of "%values%"';
             break;
-            case PEAR2_TASK_ERROR_INVALID :
+            case PEAR2_PYRUS_TASK_ERROR_INVALID :
                 $info = array('reason' => $ret[1], 'task' => $task, 'file' => $file);
                 $msg = 'task <%task%> in file %file% is invalid because of "%reason%"';
             break;
@@ -1681,13 +1681,13 @@ class PEAR2_PackageFile_v2_Validator
         }
         $dir_prefix = dirname($this->_pf->_packageFile);
         $log = isset($this->_pf->_logger) ? array(&$this->_pf->_logger, 'log') :
-            array('PEAR2_Common', 'log');
+            array('PEAR2_Pyrus_Common', 'log');
         $info = $this->_pf->getContents();
         $info = $info['bundledpackage'];
         if (!is_array($info)) {
             $info = array($info);
         }
-        $pkg = new PEAR2_PackageFile($this->_pf->_config);
+        $pkg = new PEAR2_Pyrus_PackageFile($this->_pf->_config);
         foreach ($info as $package) {
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $package)) {
                 $this->_fileNotFound($dir_prefix . DIRECTORY_SEPARATOR . $package);
@@ -1695,10 +1695,8 @@ class PEAR2_PackageFile_v2_Validator
                 continue;
             }
             call_user_func_array($log, array(1, "Analyzing bundled package $package"));
-            PEAR::pushErrorHandling(PEAR2_ERROR_RETURN);
             $ret = $pkg->fromAnyFile($dir_prefix . DIRECTORY_SEPARATOR . $package,
-                PEAR2_Validate::NORMAL);
-            PEAR::popErrorHandling();
+                PEAR2_Pyrus_Validate::NORMAL);
             if (PEAR::isError($ret)) {
                 call_user_func_array($log, array(0, "ERROR: package $package is not a valid " .
                     'package'));
@@ -1724,7 +1722,7 @@ class PEAR2_PackageFile_v2_Validator
             return false;
         }
         $dir_prefix = dirname($this->_pf->_packageFile);
-        $common = new PEAR2_Common;
+        $common = new PEAR2_Pyrus_Common;
         $log = isset($this->_pf->_logger) ? array(&$this->_pf->_logger, 'log') :
             array(&$common, 'log');
         $info = $this->_pf->getContents();
@@ -1745,7 +1743,7 @@ class PEAR2_PackageFile_v2_Validator
                 $this->_isValid = 0;
                 continue;
             }
-            if (in_array($fa['role'], PEAR2_Installer_Role::getPhpRoles()) && $dir_prefix) {
+            if (in_array($fa['role'], PEAR2_Pyrus_Installer_Role::getPhpRoles()) && $dir_prefix) {
                 call_user_func_array($log, array(1, "Analyzing $file"));
                 $srcinfo = $this->analyzeSourceCode($dir_prefix . DIRECTORY_SEPARATOR . $file);
                 if ($srcinfo) {

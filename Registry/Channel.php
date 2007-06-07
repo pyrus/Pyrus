@@ -1,8 +1,8 @@
 <?php
-class PEAR2_Registry_Channel extends PEAR2_Registry implements ArrayAccess
+class PEAR2_Pyrus_Registry_Channel extends PEAR2_Pyrus_Registry implements ArrayAccess
 {
     private $_channelname;
-    function __construct(PEAR2_Registry_Sqlite $cloner)
+    function __construct(PEAR2_Pyrus_Registry_Sqlite $cloner)
     {
         parent::__construct($cloner->getDatabase());
     }

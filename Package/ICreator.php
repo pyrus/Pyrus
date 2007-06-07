@@ -1,5 +1,5 @@
 <?php
-interface PEAR2_Package_ICreator
+interface PEAR2_Pyrus_Package_ICreator
 {
     /**
      * save a file inside this package
