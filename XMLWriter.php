@@ -6,18 +6,24 @@
  */
 class PEAR2_Pyrus_XMLWriter
 {
-    function toString($array)
+    private $_array;
+    function __construct($array)
+    {
+        $this->_array = $array;
+    }
+
+    function __toString()
     {
         $w = new XMLWriter;
         $w->openMemory();
-        return $this->_serializeArray($array, $w);
+        return $this->_serializeArray($this->_array, $w);
     }
 
-    function toFile($array, $file)
+    function toFile($file)
     {
         $w = new XMLWriter;
         $w->openUri($file);
-        return $this->_serializeArray($array, $w);
+        return $this->_serializeArray($this->_array, $w);
     }
 
     private function _serializeArray($array, $w)

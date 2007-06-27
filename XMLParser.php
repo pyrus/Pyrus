@@ -43,6 +43,13 @@ class PEAR2_Pyrus_XMLParser
         self::mergeValue($arr[$key], $depth, $value);
     }
 
+    function parseString($string, $schema = false)
+    {
+        $a = new XMLReader;
+        $a->XML($file);
+        return $this->_parse($a, $file, $schema, false);
+    }
+
     /**
      * Using XMLReader, unserialize XML into an array
      *
@@ -62,10 +69,15 @@ class PEAR2_Pyrus_XMLParser
      * @param string $file file URI to process
      * @return array
      */
-    function parse($file)
+    function parse($file, $schema = false)
     {
         $a = new XMLReader;
         $a->open($file);
+        return $this->_parse($a, $file, $schema, true);
+    }
+
+    private function _parse($a, $file, $schema, $isfile)
+    {
         $tagStack = array();
         $arr = array();
         while ($a->read()) {
@@ -108,6 +120,22 @@ class PEAR2_Pyrus_XMLParser
                 self::mergeValue($arr,
                     $tagStack, $a->value);
             }
+        }
+        if ($schema) {
+            $a = new DOMDocument();
+            if ($isfile) {
+                $a->load($file);
+            } else {
+                $a->loadXML($file);
+            }
+            libxml_use_internal_errors(true);
+            $a->schemaValidate($schema);
+            $causes = array();
+            foreach (libxml_get_errors() as $error) {
+                $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .
+                     $error->line . ': ' . $error->message);
+            }
+            throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
         }
         return $arr;
     }

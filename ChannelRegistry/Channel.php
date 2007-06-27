@@ -1,43 +1,13 @@
 <?php
 class PEAR2_Pyrus_Registry_Sqlite_Channel extends PEAR2_Pyrus_Registry_Sqlite
-    implements ArrayAccess, PEAR2_Pyrus_IChannelFile
+    implements ArrayAccess, PEAR2_Pyrus_IChannel
 {
     private $_channelname;
     private $_mirror;
-    function __construct(PEAR2_Pyrus_Registry_Sqlite $cloner)
+    function __construct(SQLiteDatabase $database)
     {
-        parent::__construct(dirname($cloner->getDatabase()));
+        $this->_database = $database;
     }
-
-    function offsetExists($offset)
-    {
-        if ($offset[0] == '#') {
-            return $this->channelExists(substr($offset, 1), false);
-        }
-        return $this->channelExists($offset);
-    }
-
-    function offsetGet($offset)
- 	{
- 	    $this->_channelname = $offset;
- 	    $ret = clone $this;
- 	    return $ret;
- 	}
- 	
- 	function offsetSet($offset, $value)
- 	{
- 	    if ($offset == 'update') {
- 	        $this->updateChannel($value);
- 	    }
- 	    if ($offset == 'add') {
- 	        $this->addChannel($value);
- 	    }
- 	}
-
- 	function offsetUnset($offset)
- 	{
- 	    $this->deleteChannel($offset);
- 	}
 
  	function getName()
  	{
@@ -97,5 +67,18 @@ class PEAR2_Pyrus_Registry_Sqlite_Channel extends PEAR2_Pyrus_Registry_Sqlite
  	            $a = new PEAR2_Pyrus_Registry_Sqlite_Channel_Mirrors($this, $this->_channelname);
  	            return $a;
  	    }
+ 	}
+
+ 	public function toChannelObject()
+ 	{
+ 	    $a = new PEAR2_Pyrus_Channel;
+ 	    $a->setName($this->getName());
+ 	    $a->setSummary($this->getSummary());
+ 	    $a->setPort($this->getPort());
+ 	}
+
+ 	public function __toString()
+ 	{
+ 	    return $this->toChannelObject()->__toString();
  	}
 }

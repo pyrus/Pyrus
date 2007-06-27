@@ -9,14 +9,47 @@
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
  */
-class PEAR2_Pyrus_Registry
+class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
 {
-    public $sqlite;
     static private $_registries = array();
-    protected function __construct($path)
+    /**
+     * The channel registry
+     *
+     * @var PEAR2_Pyrus_ChannelRegistry
+     */
+    static private $_channelRegistry;
+
+    public static function setChannelRegistry(PEAR2_Pyrus_ChannelRegistry $reg)
     {
-        $this->sqlite = new PEAR2_Pyrus_Registry_Sqlite($path);
-        $this->_xml = new PEAR2_Pyrus_Registry_Xml($path, $this->sqlite);
+        self::$_channelRegistry = $reg;
+    }
+
+    protected function __construct($path, $registries = array('Sqlite', 'Xml'))
+    {
+        if (!isset(self::$_channelRegistry)) {
+            self::$_channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
+                $registries);
+        }
+        $exceptions = array();
+        foreach ($registries as $registry) {
+            try {
+                $registry = ucfirst($registry);
+                $registry = "PEAR2_Pyrus_Registry_$registry";
+                if (!class_exists($registry, true)) {
+                    $exceptions[] = new PEAR2_Pyrus_Registry_Exception(
+                        'Unknown registry type: ' . $registry);
+                    continue;
+                }
+                self::$_registries[] = new $registry($path);
+            } catch (Exception $e) {
+                $exceptions[] = $e;
+            }
+        }
+        if (!count(self::$_registries)) {
+            throw new PEAR2_Pyrus_Registry_Exception(
+                'Unable to initialize registry for path "' . $path . '"',
+                $exceptions);
+        }
     }
 
     static public function singleton($path)
@@ -27,38 +60,25 @@ class PEAR2_Pyrus_Registry
         return self::$_registries[$path];
     }
 
-    public function installPackage(PEAR2_Pyrus_PackageFile_v2 $info)
+    public function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        $this->sqlite->installPackage($info);
-        $this->_xml->installPackage($info);
+        foreach (self::$_registries as $reg) {
+            $reg->install($info);
+        }
     }
 
-    public function upgradePackage(PEAR2_Pyrus_PackageFile_v2 $info)
+    public function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        $this->_xml->upgradePackage($info);
-        $this->sqlite->upgradePackage($info);
+        foreach (self::$_registries as $reg) {
+            $reg->upgrade($info);
+        }
     }
 
-    public function uninstallPackage($name, $channel)
+    public function uninstall($name, $channel)
     {
-        $version = $this->sqlite->package[$channel . '/' . $name]->version;
-        unset($this->sqlite->package[$channel . '/' . $name]);
-        $this->_xml->uninstallPackage($name, $channel, $version);
-    }
-
-    public function addChannel(PEAR2_Pyrus_ChannelFile $channel)
-    {
-        $this->sqlite->channel['add'] = $channel;
-    }
-
-    public function updateChannel(PEAR2_Pyrus_ChannelFile $channel)
-    {
-        $this->sqlite->channel['update'] = $channel;
-    }
-
-    public function deleteChannel($channel)
-    {
-        unset($this->sqlite->channel[$channel]);
+        foreach (self::$_registries as $reg) {
+            $reg->uninstall($name, $channel);
+        }
     }
 
     function __get($var)
@@ -68,21 +88,10 @@ class PEAR2_Pyrus_Registry
             return self::$_registries[0]->package;
         }
         if ($var == 'channel') {
-            return self::$_registries[0]->channel;
+            return self::$_channelRegistry;
         }
         if ($var == 'registries') {
             return self::$_registries;
         }
-    }
-
-    static public function parsePackageName($pname) 
-    {
-        if (!count(self::$_registries)) {
-            $registry = new PEAR2_Pyrus_Registry_Sqlite(false);
-        } else {
-            reset(self::$_registries);
-            $registry = current(self::$_registries);
-        }
-        return $registry->parsePackageName($pname);
     }
 }
