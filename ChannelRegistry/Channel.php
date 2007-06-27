@@ -1,6 +1,5 @@
 <?php
-class PEAR2_Pyrus_Registry_Sqlite_Channel extends PEAR2_Pyrus_Registry_Sqlite
-    implements ArrayAccess, PEAR2_Pyrus_IChannel
+class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_Channel_Base
 {
     private $_channelname;
     private $_mirror;
@@ -75,6 +74,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Channel extends PEAR2_Pyrus_Registry_Sqlite
  	    $a->setName($this->getName());
  	    $a->setSummary($this->getSummary());
  	    $a->setPort($this->getPort());
+ 	    $a->set
  	}
 
  	public function __toString()

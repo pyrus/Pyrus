@@ -1,6 +1,6 @@
 <?php
-class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
-{    
+class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
+{
     /**
      * Supported channel.xml versions, for parsing
      * @var array
@@ -42,7 +42,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function __toString()
     {
         if (!isset($this->_xml)) {
-            $this->_xml = (string) new PEAR2_Pyrus_XMLWriter($this->channelInfo);
+            $this->_xml = (string) new PEAR2_Pyrus_XMLWriter($this->_channelInfo);
         }
         return $this->_xml;
     }
@@ -416,9 +416,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if ($mirror) {
             if (!isset($this->_channelInfo['servers']['mirror'])) {
-                $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                    array('mirror' => $mirror));
-                return false;
+                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
             }
             if (isset($this->_channelInfo['servers']['mirror'][0])) {
                 foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
@@ -448,9 +446,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if ($mirror) {
             if (!isset($this->_channelInfo['servers']['mirror'])) {
-                $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                    array('mirror' => $mirror));
-                return false;
+                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
             }
             if (isset($this->_channelInfo['servers']['mirror'][0])) {
                 foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
@@ -502,9 +498,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
         if ($mirror) {
             if (!isset($this->_channelInfo['servers']['mirror'])) {
-                $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                    array('mirror' => $mirror));
-                return false;
+                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
             }
             if (isset($this->_channelInfo['servers']['mirror'][0])) {
                 foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
@@ -514,9 +508,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
                         return true;
                     }
                 }
-                $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                    array('mirror' => $mirror));
-                return false;
+                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
             } elseif ($this->_channelInfo['servers']['mirror']['attribs']['host'] == $mirror) {
                 $this->_channelInfo['servers']['mirror'][$protocol]['attribs']['path'] = $path;
                 $this->_xml = null;
@@ -537,12 +529,10 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function setServer($server, $mirror = false)
     {
         if (empty($server)) {
-            $this->_validateError(PEAR_CHANNELFILE_ERROR_NO_SERVER);
+            throw new PEAR2_Pyrus_Channel_Exception('Primary server must be non-empty');
             return false;
         } elseif (!$this->validChannelServer($server)) {
-            $this->_validateError(PEAR_CHANNELFILE_ERROR_INVALID_NAME,
-                array('tag' => 'name', 'name' => $server));
-            return false;
+            throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $server . '" is not a valid channel server');
         }
         if ($mirror) {
             $found = false;
@@ -553,9 +543,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
                 }
             }
             if (!$found) {
-                $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                    array('mirror' => $mirror));
-                return false;
+                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
             }
             $this->_channelInfo['mirror'][$i]['attribs']['host'] = $server;
             return true;
@@ -573,9 +561,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function setSummary($summary)
     {
         if (empty($summary)) {
-            $this->_validateError(PEAR_CHANNELFILE_ERROR_NO_SUMMARY);
-            return false;
+            throw new PEAR2_Pyrus_Channel_Exception('Channel summary cannot be empty');
         } elseif (strpos(trim($summary), "\n") !== false) {
+            // not sure what to do about this yet
             $this->_validateWarning(PEAR_CHANNELFILE_ERROR_MULTILINE_SUMMARY,
                 array('summary' => $summary));
         }
@@ -591,9 +579,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function setAlias($alias, $local = false)
     {
         if (!$this->validChannelServer($alias)) {
-            $this->_validateError(PEAR_CHANNELFILE_ERROR_INVALID_NAME,
-                array('tag' => 'suggestedalias', 'name' => $alias));
-            return false;
+            throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $server . '" is not a valid channel server');
         }
         if ($local) {
             $this->_channelInfo['localalias'] = $alias;
@@ -677,9 +663,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function addMirrorFunction($mirror, $type, $version, $name = '')
     {
         if (!isset($this->_channelInfo['servers']['mirror'])) {
-            $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                array('mirror' => $mirror));
-            return false;
+            throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
         }
         $setmirror = false;
         if (isset($this->_channelInfo['servers']['mirror'][0])) {
@@ -695,9 +679,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             }
         }
         if (!$setmirror) {
-            $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                array('mirror' => $mirror));
-            return false;
+            throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
         }
         $set = array('attribs' => array('version' => $version), '_content' => $name);
         if (!isset($setmirror[$type]['function'])) {
@@ -721,9 +703,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if ($mirror) {
             if (!isset($this->_channelInfo['servers']['mirror'])) {
-                $this->_validateError(PEAR_CHANNELFILE_ERROR_MIRROR_NOT_FOUND,
-                    array('mirror' => $mirror));
-                return false;
+                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
             }
             $setmirror = false;
             if (isset($this->_channelInfo['servers']['mirror'][0])) {

@@ -1,5 +1,6 @@
 <?php
-abstract class PEAR2_Pyrus_ChannelRegistry_Base implements PEAR2_Pyrus_IChannelRegistry
+abstract class PEAR2_Pyrus_ChannelRegistry_Base extends PEAR2_Pyrus_Channel_Base
+    implements PEAR2_Pyrus_IChannelRegistry
 {
     /**
      * Parse a package name, or validate a parsed package name array
