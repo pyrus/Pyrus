@@ -4,17 +4,6 @@ if (function_exists('PEAR2_Autoload')) {
 } else {
     function PEAR2_Autoload($class)
     {
-        $fp = @fopen(str_replace('_', '/', $class) . '.php', 'r', true);
-        if ($fp) {
-            fclose($fp);
-            require str_replace('_', '/', $class) . '.php';
-            return true;
-        }
-        return false;
-    }
-
-    function PEAR2_Autoload_strict($class)
-    {
         if (substr($class, 0, 6) !== 'PEAR2_') {
             return false;
         }
@@ -24,6 +13,8 @@ if (function_exists('PEAR2_Autoload')) {
             require str_replace('_', '/', $class) . '.php';
             return true;
         }
-        return false;
+        throw new Exception('Class $class could not be loaded from ' .
+            str_replace('_', '/', $class) . '.php (include_path="' . get_include_path() .
+            '")');
     }
 }
