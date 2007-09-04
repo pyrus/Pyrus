@@ -12,8 +12,19 @@ function PEAR2_Autoload($class)
     }
     throw new Exception('Class $class could not be loaded from ' .
         str_replace('_', '/', $class) . '.php (include_path="' . get_include_path() .
-        '")');
+        '") [autoload version 1.0]');
 }
 if (!function_exists('__autoload')) {
+    $paths = explode(PATH_SEPARATOR, get_include_path());
+    $found = false;
+    foreach ($path as $path) {
+        if ($path == dirname(dirname(__FILE__))) {
+            $found = true;
+            break;
+        }
+    }
+    if (!$found) {
+        set_include_path(get_include_path() . PATH_SEPARATOR . dirname(dirname(__FILE__)));
+    }
     function __autoload($class) { return PEAR2_Autoload($class); }
 }
