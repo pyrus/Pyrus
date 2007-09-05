@@ -31,7 +31,8 @@ class PEAR2_Pyrus_Config
             'ext_dir' => '@php_dir@/ext_dir',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
-            'data_dir' => '@php_dir@/data',
+            'data_dir' => '@php_dir@/data', // pseudo-value in this implementation
+            'www_dir' => '@php_dir@/www',
             'test_dir' => '@php_dir@/tests',
             'php_bin' => '',
             'php_ini' => '',
@@ -60,7 +61,8 @@ class PEAR2_Pyrus_Config
             'ext_dir',
             'doc_dir',
             'bin_dir',
-            'data_dir',
+            'data_dir', // pseudo-value in this implementation
+            'www_dir',
             'test_dir',
             'php_bin',
             'php_ini',
@@ -366,7 +368,7 @@ class PEAR2_Pyrus_Config
 
     public function __set($key, $value)
     {
-        if ($key == 'php_dir') {
+        if ($key == 'php_dir' || $key == 'data_dir') {
             throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository');
         }
         if (!isset(self::$defaults[$key])) {
