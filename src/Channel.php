@@ -32,8 +32,8 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
         }
         $a = new PEAR2_Pyrus_XMLParser;
         try {
-            $a->parseString($this->_xml, PEAR2_Pyrus_Config::current()->data_dir .
-                '/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
+            $a->parseString($this->_xml, dirname(dirname(dirname(__FILE__))) .
+                '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
         } catch (Exception $e) {
             throw new PEAR2_Channel_Exception('Invalid channel.xml', $e);
         }
