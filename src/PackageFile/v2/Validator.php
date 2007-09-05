@@ -50,229 +50,155 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
      * @var int
      */
     var $_curState = 0;
+    private $_contents = array();
+    private $_exceptions = array();
+
     /**
      * @param PEAR2_Pyrus_PackageFile_v2
      * @param int
      */
-    function validate(&$pf, $state = PEAR2_Pyrus_Validate::NORMAL)
+    function validate(PEAR2_Pyrus_PackageFile_v2 $pf, $state = PEAR2_Pyrus_Validate::NORMAL)
     {
-        $this->_pf = &$pf;
+        $this->_pf = $pf;
         $this->_curState = $state;
         $this->_packageInfo = $this->_pf->getArray();
         $this->_isValid = $this->_pf->_isValid;
+        $this->_exceptions = array();
         $this->_filesValid = $this->_pf->_filesValid;
-        $this->_stack = &$pf->_stack;
-        $this->_stack->getErrors(true);
         if (($this->_isValid & $state) == $state) {
             return true;
         }
         if (!isset($this->_packageInfo) || !is_array($this->_packageInfo)) {
             return false;
         }
-        if (!isset($this->_packageInfo['attribs']['version']) ||
-              ($this->_packageInfo['attribs']['version'] != '2.0' &&
-               $this->_packageInfo['attribs']['version'] != '2.1')) {
-            $this->_noPackageVersion();
-        }
-        $structure =
-        array(
-            'name',
-            'channel|uri',
-            '*extends', // can't be multiple, but this works fine
-            'summary',
-            'description',
-            '+lead', // these all need content checks
-            '*developer',
-            '*contributor',
-            '*helper',
-            'date',
-            '*time',
-            'version',
-            'stability',
-            'license->?uri->?filesource',
-            'notes',
-            'contents', //special validation needed
-            '*compatible',
-            'dependencies', //special validation needed
-            '*usesrole',
-            '*usestask', // reserve these for 1.4.0a1 to implement
-                         // this will allow a package.xml to gracefully say it
-                         // needs a certain package installed in order to implement a role or task
-            '*providesextension',
-            '*srcpackage|*srcuri',
-            '+phprelease|+extsrcrelease|+extbinrelease|' .
-                '+zendextsrcrelease|+zendextbinrelease|bundle', //special validation needed
-            '*changelog',
-        );
         $test = $this->_packageInfo;
         if (isset($test['dependencies']) &&
               isset($test['dependencies']['required']) &&
               isset($test['dependencies']['required']['pearinstaller']) &&
               isset($test['dependencies']['required']['pearinstaller']['min']) &&
-              version_compare('1.5.0RC3',
+              version_compare('@PACKAGE_VERSION@',
                 $test['dependencies']['required']['pearinstaller']['min'], '<')) {
             $this->_pearVersionTooLow($test['dependencies']['required']['pearinstaller']['min']);
             return false;
         }
-        // ignore post-installation array fields
-        if (array_key_exists('filelist', $test)) {
-            unset($test['filelist']);
-        }
-        if (array_key_exists('_lastmodified', $test)) {
-            unset($test['_lastmodified']);
-        }
-        if (array_key_exists('#binarypackage', $test)) {
-            unset($test['#binarypackage']);
-        }
-        if (array_key_exists('old', $test)) {
-            unset($test['old']);
-        }
-        if (array_key_exists('_lastversion', $test)) {
-            unset($test['_lastversion']);
-        }
-        if (!$this->_stupidSchemaValidate($structure,
-                                          $test, '<package>')) {
-            return false;
-        }
-        if (empty($this->_packageInfo['name'])) {
-            $this->_tagCannotBeEmpty('name');
-        }
-        if (isset($this->_packageInfo['uri'])) {
-            $test = 'uri';
-        } else {
-            $test = 'channel';
-        }
-        if (empty($this->_packageInfo[$test])) {
-            $this->_tagCannotBeEmpty($test);
-        }
-        if (is_array($this->_packageInfo['license']) &&
-              (!isset($this->_packageInfo['license']['_content']) ||
-              empty($this->_packageInfo['license']['_content']))) {
-            $this->_tagCannotBeEmpty('license');
-        } elseif (empty($this->_packageInfo['license'])) {
-            $this->_tagCannotBeEmpty('license');
-        }
-        if (empty($this->_packageInfo['summary'])) {
-            $this->_tagCannotBeEmpty('summary');
-        }
-        if (empty($this->_packageInfo['description'])) {
-            $this->_tagCannotBeEmpty('description');
-        }
-        if (empty($this->_packageInfo['date'])) {
-            $this->_tagCannotBeEmpty('date');
-        }
-        if (empty($this->_packageInfo['notes'])) {
-            $this->_tagCannotBeEmpty('notes');
-        }
-        if (isset($this->_packageInfo['time']) && empty($this->_packageInfo['time'])) {
-            $this->_tagCannotBeEmpty('time');
-        }
-        if (isset($this->_packageInfo['dependencies'])) {
-            $this->_validateDependencies();
-        }
-        if (isset($this->_packageInfo['compatible'])) {
-            $this->_validateCompatible();
-        }
-        if (!isset($this->_packageInfo['bundle'])) {
-            if (empty($this->_packageInfo['contents'])) {
-                $this->_tagCannotBeEmpty('contents');
-            }
-            if (!isset($this->_packageInfo['contents']['dir'])) {
-                $this->_filelistMustContainDir('contents');
-                return false;
-            }
-            if (isset($this->_packageInfo['contents']['file'])) {
-                $this->_filelistCannotContainFile('contents');
-                return false;
-            }
-        }
-        $this->_validateMaintainers();
-        $this->_validateStabilityVersion();
         $fail = false;
-        if (array_key_exists('usesrole', $this->_packageInfo)) {
-            $roles = $this->_packageInfo['usesrole'];
-            if (!is_array($roles) || !isset($roles[0])) {
-                $roles = array($roles);
-            }
-            foreach ($roles as $role) {
-                if (!isset($role['role'])) {
-                    $this->_usesroletaskMustHaveRoleTask('usesrole', 'role');
-                    $fail = true;
-                } else {
-                    if (!isset($role['channel'])) {
-                        if (!isset($role['uri'])) {
-                            $this->_usesroletaskMustHaveChannelOrUri($role['role'], 'usesrole');
-                            $fail = true;
+        if (!count($this->_contents && isset($this->_packageInfo['contents'])) {
+            $contents = array();
+            foreach ($pf->contents as $file) {
+                // leverage the hidden iterators to do our validation
+                $name = $file->dir . $file->name;
+                if ($name[0] == '.' && $name[1] == '/') {
+                    // name is something like "./doc/whatever.txt"
+                    $this->_invalidFileName($name);
+                    continue;
+                }
+                if (!$this->_validateRole($file->role)) {
+                    if (isset($this->_packageInfo['usesrole'])) {
+                        $roles = $this->_packageInfo['usesrole'];
+                        if (!isset($roles[0])) {
+                            $roles = array($roles);
                         }
-                    } elseif (!isset($role['package'])) {
-                        $this->_usesroletaskMustHavePackage($role['role'], 'usesrole');
-                        $fail = true;
+                        foreach ($roles as $role) {
+                            if ($role['role'] = $file->role) {
+                                if (isset($role['uri'])) {
+                                    $package = $role['uri'];
+                                } else {
+                                    $package = $this->_pf->_registry->
+                                        parsedPackageNameToString(array('package' =>
+                                            $role['package'], 'channel' => $role['channel']),
+                                            true);
+                                }
+                                $msg = 'This package contains role "' . $file->role .
+                                    '" and requires package "' . $package
+                                     . '" to be used';
+                                // XXX TODO: use an exception here and store in the exception
+                                // array
+                                $this->_stack->push('_mustInstallRole', 'error', $params, $msg);
+                            }
+                        }
+                    }
+                    $this->_invalidFileRole($file->name,
+                        $file->dir, $file->role);
+                }
+                if (count($file->tasks) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
+                    foreach ($file->tasks as $task => $value) {
+                        if ($tagClass = $this->_pf->getTask($task)) {
+                            if (!is_array($value) || !isset($value[0])) {
+                                $value = array($value);
+                            }
+                            foreach ($value as $v) {
+                                $ret = $tagClass->validateXml($this->_pf, $v,
+                                    $this->_pf->_config, $save);
+                                if (is_array($ret)) {
+                                    $this->_invalidTask($task, $ret, isset($save['name']) ?
+                                        $save['name'] : '');
+                                }
+                            }
+                        } else {
+                            if (isset($this->_packageInfo['usestask'])) {
+                                $roles = $this->_packageInfo['usestask'];
+                                if (!isset($roles[0])) {
+                                    $roles = array($roles);
+                                }
+                                foreach ($roles as $role) {
+                                    if ($role['task'] = $task) {
+                                        if (isset($role['uri'])) {
+                                            $package = $role['uri'];
+                                        } else {
+                                            $package = $this->_pf->_registry->
+                                                parsedPackageNameToString(array('package' =>
+                                                    $role['package'], 'channel' => $role['channel']),
+                                                    true);
+                                        }
+                                        $msg = 'This package contains task "' . $task .
+                                            '" and requires package "' . $package
+                                             . '" to be used';
+                                        // XXX TODO: use an exception here and store in the exception
+                                        // array
+                                        $this->_stack->push('_mustInstallTask', 'error',
+                                            $params, $msg);
+                                    }
+                                }
+                            }
+                            $this->_unknownTask($task, $save['name']);
+                        }
                     }
                 }
+                $this->_contents[] = $file->dir . $file->name;
             }
-        }
-        if (array_key_exists('usestask', $this->_packageInfo)) {
-            $roles = $this->_packageInfo['usestask'];
-            if (!is_array($roles) || !isset($roles[0])) {
-                $roles = array($roles);
-            }
-            foreach ($roles as $role) {
-                if (!isset($role['task'])) {
-                    $this->_usesroletaskMustHaveRoleTask('usestask', 'task');
-                    $fail = true;
-                } else {
-                    if (!isset($role['channel'])) {
-                        if (!isset($role['uri'])) {
-                            $this->_usesroletaskMustHaveChannelOrUri($role['task'], 'usestask');
-                            $fail = true;
-                        }
-                    } elseif (!isset($role['package'])) {
-                        $this->_usesroletaskMustHavePackage($role['task'], 'usestask');
-                        $fail = true;
-                    }
-                }
-            }
-        }
-        if ($fail) {
-            return false;
-        }
-        $list = $this->_packageInfo['contents'];
-        if (isset($list['dir']) && is_array($list['dir']) && isset($list['dir'][0])) {
-            $this->_multipleToplevelDirNotAllowed();
-            return $this->_isValid = 0;
         }
         $this->_validateFilelist();
         $this->_validateRelease();
-        if (!$this->_stack->hasErrors()) {
-            try {
-                $validator = PEAR2_Pyrus_Config::current()
-                    ->registry->sqlite->channel[$this->_pf->getChannel()]
-                    ->getValidationObject($this->_pf->getPackage());
-                $validator->setPackageFile($this->_pf);
-                $validator->validate($state);
-                $failures = $validator->getFailures();
-                foreach ($failures['errors'] as $error) {
-                    $this->_stack->push(__FUNCTION__, 'error', $error,
-                        'Channel validator error: field "%field%" - %reason%');
-                }
-                foreach ($failures['warnings'] as $warning) {
-                    $this->_stack->push(__FUNCTION__, 'warning', $warning,
-                        'Channel validator warning: field "%field%" - %reason%');
-                }
-            } catch (Exception $e) {
-                $this->_unknownChannel($this->_pf->getChannel());
-                $this->_stack->push(__FUNCTION__, 'error',
-                    array_merge(
-                        array('channel' => $chan->getName(),
-                              'package' => $this->_pf->getPackage()),
-                          $valpack
-                        ),
-                    'package "%channel%/%package%" cannot be properly validated without ' .
-                    'validation package "%channel%/%name%-%version%"');
-                return $this->_isValid = 0;
-            }
+        if (count($this->_exceptions)) {
+            throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $this->_exceptions);
         }
-        $this->_pf->_isValid = $this->_isValid = !$this->_stack->hasErrors('error');
+        try {
+            $validator = PEAR2_Pyrus_Config::current()
+                ->registry->sqlite->channel[$this->_pf->getChannel()]
+                ->getValidationObject($this->_pf->getPackage());
+            $validator->setPackageFile($this->_pf);
+            $validator->validate($state);
+            $failures = $validator->getFailures();
+            foreach ($failures['errors'] as $error) {
+                $this->_stack->push(__FUNCTION__, 'error', $error,
+                    'Channel validator error: field "%field%" - %reason%');
+            }
+            foreach ($failures['warnings'] as $warning) {
+                $this->_stack->push(__FUNCTION__, 'warning', $warning,
+                    'Channel validator warning: field "%field%" - %reason%');
+            }
+        } catch (Exception $e) {
+            $this->_unknownChannel($this->_pf->getChannel());
+            $this->_stack->push(__FUNCTION__, 'error',
+                array_merge(
+                    array('channel' => $chan->getName(),
+                          'package' => $this->_pf->getPackage()),
+                      $valpack
+                    ),
+                'package "%channel%/%package%" cannot be properly validated without ' .
+                'validation package "%channel%/%name%-%version%"');
+            return $this->_isValid = 0;
+        }
         if ($this->_isValid && $state == PEAR2_Pyrus_Validate::PACKAGING && !$this->_filesValid) {
             if ($this->_pf->getPackageType() == 'bundle') {
                 if ($this->_analyzeBundledPackages()) {
@@ -294,665 +220,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         return $this->_pf->_isValid = $this->_isValid = 0;
     }
 
-    function _stupidSchemaValidate($structure, $xml, $root)
-    {
-        if (!is_array($xml)) {
-            $xml = array();
-        }
-        $keys = array_keys($xml);
-        reset($keys);
-        $key = current($keys);
-        while ($key == 'attribs' || $key == '_contents') {
-            $key = next($keys);
-        }
-        $unfoundtags = $optionaltags = array();
-        $ret = true;
-        $mismatch = false;
-        foreach ($structure as $struc) {
-            if ($key) {
-                $tag = $xml[$key];
-            }
-            $test = $this->_processStructure($struc);
-            if (isset($test['choices'])) {
-                $loose = true;
-                foreach ($test['choices'] as $choice) {
-                    if ($key == $choice['tag']) {
-                        $key = next($keys);
-                        while ($key == 'attribs' || $key == '_contents') {
-                            $key = next($keys);
-                        }
-                        $unfoundtags = $optionaltags = array();
-                        $mismatch = false;
-                        if ($key && $key != $choice['tag'] && isset($choice['multiple'])) {
-                            $unfoundtags[] = $choice['tag'];
-                            $optionaltags[] = $choice['tag'];
-                            if ($key) {
-                                $mismatch = true;
-                            }
-                        }
-                        $ret &= $this->_processAttribs($choice, $tag, $root);
-                        continue 2;
-                    } else {
-                        $unfoundtags[] = $choice['tag'];
-                        $mismatch = true;
-                    }
-                    if (!isset($choice['multiple']) || $choice['multiple'] != '*') {
-                        $loose = false;
-                    } else {
-                        $optionaltags[] = $choice['tag'];
-                    }
-                }
-                if (!$loose) {
-                    $this->_invalidTagOrder($unfoundtags, $key, $root);
-                    return false;
-                }
-            } else {
-                if ($key != $test['tag']) {
-                    if (isset($test['multiple']) && $test['multiple'] != '*') {
-                        $unfoundtags[] = $test['tag'];
-                        $this->_invalidTagOrder($unfoundtags, $key, $root);
-                        return false;
-                    } else {
-                        if ($key) {
-                            $mismatch = true;
-                        }
-                        $unfoundtags[] = $test['tag'];
-                        $optionaltags[] = $test['tag'];
-                    }
-                    if (!isset($test['multiple'])) {
-                        $this->_invalidTagOrder($unfoundtags, $key, $root);
-                        return false;
-                    }
-                    continue;
-                } else {
-                    $unfoundtags = $optionaltags = array();
-                    $mismatch = false;
-                }
-                $key = next($keys);
-                while ($key == 'attribs' || $key == '_contents') {
-                    $key = next($keys);
-                }
-                if ($key && $key != $test['tag'] && isset($test['multiple'])) {
-                    $unfoundtags[] = $test['tag'];
-                    $optionaltags[] = $test['tag'];
-                    $mismatch = true;
-                }
-                $ret &= $this->_processAttribs($test, $tag, $root);
-                continue;
-            }
-        }
-        if (!$mismatch && count($optionaltags)) {
-            // don't error out on any optional tags
-            $unfoundtags = array_diff($unfoundtags, $optionaltags);
-        }
-        if (count($unfoundtags)) {
-            $this->_invalidTagOrder($unfoundtags, $key, $root);
-        } elseif ($key) {
-            // unknown tags
-            $this->_invalidTagOrder('*no tags allowed here*', $key, $root);
-            while ($key = next($keys)) {
-                $this->_invalidTagOrder('*no tags allowed here*', $key, $root);
-            }
-        }
-        return $ret;
-    }
-
-    function _processAttribs($choice, $tag, $context)
-    {
-        if (isset($choice['attribs'])) {
-            if (!is_array($tag)) {
-                $tag = array($tag);
-            }
-            $tags = $tag;
-            if (!isset($tags[0])) {
-                $tags = array($tags);
-            }
-            $ret = true;
-            foreach ($tags as $i => $tag) {
-                if (!is_array($tag) || !isset($tag['attribs'])) {
-                    foreach ($choice['attribs'] as $attrib) {
-                        if ($attrib{0} != '?') {
-                            $ret &= $this->_tagHasNoAttribs($choice['tag'],
-                                $context);
-                            continue 2;
-                        }
-                    }
-                }
-                foreach ($choice['attribs'] as $attrib) {
-                    if ($attrib{0} != '?') {
-                        if (!isset($tag['attribs'][$attrib])) {
-                            $ret &= $this->_tagMissingAttribute($choice['tag'],
-                                $attrib, $context);
-                        }
-                    }
-                }
-            }
-            return $ret;
-        }
-        return true;
-    }
-
-    function _processStructure($key)
-    {
-        $ret = array();
-        if (count($pieces = explode('|', $key)) > 1) {
-            $ret['choices'] = array();
-            foreach ($pieces as $piece) {
-                $ret['choices'][] = $this->_processStructure($piece);
-            }
-            return $ret;
-        }
-        $multi = $key{0};
-        if ($multi == '+' || $multi == '*') {
-            $ret['multiple'] = $key{0};
-            $key = substr($key, 1);
-        }
-        if (count($attrs = explode('->', $key)) > 1) {
-            $ret['tag'] = array_shift($attrs);
-            $ret['attribs'] = $attrs;
-        } else {
-            $ret['tag'] = $key;
-        }
-        return $ret;
-    }
-
-    function _validateStabilityVersion()
-    {
-        $structure = array('release', 'api');
-        $a = $this->_stupidSchemaValidate($structure, $this->_packageInfo['version'], '<version>');
-        $a &= $this->_stupidSchemaValidate($structure, $this->_packageInfo['stability'], '<stability>');
-        if ($a) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $this->_packageInfo['version']['release'])) {
-                $this->_invalidVersion('release', $this->_packageInfo['version']['release']);
-            }
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $this->_packageInfo['version']['api'])) {
-                $this->_invalidVersion('api', $this->_packageInfo['version']['api']);
-            }
-            if (!in_array($this->_packageInfo['stability']['release'],
-                  array('snapshot', 'devel', 'alpha', 'beta', 'stable'))) {
-                $this->_invalidState('release', $this->_packageinfo['stability']['release']);
-            }
-            if (!in_array($this->_packageInfo['stability']['api'],
-                  array('devel', 'alpha', 'beta', 'stable'))) {
-                $this->_invalidState('api', $this->_packageinfo['stability']['api']);
-            }
-        }
-    }
-
-    function _validateMaintainers()
-    {
-        $structure =
-            array(
-                'name',
-                'user',
-                'email',
-                'active',
-            );
-        foreach (array('lead', 'developer', 'contributor', 'helper') as $type) {
-            if (!isset($this->_packageInfo[$type])) {
-                continue;
-            }
-            if (isset($this->_packageInfo[$type][0])) {
-                foreach ($this->_packageInfo[$type] as $lead) {
-                    $this->_stupidSchemaValidate($structure, $lead, '<' . $type . '>');
-                }
-            } else {
-                $this->_stupidSchemaValidate($structure, $this->_packageInfo[$type],
-                    '<' . $type . '>');
-            }
-        }
-    }
-
-    function _validatePhpDep($dep, $installcondition = false)
-    {
-        $structure = array(
-            'min',
-            '*max',
-            '*exclude',
-        );
-        $type = $installcondition ? '<installcondition><php>' : '<dependencies><required><php>';
-        $this->_stupidSchemaValidate($structure, $dep, $type);
-        if (isset($dep['min'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?(?:-[a-zA-Z0-9]+)?$/',
-                  $dep['min'])) {
-                $this->_invalidVersion($type . '<min>', $dep['min']);
-            }
-        }
-        if (isset($dep['max'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?(?:-[a-zA-Z0-9]+)?$/',
-                  $dep['max'])) {
-                $this->_invalidVersion($type . '<max>', $dep['max']);
-            }
-        }
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-            foreach ($dep['exclude'] as $exclude) {
-                if (!preg_match(
-                     '/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?(?:-[a-zA-Z0-9]+)?$/',
-                     $exclude)) {
-                    $this->_invalidVersion($type . '<exclude>', $exclude);
-                }
-            }
-        }
-    }
-
-    function _validatePearinstallerDep($dep)
-    {
-        $structure = array(
-            'min',
-            '*max',
-            '*recommended',
-            '*exclude',
-        );
-        $this->_stupidSchemaValidate($structure, $dep, '<dependencies><required><pearinstaller>');
-        if (isset($dep['min'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['min'])) {
-                $this->_invalidVersion('<dependencies><required><pearinstaller><min>',
-                    $dep['min']);
-            }
-        }
-        if (isset($dep['max'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['max'])) {
-                $this->_invalidVersion('<dependencies><required><pearinstaller><max>',
-                    $dep['max']);
-            }
-        }
-        if (isset($dep['recommended'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['recommended'])) {
-                $this->_invalidVersion('<dependencies><required><pearinstaller><recommended>',
-                    $dep['recommended']);
-            }
-        }
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-            foreach ($dep['exclude'] as $exclude) {
-                if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                      $exclude)) {
-                    $this->_invalidVersion('<dependencies><required><pearinstaller><exclude>',
-                        $exclude);
-                }
-            }
-        }
-    }
-
-    function _validatePackageDep($dep, $group, $type = '<package>')
-    {
-        if (isset($dep['uri'])) {
-            if (isset($dep['conflicts'])) {
-                $structure = array(
-                    'name',
-                    'uri',
-                    'conflicts',
-                    '*providesextension',
-                );
-            } else {
-                $structure = array(
-                    'name',
-                    'uri',
-                    '*providesextension',
-                );
-            }
-        } else {
-            if (isset($dep['conflicts'])) {
-                $structure = array(
-                    'name',
-                    'channel',
-                    '*min',
-                    '*max',
-                    '*exclude',
-                    'conflicts',
-                    '*providesextension',
-                );
-            } else {
-                $structure = array(
-                    'name',
-                    'channel',
-                    '*min',
-                    '*max',
-                    '*recommended',
-                    '*exclude',
-                    '*nodefault',
-                    '*providesextension',
-                );
-            }
-        }
-        if (isset($dep['name'])) {
-            $type .= '<name>' . $dep['name'] . '</name>';
-        }
-        $this->_stupidSchemaValidate($structure, $dep, '<dependencies>' . $group . $type);
-        if (isset($dep['uri']) && (isset($dep['min']) || isset($dep['max']) ||
-              isset($dep['recommended']) || isset($dep['exclude']))) {
-            $this->_uriDepsCannotHaveVersioning('<dependencies>' . $group . $type);
-        }
-        if (isset($dep['channel']) && strtolower($dep['channel']) == '__uri') {
-            $this->_DepchannelCannotBeUri('<dependencies>' . $group . $type);
-        }
-        if (isset($dep['min'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['min'])) {
-                $this->_invalidVersion('<dependencies>' . $group . $type . '<min>', $dep['min']);
-            }
-        }
-        if (isset($dep['max'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['max'])) {
-                $this->_invalidVersion('<dependencies>' . $group . $type . '<max>', $dep['max']);
-            }
-        }
-        if (isset($dep['recommended'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['recommended'])) {
-                $this->_invalidVersion('<dependencies>' . $group . $type . '<recommended>',
-                    $dep['recommended']);
-            }
-        }
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-            foreach ($dep['exclude'] as $exclude) {
-                if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                      $exclude)) {
-                    $this->_invalidVersion('<dependencies>' . $group . $type . '<exclude>',
-                        $exclude);
-                }
-            }
-        }
-    }
-
-    function _validateSubpackageDep($dep, $group)
-    {
-        $this->_validatePackageDep($dep, $group, '<subpackage>');
-        if (isset($dep['providesextension'])) {
-            $this->_subpackageCannotProvideExtension(isset($dep['name']) ? $dep['name'] : '');
-        }
-        if (isset($dep['conflicts'])) {
-            $this->_subpackagesCannotConflict(isset($dep['name']) ? $dep['name'] : '');
-        }
-    }
-
-    function _validateExtensionDep($dep, $group = false, $installcondition = false)
-    {
-        if (isset($dep['conflicts'])) {
-            $structure = array(
-                'name',
-                '*min',
-                '*max',
-                '*exclude',
-                'conflicts',
-            );
-        } else {
-            $structure = array(
-                'name',
-                '*min',
-                '*max',
-                '*recommended',
-                '*exclude',
-            );
-        }
-        if ($installcondition) {
-            $type = '<installcondition><extension>';
-        } else {
-            $type = '<dependencies>' . $group . '<extension>';
-        }
-        if (isset($dep['name'])) {
-            $type .= '<name>' . $dep['name'] . '</name>';
-        }
-        $this->_stupidSchemaValidate($structure, $dep, $type);
-        if (isset($dep['min'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['min'])) {
-                $this->_invalidVersion(substr($type, 1) . '<min', $dep['min']);
-            }
-        }
-        if (isset($dep['max'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['max'])) {
-                $this->_invalidVersion(substr($type, 1) . '<max', $dep['max']);
-            }
-        }
-        if (isset($dep['recommended'])) {
-            if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                  $dep['recommended'])) {
-                $this->_invalidVersion(substr($type, 1) . '<recommended', $dep['recommended']);
-            }
-        }
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-            foreach ($dep['exclude'] as $exclude) {
-                if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                      $exclude)) {
-                    $this->_invalidVersion(substr($type, 1) . '<exclude', $exclude);
-                }
-            }
-        }
-    }
-
-    function _validateOsDep($dep, $installcondition = false)
-    {
-        $structure = array(
-            'name',
-            '*conflicts',
-        );
-        $type = $installcondition ? '<installcondition><os>' : '<dependencies><required><os>';
-        if ($this->_stupidSchemaValidate($structure, $dep, $type)) {
-            if ($dep['name'] == '*') {
-                if (array_key_exists('conflicts', $dep)) {
-                    $this->_cannotConflictWithAllOs($type);
-                }
-            }
-        }
-    }
-
-    function _validateArchDep($dep, $installcondition = false)
-    {
-        $structure = array(
-            'pattern',
-            '*conflicts',
-        );
-        $type = $installcondition ? '<installcondition><arch>' : '<dependencies><required><arch>';
-        $this->_stupidSchemaValidate($structure, $dep, $type);
-    }
-
-    function _validateInstallConditions($cond, $release)
-    {
-        $structure = array(
-            '*php',
-            '*extension',
-            '*os',
-            '*arch',
-        );
-        if (!$this->_stupidSchemaValidate($structure,
-              $cond, $release)) {
-            return false;
-        }
-        foreach (array('php', 'extension', 'os', 'arch') as $type) {
-            if (isset($cond[$type])) {
-                $iter = $cond[$type];
-                if (!is_array($iter) || !isset($iter[0])) {
-                    $iter = array($iter);
-                }
-                foreach ($iter as $package) {
-                    if ($type == 'extension') {
-                        $this->{"_validate{$type}Dep"}($package, false, true);
-                    } else {
-                        $this->{"_validate{$type}Dep"}($package, true);
-                    }
-                }
-            }
-        }
-    }
-
-    function _validateDependencies()
-    {
-        $structure = array(
-            'required',
-            '*optional',
-            '*group->name->hint'
-        );
-        if (!$this->_stupidSchemaValidate($structure,
-              $this->_packageInfo['dependencies'], '<dependencies>')) {
-            return false;
-        }
-        foreach (array('required', 'optional') as $simpledep) {
-            if (isset($this->_packageInfo['dependencies'][$simpledep])) {
-                if ($simpledep == 'optional') {
-                    $structure = array(
-                        '*package',
-                        '*subpackage',
-                        '*extension',
-                    );
-                } else {
-                    $structure = array(
-                        'php',
-                        'pearinstaller',
-                        '*package',
-                        '*subpackage',
-                        '*extension',
-                        '*os',
-                        '*arch',
-                    );
-                }
-                if ($this->_stupidSchemaValidate($structure,
-                      $this->_packageInfo['dependencies'][$simpledep],
-                      "<dependencies><$simpledep>")) {
-                    foreach (array('package', 'subpackage', 'extension') as $type) {
-                        if (isset($this->_packageInfo['dependencies'][$simpledep][$type])) {
-                            $iter = $this->_packageInfo['dependencies'][$simpledep][$type];
-                            if (!isset($iter[0])) {
-                                $iter = array($iter);
-                            }
-                            foreach ($iter as $package) {
-                                if ($type != 'extension') {
-                                    if (isset($package['uri'])) {
-                                        if (isset($package['channel'])) {
-                                            $this->_UrlOrChannel($type,
-                                                $package['name']);
-                                        }
-                                    } else {
-                                        if (!isset($package['channel'])) {
-                                            $this->_NoChannel($type, $package['name']);
-                                        }
-                                    }
-                                }
-                                $this->{"_validate{$type}Dep"}($package, "<$simpledep>");
-                            }
-                        }
-                    }
-                    if ($simpledep == 'optional') {
-                        continue;
-                    }
-                    foreach (array('php', 'pearinstaller', 'os', 'arch') as $type) {
-                        if (isset($this->_packageInfo['dependencies'][$simpledep][$type])) {
-                            $iter = $this->_packageInfo['dependencies'][$simpledep][$type];
-                            if (!isset($iter[0])) {
-                                $iter = array($iter);
-                            }
-                            foreach ($iter as $package) {
-                                $this->{"_validate{$type}Dep"}($package);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (isset($this->_packageInfo['dependencies']['group'])) {
-            $groups = $this->_packageInfo['dependencies']['group'];
-            if (!isset($groups[0])) {
-                $groups = array($groups);
-            }
-            $structure = array(
-                '*package',
-                '*subpackage',
-                '*extension',
-            );
-            foreach ($groups as $group) {
-                if ($this->_stupidSchemaValidate($structure, $group, '<group>')) {
-                    if (!PEAR2_Pyrus_Validate::validGroupName($group['attribs']['name'])) {
-                        $this->_invalidDepGroupName($group['attribs']['name']);
-                    }
-                    foreach (array('package', 'subpackage', 'extension') as $type) {
-                        if (isset($group[$type])) {
-                            $iter = $group[$type];
-                            if (!isset($iter[0])) {
-                                $iter = array($iter);
-                            }
-                            foreach ($iter as $package) {
-                                if ($type != 'extension') {
-                                    if (isset($package['uri'])) {
-                                        if (isset($package['channel'])) {
-                                            $this->_UrlOrChannelGroup($type,
-                                                $package['name'],
-                                                $group['name']);
-                                        }
-                                    } else {
-                                        if (!isset($package['channel'])) {
-                                            $this->_NoChannelGroup($type,
-                                                $package['name'],
-                                                $group['name']);
-                                        }
-                                    }
-                                }
-                                $this->{"_validate{$type}Dep"}($package, '<group name="' .
-                                    $group['attribs']['name'] . '">');
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    function _validateCompatible()
-    {
-        $compat = $this->_packageInfo['compatible'];
-        if (!isset($compat[0])) {
-            $compat = array($compat);
-        }
-        $required = array('name', 'channel', 'min', 'max', '*exclude');
-        foreach ($compat as $package) {
-            $type = '<compatible>';
-            if (is_array($package) && array_key_exists('name', $package)) {
-                $type .= '<name>' . $package['name'] . '</name>';
-            }
-            $this->_stupidSchemaValidate($required, $package, $type);
-            if (is_array($package) && array_key_exists('min', $package)) {
-                if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                      $package['min'])) {
-                    $this->_invalidVersion(substr($type, 1) . '<min', $package['min']);
-                }
-            }
-            if (is_array($package) && array_key_exists('max', $package)) {
-                if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                      $package['max'])) {
-                    $this->_invalidVersion(substr($type, 1) . '<max', $package['max']);
-                }
-            }
-            if (is_array($package) && array_key_exists('exclude', $package)) {
-                if (!is_array($package['exclude'])) {
-                    $package['exclude'] = array($package['exclude']);
-                }
-                foreach ($package['exclude'] as $exclude) {
-                    if (!preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/',
-                          $exclude)) {
-                        $this->_invalidVersion(substr($type, 1) . '<exclude', $exclude);
-                    }
-                }
-            }
-        }
-    }
-
     function _validateBundle($list)
     {
         if (!is_array($list) || !isset($list['bundledpackage'])) {
@@ -968,220 +235,39 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         }
     }
 
-    function _validateFilelist($list = false, $allowignore = false, $dirs = '')
+    function _validateFilelist($list)
     {
-        $iscontents = false;
-        if (!$list) {
-            $iscontents = true;
-            $list = $this->_packageInfo['contents'];
-            if (isset($this->_packageInfo['bundle'])) {
-                return $this->_validateBundle($list);
+        $ignored_or_installed = array();
+        $filelist = $this->_contents;
+        if (isset($list['install'])) {
+            if (!isset($list['install'][0])) {
+                $list['install'] = array($list['install']);
             }
-        }
-        if ($allowignore) {
-            $struc = array(
-                '*install->name->as',
-                '*ignore->name'
-            );
-        } else {
-            $struc = array(
-                '*dir->name->?baseinstalldir',
-                '*file->name->role->?baseinstalldir->?md5sum'
-            );
-            if (isset($list['dir']) && isset($list['file'])) {
-                // stave off validation errors without requiring a set order.
-                $_old = $list;
-                if (isset($list['attribs'])) {
-                    $list = array('attribs' => $_old['attribs']);
-                }
-                $list['dir'] = $_old['dir'];
-                $list['file'] = $_old['file'];
-            }
-        }
-        if (!isset($list['attribs']) || !isset($list['attribs']['name'])) {
-            $unknown = $allowignore ? '<filelist>' : '<dir name="*unknown*">';
-            $dirname = $iscontents ? '<contents>' : $unknown;
-        } else {
-            $dirname = '<dir name="' . $list['attribs']['name'] . '">';
-        }
-        $res = $this->_stupidSchemaValidate($struc, $list, $dirname);
-        if ($allowignore && $res) {
-            $ignored_or_installed = array();
-            static $filelists = array();
-            if (!isset($filelists[$this->_pf->getChannel() . '/' .
-                                  $this->_pf->getPackage()])) {
-                foreach ($this->_pf->contents as $file) {
-                    $filelists[$this->_pf->getChannel() . '/' .
-                               $this->_pf->getPackage()][$file->name] = true;
-                }
-            }
-            $filelist = $filelists[$this->_pf->getChannel() . '/' .
-                                   $this->_pf->getPackage()];
-            if (isset($list['install'])) {
-                if (!isset($list['install'][0])) {
-                    $list['install'] = array($list['install']);
-                }
-                foreach ($list['install'] as $file) {
-                    if (!isset($filelist[$file['attribs']['name']])) {
-                        $this->_notInContents($file['attribs']['name'], 'install');
-                        continue;
-                    }
-                    if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
-                        $this->_multipleInstallAs($file['attribs']['name']);
-                    }
-                    if (!isset($ignored_or_installed[$file['attribs']['name']])) {
-                        $ignored_or_installed[$file['attribs']['name']] = array();
-                    }
-                    $ignored_or_installed[$file['attribs']['name']][] = 1;
-                }
-            }
-            if (isset($list['ignore'])) {
-                if (!isset($list['ignore'][0])) {
-                    $list['ignore'] = array($list['ignore']);
-                }
-                foreach ($list['ignore'] as $file) {
-                    if (!isset($filelist[$file['attribs']['name']])) {
-                        $this->_notInContents($file['attribs']['name'], 'ignore');
-                        continue;
-                    }
-                    if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
-                        $this->_ignoreAndInstallAs($file['attribs']['name']);
-                    }
-                }
-            }
-        }
-        if (!$allowignore && isset($list['file'])) {
-            if (!isset($list['file'][0])) {
-                // single file
-                $list['file'] = array($list['file']);
-            }
-            foreach ($list['file'] as $i => $file)
-            {
-                if (isset($file['attribs']) && isset($file['attribs']['name']) &&
-                      $file['attribs']['name']{0} == '.' &&
-                        $file['attribs']['name']{1} == '/') {
-                    // name is something like "./doc/whatever.txt"
-                    $this->_invalidFileName($file['attribs']['name']);
-                }
-                if (isset($file['attribs']) && isset($file['attribs']['role'])) {
-                    if (!$this->_validateRole($file['attribs']['role'])) {
-                        if (isset($this->_packageInfo['usesrole'])) {
-                            $roles = $this->_packageInfo['usesrole'];
-                            if (!isset($roles[0])) {
-                                $roles = array($roles);
-                            }
-                            foreach ($roles as $role) {
-                                if ($role['role'] = $file['attribs']['role']) {
-                                    $msg = 'This package contains role "%role%" and requires ' .
-                                        'package "%package%" to be used';
-                                    if (isset($role['uri'])) {
-                                        $params = array('role' => $role['role'],
-                                            'package' => $role['uri']);
-                                    } else {
-                                        $params = array('role' => $role['role'],
-                                            'package' => $this->_pf->_registry->
-                                            parsedPackageNameToString(array('package' =>
-                                                $role['package'], 'channel' => $role['channel']),
-                                                true));
-                                    }
-                                    $this->_stack->push('_mustInstallRole', 'error', $params, $msg);
-                                }
-                            }
-                        }
-                        $this->_invalidFileRole($file['attribs']['name'],
-                            $dirname, $file['attribs']['role']);
-                    }
-                }
-                if (!isset($file['attribs'])) {
+            foreach ($list['install'] as $file) {
+                if (!isset($filelist[$file['attribs']['name']])) {
+                    $this->_notInContents($file['attribs']['name'], 'install');
                     continue;
                 }
-                $save = $file['attribs'];
-                if ($dirs) {
-                    $save['name'] = $dirs . '/' . $save['name'];
+                if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
+                    $this->_multipleInstallAs($file['attribs']['name']);
                 }
-                unset($file['attribs']);
-                if (count($file) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
-                    foreach ($file as $task => $value) {
-                        if ($tagClass = $this->_pf->getTask($task)) {
-                            if (!is_array($value) || !isset($value[0])) {
-                                $value = array($value);
-                            }
-                            foreach ($value as $v) {
-                                $ret = call_user_func(array($tagClass, 'validateXml'),
-                                    $this->_pf, $v, $this->_pf->_config, $save);
-                                if (is_array($ret)) {
-                                    $this->_invalidTask($task, $ret, isset($save['name']) ?
-                                        $save['name'] : '');
-                                }
-                            }
-                        } else {
-                            if (isset($this->_packageInfo['usestask'])) {
-                                $roles = $this->_packageInfo['usestask'];
-                                if (!isset($roles[0])) {
-                                    $roles = array($roles);
-                                }
-                                foreach ($roles as $role) {
-                                    if ($role['task'] = $task) {
-                                        $msg = 'This package contains task "%task%" and requires ' .
-                                            'package "%package%" to be used';
-                                        if (isset($role['uri'])) {
-                                            $params = array('task' => $role['task'],
-                                                'package' => $role['uri']);
-                                        } else {
-                                            $params = array('task' => $role['task'],
-                                                'package' => $this->_pf->_registry->
-                                                parsedPackageNameToString(array('package' =>
-                                                    $role['package'], 'channel' => $role['channel']),
-                                                    true));
-                                        }
-                                        $this->_stack->push('_mustInstallTask', 'error',
-                                            $params, $msg);
-                                    }
-                                }
-                            }
-                            $this->_unknownTask($task, $save['name']);
-                        }
-                    }
+                if (!isset($ignored_or_installed[$file['attribs']['name']])) {
+                    $ignored_or_installed[$file['attribs']['name']] = array();
                 }
+                $ignored_or_installed[$file['attribs']['name']][] = 1;
             }
         }
         if (isset($list['ignore'])) {
-            if (!$allowignore) {
-                $this->_ignoreNotAllowed('ignore');
+            if (!isset($list['ignore'][0])) {
+                $list['ignore'] = array($list['ignore']);
             }
-        }
-        if (isset($list['install'])) {
-            if (!$allowignore) {
-                $this->_ignoreNotAllowed('install');
-            }
-        }
-        if (isset($list['file'])) {
-            if ($allowignore) {
-                $this->_fileNotAllowed('file');
-            }
-        }
-        if (isset($list['dir'])) {
-            if ($allowignore) {
-                $this->_fileNotAllowed('dir');
-            } else {
-                if (!isset($list['dir'][0])) {
-                    $list['dir'] = array($list['dir']);
+            foreach ($list['ignore'] as $file) {
+                if (!isset($filelist[$file['attribs']['name']])) {
+                    $this->_notInContents($file['attribs']['name'], 'ignore');
+                    continue;
                 }
-                foreach ($list['dir'] as $dir) {
-                    if (isset($dir['attribs']) && isset($dir['attribs']['name'])) {
-                        if ($dir['attribs']['name'] == '/' ||
-                              !isset($this->_packageInfo['contents']['dir']['dir'])) {
-                            // always use nothing if the filelist has already been flattened
-                            $newdirs = '';
-                        } elseif ($dirs == '') {
-                            $newdirs = $dir['attribs']['name'];
-                        } else {
-                            $newdirs = $dirs . '/' . $dir['attribs']['name'];
-                        }
-                    } else {
-                        $newdirs = $dirs;
-                    }
-                    $this->_validateFilelist($dir, $allowignore, $newdirs);
+                if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
+                    $this->_ignoreAndInstallAs($file['attribs']['name']);
                 }
             }
         }
@@ -1191,12 +277,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
     {
         if (isset($this->_packageInfo['phprelease'])) {
             $release = 'phprelease';
-            if (isset($this->_packageInfo['providesextension'])) {
-                $this->_cannotProvideExtension($release);
-            }
-            if (isset($this->_packageInfo['srcpackage']) || isset($this->_packageInfo['srcuri'])) {
-                $this->_cannotHaveSrcpackage($release);
-            }
             $releases = $this->_packageInfo['phprelease'];
             if (!is_array($releases)) {
                 return true;
@@ -1204,74 +284,28 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             if (!isset($releases[0])) {
                 $releases = array($releases);
             }
-            foreach ($releases as $rel) {
-                $this->_stupidSchemaValidate(array(
-                    '*installconditions',
-                    '*filelist',
-                ), $rel, '<phprelease>');
-            }
         }
         foreach (array('', 'zend') as $prefix) {
             $releasetype = $prefix . 'extsrcrelease';
             if (isset($this->_packageInfo[$releasetype])) {
                 $release = $releasetype;
-                if (!isset($this->_packageInfo['providesextension'])) {
-                    $this->_mustProvideExtension($release);
-                }
-                if (isset($this->_packageInfo['srcpackage']) || isset($this->_packageInfo['srcuri'])) {
-                    $this->_cannotHaveSrcpackage($release);
-                }
                 $releases = $this->_packageInfo[$releasetype];
                 if (!is_array($releases)) {
                     return true;
                 }
                 if (!isset($releases[0])) {
                     $releases = array($releases);
-                }
-                foreach ($releases as $rel) {
-                    $this->_stupidSchemaValidate(array(
-                        '*installconditions',
-                        '*configureoption->name->prompt->?default',
-                        '*binarypackage',
-                        '*filelist',
-                    ), $rel, '<' . $releasetype . '>');
-                    if (isset($rel['binarypackage'])) {
-                        if (!is_array($rel['binarypackage']) || !isset($rel['binarypackage'][0])) {
-                            $rel['binarypackage'] = array($rel['binarypackage']);
-                        }
-                        foreach ($rel['binarypackage'] as $bin) {
-                            if (!is_string($bin)) {
-                                $this->_binaryPackageMustBePackagename();
-                            }
-                        }
-                    }
                 }
             }
             $releasetype = 'extbinrelease';
             if (isset($this->_packageInfo[$releasetype])) {
                 $release = $releasetype;
-                if (!isset($this->_packageInfo['providesextension'])) {
-                    $this->_mustProvideExtension($release);
-                }
-                if (isset($this->_packageInfo['channel']) &&
-                      !isset($this->_packageInfo['srcpackage'])) {
-                    $this->_mustSrcPackage($release);
-                }
-                if (isset($this->_packageInfo['uri']) && !isset($this->_packageInfo['srcuri'])) {
-                    $this->_mustSrcuri($release);
-                }
                 $releases = $this->_packageInfo[$releasetype];
                 if (!is_array($releases)) {
                     return true;
                 }
                 if (!isset($releases[0])) {
                     $releases = array($releases);
-                }
-                foreach ($releases as $rel) {
-                    $this->_stupidSchemaValidate(array(
-                        '*installconditions',
-                        '*filelist',
-                    ), $rel, '<' . $releasetype . '>');
                 }
             }
         }
@@ -1287,18 +321,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             if (!is_array($releases) || !isset($releases[0])) {
                 $releases = array($releases);
             }
-            foreach ($releases as $rel) {
-                $this->_stupidSchemaValidate(array(
-                    '*installconditions',
-                    '*filelist',
-                ), $rel, '<bundle>');
-            }
         }
         foreach ($releases as $rel) {
-            if (is_array($rel) && array_key_exists('installconditions', $rel)) {
-                $this->_validateInstallConditions($rel['installconditions'],
-                    "<$release><installconditions>");
-            }
             if (is_array($rel) && array_key_exists('filelist', $rel)) {
                 if ($rel['filelist']) {
                     

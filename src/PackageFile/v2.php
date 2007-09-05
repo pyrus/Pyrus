@@ -1934,16 +1934,7 @@ class PEAR2_Pyrus_PackageFile_v2
         $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), $task);
         $task = str_replace(' ', '/', ucwords($task));
         $test = str_replace('/', '_', $task);
-        if (class_exists("PEAR2_Pyrus_Task_$test")) {
-            return "PEAR2_Pyrus_Task_$test";
-        }
-        $ps = (strtolower(substr(PHP_OS, 0, 3)) == 'win') ? ';' : ':';
-        $fp = @fopen("PEAR2/Task/$task.php", 'r', true);
-        if (!$fp) {
-            return false;
-        }
-        fclose($fp);
-        if (class_exists("PEAR2_Pyrus_Task_$test")) {
+        if (class_exists("PEAR2_Pyrus_Task_$test", true)) {
             return "PEAR2_Pyrus_Task_$test";
         }
         return false;
@@ -2039,8 +2030,6 @@ class PEAR2_Pyrus_PackageFile_v2
                             $this->_packageInfo['contents'], 'contents', $this)),
                             RecursiveIteratorIterator::LEAVES_ONLY);
             case 'installcontents' :
-                // force autoload if not existing
-                class_exists('PEAR2_Pyrus_PackageFile_v2Iterator_File', true);
                 PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
                 return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
                         new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
