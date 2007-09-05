@@ -82,7 +82,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             return false;
         }
         $fail = false;
-        if (!count($this->_contents && isset($this->_packageInfo['contents'])) {
+        if (!count($this->_contents) && isset($this->_packageInfo['contents'])) {
             $contents = array();
             foreach ($pf->contents as $file) {
                 // leverage the hidden iterators to do our validation
@@ -111,9 +111,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 $msg = 'This package contains role "' . $file->role .
                                     '" and requires package "' . $package
                                      . '" to be used';
-                                // XXX TODO: use an exception here and store in the exception
-                                // array
-                                $this->_stack->push('_mustInstallRole', 'error', $params, $msg);
+                                $this->_exceptions[] = new PEAR2_Pyrus_PackageFile_Exception($msg);
                             }
                         }
                     }
