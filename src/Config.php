@@ -241,6 +241,14 @@ class PEAR2_Pyrus_Config
         self::$configs[$pearDirectory] = $x;
     }
 
+    /**
+     * Save both the user configuration file and the system file
+     *
+     * If the userfile is not passed in, it is saved in the default
+     * location which is either in ~/.pear/pearconfig.xml or on Windows
+     * in the Documents and Settings directory
+     * @param string $userfile path to alternate user configuration file
+     */
     function saveConfig($userfile = false)
     {
         if (!$userfile) {
