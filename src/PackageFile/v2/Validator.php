@@ -78,7 +78,10 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
               isset($test['dependencies']['required']['pearinstaller']['min']) &&
               version_compare('@PACKAGE_VERSION@',
                 $test['dependencies']['required']['pearinstaller']['min'], '<')) {
-            $this->_pearVersionTooLow($test['dependencies']['required']['pearinstaller']['min']);
+            $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                'This package.xml requires PEAR version ' .
+                $test['dependencies']['required']['pearinstaller']['min'] .
+                ' to parse properly, we are version @PACKAGE_VERSION@');
             return false;
         }
         $fail = false;
@@ -89,7 +92,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 $name = $file->dir . $file->name;
                 if ($name[0] == '.' && $name[1] == '/') {
                     // name is something like "./doc/whatever.txt"
-                    $this->_invalidFileName($name);
+                    $this->_errors[E_ERROR] = new PEAR2_Pyrus_Package_Exception(
+                        'File "' . $name . '" cannot begin with "."');
                     continue;
                 }
                 if (!$this->_validateRole($file->role)) {
@@ -201,7 +205,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         } catch (Exception $e) {
             $valpack = PEAR2_Pyrus_Config::current()
                 ->registry->channel[$this->_pf->getChannel()]->getValidationPackage();
-            $this->_unknownChannel($this->_pf->getChannel());
+            $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                'Unknown channel ' . $this->_pf->getChannel());
             $this->_stack->push(__FUNCTION__, 'error',
                 array_merge(
                     array('channel' => $chan->getName(),
@@ -233,21 +238,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         return $this->_pf->_isValid = $this->_isValid = 0;
     }
 
-    function _validateBundle($list)
-    {
-        if (!is_array($list) || !isset($list['bundledpackage'])) {
-            return $this->_NoBundledPackages();
-        }
-        if (!is_array($list['bundledpackage']) || !isset($list['bundledpackage'][0])) {
-            return $this->_AtLeast2BundledPackages();
-        }
-        foreach ($list['bundledpackage'] as $package) {
-            if (!is_string($package)) {
-                $this->_bundledPackagesMustBeFilename();
-            }
-        }
-    }
-
     function _validateFilelist($list)
     {
         $ignored_or_installed = array();
@@ -257,12 +247,10 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 $list['install'] = array($list['install']);
             }
             foreach ($list['install'] as $file) {
-                if (!isset($filelist[$file['attribs']['name']])) {
-                    $this->_notInContents($file['attribs']['name'], 'install');
-                    continue;
-                }
                 if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
-                    $this->_multipleInstallAs($file['attribs']['name']);
+                    $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                        'Only one <install> tag is allowed for file "' .
+                        $file['attribs']['name'] . '"');
                 }
                 if (!isset($ignored_or_installed[$file['attribs']['name']])) {
                     $ignored_or_installed[$file['attribs']['name']] = array();
@@ -275,12 +263,10 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 $list['ignore'] = array($list['ignore']);
             }
             foreach ($list['ignore'] as $file) {
-                if (!isset($filelist[$file['attribs']['name']])) {
-                    $this->_notInContents($file['attribs']['name'], 'ignore');
-                    continue;
-                }
                 if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
-                    $this->_ignoreAndInstallAs($file['attribs']['name']);
+                    $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                        'Cannot have both <ignore> and <install> tags for file "' . 
+                        $file['attribs']['name'] . '"');
                 }
             }
         }
@@ -324,12 +310,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         }
         if (isset($this->_packageInfo['bundle'])) {
             $release = 'bundle';
-            if (isset($this->_packageInfo['providesextension'])) {
-                $this->_cannotProvideExtension($release);
-            }
-            if (isset($this->_packageInfo['srcpackage']) || isset($this->_packageInfo['srcuri'])) {
-                $this->_cannotHaveSrcpackage($release);
-            }
             $releases = $this->_packageInfo['bundle'];
             if (!is_array($releases) || !isset($releases[0])) {
                 $releases = array($releases);
@@ -354,173 +334,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         return in_array($role, PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType()));
     }
 
-    function _pearVersionTooLow($version)
-    {
-        $this->_stack->push(__FUNCTION__, 'error',
-            array('version' => $version),
-            'This package.xml requires PEAR version %version% to parse properly, we are ' .
-            'version 1.5.0RC3');
-    }
-
-    function _invalidTagOrder($oktags, $actual, $root)
-    {
-        $this->_stack->push(__FUNCTION__, 'error',
-            array('oktags' => $oktags, 'actual' => $actual, 'root' => $root),
-            'Invalid tag order in %root%, found <%actual%> expected one of "%oktags%"');
-    }
-
-    function _ignoreNotAllowed($type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type),
-            '<%type%> is not allowed inside global <contents>, only inside ' .
-            '<phprelease>/<extbinrelease>/<zendextbinrelease>, use <dir> and <file> only');
-    }
-
-    function _fileNotAllowed($type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type),
-            '<%type%> is not allowed inside release <filelist>, only inside ' .
-            '<contents>, use <ignore> and <install> only');
-    }
-
-    function _tagMissingAttribute($tag, $attr, $context)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $tag,
-            'attribute' => $attr, 'context' => $context),
-            'tag <%tag%> in context "%context%" has no attribute "%attribute%"');
-    }
-
-    function _tagHasNoAttribs($tag, $context)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $tag,
-            'context' => $context),
-            'tag <%tag%> has no attributes in context "%context%"');
-    }
-
-    function _invalidInternalStructure()
-    {
-        $this->_stack->push(__FUNCTION__, 'exception', array(),
-            'internal array was not generated by compatible parser, or extreme parser error, cannot continue');
-    }
-
-    function _invalidFileName($file, $dir)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(
-            'file' => $file),
-            'File "%file%" cannot begin with "."');
-    }
-
-    function _filelistCannotContainFile($filelist)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $filelist),
-            '<%tag%> can only contain <dir>, contains <file>.  Use ' .
-            '<dir name="/"> as the first dir element');
-    }
-
-    function _filelistMustContainDir($filelist)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $filelist),
-            '<%tag%> must contain <dir>.  Use <dir name="/"> as the ' .
-            'first dir element');
-    }
-
-    function _tagCannotBeEmpty($tag)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $tag),
-            '<%tag%> cannot be empty (<%tag%/>)');
-    }
-
-    function _UrlOrChannel($type, $name)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type,
-            'name' => $name),
-            'Required dependency <%type%> "%name%" can have either url OR ' .
-            'channel attributes, and not both');
-    }
-
-    function _NoChannel($type, $name)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type,
-            'name' => $name),
-            'Required dependency <%type%> "%name%" must have either url OR ' .
-            'channel attributes');
-    }
-
-    function _UrlOrChannelGroup($type, $name, $group)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type,
-            'name' => $name, 'group' => $group),
-            'Group "%group%" dependency <%type%> "%name%" can have either url OR ' .
-            'channel attributes, and not both');
-    }
-
-    function _NoChannelGroup($type, $name, $group)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type,
-            'name' => $name, 'group' => $group),
-            'Group "%group%" dependency <%type%> "%name%" must have either url OR ' .
-            'channel attributes');
-    }
-
-    function _unknownChannel($channel)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('channel' => $channel),
-            'Unknown channel "%channel%"');
-    }
-
-    function _noPackageVersion()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            'package.xml <package> tag has no version attribute, or version is not 2.0');
-    }
-
-    function _NoBundledPackages()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            'No <bundledpackage> tag was found in <contents>, required for bundle packages');
-    }
-
-    function _AtLeast2BundledPackages()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            'At least 2 packages must be bundled in a bundle package');
-    }
-
-    function _ChannelOrUri($name)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('name' => $name),
-            'Bundled package "%name%" can have either a uri or a channel, not both');
-    }
-
-    function _noChildTag($child, $tag)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('child' => $child, 'tag' => $tag),
-            'Tag <%tag%> is missing child tag <%child%>');
-    }
-
-    function _invalidVersion($type, $value)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type, 'value' => $value),
-            'Version type <%type%> is not a valid version (%value%)');
-    }
-
-    function _invalidState($type, $value)
-    {
-        $states = array('stable', 'beta', 'alpha', 'devel');
-        if ($type != 'api') {
-            $states[] = 'snapshot';
-        }
-        if (strtolower($value) == 'rc') {
-            $this->_stack->push(__FUNCTION__, 'error',
-                array('version' => $this->_packageInfo['version']['release']),
-                'RC is not a state, it is a version postfix, try %version%RC1, stability beta');
-        }
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type, 'value' => $value,
-            'types' => $states),
-            'Stability type <%type%> is not a valid stability (%value%), must be one of ' .
-            '%types%');
-    }
-
     function _invalidTask($task, $ret, $file)
     {
         switch ($ret[0]) {
@@ -537,151 +350,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 return 'task <' . $task . '> in file ' . $file .
                     ' is invalid because of "' . $ret[1] . '"';
         }
-    }
-
-    function _subpackageCannotProvideExtension($name)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('name' => $name),
-            'Subpackage dependency "%name%" cannot use <providesextension>, ' .
-            'only package dependencies can use this tag');
-    }
-
-    function _subpackagesCannotConflict($name)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('name' => $name),
-            'Subpackage dependency "%name%" cannot use <conflicts/>, ' .
-            'only package dependencies can use this tag');
-    }
-
-    function _cannotProvideExtension($release)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('release' => $release),
-            '<%release%> packages cannot use <providesextension>, only extbinrelease, extsrcrelease, zendextsrcrelease, and zendextbinrelease can provide a PHP extension');
-    }
-
-    function _mustProvideExtension($release)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('release' => $release),
-            '<%release%> packages must use <providesextension> to indicate which PHP extension is provided');
-    }
-
-    function _cannotHaveSrcpackage($release)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('release' => $release),
-            '<%release%> packages cannot specify a source code package, only extension binaries may use the <srcpackage> tag');
-    }
-
-    function _mustSrcPackage($release)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('release' => $release),
-            '<extbinrelease>/<zendextbinrelease> packages must specify a source code package with <srcpackage>');
-    }
-
-    function _mustSrcuri($release)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('release' => $release),
-            '<extbinrelease>/<zendextbinrelease> packages must specify a source code package with <srcuri>');
-    }
-
-    function _uriDepsCannotHaveVersioning($type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type),
-            '%type%: dependencies with a <uri> tag cannot have any versioning information');
-    }
-
-    function _conflictingDepsCannotHaveVersioning($type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type),
-            '%type%: conflicting dependencies cannot have versioning info, use <exclude> to ' .
-            'exclude specific versions of a dependency');
-    }
-
-    function _DepchannelCannotBeUri($type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('type' => $type),
-            '%type%: channel cannot be __uri, this is a pseudo-channel reserved for uri ' .
-            'dependencies only');
-    }
-
-    function _bundledPackagesMustBeFilename()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            '<bundledpackage> tags must contain only the filename of a package release ' .
-            'in the bundle');
-    }
-
-    function _binaryPackageMustBePackagename()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            '<binarypackage> tags must contain the name of a package that is ' .
-            'a compiled version of this extsrc/zendextsrc package');
-    }
-
-    function _fileNotFound($file)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('file' => $file),
-            'File "%file%" in package.xml does not exist');
-    }
-
-    function _notInContents($file, $tag)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('file' => $file, 'tag' => $tag),
-            '<%tag% name="%file%"> is invalid, file is not in <contents>');
-    }
-
-    function _cannotValidateNoPathSet()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            'Cannot validate files, no path to package file is set (use setPackageFile())');
-    }
-
-    function _usesroletaskMustHaveChannelOrUri($role, $tag)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('role' => $role, 'tag' => $tag),
-            '<%tag%> must contain either <uri>, or <channel> and <package>');
-    }
-
-    function _usesroletaskMustHavePackage($role, $tag)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('role' => $role, 'tag' => $tag),
-            '<%tag%> must contain <package>');
-    }
-
-    function _usesroletaskMustHaveRoleTask($tag, $type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $tag, 'type' => $type),
-            '<%tag%> must contain <%type%> defining the %type% to be used');
-    }
-
-    function _cannotConflictWithAllOs($type)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('tag' => $tag),
-            '%tag% cannot conflict with all OSes');
-    }
-
-    function _invalidDepGroupName($name)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('group' => $name),
-            'Invalid dependency group name "%name%"');
-    }
-
-    function _multipleToplevelDirNotAllowed()
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array(),
-            'Multiple top-level <dir> tags are not allowed.  Enclose them ' .
-                'in a <dir name="/">');
-    }
-
-    function _multipleInstallAs($file)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('file' => $file),
-            'Only one <install> tag is allowed for file "%file%"');
-    }
-
-    function _ignoreAndInstallAs($file)
-    {
-        $this->_stack->push(__FUNCTION__, 'error', array('file' => $file),
-            'Cannot have both <ignore> and <install> tags for file "%file%"');
     }
 
     function _analyzeBundledPackages()
@@ -706,8 +374,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         $pkg = new PEAR2_Pyrus_PackageFile($this->_pf->_config);
         foreach ($info as $package) {
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $package)) {
-                $this->_fileNotFound($dir_prefix . DIRECTORY_SEPARATOR . $package);
-                $this->_isValid = 0;
+                $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                    'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $package .
+                    '" in package.xml does not exist');
                 continue;
             }
             call_user_func_array($log, array(1, "Analyzing bundled package $package"));
@@ -734,18 +403,14 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             return false;
         }
         if (!isset($this->_pf->_packageFile)) {
-            $this->_cannotValidateNoPathSet();
-            return false;
+            throw new PEAR2_Pyrus_PackageFile_Exception(
+                'Cannot validate files, no path to package file is set (use setPackageFile())');
         }
         $dir_prefix = dirname($this->_pf->_packageFile);
         $common = new PEAR2_Pyrus_Common;
         $log = isset($this->_pf->_logger) ? array(&$this->_pf->_logger, 'log') :
             array(&$common, 'log');
         $info = $this->_pf->getContents();
-        if (!$info || !isset($info['dir']['file'])) {
-            $this->_tagCannotBeEmpty('contents><dir');
-            return false;
-        }
         $info = $info['dir']['file'];
         if (isset($info['attribs'])) {
             $info = array($info);
@@ -755,8 +420,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             $fa = $fa['attribs'];
             $file = $fa['name'];
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $file)) {
-                $this->_fileNotFound($dir_prefix . DIRECTORY_SEPARATOR . $file);
-                $this->_isValid = 0;
+                $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                    'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $file .
+                    '" in package.xml does not exist');
                 continue;
             }
             if (in_array($fa['role'], PEAR2_Pyrus_Installer_Role::getPhpRoles()) && $dir_prefix) {
