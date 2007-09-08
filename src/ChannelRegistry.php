@@ -1,8 +1,5 @@
 <?php
-function __autoload($class)
-{
-    require '\\development\\pyrus\\trunk\\' . str_replace(array('PEAR2_Pyrus_', '_'), array('', '\\'), $class) . '.php';
-}
+
 class PEAR2_Pyrus_ChannelRegistry implements PEAR2_Pyrus_IChannelRegistry
 {
     static private $_registries = array();

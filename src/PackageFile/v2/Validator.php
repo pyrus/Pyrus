@@ -51,8 +51,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
      */
     var $_curState = 0;
     private $_contents = array();
-    private $_errors = array();
-    private $_warnings = array();
+    private $_errors;
 
     /**
      * @param PEAR2_Pyrus_PackageFile_v2
@@ -64,7 +63,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         $this->_curState = $state;
         $this->_packageInfo = $this->_pf->getArray();
         $this->_isValid = $this->_pf->_isValid;
-        $this->_errors = $this->_warnings = array();
+        $this->_errors = new PEAR2_MultiErrors;
         $this->_filesValid = $this->_pf->_filesValid;
         if (($this->_isValid & $state) == $state) {
             return true;
@@ -112,14 +111,16 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 $msg = 'This package contains role "' . $file->role .
                                     '" and requires package "' . $package
                                      . '" to be used';
-                                $this->_warnings[] = $msg;
+                                $this->_errors[E_WARNING] =
+                                    new PEAR2_Pyrus_PackageFile_Exception($msg);
                             }
                         }
                     }
-                    $this->_errors[] = 
+                    $this->_errors[E_ERROR] = 
+                        new PEAR2_Pyrus_PackageFile_Exception(
                         'File "' . $name . '" has invalid role "' .
                         $file->role . '", should be one of ' . implode(', ', 
-                        PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType()));
+                        PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType())));
                 }
                 if (count($file->tasks) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
                     foreach ($file->tasks as $task => $value) {
@@ -131,8 +132,10 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 $ret = $tagClass->validateXml($this->_pf, $v,
                                     $this->_pf->_config, $save);
                                 if (is_array($ret)) {
-                                    $this->_invalidTask($task, $ret, isset($save['name']) ?
-                                        $save['name'] : '');
+                                    $this->_errors[E_ERROR] = 
+                                        new PEAR2_Pyrus_PackageFile_Exception(
+                                            $this->_invalidTask($task, $ret, isset($save['name']) ?
+                                        $save['name'] : ''));
                                 }
                             }
                         } else {
@@ -154,14 +157,15 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                         $msg = 'This package contains task "' . $task .
                                             '" and requires package "' . $package
                                              . '" to be used';
-                                        $this->_warnings[] =
-                                            $msg;
+                                        $this->_errors[E_WARNING] =
+                                            new PEAR2_Pyrus_PackageFile_Exception($msg);
                                     }
                                 }
                             }
-                            $this->_errors[] =
+                            $this->_errors[E_ERROR] =
+                                new PEAR2_Pyrus_PackageFile_Exception(
                                 'Unknown task "' . $task . '" passed in file <file name="' .
-                                $name . '">';
+                                $name . '">');
                         }
                     }
                 }
@@ -170,26 +174,33 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         }
         $this->_validateFilelist();
         $this->_validateRelease();
-        if (count($this->_errors)) {
+        if (count($this->_errors[E_ERROR])) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $this->_errors);
         }
         try {
             $validator = PEAR2_Pyrus_Config::current()
-                ->registry->sqlite->channel[$this->_pf->getChannel()]
+                ->registry->channel[$this->_pf->getChannel()]
                 ->getValidationObject($this->_pf->getPackage());
             $validator->setPackageFile($this->_pf);
             $validator->validate($state);
             $failures = $validator->getFailures();
             foreach ($failures['errors'] as $error) {
-                $this->_errors[] = new PEAR2_Pyrus_PackageFile_Exception(
+                $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
                     'Channel validator error: field "' . $error['field'] . '" - "' .
                     $error['reason']);
             }
             foreach ($failures['warnings'] as $warning) {
-                $this->_stack->push(__FUNCTION__, 'warning', $warning,
-                    'Channel validator warning: field "%field%" - %reason%');
+                $this->_errors[E_WARNING] = new PEAR2_Pyrus_PackageFile_Exception(
+                    'Channel validator warning: field "' . $warning['field'] .
+                    '" - ' . $warning['reason']);
             }
+        } catch (PEAR2_Pyrus_Config_Exception $e) {
+            throw new PEAR2_Pyrus_PackageFile_Exception(
+                'Unable to process channel-specific configuration for channel ' .
+                $this->_pf->getChannel(), $e);
         } catch (Exception $e) {
+            $valpack = PEAR2_Pyrus_Config::current()
+                ->registry->channel[$this->_pf->getChannel()]->getValidationPackage();
             $this->_unknownChannel($this->_pf->getChannel());
             $this->_stack->push(__FUNCTION__, 'error',
                 array_merge(
@@ -514,25 +525,18 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
     {
         switch ($ret[0]) {
             case PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB :
-                $info = array('attrib' => $ret[1], 'task' => $task, 'file' => $file);
-                $msg = 'task <%task%> is missing attribute "%attrib%" in file %file%';
-            break;
+                return 'task <' . $task . '> is missing attribute "' . $ret[1] .
+                    '" in file ' . $file;
             case PEAR2_PYRUS_TASK_ERROR_NOATTRIBS :
-                $info = array('task' => $task, 'file' => $file);
-                $msg = 'task <%task%> has no attributes in file %file%';
-            break;
+                return 'task <' . $task . '> has no attributes in file ' . $file;
             case PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE :
-                $info = array('attrib' => $ret[1], 'values' => $ret[3],
-                    'was' => $ret[2], 'task' => $task, 'file' => $file);
-                $msg = 'task <%task%> attribute "%attrib%" has the wrong value "%was%" '.
-                    'in file %file%, expecting one of "%values%"';
-            break;
+                return 'task <' . $task . '> attribute "' . $ret[1] .
+                    '" has the wrong value "' . $ret[2] . '" '.
+                    'in file ' . $file . ', expecting one of "' . implode (', ', $ret[3]) . '"';
             case PEAR2_PYRUS_TASK_ERROR_INVALID :
-                $info = array('reason' => $ret[1], 'task' => $task, 'file' => $file);
-                $msg = 'task <%task%> in file %file% is invalid because of "%reason%"';
-            break;
+                return 'task <' . $task . '> in file ' . $file .
+                    ' is invalid because of "' . $ret[1] . '"';
         }
-        $this->_stack->push(__FUNCTION__, 'error', $info, $msg);
     }
 
     function _subpackageCannotProvideExtension($name)
