@@ -17,14 +17,22 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
         $this->_parent = $parent;
         $this->_packagename = $package;
         $info = pathinfo($package);
+        $streamfilters = stream_get_filters();
+        $this->_fp = fopen($package, 'rb');
         switch ($info['extension']) {
             case 'tgz' :
-                $package = 'compress.zlib://' . $package;
+                if ($this->_fp) {
+                    fclose($this->_fp);
+                    $this->_fp = gzopen($package, 'rb');
+                }
                 break;
             case 'tbz' :
-                $package = 'compress.bz2://' . $package;
+                if (!in_array('bzip2.*', $streamfilters)) {
+                    throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package' .
+                        $package . ', bzip2 decompression is not available');
+                }
+                stream_filter_append($this->_fp, 'bzip2.decompress');
         }
-        $this->_fp = fopen($package, 'rb');
         if (!$this->_fp) {
             throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package ' . $package);
         }

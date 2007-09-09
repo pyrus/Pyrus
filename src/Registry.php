@@ -81,6 +81,16 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
         }
     }
 
+    public function exists($package, $channel)
+    {
+        return self::$_registries[0]->exists($package, $channel);
+    }
+
+    public function info($package, $channel, $field)
+    {
+        return self::$_registries[0]->info($package, $channel, $field);
+    }
+
     function __get($var)
     {
         // first registry is always the primary registry

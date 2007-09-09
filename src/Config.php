@@ -142,7 +142,7 @@ class PEAR2_Pyrus_Config
 
     private function _locateLocalSettingsDirectory()
     {
-        if (class_exists('COM')) {
+        if (class_exists('COM', false)) {
             // windows, grab current user My Documents folder
             $info = new COM('winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2');
             $users = $info->ExecQuery("Select * From Win32_ComputerSystem");
@@ -155,7 +155,13 @@ class PEAR2_Pyrus_Config
                 'HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\' .
                 'Explorer\\DocFolderPaths\\' . $curuser);
         } else {
-            return getenv('HOME');
+            if (isset($_ENV['HOME'])) {
+                return $_ENV['HOME'];
+            } elseif ($e = getenv('HOME')) {
+                return $e;
+            } else {
+                return '/tmp/' . md5($_ENV['PWD']);
+            }
         }
     }
 
@@ -201,7 +207,7 @@ class PEAR2_Pyrus_Config
             self::$configs[$pearDirectory] = $x;
         }
         if (!$userfile) {
-            if (class_exists('COM')) {
+            if (class_exists('COM', false)) {
                 $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             } else {
@@ -252,7 +258,7 @@ class PEAR2_Pyrus_Config
     function saveConfig($userfile = false)
     {
         if (!$userfile) {
-            if (class_exists('COM')) {
+            if (class_exists('COM', false)) {
                 $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             } else {
@@ -263,6 +269,22 @@ class PEAR2_Pyrus_Config
         $userfile = str_replace('\\', '/', $userfile);
         $userfile = str_replace('//', '/', $userfile);
         $userfile = str_replace('/', DIRECTORY_SEPARATOR, $userfile);
+        $test = $userfile;
+        while ($test && !file_exists($test)) {
+            $test = dirname($test);
+        }
+        if (!is_writable($test)) {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot save configuration, no' .
+                ' filesystem permissions to modify user configuration file ' . $userfile);
+        }
+        $test = $this->pearDir . '.config';
+        while ($test && !file_exists($test)) {
+            $test = dirname($test);
+        }
+        if (!is_writable($test)) {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot save configuration, no' .
+                ' filesystem permissions to modify PEAR directory ' . $this->pearDir . '.config');
+        }
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$userConfigNames as $var) {
             $x->$var = $this->$var;
@@ -277,7 +299,7 @@ class PEAR2_Pyrus_Config
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
         }
         if (!file_exists(dirname($system))) {
-            mkdir(dirname($system), null, true);
+            mkdir(dirname($system), 0777, true);
         }
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {

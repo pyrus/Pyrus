@@ -46,8 +46,8 @@ class PEAR2_Pyrus_XMLParser
     function parseString($string, $schema = false)
     {
         $a = new XMLReader;
-        $a->XML($file);
-        return $this->_parse($a, $file, $schema, false);
+        $a->XML($string);
+        return $this->_parse($a, $string, $schema, false);
     }
 
     /**

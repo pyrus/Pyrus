@@ -82,11 +82,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
             return 'PEAR2_Pyrus_Package_Remote';
         }
         try {
-            $info = PEAR2_Pyrus_Registry::parsePackageName($package);
-            return 'PEAR2_Pyrus_Package_Remote';
-        } catch (Exception $e) {
-            // not a remote package
-            if (file_exists($package)) {
+            if (@file_exists($package) && @is_file($package)) {
                 $info = pathinfo($package);
                 if (!isset($info['extension']) || !strlen($info['extension'])) {
                     // guess based on first 4 characters
@@ -111,7 +107,10 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
                     }
                 }
             }
-            throw new PEAR2_Pyrus_Package_Exception('package "' . $package . '" is unknown');
+            $info = PEAR2_Pyrus_ChannelRegistry::parsePackageName($package);
+            return 'PEAR2_Pyrus_Package_Remote';
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Package_Exception('package "' . $package . '" is unknown', $e);
         }
     }
 }

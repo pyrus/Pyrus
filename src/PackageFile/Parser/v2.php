@@ -93,7 +93,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         if (isset($this->_logger)) {
             $ret->setLogger($this->_logger);
         }
-        if (preg_match($data, '/<package[^>+]version="2.1"/')) {
+        if (preg_match($data, '/<package[^>]+version="2.1"/')) {
             $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
                 '/data/pear.php.net/PEAR2_Pyrus/package-2.1.xsd';
         } else {
