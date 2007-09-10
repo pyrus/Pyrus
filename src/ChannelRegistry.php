@@ -1,6 +1,6 @@
 <?php
 
-class PEAR2_Pyrus_ChannelRegistry implements PEAR2_Pyrus_IChannelRegistry
+class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
 {
     static private $_registries = array();
 
@@ -28,7 +28,7 @@ class PEAR2_Pyrus_ChannelRegistry implements PEAR2_Pyrus_IChannelRegistry
         }
     }
 
-    static public function singleton($path)
+    static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
         if (!isset(self::$_registries[$path])) {
             self::$_registries[$path] = new PEAR2_Pyrus_ChannelRegistry($path);
@@ -36,56 +36,35 @@ class PEAR2_Pyrus_ChannelRegistry implements PEAR2_Pyrus_IChannelRegistry
         return self::$_registries[$path];
     }
 
-    public function add(PEAR2_Pyrus_ChannelFile $channel)
+    public function offsetGet($offset)
+    {
+        return self::$_registries[0]->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
     {
         foreach (self::$_registries as $reg) {
-            $reg->add($channel);
+            $reg->add($offset, $value);
         }
     }
 
-    public function update(PEAR2_Pyrus_ChannelFile $channel)
+    public function offsetExists($offset)
+    {
+        return self::$_registries[0]->exists($offset);
+    }
+
+    public function offsetUnset($offset)
     {
         foreach (self::$_registries as $reg) {
-            $reg->update($channel);
+            $reg->delete($offset);
         }
     }
 
-    public function delete($channel)
+    public function __call($method, $args)
     {
-        foreach (self::$_registries as $reg) {
-            $reg->delete($channel);
-        }
+        return call_user_func_array(array(self::$_registries[0], $method), $args);
     }
 
-    public function getAlias($channel)
-    {
-        return self::$_registries[0]->getAlias($channel);
-    }
-
-    public function getObject($channel)
-    {
-        return self::$_registries[0]->getObject($channel);
-    }
-
-    public function exists($channel, $strict = true)
-    {
-        return self::$_registries[0]->exists($channel);
-    }
-
-    public function hasMirror($channel, $mirror)
-    {
-        return self::$_registries[0]->hasMirror($channel, $mirror);
-    }
-
-    public function setAlias($channel, $alias)
-    {
-        return self::$_registries[0]->hasMirror($channel, $alias);
-    }
-
-    public function getMirrors($channel)
-    {
-        return self::$_registries[0]->getMirrors($channel);
-    }
     /**
      * Parse a string to determine which package file is requested
      *
@@ -115,16 +94,6 @@ class PEAR2_Pyrus_ChannelRegistry implements PEAR2_Pyrus_IChannelRegistry
             }
         }
         return $registry->parseName($pname);
-    }
-
-    public function parseName($pname)
-    {
-        return self::parsePackageName($pname);
-    }
-
-    public function parsedNameToString($name)
-    {
-        return self::parsedPackageNameToString($name);
     }
 
     static public function parsedPackageNameToString($name)

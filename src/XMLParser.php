@@ -135,7 +135,9 @@ class PEAR2_Pyrus_XMLParser
                 $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .
                      $error->line . ': ' . $error->message);
             }
-            throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
+            if (count($causes)) {
+                throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
+            }
         }
         return $arr;
     }

@@ -86,26 +86,35 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
      *               a subclass
      * @return PEAR2_Pyrus_PackageFile_v2
      */
-    function parse($data, $file, $archive = false, $class = 'PEAR2_Pyrus_PackageFile_v2')
+    function parse($data, $file, $class = 'PEAR2_Pyrus_PackageFile_v2')
     {
         $ret = new $class;
         $ret->setConfig(PEAR2_Pyrus_Config::current());
         if (isset($this->_logger)) {
             $ret->setLogger($this->_logger);
         }
-        if (preg_match($data, '/<package[^>]+version="2.1"/')) {
-            $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
-                '/data/pear.php.net/PEAR2_Pyrus/package-2.1.xsd';
+        
+        if (preg_match('/<package[^>]+version="2.1"/', $data)) {
+            $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
+                '/data/pear.php.net/PEAR2_Pyrus/package-2.1.xsd');
+            // for running out of cvs
+            if (!$schema) {
+                $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/package-2.1.xsd';
+            }
         } else {
-            $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
-                '/data/pear.php.net/PEAR2_Pyrus/package-2.0.xsd';
+            $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
+                '/data/pear.php.net/PEAR2_Pyrus/package-2.0.xsd');
+            // for running out of cvs
+            if (!$schema) {
+                $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/package-2.0.xsd';
+            }
         }
         try {
             $ret->fromArray(parent::parseString($data, $schema));
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $e);
         }
-        $ret->setPackagefile($file, $archive);
+        $ret->setPackagefile($file);
         return $ret;
     }
 }

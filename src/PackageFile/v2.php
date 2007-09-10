@@ -584,7 +584,7 @@ class PEAR2_Pyrus_PackageFile_v2
         unset($pinfo['old']);
         unset($pinfo['xsdversion']);
         $this->_incomplete = false;
-        $this->_packageInfo = $pinfo;
+        $this->_packageInfo = $pinfo['package'];
     }
 
     function isIncomplete()

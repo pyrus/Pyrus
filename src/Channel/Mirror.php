@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base
+class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base implements PEAR2_Pyrus_Channel_IMirror
 {
     private $_info;
     private $_parent;
@@ -7,6 +7,11 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base
     {
         $this->_info = $mirrorarray;
         $this->_parent = $parent;
+    }
+
+    function getChannel()
+    {
+        return $this->_parent->getName();
     }
 
     function __toString()

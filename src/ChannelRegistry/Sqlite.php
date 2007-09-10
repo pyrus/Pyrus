@@ -45,19 +45,6 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         $a->create($this->database);
     }
 
-    function getAlias($channel)
-    {
-        if ($a = $this->database->singleQuery('SELECT channel FROM channels WHERE
-              alias="' . sqlite_escape_string($channel) . '"')) {
-            return $a;
-        }
-        if ($a = $this->database->singleQuery('SELECT channel FROM channels WHERE
-              channel="' . sqlite_escape_string($channel) . '"')) {
-            return $a;
-        }
-        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel/alias: ' . $channel);
-    }
-
     function exists($channel, $strict = true)
     {
         if (!$strict && $a = $this->database->singleQuery('SELECT channel FROM channels WHERE
@@ -69,34 +56,6 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             return true;
         }
         return false;
-    }
-
-    function hasMirror($channel, $mirror)
-    {
-        
-    }
-
-    function getObject($channel)
-    {
-        if (!$this->exists($channel)) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot retrieve channel' .
-                ' object, channel ' . $channel . ' is not registered');
-        }
-        $a = new PEAR2_Pyrus_ChannelFile;
-    }
-
-    function setAlias($channel, $alias)
-    {
-        $error = '';
-        if (!$this->exists($channel)) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot set channel ' .
-                $channel . ' alias to ' . $alias . ': Channel is not registered');
-        }
-        if (!@$this->database->queryExec('UPDATE channels SET alias=\'' .
-              sqlite_escape_string($alias) . '\'', $error)) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot set channel ' .
-                $channel . ' alias to ' . $alias . ': ' . $error);
-        }
     }
 
     function add(PEAR2_Pyrus_ChannelFile $channel)
@@ -188,19 +147,6 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             }
         }
         $this->database->queryExec('COMMIT');
-    }
-
-    public function update(PEAR2_Pyrus_ChannelFile $channel)
-    {
-        // for now
-        $this->add($channel);
-    }
-
-    function getMirrors($channel)
-    {
-        return $this->database->arrayQuery('SELECT server, ssl, port FROM
-            channel_servers WHERE channel = \'' . sqlite_escape_string($channel) .
-            '\' AND server <> channel', SQLITE_ASSOC);
     }
 
     function delete($channel)

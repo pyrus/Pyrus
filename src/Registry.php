@@ -27,7 +27,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
     protected function __construct($path, $registries = array('Sqlite', 'Xml'))
     {
         if (!isset(self::$_channelRegistry)) {
-            self::$_channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
+            self::$_channelRegistry = PEAR2_Pyrus_ChannelRegistry::singleton($path,
                 $registries);
         }
         $exceptions = array();
@@ -52,7 +52,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
         }
     }
 
-    static public function singleton($path)
+    static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
         if (!isset(self::$_registries[$path])) {
             self::$_registries[$path] = new PEAR2_Pyrus_Registry($path);
