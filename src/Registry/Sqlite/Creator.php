@@ -94,6 +94,8 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  server TEXT NOT NULL,
      *  ssl integer NOT NULL default 0,
      *  port integer NOT NULL default 80,
+     *  xmlrpcpath TEXT NOT NULL,
+     *  soappath TEXT NOT NULL,
      *  PRIMARY KEY (channel, server)
      * );
      * 
@@ -335,6 +337,8 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
            server TEXT NOT NULL,
            ssl integer NOT NULL default 0,
            port integer NOT NULL default 80,
+           xmlrpcpath TEXT NOT NULL,
+           soappath TEXT NOT NULL,
            PRIMARY KEY (channel, server)
           );';
         $worked = @$database->queryExec($query, $error);

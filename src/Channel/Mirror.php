@@ -7,19 +7,14 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base implements PEA
     {
         $this->_info = $mirrorarray;
         $this->_parent = $parent;
+        if ($parent->getName() == '__uri') {
+            throw new PEAR2_Pyrus_Channel_Exception('__uri channel cannot have mirrors');
+        }
     }
 
     function getChannel()
     {
         return $this->_parent->getName();
-    }
-
-    function __toString()
-    {
-        if (!isset($this->_xml)) {
-            $this->_xml = (string) new PEAR2_Pyrus_XMLWriter($this->_info);
-        }
-        return $this->_xml;
     }
 
     function toChannelObject()
