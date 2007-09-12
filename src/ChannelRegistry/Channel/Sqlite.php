@@ -7,6 +7,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
      * @var SQLiteDatabase
      */
     protected $database;
+    protected $mirror;
     private $_path;
     private $_channelname;
     private $_mirror;
@@ -15,7 +16,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
     {
         $channel = strtolower($channel);
         $this->database = $db;
-        $this->_channelname = $channel;
+        $this->_channelname = $this->_mirror = $channel;
         if (!$this->database->singleQuery('SELECT channel FROM channels WHERE
               channel="' . sqlite_escape_string($channel) . '"')) {
             if (!($channel = $this->database->singleQuery('SELECT channel FROM channels WHERE
@@ -47,19 +48,61 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	          'channel=\'' . sqlite_escape_string($this->_channelname) . '\'');
  	}
 
- 	function getPort($mirror = false)
- 	{
- 	    return $this->database->singleQuery('SELECT port FROM channel_servers WHERE
- 	          channel=\'' . sqlite_escape_string($this->_channelname) . '\' AND
- 	          server=\'' . sqlite_escape_string($this->_channelname) . '\'');
- 	}
+    /**
+     * @return int|80 port number to connect to
+     */
+    function getPort()
+    {
+        return $this->database->singleQuery('SELECT port FROM channel_servers WHERE
+ 	          channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
 
  	function getSSL($mirror = false)
  	{
  	    return $this->database->singleQuery('SELECT ssl FROM channel_servers WHERE
  	          channel=\'' . sqlite_escape_string($this->_channelname) . '\' AND
- 	          server=\'' . sqlite_escape_string($this->_channelname) . '\'');
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
  	}
+
+    /**
+     * @param string xmlrpc or soap
+     */
+    function getPath($protocol)
+    {   
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        $a = $this->database->singleQuery('SELECT ' . $protocol . 'path FROM channel_servers WHERE
+ 	          channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+        if (!$a) {
+            return $protocol . '.php';
+        }
+    }
+
+    /**
+     * @param string protocol type (xmlrpc, soap)
+     * @return array|false
+     */
+    function getFunctions($protocol)
+    {
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        $functions = $this->database->arrayQuery('
+            SELECT * FROM channel_server_' . $protocol . '
+            WHERE channel = \'' . sqlite_escape_string($this->_channel) . '\ AND
+            server = \'' . sqlite_escape_string($this->mirror) . '\'
+        ');
+        $ret = array();
+        foreach ($functions as $func) {
+            $ret[] = array('attribs' => array('version' => $func['version']), '_content' => $func['function']);
+        }
+        return $ret;
+    }
 
  	function getValidatePackage($packagename)
  	{
@@ -75,6 +118,34 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         return $r;
  	}
 
+    /**
+     * @param string xmlrpc or soap
+     */
+    function getPath($protocol)
+    {   
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        $a = $this->database->singleQuery('SELECT ' . $protocol . 'path FROM channel_servers WHERE
+ 	          channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+        if (!$a) {
+            return $protocol . '.php';
+        }
+    }
+
+    public function getREST()
+    {
+        $urls = $this->database->arrayQuery('SELECT * FROM channel_server_rest WHERE
+ 	          channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+        $ret = array();
+        foreach ($urls as $url) {
+            $ret[] = array('attribs' => array('type' => $url['type']), '_content' => $url['baseurl']);
+        }
+    }
+
  	function getValidationObject($package)
  	{
  	    $a = $this->getValidatePackage($package);
@@ -84,9 +155,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	function __get($value)
  	{
  	    switch ($value) {
- 	        case 'mirror' :
- 	            $a = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this, $this->_channelname);
- 	            return $a;
  	        case 'mirrors' :
  	            $ret = array();
  	            foreach ($this->database->arrayQuery('SELECT server FROM channel_servers
@@ -105,7 +173,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	    $a->setSummary($this->getSummary());
  	    $a->setPort($this->getPort());
  	    $a->setSSL($this->getSSL());
- 	    $a->setValidationPackage()
+ 	    $a->setValidationPackage();
  	}
 
  	public function __toString()
@@ -122,11 +190,49 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
 
     public function supportsREST()
     {
-        
+        return (bool) $this->database->singleQuery('
+            SELECT COUNT(*) FROM channel_server_rest WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'
+        ');
     }
 
-    public function supports($type, $name = null, $version = '1.0')
+    public function supports($protocol, $name = null, $version = '1.0')
     {
-        
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        if ($name === null) {
+            return (bool) $this->database->singleQuery('
+                SELECT COUNT(*) FROM channel_server_' . $protocol . ' WHERE
+                  channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+     	          server=\'' . sqlite_escape_string($this->mirror) . '\'
+            ');
+        }
+        return (bool) $this->database->singleQuery('
+            SELECT COUNT(*) FROM channel_server_' . $protocol . ' WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\' AND
+ 	          function=\'' . sqlite_escape_string($name) . '\' AND
+ 	          version=\'' . sqlite_escape_string($version) . '\'
+        ');
+    }
+
+    /**
+     * Get the URL to access a base resource.
+     *
+     * Hyperlinks in the returned xml will be used to retrieve the proper information
+     * needed.  This allows extreme extensibility and flexibility in implementation
+     * @param string Resource Type to retrieve
+     */
+    function getBaseURL($resourceType)
+    {
+        return $this->database->singleQuery('
+            SELECT baseurl FROM channel_server_rest WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\' AND
+ 	          type=\'' . sqlite_escape_string($resourceType) . '\'
+        ');
     }
 }

@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
+class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 {
     /**
      * Supported channel.xml versions, for parsing
@@ -79,21 +79,8 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
     /**
      * @return int|80 port number to connect to
      */
-    function getPort($mirror = false)
+    function getPort()
     {
-        if ($mirror) {
-            if ($mir = $this->getMirror($mirror)) {
-                if (isset($mir['attribs']['port'])) {
-                    return $mir['attribs']['port'];
-                } else {
-                    if ($this->getSSL($mirror)) {
-                        return 443;
-                    }
-                    return 80;
-                }
-            }
-            return false;
-        }
         if (isset($this->_channelInfo['servers']['primary']['attribs']['port'])) {
             return $this->_channelInfo['servers']['primary']['attribs']['port'];
         }
@@ -106,18 +93,8 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
     /**
      * @return bool Determines whether secure sockets layer (SSL) is used to connect to this channel
      */
-    function getSSL($mirror = false)
+    function getSSL()
     {
-        if ($mirror) {
-            if ($mir = $this->getMirror($mirror)) {
-                if (isset($mir['attribs']['ssl'])) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            return false;
-        }
         if (isset($this->_channelInfo['servers']['primary']['attribs']['ssl'])) {
             return true;
         }
@@ -138,23 +115,14 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
 
     /**
      * @param string xmlrpc or soap
-     * @param string|false mirror name or false for primary server
      */
-    function getPath($protocol, $mirror = false)
+    function getPath($protocol)
     {   
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            return false;
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $protocol);
         }
-        if ($mirror) {
-            if (!($mir = $this->getMirror($mirror))) {
-                return false;
-            }
-            if (isset($mir[$protocol]['attribs']['path'])) {
-                return $mir[$protocol]['attribs']['path'];
-            } else {
-                return $protocol . '.php';
-            }
-        } elseif (isset($this->_channelInfo['servers']['primary'][$protocol]['attribs']['path'])) {
+        if (isset($this->_channelInfo['servers']['primary'][$protocol]['attribs']['path'])) {
             return $this->_channelInfo['servers']['primary'][$protocol]['attribs']['path'];
         }
         return $protocol . '.php';
@@ -162,58 +130,23 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
 
     /**
      * @param string protocol type (xmlrpc, soap)
-     * @param string Mirror name
      * @return array|false
      */
-    function getFunctions($protocol, $mirror = false)
+    function getFunctions($protocol)
     {
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $protocol);
+        }
         if ($this->getName() == '__uri') {
             return false;
         }
-        if ($protocol == 'rest') {
-            $function = 'baseurl';
-        } else {
-            $function = 'function';
-        }
-        if ($mirror) {
-            if ($mir = $this->getMirror($mirror)) {
-                if (isset($mir[$protocol][$function])) {
-                    return $mir[$protocol][$function];
-                }
-            }
-            return false;
-        }
-        if (isset($this->_channelInfo['servers']['primary'][$protocol][$function])) {
-            return $this->_channelInfo['servers']['primary'][$protocol][$function];
+        if (isset($this->_channelInfo['servers']['primary'][$protocol]['function'])) {
+            return $this->_channelInfo['servers']['primary'][$protocol]['function'];
         } else {
             return false;
         }
     }
-
-    /**
-     * @param string Protocol type
-     * @param string Function name (null to return the
-     *               first protocol of the type requested)
-     * @param string Mirror name, if any
-     * @return array
-     */
-     function getFunction($type, $name = null, $mirror = false)
-     {
-        $protocols = $this->getFunctions($type, $mirror);
-        if (!$protocols) {
-            return false;
-        }
-        foreach ($protocols as $protocol) {
-            if ($name === null) {
-                return $protocol;
-            }
-            if ($protocol['_content'] != $name) {
-                continue;
-            }
-            return $protocol;
-        }
-        return false;
-     }
 
     /**
      * @param string protocol type
@@ -222,9 +155,9 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
      * @param string mirror name
      * @return boolean
      */
-    function supports($type, $name = null, $mirror = false, $version = '1.0')
+    function supports($type, $name = null, $version = '1.0')
     {
-        $protocols = $this->getFunctions($type, $mirror);
+        $protocols = $this->getFunctions($type);
         if (!$protocols) {
             return false;
         }
@@ -246,21 +179,17 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
     /**
      * Determines whether a channel supports Representational State Transfer (REST) protocols
      * for retrieving channel information
-     * @param string
      * @return bool
      */
-    function supportsREST($mirror = false)
+    function supportsREST()
     {
-        if ($mirror == $this->_channelInfo['name']) {
-            $mirror = false;
-        }
-        if ($mirror) {
-            if ($mir = $this->getMirror($mirror)) {
-                return isset($mir['rest']);
-            }
-            return false;
-        }
         return isset($this->_channelInfo['servers']['primary']['rest']);
+    }
+
+    function getREST()
+    {
+        return isset($this->_channelInfo['servers']['primary']['rest']) ?
+            $this->_channelInfo['servers']['primary']['rest'] : false;
     }
 
     /**
@@ -270,20 +199,9 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
      * needed.  This allows extreme extensibility and flexibility in implementation
      * @param string Resource Type to retrieve
      */
-    function getBaseURL($resourceType, $mirror = false)
+    function getBaseURL($resourceType)
     {
-        if ($mirror == $this->_channelInfo['name']) {
-            $mirror = false;
-        }
-        if ($mirror) {
-            if ($mir = $this->getMirror($mirror)) {
-                $rest = $mir['rest'];
-            } else {
-                return false;
-            }
-        } else {
-            $rest = $this->_channelInfo['servers']['primary']['rest'];
-        }
+        $rest = $this->getREST();
         if (!isset($rest['baseurl'][0])) {
             $rest['baseurl'] = array($rest['baseurl']);
         }
@@ -305,95 +223,34 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
         return $this->resetFunctions('rest', $mirror);
     }
 
+ 	function __get($value)
+ 	{
+ 	    switch ($value) {
+ 	        case 'mirrors' :
+ 	            if (!isset($this->_channelInfo['servers']['mirror'][0])) {
+ 	                return array(new PEAR2_Pyrus_Channel_Mirror(
+ 	                              $this->_channelInfo['servers']['mirror'], $this));
+ 	            }
+ 	            $ret = array();
+ 	            foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
+ 	                $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
+ 	                      $this->_channelInfo['servers']['mirror'][$i], $this);
+                }
+                return $ret;
+ 	    }
+ 	}
+
     /**
      * Empty all protocol definitions
      * @param string protocol type (xmlrpc, soap)
      * @param string|false mirror name, if any
      */
-    function resetFunctions($type, $mirror = false)
+    function resetFunctions($type)
     {
-        if ($mirror) {
-            if (isset($this->_channelInfo['servers']['mirror'])) {
-                $mirrors = $this->_channelInfo['servers']['mirror'];
-                if (!isset($mirrors[0])) {
-                    $mirrors = array($mirrors);
-                }
-                foreach ($mirrors as $i => $mir) {
-                    if ($mir['attribs']['host'] == $mirror) {
-                        if (isset($this->_channelInfo['servers']['mirror'][$i][$type])) {
-                            unset($this->_channelInfo['servers']['mirror'][$i][$type]);
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            } else {
-                return false;
-            }
-        } else {
-            if (isset($this->_channelInfo['servers']['primary'][$type])) {
-                unset($this->_channelInfo['servers']['primary'][$type]);
-            }
-            return true;
+        if (isset($this->_channelInfo['servers']['primary'][$type])) {
+            unset($this->_channelInfo['servers']['primary'][$type]);
         }
-    }
-
-    /**
-     * Set a channel's protocols to the protocols supported by pearweb
-     */
-    function setDefaultPEARProtocols($version = '1.0', $mirror = false)
-    {
-        switch ($version) {
-            case '1.0' :
-                $this->resetFunctions('xmlrpc', $mirror);
-                $this->resetFunctions('soap', $mirror);
-                $this->resetREST($mirror);
-                $this->addFunction('xmlrpc', '1.0', 'logintest', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'package.listLatestReleases', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'package.listAll', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'package.info', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'package.getDownloadURL', $mirror);
-                $this->addFunction('xmlrpc', '1.1', 'package.getDownloadURL', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'package.getDepDownloadURL', $mirror);
-                $this->addFunction('xmlrpc', '1.1', 'package.getDepDownloadURL', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'package.search', $mirror);
-                $this->addFunction('xmlrpc', '1.0', 'channel.listAll', $mirror);
-                return true;
-            break;
-            default :
-                return false;
-            break;
-        }
-    }
-    
-    /**
-     * @return array
-     */
-    function getMirrors()
-    {
-        if (isset($this->_channelInfo['servers']['mirror'])) {
-            $mirrors = $this->_channelInfo['servers']['mirror'];
-            if (!isset($mirrors[0])) {
-                $mirrors = array($mirrors);
-            }
-            return $mirrors;
-        } else {
-            return array();
-        }
-    }
-
-    /**
-     * Get the unserialized XML representing a mirror
-     * @return array|false
-     */
-    function getMirror($server)
-    {
-        foreach ($this->getMirrors() as $mirror) {
-            if ($mirror['attribs']['host'] == $server) {
-                return $mirror;
-            }
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -404,77 +261,45 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
      */
     function setName($name)
     {
-        return $this->setServer($name);
+        if (empty($name)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Primary server must be non-empty');
+            return false;
+        } elseif (!$this->validChannelServer($name)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $name .
+                '" is not a valid channel server');
+        }
+        $this->_channelInfo['name'] = $server;
+    }
+
+    /**
+     * Test whether a string contains a valid channel server.
+     * @param string $ver the package version to test
+     * @return bool
+     */
+    static function validChannelServer($server)
+    {
+        if ($server == '__uri') {
+            return true;
+        }
+        return (bool) preg_match('/^[a-z0-9\-]+(?:\.[a-z0-9\-]+)*(\/[a-z0-9\-]+)*\\z/i',
+            $server);
     }
 
     /**
      * Set the socket number (port) that is used to connect to this channel
      * @param integer
-     * @param string|false name of the mirror server, or false for the primary
      */
-    function setPort($port, $mirror = false)
+    function setPort($port)
     {
-        if ($mirror) {
-            if (!isset($this->_channelInfo['servers']['mirror'])) {
-                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-            }
-            if (isset($this->_channelInfo['servers']['mirror'][0])) {
-                foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                    if ($mirror == $mir['attribs']['host']) {
-                        $this->_channelInfo['servers']['mirror'][$i]['attribs']['port'] = $port;
-                        return true;
-                    }
-                }
-                return false;
-            } elseif ($this->_channelInfo['servers']['mirror']['attribs']['host'] == $mirror) {
-                $this->_channelInfo['servers']['mirror']['attribs']['port'] = $port;
-                $this->_xml = null;
-                return true;
-            }
-        }
         $this->_channelInfo['servers']['primary']['attribs']['port'] = $port;
-        $this->_xml = null;
-        return true;
     }
 
     /**
      * Set the socket number (port) that is used to connect to this channel
      * @param bool Determines whether to turn on SSL support or turn it off
-     * @param string|false name of the mirror server, or false for the primary
      */
-    function setSSL($ssl = true, $mirror = false)
+    function setSSL($ssl = true)
     {
-        if ($mirror) {
-            if (!isset($this->_channelInfo['servers']['mirror'])) {
-                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-            }
-            if (isset($this->_channelInfo['servers']['mirror'][0])) {
-                foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                    if ($mirror == $mir['attribs']['host']) {
-                        if (!$ssl) {
-                            if (isset($this->_channelInfo['servers']['mirror'][$i]
-                                  ['attribs']['ssl'])) {
-                                unset($this->_channelInfo['servers']['mirror'][$i]['attribs']['ssl']);
-                            }
-                        } else {
-                            $this->_channelInfo['servers']['mirror'][$i]['attribs']['ssl'] = 'yes';
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            } elseif ($this->_channelInfo['servers']['mirror']['attribs']['host'] == $mirror) {
-                if (!$ssl) {
-                    if (isset($this->_channelInfo['servers']['mirror']['attribs']['ssl'])) {
-                        unset($this->_channelInfo['servers']['mirror']['attribs']['ssl']);
-                    }
-                } else {
-                    $this->_channelInfo['servers']['mirror']['attribs']['ssl'] = 'yes';
-                }
-                $this->_xml = null;
-                return true;
-            }
-        }
         if ($ssl) {
             $this->_channelInfo['servers']['primary']['attribs']['ssl'] = 'yes';
         } else {
@@ -482,74 +307,20 @@ class PEAR2_Pyrus_Channel extends PEAR2_Pyrus_Channel_Base
                 unset($this->_channelInfo['servers']['primary']['attribs']['ssl']);
             }
         }
-        $this->_xml = null;
-        return true;
     }
 
     /**
-     * Set the socket number (port) that is used to connect to this channel
-     * @param integer
-     * @param string|false name of the mirror server, or false for the primary
+     * Set the path to the entry point for a protocol
+     * @param xmlrpc|soap
+     * @param string
      */
-    function setPath($protocol, $path, $mirror = false)
+    function setPath($protocol, $path)
     {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            return false;
-        }
-        if ($mirror) {
-            if (!isset($this->_channelInfo['servers']['mirror'])) {
-                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-            }
-            if (isset($this->_channelInfo['servers']['mirror'][0])) {
-                foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                    if ($mirror == $mir['attribs']['host']) {
-                        $this->_channelInfo['servers']['mirror'][$i][$protocol]['attribs']['path'] =
-                            $path;
-                        return true;
-                    }
-                }
-                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-            } elseif ($this->_channelInfo['servers']['mirror']['attribs']['host'] == $mirror) {
-                $this->_channelInfo['servers']['mirror'][$protocol]['attribs']['path'] = $path;
-                $this->_xml = null;
-                return true;
-            }
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $protocol);
         }
         $this->_channelInfo['servers']['primary'][$protocol]['attribs']['path'] = $path;
-        $this->_xml = null;
-        return true;
-    }
-
-    /**
-     * @param string
-     * @return string|false
-     * @error PEAR_CHANNELFILE_ERROR_NO_SERVER
-     * @error PEAR_CHANNELFILE_ERROR_INVALID_SERVER
-     */
-    function setServer($server, $mirror = false)
-    {
-        if (empty($server)) {
-            throw new PEAR2_Pyrus_Channel_Exception('Primary server must be non-empty');
-            return false;
-        } elseif (!$this->validChannelServer($server)) {
-            throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $server . '" is not a valid channel server');
-        }
-        if ($mirror) {
-            $found = false;
-            foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                if ($mirror == $mir['attribs']['host']) {
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
-                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-            }
-            $this->_channelInfo['mirror'][$i]['attribs']['host'] = $server;
-            return true;
-        }
-        $this->_channelInfo['name'] = $server;
-        return true;
     }
 
     /**

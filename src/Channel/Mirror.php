@@ -1,11 +1,11 @@
 <?php
-class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base implements PEAR2_Pyrus_Channel_IMirror
+class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Pyrus_Channel_IMirror
 {
     private $_info;
     private $_parent;
-    function __construct($mirrorarray, PEAR2_Pyrus_IChannel $parent)
+    function __construct(&$mirrorarray, PEAR2_Pyrus_IChannel $parent)
     {
-        $this->_info = $mirrorarray;
+        $this->_info = &$mirrorarray;
         $this->_parent = $parent;
         if ($parent->getName() == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri channel cannot have mirrors');
@@ -15,11 +15,6 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base implements PEA
     function getChannel()
     {
         return $this->_parent->getName();
-    }
-
-    function toChannelObject()
-    {
-        return $parent;
     }
 
     /**
@@ -61,13 +56,6 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base implements PEA
         }
     }
 
-    /**
-     * @return string|false
-     */
-    function getSummary()
-    {
-        return $this->_parent->getSummary();
-    }
 
     /**
      * @param string xmlrpc or soap
@@ -109,5 +97,68 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel_Base implements PEA
             return $this->_info['rest'];
         }
         return false;
+    }
+
+    /**
+     * Determines whether a channel supports Representational State Transfer (REST) protocols
+     * for retrieving channel information
+     * @return bool
+     */
+    function supportsREST()
+    {
+        return isset($this->_info['rest']);
+    }
+
+    /**
+     * Empty all protocol definitions
+     * @param string protocol type (xmlrpc, soap)
+     */
+    function resetFunctions($type)
+    {
+        if (isset($this->_info[$type])) {
+            unset($this->_info[$type]);
+        }
+    }
+
+    function setName($name)
+    {
+        if (empty($name)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Mirror server must be non-empty');
+            return false;
+        } elseif (!$this->validChannelServer($name)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Mirror server "' . $name .
+                '" for channel "' . parent::getName() . '" is not a valid channel server');
+        }
+        $this->_info['attribs']['host'] = $name;
+    }
+
+    function setPort($port)
+    {
+        $this->_info['attribs']['port'] = $port;
+    }
+
+    function setSSL($ssl = true)
+    {
+        if (!$ssl) {
+            if (isset($this->_info['attribs']['ssl'])) {
+                unset($this->_info['attribs']['ssl']);
+            }
+        } else {
+            $this->_info['attribs']['ssl'] = 'yes';
+        }
+    }
+
+    /**
+     * Set the path to the entry point for a protocol
+     * @param xmlrpc|soap
+     * @param string
+     */
+    function setPath($protocol, $path)
+    {
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        $this->_info[$protocol]['attribs']['path'] = $path;
     }
 }

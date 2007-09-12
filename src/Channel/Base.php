@@ -61,28 +61,4 @@ abstract class PEAR2_Pyrus_Channel_Base implements PEAR2_Pyrus_IChannel
         }
         return false;
     }
-
-    /**
-     * @param string Protocol type
-     * @param string Function name (null to return the
-     *               first protocol of the type requested)
-     * @return array
-     */
-    function getFunction($type, $name = null)
-    {
-        $protocols = $this->getFunctions($type);
-        if (!$protocols) {
-            return false;
-        }
-        foreach ($protocols as $protocol) {
-            if ($name === null) {
-                return $protocol;
-            }
-            if ($protocol['_content'] != $name) {
-                continue;
-            }
-            return $protocol;
-        }
-        return false;
-    }
 }
