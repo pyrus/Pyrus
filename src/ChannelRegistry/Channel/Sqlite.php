@@ -10,13 +10,12 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
     protected $mirror;
     private $_path;
     private $_channelname;
-    private $_mirror;
 
     function __construct(SQLiteDatabase $db, $channel)
     {
         $channel = strtolower($channel);
         $this->database = $db;
-        $this->_channelname = $this->_mirror = $channel;
+        $this->_channelname = $this->mirror = $channel;
         if (!$this->database->singleQuery('SELECT channel FROM channels WHERE
               channel="' . sqlite_escape_string($channel) . '"')) {
             if (!($channel = $this->database->singleQuery('SELECT channel FROM channels WHERE
