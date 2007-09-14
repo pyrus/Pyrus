@@ -213,16 +213,6 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         return false;
     }
 
-    /**
-     * Since REST does not implement RPC, provide this as a logical wrapper around
-     * resetFunctions for REST
-     * @param string|false mirror name, if any
-     */
-    function resetREST($mirror = false)
-    {
-        return $this->resetFunctions('rest', $mirror);
-    }
-
  	function __get($value)
  	{
  	    switch ($value) {

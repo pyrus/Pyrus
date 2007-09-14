@@ -2,8 +2,8 @@
 interface PEAR2_Pyrus_IChannel
 {
     public function getName();
-    public function getPort($mirror = false);
-    public function getSSL($mirror = false);
+    public function getPort();
+    public function getSSL();
     public function getSummary();
     public function getPath($protocol);
     public function getREST();
@@ -13,13 +13,13 @@ interface PEAR2_Pyrus_IChannel
     public function __toString();
     public function supportsREST();
     public function supports($type, $name = null, $version = '1.0');
-    public function resetXmlprc();
+    public function resetXmlrpc();
     public function resetSOAP();
     public function resetREST();
     public function setName($name);
     public function setPort($port);
     public function setSSL($ssl = true);
     public function setPath($protocol, $path);
-    public function addFunction($type, $version);
+    public function addFunction($type, $version, $name);
     public function setBaseUrl($resourceType, $url);
 }

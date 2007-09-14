@@ -199,7 +199,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
      * @param string protocol version
      * @param string protocol name, if any
      */
-    function addFunction($type, $version, $name = '')
+    function addFunction($type, $version, $name)
     {
         if (!in_array($type, array('xmlrpc', 'soap'))) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .

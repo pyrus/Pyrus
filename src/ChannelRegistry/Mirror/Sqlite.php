@@ -1,7 +1,6 @@
 <?php
 class PEAR2_Pyrus_ChannelRegistrymirror_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_Channel_IMirror
 {
-    private $database;
     private $_channel;
     private $_parent;
     function __construct(SQLiteDatabase $db, $mirror, PEAR2_Pyrus_IChannel $parent)

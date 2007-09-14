@@ -117,23 +117,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         return $r;
  	}
 
-    /**
-     * @param string xmlrpc or soap
-     */
-    function getPath($protocol)
-    {   
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-        $a = $this->database->singleQuery('SELECT ' . $protocol . 'path FROM channel_servers WHERE
- 	          channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
- 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
-        if (!$a) {
-            return $protocol . '.php';
-        }
-    }
-
     public function getREST()
     {
         $urls = $this->database->arrayQuery('SELECT * FROM channel_server_rest WHERE
