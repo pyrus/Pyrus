@@ -6,6 +6,12 @@
  */
 class PEAR2_Pyrus_XMLParser
 {
+
+    static function prepareNewTag(&$arr, $depth, $name)
+    {
+        
+    }
+
     /**
      * Recursively merge in new XML values
      *
@@ -13,15 +19,23 @@ class PEAR2_Pyrus_XMLParser
      * @param array $depth array of tag names in depth-last order
      * @param mixed $value the content to merge in
      */
-    static function mergeValue(&$arr, $depth, $value)
+    static function mergeValue(&$arr, $depth, $value, $visited)
     {
         if (!count($depth)) {
             if (is_string($arr) && strlen($arr)) {
-                $arr = array('_content' => $arr);
-                $arr[] = $value;
+                if (is_array($value)) {
+                    $arr = array('_content' => $arr);
+                    $arr[] = $value;
+                } else {
+                    $arr = array($arr);
+                    $arr[] = $value;
+                }
                 return;
             }
             if (is_array($arr)) {
+                if (is_array($value) && !isset($arr[0])) {
+                    $arr = array($arr);
+                }
                 if (is_string($value)) {
                     $arr['_content'] = $value;
                     return;
@@ -36,7 +50,7 @@ class PEAR2_Pyrus_XMLParser
         if (!isset($arr[$key])) {
             $arr[$key] = count($depth) ? array() : null;
         } else {
-            if (is_string($arr[$key]) && strlen($arr)) {
+            if (is_string($arr[$key]) && count($depth) && strlen($arr[$key])) {
                 $arr[$key] = array('_content' => $arr[$key]);
             }
         }
@@ -76,8 +90,31 @@ class PEAR2_Pyrus_XMLParser
         return $this->_parse($a, $file, $schema, true);
     }
 
+    private function _wasVisited($visited, $count, $name)
+    {
+        if (!isset($visited[$count])) {
+            return false;
+        }
+        if (!isset($visited[$count][$name])) {
+            return false;
+        }
+        return true;
+    }
+
+    private function _setVisited(&$visited, $count, $name)
+    {
+        if (!isset($visited[$count])) {
+            $visited[$count] = array();
+        }
+        if (!isset($visited[$count][$name])) {
+            $visited[$count][$name] = 0;
+        }
+        ++$visited[$count][$name];
+    }
+
     private function _parse($a, $file, $schema, $isfile)
     {
+        $visited = array();
         $tagStack = array();
         $arr = array();
         while ($a->read()) {
@@ -95,11 +132,20 @@ class PEAR2_Pyrus_XMLParser
                             $attrs);
                         continue;
                     }
+                    if ($this->_wasVisited($visited, count($tagStack), $a->name)) {
+                        self::prepareNewTag($arr, $tagStack, $a->name);
+                    }
+                    $this->_setVisited($visited, count($tagStack), $a->name, $visited);
+                    $visited[count($tagStack)][$a->name] = 
                     self::mergeValue($arr,
                         array_merge($tagStack, array($a->name)), '');
                     continue;
                 }
                 $tagStack[] = $a->name;
+                if ($this->_wasVisited($visited, count($tagStack), $a->name)) {
+                    self::prepareNewTag($arr, $tagStack, $a->name);
+                }
+                $this->_setVisited($visited, count($tagStack), $a->name);
                 if ($a->hasAttributes) {
                     $attrs = array();
                     $attr = $a->moveToFirstAttribute();
@@ -108,7 +154,7 @@ class PEAR2_Pyrus_XMLParser
                         $attr = $a->moveToNextAttribute();
                     }
                     self::mergeValue($arr,
-                        array_merge($tagStack, array('attribs')), $attrs);
+                        array_merge($tagStack, array('attribs')), $attrs, $visited);
                 }
                 continue;
             }

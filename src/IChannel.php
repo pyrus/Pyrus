@@ -1,6 +1,7 @@
 <?php
 interface PEAR2_Pyrus_IChannel
 {
+    public function getAlias();
     public function getName();
     public function getPort();
     public function getSSL();

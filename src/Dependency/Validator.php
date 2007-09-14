@@ -86,7 +86,7 @@ class PEAR2_Pyrus_Dependency_Validator
         }
         $this->_options = $installoptions;
         $this->_state = $state;
-        $this->_os = new OS_Guess;
+        $this->_os = new PEAR2_Pyrus_OSGuess;
         $this->_currentPackage = $package;
     }
 

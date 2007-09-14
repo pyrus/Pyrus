@@ -1,8 +1,4 @@
 <?php
-function __autoload($class)
-{
-    require '\\development\\pyrus\\trunk\\' . str_replace(array('PEAR2_Pyrus_', '_'), array('', '\\'), $class) . '.php';
-}
 /**
  * This is the central registry, that is used for all installer options,
  * stored as an SQLite database

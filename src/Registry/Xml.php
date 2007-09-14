@@ -1,16 +1,10 @@
 <?php
-function __autoload($class)
-{
-    require '\\development\\pyrus\\trunk\\' . str_replace(array('PEAR2_', '_'), array('', '\\'), $class) . '.php';
-}
 class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 {
     private $_path;
-    private $_sqlite;
-    function __construct($path, PEAR2_Pyrus_Registry_Sqlite $sqlite)
+    function __construct($path)
     {
         $this->_path = $path;
-        $this->_sqlite = $sqlite;
     }
 
     private function _getPackageList()

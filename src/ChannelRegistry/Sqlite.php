@@ -240,13 +240,36 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         $this->database->queryExec('COMMIT');
     }
 
-    function delete($channel)
+    function get($channel)
+    {
+        if ($this->exists($channel)) {
+            return new PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite($this->database, $channel);
+        } else {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
+        }
+    }
+
+    function delete(PEAR2_Pyrus_IChannel $channel)
     {
         $error = '';
         if (!@$this->database->queryExec('DELETE FROM channels WHERE channel="' .
-              sqlite_escape_string($channel) . '"', $error)) {
+              sqlite_escape_string($channel->getName()) . '"', $error)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot delete channel ' .
-                $channel . ': ' . $error);
+                $channel->getName() . ': ' . $error);
+        }
+    }
+
+    function setAlias($channel, $alias)
+    {
+        if (!$this->exists($channel)) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
+        }
+        $error = '';
+        if (!@$this->database->queryExec('UPDATE channels SET alias="' .
+              sqlite_escape_string($alias) . '" WHERE channel="' .
+              sqlite_escape_string($channel) . '"', $error)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot update channel ' .
+                $channel . ' alias: ' . $error);
         }
     }
 }

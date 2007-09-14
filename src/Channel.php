@@ -18,12 +18,21 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         ),
     );
 
-    /**
-     * The serialized representation of this channel
-     *
-     * @var string
-     */
-    private $_xml;
+    function __construct($data)
+    {
+        $parser = new PEAR2_Pyrus_XMLParser;
+        $schema = realpath(dirname(dirname(dirname(dirname(__FILE__)))) .
+            '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
+        // for running out of cvs
+        if (!$schema) {
+            $schema = dirname(dirname(dirname(__FILE__))) . '/data/channel-1.0.xsd';
+        }
+        try {
+            $this->channelInfo = $parser->parseString($data, $schema);
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Channel_Exception('Invalid channel.xml', $e);
+        }
+    }
 
     function validate()
     {
@@ -152,7 +161,6 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      * @param string protocol type
      * @param string protocol name
      * @param string version
-     * @param string mirror name
      * @return boolean
      */
     function supports($type, $name = null, $version = '1.0')

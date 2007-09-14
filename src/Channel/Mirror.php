@@ -2,11 +2,16 @@
 class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Pyrus_Channel_IMirror
 {
     private $_info;
-    private $_parent;
+    /**
+     * Parent channel object
+     *
+     * @var PEAR2_Pyrus_Channel
+     */
+    protected $parentChannel;
     function __construct(&$mirrorarray, PEAR2_Pyrus_IChannel $parent)
     {
         $this->_info = &$mirrorarray;
-        $this->_parent = $parent;
+        $this->parentChannel = $parent;
         if ($parent->getName() == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri channel cannot have mirrors');
         }
@@ -14,7 +19,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
 
     function getChannel()
     {
-        return $this->_parent->getName();
+        return $this->parentChannel->getName();
     }
 
     /**
@@ -78,7 +83,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
      */
     function getFunctions($protocol)
     {
-        if ($this->_parent->getName() == '__uri') {
+        if ($this->parentChannel->getName() == '__uri') {
             return false;
         }
         if ($protocol == 'rest') {

@@ -35,7 +35,7 @@ class PEAR2_Pyrus_Installer
                   PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()))) {
                 throw new PEAR2_Pyrus_Installer_Exception('Invalid role `' .
                         $file->role .
-                        "' for file $file");
+                        "' for file " . $file->name);
             }
             $role = PEAR2_Pyrus_Installer_Role::factory($package, $file->role,
                 PEAR2_Pyrus_Config::current());

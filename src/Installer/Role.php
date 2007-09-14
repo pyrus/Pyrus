@@ -223,8 +223,8 @@ class PEAR2_Pyrus_Installer_Role
             // List of roles
             if (!isset(self::$_roles[$class])) {
                 $file = "$dir/$entry";
-                $parser->parse(file_get_contents($file));
-                $data = $parser->getData();
+                $data = $parser->parse($file);
+                $data = $data['role'];
                 if (!is_array($data['releasetypes'])) {
                     $data['releasetypes'] = array($data['releasetypes']);
                 }
