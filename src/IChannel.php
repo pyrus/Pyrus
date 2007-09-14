@@ -13,9 +13,13 @@ interface PEAR2_Pyrus_IChannel
     public function __toString();
     public function supportsREST();
     public function supports($type, $name = null, $version = '1.0');
-    public function resetFunctions($type);
+    public function resetXmlprc();
+    public function resetSOAP();
+    public function resetREST();
     public function setName($name);
     public function setPort($port);
     public function setSSL($ssl = true);
     public function setPath($protocol, $path);
+    public function addFunction($type, $version);
+    public function setBaseUrl($resourceType, $url);
 }

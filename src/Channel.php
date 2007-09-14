@@ -241,16 +241,33 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
  	}
 
     /**
-     * Empty all protocol definitions
-     * @param string protocol type (xmlrpc, soap)
-     * @param string|false mirror name, if any
+     * Empty all xmlrpc definitions
      */
-    function resetFunctions($type)
+    function resetXmlrpc()
     {
-        if (isset($this->_channelInfo['servers']['primary'][$type])) {
-            unset($this->_channelInfo['servers']['primary'][$type]);
+        if (isset($this->_channelInfo['servers']['primary']['xmlrpc'])) {
+            unset($this->_channelInfo['servers']['primary']['xmlrpc']);
         }
-        return true;
+    }
+
+    /**
+     * Empty all SOAP definitions
+     */
+    function resetSOAP()
+    {
+        if (isset($this->_channelInfo['servers']['primary']['soap'])) {
+            unset($this->_channelInfo['servers']['primary']['soap']);
+        }
+    }
+
+    /**
+     * Empty all REST definitions
+     */
+    function resetREST()
+    {
+        if (isset($this->_channelInfo['servers']['primary']['rest'])) {
+            unset($this->_channelInfo['servers']['primary']['rest']);
+        }
     }
 
     /**
@@ -397,14 +414,14 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      * Add a protocol to the provides section
      * @param string protocol type
      * @param string protocol version
-     * @param string protocol name, if any
-     * @param string mirror name, if this is a mirror's protocol
+     * @param string protocol name
      * @return bool
      */
-    function addFunction($type, $version, $name = '', $mirror = false)
+    function addFunction($type, $version, $name)
     {
-        if ($mirror) {
-            return $this->addMirrorFunction($mirror, $type, $version, $name);
+        if (!in_array($type, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $type);
         }
         $set = array('attribs' => array('version' => $version), '_content' => $name);
         if (!isset($this->_channelInfo['servers']['primary'][$type]['function'])) {
@@ -415,104 +432,36 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
                 $this->_channelInfo['servers']['primary'] = array($type => array());
             }
             $this->_channelInfo['servers']['primary'][$type]['function'] = $set;
-            $this->_xml = null;
-            return true;
         } elseif (!isset($this->_channelInfo['servers']['primary'][$type]['function'][0])) {
             $this->_channelInfo['servers']['primary'][$type]['function'] = array(
                 $this->_channelInfo['servers']['primary'][$type]['function']);
         }
         $this->_channelInfo['servers']['primary'][$type]['function'][] = $set;
-        return true;
-    }
-    /**
-     * Add a protocol to a mirror's provides section
-     * @param string mirror name (server)
-     * @param string protocol type
-     * @param string protocol version
-     * @param string protocol name, if any
-     */
-    function addMirrorFunction($mirror, $type, $version, $name = '')
-    {
-        if (!isset($this->_channelInfo['servers']['mirror'])) {
-            throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-        }
-        $setmirror = false;
-        if (isset($this->_channelInfo['servers']['mirror'][0])) {
-            foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                if ($mirror == $mir['attribs']['host']) {
-                    $setmirror = &$this->_channelInfo['servers']['mirror'][$i];
-                    break;
-                }
-            }
-        } else {
-            if ($this->_channelInfo['servers']['mirror']['attribs']['host'] == $mirror) {
-                $setmirror = &$this->_channelInfo['servers']['mirror'];
-            }
-        }
-        if (!$setmirror) {
-            throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-        }
-        $set = array('attribs' => array('version' => $version), '_content' => $name);
-        if (!isset($setmirror[$type]['function'])) {
-            $setmirror[$type]['function'] = $set;
-            $this->_xml = null;
-            return true;
-        } elseif (!isset($setmirror[$type]['function'][0])) {
-            $setmirror[$type]['function'] = array($setmirror[$type]['function']);
-        }
-        $setmirror[$type]['function'][] = $set;
-        $this->_xml = null;
-        return true;
     }
 
     /**
      * @param string Resource Type this url links to
      * @param string URL
-     * @param string|false mirror name, if this is not a primary server REST base URL
      */
-    function setBaseURL($resourceType, $url, $mirror = false)
+    function setBaseURL($resourceType, $url)
     {
-        if ($mirror) {
-            if (!isset($this->_channelInfo['servers']['mirror'])) {
-                throw new PEAR2_Pyrus_Channel_Exception('Mirror not found: ' . $mirror);
-            }
-            $setmirror = false;
-            if (isset($this->_channelInfo['servers']['mirror'][0])) {
-                foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                    if ($mirror == $mir['attribs']['host']) {
-                        $setmirror = &$this->_channelInfo['servers']['mirror'][$i];
-                        break;
-                    }
-                }
-            } else {
-                if ($this->_channelInfo['servers']['mirror']['attribs']['host'] == $mirror) {
-                    $setmirror = &$this->_channelInfo['servers']['mirror'];
-                }
-            }
-        } else {
-            $setmirror = &$this->_channelInfo['servers']['primary'];
-        }
         $set = array('attribs' => array('type' => $resourceType), '_content' => $url);
-        if (!isset($setmirror['rest'])) {
-            $setmirror['rest'] = array();
+        if (!isset($this->_channelInfo['servers']['primary']['rest'])) {
+            $this->_channelInfo['servers']['primary']['rest'] = array();
         }
-        if (!isset($setmirror['rest']['baseurl'])) {
-            $setmirror['rest']['baseurl'] = $set;
-            $this->_xml = null;
-            return true;
-        } elseif (!isset($setmirror['rest']['baseurl'][0])) {
-            $setmirror['rest']['baseurl'] = array($setmirror['rest']['baseurl']);
+        if (!isset($this->_channelInfo['servers']['primary']['rest']['baseurl'])) {
+            $this->_channelInfo['servers']['primary']['rest']['baseurl'] = $set;
+            return;
+        } elseif (!isset($this->_channelInfo['servers']['primary']['rest']['baseurl'][0])) {
+            $this->_channelInfo['servers']['primary']['rest']['baseurl'] = array($this->_channelInfo['servers']['primary']['rest']['baseurl']);
         }
-        foreach ($setmirror['rest']['baseurl'] as $i => $url) {
+        foreach ($this->_channelInfo['servers']['primary']['rest']['baseurl'] as $i => $url) {
             if ($url['attribs']['type'] == $resourceType) {
-                $this->_xml = null;
-                $setmirror['rest']['baseurl'][$i] = $set;
-                return true;
+                $this->_channelInfo['servers']['primary']['rest']['baseurl'][$i] = $set;
+                return;
             }
         }
-        $setmirror['rest']['baseurl'][] = $set;
-        $this->_xml = null;
-        return true;
+        $this->_channelInfo['servers']['primary']['rest']['baseurl'][] = $set;
     }
 
     /**

@@ -234,4 +234,113 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	          type=\'' . sqlite_escape_string($resourceType) . '\'
         ');
     }
+
+    /**
+     * Empty all xmlrpc definitions
+     */
+    function resetXmlrpc()
+    {
+        return $this->database->queryExec('
+            DELETE FROM channel_server_xmlrpc WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
+
+    /**
+     * Empty all SOAP definitions
+     */
+    function resetSOAP()
+    {
+        return $this->database->queryExec('
+            DELETE FROM channel_server_soap WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
+
+    /**
+     * Empty all REST definitions
+     */
+    function resetREST()
+    {
+        return $this->database->queryExec('
+            DELETE FROM channel_server_rest WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
+
+    function setName($name)
+    {
+        throw new PEAR2_Pyrus_ChannelRegistry_Exception(
+            'Cannot change channel name of a registered channel');
+    }
+
+    function setPort($port)
+    {
+        return $this->database->queryExec('
+            UPDATE channel_servers SET port=\'' . sqlite_escape_string($port) . '\'WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
+
+    function setSSL($ssl = true)
+    {
+        $ssl = $ssl ? '1' : '0';
+        return $this->database->queryExec('
+            UPDATE channel_servers SET ssl=\'' . $ssl . '\'WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
+
+    function setPath($protocol, $path)
+    {
+        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        return $this->database->queryExec('
+            UPDATE channel_server_' . $protocol . '
+            SET path=\'' . sqlite_escape_string($path) . '\'WHERE
+              channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
+
+    function addFunction($type, $version, $name)
+    {
+        if (!in_array($type, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $type);
+        }
+        if (!$this->database->queryExec('
+            INSERT INTO channel_server_' . $type . '
+             (channel, server, function, version)
+             VALUES(\'' . sqlite_escape_string($this->_channel) . '\',
+ 	                \'' . sqlite_escape_string($this->mirror) . '\',
+ 	                \'' . sqlite_escape_string($name) . '\',
+ 	                \'' . sqlite_escape_string($version) . '\'')) {
+            $this->database->queryExec('
+                UPDATE channel_server_' . $type . '
+                SET version=\'' . sqlite_escape_string($version) . '\' WHERE
+                    channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+                    function=\'' . sqlite_escape_string($name) . '\' AND
+ 	                server=\'' . sqlite_escape_string($this->mirror) . '\'');
+        }
+    }
+
+    function setBaseUrl($resourceType, $url)
+    {
+        if (!$this->database->queryExec('
+            INSERT INTO channel_server_rest
+             (channel, server, type, baseurl)
+             VALUES(\'' . sqlite_escape_string($this->_channel) . '\',
+ 	                \'' . sqlite_escape_string($this->mirror) . '\',
+ 	                \'' . sqlite_escape_string($resourceType) . '\',
+ 	                \'' . sqlite_escape_string($url) . '\'')) {
+            $this->database->queryExec('
+                UPDATE channel_server_rest
+                SET baseurl=\'' . sqlite_escape_string($url) . '\' WHERE
+                    channel=\'' . sqlite_escape_string($this->_channel) . '\' AND
+                    type=\'' . sqlite_escape_string($resourceType) . '\' AND
+ 	                server=\'' . sqlite_escape_string($this->mirror) . '\'');
+        }
+    }
 }

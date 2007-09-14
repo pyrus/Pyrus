@@ -161,4 +161,81 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         }
         $this->_info[$protocol]['attribs']['path'] = $path;
     }
+
+    /**
+     * Empty all xmlrpc definitions
+     */
+    function resetXmlrpc()
+    {
+        if (isset($this->_info['xmlrpc'])) {
+            unset($this->_info['xmlrpc']);
+        }
+    }
+
+    /**
+     * Empty all SOAP definitions
+     */
+    function resetSOAP()
+    {
+        if (isset($this->_info['soap'])) {
+            unset($this->_info['soap']);
+        }
+    }
+
+    /**
+     * Empty all REST definitions
+     */
+    function resetREST()
+    {
+        if (isset($this->_info['rest'])) {
+            unset($this->_info['rest']);
+        }
+    }
+
+    /**
+     * Add a protocol to a mirror's provides section
+     * @param string mirror name (server)
+     * @param string protocol type
+     * @param string protocol version
+     * @param string protocol name, if any
+     */
+    function addFunction($type, $version, $name = '')
+    {
+        if (!in_array($type, array('xmlrpc', 'soap'))) {
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $type);
+        }
+        $set = array('attribs' => array('version' => $version), '_content' => $name);
+        if (!isset($this->_info[$type]['function'])) {
+            $this->_info[$type]['function'] = $set;
+        } elseif (!isset($this->_info[$type]['function'][0])) {
+            $this->_info[$type]['function'] = array($this->_info[$type]['function']);
+        }
+        $this->_info[$type]['function'][] = $set;
+    }
+
+    /**
+     * @param string Resource Type this url links to
+     * @param string URL
+     */
+    function setBaseURL($resourceType, $url)
+    {
+        $set = array('attribs' => array('type' => $resourceType), '_content' => $url);
+        if (!isset($this->_info['rest'])) {
+            $this->_info['rest'] = array();
+        }
+        if (!isset($this->_info['rest']['baseurl'])) {
+            $this->_info['rest']['baseurl'] = $set;
+            return;
+        } elseif (!isset($this->_info['rest']['baseurl'][0])) {
+            $this->_info['rest']['baseurl'] = array($this->_info['rest']['baseurl']);
+        }
+        foreach ($this->_info['rest']['baseurl'] as $i => $url) {
+            if ($url['attribs']['type'] == $resourceType) {
+                $this->_info['rest']['baseurl'][$i] = $set;
+                return;
+            }
+        }
+        $this->_info['rest']['baseurl'][] = $set;
+    }
 }
