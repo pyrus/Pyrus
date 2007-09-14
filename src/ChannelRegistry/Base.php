@@ -1,5 +1,5 @@
 <?php
-abstract class PEAR2_Pyrus_ChannelRegistry_Base extends PEAR2_Pyrus_Channel_Base
+abstract class PEAR2_Pyrus_ChannelRegistry_Base
     implements PEAR2_Pyrus_IChannelRegistry
 {
     /**
