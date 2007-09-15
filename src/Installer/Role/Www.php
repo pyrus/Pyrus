@@ -30,5 +30,5 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.7.0
  */
-class PEAR_Installer_Role_Www extends PEAR_Installer_Role_Common {}
+class PEAR2_Pyrus_Installer_Role_Www extends PEAR2_Pyrus_Installer_Role_Common {}
 ?>

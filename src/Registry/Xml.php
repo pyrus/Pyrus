@@ -25,10 +25,10 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
     private function _getPackageRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
                                      $channel = null, $package = null, $version = null)
     {
-        $channel = $info === null ? $info->getChannel() : $channel;
-        $package = $info === null ? $info->getPackage() : $package;
-        $path = $this->_getPackageRegistryPath($channel, $package);
-        $version = $info === null ? $info->getVersion() : $version;
+        $channel = $info !== null ? $info->getChannel() : $channel;
+        $package = $info !== null ? $info->getPackage() : $package;
+        $path = $this->_getPackagePath($channel, $package);
+        $version = $info !== null ? $info->getVersion() : $version;
         return $path . DIRECTORY_SEPARATOR . $version . '-package.xml';
     }
 

@@ -171,6 +171,6 @@ class PEAR2_Pyrus_Installer
         } catch (Exception $e) {
             $this->_transact->rollback();
         }
-        PEAR2_Pyrus_Config::current()->registry->installPackage($package->getPackageFile()->info);
+        PEAR2_Pyrus_Config::current()->registry->install($package->getPackageFile()->info);
     }
 }

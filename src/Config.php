@@ -94,13 +94,41 @@ class PEAR2_Pyrus_Config
             return;
         }
         $called = true;
+        // set up default ext_dir
+        if (getenv('PHP_PEAR_EXTENSION_DIR')) {
+            self::$defaults['ext_dir'] = getenv('PHP_PEAR_EXTENSION_DIR');
+        } elseif (ini_get('extension_dir')) {
+            self::$defaults['ext_dir'] = ini_get('extension_dir');
+        } elseif (defined('PEAR_EXTENSION_DIR')) {
+            self::$defaults['ext_dir'] = PEAR_EXTENSION_DIR;
+        } elseif (defined('PHP_EXTENSION_DIR')) {
+            self::$defaults['ext_dir'] = PHP_EXTENSION_DIR;
+        }
+        // set up default bin_dir
+        if (getenv('PHP_PEAR_BIN_DIR')) {
+            self::$defaults['bin_dir'] = getenv('PHP_PEAR_BIN_DIR');
+        } elseif (PATH_SEPARATOR == ';') {
+            // we're on windows, and shouldn't use PHP_BINDIR
+            do {
+                if (!isset($_ENV) || !isset($_ENV['PATH'])) {
+                    $path = getenv('PATH');
+                } else {
+                    $path = $_ENV['PATH'];
+                }
+                if (!$path) break; // can't get PATH, so use PHP_BINDIR
+                $paths = explode(';', $path);
+                foreach ($paths as $path) {
+                    if ($path != '.' && is_writable($path)) {
+                        // this place will do
+                        self::$defaults['bin_dir'] = $path;
+                    }
+                }
+            } while (false);
+        }
         foreach (self::$pearConfigNames as $name) {
             // make sure we've got valid paths for the underlying OS
             self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
                                                  self::$defaults[$name]);
-        }
-        if (ini_get('extension_dir')) {
-            self::$defaults['ext_dir'] = ini_get('extension_dir');
         }
         ob_start();
         phpinfo(INFO_GENERAL);

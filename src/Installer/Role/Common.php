@@ -159,9 +159,6 @@ class PEAR2_Pyrus_Installer_Role_Common
     {
         $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        if (PEAR::isError($roleInfo)) {
-            return $roleInfo;
-        }
         return $roleInfo['locationconfig'];
     }
 
