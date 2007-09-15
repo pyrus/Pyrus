@@ -202,7 +202,6 @@ class PEAR2_Pyrus_OSGuess
             return $glibc; // no need to run this multiple times
         }
         $major = $minor = 0;
-        include_once "System.php";
         // Use glibc's <features.h> header file to
         // get major and minor version number:
         if (@file_exists('/usr/include/features.h') &&

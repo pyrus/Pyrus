@@ -58,6 +58,11 @@ class PEAR2_Pyrus_Package_Xml implements ArrayAccess, Iterator
         return call_user_func_array(array($this->_packagefile->info, $func), $args);
     }
 
+    function getLocation()
+    {
+        return $this->_packagefile->path;
+    }
+
     function __get($var)
     {
         return $this->_packagefile->info->$var;

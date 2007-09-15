@@ -326,4 +326,11 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	                server=\'' . sqlite_escape_string($this->mirror) . '\'');
         }
     }
+
+    function getAlias()
+    {
+        return $this->database->singleQuery('SELECT alias FROM channels
+            WHERE
+                    channel=\'' . sqlite_escape_string($this->_channel) . '\'');
+    }
 }

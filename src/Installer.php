@@ -24,7 +24,7 @@ class PEAR2_Pyrus_Installer
     function install(PEAR2_Pyrus_Package $package)
     {
         $this->_installedas->reset($package);
-        $tmp_path = 'C:/development/pear-core';
+        $tmp_path = $package->getLocation();
         $this->_options = array();
         
         $this->_transact->begin();

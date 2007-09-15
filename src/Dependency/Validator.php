@@ -50,7 +50,7 @@ class PEAR2_Pyrus_Dependency_Validator
      */
     var $_options;
     /**
-     * @var OS_Guess
+     * @var PEAR2_Pyrus_OSGuess
      */
     var $_os;
     /**
@@ -606,7 +606,7 @@ class PEAR2_Pyrus_Dependency_Validator
         if (isset($dep['uri'])) {
             $dep['channel'] = '__uri';
         }
-        $depname = $this->_registry->parsedPackageNameToString($dep, true);
+        $depname = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($dep, true);
         $found = false;
         foreach ($params as $param) {
             if ($param->isEqual(
@@ -730,7 +730,7 @@ class PEAR2_Pyrus_Dependency_Validator
         if ($fail && !isset($dep['conflicts'])) {
             $installed = $installed ? 'installed' : 'downloaded';
             $dep['package'] = $dep['name'];
-            $dep = $this->_registry->parsedPackageNameToString($dep, true);
+            $dep = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($dep, true);
             if (!isset($this->_options['nodeps']) && !isset($this->_options['force'])) {
                 return $this->raiseError('%s requires package "' . $depname . '"' .
                     $extra . ", $installed version is " . $version);
@@ -884,7 +884,7 @@ class PEAR2_Pyrus_Dependency_Validator
     function _validatePackageUninstall($dep, $required, $params, &$dl)
     {
         $dep['package'] = $dep['name'];
-        $depname = $this->_registry->parsedPackageNameToString($dep, true);
+        $depname = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($dep, true);
         $found = false;
         foreach ($params as $param) {
             if ($param->isEqual($this->_currentPackage)) {
@@ -1018,7 +1018,7 @@ class PEAR2_Pyrus_Dependency_Validator
                         if (strtolower($packd->getPackage()) == strtolower($package) &&
                               $packd->getChannel() == $channel) {
                             $dl->log(3, 'skipping installed package check of "' .
-                                        $this->_registry->parsedPackageNameToString(
+                                        PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
                                             array('channel' => $channel, 'package' => $package),
                                             true) .
                                         '", version "' . $packd->getVersion() . '" will be ' .
@@ -1057,13 +1057,13 @@ class PEAR2_Pyrus_Dependency_Validator
         if (isset($this->_options['ignore-errors'])) {
             return $this->warning($msg);
         }
-        throw new PEAR2_Pyrus_Dependency_Exception(sprintf($msg, $this->_registry->parsedPackageNameToString(
+        throw new PEAR2_Pyrus_Dependency_Exception(sprintf($msg, PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
             $this->_currentPackage, true)));
     }
 
     function warning($msg)
     {
-        return array(sprintf($msg, $this->_registry->parsedPackageNameToString(
+        return array(sprintf($msg, PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
             $this->_currentPackage, true)));
     }
 }

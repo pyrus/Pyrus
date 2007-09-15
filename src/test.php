@@ -2,7 +2,7 @@
 // this shows how it works
 function __autoload($class)
 {
-    if (substr($class, 0, 4) != 'PEAR') return false;
+    if (substr($class, 0, 5) != 'PEAR2') return false;
     $path = explode('_', substr($class, 11)); // strip PEAR2_Pyrus for CVS
     $path = dirname(__FILE__) . implode('/', $path) . '.php';
     include $path;

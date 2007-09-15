@@ -149,7 +149,7 @@ class PEAR2_Pyrus_Package_Remote
                         $this->_downloader->log(0, $pname->getMessage());
                     }
                     if (is_array($param)) {
-                        $param = $this->_registry->parsedPackageNameToString($param);
+                        $param = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($param);
                     }
                     $err = PEAR::raiseError('invalid package name/package file "' .
                         $param . '"');
@@ -188,7 +188,7 @@ class PEAR2_Pyrus_Package_Remote
                 if ($test = $this->_downloader->_getPackageDownloadUrl($pname)) {
                     if (!PEAR::isError($test)) {
                         $info = PEAR::raiseError($info->getMessage() . ' - package ' .
-                            $this->_registry->parsedPackageNameToString($pname, true) .
+                            PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($pname, true) .
                             ' can be installed with "pecl install ' . $pname['package'] .
                             '"');
                     } else {

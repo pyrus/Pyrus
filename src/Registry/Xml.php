@@ -77,13 +77,13 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
     public function info($package, $channel, $field)
     {
         if (!$this->exists($package, $channel)) {
-            throw new PEAR2_Registry_Exception('Unknown package ' . $channel .
+            throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel .
                 '/' . $package);
         }
         $packagefile = glob($this->_getPackagePath($package, $channel) .
             DIRECTORY_SEPARATOR . '*.xml');
         if (!$packagefile || !isset($packagefile[0])) {
-            throw new PEAR2_Registry_Exception('Cannot find registry for package ' .
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
                 $channel . '/' . $package);
         }
         // create packagefile v2 here

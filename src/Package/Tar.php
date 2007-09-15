@@ -139,6 +139,23 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
         return call_user_func_array(array($this->_packagefile, $func), $args);
     }
 
+    function getLocation()
+    {
+        $ret = (string) PEAR2_Pyrus_Config::current()->temp_dir;
+        // support old packages
+        if (file_exists($a = $ret . DIRECTORY_SEPARATOR .
+              $this->getPackage() . '-' . $this->getVersion())) {
+            $a = str_replace('\\', '/', $a);
+            $a = str_replace('//', '/', $a);
+            $a = str_replace('/', DIRECTORY_SEPARATOR, $a);
+            return $a;
+        }
+        $ret = str_replace('\\', '/', $ret);
+        $ret = str_replace('//', '/', $ret);
+        $ret = str_replace('/', DIRECTORY_SEPARATOR, $ret);
+        return $ret;
+    }
+
     function __get($var)
     {
         $this->_extract();

@@ -107,7 +107,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 if (isset($role['uri'])) {
                                     $package = $role['uri'];
                                 } else {
-                                    $package = $this->_pf->_registry->
+                                    $package = PEAR2_Pyrus_ChannelRegistry::
                                         parsedPackageNameToString(array('package' =>
                                             $role['package'], 'channel' => $role['channel']),
                                             true);
@@ -153,7 +153,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                         if (isset($role['uri'])) {
                                             $package = $role['uri'];
                                         } else {
-                                            $package = $this->_pf->_registry->
+                                            $package = PEAR2_Pyrus_ChannelRegistry::
                                                 parsedPackageNameToString(array('package' =>
                                                     $role['package'], 'channel' => $role['channel']),
                                                     true);
@@ -207,17 +207,15 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 ->registry->channel[$this->_pf->getChannel()]->getValidationPackage();
             $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
                 'Unknown channel ' . $this->_pf->getChannel());
-            $this->_stack->push(__FUNCTION__, 'error',
-                array_merge(
-                    array('channel' => $chan->getName(),
-                          'package' => $this->_pf->getPackage()),
-                      $valpack
-                    ),
-                'package "%channel%/%package%" cannot be properly validated without ' .
-                'validation package "%channel%/%name%-%version%"');
-            return $this->_isValid = 0;
+            $this->_errors[E_ERROR] = new PEAR2_Pyrus_PackageFile_Exception(
+                'package "' . $chan->getName() . '/' . $this->_pf->getPackage() .
+                '" cannot be properly validated without validation package "' .
+                $chan->getName() . '/' . $valpack['name'] . '-' . $valpack['version'] . '"');
         }
-        if ($this->_isValid && $state == PEAR2_Pyrus_Validate::PACKAGING && !$this->_filesValid) {
+        if (count($this->_errors[E_ERROR])) {
+            throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $this->_errors);
+        }
+        if ($state == PEAR2_Pyrus_Validate::PACKAGING && !$this->_filesValid) {
             if ($this->_pf->getPackageType() == 'bundle') {
                 if ($this->_analyzeBundledPackages()) {
                     $this->_filesValid = $this->_pf->_filesValid = true;

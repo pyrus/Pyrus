@@ -222,14 +222,14 @@ class PEAR2_Pyrus_PackageFile_v2
                             // "install" self, so all dependencies will work transparently
                             $this->_registry->addPackage2($this);
                             $installer->log(0, 'Download and install of binary extension "' .
-                                $this->_registry->parsedPackageNameToString(
+                                PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
                                     array('channel' => $pf->getChannel(),
                                           'package' => $pf->getPackage()), true) . '" successful');
                             $a = array($ret[0], $err);
                             return $a;
                         }
                         $installer->log(0, 'Download and install of binary extension "' .
-                            $this->_registry->parsedPackageNameToString(
+                            PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
                                     array('channel' => $pf->getChannel(),
                                           'package' => $pf->getPackage()), true) . '" failed');
                     }

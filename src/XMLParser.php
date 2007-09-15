@@ -6,57 +6,6 @@
  */
 class PEAR2_Pyrus_XMLParser
 {
-
-    static function prepareNewTag(&$arr, $depth, $name)
-    {
-        
-    }
-
-    /**
-     * Recursively merge in new XML values
-     *
-     * @param array $arr
-     * @param array $depth array of tag names in depth-last order
-     * @param mixed $value the content to merge in
-     */
-    static function mergeValue(&$arr, $depth, $value, $visited)
-    {
-        if (!count($depth)) {
-            if (is_string($arr) && strlen($arr)) {
-                if (is_array($value)) {
-                    $arr = array('_content' => $arr);
-                    $arr[] = $value;
-                } else {
-                    $arr = array($arr);
-                    $arr[] = $value;
-                }
-                return;
-            }
-            if (is_array($arr)) {
-                if (is_array($value) && !isset($arr[0])) {
-                    $arr = array($arr);
-                }
-                if (is_string($value)) {
-                    $arr['_content'] = $value;
-                    return;
-                }
-                $arr[] = $value;
-                return;
-            }
-            $arr = $value;
-            return;
-        }
-        $key = array_shift($depth);
-        if (!isset($arr[$key])) {
-            $arr[$key] = count($depth) ? array() : null;
-        } else {
-            if (is_string($arr[$key]) && count($depth) && strlen($arr[$key])) {
-                $arr[$key] = array('_content' => $arr[$key]);
-            }
-        }
-        self::mergeValue($arr[$key], $depth, $value);
-    }
-
     function parseString($string, $schema = false)
     {
         $a = new XMLReader;
@@ -89,82 +38,116 @@ class PEAR2_Pyrus_XMLParser
         $a->open($file);
         return $this->_parse($a, $file, $schema, true);
     }
-
-    private function _wasVisited($visited, $count, $name)
+    static function mergeTag(&$arr, $tag, $attr, $name)
     {
-        if (!isset($visited[$count])) {
-            return false;
+        if ($attr) {
+            // tag has attributes
+            if (is_string($tag) && $tag !== '') {
+                $tag = array('attribs' => $attr, '_content' => $tag);
+            } else {
+                if (!is_array($tag)) {
+                    $tag = array();
+                }
+                $tag['attribs'] = $attr;
+            }
         }
-        if (!isset($visited[$count][$name])) {
-            return false;
+        if (is_array($arr) && isset($arr[$name]) && is_array($arr[$name]) &&
+              isset($arr[$name][0])) {
+            // tag exists as a sibling
+            $where = count($arr[$name]);
+            if (!isset($arr[$name][$where])) {
+                $arr[$name][$where] = $tag;
+                return;
+            }
+            if (!is_array($arr[$name][$where])) {
+                if (strlen($arr[$name][$where])) {
+                    $arr[$name][$where] = array('_content' => $arr[$name][$where]);
+                } else {
+                    $arr[$name][$where] = array();
+                }
+            }
+            $arr[$name][$where] = $tag;
+        } else {
+            if (!is_array($arr)) {
+                $arr = array();
+            }
+            $arr[$name] = $tag;
         }
-        return true;
     }
 
-    private function _setVisited(&$visited, $count, $name)
+    static function mergeValue(&$arr, $value, $name)
     {
-        if (!isset($visited[$count])) {
-            $visited[$count] = array();
+        if (is_array($arr) && isset($arr[0])) {
+            // multiple siblings
+            $me = &$arr[count($arr[$name]) - 1];
+        } elseif (is_array($arr)) {
+            $me = &$arr;
+        } else {
+            $arr = $value;
+            return;
         }
-        if (!isset($visited[$count][$name])) {
-            $visited[$count][$name] = 0;
+        if (isset($me['attribs'])) {
+            $me['_content'] = $value;
+        } else {
+            $me = $value;
         }
-        ++$visited[$count][$name];
     }
 
     private function _parse($a, $file, $schema, $isfile)
     {
-        $visited = array();
-        $tagStack = array();
-        $arr = array();
+        $arr = $tagStack = $level = array();
+        $cur = &$arr;
+        $prevStack = array(&$arr);
         while ($a->read()) {
             if ($a->nodeType == XMLReader::ELEMENT) {
+                $tag = $a->name;
+                if (isset($level[count($tagStack)]) && $level[count($tagStack)] == $tag) {
+                    // next sibling tag
+                    if (!is_array($cur[$tag]) || !isset($cur[$tag][0])) {
+                        $cur[$tag] = array($cur[$tag]);
+                    }
+                }
+                $attrs = array();
                 if ($a->isEmptyElement) {
                     if ($a->hasAttributes) {
-                        $attrs = array();
                         $attr = $a->moveToFirstAttribute();
                         while ($attr) {
                             $attrs[$a->name] = $a->value;
                             $attr = $a->moveToNextAttribute();
                         }
-                        self::mergeValue($arr, 
-                            array_merge($tagStack, array($a->name, 'attribs')),
-                            $attrs);
+                        self::mergeTag($cur, '', $attrs, $tag);
                         continue;
                     }
-                    if ($this->_wasVisited($visited, count($tagStack), $a->name)) {
-                        self::prepareNewTag($arr, $tagStack, $a->name);
-                    }
-                    $this->_setVisited($visited, count($tagStack), $a->name, $visited);
-                    $visited[count($tagStack)][$a->name] = 
-                    self::mergeValue($arr,
-                        array_merge($tagStack, array($a->name)), '');
+                    self::mergeTag($cur, '', array(), $tag);
                     continue;
                 }
-                $tagStack[] = $a->name;
-                if ($this->_wasVisited($visited, count($tagStack), $a->name)) {
-                    self::prepareNewTag($arr, $tagStack, $a->name);
-                }
-                $this->_setVisited($visited, count($tagStack), $a->name);
+                $prevStack[] = &$cur;
+                $level[count($tagStack)] = $tag;
+                $tagStack[] = $tag;
                 if ($a->hasAttributes) {
-                    $attrs = array();
                     $attr = $a->moveToFirstAttribute();
                     while ($attr) {
                         $attrs[$a->name] = $a->value;
                         $attr = $a->moveToNextAttribute();
                     }
-                    self::mergeValue($arr,
-                        array_merge($tagStack, array('attribs')), $attrs, $visited);
+                }
+                self::mergeTag($cur, '', $attrs, $tag);
+                $cur = &$cur[$tag];
+                if (is_array($cur) && isset($cur[0])) {
+                    // seek to last sibling
+                    $cur = &$cur[count($cur) - 1];
                 }
                 continue;
             }
             if ($a->nodeType == XMLReader::END_ELEMENT) {
-                array_pop($tagStack);
+                $cur = &$prevStack[count($prevStack) - 1];
+                array_pop($prevStack);
+                unset($level[count($tagStack)]);
+                $tag = array_pop($tagStack);
                 continue;
             }
             if ($a->nodeType == XMLReader::TEXT || $a->nodeType == XMLReader::CDATA) {
-                self::mergeValue($arr,
-                    $tagStack, $a->value);
+                self::mergeValue($cur, $a->value, $tag);
             }
         }
         if ($schema) {

@@ -41,7 +41,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         if (@$this->database->singleQuery('SELECT version FROM pearregistryversion') == '1.0.0') {
             return;
         }
-        $a = new PEAR2_Registry_Sqlite_Creator;
+        $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
         $a->create($this->database);
     }
 
