@@ -1868,6 +1868,9 @@ class PEAR2_Pyrus_PackageFile_v2
     function asXml()
     {
         $arr = $this->_packageInfo;
+        $tree = $arr['dirtree'];
+        $arr['dirtree'] = array('path' => array_keys($arr['dirtree']));
+        unset($arr['filelist']);
         $arr['attribs'] = $this->options['rootAttributes'];
         $arr = array('package' => $arr);
         $arr['package']['attribs']['packagerversion'] = '@PEAR-VER@';

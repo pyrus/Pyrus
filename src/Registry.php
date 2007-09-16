@@ -11,7 +11,8 @@
  */
 class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
 {
-    static private $_registries = array();
+    static private $_allRegistries = array();
+    private $_registries = array();
     /**
      * The channel registry
      *
@@ -40,12 +41,12 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
                         'Unknown registry type: ' . $registry);
                     continue;
                 }
-                self::$_registries[] = new $registry($path);
+                $this->_registries[] = new $registry($path);
             } catch (Exception $e) {
                 $exceptions[] = $e;
             }
         }
-        if (!count(self::$_registries)) {
+        if (!count($this->_registries)) {
             throw new PEAR2_Pyrus_Registry_Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
@@ -54,54 +55,54 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
 
     static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
-        if (!isset(self::$_registries[$path])) {
-            self::$_registries[$path] = new PEAR2_Pyrus_Registry($path);
+        if (!isset(self::$_allRegistries[$path])) {
+            self::$_allRegistries[$path] = new PEAR2_Pyrus_Registry($path);
         }
-        return self::$_registries[$path];
+        return self::$_allRegistries[$path];
     }
 
     public function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        foreach (self::$_registries as $reg) {
+        foreach ($this->_registries as $reg) {
             $reg->install($info);
         }
     }
 
     public function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        foreach (self::$_registries as $reg) {
+        foreach ($this->_registries as $reg) {
             $reg->upgrade($info);
         }
     }
 
     public function uninstall($name, $channel)
     {
-        foreach (self::$_registries as $reg) {
+        foreach ($this->_registries as $reg) {
             $reg->uninstall($name, $channel);
         }
     }
 
     public function exists($package, $channel)
     {
-        return self::$_registries[0]->exists($package, $channel);
+        return $this->_registries[0]->exists($package, $channel);
     }
 
     public function info($package, $channel, $field)
     {
-        return self::$_registries[0]->info($package, $channel, $field);
+        return $this->_registries[0]->info($package, $channel, $field);
     }
 
     function __get($var)
     {
         // first registry is always the primary registry
         if ($var == 'package') {
-            return self::$_registries[0]->package;
+            return $this->_registries[0]->package;
         }
         if ($var == 'channel') {
-            return self::$_channelRegistry;
+            return $this->_channelRegistry;
         }
         if ($var == 'registries') {
-            return self::$_registries;
+            return $this->_registries;
         }
     }
 }

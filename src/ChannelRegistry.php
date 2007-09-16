@@ -2,7 +2,8 @@
 
 class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
 {
-    static private $_registries = array();
+    static private $_allRegistries = array();
+    private $_registries;
 
     protected function __construct($path, $registries = array('Sqlite', 'Xml'))
     {
@@ -16,12 +17,12 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
                         'Unknown channel registry type: ' . $registry);
                     continue;
                 }
-                self::$_registries[] = new $registry($path);
+                self::$_allRegistries[] = new $registry($path);
             } catch (Exception $e) {
                 $exceptions[] = $e;
             }
         }
-        if (!count(self::$_registries)) {
+        if (!count(self::$_allRegistries)) {
             throw new PEAR2_Pyrus_Registry_Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
@@ -30,39 +31,39 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
 
     static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
-        if (!isset(self::$_registries[$path])) {
-            self::$_registries[$path] = new PEAR2_Pyrus_ChannelRegistry($path);
+        if (!isset(self::$_allRegistries[$path])) {
+            self::$_allRegistries[$path] = new PEAR2_Pyrus_ChannelRegistry($path);
         }
-        return self::$_registries[$path];
+        return self::$_allRegistries[$path];
     }
 
     public function offsetGet($offset)
     {
-        return self::$_registries[0]->get($offset);
+        return $this->_registries[0]->get($offset);
     }
 
     public function offsetSet($offset, $value)
     {
-        foreach (self::$_registries as $reg) {
+        foreach ($this->_registries as $reg) {
             $reg->add($offset, $value);
         }
     }
 
     public function offsetExists($offset)
     {
-        return self::$_registries[0]->exists($offset);
+        return $this->_registries[0]->exists($offset);
     }
 
     public function offsetUnset($offset)
     {
-        foreach (self::$_registries as $reg) {
+        foreach ($this->_registries as $reg) {
             $reg->delete($offset);
         }
     }
 
     public function __call($method, $args)
     {
-        return call_user_func_array(array(self::$_registries[0], $method), $args);
+        return call_user_func_array(array($this->_registries[0], $method), $args);
     }
 
     /**
