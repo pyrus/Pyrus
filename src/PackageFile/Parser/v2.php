@@ -32,14 +32,12 @@
  */
 class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
 {
-    var $_config;
-    var $_logger;
-    var $_registry;
-
-    function __construct()
-    {
-    }
-
+    private $_inContents = false;
+    private $_path = '';
+    private $_files = array();
+    private $_lastDepth = 0;
+    private $_inFile = 0;
+    private $_curFile;
     /**
      * Unindent given string
      *
@@ -88,6 +86,11 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
      */
     function parse($data, $file, $class = 'PEAR2_Pyrus_PackageFile_v2')
     {
+        $this->_inContents = false;
+        $this->_path = '';
+        $this->_files = array();
+        $this->_lastDepth = 0;
+        $this->_inFile = 0;
         $ret = new $class;
         $ret->setConfig(PEAR2_Pyrus_Config::current());
         if (isset($this->_logger)) {
@@ -114,8 +117,49 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $e);
         }
+        $ret->setFileList($this->_files);
         $ret->setPackagefile($file);
         return $ret;
+    }
+
+    protected function mergeTag(&$arr, $tag, $attr, $name, $depth)
+    {
+        parent::mergeTag($arr, $tag, $attr, $name, $depth);
+        if ($this->_inContents) {
+            while ($this->_lastDepth > $depth) {
+                --$this->_lastDepth;
+                $this->_path = dirname($this->_path);
+            }
+            if ($this->_inFile) {
+                if ($depth < $this->_inFile) {
+                    $this->_inFile = 0;
+                }
+            }
+            if ($name === 'dir') {
+                $this->_lastDepth = $depth;
+                $path = $attr['name'];
+                if ($path === '/') {
+                    $path = '';
+                } else {
+                    $path .= '/';
+                }
+                $this->_path .= $path;
+            } elseif ($name === 'file') {
+                if (isset($arr[$name][0])) {
+                    $this->_files[$this->_path . '/' . $attr['name']] =
+                        $arr[$name][count($arr[$name]) - 1];
+                } else {
+                    $this->_files[$this->_path . '/' . $attr['name']] = $arr[$name];
+                }
+                $this->_curFile = $this->_path . '/' . $attr['name'];
+                $this->_inFile = $depth;
+            } elseif ($this->_inFile) {
+                // add tasks
+                $this->_files[$this->_curFile][$name] = $arr[$name];
+            }
+        } elseif ($name === 'contents') {
+            $this->_inContents = true;
+        }
     }
 }
 ?>

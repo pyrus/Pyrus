@@ -38,7 +38,8 @@ class PEAR2_Pyrus_XMLParser
         $a->open($file);
         return $this->_parse($a, $file, $schema, true);
     }
-    static function mergeTag(&$arr, $tag, $attr, $name)
+
+    protected function mergeTag(&$arr, $tag, $attr, $name, $depth)
     {
         if ($attr) {
             // tag has attributes
@@ -75,7 +76,7 @@ class PEAR2_Pyrus_XMLParser
         }
     }
 
-    static function mergeValue(&$arr, $value, $name)
+    protected function mergeValue(&$arr, $value, $name)
     {
         if (is_array($arr) && isset($arr[0])) {
             // multiple siblings
@@ -96,6 +97,7 @@ class PEAR2_Pyrus_XMLParser
     private function _parse($a, $file, $schema, $isfile)
     {
         $arr = $tagStack = $level = array();
+        $depth = 0;
         $cur = &$arr;
         $prevStack = array(&$arr);
         while ($a->read()) {
@@ -115,10 +117,10 @@ class PEAR2_Pyrus_XMLParser
                             $attrs[$a->name] = $a->value;
                             $attr = $a->moveToNextAttribute();
                         }
-                        self::mergeTag($cur, '', $attrs, $tag);
+                        $this->mergeTag($cur, '', $attrs, $tag, $depth);
                         continue;
                     }
-                    self::mergeTag($cur, '', array(), $tag);
+                    $this->mergeTag($cur, '', array(), $tag, $depth);
                     continue;
                 }
                 $prevStack[] = &$cur;
@@ -131,8 +133,9 @@ class PEAR2_Pyrus_XMLParser
                         $attr = $a->moveToNextAttribute();
                     }
                 }
-                self::mergeTag($cur, '', $attrs, $tag);
+                $this->mergeTag($cur, '', $attrs, $tag, $depth);
                 $cur = &$cur[$tag];
+                $depth++;
                 if (is_array($cur) && isset($cur[0])) {
                     // seek to last sibling
                     $cur = &$cur[count($cur) - 1];
@@ -141,13 +144,14 @@ class PEAR2_Pyrus_XMLParser
             }
             if ($a->nodeType == XMLReader::END_ELEMENT) {
                 $cur = &$prevStack[count($prevStack) - 1];
+                $depth--;
                 array_pop($prevStack);
                 unset($level[count($tagStack)]);
                 $tag = array_pop($tagStack);
                 continue;
             }
             if ($a->nodeType == XMLReader::TEXT || $a->nodeType == XMLReader::CDATA) {
-                self::mergeValue($cur, $a->value, $tag);
+                $this->mergeValue($cur, $a->value, $tag, $depth);
             }
         }
         if ($schema) {
