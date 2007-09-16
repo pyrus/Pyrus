@@ -92,6 +92,11 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
         return $this->_registries[0]->info($package, $channel, $field);
     }
 
+    public function listPackages($channel)
+    {
+        return $this->_registries[0]->listPackages($channel);
+    }
+
     function __get($var)
     {
         // first registry is always the primary registry

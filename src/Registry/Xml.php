@@ -7,21 +7,6 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         $this->_path = $path;
     }
 
-    private function _getPackageList()
-    {
-        $packages = PEAR2_Pyrus_Config::current()->path . DIRECTORY_SEPARATOR .
-            '.packages.xml';
-        if (@file_exists($packages)) {
-            $x = new PEAR2_Pyrus_XMLParser;
-            try {
-                return $x->parse($packages);
-            } catch (Exception $e) {
-                // probably corrupted, so return no installed packages
-            }
-        }
-        return array();
-    }
-
     private function _getPackageRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
                                      $channel = null, $package = null, $version = null)
     {
@@ -91,6 +76,32 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             return $pf;
         }
         return $pf->packageInfo($field);
+    }
+
+    public function listPackages($channel)
+    {
+        $dir = $this->_getPackagePath($channel, '');
+        if (!@file_exists($dir)) {
+            return array();
+        }
+        $ret = array();
+        try {
+            $parser = new PEAR2_Pyrus_XMLParser;
+            foreach (new DirectoryIterator($dir) as $file) {
+                if ($file->isDot()) continue;
+                try {
+                    $a = $parser->parse($file->getPathName());
+                    $ret[] = $a['package']['name'];
+                } catch (Exception $e) {
+                    PEAR2_Pyrus_Log::log(0, 'Warning: corrupted XML registry entry: ' .
+                        $file->getPathName() . ': ' . $e);
+                }
+            }
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Registry_Exception('Could not open channel directory for ' .
+                'channel ' . $channel, $e);
+        }
+        return $ret;
     }
 
     public function __get($var)

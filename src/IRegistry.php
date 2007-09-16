@@ -6,5 +6,6 @@ interface PEAR2_Pyrus_IRegistry
     public function uninstall($name, $channel);
     public function exists($package, $channel);
     public function info($package, $channel, $field);
+    public function listPackages($channel);
     public function __get($var);
 }

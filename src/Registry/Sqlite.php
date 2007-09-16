@@ -340,4 +340,12 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         }
         return $info;
     }
+
+    function listPackages($channel)
+    {
+        return $this->database->arrayQuery('SELECT name FROM packages WHERE
+            channel = \'' . sqlite_escape_string($channel) . '\'
+            ORDER BY name
+        ');
+    }
 }
