@@ -2,7 +2,7 @@
 /**
  * package.xml generation class, package.xml version 2.0
  *
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to version 3.0 of the PHP license
  * that is available through the world-wide-web at the following URI:
@@ -21,7 +21,7 @@
  * @since      File available since Release 1.4.0a1
  */
 /**
- * This class converts a PEAR_PackageFile_v2 object into any output format.
+ * This class converts a PEAR2_PackageFile_v2 object into any output format.
  *
  * Supported output formats include array, XML string (using S. Schmidt's
  * XML_Serializer, slightly customized)
@@ -37,62 +37,18 @@
  */
 class PEAR2_Pyrus_PackageFile_v2_Generator
 {
-   /**
-    * default options for the serialization
-    * @access private
-    * @var array $_defaultOptions
-    */
-    var $_defaultOptions = array(
-                         'indent'             => ' ',                    // string used for indentation
-                         'linebreak'          => "\n",                  // string used for newlines
-                         'typeHints'          => false,                 // automatically add type hin attributes
-                         'addDecl'            => true,                 // add an XML declaration
-                         'defaultTagName'     => 'XML_Serializer_Tag',  // tag used for indexed arrays or invalid names
-                         'classAsTagName'     => false,                 // use classname for objects in indexed arrays
-                         'keyAttribute'       => '_originalKey',        // attribute where original key is stored
-                         'typeAttribute'      => '_type',               // attribute for type (only if typeHints => true)
-                         'classAttribute'     => '_class',              // attribute for class of objects (only if typeHints => true)
-                         'scalarAsAttributes' => false,                 // scalar values (strings, ints,..) will be serialized as attribute
-                         'prependAttributes'  => '',                    // prepend string for attributes
-                         'indentAttributes'   => false,                 // indent the attributes, if set to '_auto', it will indent attributes so they all start at the same column
-                         'mode'               => 'simplexml',             // use 'simplexml' to use parent name as tagname if transforming an indexed array
-                         'addDoctype'         => false,                 // add a doctype declaration
-                         'doctype'            => null,                  // supply a string or an array with id and uri ({@see PEAR_PackageFile_Generator_v2_PEAR_PackageFile_Generator_v2_XML_Util::getDoctypeDeclaration()}
-                         'rootName'           => 'package',                  // name of the root tag
-                         'rootAttributes'     => array(
-                             'version' => '2.0',
-                             'xmlns' => 'http://pear.php.net/dtd/package-2.0',
-                             'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
-                             'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                             'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0
+    public $options = array(
+         'rootAttributes'     => array(
+             'version' => '2.0',
+             'xmlns' => 'http://pear.php.net/dtd/package-2.0',
+             'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
+             'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+             'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0
 http://pear.php.net/dtd/tasks-1.0.xsd
 http://pear.php.net/dtd/package-2.0
 http://pear.php.net/dtd/package-2.0.xsd',
-                         ),               // attributes of the root tag
-                         'attributesArray'    => 'attribs',                  // all values in this key will be treated as attributes
-                         'contentName'        => '_content',                   // this value will be used directly as content, instead of creating a new tag, may only be used in conjuction with attributesArray
-                         'beautifyFilelist'   => false,
-                         'encoding' => 'UTF-8',
-                        );
+         ));               // attributes of the root tag
 
-   /**
-    * options for the serialization
-    * @access private
-    * @var array $options
-    */
-    var $options = array();
-
-   /**
-    * current tag depth
-    * @var integer $_tagDepth
-    */
-    var $_tagDepth = 0;
-
-   /**
-    * serilialized representation of the data
-    * @var string $_serializedData
-    */
-    var $_serializedData = null;
     /**
      * @var PEAR_PackageFile_v2
      */
@@ -310,41 +266,18 @@ http://pear.php.net/dtd/package-2.0.xsd',
      *
      * @return string XML data
      */
-    function toXml($state = PEAR2_Pyrus_Validate::NORMAL, $options = array())
+    function toXml($state = PEAR2_Pyrus_Validate::NORMAL)
     {
         $this->_packagefile->setDate(date('Y-m-d'));
         $this->_packagefile->setTime(date('H:i:s'));
         if (!$this->_packagefile->validate($state)) {
             return false;
         }
-        if (is_array($options)) {
-            $this->options = array_merge($this->_defaultOptions, $options);
-        } else {
-            $this->options = $this->_defaultOptions;
-        }
         $arr = $this->_packagefile->getArray();
-        if (isset($arr['filelist'])) {
-            unset($arr['filelist']);
-        }
-        if (isset($arr['_lastversion'])) {
-            unset($arr['_lastversion']);
-        }
-        if ($state ^ PEAR2_Pyrus_Validate::PACKAGING && !isset($arr['bundle'])) {
-            $use = $this->_recursiveXmlFilelist($arr['contents']['dir']['file']);
-            unset($arr['contents']['dir']['file']);
-            if (isset($use['dir'])) {
-                $arr['contents']['dir']['dir'] = $use['dir'];
-            }
-            if (isset($use['file'])) {
-                $arr['contents']['dir']['file'] = $use['file'];
-            }
-            $this->options['beautifyFilelist'] = true;
-        }
-        $arr['attribs']['packagerversion'] = '@PEAR-VER@';
-        if ($this->serialize($arr, $options)) {
-            return $this->_serializedData . "\n";
-        }
-        return false;
+        $arr['attribs'] = $this->options['rootAttributes'];
+        $arr = array('package' => $arr);
+        $arr['package']['attribs']['packagerversion'] = '@PEAR-VER@';
+        return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }
 
 

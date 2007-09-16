@@ -82,7 +82,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 'This package.xml requires PEAR version ' .
                 $test['dependencies']['required']['pearinstaller']['min'] .
                 ' to parse properly, we are version @PACKAGE_VERSION@');
-            return false;
+        $this->_errors = new PEAR2_MultiErrors;
         }
         $fail = false;
         if (!count($this->_contents) && isset($this->_packageInfo['contents'])) {
@@ -133,8 +133,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 $value = array($value);
                             }
                             foreach ($value as $v) {
-                                $ret = $tagClass->validateXml($this->_pf, $v,
-                                    $this->_pf->_config, $save);
+                                $ret = call_user_func(array($tagClass, 'validateXml'),
+                                    $this->_pf, $v, $this->_pf->_config, $save);
                                 if (is_array($ret)) {
                                     $this->_errors[E_ERROR] = 
                                         new PEAR2_Pyrus_PackageFile_Exception(
@@ -176,7 +176,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 $this->_contents[] = $name;
             }
         }
-        $this->_validateFilelist();
         $this->_validateRelease();
         if (count($this->_errors[E_ERROR])) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $this->_errors);
@@ -230,10 +229,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 }
             }
         }
-        if ($this->_isValid) {
-            return $this->_pf->_isValid = $this->_isValid = $state;
-        }
-        return $this->_pf->_isValid = $this->_isValid = 0;
+        return $this->_pf->_isValid = $this->_isValid = $state;
     }
 
     function _validateFilelist($list)
@@ -317,7 +313,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             if (is_array($rel) && array_key_exists('filelist', $rel)) {
                 if ($rel['filelist']) {
                     
-                    $this->_validateFilelist($rel['filelist'], true);
+                    $this->_validateFilelist($rel['filelist']);
                 }
             }
         }

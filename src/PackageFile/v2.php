@@ -1867,8 +1867,11 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function asXml()
     {
-        $a = new PEAR2_Pyrus_PackageFile_v2_Generator($this);
-        return $a->toXml(PEAR2_Pyrus_Validate::NORMAL);
+        $arr = $this->_packageInfo;
+        $arr['attribs'] = $this->options['rootAttributes'];
+        $arr = array('package' => $arr);
+        $arr['package']['attribs']['packagerversion'] = '@PEAR-VER@';
+        return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }
 }
 ?>
