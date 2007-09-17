@@ -36,7 +36,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0777, true);
         }
-        file_put_contents($packagefile, $info->asXml());
+        file_put_contents($packagefile, (string) $info);
     }
 
     function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
