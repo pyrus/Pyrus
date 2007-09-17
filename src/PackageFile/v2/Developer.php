@@ -3,23 +3,42 @@
  * To be used like:
  *
  * <code>
- * $pf->developer['cellog']->name('Greg Beaver')->role('lead')->email('cellog@php.net')->active();
- * echo $pf->developer['cellog']->name;
+ * $pf->maintainer['cellog']->name('Greg Beaver')->role('lead')->email('cellog@php.net')->active();
+ * echo $pf->maintainer['cellog']->name;
  * </code>
  */
 class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 {
-    private $_parent;
+    private $_packageInfo;
     private $_developer = null;
     private $_role = null;
     private $_info = array('name' => null, 'user' => null, 'email' => null, 'active' => null);
-    function __construct(PEAR2_Pyrus_PackageFile_v2 $parent, $developer = null)
+    function __construct(array &$parent, $developer = null)
     {
-        $this->_parent = $parent;
+        $this->_packageInfo = &$parent;
         if ($developer) {
             $this->_developer = $developer;
             $this->_info['user'] = $developer;
         }
+    }
+
+    /**
+     * Search for a maintainer, find them and return the maintainer role
+     *
+     * @param string $handle
+     * @return string|false the role (lead, developer, contributor, helper)
+     */
+    function locateMaintainerRole($handle)
+    {
+        foreach (array('lead', 'developer', 'contributor', 'helper') as $role) {
+            if (!isset($this->_packageInfo[$role])) continue;
+            $inf = $this->_packageInfo[$role];
+            if (!isset($inf[0])) $inf = array($inf);
+            foreach ($inf as $i) {
+                if ($i['user'] == $handle) return $role;
+            }
+        }
+        return false;
     }
 
     function __get($var)
@@ -54,12 +73,50 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 
     function offsetGet($var)
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_parent, $var);
+        return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_packageInfo, $var);
     }
 
-    function offsetSet($var)
+    function offsetSet($var, $value)
     {
-        
+        $this->_developer = $var;
+        $this->_info['user'] = $var;
+        if ($var instanceof PEAR2_Pyrus_PackageFile_v2_Developer) {
+            $this->_info['name'] = $value->name;
+            $this->_info['email'] = $value->email;
+            $this->_info['active'] = $value->active;
+        }
+        if (is_array($value) || $value instanceof ArrayObject) {
+            if (!isset($value['name']) || !isset($value['email']) || !isset($value['active'])) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                    'Invalid array used to set ' . $this->_developer . ' information');
+            }
+            $this->_info['name'] = $value['name'];
+            $this->_info['email'] = $value['email'];
+            $this->_info['active'] = $value['active'];
+        }
+    }
+
+    private function _save()
+    {
+        $role = $this->locateMaintainerRole($this->_developer);
+        if (!$role) {
+            // create new
+            if (!isset($this->_packageInfo[$this->_role])) {
+                $this->_packageInfo[$this->_role] = $this->_info;
+                return;
+            }
+            if (!isset($this->_packageInfo[$this->_role][0])) {
+                $this->_packageInfo[$this->_role] = array($this->_packageInfo[$this->_role],
+                    $this->_info);
+            }
+            return;
+        }
+        // TODO: finish this section
+        if (!isset($this->_packageInfo[$role][0])) {
+            if ($role !== $this->_role) {
+                unset($this->_packageInfo[$role]);
+            }
+        }
     }
 
     function offsetUnset($var)

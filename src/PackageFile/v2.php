@@ -494,8 +494,8 @@ class PEAR2_Pyrus_PackageFile_v2
                 return false;
             case 'file' :
                 return new ArrayObject($this->_filelist, ArrayObject::ARRAY_AS_PROPS);
-            case 'developer' :
-                return new PEAR2_Pyrus_PackageFile_v2_Developer($this);
+            case 'maintainer' :
+                return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_packageInfo);
         }
         return $this->tag($var);
     }
@@ -512,18 +512,6 @@ class PEAR2_Pyrus_PackageFile_v2
                 'phprelease', 'extsrcrelease', 'zendextsrcrelease', 'zendextbinrelease',
                 'extbinrelease', 'bundle', 'changelog'), true)) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' directly');
-        }
-        switch ($var) {
-            case 'lead' :
-            case 'developer' :
-            case 'contributor' :
-            case 'helper' :
-            case 'version' :
-            case 'stability' :
-            case 'license' :
-            case 'compatible' :
-            case 'dependencies' :
-            case 
         }
         if (!in_array($var, array('name', 'channel', 'uri', 'extends', 'summary',
                 'description', 'date', 'time','notes'), true)) {
