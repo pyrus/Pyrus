@@ -511,6 +511,10 @@ class PEAR2_Pyrus_PackageFile_v2
         if ($value instanceof ArrayObject) {
             $value = $value->getArrayCopy();
         }
+        if ($var === 'dependencies' && $value === null) {
+            $this->_packageInfo['dependencies'] = array();
+            return;
+        }
         if (in_array($var, array('attribs', 'lead',
                 'developer', 'contributor', 'helper', 'version',
                 'stability', 'license', 'contents', 'compatible',
