@@ -118,7 +118,11 @@ class PEAR2_Pyrus_PackageFile_v2
         }
         if (!isset($this->_filelist[$filename])) {
             throw new PEAR2_Pyrus_PackageFile_Exception(
-                'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);            
+                'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);     
+        }
+        if ($attr == 'name') {
+            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot change name of file ' .
+                $filename);
         }
         $this->_filelist[$filename]['attribs'][$attr] = $value;
     }
@@ -453,7 +457,7 @@ class PEAR2_Pyrus_PackageFile_v2
                     return false;
                 }
                 return $this->_packageInfo['stability']['api'];
-            case 'maintainers' :
+            case 'allmaintainers' :
                 $leads = $this->tag('lead');
                 if ($leads && !isset($leads[0])) {
                     $leads = array($leads);
@@ -496,6 +500,8 @@ class PEAR2_Pyrus_PackageFile_v2
                 return new ArrayObject($this->_filelist, ArrayObject::ARRAY_AS_PROPS);
             case 'maintainer' :
                 return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_packageInfo);
+            case 'compatible' :
+                return new PEAR2_Pyrus_PackageFile_v2_Compatible($this->_packageInfo);
         }
         return $this->tag($var);
     }
@@ -565,6 +571,15 @@ class PEAR2_Pyrus_PackageFile_v2
                 continue;
             }
             $arr[$index] = $this->_packageInfo[$index];
+        }
+        $this->_packageInfo['contents'] = array(
+            'dir' => array(
+                'attribs' => array('name' => '/'),
+                'file' => array()
+            ));
+        uksort($this->_filelist, 'strnatcasecmp');
+        foreach (array_reverse($this->_filelist, 1) as $name => $stuff) {
+            $this->_packageInfo['contents']['file'][] = $stuff;
         }
         return $this->_packageInfo;
     }

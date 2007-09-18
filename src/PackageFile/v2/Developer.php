@@ -1,10 +1,19 @@
 <?php
 /**
+ * Manage an individual maintainer in package.xml
+ * 
  * To be used like:
  *
  * <code>
- * $pf->maintainer['cellog']->name('Greg Beaver')->role('lead')->email('cellog@php.net')->active();
+ * // add developer
+ * $pf->maintainer['cellog']
+ *    ->name('Greg Beaver')
+ *    ->role('lead')
+ *    ->email('cellog@php.net')
+ *    ->active('yes');
  * echo $pf->maintainer['cellog']->name;
+ * isset($pf->maintainer['cellog']); // test for maintainer in package.xml
+ * unset($pf->maintainer['cellog']); // remove from package.xml
  * </code>
  */
 class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
@@ -68,6 +77,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
                 'Invalid value for ' . $var);
         }
         $this->_info[$var] = $args[0];
+        $this->_save();
         return $this;
     }
 
@@ -94,8 +104,49 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             $this->_info['email'] = $value['email'];
             $this->_info['active'] = $value['active'];
         }
+        $this->_save();
     }
 
+    /**
+     * Remove a developer from package.xml (by handle)
+     * @param string $var
+     */
+    function offsetUnset($var)
+    {
+        // remove developer
+        $role = $this->locateMaintainerRole($var);
+        if (!$role) {
+            // already non-existent
+            return;
+        }
+        if (count($this->_packageInfo[$role]) == 1) {
+            unset($this->_packageInfo[$role]);
+            return;
+        }
+        foreach ($this->_packageInfo[$role] as $i => $stuff) {
+            if ($stuff['user'] == $var) {
+                unset($this->_packageInfo[$role][$i]);
+                if (count($this->_packageInfo[$role]) == 1) {
+                    $this->_packageInfo[$role] = $this->_packageInfo[$role][0];
+                }
+                return;
+            }
+        }
+    }
+
+    /**
+     * Test whether developer exists in package.xml (by handle)
+     * @param string $var
+     * @return bool
+     */
+    function offsetExists($var)
+    {
+        return (bool) $this->locateMaintainerRole($var);
+    }
+
+    /**
+     * Save changes
+     */
     private function _save()
     {
         $role = $this->locateMaintainerRole($this->_developer);
@@ -109,23 +160,53 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
                 $this->_packageInfo[$this->_role] = array($this->_packageInfo[$this->_role],
                     $this->_info);
             }
+            $this->_packageInfo[$this->_role][] = $this->_info;
             return;
         }
-        // TODO: finish this section
-        if (!isset($this->_packageInfo[$role][0])) {
-            if ($role !== $this->_role) {
+        // remove the maintainer from their old role
+        if ($role !== $this->_role) {
+            if (!isset($this->_packageInfo[$role][0])) {
                 unset($this->_packageInfo[$role]);
+            } else {
+                foreach ($this->_packageInfo[$role] as $i => $dev) {
+                    if ($dev['user'] == $this->_developer) {
+                        unset($this->_packageInfo[$role][$i]);
+                        if (count($this->_packageInfo[$role]) == 1) {
+                            $this->_packageInfo[$role] = $this->_packageInfo[$role][0];
+                        } else {
+                            $this->_packageInfo[$role] =
+                                array_values($this->_packageInfo[$role]);
+                        }
+                    }
+                }
             }
         }
-    }
-
-    function offsetUnset($var)
-    {
-        // remove developer
-    }
-
-    function offsetIsset($var)
-    {
-        // test whether developer exists
+        if (!isset($this->_packageInfo[$this->_role])) {
+            $this->_packageInfo[$this->_role] = $this->_info;
+            return;
+        }
+        if (!isset($this->_packageInfo[$this->_role][0])) {
+            if ($role !== $this->_role) {
+                // We are a new entry into this role, and now there are 2 of us
+                $this->_packageInfo[$this->_role] =
+                    array($this->_packageInfo[$this->_role], $this->_info);
+            } else {
+                // We are replacing ourself
+                $this->_packageInfo[$this->_role] = $this->_info;
+            }
+        } else {
+            if ($role !== $this->_role) {
+                // We are a new entry into this role, and now there are several of us
+                $this->_packageInfo[$this->_role][] = $this->_info;
+            } else {
+                foreach ($this->_packageInfo[$role] as $i => $maybeme) {
+                    if ($maybeme['user'] == $this->_developer) {
+                        // found our entry
+                        $this->_packageInfo[$role][$i] = $this->_info;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
