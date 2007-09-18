@@ -76,6 +76,10 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Invalid value for ' . $var);
         }
+        if ($var == 'role') {
+            $this->_role = $args[0];
+            return $this;
+        }
         $this->_info[$var] = $args[0];
         $this->_save();
         return $this;
