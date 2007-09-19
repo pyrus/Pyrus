@@ -560,6 +560,38 @@ class PEAR2_Pyrus_PackageFile_v2
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }
 
+    /**
+     * Update the changelog based on the current information
+     */
+    function updateChangelog()
+    {
+        $license = $this->license;
+        if ($license instanceof ArrayObject) {
+            $license = $license->getArrayCopy();
+        }
+        $info = array(
+            'version' => array(
+                'release' => $this->version['release'],
+                'api' => $this->version['api']
+            ),
+            'stability' => array(
+                'release' => $this->stability['release'],
+                'api' => $this->stability['api']
+            ),
+            'date' => $this->date,
+            'license' => $license,
+            'notes' => $this->notes,
+        );
+        
+        if (!is_array($this->_packageInfo['changelog'])) {
+            $this->_packageInfo['changelog'] = $info;
+        } elseif (!isset($this->_packageInfo['changelog'][0])) {
+            $this->_packageInfo['changelog'] = array($info, $this->_packageInfo['changelog']);
+        } else {
+            array_unshift($this->_packageInfo['changelog'], $info);
+        }
+    }
+
     function toArray()
     {
         $arr = array();
