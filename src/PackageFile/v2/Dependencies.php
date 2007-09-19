@@ -210,6 +210,27 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
         return $this->_packageInfo[$var];
     }
 
+    function __set($var, $value)
+    {
+        if (isset($this->_required) && $this->_required == 'required'
+              && in_array($var, array('php', 'pearinstaller'), true)) {
+            if (!is_array($value)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                    $var . ' dependency must be an array, was a ' . gettype($value));
+            }
+            $info = array();
+            foreach (array('min', 'max', 'exclude') as $index) {
+                if (isset($value[$index])) {
+                    $info[$index] = $value[$index];
+                }
+            }
+            $this->_parent['dependencies']['required'][$var] = $info;
+            return;
+        }
+        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+            'Cannot set ' . $var . ' directly');
+    }
+
     function __call($var, $args)
     {
         if (!$this->_package) {
@@ -257,10 +278,92 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
 
     function offsetSet($var, $value)
     {
+        if (!isset($this->_required)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
+                        'Cannot set ' . $var . ' directly, must specify required, optional, or group dependency first');
+        }
+        if (!is_array($value)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                $this->_type . ' dependency must be an array, was a ' . gettype($value));
+        }
+        if (isset($this->_type) && in_array($this->_type, array('package', 'subpackage'))) {
+            $channel = explode('/', $var);
+            $package = array_pop($channel);
+            $channel = implode('/', $channel);
+            $info = array('name' => $package, 'channel' => $channel);
+            foreach (array('min', 'max', 'recommended', 'exclude', 'providesdextension') as $index) {
+                if (isset($value[$index])) {
+                    $info[$index] = $value[$index];
+                }
+            }
+            if (isset($this->_packageInfo[0])) {
+                foreach ($this->_packageInfo as $i => $dep) {
+                    if ($dep['package'] === $package && $dep['channel'] === $channel) {
+                        $this->_packageInfo[$i] = $info;
+                        return;
+                    }
+                }
+                $this->_packageInfo[] = $info;
+            } else {
+                if ($this->_packageInfo['name'] === $package
+                      && $this->_packageInfo['channel'] === $channel) {
+                    $this->_packageInfo = $info;
+                } else {
+                    $this->_packageInfo = array($this->_packageInfo, $info);
+                }
+            }
+            return;
+        }
+        if (isset($this->_type) && $this->_type === 'extension') {
+            $info = array('name' => $var);
+            foreach (array('min', 'max', 'recommended', 'exclude') as $index) {
+                if (isset($value[$index])) {
+                    $info[$index] = $value[$index];
+                }
+            }
+            if (isset($this->_packageInfo[0])) {
+                foreach ($this->_packageInfo as $i => $dep) {
+                    if ($dep['name'] === $var) {
+                        $this->_packageInfo[$i] = $info;
+                        return;
+                    }
+                }
+                $this->_packageInfo[] = $info;
+            } else {
+                if ($this->_packageInfo['name'] === $var) {
+                    $this->_packageInfo = $value;
+                } else {
+                    $this->_packageInfo = array($this->_packageInfo, $info);
+                }
+            }
+            return;
+        }
+        if (isset($this->_type) && in_array($this->_type, array('arch', 'os'))) {
+            $val = (bool) $value;
+            $info = array(($this->_type === 'arch' ? 'pattern' : 'name') => $var);
+            if ($val) {
+                $info['conflicts'] = 'yes';
+            }
+            if (isset($this->_packageInfo[0])) {
+                foreach ($this->_packageInfo as $index => $dep) {
+                    if ($dep[$name] == $var) {
+                        $this->_packageInfo[$index] = $info;
+                        return;
+                    }
+                }
+                $this->_packageInfo[] = $info;
+            } else {
+                if ($this->_packageInfo[$name] === $var) {
+                    $this->_packageInfo = $info;
+                } else {
+                    $this->_packageInfo = array($this->_packageInfo, $info);
+                }
+            }
+        }
     }
 
     /**
-     * Remove a compatible package from package.xml (by channel/package)
+     * unimplemented
      * @param string $var
      */
     function offsetUnset($var)
@@ -268,18 +371,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
     }
 
     /**
-     * Test whether compatible package exists in package.xml (by channel/package)
+     * unimplemented
      * @param string $var
      * @return bool
      */
     function offsetExists($var)
-    {
-    }
-
-    /**
-     * Save changes
-     */
-    private function _save()
     {
     }
 }
