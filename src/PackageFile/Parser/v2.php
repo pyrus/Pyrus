@@ -92,10 +92,6 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         $this->_lastDepth = 0;
         $this->_inFile = 0;
         $ret = new $class;
-        $ret->setConfig(PEAR2_Pyrus_Config::current());
-        if (isset($this->_logger)) {
-            $ret->setLogger($this->_logger);
-        }
         
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
             $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .

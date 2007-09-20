@@ -14,7 +14,6 @@ class PEAR2_Pyrus_XMLWriter
     private $_writer;
     private $_iter;
     private $_tagStack;
-    private $_namespacesStack;
     private $_namespaces;
     private $_tag;
     private $_expectedDepth;
@@ -43,13 +42,22 @@ class PEAR2_Pyrus_XMLWriter
 
     private function _pushState()
     {
-        $this->_state[] = array($this->_type, $this->_tag, $this->_expectedDepth);
+        $this->_state[] = array($this->_type, $this->_tag, $this->_expectedDepth,
+            $this->_namespaces);
     }
 
     private function _popState()
     {
-        list($this->_type, $this->_tag, $this->_expectedDepth) =
+        $save = $this->_namespaces;
+        list($this->_type, $this->_tag, $this->_expectedDepth, $this->_namespaces) =
             array_pop($this->_state);
+        foreach ($save as $ns) {
+            if (!isset($this->_namespaces[$ns])) {
+                // all namespaces must exist - only overriding is allowed
+                $this->_namespaces = $save;
+                return;
+            }
+        }
     }
 
     private function _finish($key, $values)
@@ -74,6 +82,8 @@ class PEAR2_Pyrus_XMLWriter
         if (strpos($key, ':')) {
             // namespaced element
             list($ns, $element) = explode(':', $key);
+        }
+        if (isset($element) && !isset($this->_namespaces[$ns])) {
             if (is_string($values)) {
                 $this->_writer->writeElementNs($ns, $element, $this->_namespaces[$ns], $values);
             } else {
@@ -131,14 +141,11 @@ class PEAR2_Pyrus_XMLWriter
         if (strpos($key, ':')) {
             // namespaced
             list($ns, $attr) = explode(':', $key);
-            if ($ns == 'xmlns') {
-                // new namespace declaration
-                if (isset($this->_namespaces[$attr]) && !isset($this->_namespacesStack[$depth])) {
-                    // save the current namespace, will restore
-                    // at element end
-                    $this->_namespacesStack[$depth] = $this->_namespaces;
+            if ($ns == 'xmlns' || isset($this->_namespaces[$ns])) {
+                if ($ns == 'xmlns') {
+                    // new namespace declaration
+                    $this->_namespaces[$attr] = $values;
                 }
-                $this->_namespaces[$attr] = $values;
                 $this->_writer->writeAttribute($key, $values);
             } else {
                 $this->_writer->writeAttributeNS($ns, $attr, $this->_namespaces[$ns], $values);
@@ -153,7 +160,6 @@ class PEAR2_Pyrus_XMLWriter
     private function _serialize()
     {
         $this->_namespaces = array();
-        $this->_namespacesStack = array();
         $this->_tagStack = array();
         $this->_writer->setIndent(true);
         $this->_writer->setIndentString(' ');
@@ -161,13 +167,21 @@ class PEAR2_Pyrus_XMLWriter
         $this->_state = array();
         $this->_type = 'Tag';
         $this->_expectedDepth = 0;
+        $lastdepth = 0;
         foreach ($this->_iter = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->_array),
                      RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
             $depth = $this->_iter->getDepth();
             while ($this->_iter->getDepth() < $this->_expectedDepth) {
                 // finished with this tag
                 $this->_finish($key, $values);
+                $lastdepth = $depth;
             }
+            if ($this->_iter->getDepth() == $this->_expectedDepth) {
+                if ($lastdepth > $depth) {
+                    $this->_finish($key, $values);
+                }
+            }
+            $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {
                     $this->_writer->text($values);

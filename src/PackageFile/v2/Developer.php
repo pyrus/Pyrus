@@ -68,17 +68,17 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannnot set developer info for unknown developer');
         }
-        if (!isset($this->_info[$var]) || $var == 'user') {
+        if ($var == 'role') {
+            $this->_role = $args[0];
+            return $this;
+        }
+        if (!array_key_exists($var, $this->_info) || $var == 'user') {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannot set unknown value ' . $var);
         }
         if (count($args) != 1 || !is_string($args[0])) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Invalid value for ' . $var);
-        }
-        if ($var == 'role') {
-            $this->_role = $args[0];
-            return $this;
         }
         $this->_info[$var] = $args[0];
         $this->_save();
@@ -153,6 +153,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
      */
     private function _save()
     {
+        if (!$this->_role) return;
         $role = $this->locateMaintainerRole($this->_developer);
         if (!$role) {
             // create new

@@ -296,6 +296,7 @@
         <xs:element ref="uri"/>
        </xs:choice>
        <xs:element ref="conflicts" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -345,7 +346,7 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
-       <xs:element ref="conflicts" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>

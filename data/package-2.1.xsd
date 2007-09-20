@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="EN">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" targetNamespace="http://pear.php.net/dtd/package-2.1" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="EN">
  <xs:element name="package">
   <xs:complexType>
    <xs:sequence>
@@ -45,7 +45,7 @@
     </xs:choice>
     <xs:element ref="changelog" minOccurs="0"/>
    </xs:sequence>
-   <xs:attribute name="version" type="xs:string" fixed="2.0"/>
+   <xs:attribute name="version" type="xs:string" fixed="2.1"/>
    <xs:attribute name="packagerversion" type="version"/>
   </xs:complexType>
  </xs:element>
@@ -320,6 +320,7 @@
         <xs:element ref="uri"/>
        </xs:choice>
        <xs:element ref="conflicts" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -419,7 +420,7 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
-       <xs:element ref="conflicts" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>

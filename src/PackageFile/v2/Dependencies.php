@@ -7,9 +7,13 @@
  * // reset deps
  * $pf->dependencies = null;
  * // for PHP dep
+ * // defaults to min
+ * $pf->dependencies->required->php = '5.3.0';
  * $pf->dependencies->required->php = array('min' => '5.3.0', 'max' => '7.0.0',
  *      'exclude' => array('6.1.2'));
  * // for PEAR Installer dep
+ * // defaults to min
+ * $pf->dependencies->required->pearinstaller = '2.0.0';
  * $pf->dependencies->required->pearinstaller = array('min' => '2.0.0');
  * // for required/optional package deps or subpackage deps
  * $pf->dependencies->required->package['channel/PackageName'] =
@@ -22,7 +26,9 @@
  *      array('min' => '1.1.0', 'max' => '1.2.0', 'recommended' => '1.1.1',
  *            'exclude' => array('1.1.0a1', '1.1.0a2'));
  * // for conflicting package dep
- * $pf->dependencies->required->package['channel/PackageName']->conflicts = true;
+ * $pf->dependencies->required->subpackage['channel/PackageName'] =
+ *      array('min' => '1.1.0', 'max' => '1.2.0', 'recommended' => '1.1.1',
+ *            'exclude' => array('1.1.0a1', '1.1.0a2'), 'conflicts' => '');
  * // for PECL extension deps (optional or required same as packages)
  * $pf->dependencies->required->package['channel/PackageName'] =
  *      array('min' => '1.1.0', 'max' => '1.2.0', 'recommended' => '1.1.1',
@@ -74,13 +80,17 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
         if ($this->_required != 'group' && $group) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                 'Internal error: $group passed into required dependency');
-        } elseif (!is_string($group)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                'Internal error: $group must be a string');
         } elseif ($group) {
+            if (!is_string($group)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                    'Internal error: $group must be a string');
+            }
             $this->_group = $group;
             // locate group in the xml and initialize if not present
-            if (!isset($this->_packageInfo[0])) {
+            if (!count($this->_packageInfo)) {
+                $this->_packageInfo =
+                    array('attribs' => array('name' => $group, 'hint' => ''));
+            } elseif (!isset($this->_packageInfo[0])) {
                 if ($this->_packageInfo['attribs']['name'] != $group) {
                     $this->_packageInfo = array($this->_packageInfo,
                         array('attribs' => array('name' => $group, 'hint' => '')));
@@ -192,8 +202,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
         }
         if (!isset($this->_type)) {
             return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                $this->_parent, $this->$packageInfo[$var], $this->_required,
-                $this->_type);
+                $this->_parent, $this->_packageInfo, $this->_required,
+                $var);
         }
         if ($this->_type == 'group' && !isset($this->_group)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
@@ -201,7 +211,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
         }
         if (!isset($this->_package) && $this->_type != 'php' && $this->_type != 'pearinstaller') {
             return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                $this->_parent, $this->$packageInfo[$var], $this->_required,
+                $this->_parent, $this->_packageInfo[$var], $this->_required,
                 $this->_type, $var);
         }
         if (!isset($this->_packageInfo[$var])) {
@@ -214,6 +224,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
     {
         if (isset($this->_required) && $this->_required == 'required'
               && in_array($var, array('php', 'pearinstaller'), true)) {
+            if (is_string($value)) {
+                $value = array('min' => $value);
+            }
             if (!is_array($value)) {
                 throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                     $var . ' dependency must be an array, was a ' . gettype($value));
@@ -224,56 +237,33 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                     $info[$index] = $value[$index];
                 }
             }
-            $this->_parent['dependencies']['required'][$var] = $info;
+            $this->_packageInfo[$var] = $info;
             return;
         }
         throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
             'Cannot set ' . $var . ' directly');
     }
 
-    function __call($var, $args)
+    function hint($hint)
     {
-        if (!$this->_package) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                'Cannnot access developer info for unknown developer');
+        if ($this->_required !== 'group' || !$this->_group) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                'hint can only be set for dependency groups');
         }
-        if ($var == 'min') {
-            if (count($args) != 1 || !is_string($args[0])) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                    'Invalid value for min');
-            }
-            $this->_info['min'] = $args[0];
-        } elseif ($var == 'max') {
-            if (count($args) != 1 || !is_string($args[0])) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                    'Invalid value for max');
-            }
-            $this->_info['max'] = $args[0];
-        } elseif ($var == 'exclude') {
-            foreach ($args as $arg) {
-                if (!is_string($arg)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                        'Invalid value for exclude');
-                }
-            }
-            $this->_info['exclude'] = (count($args) == 1) ? $args[0] : $args[1];
-        } else {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                        'Unknown value to set: ' . $var);
-        }
+        $this->_packageInfo['attribs']['hint'] = $hint;
         return $this;
     }
 
     function offsetGet($var)
     {
-        if ($this->_type == 'group' && !isset($this->_group)) {
+        if ($this->_required == 'group' && !isset($this->_group)) {
             return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                $this->_parent, $this->$packageInfo[$var], $this->_required,
+                $this->_parent, $this->_packageInfo, $this->_required,
                 $this->_type, null, $var);
         }
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                $this->_parent, $this->$packageInfo[$var], $this->_required,
-                $this->_type, $var, $this->_group);
+        return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+            $this->_parent, $this->_packageInfo, $this->_required,
+            $this->_type, $var, $this->_group);
     }
 
     function offsetSet($var, $value)
@@ -282,16 +272,17 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
             throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
                         'Cannot set ' . $var . ' directly, must specify required, optional, or group dependency first');
         }
-        if (!is_array($value)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                $this->_type . ' dependency must be an array, was a ' . gettype($value));
-        }
         if (isset($this->_type) && in_array($this->_type, array('package', 'subpackage'))) {
+            if (!is_array($value)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                    $this->_type . ' dependency must be an array, was a ' . gettype($value));
+            }
             $channel = explode('/', $var);
             $package = array_pop($channel);
             $channel = implode('/', $channel);
             $info = array('name' => $package, 'channel' => $channel);
-            foreach (array('min', 'max', 'recommended', 'exclude', 'providesdextension') as $index) {
+            foreach (array('min', 'max', 'recommended', 'exclude', 'nodefault',
+                           'conflicts', 'providesextension') as $index) {
                 if (isset($value[$index])) {
                     $info[$index] = $value[$index];
                 }
@@ -305,6 +296,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 }
                 $this->_packageInfo[] = $info;
             } else {
+                if (!count($this->_packageInfo)) {
+                    $this->_packageInfo = $info;
+                    return;
+                }
                 if ($this->_packageInfo['name'] === $package
                       && $this->_packageInfo['channel'] === $channel) {
                     $this->_packageInfo = $info;
@@ -315,8 +310,12 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
             return;
         }
         if (isset($this->_type) && $this->_type === 'extension') {
+            if (!is_array($value)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                    $this->_type . ' dependency must be an array, was a ' . gettype($value));
+            }
             $info = array('name' => $var);
-            foreach (array('min', 'max', 'recommended', 'exclude') as $index) {
+            foreach (array('min', 'max', 'recommended', 'exclude', 'conflicts') as $index) {
                 if (isset($value[$index])) {
                     $info[$index] = $value[$index];
                 }
@@ -330,8 +329,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 }
                 $this->_packageInfo[] = $info;
             } else {
-                if ($this->_packageInfo['name'] === $var) {
-                    $this->_packageInfo = $value;
+                if (!count($this->_packageInfo)) {
+                    $this->_packageInfo = $info;
+                } elseif ($this->_packageInfo['name'] === $var) {
+                    $this->_packageInfo = $info;
                 } else {
                     $this->_packageInfo = array($this->_packageInfo, $info);
                 }
@@ -341,8 +342,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
         if (isset($this->_type) && in_array($this->_type, array('arch', 'os'))) {
             $val = (bool) $value;
             $info = array(($this->_type === 'arch' ? 'pattern' : 'name') => $var);
-            if ($val) {
-                $info['conflicts'] = 'yes';
+            if (!$val) {
+                $info['conflicts'] = '';
             }
             if (isset($this->_packageInfo[0])) {
                 foreach ($this->_packageInfo as $index => $dep) {
@@ -353,7 +354,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 }
                 $this->_packageInfo[] = $info;
             } else {
-                if ($this->_packageInfo[$name] === $var) {
+                if (!count($this->_packageInfo) || $this->_packageInfo[$name] === $var) {
                     $this->_packageInfo = $info;
                 } else {
                     $this->_packageInfo = array($this->_packageInfo, $info);
