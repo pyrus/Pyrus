@@ -144,22 +144,22 @@ class PEAR2_Pyrus_Validate
      */
     function _addFailure($field, $reason)
     {
-        $this->_failures['errors'][] = array('field' => $field, 'reason' => $reason);
+        $this->_failures->E_ERROR[] = 
+            new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
     /**
      * @access private
      */
-    function _addWarning($field, $reason)
+    private function _addWarning($field, $reason)
     {
-        $this->_failures['warnings'][] = array('field' => $field, 'reason' => $reason);
+        $this->_failures->E_WARNING[] = 
+            new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
     function getFailures()
     {
-        $failures = $this->_failures;
-        $this->_failures = array('warnings' => array(), 'errors' => array());
-        return $failures;
+        return $this->_failures;
     }
 
     /**
@@ -173,7 +173,7 @@ class PEAR2_Pyrus_Validate
         if ($state !== null) {
             $this->_state = $state;
         }
-        $this->_failures = array('warnings' => array(), 'errors' => array());
+        $this->_failures = new PEAR2_MultiErrors;
         $this->validatePackageName();
         $this->validateVersion();
         $this->validateMaintainers();
@@ -182,20 +182,14 @@ class PEAR2_Pyrus_Validate
         $this->validateDescription();
         $this->validateLicense();
         $this->validateNotes();
-        if ($this->_packagexml->getPackagexmlVersion() == '1.0') {
-            $this->validateState();
-            $this->validateFilelist();
-        } elseif ($this->_packagexml->getPackagexmlVersion() == '2.0' ||
-                  $this->_packagexml->getPackagexmlVersion() == '2.1') {
-            $this->validateTime();
-            $this->validateStability();
-            $this->validateDeps();
-            $this->validateMainFilelist();
-            $this->validateReleaseFilelist();
-            //$this->validateGlobalTasks();
-            $this->validateChangelog();
-        }
-        return !((bool) count($this->_failures['errors']));
+        $this->validateTime();
+        $this->validateStability();
+        $this->validateDependencies();
+        $this->validateMainFilelist();
+        $this->validateReleaseFilelist();
+        //$this->validateGlobalTasks();
+        $this->validateChangelog();
+        return !((bool) count($this->_failures->E_ERROR));
     }
 
     /**
@@ -205,11 +199,9 @@ class PEAR2_Pyrus_Validate
     {
         if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING ||
               $this->_state == PEAR2_Pyrus_Validate::NORMAL) {
-            if (($this->_packagexml->getPackagexmlVersion() == '2.0' ||
-                 $this->_packagexml->getPackagexmlVersion() == '2.1') &&
-                  $this->_packagexml->getExtends()) {
-                $version = $this->_packagexml->getVersion() . '';
-                $name = $this->_packagexml->getPackage();
+            if ($this->_packagexml->extends) {
+                $version = $this->_packagexml->version['release'] . '';
+                $name = $this->_packagexml->name;
                 $test = array_shift($a = explode('.', $version));
                 if ($test == '0') {
                     return true;
@@ -221,23 +213,23 @@ class PEAR2_Pyrus_Validate
                 }
                 if ($majver != $test) {
                     $this->_addWarning('package', "package $name extends package " .
-                        $this->_packagexml->getExtends() . ' and so the name should ' .
+                        $this->_packagexml->extends . ' and so the name should ' .
                         'have a postfix equal to the major version like "' .
-                        $this->_packagexml->getExtends() . $test . '"');
+                        $this->_packagexml->extends . $test . '"');
                     return true;
                 } elseif (substr($name, 0, strlen($name) - $vlen) !=
-                            $this->_packagexml->getExtends()) {
+                            $this->_packagexml->extends) {
                     $this->_addWarning('package', "package $name extends package " .
-                        $this->_packagexml->getExtends() . ' and so the name must ' .
-                        'be an extension like "' . $this->_packagexml->getExtends() .
+                        $this->_packagexml->extends . ' and so the name must ' .
+                        'be an extension like "' . $this->_packagexml->extends .
                         $test . '"');
                     return true;
                 }
             }
         }
-        if (!$this->validPackageName($this->_packagexml->getPackage())) {
+        if (!$this->validPackageName($this->_packagexml->name)) {
             $this->_addFailure('name', 'package name "' .
-                $this->_packagexml->getPackage() . '" is invalid');
+                $this->_packagexml->name . '" is invalid');
             return false;
         }
     }
@@ -248,22 +240,22 @@ class PEAR2_Pyrus_Validate
     function validateVersion()
     {
         if ($this->_state != PEAR2_Pyrus_Validate::PACKAGING) {
-            if (!$this->validVersion($this->_packagexml->getVersion())) {
+            if (!$this->validVersion($this->_packagexml->version['release'])) {
                 $this->_addFailure('version',
-                    'Invalid version number "' . $this->_packagexml->getVersion() . '"');
+                    'Invalid version number "' . $this->_packagexml->version['release'] . '"');
             }
             return false;
         }
-        $version = $this->_packagexml->getVersion();
+        $version = $this->_packagexml->version['release'];
         $versioncomponents = explode('.', $version);
         if (count($versioncomponents) != 3) {
             $this->_addWarning('version',
                 'A version number should have 3 decimals (x.y.z)');
             return true;
         }
-        $name = $this->_packagexml->getPackage();
+        $name = $this->_packagexml->name;
         // version must be based upon state
-        switch ($this->_packagexml->getState()) {
+        switch ($this->_packagexml->stability['release']) {
             case 'snapshot' :
                 return true;
             case 'devel' :
@@ -292,7 +284,7 @@ class PEAR2_Pyrus_Validate
                         return false;
                     }
                 }
-                if (!$this->_packagexml->getExtends()) {
+                if (!$this->_packagexml->extends) {
                     if ($versioncomponents[0] == '1') {
                         if ($versioncomponents[2]{0} == '0') {
                             if ($versioncomponents[2] == '0') {
@@ -402,7 +394,7 @@ class PEAR2_Pyrus_Validate
                 }
                 // check for a package that extends a package,
                 // like Foo and Foo2
-                if ($this->_packagexml->getExtends()) {
+                if ($this->_packagexml->extends) {
                     $vlen = strlen($versioncomponents[0] . '');
                     $majver = substr($name, strlen($name) - $vlen);
                     while ($majver && !is_numeric($majver{0})) {
@@ -446,20 +438,20 @@ class PEAR2_Pyrus_Validate
               $this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
 
             if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/',
-                  $this->_packagexml->getDate(), $res) ||
+                  $this->_packagexml->date, $res) ||
                   count($res) < 4
                   || !checkdate($res[2], $res[3], $res[1])
                 ) {
                 $this->_addFailure('date', 'invalid release date "' .
-                    $this->_packagexml->getDate() . '"');
+                    $this->_packagexml->date . '"');
                 return false;
             }
 
 
             if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING &&
-                  $this->_packagexml->getDate() != date('Y-m-d')) {
+                  $this->_packagexml->date != date('Y-m-d')) {
                 $this->_addWarning('date', 'Release Date "' .
-                    $this->_packagexml->getDate() . '" is not today');
+                    $this->_packagexml->date . '" is not today');
             }
         }
         return true;
@@ -470,7 +462,7 @@ class PEAR2_Pyrus_Validate
      */
     function validateTime()
     {
-        if (!$this->_packagexml->getTime()) {
+        if (!$this->_packagexml->time) {
             // default of no time value set
             return true;
         }
@@ -478,35 +470,16 @@ class PEAR2_Pyrus_Validate
         // pear validate is called
         if ($this->_state = PEAR2_Pyrus_Validate::NORMAL) {
             if (!preg_match('/\d\d:\d\d:\d\d/',
-                  $this->_packagexml->getTime())) {
+                  $this->_packagexml->time)) {
                 $this->_addFailure('time', 'invalid release time "' .
-                    $this->_packagexml->getTime() . '"');
+                    $this->_packagexml->time . '"');
                 return false;
             }
-            if (strtotime($this->_packagexml->getTime()) == -1) {
+            if (strtotime($this->_packagexml->time) == -1) {
                 $this->_addFailure('time', 'invalid release time "' .
-                    $this->_packagexml->getTime() . '"');
+                    $this->_packagexml->time . '"');
                 return false;
             }
-        }
-        return true;
-    }
-
-    /**
-     * @access protected
-     */
-    function validateState()
-    {
-        // this is the closest to "final" php4 can get
-        if (!PEAR2_Pyrus_Validate::validState($this->_packagexml->getState())) {
-            if (strtolower($this->_packagexml->getState() == 'rc')) {
-                $this->_addFailure('state', 'RC is not a state, it is a version ' .
-                    'postfix, use ' . $this->_packagexml->getVersion() . 'RC1, state beta');
-            }
-            $this->_addFailure('state', 'invalid release state "' .
-                $this->_packagexml->getState() . '", must be one of: ' .
-                implode(', ', PEAR2_Pyrus_Validate::getValidStates()));
-            return false;
         }
         return true;
     }
@@ -517,11 +490,11 @@ class PEAR2_Pyrus_Validate
     function validateStability()
     {
         $ret = true;
-        $packagestability = $this->_packagexml->getState();
-        $apistability = $this->_packagexml->getState('api');
+        $packagestability = $this->_packagexml->stability['release'];
+        $apistability = $this->_packagexml->stability['api'];
         if (!self::validState($packagestability)) {
             $this->_addFailure('state', 'invalid release stability "' .
-                $this->_packagexml->getState() . '", must be one of: ' .
+                $this->_packagexml->stability['release'] . '", must be one of: ' .
                 implode(', ', self::getValidStates()));
             $ret = false;
         }
@@ -529,7 +502,7 @@ class PEAR2_Pyrus_Validate
         array_shift($apistates); // snapshot is not allowed
         if (!in_array($apistability, $apistates)) {
             $this->_addFailure('state', 'invalid API stability "' .
-                $this->_packagexml->getState('api') . '", must be one of: ' .
+                $this->_packagexml->stability['api'] . '", must be one of: ' .
                 implode(', ', $apistates));
             $ret = false;
         }
@@ -578,15 +551,6 @@ class PEAR2_Pyrus_Validate
     }
 
     /**
-     * for package.xml 1.0 only
-     * @access private
-     */
-    function _validateFilelist()
-    {
-        return true; // placeholder for now
-    }
-
-    /**
      * for package.xml 2.0 only
      * @access protected
      */
@@ -608,22 +572,6 @@ class PEAR2_Pyrus_Validate
      * @access protected
      */
     function validateChangelog()
-    {
-        return true;
-    }
-
-    /**
-     * @access protected
-     */
-    function validateFilelist()
-    {
-        return true;
-    }
-
-    /**
-     * @access protected
-     */
-    function validateDeps()
     {
         return true;
     }

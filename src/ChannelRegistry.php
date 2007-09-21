@@ -3,7 +3,7 @@
 class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
 {
     static private $_allRegistries = array();
-    private $_registries;
+    private $_registries = array();
 
     protected function __construct($path, $registries = array('Sqlite', 'Xml'))
     {
@@ -17,12 +17,12 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
                         'Unknown channel registry type: ' . $registry);
                     continue;
                 }
-                self::$_allRegistries[] = new $registry($path);
+                $this->_registries[] = new $registry($path);
             } catch (Exception $e) {
                 $exceptions[] = $e;
             }
         }
-        if (!count(self::$_allRegistries)) {
+        if (!count($this->_registries)) {
             throw new PEAR2_Pyrus_Registry_Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);

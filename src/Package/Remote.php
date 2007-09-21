@@ -1,8 +1,9 @@
 <?php
-class PEAR2_Pyrus_Package_Remote
+class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 {
-    private $parent;
-    private $info;
+    private $_parent;
+    private $_info;
+    private $_internal;
     /**
      * @param string $package path to package file
      */
@@ -10,7 +11,12 @@ class PEAR2_Pyrus_Package_Remote
     {
         $this->_parent = $parent;
         $this->_info = $package;
-        
+        if (!is_array($package) &&
+              (preg_match('#^(http[s]?|ftp[s]?)://#', $package))) {
+            $this->_internal = $this->_fromUrl($package);
+        } else {
+            $this->_internal = $this->_fromString($package);
+        }
     }
 
     /**
@@ -25,84 +31,26 @@ class PEAR2_Pyrus_Package_Remote
 
     private function _fromUrl($param, $saveparam = '')
     {
-        if (!is_array($param) &&
-              (preg_match('#^(http|ftp)://#', $param))) {
-            $options = $this->_downloader->getOptions();
-            $this->_type = 'url';
-            $callback = $this->_downloader->ui ?
-                array(&$this->_downloader, '_downloadCallback') : null;
-            $dir = PEAR2_Pyrus_Config::current()->download_dir;
-            $file = $this->_downloader->downloadHttp($param, $this->_downloader->ui,
-                $dir, $callback);
-            $this->_downloader->popErrorHandling();
-            if (PEAR::isError($file)) {
-                if (!empty($saveparam)) {
-                    $saveparam = ", cannot download \"$saveparam\"";
-                }
-                $err = PEAR::raiseError('Could not download from "' . $param .
-                    '"' . $saveparam . ' (' . $file->getMessage() . ')');
-                    return $err;
-            }
-            if ($this->_rawpackagefile) {
-                require_once 'Archive/Tar.php';
-                $tar = &new Archive_Tar($file);
-                $packagexml = $tar->extractInString('package2.xml');
-                if (!$packagexml) {
-                    $packagexml = $tar->extractInString('package.xml');
-                }
-                if (str_replace(array("\n", "\r"), array('',''), $packagexml) !=
-                      str_replace(array("\n", "\r"), array('',''), $this->_rawpackagefile)) {
-                    if ($this->getChannel() == 'pear.php.net') {
-                        // be more lax for the existing PEAR packages that have not-ok
-                        // characters in their package.xml
-                        $this->_downloader->log(0, 'CRITICAL WARNING: The "' .
-                            $this->getPackage() . '" package has invalid characters in its ' .
-                            'package.xml.  The next version of PEAR may not be able to install ' .
-                            'this package for security reasons.  Please open a bug report at ' .
-                            'http://pear.php.net/package/' . $this->getPackage() . '/bugs');
-                    } else {
-                        return PEAR::raiseError('CRITICAL ERROR: package.xml downloaded does ' .
-                            'not match value returned from xml-rpc');
-                    }
-                }
+        $this->_type = 'url';
+        // for now, we'll use without callback
+//            $callback = $this->_downloader->ui ?
+//                array(&$this->_downloader, '_downloadCallback') : null;
+        $dir = PEAR2_Pyrus_Config::current()->download_dir;
+        try {
+            $http = new PEAR2_HTTP_Request($param, new PEAR2_HTTP_Request_Adapter_Phpsocket);
+            $response = $http->sendRequest();
+            if ($response->code == '200') {
+                file_put_contents($name = tempnam($dir, 'download'), $response->body);
             }
             // whew, download worked!
-            if (isset($options['downloadonly'])) {
-                $pkg = &$this->getPackagefileObject($this->_config, $this->_downloader->debug);
-            } else {
-                if (PEAR::isError($dir = $this->_downloader->getDownloadDir())) {
-                    return $dir;
-                }
-                $pkg = &$this->getPackagefileObject($this->_config, $this->_downloader->debug,
-                    $dir);
+            return new PEAR2_Pyrus_Package($a);
+        } catch (Exception $e) {
+            if (!empty($saveparam)) {
+                $saveparam = ", cannot download \"$saveparam\"";
             }
-            PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-            $pf = &$pkg->fromAnyFile($file, PEAR_VALIDATE_INSTALLING);
-            PEAR::popErrorHandling();
-            if (PEAR::isError($pf)) {
-                if (is_array($pf->getUserInfo())) {
-                    foreach ($pf->getUserInfo() as $err) {
-                        if (is_array($err)) {
-                            $err = $err['message'];
-                        }
-                        if (!isset($options['soft'])) {
-                            $this->_downloader->log(0, "Validation Error: $err");
-                        }
-                    }
-                }
-                if (!isset($options['soft'])) {
-                    $this->_downloader->log(0, $pf->getMessage());
-                }
-                $err = PEAR::raiseError('Download of "' . ($saveparam ? $saveparam :
-                    $param) . '" succeeded, but it is not a valid package archive');
-                $this->_valid = false;
-                return $err;
-            }
-            $this->_packagefile = &$pf;
-            $this->setGroup('default'); // install the default dependency group
-            return $this->_valid = true;
+            throw new PEAR2_Pyrus_Package_Exception('Could not download from "' . $param .
+                '"' . $saveparam, $e);
         }
-        return $this->_valid = false;
     }
 
     /**
@@ -117,57 +65,40 @@ class PEAR2_Pyrus_Package_Remote
      */
     private function _fromString($param)
     {
-        $options = $this->_downloader->getOptions();
-        PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-        $pname = $this->_registry->parsePackageName($param,
-            $this->_config->get('default_channel'));
-        PEAR::popErrorHandling();
-        if (PEAR::isError($pname)) {
-            if ($pname->getCode() == 'invalid') {
-                $this->_valid = false;
-                return false;
+        try {
+            $pname = PEAR2_Pyrus_Config::current()->channelregistry->parsePackageName($param,
+                PEAR2_Pyrus_Config::current()->default_channel);
+        } catch (Exception $e) {
+            if ($e->why !== 'channel') {
+                throw new PEAR2_Pyrus_Package_Exception('Cannot process remote package', $e);
             }
-            if ($pname->getCode() == 'channel') {
-                $parsed = $pname->getUserInfo();
-                if ($this->_downloader->discover($parsed['channel'])) {
-                    if ($this->_config->get('auto_discover')) {
-                        PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-                        $pname = $this->_registry->parsePackageName($param,
-                            $this->_config->get('default_channel'));
-                        PEAR::popErrorHandling();
-                    } else {
-                        if (!isset($options['soft'])) {
-                            $this->_downloader->log(0, 'Channel "' . $parsed['channel'] .
-                                '" is not initialized, use ' .
-                                '"pear channel-discover ' . $parsed['channel'] . '" to initialize' .
-                                'or pear config-set auto_discover 1');
+            if ($this->_downloader->discover($parsed['channel'])) {
+                if (PEAR2_Pyrus_Config::current()->auto_discover) {
+                    try {
+                        $pname =
+                        PEAR2_Pyrus_Config::current()->
+                            channelregistry->parsePackageName($param,
+                                PEAR2_Pyrus_Config::current()->default_channel);
+                    } catch (Exception $e) {
+                        if (is_array($param)) {
+                            $param =
+                              PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($param);
                         }
+                        throw new PEAR2_Pyrus_Package_Exception(
+                            'invalid package name/package file "' . $param . '"', $e);
                     }
-                }
-                if (PEAR::isError($pname)) {
-                    if (!isset($options['soft'])) {
-                        $this->_downloader->log(0, $pname->getMessage());
-                    }
-                    if (is_array($param)) {
-                        $param = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($param);
-                    }
-                    $err = PEAR::raiseError('invalid package name/package file "' .
-                        $param . '"');
-                    $this->_valid = false;
-                    return $err;
+                } else {
+//                    if (!isset($options['soft'])) {
+                        PEAR2_Pyrus_Log::log(0, 'Channel "' . $parsed['channel'] .
+                            '" is not initialized, use ' .
+                            '"pyrus channel-discover ' . $parsed['channel'] . '" to initialize' .
+                            'or pyrus config-set auto_discover 1');
+//                    }
                 }
             } else {
-                if (!isset($options['soft'])) {
-                    $this->_downloader->log(0, $pname->getMessage());
-                }
-                $err = PEAR::raiseError('invalid package name/package file "' .
-                    $param . '"');
-                $this->_valid = false;
-                return $err;
+                throw new PEAR2_Pyrus_Package_Exception(
+                    'invalid package name/package file "' . $param . '"', $e);
             }
-        }
-        if (!isset($this->_type)) {
-            $this->_type = 'xmlrpc';
         }
         $this->_parsedname = $pname;
         if (isset($pname['state'])) {

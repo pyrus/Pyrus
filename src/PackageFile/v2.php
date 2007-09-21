@@ -63,7 +63,7 @@ class PEAR2_Pyrus_PackageFile_v2
      * @var string|false
      * @access private
      */
-    var $_packageFile;
+    private $_packageFile = false;
 
     /**
      * Optional Dependency group requested for installation
@@ -421,6 +421,22 @@ class PEAR2_Pyrus_PackageFile_v2
     function __get($var)
     {
         switch ($var) {
+            case 'bundledpackage' :
+                if ($this->getPackageType() !== 'bundle') {
+                    return false;
+                }
+                if (!isset($this->_packageInfo['contents'])) {
+                    $this->_packageInfo['contents'] = array();
+                }
+                if (!isset($this->_packageInfo['contents']['bundledpackage'])) {
+                    $this->_packageInfo['contents']['bundledpackage'] = array();
+                }
+                return new ArrayObject($this->_packageInfo['contents']['bundledpackage'],
+                    ArrayObject::ARRAY_AS_PROPS);
+            case 'packagefile' :
+                return $this->_packageFile;
+            case 'filepath' :
+                return dirname($this->_packageFile);
             case 'contents' :
                 // allows stuff like:
                 // foreach ($pf->contents as $file) {

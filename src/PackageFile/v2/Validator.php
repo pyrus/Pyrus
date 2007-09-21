@@ -220,17 +220,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 ->getValidationObject($this->_pf->name);
             $validator->setPackageFile($this->_pf);
             $validator->validate($state);
-            $failures = $validator->getFailures();
-            foreach ($failures['errors'] as $error) {
-                $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
-                    'Channel validator error: field "' . $error['field'] . '" - "' .
-                    $error['reason']);
-            }
-            foreach ($failures['warnings'] as $warning) {
-                $this->_errors->E_WARNING[] = new PEAR2_Pyrus_PackageFile_Exception(
-                    'Channel validator warning: field "' . $warning['field'] .
-                    '" - ' . $warning['reason']);
-            }
+            // merge in errors from channel-specific validation
+            $this->_errors[] = $validator->getFailures();
         } catch (PEAR2_Pyrus_Config_Exception $e) {
             throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Unable to process channel-specific configuration for channel ' .
@@ -246,24 +237,23 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 $chan->getName() . '/' . $valpack['name'] . '-' . $valpack['version'] . '"');
         }
         if (count($this->_errors->E_ERROR)) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $this->_errors);
+            throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml',
+                $this->_errors);
         }
         if ($state == PEAR2_Pyrus_Validate::PACKAGING && !$this->_filesValid) {
-            if ($this->_pf->getPackageType() == 'bundle') {
-                if ($this->_analyzeBundledPackages()) {
-                    $this->_filesValid = $this->_pf->_filesValid = true;
-                } else {
-                    $this->_pf->_isValid = $this->_isValid = 0;
+            if ($this->_pf->type == 'bundle') {
+                if (!$this->_analyzeBundledPackages()) {
+                    throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml',
+                        $this->_errors);
                 }
             } else {
                 if (!$this->_analyzePhpFiles()) {
-                    $this->_pf->_isValid = $this->_isValid = 0;
-                } else {
-                    $this->_filesValid = $this->_pf->_filesValid = true;
+                    throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml',
+                        $this->_errors);
                 }
             }
         }
-        return $this->_pf->_isValid = $this->_isValid = $state;
+        return $state;
     }
 
     function _validateFilelist($list)
@@ -382,44 +372,29 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
 
     function _analyzeBundledPackages()
     {
-        if (!$this->_isValid) {
+        if (!$this->_pf->type == 'bundle') {
             return false;
         }
-        if (!$this->_pf->getPackageType() == 'bundle') {
+        if (!$this->_pf->packagefile) {
             return false;
         }
-        if (!isset($this->_pf->_packageFile)) {
-            return false;
-        }
-        $dir_prefix = dirname($this->_pf->_packageFile);
-        $log = isset($this->_pf->_logger) ? array(&$this->_pf->_logger, 'log') :
-            array('PEAR2_Pyrus_Common', 'log');
-        $info = $this->_pf->getContents();
-        $info = $info['bundledpackage'];
-        if (!is_array($info)) {
-            $info = array($info);
-        }
-        $pkg = new PEAR2_Pyrus_PackageFile($this->_pf->_config);
-        foreach ($info as $package) {
+        $dir_prefix = $this->_pf->filepath;
+        foreach ($this->_pf->bundledpackage as $package) {
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $package)) {
                 $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
                     'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $package .
                     '" in package.xml does not exist');
                 continue;
             }
-            call_user_func_array($log, array(1, "Analyzing bundled package $package"));
-            $ret = $pkg->fromAnyFile($dir_prefix . DIRECTORY_SEPARATOR . $package,
-                PEAR2_Pyrus_Validate::NORMAL);
-            if (PEAR::isError($ret)) {
-                call_user_func_array($log, array(0, "ERROR: package $package is not a valid " .
-                    'package'));
-                $inf = $ret->getUserInfo();
-                if (is_array($inf)) {
-                    foreach ($inf as $err) {
-                        call_user_func_array($log, array(1, $err['message']));
-                    }
-                }
-                return false;
+            PEAR2_Pyrus_Log::log(1, "Analyzing bundled package $package");
+            try {
+                $ret = new PEAR2_Pyrus_Package_Tar($dir_prefix . DIRECTORY_SEPARATOR .
+                    $package);
+            } catch (Exception $e) {
+                $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
+                    'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $package .
+                    '" in package.xml is not valid', $e);
+                continue;
             }
         }
         return true;
@@ -427,26 +402,19 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
 
     function _analyzePhpFiles()
     {
-        if (!$this->_isValid) {
-            return false;
-        }
-        if (!isset($this->_pf->_packageFile)) {
+        if (!$this->_pf->packagefile) {
             throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Cannot validate files, no path to package file is set (use setPackageFile())');
         }
-        $dir_prefix = dirname($this->_pf->_packageFile);
-        $common = new PEAR2_Pyrus_Common;
-        $log = isset($this->_pf->_logger) ? array(&$this->_pf->_logger, 'log') :
-            array(&$common, 'log');
+        $dir_prefix = $this->_pf->filepath;
         $info = $this->_pf->getContents();
         $info = $info['dir']['file'];
         if (isset($info['attribs'])) {
             $info = array($info);
         }
         $provides = array();
-        foreach ($info as $fa) {
-            $fa = $fa['attribs'];
-            $file = $fa['name'];
+        foreach ($this->_pf->contents as $fa) {
+            $file = $fa->name;
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $file)) {
                 $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
                     'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $file .
@@ -454,14 +422,15 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 continue;
             }
             if (in_array($fa['role'], PEAR2_Pyrus_Installer_Role::getPhpRoles()) && $dir_prefix) {
-                call_user_func_array($log, array(1, "Analyzing $file"));
-                $srcinfo = $this->analyzeSourceCode($dir_prefix . DIRECTORY_SEPARATOR . $file);
+                PEAR2_Pyrus_Log::log(1, "Analyzing $file");
+                $srcinfo = $this->analyzeSourceCode($dir_prefix . DIRECTORY_SEPARATOR .
+                    $file);
                 if ($srcinfo) {
                     $provides = array_merge($provides, $this->_buildProvidesArray($srcinfo));
                 }
             }
         }
-        $this->_packageName = $pn = $this->_pf->getPackage();
+        $this->_packageName = $pn = $this->_pf->package;
         $pnl = strlen($pn);
         foreach ($provides as $key => $what) {
             if (isset($what['explicit']) || !$what) {
@@ -474,19 +443,21 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                 if (!strncasecmp($name, $pn, $pnl)) {
                     continue;
                 }
-                $this->_stack->push(__FUNCTION__, 'warning',
-                    array('file' => $file, 'type' => $type, 'name' => $name, 'package' => $pn),
-                    'in %file%: %type% "%name%" not prefixed with package name "%package%"');
+                $this->_errors->E_WARNING[] = new PEAR2_Pyrus_PackageFile_Exception(
+                    'in ' . $file . ': ' . $type . ' "' . $name . '" not prefixed ' .
+                    'with package name "' . $package . '"'
+                );
             } elseif ($type == 'function') {
                 if (strstr($name, '::') || !strncasecmp($name, $pn, $pnl)) {
                     continue;
                 }
-                $this->_stack->push(__FUNCTION__, 'warning',
-                    array('file' => $file, 'type' => $type, 'name' => $name, 'package' => $pn),
-                    'in %file%: %type% "%name%" not prefixed with package name "%package%"');
+                $this->_errors->E_WARNING[] = new PEAR2_Pyrus_PackageFile_Exception(
+                    'in ' . $file . ': ' . $type . ' "' . $name . '" not prefixed ' .
+                    'with package name "' . $package . '"'
+                );
             }
         }
-        return $this->_isValid;
+        return count($this->_errors->E_ERROR);
     }
 
     /**
@@ -499,18 +470,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
     function analyzeSourceCode($file, $string = false)
     {
         if (!function_exists("token_get_all")) {
-            $this->_stack->push(__FUNCTION__, 'error', array('file' => $file),
+            throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Parser error: token_get_all() function must exist to analyze source code');
-            return false;
-        }
-        if (!defined('T_DOC_COMMENT')) {
-            define('T_DOC_COMMENT', T_COMMENT);
-        }
-        if (!defined('T_INTERFACE')) {
-            define('T_INTERFACE', -1);
-        }
-        if (!defined('T_IMPLEMENTS')) {
-            define('T_IMPLEMENTS', -1);
         }
         if ($string) {
             $contents = $file;
@@ -615,17 +576,6 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                     $look_for = $token;
                     continue 2;
                 case T_STRING:
-                    if (version_compare(zend_version(), '2.0', '<')) {
-                        if (in_array(strtolower($data),
-                            array('public', 'private', 'protected', 'abstract',
-                                  'interface', 'implements', 'throw') 
-                                 )) {
-                            $this->_stack->push(__FUNCTION__, 'warning', array(
-                                'file' => $file),
-                                'Error, PHP5 token encountered in %file%,' .
-                                ' analysis should be in PHP5');
-                        }
-                    }
                     if ($look_for == T_CLASS) {
                         $current_class = $data;
                         $current_class_level = $brace_level;
@@ -670,8 +620,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                     continue 2;
                 case T_DOUBLE_COLON:
                     if (!($tokens[$i - 1][0] == T_WHITESPACE || $tokens[$i - 1][0] == T_STRING)) {
-                        $this->_stack->push(__FUNCTION__, 'warning', array('file' => $file),
-                            'Parser error: invalid PHP found in file "%file%"');
+                        $this->_errors->E_WARNING[] =
+                            new PEAR2_Pyrus_PackageFile_Exception(
+                            'Parser error: invalid PHP found in file "' . $file . '"');
                         return false;
                     }
                     $class = $tokens[$i - 1][1];
@@ -719,7 +670,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         }
         $providesret = array();
         $file = basename($srcinfo['source_file']);
-        $pn = $this->_pf->getPackage();
+        $pn = $this->_pf->package;
         $pnl = strlen($pn);
         foreach ($srcinfo['declared_classes'] as $class) {
             $key = "class;$class";

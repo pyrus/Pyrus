@@ -104,7 +104,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
             return $this->_registries[0]->package;
         }
         if ($var == 'channel') {
-            return $this->_channelRegistry;
+            return self::$_channelRegistry;
         }
         if ($var == 'registries') {
             return $this->_registries;
