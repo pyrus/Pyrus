@@ -35,7 +35,10 @@ class PEAR2_Pyrus_XMLParser
     function parse($file, $schema = false)
     {
         $a = new XMLReader;
-        $a->open($file);
+        if (!$a->open($file)) {
+            throw new PEAR2_Pyrus_XMLParser_Exception('Cannot open ' . $file .
+                ' for parsing');
+        }
         return $this->_parse($a, $file, $schema, true);
     }
 

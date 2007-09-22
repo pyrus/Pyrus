@@ -81,6 +81,9 @@ class PEAR2_Pyrus_Package_Phar
 
     function __get($var)
     {
+        if ($var === 'archivefile') {
+            return $this->_packagename;
+        }
         $this->_extract();
         return $this->_packagefile->$var;
     }

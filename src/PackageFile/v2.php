@@ -528,6 +528,9 @@ class PEAR2_Pyrus_PackageFile_v2
                     ArrayObject::ARRAY_AS_PROPS);
             case 'maintainer' :
                 return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_packageInfo);
+            case 'rawdeps' :
+                return isset($this->_packageInfo['dependencies']) ?
+                    $this->_packageInfo['dependencies'] : false;
             case 'dependencies' :
                 if (!isset($this->_packageInfo['dependencies'])) {
                     $this->_packageInfo['dependencies'] = array();

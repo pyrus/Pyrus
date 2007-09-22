@@ -15,12 +15,23 @@
  * isset($pf->compatible['pear.php.net/Archive_Tar']);
  * // display info:
  * echo $pf->compatible['pear.php.net/Archive_Tar']->min;
+ * foreach ($pf->compatible as $package => $info) {
+ *     echo $info['min'];
+ *     echo $info['max'];
+ *     if (isset($info['exclude'])) {
+ *         foreach ($info['exclude'] as $version) {
+ *             echo $version;
+ *         }
+ *     }
+ * }
  * </code>
  */
-class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
+class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Countable
 {
     private $_packageInfo;
     private $_package = false;
+    private $_pos = 0;
+    private $_count = 0;
     private $_info = array('name' => '', 'channel' => '', 'min' => '', 'max' => '');
     function __construct(array &$parent, $package = false)
     {
@@ -32,14 +43,27 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
             $this->_info['name'] = $package;
             $this->_info['channel'] = $channel;
             $this->_package = true;
+        } else {
+            if (count($this->_packageInfo)) {
+                if (isset($this->_packageInfo[0])) {
+                    $this->_count = count($this->_packageInfo);
+                } else {
+                    $this->_count = 1;
+                }
+            }
         }
+    }
+
+    function count()
+    {
+        return $this->_count;
     }
 
     function __get($var)
     {
         if (!$this->_package) {
             throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                'Cannnot access developer info for unknown developer');
+                'Cannnot access compatibility info for unknown package');
         }
         if (isset($this->_info[$var])) {
             return $this->_info[$var];
@@ -86,6 +110,10 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
 
     function offsetSet($var, $value)
     {
+        if ($this->_package) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
+                'Use -> to access compatibility information for a package, not []');
+        }
         $this->_package = $var;
         $channel = explode('/', $var);
         $this->_info['name'] = array_pop($channel);
@@ -131,6 +159,13 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
                     if (!count($this->_packageInfo['compatible'])) {
                         unset($this->_packageInfo['compatible']);
                     }
+                    if (count($this->_packageInfo)) {
+                        if (isset($this->_packageInfo[0])) {
+                            $this->_count = count($this->_packageInfo);
+                        } else {
+                            $this->_count = 1;
+                        }
+                    }
                     return;
                 }
             }
@@ -138,6 +173,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
             if ($this->_packageInfo['compatible']['name'] == $package &&
                   $this->_packageInfo['compatible']['channel'] == $channel) {
                 unset($this->_packageInfo['compatible']);
+                $this->_count = 0;
             }
         }
     }
@@ -172,6 +208,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
     {
         if (!isset($this->_packageInfo['compatible'])) {
             $this->_packageInfo['compatible'] = $this->_info;
+            $this->_count = 1;
             return;
         }
         foreach ($this->_packageInfo['compatible'] as $i => $compat) {
@@ -182,5 +219,44 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess
             }
         }
         $this->_packageInfo['compatible'][] = $this->_info;
+        $this->_count = count($this->_packageInfo);
+    }
+
+    function current()
+    {
+        if (!$this->valid()) return null;
+        if (!isset($this->_packageInfo['compatible'][0])) {
+            return $this->_packageInfo['compatible'];
+        }
+        return $this->_packageInfo['compatible'][$this->_pos];
+    }
+
+    function next()
+    {
+        $this->_pos++;
+    }
+
+    function key()
+    {
+        if (!$this->valid()) return null;
+        if (!isset($this->_packageInfo['compatible'][0])) {
+            return $this->_packageInfo['compatible']['channel'] . '/' .
+                   $this->_packageInfo['compatible']['package']; 
+        }
+        return $this->_packageInfo['compatible'][$this->_pos]['channel'] . '/' .
+               $this->_packageInfo['compatible'][$this->_pos]['package']; 
+    }
+
+    function valid()
+    {
+        if (!$this->_count) {
+            return false;
+        }
+        return $this->_pos < $this->_count;
+    }
+
+    function rewind()
+    {
+        $this->_pos = 0;
     }
 }
