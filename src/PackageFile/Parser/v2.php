@@ -35,6 +35,11 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
     private $_inContents = false;
     private $_path = '';
     private $_files = array();
+    /**
+     * Mapping of directories within package.xml and their baseinstalldir settings
+     * @var array
+     */
+    private $_baseinstalldirs = array();
     private $_lastDepth = 0;
     private $_inFile = 0;
     private $_curFile;
@@ -114,6 +119,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $e);
         }
         $ret->setFileList($this->_files);
+        $ret->setBaseInstallDirs($this->_baseinstalldirs);
         $ret->setPackagefile($file);
         return $ret;
     }
@@ -140,14 +146,22 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                     $path .= '/';
                 }
                 $this->_path .= $path;
+                if (isset($attr['baseinstalldir'])) {
+                    $this->_baseinstalldirs[$path] = $attr['baseinstalldir'];
+                } else {
+                    if (isset($this->_baseinstalldirs[dirname($path)])) {
+                        $this->_baseinstalldirs[$path] = $attr['baseinstalldir'];
+                    }
+                }
             } elseif ($name === 'file') {
+                $path = ($this->_path ? $this->_path . '/' : '') . $attr['name'];
                 if (isset($arr[$name][0])) {
-                    $this->_files[$this->_path . '/' . $attr['name']] =
+                    $this->_files[$path] =
                         $arr[$name][count($arr[$name]) - 1];
                 } else {
-                    $this->_files[$this->_path . '/' . $attr['name']] = $arr[$name];
+                    $this->_files[$path] = $arr[$name];
                 }
-                $this->_curFile = $this->_path . '/' . $attr['name'];
+                $this->_curFile = $path;
                 $this->_inFile = $depth;
             } elseif ($this->_inFile) {
                 // add tasks

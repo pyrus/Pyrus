@@ -250,6 +250,9 @@ class PEAR2_Pyrus_Installer_Role
      */
     static function getInfo($role)
     {
+        if (!isset(self::$_roles)) {
+            self::registerRoles();
+        }
         if (empty(self::$_roles[$role])) {
             throw new PEAR2_Pyrus_Installer_Role_Exception('Unknown Role class: "' . $role . '"');
         }

@@ -56,6 +56,7 @@ class PEAR2_Pyrus_PackageFile_v2
     private $_schemaValidated = false;
 
     private $_filelist = array();
+    private $_baseinstalldirs = array();
     private $_dirtree = array();
 
     /**
@@ -121,6 +122,11 @@ class PEAR2_Pyrus_PackageFile_v2
         $this->_filelist = $list;
     }
 
+    function setBaseInstallDirs(array $list)
+    {
+        $this->_baseinstalldirs = $list;
+    }
+
     /**
      * @param string full path to file
      * @param string attribute name
@@ -129,7 +135,7 @@ class PEAR2_Pyrus_PackageFile_v2
      */
     function setFileAttribute($filename, $attr, $value)
     {
-        if (!in_array($attr, array('role', 'name', 'baseinstalldir'), true)) {
+        if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as'), true)) {
             throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Cannot set invalid attribute ' . $attr . ' for file ' . $filename);
         }
@@ -418,6 +424,21 @@ class PEAR2_Pyrus_PackageFile_v2
         return false;
     }
 
+    function getBaseInstallDir($file)
+    {
+        $file = dirname($file);
+        while ($file !== '.' && $file != '/') {
+            if (isset($this->_baseinstalldirs[$file])) {
+                return $this->_baseinstalldirs[$file];
+            }
+            $file = dirname($file);
+        }
+        if (isset($this->_baseinstalldirs[''])) {
+            return $this->_baseinstalldirs[''];
+        }
+        return false;
+    }
+
     function __get($var)
     {
         switch ($var) {
@@ -455,6 +476,10 @@ class PEAR2_Pyrus_PackageFile_v2
                         new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
                             $this->_packageInfo['contents'], 'contents', $this)),
                             RecursiveIteratorIterator::LEAVES_ONLY);
+            case 'packagingcontents' :
+                PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
+                return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
+                            $this->_filelist);
             case 'installGroup' :
                 $ret = $this->getReleases();
                 if (!isset($ret[0])) {

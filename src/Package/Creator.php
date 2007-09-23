@@ -1,6 +1,7 @@
 <?php
 class PEAR2_Pyrus_Package_Creator
 {
+    const VERSION = '@PACKAGE_VERSION@';
     private $_creators;
     /**
      * Begin package creation
@@ -28,21 +29,18 @@ class PEAR2_Pyrus_Package_Creator
 
     function render(PEAR2_Pyrus_Package $package)
     {
-        $package->flattenFilelist();
-        $contents = $package->getContents();
-        $files = $contents['dir']['file'];
-        if (!isset($files[0])) {
-            $files = array($files);
-        }
         foreach ($this->_creators as $creator) {
             $creator->init();
         }
-        $packagexml = 'package-' . $package->getChannel() . '-' . $package->getName() .
-            $package->getVersion() . '.xml';
-        // TODO: add package.xml serialization based on package.xml from original
-        // PEAR2_Pyrus_Package, and use that to save the package.xml here
+        $packagexml = 'package-' . $package->channel . '-' . $package->name .
+            $package->version['release'] . '.xml';
+        $info = $package->toArray();
+        $info['p']['attribs']['packagerversion'] = self::VERSION;
         $creator->addFile($packagexml, '');
-        foreach (new PEAR2_Pyrus_Package_Creator_FilelistIterator($files, $package) as $file => $packageat) {
+        // $packageat is the relative path within the archive
+        // $info is an array of format:
+        // array('attribs' => array('name' => ...)[, 'tasks:blah' ...])
+        foreach ($package->packagingcontents as $packageat => $info) {
             foreach ($this->_creators as $creator) {
                 $creator->mkdir(dirname($packageat));
                 $creator->addFile($packageat, $package->getFileContents($file));

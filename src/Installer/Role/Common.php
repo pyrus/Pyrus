@@ -68,7 +68,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      * @param array $atts
      * @return string
      */
-    function getPackagingLocation(PEAR2_Pyrus_Package $pkg, $atts)
+    function getPackagingLocation(PEAR2_Pyrus_PackageFile_v2 $pkg, $atts)
     {
         $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
@@ -80,25 +80,25 @@ class PEAR2_Pyrus_Installer_Role_Common
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
             $dest_dir = $save_destdir = str_replace('pear2_pyrus_installer_role_', '',
-                strtolower(get_class($this))) . DIRECTORY_SEPARATOR .
-                $pkg->getChannel() . DIRECTORY_SEPARATOR . $pkg->getPackage();
+                strtolower(get_class($this))) . '/' .
+                $pkg->channel . '/' . $pkg->name;
             if (!empty($atts['baseinstalldir'])) {
-                $dest_dir .= DIRECTORY_SEPARATOR . $atts['baseinstalldir'];
+                $dest_dir .= '/' . $atts['baseinstalldir'];
             }
         } else {
             $dest_dir = $save_destdir = str_replace('pear2_pyrus_installer_role_', '',
-                strtolower(get_class($this))) . DIRECTORY_SEPARATOR .
-                $pkg->getChannel() . DIRECTORY_SEPARATOR . $pkg->getPackage();
+                strtolower(get_class($this))) . '/' .
+                $pkg->channel . '/' . $pkg->name;
         }
         if (dirname($file) != '.') {
-            $dest_dir .= DIRECTORY_SEPARATOR . dirname($file);
+            $dest_dir .= '/' . dirname($file);
         }
-        return $dest_dir . DIRECTORY_SEPARATOR . basename($file);
+        return $dest_dir . '/' . basename($file);
     }
 
     /**
      * This is called for each file to set up the directories and files
-     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     * @param PEAR2_Pyrus_Package
      * @param array attributes from the <file> tag
      * @param string file name
      * @return array an array consisting of:
@@ -108,7 +108,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      *    3 the full path to the final location of the file
      *    4 the location of the pre-installation file
      */
-    function processInstallation($pkg, $atts, $file, $tmp_path, $layer = null)
+    function processInstallation(PEAR2_Pyrus_Package $pkg, $atts, $file, $tmp_path, $layer = null)
     {
         $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
@@ -124,12 +124,12 @@ class PEAR2_Pyrus_Installer_Role_Common
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
             $dest_dir = $save_destdir = $where .
-                DIRECTORY_SEPARATOR . $pkg->getPackage();
+                DIRECTORY_SEPARATOR . $pkg->name;
             if (!empty($atts['baseinstalldir'])) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $atts['baseinstalldir'];
             }
         } else {
-            $dest_dir = $save_destdir = $where . DIRECTORY_SEPARATOR . $pkg->getPackage();
+            $dest_dir = $save_destdir = $where . DIRECTORY_SEPARATOR . $pkg->name;
         }
         if (dirname($file) != '.' && empty($atts['install-as'])) {
             $dest_dir .= DIRECTORY_SEPARATOR . dirname($file);

@@ -157,6 +157,7 @@ class PEAR2_Pyrus_XMLParser
                 $this->mergeValue($cur, $a->value, $tag, $depth);
             }
         }
+        $a->close();
         if ($schema) {
             $a = new DOMDocument();
             if ($isfile) {
@@ -175,6 +176,7 @@ class PEAR2_Pyrus_XMLParser
                 throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
             }
         }
+        
         return $arr;
     }
 }
