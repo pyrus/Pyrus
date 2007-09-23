@@ -34,16 +34,30 @@ class PEAR2_Pyrus_Package_Creator
         }
         $packagexml = 'package-' . $package->channel . '-' . $package->name .
             $package->version['release'] . '.xml';
-        $info = $package->toArray();
-        $info['p']['attribs']['packagerversion'] = self::VERSION;
-        $creator->addFile($packagexml, '');
+        $package->attribs['packagerversion'] = self::VERSION;
+        $creator->addFile($packagexml, (string) $package);
         // $packageat is the relative path within the archive
         // $info is an array of format:
         // array('attribs' => array('name' => ...)[, 'tasks:blah' ...])
         foreach ($package->packagingcontents as $packageat => $info) {
+            $contents = $package->getFileContents($file);
+            foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package) as
+                     $task) {
+                // do pre-processing of file contents
+                try {
+                    // TODO: get last installed version into that last "null"
+                    $task[1]->init($task[0], $info['attribs'], null);
+                    $newcontents = $task[1]->startSession($package, $contents, $packageat);
+                    if ($newcontents) {
+                        $contents = $newcontents;
+                    }
+                } catch (Exception $e) {
+                    // TODO: handle exceptions
+                }
+            }
             foreach ($this->_creators as $creator) {
                 $creator->mkdir(dirname($packageat));
-                $creator->addFile($packageat, $package->getFileContents($file));
+                $creator->addFile($packageat, $contents);
             }
         }
         foreach ($this->_creators as $creator) {
