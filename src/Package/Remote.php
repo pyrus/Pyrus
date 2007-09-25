@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
+class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
 {
     private $_parent;
     private $_info;
@@ -140,5 +140,15 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             $this->_downloadURL = $ret;
             return $this->_valid = (bool) $ret;
         }
+    }
+
+    function __toString()
+    {
+        return $this->_internal->__toString();
+    }
+
+    function getFileContents($file, $asstream = false)
+    {
+        return $this->_internal->getFileContents($file, $asstream);
     }
 }

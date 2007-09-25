@@ -10,4 +10,9 @@ class PEAR2_Pyrus_PackageFile
         $data = file_get_contents($package);
         $this->info = $parser->parse($data, $package);
     }
+
+    function __toString()
+    {
+        return $this->info->__toString();
+    }
 }

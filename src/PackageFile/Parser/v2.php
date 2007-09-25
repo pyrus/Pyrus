@@ -150,7 +150,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                     $this->_baseinstalldirs[$path] = $attr['baseinstalldir'];
                 } else {
                     if (isset($this->_baseinstalldirs[dirname($path)])) {
-                        $this->_baseinstalldirs[$path] = $attr['baseinstalldir'];
+                        $this->_baseinstalldirs[$path] = $this->_baseinstalldirs[dirname($path)];
                     }
                 }
             } elseif ($name === 'file') {

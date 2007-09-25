@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPackage
 {
     private $_fp;
     private $_packagename;
@@ -7,6 +7,8 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
     private $_footerLength;
     private $_parent;
     private $_packagefile;
+    private $_tmpdir;
+    private $_BCpackage;
     static private $_tempfiles = array();
 
     /**
@@ -47,7 +49,7 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
      * @param unknown_type $b
      * @return unknown
      */
-    function sortstuff($a, $b)
+    static function sortstuff($a, $b)
     {
         // files can be removed in any order
         if (is_file($a) && is_file($b)) return 0;
@@ -165,6 +167,11 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
         return $this->_packagefile->$var;
     }
 
+    function __toString()
+    {
+        return $this->_packagefile->__toString();
+    }
+
     function getPackageFile()
     {
         $this->_extract();
@@ -175,6 +182,26 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
     {
         $this->_extract();
         return $this->_packagefile->valid();
+    }
+
+    function getFileContents($file, $asstream = false)
+    {
+        $this->_extract();
+        if (!isset($this->_packagefile->files[$file])) {
+            throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
+        }
+        if ($this->_BCpackage) {
+            // old fashioned PEAR 1.x packages put everything in Package-Version/
+            // directory
+            $extract = $this->_packagefile->name . '-' .
+                $this->_packagefile->version['release'] .
+                DIRECTORY_SEPARATOR . $file;
+        }
+        $extract = $this->_tmpdir . $extract;
+        $extract = str_replace('\\', '/', $extract);
+        $extract = str_replace('//', '/', $extract);
+        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
+        return $asstream ? fopen($extract, 'rb') : file_get_contents($extract);
     }
 
     private function _processHeader($rawHeader)
@@ -311,6 +338,7 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
         if (dirname($where . 'a') != $where) {
             $where .= DIRECTORY_SEPARATOR;
         }
+        $this->_tmpdir = $where;
         do {
             $header = fread($this->_fp, 512);
             if ($header == pack('a512', '')) {
@@ -337,14 +365,16 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator
             if ($this->_footerLength) {
                 fseek($this->_fp, $this->_footerLength, SEEK_CUR);
             }
-            if (preg_match('/package.xml$/', $header['filename']) &&
-                  $header['filename'] != 'package.xml') {
-                $packagexml = $where . $header['filename'];
-            }
             if (!$packagexml) {
-                if ($header['filename'] == 'package2.xml') {
+                if (preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
+                      $header['filename'])) {
+                    $this->_BCpackage = false;
+                    $packagexml = $where . $header['filename'];
+                } elseif ($header['filename'] == 'package2.xml') {
+                    $this->_BCpackage = true;
                     $packagexml = $where . $header['filename'];
                 } elseif ($header['filename'] == 'package.xml') {
+                    $this->_BCpackage = true;
                     $packagexml = $where . $header['filename'];
                 }
             }

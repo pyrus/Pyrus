@@ -39,6 +39,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
         return call_user_func_array(array($this->internal, $func), $args);
     }
 
+    function __toString()
+    {
+        return $this->internal->__toString();
+    }
+
     function getIterator()
     {
         return $this->internal;

@@ -1,11 +1,13 @@
 <?php
-class PEAR2_Pyrus_Package_Xml implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Package_Xml implements ArrayAccess, Iterator, PEAR2_Pyrus_IPackage
 {
     private $_parent;
     private $_packagefile;
+    private $_file;
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
         $this->_parent = $parent;
+        $this->_file = $package;
         $this->_packagefile = new PEAR2_Pyrus_PackageFile($package);
     }
 
@@ -63,9 +65,20 @@ class PEAR2_Pyrus_Package_Xml implements ArrayAccess, Iterator
         return $this->_packagefile->path;
     }
 
+    function getFileContents($file, $asstream = false)
+    {
+        $file = dirname($this->_file) . DIRECTORY_SEPARATOR . $file;
+        return ($asstream ? fopen($file, 'rb') : file_get_contents($file));
+    }
+
     function __get($var)
     {
         return $this->_packagefile->info->$var;
+    }
+
+    function __toString()
+    {
+        return $this->_packagefile->__toString();
     }
 
     function getPackageFile()

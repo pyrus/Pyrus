@@ -737,7 +737,7 @@ class PEAR2_Pyrus_PackageFile_v2
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }
 
-    function toArray()
+    function toArray($forpackaging = false)
     {
         $this->_packageInfo['contents'] = array(
             'dir' => array(
@@ -745,7 +745,19 @@ class PEAR2_Pyrus_PackageFile_v2
                 'file' => array()
             ));
         uksort($this->_filelist, 'strnatcasecmp');
-        foreach (array_reverse($this->_filelist, 1) as $name => $stuff) {
+        $a = array_reverse($this->_filelist, 1);
+        if ($forpackaging) {
+            PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
+            $a = new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator($a);
+        }
+        $temp = array();
+        foreach ($a as $name => $stuff) {
+            if ($forpackaging) {
+                // map old to new name
+                $temp[$stuff['attribs']['name']] = $name;
+            }
+            // if we are packaging, $name is the new name
+            $stuff['attribs']['name'] = $name;
             $this->_packageInfo['contents']['dir']['file'][] = $stuff;
         }
         if (count($this->_packageInfo['contents']['dir']['file']) == 1) {
@@ -765,6 +777,61 @@ class PEAR2_Pyrus_PackageFile_v2
                 continue;
             }
             $arr[$index] = $this->_packageInfo[$index];
+        }
+        if ($forpackaging) {
+            // process releases
+            $reltag = $this->getPackageType();
+            if ($reltag != 'bundle') {
+                $reltag .= 'release';
+                if (is_array($arr[$reltag])) {
+                    if (!isset($arr[$reltag][0])) {
+                        $arr[$reltag] = array($arr[$reltag]);
+                    }
+                    foreach ($arr[$reltag] as $i => $inf) {
+                        if (!isset($inf['filelist'])) {
+                            continue;
+                        }
+                        $inf = $inf['filelist'];
+                        if (isset($inf['install'])) {
+                            if (!isset($inf['install'][0])) {
+                                if (isset($temp[$inf['install']['attribs']['name']])) {
+                                    $arr[$reltag][$i]['filelist']['install']['attribs']
+                                                       ['name'] =
+                                        $temp[$inf['install']['attribs']['name']];
+                                }
+                            } else {
+                                foreach ($inf['install'] as $j => $morinf) {
+                                    if (isset($temp[$morinf['attribs']['name']])) {
+                                        $arr[$reltag][$i]['filelist']['install'][$j]
+                                                           ['attribs']['name'] =
+                                            $temp[$morinf['attribs']['name']];
+                                    }
+                                }
+                            }
+                        }
+                        if (isset($inf['ignore'])) {
+                            if (!isset($inf['ignore'][0])) {
+                                if (isset($temp[$inf['ignore']['attribs']['name']])) {
+                                    $arr[$reltag][$i]['filelist']['ignore']
+                                                       ['attribs']['name'] =
+                                        $temp[$inf['ignore']['attribs']['name']];
+                                }
+                            } else {
+                                foreach ($inf['ignore'] as $j => $morinf) {
+                                    if (isset($temp[$morinf['attribs']['name']])) {
+                                        $arr[$reltag][$i]['filelist']['ignore'][$j]
+                                                           ['attribs']['name'] =
+                                            $temp[$morinf['attribs']['name']];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (count($arr[$reltag]) == 1) {
+                        $arr[$reltag] = $arr[$reltag][0];
+                    }
+                }
+            }
         }
         if (isset($this->_packageInfo['dependencies'])) {
             if (isset($this->_packageInfo['dependencies']['required'])) {

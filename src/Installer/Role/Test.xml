@@ -7,7 +7,7 @@
  <installable>1</installable>
  <locationconfig>test_dir</locationconfig>
  <honorsbaseinstall />
- <unusualbaseinstall />
+ <unusualbaseinstall>1</unusualbaseinstall>
  <phpfile />
  <executable />
  <phpextension />

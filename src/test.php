@@ -10,7 +10,12 @@ function __autoload($class)
 include '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
-class_exists('PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite');
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
+$a = new PEAR2_Pyrus_Package_Creator(new PEAR2_Pyrus_Developer_Creator_Tar('/tmp/blah.tgz'));
+$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/pear-core/PEAR-1.6.2.tgz');
+$a->render($b);
+exit;
 define('OS_WINDOWS', false);
 define('OS_UNIX', true);
 //$g = new PEAR2_Pyrus_Config('C:/development/pear-core/testpear');

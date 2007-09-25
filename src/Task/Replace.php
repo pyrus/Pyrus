@@ -145,7 +145,10 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                     return false;
                 }
             } else {
-                if ($t = $pkg->packageInfo($a['to'])) {
+                if ($t = $pkg->{$a['to']}) {
+                    if ($a['to'] == 'version') {
+                        $t = $t['release'];
+                    }
                     $to = $t;
                 } else {
                     PEAR2_Pyrus_Log::log(0, "$dest: invalid package-info replacement: $a[to]");

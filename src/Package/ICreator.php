@@ -6,7 +6,7 @@ interface PEAR2_Pyrus_Package_ICreator
      * @param string relative path within the package
      * @param string|resource file contents or open file handle
      */
-    function addFile($path, $fileOrStream);
+    function addFile($path, $filename);
     /**
      * Initialize the package creator
      */

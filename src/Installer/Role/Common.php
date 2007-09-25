@@ -74,26 +74,46 @@ class PEAR2_Pyrus_Installer_Role_Common
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         $file = $atts['name'];
         if ($roleInfo['honorsbaseinstall']) {
-            $dest_dir = $save_destdir = '';
-            if (!empty($atts['baseinstalldir'])) {
-                $dest_dir .= $atts['baseinstalldir'];
+            $dest_dir = str_replace('pear2_pyrus_installer_role_', '',
+                strtolower(get_class($this)));
+            if (array_key_exists('baseinstalldir', $atts)) {
+                if ($atts['baseinstalldir'] != '/') {
+                    $dest_dir .= '/' . $atts['baseinstalldir'];
+                }
+                if (strlen($atts['baseinstalldir'])) {
+                    $dest_dir .= '/';
+                }
+            } else {
+                $dest_dir .= '/';
+                if (dirname($file) != '.') {
+                    $dest_dir .= dirname($file) . '/';
+                }
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
-            $dest_dir = $save_destdir = str_replace('pear2_pyrus_installer_role_', '',
+            $dest_dir = str_replace('pear2_pyrus_installer_role_', '',
                 strtolower(get_class($this))) . '/' .
-                $pkg->channel . '/' . $pkg->name;
-            if (!empty($atts['baseinstalldir'])) {
-                $dest_dir .= '/' . $atts['baseinstalldir'];
+                $pkg->channel . '/' . $pkg->name . '/';
+            if (array_key_exists('baseinstalldir', $atts)) {
+                if (strlen($atts['baseinstalldir']) && $atts['baseinstalldir'] != '/') {
+                    $dest_dir .= $atts['baseinstalldir'];
+                    if (strlen($atts['baseinstalldir'])) {
+                        $dest_dir .= '/';
+                    }
+                }
+            } else {
+                if (dirname($file) != '.') {
+                    $dest_dir .= dirname($file) . '/';
+                }
             }
         } else {
-            $dest_dir = $save_destdir = str_replace('pear2_pyrus_installer_role_', '',
+            $dest_dir = str_replace('pear2_pyrus_installer_role_', '',
                 strtolower(get_class($this))) . '/' .
-                $pkg->channel . '/' . $pkg->name;
+                $pkg->channel . '/' . $pkg->name . '/';
+            if (dirname($file) != '.') {
+                $dest_dir .= dirname($file) . '/';
+            }
         }
-        if (dirname($file) != '.') {
-            $dest_dir .= '/' . dirname($file);
-        }
-        return $dest_dir . '/' . basename($file);
+        return $dest_dir . basename($file);
     }
 
     /**

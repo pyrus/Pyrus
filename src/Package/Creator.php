@@ -35,12 +35,13 @@ class PEAR2_Pyrus_Package_Creator
         $packagexml = 'package-' . $package->channel . '-' . $package->name .
             $package->version['release'] . '.xml';
         $package->attribs['packagerversion'] = self::VERSION;
-        $creator->addFile($packagexml, (string) $package);
+        $packagingarr = $package->toArray(true); // get packaging package.xml
+        $creator->addFile($packagexml, (string) new PEAR2_Pyrus_XMLWriter($packagingarr));
         // $packageat is the relative path within the archive
         // $info is an array of format:
         // array('attribs' => array('name' => ...)[, 'tasks:blah' ...])
         foreach ($package->packagingcontents as $packageat => $info) {
-            $contents = $package->getFileContents($file);
+            $contents = $package->getFileContents($info['attribs']['name']);
             foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package) as
                      $task) {
                 // do pre-processing of file contents

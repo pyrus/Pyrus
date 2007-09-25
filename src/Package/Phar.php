@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Pyrus_Package_Phar
+class PEAR2_Pyrus_Package_Phar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPackage
 {
     private $_fp;
     private $_packagename;
@@ -7,6 +7,7 @@ class PEAR2_Pyrus_Package_Phar
     private $_footerLength;
     private $_parent;
     private $_packagefile;
+    private $_tmpdir;
     static private $_tempfiles = array();
 
     /**
@@ -88,6 +89,11 @@ class PEAR2_Pyrus_Package_Phar
         return $this->_packagefile->$var;
     }
 
+    function __toString()
+    {
+        return $this->_packagefile->__toString();
+    }
+
     function getPackageFile()
     {
         $this->_extract();
@@ -118,6 +124,15 @@ class PEAR2_Pyrus_Package_Phar
         return false;
     }
 
+    function getFileContents($file, $asstream = false)
+    {
+        $extract = $this->_tmpdir . $extract;
+        $extract = str_replace('\\', '/', $extract);
+        $extract = str_replace('//', '/', $extract);
+        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
+        return $asstream ? fopen($extract, 'rb') : file_get_contents($extract);
+    }
+
     /**
      * Extract the archive so we can work with the contents
      *
@@ -139,6 +154,7 @@ class PEAR2_Pyrus_Package_Phar
         if (dirname($where . 'a') != $where) {
             $where .= DIRECTORY_SEPARATOR;
         }
+        $this->_tmpdir = $where;
         try {
             $phar = new Phar($this->_packagename);
         } catch (Exception $e) {
@@ -163,16 +179,9 @@ class PEAR2_Pyrus_Package_Phar
                     'Unable to fully extract ' . $header['filename'] . ' from ' .
                     $this->_packagename);
             }
-            if (preg_match('/package.xml$/', $file->getFileName()) &&
-                  $file->getFileName() != 'package.xml') {
-                $packagexml = $extract;
-            }
-            if (!$packagexml) {
-                if ($header['filename'] == 'package2.xml') {
-                    $packagexml = $extract;
-                } elseif ($header['filename'] == 'package.xml') {
-                    $packagexml = $extract;
-                }
+            if (preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
+                  $header['filename'])) {
+                $packagexml = $where . $header['filename'];
             }
         }
         if (!$packagexml) {
