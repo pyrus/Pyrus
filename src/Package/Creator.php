@@ -170,11 +170,11 @@ class PEAR2_Pyrus_Package_Creator
             fclose($fp);
         }
         $creator->mkdir('php/PEAR2');
-        foreach ($this->_creators as $creator) {
-            foreach ($this->_handles as $path => $stream) {
-                if (isset($alreadyPackaged[$path])) {
-                    continue; // we're packaging this package
-                }
+        foreach ($this->_handles as $path => $stream) {
+            if (isset($alreadyPackaged[$path])) {
+                continue; // we're packaging this package
+            }
+            foreach ($this->_creators as $creator) {
                 $creator->addFile($path, $stream);
             }
             fclose($stream);
