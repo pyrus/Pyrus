@@ -53,7 +53,7 @@
  * $group->extension['extension'] = array();
  * </code>
  */
-class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
+class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, Countable
 {
     private $_parent;
     private $_packageInfo;
@@ -61,6 +61,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
     private $_group = null;
     private $_package;
     private $_type;
+    private $_pos = 0;
+    private $_count = 0;
     private $_info = array();
     function __construct(array &$parent, array &$packageInfo, $required = null, $type = null,
                          $package = null, $group = null)
@@ -107,6 +109,13 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                     array('attribs' => array('name' => $group, 'hint' => ''));
             }
         }
+        if (count($this->_packageInfo)) {
+            if (isset($this->_packageInfo[0])) {
+                $this->_count = count($this->_packageInfo);
+            } else {
+                $this->_count = 1;
+            }
+        }
         if (!$type) return;
         if (!is_string($type)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
@@ -150,6 +159,15 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                     throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                         $type . ' dependency cannot be optional');
             }
+        }
+        if (count($this->_packageInfo)) {
+            if (isset($this->_packageInfo[0])) {
+                $this->_count = count($this->_packageInfo);
+            } else {
+                $this->_count = 1;
+            }
+        } else {
+            $this->_count = 0;
         }
         if (!$package) return;
         switch ($this->_type) {
@@ -242,6 +260,55 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
         }
         throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
             'Cannot set ' . $var . ' directly');
+    }
+
+    function current()
+    {
+        if (!$this->valid()) return null;
+        if (!isset($this->_packageInfo[0])) {
+            if ($this->_required === 'group' && !isset($this->_group)) {
+                return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+                    $this->_parent, $this->_packageInfo, $this->_required,
+                    $this->_type, null, $this->_packageInfo['attribs']['name']);
+            } else {
+                return $this->_packageInfo;
+            }
+        }
+        if ($this->_required === 'group' && !isset($this->_group)) {
+            return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+                $this->_parent, $this->_packageInfo, $this->_required,
+                $this->_type, null, $this->_packageInfo[$this->_pos]['attribs']['name']);
+        }
+        return $this->_packageInfo[$this->_pos];
+    }
+
+    function next()
+    {
+        $this->_pos++;
+    }
+
+    function key()
+    {
+        if (!$this->valid()) return null;
+        return $this->_pos;
+    }
+
+    function valid()
+    {
+        if (!$this->_count) {
+            return false;
+        }
+        return $this->_pos < $this->_count;
+    }
+
+    function rewind()
+    {
+        $this->_pos = 0;
+    }
+
+    function count()
+    {
+        return $this->_count;
     }
 
     function hint($hint)

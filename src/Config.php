@@ -432,8 +432,9 @@ class PEAR2_Pyrus_Config
         if (!isset(self::$defaults[$key])) {
             throw PEAR2_Pyrus_Config_Exception::unknownValue($key);
         }
-        if (isset(self::$pearConfigNames[$key])) {
+        if (in_array($key, self::$pearConfigNames)) {
             // global config
+            self::$configs[$this->pearDir]->$key = $value;
         } else {
             // local config
         }

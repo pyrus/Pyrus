@@ -17,7 +17,7 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
 
     public function commit($data, &$errors)
     {
-        $this->pkginfo->setInstalledAs($data[0], $data[1]);
+        //$this->pkginfo->setInstalledAs($data[0], $data[1]);
         if (!isset($this->_dirtree[dirname($data[1])])) {
             $this->_dirtree[dirname($data[1])] = true;
             $this->pkginfo->setDirtree(dirname($data[1]));

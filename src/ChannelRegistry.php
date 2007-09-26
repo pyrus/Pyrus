@@ -83,10 +83,10 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
         if (!$assumeabstract && @file_exists($pname) && @is_file($pname)) {
             return $pname;
         }
-        if (!count(self::$_registries)) {
+        if (!count(self::$_allRegistries)) {
             $registry = new PEAR2_Pyrus_ChannelRegistry_Sqlite(false);
         } else {
-            foreach (self::$_registries as $registry) {
+            foreach (self::$_allRegistries as $registry) {
                 try {
                     return $registry->parseName($pname);
                 } catch (Exception $e) {
@@ -99,10 +99,10 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
 
     static public function parsedPackageNameToString($name)
     {
-        if (!count(self::$_registries)) {
+        if (!count(self::$_allRegistries)) {
             $registry = new PEAR2_Pyrus_ChannelRegistry_Sqlite(false);
         } else {
-            foreach (self::$_registries as $registry) {
+            foreach (self::$_allRegistries as $registry) {
                 try {
                     return $registry->parsedNameToString($name);
                 } catch (Exception $e) {

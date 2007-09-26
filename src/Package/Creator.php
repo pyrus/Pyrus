@@ -87,7 +87,7 @@ class PEAR2_Pyrus_Package_Creator
         foreach ($this->_creators as $creator) {
             $creator->init();
         }
-        $packagexml = 'package-' . $package->channel . '-' . $package->name .
+        $packagexml = 'package-' . $package->channel . '-' . $package->name . '-' .
             $package->version['release'] . '.xml';
         $package->attribs['packagerversion'] = self::VERSION;
         $packagingarr = $package->toArray(true); // get packaging package.xml

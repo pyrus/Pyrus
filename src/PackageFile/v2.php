@@ -481,7 +481,9 @@ class PEAR2_Pyrus_PackageFile_v2
                 return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
                             $this->_filelist);
             case 'installGroup' :
-                $ret = $this->getReleases();
+                $rel = $this->getPackageType();
+                if ($rel != 'bundle') $rel .= 'release';
+                $ret = $this->_packageInfo[$rel];
                 if (!isset($ret[0])) {
                     return array($ret);
                 }

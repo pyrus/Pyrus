@@ -146,7 +146,7 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
         $ret = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         // support old packages
         if (file_exists($a = $ret . DIRECTORY_SEPARATOR .
-              $this->getPackage() . '-' . $this->getVersion())) {
+              $this->package . '-' . $this->version['release'])) {
             $a = str_replace('\\', '/', $a);
             $a = str_replace('//', '/', $a);
             $a = str_replace('/', DIRECTORY_SEPARATOR, $a);

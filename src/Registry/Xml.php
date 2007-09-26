@@ -7,17 +7,17 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         $this->_path = $path;
     }
 
-    private function _getPackageRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
+    private function _nameRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
                                      $channel = null, $package = null, $version = null)
     {
-        $channel = $info !== null ? $info->getChannel() : $channel;
-        $package = $info !== null ? $info->getPackage() : $package;
-        $path = $this->_getPackagePath($channel, $package);
-        $version = $info !== null ? $info->getVersion() : $version;
+        $channel = $info !== null ? $info->channel : $channel;
+        $package = $info !== null ? $info->name : $package;
+        $path = $this->_namePath($channel, $package);
+        $version = $info !== null ? $info->version['release']() : $version;
         return $path . DIRECTORY_SEPARATOR . $version . '-package.xml';
     }
 
-    private function _getPackagePath($channel, $package)
+    private function _namePath($channel, $package)
     {
         return PEAR2_Pyrus_Config::current()->path . DIRECTORY_SEPARATOR .
             '.registry' . DIRECTORY_SEPARATOR .
@@ -32,7 +32,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        $packagefile = $this->_getPackageRegistryPath($info);
+        $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0777, true);
         }
@@ -41,21 +41,21 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 
     function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        $packagefile = $this->_getPackageRegistryPath($info);
+        $packagefile = $this->_nameRegistryPath($info);
         @unlink($packagefile);
         $this->installPackage($info);
     }
 
     function uninstall($package, $channel)
     {
-        $packagefile = $this->_getPackageRegistryPath($info);
+        $packagefile = $this->_nameRegistryPath($info);
         @unlink($packagefile);
         @rmdir(dirname($packagefile));
     }
 
     public function exists($package, $channel)
     {
-        $packagefile = $this->_getPackagePath($package, $channel);
+        $packagefile = $this->_namePath($package, $channel);
         return @file_exists($packagefile) && @is_dir($packagefile);
     }
 
@@ -65,7 +65,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel .
                 '/' . $package);
         }
-        $packagefile = glob($this->_getPackagePath($package, $channel) .
+        $packagefile = glob($this->_namePath($package, $channel) .
             DIRECTORY_SEPARATOR . '*.xml');
         if (!$packagefile || !isset($packagefile[0])) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
@@ -80,7 +80,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 
     public function listPackages($channel)
     {
-        $dir = $this->_getPackagePath($channel, '');
+        $dir = $this->_namePath($channel, '');
         if (!@file_exists($dir)) {
             return array();
         }

@@ -8,8 +8,8 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends
     {
         self::$_parent = $parent;
         $depchecker = new PEAR2_Pyrus_Dependency_Validator(PEAR2_Pyrus_Config::current(), array(),
-            array('channel' => self::$_parent->getChannel(),
-                  'package' => self::$_parent->getPackage()),
+            array('channel' => self::$_parent->channel,
+                  'package' => self::$_parent->package),
             PEAR2_Pyrus_Validate::INSTALLING);
         foreach (self::$_parent->installGroup as $instance) {
             try {

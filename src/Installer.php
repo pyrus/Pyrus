@@ -29,7 +29,7 @@ class PEAR2_Pyrus_Installer
         
         $this->_transact->begin();
         foreach ($package->installcontents as $file) {
-            $channel = $package->getChannel();
+            $channel = $package->channel;
             // {{{ assemble the destination paths
             if (!in_array($file->role,
                   PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()))) {

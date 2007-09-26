@@ -67,16 +67,16 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
         if ($this->database->singleQuery('SELECT name FROM packages WHERE name="' .
-              $info->getName() . '" AND channel="' . $info->getChannel() . '"')) {
+              $info->name . '" AND channel="' . $info->channel . '"')) {
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                $info->getChannel() . '/' . $info->getName() . ' has already been installed');
+                $info->channel . '/' . $info->name . ' has already been installed');
         }
         $this->database->queryExec('BEGIN');
-        $licloc = $info->getLicenseLocation();
-        $licuri = isset($licloc['uri']) ? '"' .
-            sqlite_escape_string($licloc['uri']) . '"' : 'NULL';
-        $licpath = isset($licloc['path']) ? '"' .
-            sqlite_escape_string($licloc['path']) . '"' : 'NULL';
+        $licloc = $info->license;
+        $licuri = isset($licloc['attribs']['uri']) ? '"' .
+            sqlite_escape_string($licloc['attribs']['uri']) . '"' : 'NULL';
+        $licpath = isset($licloc['attribs']['path']) ? '"' .
+            sqlite_escape_string($licloc['attribs']['path']) . '"' : 'NULL';
         if (!@$this->database->queryExec('
              INSERT INTO packages
               (name, channel, version, apiversion, summary,
@@ -85,20 +85,20 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                releasenotes, lastinstalledversion, installedwithpear,
                installtimeconfig)
              VALUES(
-              "' . $info->getName() . '",
-              "' . $info->getChannel() . '",
-              "' . $info->getVersion('release') . '",
-              "' . $info->getVersion('api') . '",
-              \'' . sqlite_escape_string($info->getSummary()) . '\',
-              \'' . sqlite_escape_string($info->getDescription()) . '\',
-              "' . $info->getState('release') . '",
-              "' . $info->getState('api') . '",
-              "' . $info->getDate() . '",
-              ' . ($info->getTime() ? '"' . $info->getTime() . '"' : 'NULL') . ',
-              "' . $info->getLicense() . '",
+              "' . $info->name . '",
+              "' . $info->channel . '",
+              "' . $info->version['release'] . '",
+              "' . $info->version['api'] . '",
+              \'' . sqlite_escape_string($info->summary) . '\',
+              \'' . sqlite_escape_string($info->description) . '\',
+              "' . $info->stability['release'] . '",
+              "' . $info->stability['api'] . '",
+              "' . $info->date . '",
+              ' . ($info->time ? '"' . $info->time . '"' : 'NULL') . ',
+              "' . $info->license['_content'] . '",
               ' . $licuri . ',
               ' . $licpath . ',
-              \'' . sqlite_escape_string($info->getNotes()) . '\',
+              \'' . sqlite_escape_string($info->notes) . '\',
               NULL,
               "2.0.0",
               "' . PEAR2_Pyrus_Config::configSnapshot() . '"
@@ -106,25 +106,28 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
             ')) {
             $this->database->queryExec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
+                $info->channel . '/' . $info->name . ' could not be installed in registry');
         }
-        foreach ($info->getMaintainers() as $maintainer) {
-            if (!@$this->database->queryExec('
-                 INSERT INTO maintainers
-                  (packages_name, packages_channel, role, user,
-                   email, active)
-                 VALUES(
-                  "' . $info->getName() . '",
-                  "' . $info->getChannel() . '",
-                  "' . $maintainer['role'] . '",
-                  "' . $maintainer['handle'] . '",
-                  "' . $maintainer['email'] . '",
-                  "' . $maintainer['active'] . '"
-                 )
-                ')) {
-                $this->database->queryExec('ROLLBACK');
-                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                    $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
+        foreach ($info->allmaintainers as $role => $maintainers) {
+            if (!is_array($maintainers)) continue;
+            foreach ($maintainers as $maintainer) {
+                if (!@$this->database->queryExec('
+                     INSERT INTO maintainers
+                      (packages_name, packages_channel, role, user,
+                       email, active)
+                     VALUES(
+                      "' . $info->name . '",
+                      "' . $info->channel . '",
+                      "' . $role . '",
+                      "' . $maintainer['user'] . '",
+                      "' . $maintainer['email'] . '",
+                      "' . $maintainer['active'] . '"
+                     )
+                    ')) {
+                    $this->database->queryExec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
             }
         }
         $curconfig = PEAR2_Pyrus_Config::current();
@@ -140,8 +143,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                  INSERT INTO files
                   (packages_name, packages_channel, packagepath, role, rolepath)
                  VALUES(
-                  "' . $info->getName() . '",
-                  "' . $info->getChannel() . '",
+                  "' . $info->name . '",
+                  "' . $info->channel . '",
                   "' . $file->name . '",
                   "' . $file->role . '",
                   "' . $curconfig->{$roles[$file->role]} . '"
@@ -149,139 +152,123 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                 ')) {
                 $this->database->queryExec('ROLLBACK');
                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                    $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
+                    $info->channel . '/' . $info->name . ' could not be installed in registry');
             }
         }
 
-        $deps = $info->getDependencies();
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
-                if (isset($deps[$required][$package])) {
-                    $ds = isset($deps[$required][$package][0]) ?
-                        $deps[$required][$package] :
-                        array($deps[$required][$package]);
-                    foreach ($ds as $d) {
-                        $dchannel = isset($d['channel']) ?
-                            $d['channel'] :
-                            '__uri';
-                        $dmin = isset($d['min']) ?
-                            '"' . $d['min'] . '"':
-                            'NULL';
-                        $dmax = isset($d['max']) ?
-                            '"' . $d['max'] . '"':
-                            'NULL';
-                        if (!@$this->database->queryExec('
-                             INSERT INTO package_dependencies
-                              (required, packages_name, packages_channel, deppackage,
-                               depchannel, conflicts, min, max)
-                             VALUES(
-                              ' . ($required == 'required' ? 1 : 0) . ',
-                              "' . $info->getName() . '",
-                              "' . $info->getChannel() . '",
-                              "' . $d['name'] . '",
-                              "' . $dchannel . '",
-                              "' . isset($d['conflicts']) . '",
-                              ' . $dmin . ',
-                              ' . $dmax . '
-                             )
-                            ')) {
-                            $this->database->queryExec('ROLLBACK');
-                            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                                $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
+                foreach ($info->dependencies->$required->$package as $d) {
+                    $dchannel = isset($d['channel']) ?
+                        $d['channel'] :
+                        '__uri';
+                    $dmin = isset($d['min']) ?
+                        '"' . $d['min'] . '"':
+                        'NULL';
+                    $dmax = isset($d['max']) ?
+                        '"' . $d['max'] . '"':
+                        'NULL';
+                    if (!@$this->database->queryExec('
+                         INSERT INTO package_dependencies
+                          (required, packages_name, packages_channel, deppackage,
+                           depchannel, conflicts, min, max)
+                         VALUES(
+                          ' . ($required == 'required' ? 1 : 0) . ',
+                          "' . $info->name . '",
+                          "' . $info->channel . '",
+                          "' . $d['name'] . '",
+                          "' . $dchannel . '",
+                          "' . isset($d['conflicts']) . '",
+                          ' . $dmin . ',
+                          ' . $dmax . '
+                         )
+                        ')) {
+                        $this->database->queryExec('ROLLBACK');
+                        throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                            $info->channel . '/' . $info->getName() . ' could not be installed in registry');
+                    }
+                    if (isset($d['exclude'])) {
+                        if (!is_array($d['exclude'])) {
+                            $d['exclude'] = array($d['exclude']);
                         }
-                        if (isset($d['exclude'])) {
-                            if (!is_array($d['exclude'])) {
-                                $d['exclude'] = array($d['exclude']);
-                            }
-                            foreach ($d['exclude'] as $exclude) {
-                                if (!@$this->database->queryExec('
-                                     INSERT INTO package_dependencies_exclude
-                                      (required, packages_name, packages_channel,
-                                       deppackage, depchannel, exclude, conflicts)
-                                     VALUES(
-                                      ' . ($required == 'required' ? 1 : 0) . ',
-                                      "' . $info->getName() . '",
-                                      "' . $info->getChannel() . '",
-                                      "' . $d['name'] . '",
-                                      "' . $dchannel . '",
-                                      "' . $exclude . '",
-                                      "' . isset($d['conflicts']) . '"
-                                     )
-                                    ')) {
-                                    $this->database->queryExec('ROLLBACK');
-                                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                                        $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
-                                }                        
-                            }
+                        foreach ($d['exclude'] as $exclude) {
+                            if (!@$this->database->queryExec('
+                                 INSERT INTO package_dependencies_exclude
+                                  (required, packages_name, packages_channel,
+                                   deppackage, depchannel, exclude, conflicts)
+                                 VALUES(
+                                  ' . ($required == 'required' ? 1 : 0) . ',
+                                  "' . $info->name . '",
+                                  "' . $info->channel . '",
+                                  "' . $d['name'] . '",
+                                  "' . $dchannel . '",
+                                  "' . $exclude . '",
+                                  "' . isset($d['conflicts']) . '"
+                                 )
+                                ')) {
+                                $this->database->queryExec('ROLLBACK');
+                                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                                    $info->channel . '/' . $info->getName() . ' could not be installed in registry');
+                            }                        
                         }
                     }
                 }
             }
         }
-        if (!isset($deps['group'])) {
-            $deps['group'] = array();
-        } elseif (!isset($deps['group'][0])) {
-            $deps['group'] = array($deps['group']);
-        }
-        foreach ($deps['group'] as $group) {
+        foreach ($info->dependencies->group as $group) {
             foreach (array('package', 'subpackage') as $package) {
-                if (isset($group[$package])) {
-                    $ds = isset($group[$package][0]) ?
-                        $group[$package] :
-                        array($group[$package]);
-                    foreach ($ds as $d) {
-                        $dchannel = isset($d['channel']) ?
-                            $d['channel'] :
-                            '__uri';
-                        $dmin = isset($d['min']) ?
-                            '"' . $d['min'] . '"':
-                            'NULL';
-                        $dmax = isset($d['max']) ?
-                            '"' . $d['max'] . '"':
-                            'NULL';
-                        if (!@$this->database->queryExec('
-                             INSERT INTO package_dependencies
-                              (required, packages_name, packages_channel, deppackage,
-                               depchannel, conflicts, min, max)
-                             VALUES(
-                              0,
-                              "' . $info->getName() . '",
-                              "' . $info->getChannel() . '",
-                              "' . $d['name'] . '",
-                              "' . $dchannel . '",
-                              "' . isset($d['conflicts']) . '",
-                              ' . $dmin . ',
-                              ' . $dmax . '
-                             )
-                            ')) {
-                            $this->database->queryExec('ROLLBACK');
-                            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                                $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
+                foreach ($group->$package as $d) {
+                    $dchannel = isset($d['channel']) ?
+                        $d['channel'] :
+                        '__uri';
+                    $dmin = isset($d['min']) ?
+                        '"' . $d['min'] . '"':
+                        'NULL';
+                    $dmax = isset($d['max']) ?
+                        '"' . $d['max'] . '"':
+                        'NULL';
+                    if (!@$this->database->queryExec('
+                         INSERT INTO package_dependencies
+                          (required, packages_name, packages_channel, deppackage,
+                           depchannel, conflicts, min, max)
+                         VALUES(
+                          0,
+                          "' . $info->name . '",
+                          "' . $info->channel . '",
+                          "' . $d['name'] . '",
+                          "' . $dchannel . '",
+                          "' . isset($d['conflicts']) . '",
+                          ' . $dmin . ',
+                          ' . $dmax . '
+                         )
+                        ')) {
+                        $this->database->queryExec('ROLLBACK');
+                        throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                            $info->channel . '/' . $info->name . ' could not be installed in registry');
+                    }
+                    if (isset($d['exclude'])) {
+                        if (!is_array($d['exclude'])) {
+                            $d['exclude'] = array($d['exclude']);
                         }
-                        if (isset($d['exclude'])) {
-                            if (!is_array($d['exclude'])) {
-                                $d['exclude'] = array($d['exclude']);
-                            }
-                            foreach ($d['exclude'] as $exclude) {
-                                if (!@$this->database->queryExec('
-                                     INSERT INTO package_dependencies_exclude
-                                      (required, packages_name, packages_channel,
-                                       deppackage, depchannel, exclude, conflicts)
-                                     VALUES(
-                                      0,
-                                      "' . $info->getName() . '",
-                                      "' . $info->getChannel() . '",
-                                      "' . $d['name'] . '",
-                                      "' . $dchannel . '",
-                                      "' . $exclude . '",
-                                      "' . isset($d['conflicts']) . '",
-                                     )
-                                    ')) {
-                                    $this->database->queryExec('ROLLBACK');
-                                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                                        $info->getChannel() . '/' . $info->getName() . ' could not be installed in registry');
-                                }                        
-                            }
+                        foreach ($d['exclude'] as $exclude) {
+                            if (!@$this->database->queryExec('
+                                 INSERT INTO package_dependencies_exclude
+                                  (required, packages_name, packages_channel,
+                                   deppackage, depchannel, exclude, conflicts)
+                                 VALUES(
+                                  0,
+                                  "' . $info->name . '",
+                                  "' . $info->channel . '",
+                                  "' . $d['name'] . '",
+                                  "' . $dchannel . '",
+                                  "' . $exclude . '",
+                                  "' . isset($d['conflicts']) . '",
+                                 )
+                                ')) {
+                                $this->database->queryExec('ROLLBACK');
+                                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                                    $info->channel . '/' . $info->name . ' could not be installed in registry');
+                            }                        
                         }
                     }
                 }
@@ -315,7 +302,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                 SELECT version FROM packages WHERE package="' .
               sqlite_escape_string($info) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"');
-        $this->uninstallPackage($info->getPackage(), $info->getChannel());
+        $this->uninstallPackage($info->name, $info->channel);
         $this->installPackage($info);
         $this->database->queryExec('UPDATE packages set lastinstalledversion="' .
             sqlite_escape_string($lastversion) . '"');
