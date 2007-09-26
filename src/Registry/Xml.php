@@ -13,7 +13,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         $channel = $info !== null ? $info->channel : $channel;
         $package = $info !== null ? $info->name : $package;
         $path = $this->_namePath($channel, $package);
-        $version = $info !== null ? $info->version['release']() : $version;
+        $version = $info !== null ? $info->version['release'] : $version;
         return $path . DIRECTORY_SEPARATOR . $version . '-package.xml';
     }
 

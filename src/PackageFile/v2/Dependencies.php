@@ -77,8 +77,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
         $this->_required = $required;
         if (!isset($parent[$required])) {
             $parent[$required] = array();
+            $this->_packageInfo = &$parent[$required];
         }
-        $this->_packageInfo = &$parent[$required];
         if ($this->_required != 'group' && $group) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                 'Internal error: $group passed into required dependency');
@@ -99,24 +99,31 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
                     $this->_packageInfo = &$this->_packageInfo[1];
                 }
             } else {
+                $found = false;
                 foreach ($this->_packageInfo as $i => $g) {
                     if ($g['attribs']['name'] == $group) {
                         $this->_packageInfo = &$this->_packageInfo[$i];
+                        $found = true;
                         break;
                     }
                 }
-                $this->_packageInfo[$i = count($this->_packageInfo)] =
-                    array('attribs' => array('name' => $group, 'hint' => ''));
+                if (!$found) {
+                    $this->_packageInfo[$i = count($this->_packageInfo)] =
+                        array('attribs' => array('name' => $group, 'hint' => ''));
+                }
             }
         }
-        if (count($this->_packageInfo)) {
-            if (isset($this->_packageInfo[0])) {
-                $this->_count = count($this->_packageInfo);
-            } else {
-                $this->_count = 1;
+        if (!$type) {
+            $this->_packageInfo = &$this->_packageInfo[$this->_required];
+            if (count($this->_packageInfo)) {
+                if (isset($this->_packageInfo[0])) {
+                    $this->_count = count($this->_packageInfo);
+                } else {
+                    $this->_count = 1;
+                }
             }
+            return;
         }
-        if (!$type) return;
         if (!is_string($type)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                         'Internal error: $type is not a string, but is a ' . gettype($type));
@@ -265,19 +272,21 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
     function current()
     {
         if (!$this->valid()) return null;
-        if (!isset($this->_packageInfo[0])) {
-            if ($this->_required === 'group' && !isset($this->_group)) {
-                return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                    $this->_parent, $this->_packageInfo, $this->_required,
-                    $this->_type, null, $this->_packageInfo['attribs']['name']);
-            } else {
-                return $this->_packageInfo;
+        if ($this->_required === 'group' && !isset($this->_group)) {
+            if (!isset($this->_type)) {
+                if (!isset($this->_packageInfo[0])) {
+                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+                        $this->_parent, $this->_packageInfo, $this->_required,
+                        $this->_type, null, $this->_packageInfo['attribs']['name']);
+                } else {
+                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+                        $this->_parent, $this->_packageInfo, $this->_required,
+                        $this->_type, null, $this->_packageInfo[$this->_pos]['attribs']['name']);
+                }
             }
         }
-        if ($this->_required === 'group' && !isset($this->_group)) {
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                $this->_parent, $this->_packageInfo, $this->_required,
-                $this->_type, null, $this->_packageInfo[$this->_pos]['attribs']['name']);
+        if (!isset($this->_packageInfo[0])) {
+            return $this->_packageInfo;
         }
         return $this->_packageInfo[$this->_pos];
     }
