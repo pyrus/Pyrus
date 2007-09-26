@@ -91,7 +91,9 @@ class PEAR2_Pyrus_Package_Creator
             $package->version['release'] . '.xml';
         $package->attribs['packagerversion'] = self::VERSION;
         $packagingarr = $package->toArray(true); // get packaging package.xml
-        $creator->addFile($packagexml, (string) new PEAR2_Pyrus_XMLWriter($packagingarr));
+        foreach ($this->_creators as $creator) {
+            $creator->addFile($packagexml, (string) new PEAR2_Pyrus_XMLWriter($packagingarr));
+        }
         // $packageat is the relative path within the archive
         // $info is an array of format:
         // array('attribs' => array('name' => ...)[, 'tasks:blah' ...])
