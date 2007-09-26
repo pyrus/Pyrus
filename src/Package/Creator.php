@@ -90,9 +90,10 @@ class PEAR2_Pyrus_Package_Creator
         $packagexml = 'package-' . $package->channel . '-' . $package->name . '-' .
             $package->version['release'] . '.xml';
         $package->attribs['packagerversion'] = self::VERSION;
-        $packagingarr = $package->toArray(true); // get packaging package.xml
+        $packageingstr = (string) new PEAR2_Pyrus_XMLWriter(
+            $package->toArray(true)); // get packaging package.xml
         foreach ($this->_creators as $creator) {
-            $creator->addFile($packagexml, (string) new PEAR2_Pyrus_XMLWriter($packagingarr));
+            $creator->addFile($packagexml, $packageingstr);
         }
         // $packageat is the relative path within the archive
         // $info is an array of format:
@@ -144,6 +145,24 @@ class PEAR2_Pyrus_Package_Creator
                 $creator->addFile($packageat, $contents);
             }
         }
+        $creator->mkdir('php/PEAR2');
+        foreach ($this->_handles as $path => $stream) {
+            if (isset($alreadyPackaged[$path])) {
+                continue; // we're packaging this package
+            }
+            foreach ($this->_creators as $creator) {
+                $creator->addFile($path, $stream);
+            }
+            fclose($stream);
+        }
+        foreach ($this->_creators as $creator) {
+            if (isset($alreadyPackaged['php/PEAR2/MultiErrors/Exception.php'])) {
+                continue; // we're packaging MultiErrors package
+            }
+            $creator->mkdir('php/PEAR2/MultiErrors');
+            $creator->addFile('php/PEAR2/MultiErrors/Exception.php',
+                "<?php\nclass PEAR2_MultiErrors_Exception extends PEAR2_Exception {}");
+        }
         foreach ($extrafiles as $path => $filename) {
             $path = str_replace('\\', '/', $path);
             $path = str_replace('//', '/', $path);
@@ -171,23 +190,7 @@ class PEAR2_Pyrus_Package_Creator
             }
             fclose($fp);
         }
-        $creator->mkdir('php/PEAR2');
-        foreach ($this->_handles as $path => $stream) {
-            if (isset($alreadyPackaged[$path])) {
-                continue; // we're packaging this package
-            }
-            foreach ($this->_creators as $creator) {
-                $creator->addFile($path, $stream);
-            }
-            fclose($stream);
-        }
         foreach ($this->_creators as $creator) {
-            if (isset($alreadyPackaged['php/PEAR2/MultiErrors/Exception.php'])) {
-                continue; // we're packaging MultiErrors package
-            }
-            $creator->mkdir('php/PEAR2/MultiErrors');
-            $creator->addFile('php/PEAR2/MultiErrors/Exception.php',
-                "<?php\nclass PEAR2_MultiErrors_Exception extends PEAR2_Exception {}");
             $creator->close();
         }
     }

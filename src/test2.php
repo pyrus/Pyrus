@@ -45,8 +45,8 @@ $pf = new PEAR2_Pyrus_PackageFile_v2;
 //    var_dump($name, $file);
 //}
 //exit;
-define('OS_WINDOWS', false);
-define('OS_UNIX', true);
+define('OS_WINDOWS', true);
+define('OS_UNIX', false);
 $g = new PEAR2_Pyrus_Config('C:/development/pear-core/testpear');
 //$g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 $g->saveConfig();
