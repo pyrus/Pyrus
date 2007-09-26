@@ -171,12 +171,12 @@ class PEAR2_Pyrus_XMLWriter
         foreach ($this->_iter = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->_array),
                      RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
             $depth = $this->_iter->getDepth();
-            while ($this->_iter->getDepth() < $this->_expectedDepth) {
+            while ($depth < $this->_expectedDepth) {
                 // finished with this tag
                 $this->_finish($key, $values);
-                $lastdepth = $depth;
+                $lastdepth--;
             }
-            if ($this->_iter->getDepth() == $this->_expectedDepth) {
+            if ($depth == $this->_expectedDepth) {
                 if ($lastdepth > $depth) {
                     $this->_finish($key, $values);
                 }

@@ -169,6 +169,7 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
 
     function __toString()
     {
+        $this->_extract();
         return $this->_packagefile->__toString();
     }
 
