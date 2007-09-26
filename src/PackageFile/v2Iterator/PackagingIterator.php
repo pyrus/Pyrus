@@ -27,6 +27,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator extends ArrayIterator
                     '/' :
                     dirname($curfile['attribs']['name']));
         }
+        if (isset($curfile['attribs']['md5sum'])) {
+            unset($curfile['attribs']['md5sum']);
+        }
         return $curfile;
     }
 }
