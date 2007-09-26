@@ -76,6 +76,9 @@ class PEAR2_Pyrus_Package_Creator
      * 
      * This will take any package source and an array mapping internal
      * path => file name and create new packages in the formats requested.
+     *
+     * All files in package.xml will have the string @PACKAGE_VERSION@
+     * automatically replaced with the current package's version
      * @param PEAR2_Pyrus_Package $package
      * @param array $extrafiles
      */
@@ -107,6 +110,19 @@ class PEAR2_Pyrus_Package_Creator
             }
             $alreadyPackaged[$packageat] = true;
             $contents = $package->getFileContents($info['attribs']['name']);
+            $globalreplace = array('attribs' =>
+                        array('from' => '@PACKAGE_VERSION@',
+                              'to' => $package->version['release'],
+                              'type' => 'package-info'));
+            if (isset($info['tasks:replace'])) {
+                if (isset($info['tasks:replace'][0])) {
+                    $info['tasks:replace'][] = $globalreplace;
+                } else {
+                    $info['tasks:replace'] = array($info['tasks:replace'], $globalreplace);
+                }
+            } else {
+                $info['tasks:replace'] = $globalreplace;
+            }
             foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package) as
                      $task) {
                 // do pre-processing of file contents
