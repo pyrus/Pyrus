@@ -505,6 +505,12 @@ class PEAR2_Pyrus_PackageFile_v2
                     return false;
                 }
                 return $this->_packageInfo['version']['api'];
+            case 'release-version' :
+                if (!isset($this->_packageInfo['version']) ||
+                      !isset($this->_packageInfo['version']['release'])) {
+                    return false;
+                }
+                return $this->_packageInfo['version']['release'];
             case 'api-state' :
                 if (!isset($this->_packageInfo['stability']) ||
                       !isset($this->_packageInfo['stability']['api'])) {

@@ -26,6 +26,12 @@ class PEAR2_Pyrus_Installer
         $this->_installedas->reset($package);
         $tmp_path = $package->getLocation();
         $this->_options = array();
+        try {
+            $lastversion = PEAR2_Pyrus_Config::current()->registry->info(
+                                    $package->name, $package->channel, 'version');
+        } catch (Exception $e) {
+            $lastversion = null;
+        }
         
         $this->_transact->begin();
         foreach ($package->installcontents as $file) {
@@ -94,8 +100,7 @@ class PEAR2_Pyrus_Installer
                         $task = "PEAR2_Pyrus_Task_" . ucfirst($tag);
                         $task = new $task(PEAR2_Pyrus_Config::current(), PEAR2_PYRUS_TASK_INSTALL);
                         if (!$task->isScript()) { // scripts are only handled after installation
-                            $task->init($raw, $file['attribs'],
-                                $package->getLastInstalledVersion());
+                            $task->init($raw, $file['attribs'], $lastversion);
                             $res = $task->startSession($package, $contents, $final_dest_file);
                             if ($res === false) {
                                 continue; // skip this file

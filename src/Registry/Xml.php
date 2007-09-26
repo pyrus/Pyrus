@@ -75,7 +75,10 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         if ($field === null) {
             return $pf;
         }
-        return $pf->packageInfo($field);
+        if ($field == 'version') {
+            $field = 'release-version';
+        }
+        return $pf->$field;
     }
 
     public function listPackages($channel)

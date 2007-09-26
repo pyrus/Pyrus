@@ -89,7 +89,12 @@ class PEAR2_Pyrus_Package_Creator
         }
         $packagexml = 'package-' . $package->channel . '-' . $package->name . '-' .
             $package->version['release'] . '.xml';
-        $package->attribs['packagerversion'] = self::VERSION;
+        if (self::VERSION === '@PACKAGE_VERSION@') {
+            // we're running straight from SVN, so pretend to be 2.0.0
+            $package->attribs['packagerversion'] = '2.0.0';
+        } else {
+            $package->attribs['packagerversion'] = self::VERSION;
+        }
         $packageingstr = (string) new PEAR2_Pyrus_XMLWriter(
             $package->toArray(true)); // get packaging package.xml
         foreach ($this->_creators as $creator) {

@@ -319,11 +319,11 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
     {
         $info = @$this->database->singleQuery('
             SELECT ' . $field . ' FROM packages WHERE
-            package = \'' . sqlite_escape_string($package) . '\' AND
+            name = \'' . sqlite_escape_string($package) . '\' AND
             channel = \'' . sqlite_escape_string($channel) . '\'', true);
         if (!$info) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
-                ': ' . $this->database->error_string($this->database->lastError()));
+                ': ' . sqlite_error_string($this->database->lastError()));
         }
         return $info;
     }

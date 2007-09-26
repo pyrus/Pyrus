@@ -87,6 +87,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
                 throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                     'Internal error: $group must be a string');
             }
+            $this->_packageInfo = &$parent['group'];
             $this->_group = $group;
             // locate group in the xml and initialize if not present
             if (!count($this->_packageInfo)) {
@@ -112,9 +113,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
                         array('attribs' => array('name' => $group, 'hint' => ''));
                 }
             }
+        } elseif (!$type) {
+            $this->_packageInfo = &$this->_packageInfo[$this->_required];
         }
         if (!$type) {
-            $this->_packageInfo = &$this->_packageInfo[$this->_required];
             if (count($this->_packageInfo)) {
                 if (isset($this->_packageInfo[0])) {
                     $this->_count = count($this->_packageInfo);
@@ -226,9 +228,15 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
                 $this->_packageInfo, $var);
         }
         if (!isset($this->_type)) {
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                $this->_parent, $this->_packageInfo, $this->_required,
-                $var);
+            if (isset($this->_group)) {
+                return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+                    $this->_parent, $this->_packageInfo, $this->_required,
+                    $var, null, $this->_group);
+            } else {
+                return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+                    $this->_parent, $this->_packageInfo, $this->_required,
+                    $var);
+            }
         }
         if ($this->_type == 'group' && !isset($this->_group)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
