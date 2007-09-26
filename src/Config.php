@@ -272,7 +272,7 @@ class PEAR2_Pyrus_Config
             }
             unset($x->$value);
         }
-        self::$configs[$pearDirectory] = $x;
+        self::$userConfigs[$userfile] = $x;
     }
 
     /**
@@ -437,6 +437,7 @@ class PEAR2_Pyrus_Config
             self::$configs[$this->pearDir]->$key = $value;
         } else {
             // local config
+            self::$userConfigs[$this->_userFile]->$key = $value;
         }
     }
 }
