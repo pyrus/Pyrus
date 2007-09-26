@@ -7,12 +7,14 @@ function __autoload($class)
     $path = dirname(__FILE__) . implode('/', $path) . '.php';
     include $path;
 }
-include '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
-include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
+include $a = '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
+include $b = '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Phar.php';
 include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
-$a = new PEAR2_Pyrus_Package_Creator(new PEAR2_Pyrus_Developer_Creator_Tar('/tmp/blah.tgz'));
+$a = new PEAR2_Pyrus_Package_Creator(new PEAR2_Pyrus_Developer_Creator_Phar('/tmp/blah.phar',
+    "<?php echo 'hi';\n__HALT_COMPILER();"),
+    $a, '/home/cellog/workspace/PEAR2/Autoload/trunk/src/Autoload.php', $b);
 $b = new PEAR2_Pyrus_Package('/home/cellog/workspace/pear-core/PEAR-1.6.2.tgz');
 $a->render($b);
 exit;

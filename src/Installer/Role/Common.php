@@ -2,7 +2,7 @@
 /**
  * Base class for all installation roles.
  *
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to version 3.0 of the PHP license
  * that is available through the world-wide-web at the following URI:
@@ -189,7 +189,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      * @param array file attributes
      * @param string file name
      */
-    function setup(&$installer, $pkg, $atts, $file)
+    function setup($installer, $pkg, $atts, $file)
     {
     }
 
