@@ -1,12 +1,11 @@
 <?php
-class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPackage
+class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
 {
     private $_fp;
     private $_packagename;
     private $_internalFileLength;
     private $_footerLength;
     private $_parent;
-    private $_packagefile;
     private $_tmpdir;
     private $_BCpackage;
     static private $_tempfiles = array();
@@ -38,6 +37,8 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
         if (!$this->_fp) {
             throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package ' . $package);
         }
+        $packagexml = $this->_extract();
+        parent::__construct(new PEAR2_Pyrus_PackageFile($packagexml));
     }
 
     /**
@@ -89,72 +90,15 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
         } while (!file_exists($dir));
     }
 
-    function offsetExists($offset)
-    {
-        $this->_extract();
-        return $this->_packagefile->offsetExists($offset);
-    }
-
-    function offsetGet($offset)
-    {
-        $this->_extract();
-        return $this->_packagefile->offsetGet($offset);
-    }
-
-    function offsetSet($offset, $value)
-    {
-        return;
-    }
-
-    function offsetUnset($offset)
-    {
-        return;
-    }
-
-    function current()
-    {
-        $this->_extract();
-        return $this->_packagefile->current();
-    }
-
-    function  key()
-    {
-        return $this->_packagefile->key();
-    }
-
-    function  next ()
-    {
-        $this->_extract();
-        $this->_packagefile->next();
-    }
-
-    function  rewind()
-    {
-        $this->_extract();
-        $this->_packagefile->rewind();
-    }
-
-    function __call($func, $args)
-    {
-        $this->_extract();
-        // delegate to the internal object
-        return call_user_func_array(array($this->_packagefile, $func), $args);
-    }
-
     function getLocation()
     {
-        $ret = (string) PEAR2_Pyrus_Config::current()->temp_dir;
+        $ret = $this->_tmpdir;
         // support old packages
         if (file_exists($a = $ret . DIRECTORY_SEPARATOR .
-              $this->package . '-' . $this->version['release'])) {
-            $a = str_replace('\\', '/', $a);
-            $a = str_replace('//', '/', $a);
-            $a = str_replace('/', DIRECTORY_SEPARATOR, $a);
+              $this->packagefile->info->package . '-' .
+              $this->packagefile->info->version['release'])) {;
             return $a;
         }
-        $ret = str_replace('\\', '/', $ret);
-        $ret = str_replace('//', '/', $ret);
-        $ret = str_replace('/', DIRECTORY_SEPARATOR, $ret);
         return $ret;
     }
 
@@ -163,42 +107,21 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
         if ($var === 'archivefile') {
             return $this->_packagename;
         }
-        $this->_extract();
-        return $this->_packagefile->$var;
-    }
-
-    function __toString()
-    {
-        $this->_extract();
-        return $this->_packagefile->__toString();
-    }
-
-    function getPackageFile()
-    {
-        $this->_extract();
-        return $this->_packagefile->getPackageFile();
-    }
-
-    function  valid()
-    {
-        $this->_extract();
-        return $this->_packagefile->valid();
+        return parent::__get($var);
     }
 
     function getFileContents($file, $asstream = false)
     {
-        $this->_extract();
-        if (!isset($this->_packagefile->files[$file])) {
+        if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
         if ($this->_BCpackage) {
             // old fashioned PEAR 1.x packages put everything in Package-Version/
             // directory
-            $extract = $this->_packagefile->name . '-' .
-                $this->_packagefile->version['release'] .
-                DIRECTORY_SEPARATOR . $file;
+            $extract = $this->packagefile->info->name . '-' .
+                $this->packagefile->info->version['release'];
         }
-        $extract = $this->_tmpdir . $extract;
+        $extract = $this->_tmpdir . $extract . DIRECTORY_SEPARATOR . $file;
         $extract = str_replace('\\', '/', $extract);
         $extract = str_replace('//', '/', $extract);
         $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
@@ -324,9 +247,6 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
      */
     private function _extract()
     {
-        if (isset($this->_packagefile)) {
-            return;
-        }
         $packagexml = false;
         $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
@@ -384,6 +304,6 @@ class PEAR2_Pyrus_Package_Tar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPac
             throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->_packagename .
                 ' does not contain a package.xml file');
         }
-        $this->_packagefile = new PEAR2_Pyrus_Package_Xml($packagexml, $this->_parent);
+        return $packagexml;
     }
 }

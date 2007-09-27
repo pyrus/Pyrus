@@ -104,6 +104,8 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
                             return 'PEAR2_Pyrus_Package_Xml';
+                        case 'zip' :
+                            return 'PEAR2_Pyrus_Package_Zip';
                         case 'tar' :
                         case 'tgz' :
                             return 'PEAR2_Pyrus_Package_Tar';

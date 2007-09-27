@@ -1,148 +1,28 @@
 <?php
-class PEAR2_Pyrus_Package_Phar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPackage
+class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 {
-    private $_fp;
     private $_packagename;
-    private $_internalFileLength;
-    private $_footerLength;
     private $_parent;
-    private $_packagefile;
-    private $_tmpdir;
     static private $_tempfiles = array();
+    private $_tmpdir;
 
     /**
      * @param string $package path to package file
      */
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
+        if (!class_exists('Phar')) {
+            throw new PEAR2_Pyrus_Package_Phar_Exception(
+                'Phar extension is not available');
+        }
         $this->_parent = $parent;
         $this->_packagename = $package;
-        $fp = fopen($package, 'rb');
-        if (!$fp) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception('Cannot open package ' . $package);
+        try {
+            $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Package_Phar_Exception('Could not open Phar archive ' .
+                $package, $e);
         }
-        fclose($fp);
-        if (!class_exists('Phar')) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception('Phar extension is required to ' .
-                'read Phars');
-        }
-    }
-
-    function offsetExists($offset)
-    {
-        $this->_extract();
-        return $this->_packagefile->offsetExists($offset);
-    }
-
-    function offsetGet($offset)
-    {
-        $this->_extract();
-        return $this->_packagefile->offsetGet($offset);
-    }
-
-    function offsetSet($offset, $value)
-    {
-        return;
-    }
-
-    function offsetUnset($offset)
-    {
-        return;
-    }
-
-    function current()
-    {
-        $this->_extract();
-        return $this->_packagefile->current();
-    }
-
-    function  key()
-    {
-        return $this->_packagefile->key();
-    }
-
-    function  next ()
-    {
-        $this->_extract();
-        $this->_packagefile->next();
-    }
-
-    function  rewind()
-    {
-        $this->_extract();
-        $this->_packagefile->rewind();
-    }
-
-    function __call($func, $args)
-    {
-        $this->_extract();
-        // delegate to the internal object
-        return call_user_func_array(array($this->_packagefile, $func), $args);
-    }
-
-    function __get($var)
-    {
-        if ($var === 'archivefile') {
-            return $this->_packagename;
-        }
-        $this->_extract();
-        return $this->_packagefile->$var;
-    }
-
-    function __toString()
-    {
-        return $this->_packagefile->__toString();
-    }
-
-    function getPackageFile()
-    {
-        $this->_extract();
-        return $this->_packagefile->getPackageFile();
-    }
-
-    function  valid()
-    {
-        $this->_extract();
-        return $this->_packagefile->valid();
-    }
-
-    /**
-     * Detect and report a malicious file name
-     *
-     * @param string $file
-     * @return bool
-     * @access private
-     */
-    private function _maliciousFilename($file)
-    {
-        if (strpos($file, '/../') !== false) {
-            return true;
-        }
-        if (strpos($file, '../') === 0) {
-            return true;
-        }
-        return false;
-    }
-
-    function getFileContents($file, $asstream = false)
-    {
-        $extract = $this->_tmpdir . $extract;
-        $extract = str_replace('\\', '/', $extract);
-        $extract = str_replace('//', '/', $extract);
-        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
-        return $asstream ? fopen($extract, 'rb') : file_get_contents($extract);
-    }
-
-    /**
-     * Extract the archive so we can work with the contents
-     *
-     */
-    private function _extract()
-    {
-        if (isset($this->_packagefile)) {
-            return;
-        }
-        $packagexml = false;
         $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
@@ -155,39 +35,96 @@ class PEAR2_Pyrus_Package_Phar implements ArrayAccess, Iterator, PEAR2_Pyrus_IPa
             $where .= DIRECTORY_SEPARATOR;
         }
         $this->_tmpdir = $where;
-        try {
-            $phar = new Phar($this->_packagename);
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception('Unable to open phar ' .
-                $this->package, $e);
-        }
-        foreach ($phar as $file) {
-            $extract = $where . $file->getFileName();
-            $extract = str_replace('\\', '/', $extract);
-            $extract = str_replace('//', '/', $extract);
-            $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
-            self::_addTempFile($extract);
-            if (!file_exists(dirname($extract))) {
-                self::_addTempDirectory(dirname($extract));
-                mkdir(dirname($extract), 0777, true);
+        foreach ($phar as $path => $info) {
+            if ($info->isDir()) continue;
+            if (!isset($pxml)) {
+                $pxml = $path;
             }
-            $fp = fopen($extract, 'wb');
-            $gp = fopen('phar://' . $this->_packagename . '/' . $file->getFileName());
-            $amount = stream_copy_to_stream($gp, $fp, $file->getSize());
-            if ($amount != $file->getSize()) {
-                throw new PEAR2_Pyrus_Package_Phar_Exception(
-                    'Unable to fully extract ' . $header['filename'] . ' from ' .
-                    $this->_packagename);
+            $makepath = $where .
+                str_replace('phar://' .$package, '', $info->getPath());
+            if (!file_exists($makepath)) {
+                mkdir($makepath, 0755, true);
             }
-            if (preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
-                  $header['filename'])) {
-                $packagexml = $where . $header['filename'];
+            $fp = fopen($makepath . $info->getFilename(), 'wb');
+            $gp = fopen($info->getPathName(), 'rb');
+            stream_copy_to_stream($fp, $gp);
+            fclose($fp);
+            fclose($gp);
+        }
+        parent::__construct(new PEAR2_Pyrus_PackageFile($where . $pxml));
+    }
+
+    /**
+     * Sort files/directories for removal
+     *
+     * Files are always removed first, followed by directories in
+     * path order
+     * @param unknown_type $a
+     * @param unknown_type $b
+     * @return unknown
+     */
+    static function sortstuff($a, $b)
+    {
+        // files can be removed in any order
+        if (is_file($a) && is_file($b)) return 0;
+        if (is_dir($a) && is_file($b)) return 1;
+        if (is_dir($b) && is_file($a)) return -1;
+        $countslasha = substr_count($a, DIRECTORY_SEPARATOR);
+        $countslashb = substr_count($b, DIRECTORY_SEPARATOR);
+        if ($countslasha > $countslashb) return -1;
+        if ($countslashb > $countslasha) return 1;
+        // if not subdirectories, tehy can be removed in any order
+        return 0;
+    }
+
+    function __destruct()
+    {
+        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Phar', 'sortstuff'));
+        foreach (self::$_tempfiles as $fileOrDir) {
+            if (!file_exists($fileOrDir)) continue;
+            if (is_file($fileOrDir)) {
+                unlink($fileOrDir);
+            } elseif (is_dir($fileOrDir)) {
+                rmdir($fileOrDir);
             }
         }
-        if (!$packagexml) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception('Phar ' . $this->_packagename .
-                ' does not contain a package.xml file');
+    }
+
+    private static function _addTempFile($file)
+    {
+        self::$_tempfiles[] = $file;
+    }
+
+    private static function _addTempDirectory($dir)
+    {
+        do {
+            self::$_tempfiles[] = $dir;
+            $dir = dirname($dir);
+        } while (!file_exists($dir));
+    }
+
+    function getLocation()
+    {
+        return $this->_tmpdir;
+    }
+
+    function __get($var)
+    {
+        if ($var === 'archivefile') {
+            return $this->_packagename;
         }
-        $this->_packagefile = new PEAR2_Pyrus_Package_Xml($packagexml, $this->_parent);
+        return parent::__get($var);
+    }
+
+    function getFileContents($file, $asstream = false)
+    {
+        if (!isset($this->packagefile->info->files[$file])) {
+            throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
+        }
+        $extract = $this->_tmpdir . DIRECTORY_SEPARATOR . $file;
+        $extract = str_replace('\\', '/', $extract);
+        $extract = str_replace('//', '/', $extract);
+        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
+        return $asstream ? fopen($extract, 'rb') : file_get_contents($extract);
     }
 }

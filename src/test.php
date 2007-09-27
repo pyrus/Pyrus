@@ -22,6 +22,8 @@ include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
 //$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/pear-core/PEAR-1.6.2.tgz');
 //$a->render($b);
 //exit;
+$a = new PEAR2_Pyrus_Package('/tmp/blah.phar');
+exit;
 define('OS_WINDOWS', false);
 define('OS_UNIX', true);
 //$g = new PEAR2_Pyrus_Config('C:/development/pear-core/testpear');
