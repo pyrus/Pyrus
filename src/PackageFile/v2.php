@@ -43,10 +43,35 @@ class PEAR2_Pyrus_PackageFile_v2
                              );
     /**
      * Parsed package information
+     * 
+     * For created-from-scratch packagefiles, set some basic information needed.
      * @var array
      * @access private
      */
-    protected $_packageInfo = array('attribs' => array());
+    protected $_packageInfo = array('attribs' => array(
+        'version' => '2.1',
+        'xmlns' => 'http://pear.php.net/dtd/package-2.1',
+        'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.1
+    http://pear.php.net/dtd/package-2.1.xsd',
+    ),
+        'version' => array(
+            'release' => '0.1.0',
+            'api' => '0.1.0',
+        ),
+        'stability' => array(
+            'release' => 'devel',
+            'api' => 'alpha',
+        ),
+        'dependencies' => array(
+            'php' => array('min' => '5.2.0'),
+            'pearinstaller' => array('2.0.0'),
+        ),
+        'phprelease' => '',
+    );
 
     /**
      * Set if the XML has been validated against schema
@@ -557,8 +582,7 @@ class PEAR2_Pyrus_PackageFile_v2
                 }
                 return false;
             case 'files' :
-                return new PEAR2_Pyrus_PackageFile_v2_Files($this->_filelist,
-                    ArrayObject::ARRAY_AS_PROPS);
+                return new PEAR2_Pyrus_PackageFile_v2_Files($this->_filelist);
             case 'maintainer' :
                 return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_packageInfo);
             case 'rawdeps' :
@@ -681,6 +705,11 @@ class PEAR2_Pyrus_PackageFile_v2
         if (!in_array($var, array('name', 'channel', 'uri', 'extends', 'summary',
                 'description', 'date', 'time','notes'), true)) {
             return;
+        }
+        if ($var === 'uri') {
+            if (isset($this->_packageInfo['channel'])) {
+                unset($this->_packageInfo['channel']);
+            }
         }
         $this->_packageInfo[$var] = $value;
     }
