@@ -68,7 +68,7 @@ class PEAR2_Pyrus_PackageFile_v2
         ),
         'dependencies' => array(
             'php' => array('min' => '5.2.0'),
-            'pearinstaller' => array('2.0.0'),
+            'pearinstaller' => array('min' => '2.0.0'),
         ),
         'phprelease' => '',
     );
