@@ -6,6 +6,12 @@ function __autoload($class)
     $path = dirname(__FILE__) . implode('\\', $path) . '.php';
     include $path;
 }
+include 'C:/development/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN.php';
+include 'C:/development/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN/Filter.php';
+include 'C:/development/PEAR2/Pyrus_Developer/PackageFile/v2.php';
+new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
+    'C:/development/PEAR2/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net', false, false);
+exit;
 include 'C:/development/PEAR2/HTTP/Request/src/HTTP/Request/allfiles.php';
 include $a = 'C:/development/PEAR2/Exception/Exception.php';
 include $b = 'C:/development/PEAR2/MultiErrors/MultiErrors.php';
