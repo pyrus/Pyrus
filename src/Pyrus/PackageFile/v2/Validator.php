@@ -72,7 +72,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                     '/data/pear.php.net/PEAR2_Pyrus/package-2.1.xsd');
                 // for running out of cvs
                 if (!$schema) {
-                    $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/package-2.1.xsd';
+                    $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
                 }
             } else {
                 $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
@@ -105,17 +105,22 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         if (!isset($this->_packageInfo) || !is_array($this->_packageInfo)) {
             return false;
         }
+        $myversion = self::VERSION;
+        if ($myversion === '@PACKAGE_VERSION@') {
+            // we're running from CVS, assume we're 2.0.0
+            $myversion = '2.0.0';
+        }
         $test = $this->_packageInfo;
         if (isset($test['dependencies']) &&
               isset($test['dependencies']['required']) &&
               isset($test['dependencies']['required']['pearinstaller']) &&
               isset($test['dependencies']['required']['pearinstaller']['min']) &&
-              version_compare('@PACKAGE_VERSION@',
+              version_compare($myversion,
                 $test['dependencies']['required']['pearinstaller']['min'], '<')) {
             $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
                 'This package.xml requires PEAR version ' .
                 $test['dependencies']['required']['pearinstaller']['min'] .
-                ' to parse properly, we are version @PACKAGE_VERSION@');
+                ' to parse properly, we are version ' . $myversion);
         $this->_errors = new PEAR2_MultiErrors;
         }
         $fail = false;

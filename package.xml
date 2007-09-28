@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0    http://pear.php.net/dtd/tasks-1.0.xsd    http://pear.php.net/dtd/package-2.1    http://pear.php.net/dtd/package-2.1.xsd">
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.1 http://pear.php.net/dtd/package-2.1.xsd">
  <name>PEAR2_Pyrus</name>
  <channel>pear2.php.net</channel>
  <summary>Pyrus is the package manager and installer for PHP 5.2 or newer
@@ -28,6 +28,7 @@ $i-&gt;install($p);
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
+ <date>2007-09-28</date>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -36,6 +37,8 @@ $i-&gt;install($p);
   <release>devel</release>
   <api>alpha</api>
  </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>Initial Release of PEAR2_Pyrus package</notes>
  <contents>
   <dir name="/">
    <dir name="data" baseinstalldir="/">
@@ -244,12 +247,14 @@ $i-&gt;install($p);
   </dir>
  </contents>
  <dependencies>
-  <php>
-   <min>5.2.0</min>
-  </php>
-  <pearinstaller>
-   <min>2.0.0</min>
-  </pearinstaller>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0</min>
+   </pearinstaller>
+  </required>
  </dependencies>
  <phprelease></phprelease>
 </package>

@@ -103,14 +103,14 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                 '/data/pear.php.net/PEAR2_Pyrus/package-2.1.xsd');
             // for running out of cvs
             if (!$schema) {
-                $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/package-2.1.xsd';
+                $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
             }
         } else {
             $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
                 '/data/pear.php.net/PEAR2_Pyrus/package-2.0.xsd');
             // for running out of cvs
             if (!$schema) {
-                $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/package-2.0.xsd';
+                $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
             }
         }
         try {

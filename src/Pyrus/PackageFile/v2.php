@@ -37,9 +37,9 @@ class PEAR2_Pyrus_PackageFile_v2
                                  'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
                                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                                  'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0
-    http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.1
-    http://pear.php.net/dtd/package-2.1.xsd',
+     http://pear.php.net/dtd/tasks-1.0.xsd
+     http://pear.php.net/dtd/package-2.1
+     http://pear.php.net/dtd/package-2.1.xsd',
                              );
     /**
      * Parsed package information
@@ -54,9 +54,9 @@ class PEAR2_Pyrus_PackageFile_v2
         'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0
-    http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.1
-    http://pear.php.net/dtd/package-2.1.xsd',
+     http://pear.php.net/dtd/tasks-1.0.xsd
+     http://pear.php.net/dtd/package-2.1
+     http://pear.php.net/dtd/package-2.1.xsd',
     ),
         'version' => array(
             'release' => '0.1.0',
@@ -66,9 +66,14 @@ class PEAR2_Pyrus_PackageFile_v2
             'release' => 'devel',
             'api' => 'alpha',
         ),
+        'license' => array('attribs' => array('uri' => 'http://www.opensource.org/licenses/bsd-license.php'),
+            '_content' => 'New BSD License',
+        ),
         'dependencies' => array(
-            'php' => array('min' => '5.2.0'),
-            'pearinstaller' => array('min' => '2.0.0'),
+            'required' => array(
+                'php' => array('min' => '5.2.0'),
+                'pearinstaller' => array('min' => '2.0.0'),
+            ),
         ),
         'phprelease' => '',
     );
@@ -102,6 +107,11 @@ class PEAR2_Pyrus_PackageFile_v2
      * Namespace prefix used for tasks in this package.xml - use tasks: whenever possible
      */
     var $_tasksNs;
+
+    function __construct()
+    {
+        $this->packageInfo['date'] = date('Y-m-d');
+    }
 
     function setPackagefile($file, $archive = false)
     {

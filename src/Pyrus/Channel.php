@@ -25,7 +25,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
         // for running out of cvs
         if (!$schema) {
-            $schema = dirname(dirname(dirname(__FILE__))) . '/data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
         }
         try {
             $this->channelInfo = $parser->parseString($data, $schema);
@@ -40,9 +40,14 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             $this->__toString();
         }
         $a = new PEAR2_Pyrus_XMLParser;
+        $schema = realpath(dirname(dirname(dirname(dirname(__FILE__)))) .
+            '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
+        // for running out of cvs
+        if (!$schema) {
+            $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
+        }
         try {
-            $a->parseString($this->_xml, dirname(dirname(dirname(__FILE__))) .
-                '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
+            $a->parseString($this->_xml, $schema);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('Invalid channel.xml', $e);
         }

@@ -156,7 +156,7 @@
    <xs:choice>
     <xs:sequence maxOccurs="unbounded">
      <xs:element ref="dir" maxOccurs="unbounded"/>
-     <xs:element ref="file" maxOccurs="unbounded"/>
+     <xs:element ref="file" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:sequence maxOccurs="unbounded">
      <xs:element ref="file" maxOccurs="unbounded"/>
