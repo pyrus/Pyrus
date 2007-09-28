@@ -6,14 +6,14 @@ function __autoload($class)
     $path = dirname(__FILE__) . implode('\\', $path) . '.php';
     include $path;
 }
-set_include_path('C:/development/PEAR2/Pyrus/src');
+include 'C:/development/PEAR2/HTTP/Request/src/HTTP/Request/allfiles.php';
 include $a = 'C:/development/PEAR2/Exception/Exception.php';
 include $b = 'C:/development/PEAR2/MultiErrors/MultiErrors.php';
 include 'C:/development/PEAR2/MultiErrors/MultiErrors/Exception.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
+include 'C:/development/PEAR2/Pyrus_Developer/Creator/Zip.php';
+include 'C:/development/PEAR2/Pyrus_Developer/Creator/Tar.php';
+include 'C:/development/PEAR2/Pyrus_Developer/Creator/Xml.php';
+include 'C:/development/PEAR2/Pyrus_Developer/Creator/Exception.php';
 //$a = new PEAR2_Pyrus_Package_Creator(array(
 //        new PEAR2_Pyrus_Developer_Creator_Zip('C:/development/PEAR2/blah.zip'),
 //        new PEAR2_Pyrus_Developer_Creator_Tar('C:/development/PEAR2/blah.tgz'),
@@ -50,7 +50,7 @@ define('OS_UNIX', false);
 $g = new PEAR2_Pyrus_Config('C:/development/pear-core/testpear');
 //$g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 $g->saveConfig();
-$a = new PEAR2_Pyrus_Package('C:/development/PEAR2/blah.tgz');
-//$a = new PEAR2_Pyrus_Package('/home/cellog/workspace/pear-core/PEAR-1.6.2.tgz');
+$a = new PEAR2_Pyrus_Package('http://pear.php.net/get/PEAR-1.6.2.tgz');
+//$a = new PEAR2_Pyrus_Package('C:/development/pear-core/PEAR-1.6.2.tgz');
 $b = new PEAR2_Pyrus_Installer;
 $b->install($a);

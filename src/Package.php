@@ -16,7 +16,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
      *
      * @var PEAR_Package_Xml|PEAR_Package_Tar|PEAR_Package_Phar
      */
-    private $internal;
+    protected $internal;
 
     function __construct($packagedescription, $forceremote = false)
     {
@@ -37,6 +37,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
     {
         // delegate to the internal object
         return call_user_func_array(array($this->internal, $func), $args);
+    }
+
+    function getInternalPackage()
+    {
+        return $this->internal;
     }
 
     function __toString()

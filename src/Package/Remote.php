@@ -1,9 +1,8 @@
 <?php
-class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
+class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 {
     private $_parent;
     private $_info;
-    private $_internal;
     /**
      * @param string $package path to package file
      */
@@ -13,9 +12,9 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package implements PEAR2_Py
         $this->_info = $package;
         if (!is_array($package) &&
               (preg_match('#^(http[s]?|ftp[s]?)://#', $package))) {
-            $this->_internal = $this->_fromUrl($package);
+            $this->internal = $this->_fromUrl($package);
         } else {
-            $this->_internal = $this->_fromString($package);
+            $this->internal = $this->_fromString($package);
         }
     }
 
@@ -26,7 +25,11 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package implements PEAR2_Py
      */
     function download()
     {
-        
+        if ($this->_type === 'url') {
+            
+        } else {
+            
+        }
     }
 
     private function _fromUrl($param, $saveparam = '')
@@ -37,13 +40,18 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package implements PEAR2_Py
 //                array(&$this->_downloader, '_downloadCallback') : null;
         $dir = PEAR2_Pyrus_Config::current()->download_dir;
         try {
-            $http = new PEAR2_HTTP_Request($param, new PEAR2_HTTP_Request_Adapter_Phpsocket);
+            $http = new PEAR2_HTTP_Request($param);
             $response = $http->sendRequest();
             if ($response->code == '200') {
-                file_put_contents($name = tempnam($dir, 'download'), $response->body);
+                $name = basename($response->path);
+                if (!@file_exists($dir)) {
+                    mkdir($dir, 0755, true);
+                }
+                file_put_contents($dir . DIRECTORY_SEPARATOR . $name, $response->body);
             }
             // whew, download worked!
-            return new PEAR2_Pyrus_Package($a);
+            $a = new PEAR2_Pyrus_Package($dir . DIRECTORY_SEPARATOR .$name);
+            return $a->getInternalPackage();
         } catch (Exception $e) {
             if (!empty($saveparam)) {
                 $saveparam = ", cannot download \"$saveparam\"";
@@ -140,15 +148,5 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package implements PEAR2_Py
             $this->_downloadURL = $ret;
             return $this->_valid = (bool) $ret;
         }
-    }
-
-    function __toString()
-    {
-        return $this->_internal->__toString();
-    }
-
-    function getFileContents($file, $asstream = false)
-    {
-        return $this->_internal->getFileContents($file, $asstream);
     }
 }
