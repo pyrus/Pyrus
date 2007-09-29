@@ -2,10 +2,23 @@
 abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
 {
     protected $packagefile;
+    /**
+     * The original source of this package
+     *
+     * This is a chain documenting the steps it took to get this
+     * package instantiated, for instance Tar->Abstract
+     * @var PEAR2_Pyrus_IPackage
+     */
+    protected $from;
 
     function __construct(PEAR2_Pyrus_PackageFile $packagefile)
     {
         $this->packagefile = $packagefile;
+    }
+
+    function setFrom(PEAR2_Pyrus_IPackage $from)
+    {
+        $this->from = $from;
     }
 
     function offsetExists($offset)
