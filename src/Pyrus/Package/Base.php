@@ -21,6 +21,48 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         $this->from = $from;
     }
 
+    /**
+     * Create vertices/edges of a directed graph for dependencies of this package
+     *
+     * Iterate over dependencies and create edges from this package to those it
+     * depends upon
+     * @param PEAR2_Pyrus_DirectedGraph $graph
+     * @param array $packages channel/package indexed array of PEAR2_Pyrus_Package objects
+     */
+    function makeConnections(PEAR2_Pyrus_DirectedGraph $graph, array $packages)
+    {
+        foreach (array('required', 'optional') as $requred) {
+            foreach (array('package', 'subpackage') as $package) {
+                foreach ($this->dependencies->$required->$package as $d) {
+                    if (isset($d['conflicts'])) {
+                        continue;
+                    }
+                    $dchannel = isset($d['channel']) ?
+                        $d['channel'] :
+                        '__uri';
+                    if (isset($packages[$dchannel . '/' . $d['name']])) {
+                        $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    }
+                }
+            }
+        }
+        foreach ($this->dependencies->group as $group) {
+            foreach (array('package', 'subpackage') as $package) {
+                foreach ($this->dependencies->$required->$package as $d) {
+                    if (isset($d['conflicts'])) {
+                        continue;
+                    }
+                    $dchannel = isset($d['channel']) ?
+                        $d['channel'] :
+                        '__uri';
+                    if (isset($packages[$dchannel . '/' . $d['name']])) {
+                        $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    }
+                }
+            }
+        }
+    }
+
     function offsetExists($offset)
     {
         return $this->packagefile->info->hasFile($offset);

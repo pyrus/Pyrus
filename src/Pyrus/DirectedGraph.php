@@ -1,0 +1,158 @@
+<?php
+/**
+ * Implements a graph data type, used for topological sorting of packages.
+ *
+ * This structure allows us to sort dependencies into the correct order for installation.
+ * Iteration uses a depth-first search to perform a topological sort.
+ */
+class PEAR2_Pyrus_DirectedGraph implements Iterator
+{
+    const WHITE = 0;
+    const GRAY = 1;
+    const BLACK = 2;
+    protected $vertices = array();
+    /**
+     * Map data to abstract vertex
+     *
+     * @var array
+     */
+    protected $map = array();
+    /**
+     * Topologically sorted vertices
+     * @var array
+     */
+    protected $blackVertices = array();
+
+    /**
+     * Add a data vertex
+     *
+     * @param object $data
+     * @return PEAR2_Pyrus_DirectedGraph_Vertex
+     */
+    function add($data)
+    {
+        $vertex = new PEAR2_Pyrus_DirectedGraph_Vertex($data);
+        $this->vertices[spl_object_hash($vertex)] = $vertex;
+        $this->map[spl_object_hash($data)] = spl_object_hash($vertex);
+        return $vertex;
+    }
+
+    /**
+     * Connect two vertices in a directed graph
+     *
+     * This can be used with a fluent interface
+     * @param object|PEAR2_Pyrus_DirectedGraph_Vertex $from
+     * @param object|PEAR2_Pyrus_DirectedGraph_Vertex $to
+     * @return PEAR2_Pyrus_DirectedGraph
+     */
+    function connect($from, $to)
+    {
+        if ($from instanceof PEAR2_Pyrus_DirectedGraph_Vertex) {
+            $a = spl_object_hash($from);
+        } else {
+            if (!isset($this->map[spl_object_hash($from)])) {
+                $a = $this->add($from);
+            } else {
+                $a = $this->vertices[$this->map[spl_object_hash($from)]];
+            }
+        }
+        if ($to instanceof PEAR2_Pyrus_DirectedGraph_Vertex) {
+            $b = spl_object_hash($to);
+        } else {
+            if (!isset($this->map[spl_object_hash($to)])) {
+                $b = $this->add($to);
+            } else {
+                $b = $this->vertices[$this->map[spl_object_hash($to)]];
+            }
+        }
+        $this->vertices[spl_object_hash($a)]->connect($b);
+        return $this;
+    }
+
+    function current()
+    {
+        return current($this->blackVertices)->data;
+    }
+
+    function next()
+    {
+        return next($this->blackVertices);
+    }
+
+    function key()
+    {
+        return key($this->blackVertices);
+    }
+
+    function valid()
+    {
+        return current($this->blackVertices);
+    }
+
+    function rewind()
+    {
+        $this->topologicalSort();
+    }
+
+    /**
+     * Sort the vertices by their connections
+     */
+    function topologicalSort()
+    {
+        $this->blackVertices = array();
+        if (!count($this->vertices)) {
+            return;
+        }
+        foreach ($this->vertices as $vertex) {
+            $vertex->color(self::WHITE);
+        }
+        while (count($this->blackVertices) <  count($this->vertices)) {
+            // select a vertex to start
+            foreach ($this->vertices as $vertex) {
+                if ($vertex->color() == self::BLACK) {
+                    // already sorted
+                    continue;
+                }
+                break;
+            }
+            do {
+                // this vertex has been discovered
+                $vertex->color(self::GRAY);
+                if (!count($vertex)) {
+                    // no adjacent edges
+                    $this->blackVertices[] = $vertex;
+                    $vertex->color(self::BLACK);
+                    continue 2;
+                }
+                $black = true;
+                // iterate over adjacent vertices to find a white vertex
+                foreach ($vertex as $edge) {
+                    if ($edge->color() == self::BLACK) {
+                        continue;
+                    }
+                    if (!count($edge)) {
+                        // no adjacent undiscovered vertices, we found a black one
+                        $edge->color(self::BLACK);
+                        $this->blackVertices[] = $edge;
+                        continue;
+                    }
+                    $black = false;
+                    $edge->color(self::GRAY);
+                }
+                if ($black) {
+                    // found a new vertex
+                    $this->blackVertices[] = $vertex;
+                    $vertex->color(self::BLACK);
+                } else {
+                    foreach ($vertex as $edge) {
+                        if ($edge->color() == self::BLACK) {
+                            continue;
+                        }
+                        $vertex = $edge;
+                        break;
+                    }
+                }
+            } while (!$black);
+        }
+    }
+}

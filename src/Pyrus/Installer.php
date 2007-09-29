@@ -1,15 +1,233 @@
 <?php
 class PEAR2_Pyrus_Installer
 {
-    private $_transact;
-    private $_installedas;
-    function __construct()
+    /**
+     * Flag that determines the behavior of {@link begin()}
+     *
+     * If true, begin() will do nothing.  If false, then
+     * {@link self::$installPackages} will be reset to an empty array
+     * @var bool
+     */
+    protected static $inTransaction = false;
+    /**
+     * Packages that will be installed
+     *
+     * This list is used when {@link commit()} is called to determine
+     * the packages to install
+     * @var array
+     */
+    protected static $installPackages = array();
+
+    /**
+     * Packages that were installed
+     *
+     * This list is used when {@link rollback()} is called to determine
+     * the packages that should be removed
+     * @var array
+     */
+    protected static $installedPackages = array();
+
+    /**
+     * Packages that were removed during installation
+     *
+     * This list is used when {@link rollback()} is called to restore state
+     * the packages to install
+     * @var array
+     */
+    protected static $removedPackages = array();
+
+    /**
+     * Installer options.  Valid indices are:
+     *
+     * - upgrade (upgrade or install packages)
+     * - optionaldeps (also automatically download/install optional deps)
+     * @var array
+     */
+    public static $options = array();
+    static protected $transact;
+    static protected $installedas;
+    /**
+     * Prepare installation of packages
+     */
+    static function begin()
     {
-        $this->_transact = new PEAR2_Pyrus_FileTransactions;
-        $this->_installedas = new PEAR2_Pyrus_FileTransactions_Installedas;
-        $this->_transact->registerTransaction('installedas', $this->_installedas);
-        $this->_transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
-        $this->_transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
+        if (!self::$inTransaction) {
+            self::$transact = new PEAR2_Pyrus_FileTransactions;
+            self::$transact->registerTransaction('installedas', self::$installedas);
+            self::$transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
+            self::$transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
+            self::$installPackages = array();
+            self::$installedPackages = array();
+            self::$removedPackages = array();
+            self::$inTransaction = true;
+        }
+    }
+
+    /**
+     * Add a package to the list of packages to be downloaded
+     *
+     * This function checks to see if an identical package is already being downloaded,
+     * and manages removing duplicates or erroring out on a conflict
+     * @param PEAR2_Pyrus_Package $package
+     */
+    static function prepare(PEAR2_Pyrus_Package $package)
+    {
+        if (isset(self::$installPackages[$package->channel . '/' . $package->name])) {
+            $clone = self::$installPackages[$package->channel . '/' . $package->name];
+            // compare version
+            if ($package->version['release'] === $clone->version['release']) {
+                // identical, ignore this package
+                return;
+            }
+            if (version_compare($package->version['release'], $clone->version['release'], '<')) {
+                if ($package->couldBeVersion($clone->version['release'])) {
+                    // packages depending on the cloned version are OK with a newer version
+                    // already going to install a newer version of this package, all is OK
+                    return;
+                }
+                if (!self::$options['force']) {
+                    //
+                    self::rollback();
+                    throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
+                        $package->channel . '/' . $package->name . ', two conflicting' .
+                        ' versions are required by packages that depend on it (' .
+                        $package->version['release'] . ' and ' . $clone->version['release']);
+                }
+                // ignore this version, it is older
+                PEAR2_Pyrus_Log::log(0, 'Warning: two conflicting versions of ' .
+                    $package->channel . '/' . $package->name .
+                    ' are required by packages that depend on it (' .
+                    $package->version['release'] . ' and ' . $clone->version['release']);
+                return;
+            }
+            if ($clone->couldBeVersion($package->version['release'])) {
+                // packages depending on the cloned version are OK with this version
+                self::$installPackages[$package->channel . '/' . $package->name] = $package;
+            } else {
+                // the version of $package conflicts with packages depending on this package
+                if (!self::$options['force']) {
+                    self::rollback();
+                    throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
+                        $package->channel . '/' . $package->name . ', two conflicting' .
+                        ' versions are required by packages that depend on it (' .
+                        $package->version['release'] . ' and ' . $clone->version['release']);
+                }
+                PEAR2_Pyrus_Log::log(0, 'Warning: two conflicting versions of ' .
+                    $package->channel . '/' . $package->name .
+                    ' are required by packages that depend on it (' .
+                    $package->version['release'] . ' and ' . $clone->version['release']);
+                self::$installPackages[$package->channel . '/' . $package->name] = $package;
+            }
+            self::prepareDependencies(
+                self::$installPackages[$package->channel . '/' . $package->name]);
+        }
+    }
+
+    /**
+     * Download and prepare all dependencies
+     *
+     * @param PEAR2_Pyrus_Package $package
+     */
+    static function prepareDependencies(PEAR2_Pyrus_Package $package)
+    {
+        foreach ($package->dependencies->required->package as $dep) {
+            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
+        }
+        foreach ($package->dependencies->required->subpackage as $dep) {
+            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
+        }
+        if ($package->requestedGroup) {
+            foreach ($package->dependencies->group[$package->requestedGroup]->package as $dep) {
+                self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
+            }
+            foreach ($package->dependencies->group[$package->requestedGroup]->subpackage as $dep) {
+                self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
+            }
+        }
+        if (!isset(self::$options['optionaldeps'])) {
+            return;
+        }
+        foreach ($package->dependencies->optional->package as $dep) {
+            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
+        }
+        foreach ($package->dependencies->optional->subpackage as $dep) {
+            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
+        }
+    }
+
+    /**
+     * Cancel installation
+     */
+    static function rollback()
+    {
+        if (self::$inTransaction) {
+            self::$transact->rollback();
+            $reg = PEAR2_Pyrus_Config::current()->registry;
+            $err = new PEAR2_MultiErrors;
+            foreach (self::$installedPackages as $package) {
+                try {
+                    $reg->uninstall($package->name, $package->channel);
+                } catch (Exception $e) {
+                    $err->E_ERROR[] = $e;
+                }
+            }
+            foreach (self::$removedPackages as $package) {
+                try {
+                    $reg->uninstall($package->name, $package->channel);
+                } catch (Exception $e) {
+                    $err->E_ERROR[] = $e;
+                }
+                try {
+                    $reg->install($package->getPackageFile()->info);
+                } catch (Exception $e) {
+                    $err->E_ERROR[] = $e;
+                }
+            }
+            self::$installPackages = array();
+            self::$installedPackages = array();
+            self::$removedPackages = array();
+            self::$inTransaction = false;
+            if (count($err)) {
+                throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
+            }
+        }
+    }
+
+    /**
+     * Install packages slated for installation during transaction
+     */
+    static function commit()
+    {
+        if (!self::$inTransaction) {
+            return false;
+        }
+        try {
+            $installer = new PEAR2_Pyrus_Installer;
+            // validate dependencies
+            foreach (self::$installPackages as $package) {
+                // TODO: dependency validation
+            }
+            // download non-local packages
+            foreach (self::$installPackages as $package) {
+                $package->download();
+            }
+            // create dependency connections and load them into the directed graph
+            foreach (self::$installPackages as $package) {
+                $package->makeConnections($graph, self::$installPackages);
+            }
+            // topologically sort packages and install them via iterating over the graph
+            foreach ($graph as $package) {
+                $installer->install($package);
+            }
+            self::$transact->commit();
+            $reg = PEAR2_Pyrus_Config::current()->registry;
+            foreach (self::$installedPackages as $package) {
+                $reg->install($package->getPackageFile()->info);
+            }
+            self::$installPackages = array();
+        } catch (Exception $e) {
+            self::rollback();
+        }
     }
 
     /**
@@ -23,7 +241,7 @@ class PEAR2_Pyrus_Installer
      */
     function install(PEAR2_Pyrus_Package $package)
     {
-        $this->_installedas->reset($package);
+        self::$installedas->reset($package);
         $tmp_path = $package->getLocation();
         $this->_options = array();
         try {
@@ -33,7 +251,7 @@ class PEAR2_Pyrus_Installer
             $lastversion = null;
         }
         
-        $this->_transact->begin();
+        self::$transact->begin();
         foreach ($package->installcontents as $file) {
             $channel = $package->channel;
             // {{{ assemble the destination paths
@@ -155,7 +373,7 @@ class PEAR2_Pyrus_Installer
                     } else {
                         $mode = 0666 & ~(int)octdec(PEAR2_Pyrus_Config::current()->umask);
                     }
-                    $this->_transact->chmod($mode, $dest_file);
+                    self::$transact->chmod($mode, $dest_file);
                     if (!@chmod($dest_file, $mode)) {
                         if (!isset($options['soft'])) {
                             PEAR2_Pyrus_Log::log(0,
@@ -164,18 +382,12 @@ class PEAR2_Pyrus_Installer
                     }
                 }
                 // }}}
-                $this->_transact->rename($dest_file, $final_dest_file, $role->isExtension());
+                self::$transact->rename($dest_file, $final_dest_file, $role->isExtension());
             }
             // Store the full path where the file was installed for easy uninstall
-            $this->_transact->installedas($file->name, $installed_as,
+            self::$transact->installedas($file->name, $installed_as,
                                 $save_destdir, dirname(substr($dest_file,
                                  strlen($save_destdir))));
         }
-        try {
-            $this->_transact->commit();
-        } catch (Exception $e) {
-            $this->_transact->rollback();
-        }
-        PEAR2_Pyrus_Config::current()->registry->install($package->getPackageFile()->info);
     }
 }
