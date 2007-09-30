@@ -412,6 +412,38 @@ class PEAR2_Pyrus_PackageFile_v2
         return '2.0';
     }
 
+    /**
+     * validate dependencies against the local registry, packages to be installed,
+     * and environment (php version, OS, architecture, enabled extensions)
+     *
+     * @param array $toInstall an array of PEAR2_Pyrus_Package objects
+     * @param PEAR2_MultiErrors $errs
+     */
+    function validateDependencies(array $toInstall, PEAR2_MultiErrors $errs)
+    {
+        $dep = new PEAR2_Pyrus_Dependency_Validator($this->packageInfo['name'],
+            PEAR2_Pyrus_Validate::DOWNLOADING, $errs);
+        $dep->validatePhpDependency($this->dependencies->required->php);
+        $dep->validatePearinstallerDependency($this->dependencies->required->pearinstaller);
+        foreach (array('required', 'optional') as $required) {
+            foreach ($this->dependencies->$required->package as $d) {
+                $dep->validatePackageDependency($d, $required == 'required', $toInstall);
+            }
+            foreach ($this->dependencies->$required->subpackage as $d) {
+                $dep->validateSubpackageDependency($d, $required == 'required', $toInstall);
+            }
+            foreach ($this->dependencies->$required->extension as $d) {
+                $dep->validateExtensionDependency($d, $required == 'required');
+            }
+        }
+        foreach ($this->dependencies->required->arch as $d) {
+            $dep->validateArchDependency($d);
+        }
+        foreach ($this->dependencies->required->os as $d) {
+            $dep->validateOsDependency($d);
+        }
+    }
+
     function validate($state = PEAR2_Pyrus_Validate::NORMAL)
     {
         if (!isset($this->packageInfo) || !is_array($this->packageInfo)) {

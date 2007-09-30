@@ -311,7 +311,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
     function exists($package, $channel)
     {
         return $this->database->singleQuery('SELECT COUNT(*) FROM packages WHERE ' .
-            'package=\'' . sqlite_escape_string($package) . '\' AND channel=\'' .
+            'name=\'' . sqlite_escape_string($package) . '\' AND channel=\'' .
             sqlite_escape_string($channel) . '\'');
     }
 

@@ -39,6 +39,10 @@
 class PEAR2_Pyrus_Dependency_Validator
 {
     /**
+     * @var PEAR2_MultiErrors
+     */
+    protected $errs;
+    /**
      * One of the PEAR2_Pyrus_Validate::* states
      * @see PEAR2_Pyrus_Validate::NORMAL
      * @var integer
@@ -54,9 +58,9 @@ class PEAR2_Pyrus_Dependency_Validator
      */
     var $_os;
     /**
-     * @var PEAR_Registry
+     * @var PEAR2_Pyrus_Registry
      */
-    var $_registry;
+    protected $registry;
     /**
      * @var PEAR_Config
      */
@@ -72,22 +76,16 @@ class PEAR2_Pyrus_Dependency_Validator
      * @param array format of PEAR_Registry::parsedPackageName()
      * @param int installation state (one of PEAR2_Pyrus_Validate::*)
      */
-    function __construct(PEAR2_Pyrus_Config $config, $installoptions, $package,
-                              $state = PEAR2_Pyrus_Validate::INSTALLING)
+    function __construct($package, $state = PEAR2_Pyrus_Validate::INSTALLING,
+                         PEAR2_MultiErrors $errs)
     {
-        $this->_config = $config;
-        if (isset($installoptions['packagingroot'])) {
-            // make sure depdb is in the right location
-            $config->setInstallRoot($installoptions['packagingroot']);
-        }
-        $this->_registry = $config->registry;
-        if (isset($installoptions['packagingroot'])) {
-            $config->setInstallRoot(false);
-        }
-        $this->_options = $installoptions;
+        $this->_config = PEAR2_Pyrus_Config::current();
+        $this->registry = $this->_config->registry;
+        $this->_options = PEAR2_Pyrus_Installer::$options;
         $this->_state = $state;
         $this->_os = new PEAR2_Pyrus_OSGuess;
         $this->_currentPackage = $package;
+        $this->errs = $errs;
     }
 
     function _getExtraString($dep)
@@ -509,7 +507,7 @@ class PEAR2_Pyrus_Dependency_Validator
      */
     function getPEARVersion()
     {
-        return '@PEAR-VER@';
+        return '@PACKAGE_VERSION@';
     }
 
     function validatePearinstallerDependency($dep)
@@ -569,11 +567,8 @@ class PEAR2_Pyrus_Dependency_Validator
      * @param array dependency information (2.0 format)
      * @param boolean whether this is a required dependency
      * @param array a list of downloaded packages to be installed, if any
-     * @param boolean if true, then deps on pear.php.net that fail will also check
-     *                against pecl.php.net packages to accomodate extensions that have
-     *                moved to pecl.php.net from pear.php.net
      */
-    function validatePackageDependency($dep, $required, $params, $depv1 = false)
+    function validatePackageDependency($dep, $required, $params)
     {
         if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
               $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
@@ -584,23 +579,21 @@ class PEAR2_Pyrus_Dependency_Validator
                 $save = $dep;
                 $subdep = $dep;
                 $subdep['name'] = $subdep['providesextension'];
-                PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
                 $ret = $this->validateExtensionDependency($subdep, $required);
-                PEAR::popErrorHandling();
-                if (!PEAR::isError($ret)) {
+                if ($ret === true) {
                     return true;
                 }
             }
         }
         if ($this->_state == PEAR2_Pyrus_Validate::INSTALLING) {
-            return $this->_validatePackageInstall($dep, $required, $depv1);
+            return $this->_validatePackageInstall($dep, $required);
         }
         if ($this->_state == PEAR2_Pyrus_Validate::DOWNLOADING) {
-            return $this->_validatePackageDownload($dep, $required, $params, $depv1);
+            return $this->_validatePackageDownload($dep, $required, $params);
         }
     }
 
-    function _validatePackageDownload($dep, $required, $params, $depv1 = false)
+    function _validatePackageDownload($dep, $required, $params)
     {
         $dep['package'] = $dep['name'];
         if (isset($dep['uri'])) {
@@ -609,19 +602,9 @@ class PEAR2_Pyrus_Dependency_Validator
         $depname = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($dep, true);
         $found = false;
         foreach ($params as $param) {
-            if ($param->isEqual(
-                  array('package' => $dep['name'],
-                        'channel' => $dep['channel']))) {
+            if ($param->name == $dep['name'] && $param->channel == $dep['channel']) {
                 $found = true;
                 break;
-            }
-            if ($depv1 && $dep['channel'] == 'pear.php.net') {
-                if ($param->isEqual(
-                  array('package' => $dep['name'],
-                        'channel' => 'pecl.php.net'))) {
-                    $found = true;
-                    break;
-                }
             }
         }
         if (!$found && isset($dep['providesextension'])) {
@@ -633,27 +616,19 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         if ($found) {
-            $version = $param->getVersion();
+            $version = $param->version['release'];
             $installed = false;
             $downloaded = true;
         } else {
-            if ($this->_registry->packageExists($dep['name'], $dep['channel'])) {
+            if ($this->registry->exists($dep['name'], $dep['channel'])) {
                 $installed = true;
                 $downloaded = false;
-                $version = $this->_registry->packageinfo($dep['name'], 'version',
-                    $dep['channel']);
+                $version = $this->registry->info($dep['name'],
+                    $dep['channel'], 'version');
             } else {
-                if ($dep['channel'] == 'pecl.php.net' && $this->_registry->packageExists($dep['name'],
-                      'pear.php.net')) {
-                    $installed = true;
-                    $downloaded = false;
-                    $version = $this->_registry->packageinfo($dep['name'], 'version',
-                        'pear.php.net');
-                } else {
-                    $version = 'not installed or downloaded';
-                    $installed = false;
-                    $downloaded = false;
-                }
+                $version = 'not installed or downloaded';
+                $installed = false;
+                $downloaded = false;
             }
         }
         $extra = $this->_getExtraString($dep);
@@ -783,12 +758,13 @@ class PEAR2_Pyrus_Dependency_Validator
                 return true;
             } else {
                 if (!$found && $installed) {
-                    $param = $this->_registry->getPackage($dep['name'], $dep['channel']);
+                    $param = $this->registry->package[$dep['channel'] . '/' . $dep['name']];
                 }
                 if ($param) {
                     $found = false;
                     foreach ($params as $parent) {
-                        if ($parent->isEqual($this->_currentPackage)) {
+                        if ($parent->name == $this->_currentPackage['package'] &&
+                              $parent->channel == $this->_currentPackage['channel']) {
                             $found = true;
                             break;
                         }
@@ -798,8 +774,9 @@ class PEAR2_Pyrus_Dependency_Validator
                             return true;
                         }
                     } else { // this is for validPackage() calls
-                        $parent = $this->_registry->getPackage($this->_currentPackage['package'],
-                            $this->_currentPackage['channel']);
+                        $parent = $this->registry->package[
+                            $this->_currentPackage['channel'] . '/' .
+                            $this->_currentPackage['package']];
                         if ($parent !== null) {
                             if ($param->isCompatible($parent)) {
                                 return true;
@@ -823,9 +800,9 @@ class PEAR2_Pyrus_Dependency_Validator
         return true;
     }
 
-    function _validatePackageInstall($dep, $required, $depv1 = false)
+    function _validatePackageInstall($dep, $required)
     {
-        return $this->_validatePackageDownload($dep, $required, array(), $depv1);
+        return $this->_validatePackageDownload($dep, $required, array());
     }
 
     /**
@@ -843,7 +820,7 @@ class PEAR2_Pyrus_Dependency_Validator
         foreach ($downloaded as $i => $pf) {
             $params[$i] = $pf;
         }
-        $deps = $this->_registry->getDependentPackageDependencies($this->_currentPackage);
+        $deps = $this->registry->getDependentPackageDependencies($this->_currentPackage);
         $fail = false;
         if ($deps) {
             foreach ($deps as $channel => $info) {
@@ -887,12 +864,13 @@ class PEAR2_Pyrus_Dependency_Validator
         $depname = PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($dep, true);
         $found = false;
         foreach ($params as $param) {
-            if ($param->isEqual($this->_currentPackage)) {
+            if ($param->name == $this->_currentPackage['package'] &&
+                  $param->channel == $this->_currentPackage['channel']) {
                 $found = true;
                 break;
             }
         }
-        $version = $this->_registry->packageinfo($dep['name'], 'version',
+        $version = $this->registry->packageinfo($dep['name'], 'version',
             $dep['channel']);
         if (!$version) {
             return true;
@@ -937,7 +915,7 @@ class PEAR2_Pyrus_Dependency_Validator
                       [$this->_currentPackage['package']])) {
                     $dl->___checked[$this->_currentPackage['channel']]
                       [$this->_currentPackage['package']] = true;
-                    $deps = $this->_registry->getDependentPackageDependencies(
+                    $deps = $this->registry->getDependentPackageDependencies(
                         $this->_currentPackage);
                     if ($deps) {
                         foreach ($deps as $channel => $info) {
@@ -1000,9 +978,9 @@ class PEAR2_Pyrus_Dependency_Validator
     function validatePackage($pkg, &$dl, $params = array())
     {
         if (is_array($pkg) && isset($pkg['info'])) {
-            $deps = $this->_registry->getDependentPackageDependencies($pkg['info']);
+            $deps = $this->registry->getDependentPackageDependencies($pkg['info']);
         } else {
-            $deps = $this->_registry->getDependentPackageDependencies($pkg);
+            $deps = $this->registry->getDependentPackageDependencies($pkg);
         }
         $fail = false;
         if ($deps) {
@@ -1057,13 +1035,13 @@ class PEAR2_Pyrus_Dependency_Validator
         if (isset($this->_options['ignore-errors'])) {
             return $this->warning($msg);
         }
-        throw new PEAR2_Pyrus_Dependency_Exception(sprintf($msg, PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
+        $this->errs->E_ERROR[] = new PEAR2_Pyrus_Dependency_Exception(sprintf($msg, PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
             $this->_currentPackage, true)));
     }
 
     function warning($msg)
     {
-        return array(sprintf($msg, PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
+        $this->errs->E_WARNING[] = new PEAR2_Pyrus_Dependency_Exception(sprintf($msg, PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString(
             $this->_currentPackage, true)));
     }
 }

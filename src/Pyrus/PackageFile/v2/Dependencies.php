@@ -345,6 +345,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
                 $this->_parent, $this->_packageInfo, $this->_required,
                 $this->_type, null, $var);
         }
+        if (isset($this->_type) && in_array($this->_type, array('php', 'pearinstaller', 'arch', 'os'))) {
+            return $this->_packageInfo[$var];
+        }
         return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
             $this->_parent, $this->_packageInfo, $this->_required,
             $this->_type, $var, $this->_group);
@@ -462,5 +465,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
      */
     function offsetExists($var)
     {
+        return isset($this->_packageInfo[$var]);
     }
 }

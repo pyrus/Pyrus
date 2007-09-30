@@ -227,7 +227,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             PEAR2_Pyrus_Config::current()->default_channel = $curchannel;
         }
         $url['raw'] = false; // no checking is necessary for REST
-        if (!is_array($url['info'])) {
+        if (!is_string($url['info'])) {
             throw new PEAR2_Pyrus_Package_Exception(
                 'Invalid remote dependencies retrieved from REST - ' .
                 'this should never happen');
@@ -244,14 +244,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     'release version ' . $url['version']);
             }
         }
-        $pf = new PEAR2_Pyrus_PackageFile_v2_Remote;
-        $pf->channel = $parr['channel'];
-        if ($url['compatible']) {
-            $pf->rawcompatible = $url['compatible'];
-        }
-        $pf->name = $url['package'];
-        $pf->rawdependencies = $url['info'];
-        $pf->rawstability = $url['stability'];
+        $parser = new PEAR2_Pyrus_PackageFile_Parser_v2;
+        $pf = $parser->parse($url['info'], false, 'PEAR2_Pyrus_PackageFile_v2_Remote');
         $url['info'] = $pf;
         return $url;
     }

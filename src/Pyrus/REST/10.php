@@ -243,14 +243,10 @@ class PEAR2_Pyrus_REST_10
         }
         try {
             $packagexml = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
-            'deps.' . $release['v'] . '.txt', false, true);
+            'package.' . $release['v'] . '.xml', false, true);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $package . '" Version "' . $release['v'] .
                 '" does not have REST dependency information available', $e);
-        }
-        $packagexml = unserialize($packagexml);
-        if (!$packagexml) {
-            $packagexml = array();
         }
         $allinfo = $this->rest->retrieveData($base . 'r/' . strtolower($package) .
             '/allreleases.xml');

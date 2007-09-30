@@ -215,8 +215,13 @@ class PEAR2_Pyrus_Installer
         try {
             $installer = new PEAR2_Pyrus_Installer;
             // validate dependencies
+            $errs = new PEAR2_MultiErrors;
             foreach (self::$installPackages as $package) {
-                // TODO: dependency validation
+                $package->validateDependencies(self::$installPackages, $errs);
+            }
+            if (count($errs->E_ERROR)) {
+                throw new PEAR2_Pyrus_Installer_Exception('Dependency validation failed ' .
+                    'for some installed packages, installation aborted', $errs);
             }
             // download non-local packages
             foreach (self::$installPackages as $package) {
