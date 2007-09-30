@@ -50,11 +50,11 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
 
     public function rollback($data, &$errors)
     {
-        $this->pkginfo->setInstalledAs($data[0], false);
+        //$this->pkginfo->setInstalledAs($data[0], false);
     }
 
     public function cleanup()
     {
-        $this->pkginfo->resetDirTree();
+        //$this->pkginfo->resetDirTree();
     }
 }

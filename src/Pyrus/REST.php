@@ -36,7 +36,7 @@ class PEAR2_Pyrus_REST
 {
     protected $config;
     var $_options;
-    function PEAR_REST($options = array())
+    function __construct($options = array())
     {
         $this->config = PEAR2_Pyrus_Config::current();
         $this->_options = $options;
@@ -117,6 +117,7 @@ class PEAR2_Pyrus_REST
                     $parser = new PEAR2_Pyrus_XMLParser;
                     try {
                         $content = $parser->parseString($content);
+                        $content = current($content);
                     } catch (Exception $e) {
                         throw new PEAR2_Pyrus_REST_Exception(
                             'Invalid xml downloaded from "' . $url . '"', $e);
@@ -130,6 +131,7 @@ class PEAR2_Pyrus_REST
             $parser = new PEAR2_Pyrus_XMLParser;
             try {
                 $content = $parser->parseString($content);
+                $content = current($content);
             } catch (Exception $e) {
                 throw new PEAR2_Pyrus_REST_Exception(
                     'Invalid xml downloaded from "' . $url . '"', $e);
@@ -283,8 +285,8 @@ class PEAR2_Pyrus_REST
         $port = $info['port'];
         $path = $info['path'];
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if ($this->config->get('http_proxy')&& 
-              $proxy = parse_url($this->config->get('http_proxy'))) {
+        if ($this->config->http_proxy && 
+              $proxy = parse_url($this->config->http_proxy)) {
             $proxy_host = isset($proxy['host']) ? $proxy['host'] : null;
             if (isset($proxy['scheme']) && $proxy['scheme'] == 'https') {
                 $proxy_host = 'ssl://' . $proxy_host;
@@ -293,8 +295,6 @@ class PEAR2_Pyrus_REST
             $proxy_user = isset($proxy['user']) ? urldecode($proxy['user']) : null;
             $proxy_pass = isset($proxy['pass']) ? urldecode($proxy['pass']) : null;
             // TODO: implement this when HTTP_Request supports it
-        } else {
-            $request->setHeader();
         }
         if (empty($port)) {
             if (isset($info['scheme']) && $info['scheme'] == 'https') {
@@ -332,28 +332,28 @@ class PEAR2_Pyrus_REST
         }
         $request->setHeader('Connection', 'close');
         $response = $request->sendRequest();
-        if ($response->code == 304 && $lastmodified || ($lastmodified === false)) {
+        if ($response->code == 304 && ($lastmodified || ($lastmodified === false))) {
             return false;
         }
         if ($response->code != 200) {
             throw new PEAR2_Pyrus_REST_HTTPException(
                 "File http://$host:$port$path not valid (received: $line)", $response->code);
         }
-        if (isset($response->headers['Content-Length'])) {
-            $length = $response->headers['Content-Length'];
+        if (isset($response->headers['content-length'])) {
+            $length = $response->headers['content-length'];
         } else {
             $length = -1;
         }
         $data = $response->body;
         if ($lastmodified === false || $lastmodified) {
-            if (isset($response->headers['ETag'])) {
-                $lastmodified = array('ETag' => $response->headers['ETag']);
+            if (isset($response->headers['etag'])) {
+                $lastmodified = array('ETag' => $response->headers['etag']);
             }
-            if (isset($response->headers['Last-Modified'])) {
+            if (isset($response->headers['last-modified'])) {
                 if (is_array($lastmodified)) {
-                    $lastmodified['Last-Modified'] = $response->headers['Last-Modified'];
+                    $lastmodified['Last-Modified'] = $response->headers['last-modified'];
                 } else {
-                    $lastmodified = $response->headers['Last-Modified'];
+                    $lastmodified = $response->headers['last-modified'];
                 }
             }
             return array($data, $lastmodified, $response->headers);

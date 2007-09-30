@@ -58,12 +58,17 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         return false;
     }
 
-    function add(PEAR2_Pyrus_IChannel $channel)
+    function add(PEAR2_Pyrus_IChannel $channel, $update = false)
     {
         if ($this->database->singleQuery('SELECT channel FROM channels WHERE channel="' .
               $channel->getName() . '"')) {
+            if (!$update) {
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
+                    $channel->getName() . ' has already been discovered');
+            }
+        } elseif ($update) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
-                $channel->getName() . ' has already been discovered');
+                $channel->getName() . ' is unknown');
         }
         $validate = $channel->getValidationPackage();
         $this->database->queryExec('BEGIN');
@@ -98,7 +103,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                 ' could not be added to the registry');    
         }
         $servers = array(false);
-        $mirrors = $channel->getMirrors();
+        $mirrors = $channel->mirrors;
         if (count($mirrors)) {
             foreach ($mirrors as $mirror) {
                 $servers[] = $mirror['attribs']['host'];
@@ -107,9 +112,9 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                     (channel, server, ssl, port)
                     VALUES(
                     "' . $channel->getName() . '",
-                    "' . $mirror['attribs']['host'] . '",
-                    ' . ($channel->getSSL($mirror['attribs']['host']) ? 1 : '0') . ',
-                    ' . $channel->getPort($mirror['attribs']['host']) . '
+                    "' . $mirror->getName() . '",
+                    ' . ($mirror->getSSL() ? 1 : '0') . ',
+                    ' . $mirror->getPort() . '
                     )
                     ')) {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
@@ -151,93 +156,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
 
     function update(PEAR2_Pyrus_IChannel $channel)
     {
-        if (!$this->database->singleQuery('SELECT channel FROM channels WHERE channel="' .
-              $channel->getName() . '"')) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
-                $channel->getName() . ' is unknown');
-        }
-        $validate = $channel->getValidationPackage();
-        $this->database->queryExec('BEGIN');
-        if (!@$this->database->queryExec('
-            INSERT INTO channels
-            (channel, summary, suggestedalias, alias, validatepackageversion,
-            validatepackage, lastmodified)
-            VALUES(
-            "' . $channel->getName() . '",
-            "' . sqlite_escape_string($channel->getSummary()) . '",
-            "' . $channel->getAlias() . '",
-            "' . $channel->getAlias() . '",
-            "' . $validate['attribs']['version'] . '",
-            "' . $validate['_content'] . '",
-            \'' . sqlite_escape_string(serialize($channel->lastModified())) . '\'
-            )
-            ')) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
-                ' could not be added to the registry');    
-        }
-        if (!@$this->database->queryExec('
-            INSERT INTO channel_servers
-            (channel, server, ssl, port)
-            VALUES(
-            "' . $channel->getName() . '",
-            "' . $channel->getName() . '",
-            ' . ($channel->getSSL() ? 1 : '0') . ',
-            ' . $channel->getPort() . '
-            )
-            ')) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                ' could not be added to the registry');    
-        }
-        $servers = array(false);
-        $mirrors = $channel->getMirrors();
-        if (count($mirrors)) {
-            foreach ($mirrors as $mirror) {
-                $servers[] = $mirror['attribs']['host'];
-                if (!@$this->database->queryExec('
-                    INSERT INTO channel_servers
-                    (channel, server, ssl, port)
-                    VALUES(
-                    "' . $channel->getName() . '",
-                    "' . $mirror['attribs']['host'] . '",
-                    ' . ($channel->getSSL($mirror['attribs']['host']) ? 1 : '0') . ',
-                    ' . $channel->getPort($mirror['attribs']['host']) . '
-                    )
-                    ')) {
-                    throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                        ' could not be added to the registry');    
-                }
-            }
-        }
-        foreach ($servers as $server) {
-            foreach (array('xmlrpc', 'soap', 'rest') as $protocol) {
-                $functions = $channel->getFunctions($protocol, $server);
-                if (!$functions) {
-                    continue;
-                }
-                if (!isset($functions[0])) {
-                    $functions = array($functions);
-                }
-                $actualserver = $server ? $server : $channel->getName();
-                $attrib = $protocol == 'rest' ? 'type' : 'version';
-                foreach ($functions as $function) {
-                    if (!@$this->database->queryExec('
-                        INSERT INTO channel_server_' . $protocol . '
-                        (channel, server, ' . ($protocol == 'rest' ? 'baseurl' : 'function') .
-                         ', ' . $attrib . ')
-                        VALUES(
-                        "' . $channel->getName() . '",
-                        "' . $actualserver . '",
-                        "' . $function['_content'] . '",
-                        "' . $function['attribs'][$attrib] . '"
-                        )
-                        ')) {
-                        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                            ' could not be added to the registry');    
-                    }
-                }
-            }
-        }
-        $this->database->queryExec('COMMIT');
+        return $this->add($channel, true);
     }
 
     function get($channel)

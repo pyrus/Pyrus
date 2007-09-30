@@ -684,6 +684,18 @@ class PEAR2_Pyrus_PackageFile_v2
             $this->packageInfo['dependencies'] = array();
             return;
         }
+        if ($var === 'rawdependencies' && is_array($value)) {
+            $this->packageInfo['dependencies'] = $value;
+            return;
+        }
+        if ($var === 'rawcompatible' && is_array($value)) {
+            $this->packageInfo['compatible'] = $value;
+            return;
+        }
+        if ($var === 'rawstability' && is_string($value)) {
+            $this->packageInfo['stability'] = array('release' => $value, 'api' => $value);
+            return;
+        }
         if ($var === 'release' && $value === null) {
             $type = $this->getPackageType();
             if ($type != 'bundle') {

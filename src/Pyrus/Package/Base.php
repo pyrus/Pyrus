@@ -31,7 +31,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
      */
     function makeConnections(PEAR2_Pyrus_DirectedGraph $graph, array $packages)
     {
-        foreach (array('required', 'optional') as $requred) {
+        foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($this->dependencies->$required->$package as $d) {
                     if (isset($d['conflicts'])) {
@@ -48,7 +48,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         }
         foreach ($this->dependencies->group as $group) {
             foreach (array('package', 'subpackage') as $package) {
-                foreach ($this->dependencies->$required->$package as $d) {
+                foreach ($group->$package as $d) {
                     if (isset($d['conflicts'])) {
                         continue;
                     }

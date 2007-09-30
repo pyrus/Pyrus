@@ -401,6 +401,9 @@ class PEAR2_Pyrus_Config
         if ($value == 'registry') {
             return PEAR2_Pyrus_Registry::singleton($this->pearDir);
         }
+        if ($value == 'channelregistry') {
+            return PEAR2_Pyrus_ChannelRegistry::singleton($this->pearDir);
+        }
         if ($value == 'systemvars') {
             return self::$pearConfigNames;
         }

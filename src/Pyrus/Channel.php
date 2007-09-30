@@ -231,10 +231,15 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
  	    switch ($value) {
  	        case 'mirrors' :
  	            if (!isset($this->_channelInfo['servers']['mirror'][0])) {
- 	                return array(new PEAR2_Pyrus_Channel_Mirror(
- 	                              $this->_channelInfo['servers']['mirror'], $this));
+ 	                return array(
+ 	                  $this->_channelInfo['name'] => 
+ 	                  new PEAR2_Pyrus_Channel_Mirror(
+                          $this->_channelInfo['servers']['mirror'], $this));
  	            }
- 	            $ret = array();
+ 	            $ret = array($this->_channelInfo['name'] => 
+ 	                  new PEAR2_Pyrus_Channel_Mirror(
+                          $this->_channelInfo['servers']['mirror'], $this));
+
  	            foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
  	                $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
  	                      $this->_channelInfo['servers']['mirror'][$i], $this);

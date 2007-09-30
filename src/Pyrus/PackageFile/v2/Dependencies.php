@@ -77,7 +77,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
         $this->_required = $required;
         if (!isset($parent[$required])) {
             $parent[$required] = array();
-            $this->_packageInfo = &$parent[$required];
+            $this->_packageInfo = &$parent;
         }
         if ($this->_required != 'group' && $group) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(

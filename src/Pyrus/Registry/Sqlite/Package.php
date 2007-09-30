@@ -9,8 +9,8 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
 
     function offsetExists($offset)
     {
- 	    $info = $this->parsePackageName($offset);
-        return $this->packageExists($info['package'], $info['channel']);
+ 	    $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
+        return $this->exists($info['package'], $info['channel']);
     }
 
     function offsetGet($offset)
@@ -24,17 +24,17 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'upgrade') {
- 	        $this->upgradePackage($value);
+ 	        $this->upgrade($value);
  	    }
  	    if ($offset == 'install') {
- 	        $this->installPackage($value);
+ 	        $this->install($value);
  	    }
  	}
 
  	function offsetUnset($offset)
  	{
- 	    $info = $this->parsePackageName($offset);
- 	    $this->uninstallPackage($info['package'], $info['channel']);
+ 	    $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
+ 	    $this->uninstall($info['package'], $info['channel']);
  	}
 
  	function __get($var)
@@ -43,7 +43,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  	        throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
  	    }
- 	    $info = $this->parsePackageName($this->_packagename);
- 	    return $this->packageInfo($info['package'], $info['channel'], $var);
+ 	    $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($this->_packagename);
+ 	    return $this->info($info['package'], $info['channel'], $var);
  	}
 }

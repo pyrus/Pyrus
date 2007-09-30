@@ -57,7 +57,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
     {
         $channel = $packageinfo['channel'];
         $package = $packageinfo['package'];
-        $states = $this->betterStates($prefstate, true);
+        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
         if (!$states) {
             throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
         }
@@ -95,7 +95,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
                 }
                 // see if there is something newer and more stable
                 // bug #7221
-                if (in_array($release['s'], $this->betterStates($state), true)) {
+                if (in_array($release['s'], PEAR2_Pyrus_Installer::betterStates($state), true)) {
                     if (!isset($version) && version_compare($release['m'], phpversion(), '>')) {
                         // skip releases that require a PHP version newer than our PHP version
                         $skippedphp = $release;
@@ -139,7 +139,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
     {
         $channel = $dependency['channel'];
         $package = $dependency['name'];
-        $states = $this->betterStates($prefstate, true);
+        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
         if (!$states) {
             throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
         }

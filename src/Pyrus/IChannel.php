@@ -12,6 +12,7 @@ interface PEAR2_Pyrus_IChannel
     public function getBaseURL($resourceType);
     public function toChannelObject();
     public function __toString();
+    public function __get($var);
     public function supportsREST();
     public function supports($type, $name = null, $version = '1.0');
     public function resetXmlrpc();
@@ -23,4 +24,6 @@ interface PEAR2_Pyrus_IChannel
     public function setPath($protocol, $path);
     public function addFunction($type, $version, $name);
     public function setBaseUrl($resourceType, $url);
+    public function getValidationObject($package);
+    public function getValidationPackage($packagename);
 }

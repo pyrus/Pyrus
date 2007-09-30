@@ -10,14 +10,14 @@ function __autoload($class)
 include $a = '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
 include $b = '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN/Filter.php';
-new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
-    '/home/cellog/workspace/Pyrus', 'Pyrus');
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN/Filter.php';
+//new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
+//    '/home/cellog/workspace/Pyrus', 'Pyrus');
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
 //$a = new PEAR2_Pyrus_Package_Creator(array(
 //        new PEAR2_Pyrus_Developer_Creator_Zip('/tmp/blah.zip'),
 //        new PEAR2_Pyrus_Developer_Creator_Tar('/tmp/blah.tgz'),
@@ -26,7 +26,16 @@ include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
 //$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/pear-core/PEAR-1.6.2.tgz');
 //$a->render($b);
 //exit;
-$a = new PEAR2_Pyrus_Package('/tmp/blah.phar');
+include '/home/cellog/workspace/PEAR2/HTTP_Request/trunk/src/HTTP/Request/allfiles.php';
+$g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
+$a = new PEAR2_Pyrus_Package('pear.php.net/PEAR');
+try {
+    PEAR2_Pyrus_Installer::begin();
+    PEAR2_Pyrus_Installer::prepare($a);
+    PEAR2_Pyrus_Installer::commit();
+} catch (Exception $e) {
+    PEAR2_Pyrus_Installer::rollback();
+}
 exit;
 define('OS_WINDOWS', false);
 define('OS_UNIX', true);

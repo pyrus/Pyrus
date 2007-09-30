@@ -20,11 +20,11 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $saveparam = $param;
         if (is_array($param)) {
             // convert to string for error messages
-            $saveparam = self::parsedPackageNameToString($param);
+            $saveparam = self::parsedNameToString($param);
             // process the array
             if (!isset($param['package'])) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): array $param ' .
-                    'must contain a valid package name in index "param"');
+                    'must contain a valid package name in index "param"', 'package');
             }
             if (!isset($param['uri'])) {
                 if (!isset($param['channel'])) {
@@ -41,7 +41,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                     $param = array('uri' => $param, 'channel' => '__uri');
                 } elseif($components['scheme'] != 'channel') {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): only channel:// uris may ' .
-                        'be downloaded, not "' . $param . '"');//, 'invalid');
+                        'be downloaded, not "' . $param . '"', 'scheme');
                 }
             }
             if (!isset($components['path'])) {
@@ -56,7 +56,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                 if (strpos($components['path'], '/') !== false) {
                     if ($components['path']{0} == '/') {
                         throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): this is not ' .
-                            'a package name, it begins with "/" in "' . $param . '"');
+                            'a package name, it begins with "/" in "' . $param . '"', 'invalid');
                     }
                     $parts = explode('/', $components['path']);
                     $components['host'] = array_shift($parts);
@@ -112,7 +112,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                 $test = explode('-', $param['package']);
                 if (count($test) != 2) {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): only one version/state ' .
-                        'delimiter "-" is allowed in "' . $saveparam . '"');
+                        'delimiter "-" is allowed in "' . $saveparam . '"', 'invalid');
                 }
                 list($param['package'], $param['version']) = $test;
             }
@@ -123,29 +123,30 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('unknown channel "' . $param['channel'] .
                 '" in "' . $saveparam . '"', 'channel');
         }
-        $chan = $this->getObject($param['channel']);
-        if (!$chan) {
+        try {
+            $chan = $this->get($param['channel']);
+        } catch (Exception $e) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception("Exception: corrupt registry, could not " .
-                "retrieve channel " . $param['channel'] . " information");
+                "retrieve channel " . $param['channel'] . " information", 'other', $e);
         }
         $param['channel'] = $chan->getName();
-        $validate = $chan->getValidationObject();
-        $vpackage = $chan->getValidationPackage();
+        $validate = $chan->getValidationObject(false);
+        $vpackage = $chan->getValidationPackage(false);
         // validate package name
         if (!$validate->validPackageName($param['package'], $vpackage['_content'])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): invalid package name "' .
-                $param['package'] . '" in "' . $saveparam . '"');
+                $param['package'] . '" in "' . $saveparam . '"', 'package');
         }
         if (isset($param['group'])) {
             if (!PEAR2_Pyrus_Validate::validGroupName($param['group'])) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): dependency group "' . $param['group'] .
-                    '" is not a valid group name in "' . $saveparam . '"');
+                    '" is not a valid group name in "' . $saveparam . '"', 'group');
             }
         }
         if (isset($param['state'])) {
             if (!in_array(strtolower($param['state']), $validate->getValidStates())) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): state "' . $param['state']
-                    . '" is not a valid state in "' . $saveparam . '"');
+                    . '" is not a valid state in "' . $saveparam . '"', 'version/state');
             }
         }
         if (isset($param['version'])) {
@@ -162,7 +163,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                 if (!$validate->validVersion($param['version'])) {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('parsePackageName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
-                        $saveparam . '"');
+                        $saveparam . '"', 'version/state');
                 }                    
             }
         }

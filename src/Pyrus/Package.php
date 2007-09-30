@@ -17,6 +17,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
      * @var PEAR_Package_Xml|PEAR_Package_Tar|PEAR_Package_Phar
      */
     protected $internal;
+    protected $from;
 
     function __construct($packagedescription, $forceremote = false)
     {
@@ -26,6 +27,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
             $class = $this->_parsePackageDescription($packagedescription);
             $this->internal = new $class($packagedescription, $this);
         }
+    }
+
+    function setFrom($from)
+    {
+        $this->from = $from;
     }
 
     function __get($var)

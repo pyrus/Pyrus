@@ -1,0 +1,2 @@
+<?php
+class PEAR2_Pyrus_Package_InstalledException extends PEAR2_Pyrus_Package_Exception {}

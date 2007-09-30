@@ -1,7 +1,7 @@
 <?php
 class PEAR2_Pyrus_FileTransactions
 {
-    private $fileOperations;
+    private $fileOperations = array();
     static private $_registeredTransactions =
         array(
             'backup' => false,
@@ -200,7 +200,10 @@ class PEAR2_Pyrus_FileTransactions
                     $callback->rollback($data, $errors);
             }
         }
-        foreach ($this->_registeredTransactionas as $callback) {
+        foreach (self::$_registeredTransactions as $callback) {
+            if (!$callback) {
+                continue;
+            }
             $callback->cleanup();
         }
         $this->fileOperations = array();

@@ -20,7 +20,6 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
                 gettype($data));
         }
         $this->data = $data;
-        $this->parent = $parent;
     }
 
     /**

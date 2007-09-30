@@ -64,7 +64,7 @@ class PEAR2_Pyrus_REST_10
     {
         $channel = $packageinfo['channel'];
         $package = $packageinfo['package'];
-        $states = $this->betterStates($prefstate, true);
+        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
         if (!$states) {
             throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
         }
@@ -96,7 +96,7 @@ class PEAR2_Pyrus_REST_10
                 }
                 // see if there is something newer and more stable
                 // bug #7221
-                if (in_array($release['s'], $this->betterStates($state), true)) {
+                if (in_array($release['s'], PEAR2_Pyrus_Installer::betterStates($state), true)) {
                     $found = true;
                     break;
                 }
@@ -115,12 +115,12 @@ class PEAR2_Pyrus_REST_10
         return $this->returnDownloadURL($base, $package, $release, $info, $found);
     }
 
-    function getDepDownloadURL($base, $xsdversion, $dependency, $deppackage,
+    function getDepDownloadURL($base, $dependency, $deppackage,
                                $prefstate = 'stable', $installed = false)
     {
         $channel = $dependency['channel'];
         $package = $dependency['name'];
-        $states = $this->betterStates($prefstate, true);
+        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
         if (!$states) {
             throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
         }
@@ -137,7 +137,6 @@ class PEAR2_Pyrus_REST_10
         }
         $exclude = array();
         $min = $max = $recommended = false;
-        $pinfo['package'] = $dependency['name'];
         $min = isset($dependency['min']) ? $dependency['min'] : false;
         $max = isset($dependency['max']) ? $dependency['max'] : false;
         $recommended = isset($dependency['recommended']) ?
@@ -160,7 +159,7 @@ class PEAR2_Pyrus_REST_10
                 continue;
             }
             // allow newer releases to say "I'm OK with the dependent package"
-            if ($xsdversion == '2.0' && isset($release['co'])) {
+            if (isset($release['co'])) {
                 if (!is_array($release['co']) || !isset($release['co'][0])) {
                     $release['co'] = array($release['co']);
                 }
@@ -620,13 +619,13 @@ class PEAR2_Pyrus_REST_10
                 } else {
                     $new_state = $release['s'];
                     // if new state >= installed state: go
-                    if (in_array($new_state, $this->betterStates($inst_state, true))) {
+                    if (in_array($new_state, PEAR2_Pyrus_Installer::betterStates($inst_state, true))) {
                         $found = true;
                         break;
                     } else {
                         // only allow to lower the state of package,
                         // if new state >= preferred state: go
-                        if (in_array($new_state, $this->betterStates($pref_state, true))) {
+                        if (in_array($new_state, PEAR2_Pyrus_Installer::betterStates($pref_state, true))) {
                             $found = true;
                             break;
                         }
@@ -721,27 +720,6 @@ class PEAR2_Pyrus_REST_10
             'releases' => $releases,
             'deprecated' => $deprecated,
             );
-    }
-
-    /**
-     * Return an array containing all of the states that are more stable than
-     * or equal to the passed in state
-     *
-     * @param string Release state
-     * @param boolean Determines whether to include $state in the list
-     * @return false|array False if $state is not a valid release state
-     */
-    function betterStates($state, $include = false)
-    {
-        static $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
-        $i = array_search($state, $states);
-        if ($i === false) {
-            return false;
-        }
-        if ($include) {
-            $i--;
-        }
-        return array_slice($states, $i + 1);
     }
 }
 ?>

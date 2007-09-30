@@ -28,7 +28,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
     {
         if ($path) {
             if ($path != ':memory:') {
-                if (dirname($path . '.pear2registry') != $path) {
+                if (dirname($path) . DIRECTORY_SEPARATOR . '.pear2registry' != $path) {
                     $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
                 }
             }
@@ -334,5 +334,12 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
             channel = \'' . sqlite_escape_string($channel) . '\'
             ORDER BY name
         ');
+    }
+
+    function __get($var)
+    {
+        if ($var === 'package') {
+            return new PEAR2_Pyrus_Registry_Sqlite_Package($this);
+        }
     }
 }

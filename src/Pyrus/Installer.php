@@ -53,6 +53,7 @@ class PEAR2_Pyrus_Installer
     {
         if (!self::$inTransaction) {
             self::$transact = new PEAR2_Pyrus_FileTransactions;
+            self::$installedas = new PEAR2_Pyrus_FileTransactions_Installedas;
             self::$transact->registerTransaction('installedas', self::$installedas);
             self::$transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
             self::$transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
@@ -72,55 +73,59 @@ class PEAR2_Pyrus_Installer
      */
     static function prepare(PEAR2_Pyrus_Package $package)
     {
-        if (isset(self::$installPackages[$package->channel . '/' . $package->name])) {
-            $clone = self::$installPackages[$package->channel . '/' . $package->name];
-            // compare version
-            if ($package->version['release'] === $clone->version['release']) {
-                // identical, ignore this package
-                return;
-            }
-            if (version_compare($package->version['release'], $clone->version['release'], '<')) {
-                if ($package->couldBeVersion($clone->version['release'])) {
-                    // packages depending on the cloned version are OK with a newer version
-                    // already going to install a newer version of this package, all is OK
-                    return;
-                }
-                if (!self::$options['force']) {
-                    //
-                    self::rollback();
-                    throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
-                        $package->channel . '/' . $package->name . ', two conflicting' .
-                        ' versions are required by packages that depend on it (' .
-                        $package->version['release'] . ' and ' . $clone->version['release']);
-                }
-                // ignore this version, it is older
-                PEAR2_Pyrus_Log::log(0, 'Warning: two conflicting versions of ' .
-                    $package->channel . '/' . $package->name .
-                    ' are required by packages that depend on it (' .
-                    $package->version['release'] . ' and ' . $clone->version['release']);
-                return;
-            }
-            if ($clone->couldBeVersion($package->version['release'])) {
-                // packages depending on the cloned version are OK with this version
-                self::$installPackages[$package->channel . '/' . $package->name] = $package;
-            } else {
-                // the version of $package conflicts with packages depending on this package
-                if (!self::$options['force']) {
-                    self::rollback();
-                    throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
-                        $package->channel . '/' . $package->name . ', two conflicting' .
-                        ' versions are required by packages that depend on it (' .
-                        $package->version['release'] . ' and ' . $clone->version['release']);
-                }
-                PEAR2_Pyrus_Log::log(0, 'Warning: two conflicting versions of ' .
-                    $package->channel . '/' . $package->name .
-                    ' are required by packages that depend on it (' .
-                    $package->version['release'] . ' and ' . $clone->version['release']);
-                self::$installPackages[$package->channel . '/' . $package->name] = $package;
-            }
+        if (!isset(self::$installPackages[$package->channel . '/' . $package->name])) {
+            self::$installPackages[$package->channel . '/' . $package->name] = $package;
             self::prepareDependencies(
                 self::$installPackages[$package->channel . '/' . $package->name]);
+            return;
         }
+        $clone = self::$installPackages[$package->channel . '/' . $package->name];
+        // compare version
+        if ($package->version['release'] === $clone->version['release']) {
+            // identical, ignore this package
+            return;
+        }
+        if (version_compare($package->version['release'], $clone->version['release'], '<')) {
+            if ($package->couldBeVersion($clone->version['release'])) {
+                // packages depending on the cloned version are OK with a newer version
+                // already going to install a newer version of this package, all is OK
+                return;
+            }
+            if (!self::$options['force']) {
+                //
+                self::rollback();
+                throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
+                    $package->channel . '/' . $package->name . ', two conflicting' .
+                    ' versions are required by packages that depend on it (' .
+                    $package->version['release'] . ' and ' . $clone->version['release']);
+            }
+            // ignore this version, it is older
+            PEAR2_Pyrus_Log::log(0, 'Warning: two conflicting versions of ' .
+                $package->channel . '/' . $package->name .
+                ' are required by packages that depend on it (' .
+                $package->version['release'] . ' and ' . $clone->version['release']);
+            return;
+        }
+        if ($clone->couldBeVersion($package->version['release'])) {
+            // packages depending on the cloned version are OK with this version
+            self::$installPackages[$package->channel . '/' . $package->name] = $package;
+        } else {
+            // the version of $package conflicts with packages depending on this package
+            if (!self::$options['force']) {
+                self::rollback();
+                throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
+                    $package->channel . '/' . $package->name . ', two conflicting' .
+                    ' versions are required by packages that depend on it (' .
+                    $package->version['release'] . ' and ' . $clone->version['release']);
+            }
+            PEAR2_Pyrus_Log::log(0, 'Warning: two conflicting versions of ' .
+                $package->channel . '/' . $package->name .
+                ' are required by packages that depend on it (' .
+                $package->version['release'] . ' and ' . $clone->version['release']);
+            self::$installPackages[$package->channel . '/' . $package->name] = $package;
+        }
+        self::prepareDependencies(
+            self::$installPackages[$package->channel . '/' . $package->name]);
     }
 
     /**
@@ -131,10 +136,16 @@ class PEAR2_Pyrus_Installer
     static function prepareDependencies(PEAR2_Pyrus_Package $package)
     {
         foreach ($package->dependencies->required->package as $dep) {
-            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
+            if (isset($dep['conflicts'])) {
+                continue;
+            }
+            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, false, true));
         }
         foreach ($package->dependencies->required->subpackage as $dep) {
-            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
+            if (isset($dep['conflicts'])) {
+                continue;
+            }
+            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true, true));
         }
         if ($package->requestedGroup) {
             foreach ($package->dependencies->group[$package->requestedGroup]->package as $dep) {
@@ -212,10 +223,12 @@ class PEAR2_Pyrus_Installer
                 $package->download();
             }
             // create dependency connections and load them into the directed graph
+            $graph = new PEAR2_Pyrus_DirectedGraph;
             foreach (self::$installPackages as $package) {
                 $package->makeConnections($graph, self::$installPackages);
             }
             // topologically sort packages and install them via iterating over the graph
+            self::$transact->begin();
             foreach ($graph as $package) {
                 $installer->install($package);
             }
@@ -251,7 +264,6 @@ class PEAR2_Pyrus_Installer
             $lastversion = null;
         }
         
-        self::$transact->begin();
         foreach ($package->installcontents as $file) {
             $channel = $package->channel;
             // {{{ assemble the destination paths
@@ -389,5 +401,26 @@ class PEAR2_Pyrus_Installer
                                 $save_destdir, dirname(substr($dest_file,
                                  strlen($save_destdir))));
         }
+    }
+
+    /**
+     * Return an array containing all of the states that are more stable than
+     * or equal to the passed in state
+     *
+     * @param string Release state
+     * @param boolean Determines whether to include $state in the list
+     * @return false|array False if $state is not a valid release state
+     */
+    static function betterStates($state, $include = false)
+    {
+        static $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
+        $i = array_search($state, $states);
+        if ($i === false) {
+            return false;
+        }
+        if ($include) {
+            $i--;
+        }
+        return array_slice($states, $i + 1);
     }
 }
