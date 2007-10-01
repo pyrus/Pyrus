@@ -11,14 +11,23 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
      */
     protected $from;
 
-    function __construct(PEAR2_Pyrus_PackageFile $packagefile)
+    function __construct(PEAR2_Pyrus_PackageFile $packagefile, $parent = null)
     {
         $this->packagefile = $packagefile;
+        $this->from = $parent;
     }
 
     function setFrom(PEAR2_Pyrus_IPackage $from)
     {
         $this->from = $from;
+    }
+
+    function getFrom()
+    {
+        if ($this->from) {
+            return $this->from->getFrom();
+        }
+        return $this;
     }
 
     /**
@@ -31,6 +40,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
      */
     function makeConnections(PEAR2_Pyrus_DirectedGraph $graph, array $packages)
     {
+        $graph->add($this->getFrom());
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($this->dependencies->$required->$package as $d) {

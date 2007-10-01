@@ -507,7 +507,7 @@ class PEAR2_Pyrus_Dependency_Validator
      */
     function getPEARVersion()
     {
-        return '@PACKAGE_VERSION@';
+        return '@PACKAGE_VERSION@' === '@PACKAGE_VERSION@' ? '2.0.0' : '@PACKAGE_VERSION@';
     }
 
     function validatePearinstallerDependency($dep)

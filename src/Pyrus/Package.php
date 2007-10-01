@@ -45,6 +45,24 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
         return call_user_func_array(array($this->internal, $func), $args);
     }
 
+    function getFileContents($file, $asstream = false)
+    {
+        return $this->internal->getFileContents($file, $asstream);
+    }
+
+    function getFrom()
+    {
+        if ($this->from) {
+            return $this->from->getFrom();
+        }
+        return $this;
+    }
+    
+    function getLocation()
+    {
+        return $this->internal->getLocation();
+    }
+
     function getInternalPackage()
     {
         return $this->internal;

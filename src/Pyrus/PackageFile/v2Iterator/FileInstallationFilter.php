@@ -7,10 +7,11 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends
     static function setParent(PEAR2_Pyrus_PackageFile_v2 $parent)
     {
         self::$_parent = $parent;
-        $depchecker = new PEAR2_Pyrus_Dependency_Validator(PEAR2_Pyrus_Config::current(), array(),
+        $errs = new PEAR2_MultiErrors;
+        $depchecker = new PEAR2_Pyrus_Dependency_Validator(
             array('channel' => self::$_parent->channel,
                   'package' => self::$_parent->package),
-            PEAR2_Pyrus_Validate::INSTALLING);
+            PEAR2_Pyrus_Validate::INSTALLING, $errs);
         foreach (self::$_parent->installGroup as $instance) {
             try {
                 if (isset($instance['installconditions'])) {

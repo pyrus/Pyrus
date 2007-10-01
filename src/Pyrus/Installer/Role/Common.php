@@ -144,12 +144,13 @@ class PEAR2_Pyrus_Installer_Role_Common
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
             $dest_dir = $save_destdir = $where .
-                DIRECTORY_SEPARATOR . $pkg->name;
+                DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
             if (!empty($atts['baseinstalldir'])) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $atts['baseinstalldir'];
             }
         } else {
-            $dest_dir = $save_destdir = $where . DIRECTORY_SEPARATOR . $pkg->name;
+            $dest_dir = $save_destdir = $where .
+                DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
         if (dirname($file) != '.' && empty($atts['install-as'])) {
             $dest_dir .= DIRECTORY_SEPARATOR . dirname($file);

@@ -1,7 +1,6 @@
 <?php
 class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 {
-    private $_parent;
     private $_info;
     protected $downloadInfo;
     /**
@@ -9,7 +8,6 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
      */
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
-        $this->_parent = $parent;
         $this->_info = $package;
         if (!is_array($package) &&
               (preg_match('#^(http[s]?|ftp[s]?)://#', $package))) {
@@ -17,6 +15,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         } else {
             $this->internal = $this->_fromString($package);
         }
+        $this->from = $parent;
     }
 
     /**

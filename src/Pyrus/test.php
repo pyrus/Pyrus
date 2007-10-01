@@ -30,13 +30,14 @@ exit;
 //exit;
 include '/home/cellog/workspace/PEAR2/HTTP_Request/trunk/src/HTTP/Request/allfiles.php';
 $g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
-$a = new PEAR2_Pyrus_Package('pear.php.net/PEAR');
+$a = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml');
 try {
     PEAR2_Pyrus_Installer::begin();
     PEAR2_Pyrus_Installer::prepare($a);
     PEAR2_Pyrus_Installer::commit();
 } catch (Exception $e) {
     PEAR2_Pyrus_Installer::rollback();
+    echo $e;
 }
 exit;
 define('OS_WINDOWS', false);

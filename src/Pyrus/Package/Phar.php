@@ -2,7 +2,6 @@
 class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 {
     private $_packagename;
-    private $_parent;
     static private $_tempfiles = array();
     private $_tmpdir;
 
@@ -15,7 +14,6 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Phar_Exception(
                 'Phar extension is not available');
         }
-        $this->_parent = $parent;
         $this->_packagename = $package;
         try {
             $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
@@ -51,7 +49,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             fclose($fp);
             fclose($gp);
         }
-        parent::__construct(new PEAR2_Pyrus_PackageFile($where . $pxml));
+        parent::__construct(new PEAR2_Pyrus_PackageFile($where . $pxml), $parent);
     }
 
     /**

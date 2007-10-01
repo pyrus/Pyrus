@@ -529,6 +529,17 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
             INSERT INTO channels
              (channel, summary, suggestedalias, alias, lastmodified)
             VALUES(
+             "pear2.php.net",
+             "PHP Extension and Application Repository",
+             "pear2",
+             "pear2",
+             datetime("now")
+            )
+        ';
+        $query = '
+            INSERT INTO channels
+             (channel, summary, suggestedalias, alias, lastmodified)
+            VALUES(
              "pear.php.net",
              "PHP Extension and Application Repository",
              "pear",
@@ -563,6 +574,36 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
              "pear.php.net",
              "pear.php.net",
              "REST1.1",
+             "http://pear.php.net/rest/"
+            )
+        ';
+        $worked = @$database->queryExec($query, $error);
+        if (!$worked) {
+            @$database->queryExec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+        }
+        $query = '
+            INSERT INTO channel_server_rest
+             (channel, server, type, baseurl)
+            VALUES(
+             "pear.php.net",
+             "pear.php.net",
+             "REST1.2",
+             "http://pear.php.net/rest/"
+            )
+        ';
+        $worked = @$database->queryExec($query, $error);
+        if (!$worked) {
+            @$database->queryExec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+        }
+        $query = '
+            INSERT INTO channel_server_rest
+             (channel, server, type, baseurl)
+            VALUES(
+             "pear.php.net",
+             "pear.php.net",
+             "REST1.3",
              "http://pear.php.net/rest/"
             )
         ';

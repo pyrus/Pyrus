@@ -5,7 +5,6 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     private $_packagename;
     private $_internalFileLength;
     private $_footerLength;
-    private $_parent;
     private $_tmpdir;
     private $_BCpackage;
     static private $_tempfiles = array();
@@ -15,7 +14,6 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
      */
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
-        $this->_parent = $parent;
         $this->_packagename = $package;
         $info = pathinfo($package);
         $streamfilters = stream_get_filters();
@@ -38,7 +36,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package ' . $package);
         }
         $packagexml = $this->_extract();
-        parent::__construct(new PEAR2_Pyrus_PackageFile($packagexml));
+        parent::__construct(new PEAR2_Pyrus_PackageFile($packagexml), $parent);
     }
 
     /**

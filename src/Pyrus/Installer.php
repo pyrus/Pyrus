@@ -245,6 +245,7 @@ class PEAR2_Pyrus_Installer
             self::$installPackages = array();
         } catch (Exception $e) {
             self::rollback();
+            throw $e;
         }
     }
 

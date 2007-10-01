@@ -1,18 +1,16 @@
 <?php
 class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
 {
-    private $_parent;
     private $_file;
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
-        $this->_parent = $parent;
         $this->_file = $package;
-        parent::__construct(new PEAR2_Pyrus_PackageFile($package));
+        parent::__construct(new PEAR2_Pyrus_PackageFile($package), $parent);
     }
 
     function getLocation()
     {
-        return $this->packagefile->path;
+        return dirname($this->packagefile->path);
     }
 
     function getFileContents($file, $asstream = false)

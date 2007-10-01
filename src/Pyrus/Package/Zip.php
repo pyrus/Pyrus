@@ -2,7 +2,6 @@
 class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
 {
     private $_packagename;
-    private $_parent;
     static private $_tempfiles = array();
     private $_tmpdir;
 
@@ -15,7 +14,6 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Zip_Exception(
                 'Zip extension is not available');
         }
-        $this->_parent = $parent;
         $this->_packagename = $package;
         $zip = new ZIPArchive;
         if (true !== ($zip->open($package))) {
@@ -42,7 +40,8 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
         }
         $this->_tmpdir = $where;
         $zip->extractTo($where);
-        parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml));
+        parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml),
+            $parent);
     }
 
     /**
