@@ -236,6 +236,7 @@ class PEAR2_Pyrus_Installer
             self::$transact->begin();
             foreach ($graph as $package) {
                 $installer->install($package);
+                self::$installedPackages[] = $package;
             }
             self::$transact->commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;

@@ -161,7 +161,7 @@ class PEAR2_Pyrus_XMLWriter
     /**
      * @access private
      */
-    public function _filter($a)
+    public static function _filter($a)
     {
         if ($a === false) {
             return false;

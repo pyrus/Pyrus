@@ -16,7 +16,7 @@ include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/
 new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
     '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
 exit;
-//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';

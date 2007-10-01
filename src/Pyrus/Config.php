@@ -27,7 +27,7 @@ class PEAR2_Pyrus_Config
     static private $_current;
     static private $defaults =
         array(
-            'php_dir' => '@php_dir@', // pseudo-value in this implementation
+            'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext_dir',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,

@@ -288,10 +288,13 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                 return;
             }
             if (!isset($this->_packageInfo['install'][0])) {
-                $this->_packageInfo['install'] = array($this->_packageInfo['ignore'],
-                    array('attribs' => array('name' => $file)));
+                $this->_packageInfo['install'] = array($this->_packageInfo['install'],
+                    array('attribs' => array('name' => $file, 'as' => $newname)));
+                return;
             }
-            $this->_packageInfo['install'][] = array('attribs' => array('name' => $file));
+            $this->_packageInfo['install'][] = array('attribs' =>
+                array('name' => $file, 'as' => $newname));
+            return;
         }
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
             ' - add to filelist before adding install as tag');

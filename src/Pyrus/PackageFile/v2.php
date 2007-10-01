@@ -75,7 +75,7 @@ class PEAR2_Pyrus_PackageFile_v2
                 'pearinstaller' => array('min' => '2.0.0'),
             ),
         ),
-        'phprelease' => '',
+        'phprelease' => array(),
     );
 
     /**
@@ -647,6 +647,9 @@ class PEAR2_Pyrus_PackageFile_v2
                         $t .= 'release';
                     }
                 }
+                if (!$this->packageInfo[$t]) {
+                    $this->packageInfo[$t] = array();
+                }
                 return new PEAR2_Pyrus_PackageFile_v2_Release(
                     $this->packageInfo, $this->packageInfo[$t], $this->filelist);
             case 'compatible' :
@@ -828,6 +831,11 @@ class PEAR2_Pyrus_PackageFile_v2
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }
 
+    public static function sortInstallAs($a, $b)
+    {
+        return strnatcasecmp($a['attribs']['name'], $b['attribs']['name']);
+    }
+
     function toArray($forpackaging = false)
     {
         $this->packageInfo['contents'] = array(
@@ -920,6 +928,33 @@ class PEAR2_Pyrus_PackageFile_v2
                     }
                     if (count($arr[$reltag]) == 1) {
                         $arr[$reltag] = $arr[$reltag][0];
+                    }
+                }
+            }
+        }
+        if ($reltag != 'bundle') {
+            $reltag = $this->getPackageType();
+            $reltag .= 'release';
+            if (!is_array($arr[$reltag])) {
+                // do nothing
+            } elseif (!isset($arr[$reltag][0])) {
+                if (isset($arr[$reltag]['install']) && isset($arr[$reltag]['install'][0])) {
+                    usort($arr[$reltag]['install'], array('PEAR2_Pyrus_PackageFile_v2',
+                        'sortInstallAs'));
+                }
+                if (isset($arr[$reltag]['ignore']) && isset($arr[$reltag]['ignore'][0])) {
+                    usort($arr[$reltag]['ignore'], array('PEAR2_Pyrus_PackageFile_v2',
+                        'sortInstallAs'));
+                }
+            } else {
+                foreach ($arr[$reltag] as $i => &$contents) {
+                    if (isset($contents['install']) && isset($contents['install'][0])) {
+                        usort($contents['install'], array('PEAR2_Pyrus_PackageFile_v2',
+                            'sortInstallAs'));
+                    }
+                    if (isset($contents['ignore']) && isset($contents['ignore'][0])) {
+                        usort($contents['ignore'], array('PEAR2_Pyrus_PackageFile_v2',
+                            'sortInstallAs'));
                     }
                 }
             }
