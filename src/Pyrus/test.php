@@ -10,10 +10,12 @@ function __autoload($class)
 include $a = '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
 include $b = '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
-//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN.php';
-//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/PackageFile/PEAR2SVN/Filter.php';
-//new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
-//    '/home/cellog/workspace/Pyrus', 'Pyrus');
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
+new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
+    '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
+exit;
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';

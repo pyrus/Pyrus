@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.1 http://pear.php.net/dtd/package-2.1.xsd">
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
  <name>PEAR2_Pyrus</name>
  <channel>pear2.php.net</channel>
  <summary>Pyrus is the package manager and installer for PHP 5.2 or newer
@@ -16,11 +16,18 @@ instantiate a simple script that creates a package and installs it:
 &lt;?php
 // use full path if include_path is not set up
 include 'PEAR2/Autoload.php';
+require_once 'Net/URL2.php'; // PEAR package needed for PEAR2_HTTP_Request dep
 $config = PEAR2_Pyrus_Config::singleton('/where/to/install');
 // this can be a url to a remote package, a local .tgz, .zip or package.xml
 $p = new PEAR2_Pyrus_Package('thingtoinstall');
-$i = new PEAR2_Pyrus_Installer;
-$i-&gt;install($p);
+try {
+    PEAR2_Pyrus_Installer::begin();
+    PEAR2_Pyrus_Installer::prepare($p);
+    PEAR2_Pyrus_Installer::commit();
+} catch (Exception $e) {
+    PEAR2_Pyrus_Installer::rollback();
+    echo $e;
+}
 ?&gt;</description>
  <lead>
   <name>Gregory Beaver</name>
@@ -28,7 +35,7 @@ $i-&gt;install($p);
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-09-28</date>
+ <date>2007-09-30</date>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -38,7 +45,6 @@ $i-&gt;install($p);
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Initial Release of PEAR2_Pyrus package</notes>
  <contents>
   <dir name="/">
    <dir name="data" baseinstalldir="/">
@@ -74,6 +80,10 @@ $i-&gt;install($p);
      <dir name="Dependency">
       <file role="php" name="Exception.php"/>
       <file role="php" name="Validator.php"/>
+     </dir>
+     <dir name="DirectedGraph">
+      <file role="php" name="Exception.php"/>
+      <file role="php" name="Vertex.php"/>
      </dir>
      <dir name="FileTransactions">
       <file role="php" name="Installedas.php"/>
@@ -120,8 +130,10 @@ $i-&gt;install($p);
       </dir>
       <file role="php" name="Base.php"/>
       <file role="php" name="Creator.php"/>
+      <file role="php" name="Dependency.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="ICreator.php"/>
+      <file role="php" name="InstalledException.php"/>
       <file role="php" name="Phar.php"/>
       <file role="php" name="Remote.php"/>
       <file role="php" name="Tar.php"/>
@@ -154,6 +166,7 @@ $i-&gt;install($p);
        <file role="php" name="Files.php"/>
        <file role="php" name="Generator.php"/>
        <file role="php" name="Release.php"/>
+       <file role="php" name="Remote.php"/>
        <file role="php" name="Validator.php"/>
       </dir>
       <dir name="v2Iterator">
@@ -185,6 +198,13 @@ $i-&gt;install($p);
       <file role="php" name="Package.php"/>
       <file role="php" name="Sqlite.php"/>
       <file role="php" name="Xml.php"/>
+     </dir>
+     <dir name="REST">
+      <file role="php" name="10.php"/>
+      <file role="php" name="11.php"/>
+      <file role="php" name="13.php"/>
+      <file role="php" name="Exception.php"/>
+      <file role="php" name="HTTPException.php"/>
      </dir>
      <dir name="Task">
       <dir name="Postinstallscript">
@@ -223,6 +243,7 @@ $i-&gt;install($p);
      <file role="php" name="Channel.php"/>
      <file role="php" name="ChannelRegistry.php"/>
      <file role="php" name="Config.php"/>
+     <file role="php" name="DirectedGraph.php"/>
      <file role="php" name="Downloader.php"/>
      <file role="php" name="Exception.php"/>
      <file role="php" name="FileTransactions.php"/>
@@ -237,6 +258,7 @@ $i-&gt;install($p);
      <file role="php" name="Package.php"/>
      <file role="php" name="PackageFile.php"/>
      <file role="php" name="Registry.php"/>
+     <file role="php" name="REST.php"/>
      <file role="php" name="test.php"/>
      <file role="php" name="test2.php"/>
      <file role="php" name="Validate.php"/>
@@ -254,6 +276,10 @@ $i-&gt;install($p);
    <pearinstaller>
     <min>2.0.0</min>
    </pearinstaller>
+   <package>
+    <name>PEAR2_HTTP_Request</name>
+    <channel>pear2.php.net</channel>
+   </package>
   </required>
  </dependencies>
  <phprelease></phprelease>

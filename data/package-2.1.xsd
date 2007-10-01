@@ -436,7 +436,14 @@
       <xs:sequence>
        <xs:element ref="lead" minOccurs="0" maxOccurs="unbounded"/>
        <xs:element ref="developer" minOccurs="0" maxOccurs="unbounded"/>
-       <xs:element ref="version"/>
+       <xs:element name="version">
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element name="release" type="xs:string"/>
+          <xs:element name="api" type="xs:string"/>
+         </xs:sequence>
+        </xs:complexType>
+       </xs:element>
        <xs:element ref="stability"/>
        <xs:element ref="date"/>
        <xs:element ref="license"/>
