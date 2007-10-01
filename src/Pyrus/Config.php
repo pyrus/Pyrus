@@ -47,7 +47,7 @@ class PEAR2_Pyrus_Config
             'password' => '',
             'verbose' => 1,
             'preferred_state' => 'stable',
-            'umask' => 0644,
+            'umask' => '0644',
             'cache_ttl' => 3600,
             'sig_type' => '',
             'sig_bin' => '',
@@ -351,7 +351,7 @@ class PEAR2_Pyrus_Config
         $snapshotdir = $conf->pearDir . DIRECTORY_SEPARATOR . '.configsnapshots';
         if (!file_exists($snapshotdir)) {
             // this will be simple - no snapshots exist yet
-            mkdir($snapshotdir, null, true);
+            mkdir($snapshotdir, 0755, true);
             $snapshot = 'configsnapshot-' . date('Ymd') . '.xml';
             $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
             foreach (self::$pearConfigNames as $var) {

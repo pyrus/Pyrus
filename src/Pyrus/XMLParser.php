@@ -75,6 +75,11 @@ class PEAR2_Pyrus_XMLParser
             if (!is_array($arr)) {
                 $arr = array();
             }
+            if (isset($arr[$name])) {
+                // new sibling
+                $arr[$name] = array($arr[$name], $tag);
+                return;
+            }
             $arr[$name] = $tag;
         }
     }

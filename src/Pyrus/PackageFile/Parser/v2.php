@@ -41,6 +41,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
      */
     private $_baseinstalldirs = array();
     private $_lastDepth = 0;
+    private $_lastFileDepth = 0;
     private $_inFile = 0;
     private $_curFile;
     /**
@@ -94,7 +95,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         $this->_inContents = false;
         $this->_path = '';
         $this->_files = array();
-        $this->_lastDepth = 0;
+        $this->_lastDepth = $this->_lastFileDepth = 0;
         $this->_inFile = 0;
         $ret = new $class;
         
@@ -128,18 +129,24 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
     {
         parent::mergeTag($arr, $tag, $attr, $name, $depth);
         if ($this->_inContents) {
-            while ($this->_lastDepth > $depth) {
-                --$this->_lastDepth;
-                $this->_path = dirname($this->_path);
-            }
             if ($this->_inFile) {
                 if ($depth < $this->_inFile) {
                     $this->_inFile = 0;
                 }
             }
             if ($name === 'dir') {
+                while ($this->_lastDepth >= $depth) {
+                    $this->_path = dirname($this->_path);
+                    if ($this->_path == '.') {
+                        $this->_path = '';
+                    } else {
+                        $this->_path .= '/';
+                    }
+                    $this->_lastDepth--;
+                }
                 $this->_lastDepth = $depth;
-                $path = $attr['name'];
+                $this->_lastFileDepth = $depth + 1;
+                $origpath = $path = $attr['name'];
                 if ($path === '/') {
                     $path = '';
                 } else {
@@ -147,14 +154,20 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                 }
                 $this->_path .= $path;
                 if (isset($attr['baseinstalldir'])) {
-                    $this->_baseinstalldirs[$path] = $attr['baseinstalldir'];
+                    $this->_baseinstalldirs[$origpath] = $attr['baseinstalldir'];
                 } else {
                     if (isset($this->_baseinstalldirs[dirname($path)])) {
-                        $this->_baseinstalldirs[$path] = $this->_baseinstalldirs[dirname($path)];
+                        $this->_baseinstalldirs[$origpath] = $this->_baseinstalldirs[dirname($path)];
                     }
                 }
             } elseif ($name === 'file') {
-                $path = ($this->_path ? $this->_path . '/' : '') . $attr['name'];
+                while ($this->_lastFileDepth > $depth) {
+                    $this->_path = dirname($this->_path);
+                    $this->_path .= '/';
+                    $this->_lastFileDepth--;
+                    $this->_lastDepth--;
+                }
+                $path = $this->_path . $attr['name'];
                 if (isset($arr[$name][0])) {
                     $this->_files[$path] =
                         $arr[$name][count($arr[$name]) - 1];

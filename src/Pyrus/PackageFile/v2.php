@@ -538,11 +538,9 @@ class PEAR2_Pyrus_PackageFile_v2
                             RecursiveIteratorIterator::LEAVES_ONLY);
             case 'installcontents' :
                 PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
-                return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
-                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
-                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
-                            $this->packageInfo['contents'], 'contents', $this)),
-                            RecursiveIteratorIterator::LEAVES_ONLY);
+                return new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
+                        new ArrayIterator(
+                            $this->filelist));
             case 'packagingcontents' :
                 PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
                 return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
@@ -932,8 +930,8 @@ class PEAR2_Pyrus_PackageFile_v2
                 }
             }
         }
+        $reltag = $this->getPackageType();
         if ($reltag != 'bundle') {
-            $reltag = $this->getPackageType();
             $reltag .= 'release';
             if (!is_array($arr[$reltag])) {
                 // do nothing

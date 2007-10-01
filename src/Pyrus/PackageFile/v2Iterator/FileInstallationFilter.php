@@ -1,6 +1,5 @@
 <?php
-class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends
-    PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter
+class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIterator
 {
     static private $_parent;
     static private $_installGroup;
@@ -59,27 +58,29 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends
         }
     }
 
+    function current()
+    {
+        $file = $this->key();
+        $curfile = parent::current();
+        if (isset(self::$_installGroup['install'][$file])) {
+            // add the install-as attribute for these files
+            $curfile['attribs']['install-as'] =
+                self::$_installGroup['install'][$file];
+        }
+        if ($b = self::$_parent->getBaseInstallDir($file)) {
+            $curfile['attribs']['baseinstalldir'] = $b;
+        }
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileTag($curfile,
+            dirname($file), self::$_parent);
+    }
+
     function accept()
     {
-        if (parent::accept()) {
-            if ($this->getInnerIterator()->key() != 'file') {
-                return true;
-            }
-            $curfile = $this->getInnerIterator()->current();
-            if (isset($curfile[0])) {
-                return true;
-            }
-            if (isset(self::$_installGroup['ignore'][$curfile->dir . $curfile->name])) {
-                // skip ignored files
-                return false;
-            }
-            if (isset(self::$_installGroup['install'][$curfile->dir . $curfile->name])) {
-                // add the install-as attribute for these files
-                $curfile->{'install-as'} =
-                    self::$_installGroup['install'][$curfile->dir . $curfile->name];
-            }
-            return true;
+        $file = $this->getInnerIterator()->key();
+        if (isset(self::$_installGroup['ignore'][$file])) {
+            // skip ignored files
+            return false;
         }
-        return false;
+        return true;
     }
 }

@@ -17,6 +17,17 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         $this->from = $parent;
     }
 
+    /**
+     * Used to determine whether <install as> tags are necessary for
+     * PEAR2-style packages
+     *
+     * @return bool
+     */
+    function isNewPackage()
+    {
+        return true;
+    }
+    
     function setFrom(PEAR2_Pyrus_IPackage $from)
     {
         $this->from = $from;

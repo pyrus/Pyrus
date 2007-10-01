@@ -75,6 +75,11 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         }
     }
 
+    function isNewPackage()
+    {
+        return !$this->_BCpackage;
+    }
+
     private static function _addTempFile($file)
     {
         self::$_tempfiles[] = $file;

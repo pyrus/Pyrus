@@ -10,13 +10,13 @@ function __autoload($class)
 include $a = '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
 include $b = '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
-new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
-    '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
-exit;
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
+//new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
+//    '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
+//exit;
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
@@ -28,6 +28,8 @@ include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
 //$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/pear-core/PEAR-1.6.2.tgz');
 //$a->render($b);
 //exit;
+define('OS_WINDOWS', false);
+define('OS_UNIX', true);
 include '/home/cellog/workspace/PEAR2/HTTP_Request/trunk/src/HTTP/Request/allfiles.php';
 $g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 $a = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml');
@@ -40,8 +42,6 @@ try {
     echo $e;
 }
 exit;
-define('OS_WINDOWS', false);
-define('OS_UNIX', true);
 //$g = new PEAR2_Pyrus_Config('C:/development/pear-core/testpear');
 $g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 $g->saveConfig();

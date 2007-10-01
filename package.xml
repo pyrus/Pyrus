@@ -45,6 +45,7 @@ try {
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>Initial development release, no frontend is included</notes>
  <contents>
   <dir name="/">
    <dir name="data" baseinstalldir="/">
@@ -223,8 +224,6 @@ try {
       <file role="php" name="Exception.php"/>
       <file role="php" name="Postinstallscript.php"/>
       <file role="php" name="Replace.php"/>
-      <file role="php" name="test.dat"/>
-      <file role="php" name="test.php"/>
       <file role="php" name="Unixeol.php"/>
       <file role="php" name="Windowseol.php"/>
      </dir>
@@ -259,8 +258,6 @@ try {
      <file role="php" name="PackageFile.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
-     <file role="php" name="test.php"/>
-     <file role="php" name="test2.php"/>
      <file role="php" name="Validate.php"/>
      <file role="php" name="XMLParser.php"/>
      <file role="php" name="XMLWriter.php"/>
@@ -276,11 +273,7 @@ try {
    <pearinstaller>
     <min>2.0.0</min>
    </pearinstaller>
-   <package>
-    <name>PEAR2_HTTP_Request</name>
-    <channel>pear2.php.net</channel>
-   </package>
   </required>
  </dependencies>
- <phprelease></phprelease>
+ <phprelease/>
 </package>
