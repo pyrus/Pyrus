@@ -18,6 +18,7 @@ class PEAR2_Pyrus_XMLWriter
     private $_tag;
     private $_expectedDepth;
     private $_type;
+    private $_lastkey;
     function __construct(array $array)
     {
         if (count($array) != 1) {
@@ -157,6 +158,17 @@ class PEAR2_Pyrus_XMLWriter
         return false;
     }
 
+    /**
+     * @access private
+     */
+    public function _filter($a)
+    {
+        if ($a === false) {
+            return false;
+        }
+        return true;
+    }
+
     private function _serialize()
     {
         $this->_namespaces = array();
@@ -167,6 +179,7 @@ class PEAR2_Pyrus_XMLWriter
         $this->_state = array();
         $this->_type = 'Tag';
         $this->_expectedDepth = 0;
+        $this->_lastkey = array();
         $lastdepth = 0;
         foreach ($this->_iter = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->_array),
                      RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
@@ -176,11 +189,20 @@ class PEAR2_Pyrus_XMLWriter
                 $this->_finish($key, $values);
                 $lastdepth--;
             }
-            if ($depth == $this->_expectedDepth) {
-                if ($lastdepth > $depth) {
+            if (isset($this->_lastkey[$depth]) && $key != $this->_lastkey[$depth]) {
+                while ($lastdepth > $depth) {
                     $this->_finish($key, $values);
+                    $lastdepth--;
                 }
             }
+            $this->_lastkey[$depth] = $key;
+            foreach ($this->_lastkey as $d => &$k) {
+                if ($d > $depth) {
+                    $k = false;
+                }
+            }
+            $this->_lastkey = array_filter($this->_lastkey,
+                array('PEAR2_Pyrus_XMLWriter', '_filter'));
             $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {
