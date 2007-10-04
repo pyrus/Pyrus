@@ -10,6 +10,9 @@ function __autoload($class)
 include $a = '/home/cellog/workspace/PEAR2/Exception/trunk/src/Exception.php';
 include $b = '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
 include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
+$g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
+$a = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/blah.phar');
+exit;
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
@@ -17,11 +20,12 @@ include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exceptio
 //    '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
 //exit;
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
-//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Tar.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/Creator/Phar.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
-//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Exception.php';
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/Creator/Exception.php';
 //$a = new PEAR2_Pyrus_Package_Creator(array(
-//        new PEAR2_Pyrus_Developer_Creator_Zip('/tmp/blah.zip'),
+//        new PEAR2_Pyrus_Developer_Creator_Phar('/home/cellog/workspace/Pyrus/blah.phar',
+//            '<?php echo "hi";__HALT_COMPILER();'),
 //        new PEAR2_Pyrus_Developer_Creator_Tar('/tmp/blah.tgz'),
 //        new PEAR2_Pyrus_Developer_Creator_Xml('/tmp/blah.xml'),
 //    ), $a, '/home/cellog/workspace/PEAR2/Autoload/trunk/src/Autoload.php', $b);

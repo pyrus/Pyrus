@@ -29,27 +29,23 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             mkdir($where, 0777, true);
         }
         $where = realpath($where);
-        if (dirname($where . 'a') != $where) {
-            $where .= DIRECTORY_SEPARATOR;
+        if (dirname($where . 'a') == $where) {
+            $where = substr($where, 0, strlen($where) - 1);
         }
         $this->_tmpdir = $where;
-        foreach ($phar as $path => $info) {
-            if ($info->isDir()) continue;
-            if (!isset($pxml)) {
-                $pxml = $path;
-            }
+        $pxml = $phar->getMetaData();
+        foreach (new RecursiveIteratorIterator($phar) as $path => $info) {
             $makepath = $where .
                 str_replace('phar://' .$package, '', $info->getPath());
             if (!file_exists($makepath)) {
                 mkdir($makepath, 0755, true);
             }
-            $fp = fopen($makepath . $info->getFilename(), 'wb');
-            $gp = fopen($info->getPathName(), 'rb');
-            stream_copy_to_stream($fp, $gp);
-            fclose($fp);
-            fclose($gp);
+            if (dirname($makepath . 'a') != $makepath) {
+                $makepath .= DIRECTORY_SEPARATOR;
+            }
+            file_put_contents($makepath . $info->getFilename(), fopen($info->getPathName(), 'rb'));
         }
-        parent::__construct(new PEAR2_Pyrus_PackageFile($where . $pxml), $parent);
+        parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }
 
     /**
