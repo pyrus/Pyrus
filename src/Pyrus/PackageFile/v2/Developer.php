@@ -81,7 +81,9 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
                 'Invalid value for ' . $var);
         }
         $this->_info[$var] = $args[0];
-        $this->_save();
+        if (isset($this->_info['user'])) {
+            $this->_save();
+        }
         return $this;
     }
 
