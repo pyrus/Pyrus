@@ -13,7 +13,7 @@ include 'C:/development/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN
 include 'C:/development/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
 include 'C:/development/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';
 new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
-    'C:/development/PEAR2/Pyrus_Developer', 'PEAR2_Pyrus_Developer', 'pear2.php.net',
+    'C:/development/PEAR2/Autoload', 'PEAR2_Autoload', 'pear2.php.net',
         false, false);
 //    'C:/development/PEAR2/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
 new PEAR2_Pyrus_Package('C:/development/PEAR2/Pyrus_Developer/package.xml');

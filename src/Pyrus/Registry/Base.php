@@ -1,7 +1,8 @@
 <?php
-abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRegistry
+abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRegistry, Iterator
 {
     protected $packagename;
+    protected $packageList = array();
     function offsetExists($offset)
     {
  	    $info = PEAR2_Pyrus_ChannelRegistry::parsePackageName($offset);
@@ -47,5 +48,36 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
  	    }
  	    $info = $this->parsePackageName($this->_packagename);
  	    return $this->info($info['package'], $info['channel'], $var);
+ 	}
+
+ 	function current()
+ 	{
+        $this->packagename = current($this->packageList);
+        $list = $this->packageList;
+        $this->packageList = array();
+        $ret = clone $this;
+        $this->packageList = $list;
+ 	    unset($this->packagename);
+ 	    return $ret;
+ 	}
+
+ 	function key()
+ 	{
+ 	    return key($this->packageList);
+ 	}
+
+ 	function valid()
+ 	{
+ 	    return current($this->packageList);
+ 	}
+
+ 	function next()
+ 	{
+ 	    return next($this->packageList);
+ 	}
+
+ 	function rewind()
+ 	{
+ 	    $this->packageList = $this->listPackages();
  	}
 }

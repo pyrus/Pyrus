@@ -9,4 +9,5 @@ interface PEAR2_Pyrus_IChannelRegistry
     public function setAlias($channel, $alias);
     public function parseName($name);
     public function parsedNameToString($name);
+    public function listChannels();
 }

@@ -1,6 +1,6 @@
 <?php
 abstract class PEAR2_Pyrus_ChannelRegistry_Base
-    implements PEAR2_Pyrus_IChannelRegistry
+    implements PEAR2_Pyrus_IChannelRegistry, Iterator
 {
     /**
      * Parse a package name, or validate a parsed package name array
@@ -224,4 +224,29 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         }
         return $ret;
     }
+
+ 	function current()
+ 	{
+ 	    return $this->get(current($this->channelList));
+ 	}
+
+ 	function key()
+ 	{
+ 	    return key($this->channelList);
+ 	}
+
+ 	function valid()
+ 	{
+ 	    return current($this->channelList);
+ 	}
+
+ 	function next()
+ 	{
+ 	    return next($this->channelList);
+ 	}
+
+ 	function rewind()
+ 	{
+ 	    $this->channelList = $this->listChannels();
+ 	}
 }

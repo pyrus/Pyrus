@@ -191,4 +191,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                 $channel . ' alias: ' . $error);
         }
     }
+
+    public function listChannels()
+    {
+        return $this->database->arrayQuery('SELECT name FROM channels
+            ORDER BY name
+        ');
+    }
 }

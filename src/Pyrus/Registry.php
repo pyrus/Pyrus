@@ -9,7 +9,7 @@
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
  */
-class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
+class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 {
     static private $_allRegistries = array();
     private $_registries = array();
@@ -95,6 +95,11 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry
     public function listPackages($channel)
     {
         return $this->_registries[0]->listPackages($channel);
+    }
+
+    public function getIterator()
+    {
+        return $this->_registries[0];
     }
 
     function __get($var)

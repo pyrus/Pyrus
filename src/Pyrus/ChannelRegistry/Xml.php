@@ -118,4 +118,13 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         @unlink($this->_getAliasFile($channel->getAlias()));
         file_put_contents($this->_getAliasFile($alias), $channel->getName());
  	}
+
+ 	function listChannels()
+ 	{
+
+ 	    foreach (new RegexIterator(new DirectoryIterator($path),
+ 	                               '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
+            
+        }
+ 	}
 }
