@@ -22,7 +22,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         $parser = new PEAR2_Pyrus_XMLParser;
         $schema = realpath(dirname(dirname(dirname(dirname(__FILE__)))) .
-            '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
+            '/data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd');
         // for running out of cvs
         if (!$schema) {
             $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
@@ -41,7 +41,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
         $a = new PEAR2_Pyrus_XMLParser;
         $schema = realpath(dirname(dirname(dirname(dirname(__FILE__)))) .
-            '/data/pear.php.net/PEAR2_Pyrus/channel-1.0.xsd');
+            '/data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd');
         // for running out of cvs
         if (!$schema) {
             $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';

@@ -1,4 +1,11 @@
 <?php
+include '/home/cellog/testpear/php/PEAR2/Autoload.php';
+$a = new PEAR2_Pyrus_Package_Creator(array(
+        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive('/home/cellog/workspace/Pyrus/pyrus.phar'),
+    ));
+$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml');
+$a->render($b);
+exit;
 // this shows how it works
 function __autoload($class)
 {
@@ -13,10 +20,10 @@ include '/home/cellog/workspace/PEAR2/MultiErrors/trunk/src/MultiErrors/Exceptio
 include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';
 include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
 include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
-new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
-    '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
-exit;
-include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
+//new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
+//    '/home/cellog/workspace/PEAR2/Pyrus_Developer', 'PEAR2_Pyrus_Developer', 'pear2.php.net', false, false);
+//exit;
+//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/Creator/Phar.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/Creator/Exception.php';
@@ -33,10 +40,13 @@ define('OS_WINDOWS', false);
 define('OS_UNIX', true);
 include '/home/cellog/workspace/PEAR2/HTTP_Request/trunk/src/HTTP/Request/allfiles.php';
 $g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
-$a = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml');
 try {
     PEAR2_Pyrus_Installer::begin();
-    PEAR2_Pyrus_Installer::prepare($a);
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Autoload/trunk/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Exception/trunk/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/MultiErrors/trunk/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Pyrus_Developer/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml'));
     PEAR2_Pyrus_Installer::commit();
 } catch (Exception $e) {
     PEAR2_Pyrus_Installer::rollback();

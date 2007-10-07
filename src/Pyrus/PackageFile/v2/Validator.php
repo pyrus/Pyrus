@@ -68,18 +68,18 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             $dom->loadXML($pf);
             $a = $pf->toArray();
             if ($a['package']['attribs']['version'] == '2.1') {
-                $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
-                    '/data/pear.php.net/PEAR2_Pyrus/package-2.1.xsd');
+                $schema = realpath(dirname(__FILE__) .
+                    '/../../../../../data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd');
                 // for running out of cvs
                 if (!$schema) {
                     $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
                 }
             } else {
-                $schema = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__))))) .
-                    '/data/pear.php.net/PEAR2_Pyrus/package-2.0.xsd');
+                $schema = realpath(dirname(__FILE__) .
+                    '/../../../../../data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd');
                 // for running out of cvs
                 if (!$schema) {
-                    $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/package-2.0.xsd';
+                    $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
                 }
             }
             $dom->schemaValidate($schema);
