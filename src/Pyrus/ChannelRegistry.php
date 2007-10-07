@@ -1,6 +1,6 @@
 <?php
 
-class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
+class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEAR2_Pyrus_IChannelRegistry
 {
     static private $_allRegistries = array();
     private $_registries = array();
@@ -35,6 +35,52 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
             self::$_allRegistries[$path] = new PEAR2_Pyrus_ChannelRegistry($path);
         }
         return self::$_allRegistries[$path];
+    }
+
+    public function add(PEAR2_Pyrus_IChannel $channel)
+    {
+        foreach ($this->_registries as $reg) {
+            $reg->add($channel);
+        }
+    }
+
+    public function update(PEAR2_Pyrus_IChannel $channel)
+    {
+        foreach ($this->_registries as $reg) {
+            $reg->update($channel);
+        }
+    }
+
+    public function delete(PEAR2_Pyrus_IChannel $channel)
+    {
+        foreach ($this->_registries as $reg) {
+            $reg->delete($channel);
+        }
+    }
+
+    public function get($channel)
+    {
+        return $this->_registries[0]->get($channel);
+    }
+
+    public function exists($channel, $strict = true)
+    {
+        return $this->_registries[0]->exists($channel, $strict);
+    }
+
+    public function parseName($name)
+    {
+        return $this->_registries[0]->parseName($name);
+    }
+
+    public function parsedNameToString($name)
+    {
+        return $this->_registries[0]->parsedNameToString($name);
+    }
+
+    public function listChannels()
+    {
+        return $this->_registries[0]->listChannels();
     }
 
     public function offsetGet($offset)
@@ -111,5 +157,10 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess
             }
         }
         return $registry->parsedNameToString($name);
+    }
+
+    public function getIterator()
+    {
+        return $this->_registries[0];
     }
 }

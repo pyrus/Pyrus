@@ -187,7 +187,7 @@ class PEAR2_Pyrus_Package_Creator
             $alreadyPackaged[$path] = true;
             if (!@file_exists($filename) || !($fp = @fopen($filename, 'rb'))) {
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Extra file ' .
-                    $filename . 'does not exist or cannot be read');
+                    $filename . ' does not exist or cannot be read');
             }
             foreach ($this->_creators as $creator) {
                 $creator->mkdir(dirname($path));

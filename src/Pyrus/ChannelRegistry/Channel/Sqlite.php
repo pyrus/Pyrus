@@ -95,7 +95,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
             SELECT * FROM channel_server_' . $protocol . '
             WHERE channel = \'' . sqlite_escape_string($this->channelname) . '\ AND
             server = \'' . sqlite_escape_string($this->mirror) . '\'
-        ');
+        ', SQLITE_ASSOC);
         $ret = array();
         foreach ($functions as $func) {
             $ret[] = array('attribs' => array('version' => $func['version']), '_content' => $func['function']);
@@ -124,7 +124,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
     {
         $urls = $this->database->arrayQuery('SELECT * FROM channel_server_rest WHERE
  	          channel=\'' . sqlite_escape_string($this->channelname) . '\' AND
- 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
+ 	          server=\'' . sqlite_escape_string($this->mirror) . '\'', SQLITE_ASSOC);
         $ret = array();
         foreach ($urls as $url) {
             $ret[] = array('attribs' => array('type' => $url['type']), '_content' => $url['baseurl']);
@@ -145,7 +145,8 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	            $ret = array($this->channelname => $this);
  	            foreach ($this->database->arrayQuery('SELECT server FROM channel_servers
  	                  WHERE channel=\'' . sqlite_escape_string($this->channelname) . '\'
- 	                  AND server !=\'' . sqlite_escape_string($this->channelname) . '\'') as $mirror) {
+ 	                  AND server !=\'' . sqlite_escape_string($this->channelname) . '\'',
+ 	                  SQLITE_ASSOC) as $mirror) {
  	                $ret[$mirror] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this,
  	                                    $this->database, $mirror);
                 }

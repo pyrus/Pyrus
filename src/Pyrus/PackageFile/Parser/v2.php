@@ -100,17 +100,15 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         $ret = new $class;
         
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
-            $schema = realpath(dirname(__FILE__) .
-                '/../../../../../data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd');
+            $schema = PEAR2_Pyrus::getDataPath() . '/package-2.1.xsd';
             // for running out of cvs
-            if (!$schema) {
+            if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
             }
         } else {
-            $schema = realpath(dirname(__FILE__) .
-                '/../../../../../data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd');
+            $schema = PEAR2_Pyrus::getDataPath() . '/package-2.0.xsd';
             // for running out of cvs
-            if (!$schema) {
+            if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
             }
         }
@@ -163,7 +161,11 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
             } elseif ($name === 'file') {
                 while ($this->_lastFileDepth > $depth) {
                     $this->_path = dirname($this->_path);
-                    $this->_path .= '/';
+                    if ($this->_path == '.') {
+                        $this->_path = '';
+                    } else {
+                        $this->_path .= '/';
+                    }
                     $this->_lastFileDepth--;
                     $this->_lastDepth--;
                 }

@@ -536,6 +536,11 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
              datetime("now")
             )
         ';
+        $worked = @$database->queryExec($query, $error);
+        if (!$worked) {
+            @$database->queryExec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+        }
         $query = '
             INSERT INTO channels
              (channel, summary, suggestedalias, alias, lastmodified)

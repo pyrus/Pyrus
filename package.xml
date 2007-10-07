@@ -265,6 +265,7 @@ try {
      <file role="php" name="XMLParser.php"/>
      <file role="php" name="XMLWriter.php"/>
     </dir>
+    <file role="php" name="Pyrus.php"/>
    </dir>
   </dir>
  </contents>

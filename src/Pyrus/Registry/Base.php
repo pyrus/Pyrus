@@ -50,16 +50,11 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
  	    return $this->info($info['package'], $info['channel'], $var);
  	}
 
- 	function current()
- 	{
-        $this->packagename = current($this->packageList);
-        $list = $this->packageList;
-        $this->packageList = array();
-        $ret = clone $this;
-        $this->packageList = $list;
- 	    unset($this->packagename);
- 	    return $ret;
- 	}
+    function current()
+    {
+        $packagename = current($this->packageList);
+        return $this->package[PEAR2_Pyrus_Config::current()->default_channel . '/' . $packagename];
+    }
 
  	function key()
  	{
@@ -78,6 +73,6 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
 
  	function rewind()
  	{
- 	    $this->packageList = $this->listPackages();
+ 	    $this->packageList = $this->listPackages(PEAR2_Pyrus_Config::current()->default_channel);
  	}
 }

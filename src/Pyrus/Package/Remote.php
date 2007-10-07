@@ -75,7 +75,15 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             $http = new PEAR2_HTTP_Request($param);
             $response = $http->sendRequest();
             if ($response->code == '200') {
-                $name = basename($response->path);
+                if (isset($response->headers['content-disposition'])) {
+                    if (preg_match('/filename="(.+)"/', $response->headers['content-disposition'], $match)) {
+                        $name = $match[1];
+                    } else {
+                        $name = 'unknown.tgz';
+                    }
+                } else {
+                    $name = 'unknown.tgz';
+                }
                 if (!@file_exists($dir)) {
                     mkdir($dir, 0755, true);
                 }
@@ -197,6 +205,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         $mirrors = $chan->mirrors;
         if (isset($mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror])) {
             $mirror = $mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror];
+        } else {
+            $mirror = $chan;
         }
         if (!$mirror->supportsREST() ||
               !(($base2 = $mirror->getBaseURL('REST1.3')) ||

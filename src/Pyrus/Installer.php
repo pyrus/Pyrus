@@ -244,8 +244,12 @@ class PEAR2_Pyrus_Installer
                 $reg->install($package->getPackageFile()->info);
             }
             self::$installPackages = array();
+            PEAR2_Pyrus_Config::current()->saveConfig();
         } catch (Exception $e) {
-            self::rollback();
+            try {
+                self::rollback();
+            } catch (Exception $ex) {
+            }
             throw $e;
         }
     }

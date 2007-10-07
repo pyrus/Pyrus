@@ -67,4 +67,11 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Xml extends PEAR2_Pyrus_Channel
         parent::setBaseURL($resourceType, $url);
         $this->_parent->update($this);
     }
+
+    public function setAlias($alias)
+    {
+        @unlink($this->_parent->getAliasFile($this->getAlias()));
+        parent::setAlias($alias);
+        file_put_contents($this->getAliasFile($alias), $this->getName());
+    }
 }

@@ -36,8 +36,8 @@ class PEAR2_Pyrus_Config
             'test_dir' => '@php_dir@/tests',
             'php_bin' => '',
             'php_ini' => '',
-            'default_channel' => 'pear.php.net',
-            'preferred_mirror' => 'pear.php.net',
+            'default_channel' => 'pear2.php.net',
+            'preferred_mirror' => 'pear2.php.net',
             'auto_discover' => 0,
             'http_proxy' => '',
             'cache_dir' => '@php_dir@/cache',
@@ -157,7 +157,7 @@ class PEAR2_Pyrus_Config
 
     /**
      * Retrieve the currently active primary configuration
-     *
+     * @return PEAR2_Pyrus_Config
      */
     static public function current()
     {
@@ -220,8 +220,14 @@ class PEAR2_Pyrus_Config
             $x = simplexml_load_file($pearDirectory . DIRECTORY_SEPARATOR . '.config');
             if (!$x) {
                 $errors = libxml_get_errors();
+                $e = new PEAR2_MultiErrors;
+                foreach ($errors as $err) {
+                    $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception($err);
+                }
                 libxml_clear_errors();
-                throw PEAR2_Pyrus_Config_Exception::invalidConfig($pearDirectory, $errors);
+                throw new PEAR2_Pyrus_Config_Exception(
+                    'Unable to parse invalid PEAR configuration at "' . $pearDirectory . '"',
+                    $e);
             }
             $unsetvalues = array_diff(array_keys((array) $x), self::$pearConfigNames);
             // remove values that are not recognized system config variables
@@ -260,8 +266,14 @@ class PEAR2_Pyrus_Config
         $x = simplexml_load_file($userfile);
         if (!$x) {
             $errors = libxml_get_errors();
+            $e = new PEAR2_MultiErrors;
+            foreach ($errors as $err) {
+                $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception($err);
+            }
             libxml_clear_errors();
-            throw PEAR2_Pyrus_Config_Exception::invalidConfig($userfile, $errors);
+            throw new PEAR2_Pyrus_Config_Exception(
+                'Unable to parse invalid user PEAR configuration at "' . $userfile . '"',
+                $e);
         }
         $unsetvalues = array_diff(array_keys((array) $x), self::$userConfigNames);
         // remove values that are not recognized user config variables
@@ -414,7 +426,9 @@ class PEAR2_Pyrus_Config
             return $this->pearDir;
         }
         if (!in_array($value, array_merge(self::$pearConfigNames, self::$userConfigNames))) {
-            throw PEAR2_Pyrus_Config_Exception::unknownValue($this->pearDir, $value);
+            throw new PEAR2_Pyrus_Config_Exception(
+                'Unknown configuration variable "' . $value . '" in location ' .
+                $this->pearDir);
         }
         if (!isset($this->$value)) {
             return str_replace('@php_dir@', $this->pearDir, self::$defaults[$value]);

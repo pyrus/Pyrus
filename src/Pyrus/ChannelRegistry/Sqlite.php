@@ -33,6 +33,8 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         $error = '';
         if (!$path) {
             $path = ':memory:';
+        } elseif (!file_exists(dirname($path))) {
+            @mkdir(dirname($path), 0755, true);
         }
         $this->database = new SQLiteDatabase($path, 0666, $error);
         if (!$this->database) {
@@ -178,24 +180,14 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         }
     }
 
-    function setAlias($channel, $alias)
-    {
-        if (!$this->exists($channel)) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
-        }
-        $error = '';
-        if (!@$this->database->queryExec('UPDATE channels SET alias="' .
-              sqlite_escape_string($alias) . '" WHERE channel="' .
-              sqlite_escape_string($channel) . '"', $error)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot update channel ' .
-                $channel . ' alias: ' . $error);
-        }
-    }
-
     public function listChannels()
     {
-        return $this->database->arrayQuery('SELECT name FROM channels
-            ORDER BY name
-        ');
+        $ret = array();
+        foreach ($this->database->arrayQuery('SELECT channel FROM channels
+            ORDER BY channel
+        ', SQLITE_NUM) as $res) {
+            $ret[] = $res[0];
+        }
+        return $ret;
     }
 }

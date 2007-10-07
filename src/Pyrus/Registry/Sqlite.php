@@ -42,6 +42,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         $error = '';
         if (!$path) {
             $path = ':memory:';
+        } elseif (!file_exists(dirname($path))) {
+            @mkdir(dirname($path), 0755, true);
         }
         $this->database = new SQLiteDatabase($path, 0666, $error);
         if (!$this->database) {
@@ -147,7 +149,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                   "' . $info->channel . '",
                   "' . $file->name . '",
                   "' . $file->role . '",
-                  "' . $curconfig->{$roles[$file->role]} . '"
+                  "' . str_replace($this->_path . DIRECTORY_SEPARATOR,
+                       '', $curconfig->{$roles[$file->role]}) . '"
                  )
                 ')) {
                 $this->database->queryExec('ROLLBACK');
@@ -279,27 +282,27 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
 
     function uninstall($package, $channel)
     {
-        $channel = $this->aliasToChannel($channel);
-        if (!$this->database->singleQuery('SELECT package FROM packages WHERE package="' .
+        $channel = PEAR2_Pyrus_Config::current()->channelregistry[$channel]->getName();
+        if (!$this->database->singleQuery('SELECT name FROM packages WHERE name="' .
               sqlite_escape_string($package) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"')) {
             throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel . '/' .
                 $package);
         }
-        $this->database->queryExec('DELETE FROM packages WHERE package="' .
+        $this->database->queryExec('DELETE FROM packages WHERE name="' .
               sqlite_escape_string($package) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"');
     }
 
     function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        if (!$this->database->singleQuery('SELECT package FROM packages WHERE package="' .
+        if (!$this->database->singleQuery('SELECT name FROM packages WHERE name="' .
               sqlite_escape_string($info) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"')) {
             return $this->installPackage($info);
         }
         $lastversion = $this->database->singleQuery('
-                SELECT version FROM packages WHERE package="' .
+                SELECT version FROM packages WHERE name="' .
               sqlite_escape_string($info) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"');
         $this->uninstallPackage($info->name, $info->channel);
@@ -330,10 +333,14 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
 
     function listPackages($channel)
     {
-        return $this->database->arrayQuery('SELECT name FROM packages WHERE
+        $ret = array();
+        foreach ($this->database->arrayQuery('SELECT name FROM packages WHERE
             channel = \'' . sqlite_escape_string($channel) . '\'
             ORDER BY name
-        ');
+        ', SQLITE_NUM) as $res) {
+            $ret[] = $res[0];
+        }
+        return $ret;
     }
 
     function __get($var)

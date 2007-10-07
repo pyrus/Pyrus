@@ -7,25 +7,45 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
     {
         $a = new ReflectionClass($this);
         foreach ($a->getMethods() as $method) {
-            if ($method[0] == '_') {
+            $name = $method->getName();
+            if ($name[0] == '_' || $name === 'run') {
                 continue;
             }
-            $method = new ReflectionMethod();
-            $this->commands[$method->getName()] = true;
+            $this->commands[$name] = true;
         }
     }
 
-    function _process($args)
+    function run($args)
     {
         if (!count($args)) {
             $args[0] = 'help';
         }
+        $this->_findPEAR($args);
         if (isset($this->commands[$args[0]])) {
-            array_shift($args);
-            $this->{$args[0]}($args);
+            $command = array_shift($args);
+            $this->$command($args);
         } else {
             $this->help($args);
         }
+    }
+
+    function _findPEAR(&$arr)
+    {
+        if (isset($arr[0]) && @file_exists($arr[0]) && @is_dir($arr[0])) {
+            $maybe = array_shift($arr);
+            $maybe = realpath($maybe);
+            echo "Using PEAR installation found at $maybe\n";
+            $config = new PEAR2_Pyrus_Config($maybe);
+            return;
+        }
+        $include_path = explode(PATH_SEPARATOR, get_include_path());
+        foreach ($include_path as $path) {
+            if ($path == '.') continue;
+            echo "Using PEAR installation found at $path\n";
+            $config = new PEAR2_Pyrus_Config($path);
+            return;
+        }
+        echo "Using PEAR installation in current directory\n";
     }
 
     function help($args)
@@ -36,10 +56,12 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 echo "$command\n";
             }
         } else {
-            echo "Unknown command: $args[0]\n";
+            if (isset($args[0])) {
+                echo "Unknown command: $args[0]\n";
+            }
             echo "Commands supported:\n";
             foreach ($this->commands as $command => $true) {
-                echo "$command\n";
+                echo "$command [PEARPath]\n";
             }
         }
     }
@@ -67,17 +89,19 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         $this->install($args);
     }
 
-    function listPackages()
+    function listPackages($args)
     {
+        echo "Listing packages:\n";
         foreach (PEAR2_Pyrus_Config::current()->registry as $package) {
             echo $package->channel . '/' . $package->name . "\n";
         }
     }
 
-    function listChannels()
+    function listChannels($args)
     {
+        echo "Listing channels:\n";
         foreach (PEAR2_Pyrus_Config::current()->channelregistry as $channel) {
-            echo $channel->name . ' (' . $channel->alias . ")\n";
+            echo $channel->getName() . ' (' . $channel->getAlias() . ")\n";
         }
     }
 }

@@ -1,4 +1,10 @@
 <?php
+include '/home/cellog/testpear/php/PEAR2/Autoload.php';
+include '/home/cellog/workspace/Pyrus/src/Pyrus/ScriptFrontend/Commands.php';
+$a = new PEAR2_Pyrus_ScriptFrontend_Commands;
+array_shift($_SERVER['argv']);
+$a->run($_SERVER['argv']);
+exit;
 function __autoload($class)
 {
     if (substr($class, 0, 4) != 'PEAR') return false;
