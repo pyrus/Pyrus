@@ -19,6 +19,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator extends ArrayIterator
     function current()
     {
         $curfile = parent::current();
+        $curfile['attribs']['name'] = parent::key();
         if ($base = self::$_parent->getBaseInstallDir($curfile['attribs']['name'])) {
             $curfile['attribs']['baseinstalldir'] = $base;
         } elseif (!isset($curfile['attribs']['baseinstalldir'])) {

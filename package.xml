@@ -37,11 +37,11 @@ try {
  </lead>
  <date>2007-10-06</date>
  <version>
-  <release>0.1.0</release>
+  <release>2.0.0a1</release>
   <api>0.1.0</api>
  </version>
  <stability>
-  <release>devel</release>
+  <release>alpha</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
@@ -274,7 +274,7 @@ try {
     <min>5.2.0</min>
    </php>
    <pearinstaller>
-    <min>2.0.0</min>
+    <min>2.0.0a1</min>
    </pearinstaller>
   </required>
  </dependencies>

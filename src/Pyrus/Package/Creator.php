@@ -89,11 +89,11 @@ class PEAR2_Pyrus_Package_Creator
         }
         $packagexml = 'package-' . $package->channel . '-' . $package->name . '-' .
             $package->version['release'] . '.xml';
-        if (self::VERSION === '@PACKAGE_VERSION@') {
+        if (self::VERSION === '@' . 'PACKAGE_VERSION@') {
             // we're running straight from SVN, so pretend to be 2.0.0
-            $package->attribs['packagerversion'] = '2.0.0';
+            $package->packagerversion = '2.0.0';
         } else {
-            $package->attribs['packagerversion'] = self::VERSION;
+            $package->packagerversion = self::VERSION;
         }
         $packageingstr = (string) new PEAR2_Pyrus_XMLWriter(
             $package->toArray(true)); // get packaging package.xml
@@ -119,8 +119,8 @@ class PEAR2_Pyrus_Package_Creator
             $alreadyPackaged[$packageat] = true;
             $contents = $package->getFileContents($info['attribs']['name']);
             $globalreplace = array('attribs' =>
-                        array('from' => '@PACKAGE_VERSION@',
-                              'to' => $package->version['release'],
+                        array('from' => '@' . 'PACKAGE_VERSION@',
+                              'to' => 'version',
                               'type' => 'package-info'));
             if (isset($info['tasks:replace'])) {
                 if (isset($info['tasks:replace'][0])) {

@@ -72,7 +72,7 @@ class PEAR2_Pyrus_PackageFile_v2
         'dependencies' => array(
             'required' => array(
                 'php' => array('min' => '5.2.0'),
-                'pearinstaller' => array('min' => '2.0.0'),
+                'pearinstaller' => array('min' => '2.0.0a1'),
             ),
         ),
         'phprelease' => array(),
@@ -727,6 +727,10 @@ class PEAR2_Pyrus_PackageFile_v2
         }
         if ($var === 'rawstability' && is_string($value)) {
             $this->packageInfo['stability'] = array('release' => $value, 'api' => $value);
+            return;
+        }
+        if ($var === 'packagerversion' && is_string($value)) {
+            $this->packageInfo['attribs']['packagerversion'] = $value;
             return;
         }
         if ($var === 'release' && $value === null) {

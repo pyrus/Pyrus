@@ -270,7 +270,11 @@ class PEAR2_Pyrus_Installer
         } catch (Exception $e) {
             $lastversion = null;
         }
-        
+        $globalreplace = array('attribs' =>
+                    array('from' => '@' . 'PACKAGE_VERSION@',
+                          'to' => 'version',
+                          'type' => 'package-info'));
+
         foreach ($package->installcontents as $file) {
             $channel = $package->channel;
             // {{{ assemble the destination paths
@@ -309,53 +313,47 @@ class PEAR2_Pyrus_Installer
             }
             // pretty much nothing happens if we are only registering the install
             if (empty($this->_options['register-only'])) {
-                if (!count($file->tasks)) { // no tasks
-                    if (!file_exists($orig_file)) {
-                        throw new PEAR2_Pyrus_Installer_Exception("file $orig_file does not exist");
+                if (!file_exists($orig_file)) {
+                    throw new PEAR2_Pyrus_Installer_Exception("file $orig_file does not exist");
+                }
+                $contents = file_get_contents($orig_file);
+                if ($contents === false) {
+                    $contents = '';
+                }
+                if (isset($file['md5sum'])) {
+                    $md5sum = md5($contents);
+                }
+                $tasks = $file->tasks;
+                if (isset($tasks['tasks:replace'])) {
+                    if (isset($tasks['tasks:replace'][0])) {
+                        $tasks['tasks:replace'][] = $globalreplace;
+                    } else {
+                        $tasks['tasks:replace'] = array($tasks['tasks:replace'],
+                            $globalreplace);
                     }
-                    if (!@copy($orig_file, $dest_file)) {
-                        throw new PEAR2_Pyrus_Installer_Exception("failed to write $dest_file: $php_errormsg");
-                    }
-                    PEAR2_Pyrus_Log::log(3, "+ cp $orig_file $dest_file");
-                    if (isset($attribs['md5sum'])) {
-                        $md5sum = md5_file($dest_file);
-                    }
-                } else { // file with tasks
-                    if (!file_exists($orig_file)) {
-                        throw new PEAR2_Pyrus_Installer_Exception("file $orig_file does not exist");
-                    }
-                    $contents = file_get_contents($orig_file);
-                    if ($contents === false) {
-                        $contents = '';
-                    }
-                    if (isset($file['md5sum'])) {
-                        $md5sum = md5($contents);
-                    }
-                    foreach ($file->tasks as $tag => $raw) {
-                        $tag = str_replace(array($package->getTasksNs() . ':', '-'), 
-                            array('', '_'), $tag);
-                        $task = "PEAR2_Pyrus_Task_" . ucfirst($tag);
-                        $task = new $task(PEAR2_Pyrus_Config::current(), PEAR2_PYRUS_TASK_INSTALL);
-                        if (!$task->isScript()) { // scripts are only handled after installation
-                            $task->init($raw, $file['attribs'], $lastversion);
-                            $res = $task->startSession($package, $contents, $final_dest_file);
-                            if ($res === false) {
-                                continue; // skip this file
-                            }
-                            $contents = $res; // save changes
+                } else {
+                    $tasks['tasks:replace'] = $globalreplace;
+                }
+                foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package)
+                          as $task) {
+                    if (!$task[1]->isScript()) { // scripts are only handled after installation
+                        $task[1]->init($task[0], $file['attribs'], null);
+                        $newcontents = $task[1]->startSession($package, $contents, $dest_file);
+                        if ($newcontents) {
+                            $contents = $newcontents; // save changes
                         }
-                        $wp = @fopen($dest_file, "wb");
-                        if (!is_resource($wp)) {
-                            throw new PEAR2_Pyrus_Installer_Exception(
-                                "failed to create $dest_file: $php_errormsg");
-                        }
-                        if (fwrite($wp, $contents) === false) {
-                            throw new PEAR2_Pyrus_Installer_Exception(
-                                "failed writing to $dest_file: $php_errormsg");
-                        }
-                        fclose($wp);
                     }
                 }
+                $wp = @fopen($dest_file, "wb");
+                if (!is_resource($wp)) {
+                    throw new PEAR2_Pyrus_Installer_Exception(
+                        "failed to create $dest_file: $php_errormsg");
+                }
+                if (fwrite($wp, $contents) === false) {
+                    throw new PEAR2_Pyrus_Installer_Exception(
+                        "failed writing to $dest_file: $php_errormsg");
+                }
+                fclose($wp);
                 // {{{ check the md5
                 if (isset($md5sum)) {
                     if (strtolower($md5sum) == strtolower($file['md5sum'])) {
