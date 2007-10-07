@@ -14,9 +14,9 @@ include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/
 include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
 include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
 new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(
-    '/home/cellog/workspace/PEAR2/Exception/trunk', 'PEAR2_Exception', 'pear2.php.net');
+    '/home/cellog/workspace/Pyrus', 'PEAR2_Pyrus', 'pear2.php.net');
 exit;
-//include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
+include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Zip.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/Creator/Phar.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/Creator/Xml.php';
 //include '/home/cellog/workspace/PEAR2/Pyrus_Developer/src/Developer/Creator/Exception.php';

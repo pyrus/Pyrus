@@ -57,4 +57,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             echo $package->channel . '/' . $package->name . "\n";
         }
     }
+
+    function listChannels()
+    {
+        foreach (PEAR2_Pyrus_Config::current()->channelregistry as $channel) {
+            echo $channel->name . ' (' . $channel->alias . ")\n";
+        }
+    }
 }

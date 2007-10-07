@@ -24,6 +24,11 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         return str_replace(array('/', '\\'), array('##', '###'), $name);
     }
 
+    private function _unmung($name)
+    {
+        return str_replace(array('##', '###'), array('/', '\\'), $name);
+    }
+
     private function _getChannelFile($channel)
     {
         if ($channel instanceof PEAR2_Pyrus_IChannel) {
@@ -91,40 +96,41 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     }
 
     function __get($value)
- 	{
- 	    switch ($value) {
- 	        case 'mirrors' :
- 	            if (!isset($this->_channelInfo['servers']['mirror'][0])) {
- 	                return array(new PEAR2_Pyrus_Channel_Mirror(
- 	                              $this->_channelInfo['servers']['mirror'], $this,
+     {
+         switch ($value) {
+             case 'mirrors' :
+                 if (!isset($this->_channelInfo['servers']['mirror'][0])) {
+                     return array(new PEAR2_Pyrus_Channel_Mirror(
+                                   $this->_channelInfo['servers']['mirror'], $this,
                                   $this->_parent));
- 	            }
- 	            $ret = array();
- 	            foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
- 	                $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
- 	                      $this->_channelInfo['servers']['mirror'][$i], $this,
- 	                      $this->_parent);
+                 }
+                 $ret = array();
+                 foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
+                     $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
+                           $this->_channelInfo['servers']['mirror'][$i], $this,
+                           $this->_parent);
                 }
                 return $ret;
- 	    }
- 	}
+         }
+     }
 
- 	function setAlias($channel, $alias)
- 	{
+     function setAlias($channel, $alias)
+     {
         if (!$this->exists($channel)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
         }
         $channel = $this->get($channel);
         @unlink($this->_getAliasFile($channel->getAlias()));
         file_put_contents($this->_getAliasFile($alias), $channel->getName());
- 	}
+     }
 
- 	function listChannels()
- 	{
-
- 	    foreach (new RegexIterator(new DirectoryIterator($path),
- 	                               '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
-            
+     function listChannels()
+     {
+        $ret = array();
+         foreach (new RegexIterator(new DirectoryIterator($path),
+                                    '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
+            $ret[] = $this->get($this->_unmung($file));
         }
- 	}
+        return $ret;
+     }
 }

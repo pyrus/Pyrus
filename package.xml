@@ -35,7 +35,7 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-09-30</date>
+ <date>2007-10-06</date>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -207,6 +207,9 @@ try {
       <file role="php" name="Exception.php"/>
       <file role="php" name="HTTPException.php"/>
      </dir>
+     <dir name="ScriptFrontend">
+      <file role="php" name="Commands.php"/>
+     </dir>
      <dir name="Task">
       <dir name="Postinstallscript">
        <file role="php" name="rw.php"/>
@@ -275,5 +278,5 @@ try {
    </pearinstaller>
   </required>
  </dependencies>
- <phprelease/>
+ <phprelease></phprelease>
 </package>
