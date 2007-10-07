@@ -1,11 +1,17 @@
 <?php
-//include '/home/cellog/testpear/php/PEAR2/Autoload.php';
-//$a = new PEAR2_Pyrus_Package_Creator(array(
-//        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive('/home/cellog/workspace/Pyrus/pyrus.phar'),
-//    ));
-//$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml');
-//$a->render($b);
-//exit;
+include '/home/cellog/testpear/php/PEAR2/Autoload.php';
+$a = new PEAR2_Pyrus_Package_Creator(array(
+        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive('/home/cellog/workspace/Pyrus/pyrus.phar', '<?php
+function __autoload($class)
+{
+    include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
+}
+$frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
+'),
+    ));
+$b = new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml');
+$a->render($b);
+exit;
 // this shows how it works
 function __autoload($class)
 {

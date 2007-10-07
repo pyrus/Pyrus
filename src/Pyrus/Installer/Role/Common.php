@@ -72,10 +72,29 @@ class PEAR2_Pyrus_Installer_Role_Common
     {
         $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        $file = $atts['name'];
-        if ($roleInfo['honorsbaseinstall']) {
-            $dest_dir = str_replace('pear2_pyrus_installer_role_', '',
+        $role = str_replace('pear2_pyrus_installer_role_', '',
                 strtolower(get_class($this)));
+        $file = $atts['name'];
+        // strip role from file path
+        // so src/Path/To/File.php becomes Path/To/File.php,
+        // data/package.xsd becomes package.xsd
+        $newpath = $file;
+        if (strpos($newpath, $role) === 0) {
+            $newpath = substr($newpath, strlen($role) + 1);
+            if ($newpath === false) {
+                $newpath = $file;
+            }
+        } elseif ($role === 'php' && strpos($newpath, 'src') === 0) {
+            $newpath = substr($newpath, 4);
+            if ($newpath === false) {
+                $newpath = $file;
+            }
+        }
+        if ($newpath) {
+            $file = $newpath;
+        }
+        if ($roleInfo['honorsbaseinstall']) {
+            $dest_dir = $role;
             if (array_key_exists('baseinstalldir', $atts)) {
                 if ($atts['baseinstalldir'] != '/') {
                     $dest_dir .= '/' . $atts['baseinstalldir'];
@@ -85,14 +104,9 @@ class PEAR2_Pyrus_Installer_Role_Common
                 }
             } else {
                 $dest_dir .= '/';
-                if (dirname($file) != '.') {
-                    $dest_dir .= dirname($file) . '/';
-                }
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
-            $dest_dir = str_replace('pear2_pyrus_installer_role_', '',
-                strtolower(get_class($this))) . '/' .
-                $pkg->channel . '/' . $pkg->name . '/';
+            $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name . '/';
             if (array_key_exists('baseinstalldir', $atts)) {
                 if (strlen($atts['baseinstalldir']) && $atts['baseinstalldir'] != '/') {
                     $dest_dir .= $atts['baseinstalldir'];
@@ -106,14 +120,9 @@ class PEAR2_Pyrus_Installer_Role_Common
                 }
             }
         } else {
-            $dest_dir = str_replace('pear2_pyrus_installer_role_', '',
-                strtolower(get_class($this))) . '/' .
-                $pkg->channel . '/' . $pkg->name . '/';
-            if (dirname($file) != '.') {
-                $dest_dir .= dirname($file) . '/';
-            }
+            $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name . '/';
         }
-        return $dest_dir . basename($file);
+        return $dest_dir . $file;
     }
 
     /**

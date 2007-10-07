@@ -28,6 +28,22 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    function help($args)
+    {
+        if ($args[0] == 'help') {
+            echo "Commands supported:\n";
+            foreach ($this->commands as $command => $true) {
+                echo "$command\n";
+            }
+        } else {
+            echo "Unknown command: $args[0]\n";
+            echo "Commands supported:\n";
+            foreach ($this->commands as $command => $true) {
+                echo "$command\n";
+            }
+        }
+    }
+
     function install($args)
     {
         PEAR2_Pyrus_Installer::begin();
