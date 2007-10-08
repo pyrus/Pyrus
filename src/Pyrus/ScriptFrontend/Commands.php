@@ -17,15 +17,19 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function run($args)
     {
-        if (!count($args)) {
-            $args[0] = 'help';
-        }
-        $this->_findPEAR($args);
-        if (isset($this->commands[$args[0]])) {
-            $command = array_shift($args);
-            $this->$command($args);
-        } else {
-            $this->help($args);
+        try {
+            if (!count($args)) {
+                $args[0] = 'help';
+            }
+            $this->_findPEAR($args);
+            if (isset($this->commands[$args[0]])) {
+                $command = array_shift($args);
+                $this->$command($args);
+            } else {
+                $this->help($args);
+            }
+        } catch (Exception $e) {
+            echo "Operation failed:\n$e";
         }
     }
 
@@ -37,6 +41,14 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             echo "Using PEAR installation found at $maybe\n";
             $config = new PEAR2_Pyrus_Config($maybe);
             return;
+        }
+        $mypath = PEAR2_Pyrus_Config::current()->my_pear_path;
+        if ($mypath) {
+            foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
+                echo "Using PEAR installation found at $path\n";
+                $config = new PEAR2_Pyrus_Config($path);
+                return;
+            }
         }
         $include_path = explode(PATH_SEPARATOR, get_include_path());
         foreach ($include_path as $path) {
@@ -91,7 +103,8 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function listPackages($args)
     {
-        echo "Listing packages:\n";
+        echo "Listing packages in channel " . PEAR2_Pyrus_Config::current()->default_channel .
+            ":\n";
         foreach (PEAR2_Pyrus_Config::current()->registry as $package) {
             echo $package->channel . '/' . $package->name . "\n";
         }
@@ -103,5 +116,40 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         foreach (PEAR2_Pyrus_Config::current()->channelregistry as $channel) {
             echo $channel->getName() . ' (' . $channel->getAlias() . ")\n";
         }
+    }
+
+    function configs($args)
+    {
+        $conf = PEAR2_Pyrus_Config::current();
+        echo "System paths:\n";
+        foreach ($conf->systemvars as $var) {
+            echo "  $var => " . $conf->$var . "\n";
+        }
+        echo "Custom variables (from " . $conf->userfile . "):\n";
+        foreach ($conf->uservars as $var) {
+            echo "  $var => " . $conf->$var . "\n";
+        }
+    }
+
+    function set($args)
+    {
+        $conf = PEAR2_Pyrus_Config::current();
+        if (in_array($args[0], $conf->uservars)) {
+            echo "Setting $args[0] in " . $conf->userfile . "\n";
+            $conf->{$args[0]} = $args[1];
+        } else {
+            echo "Setting $args[0] in system paths\n";
+            $conf->{$args[0]} = $args[1];
+        }
+        $conf->saveConfig();
+    }
+
+    function mypear($args)
+    {
+        echo "Setting my pear repositories to:\n";
+        echo implode("\n", $args) . "\n";
+        $args = implode(PATH_SEPARATOR, $args);
+        PEAR2_Pyrus_Config::current()->my_pear_path = $args;
+        PEAR2_Pyrus_Config::current()->saveConfig();
     }
 }

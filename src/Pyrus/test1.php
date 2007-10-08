@@ -35,12 +35,12 @@ include '/home/cellog/workspace/PEAR2/HTTP_Request/trunk/src/HTTP/Request/allfil
 $g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 try {
     PEAR2_Pyrus_Installer::begin();
-//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Autoload/trunk/package.xml'));
-//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Exception/trunk/package.xml'));
-//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/MultiErrors/trunk/package.xml'));
-//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Pyrus_Developer/package.xml'));
-//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml'));
-    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear.php.net/Console_Getopt'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Autoload/trunk/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Exception/trunk/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/MultiErrors/trunk/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/PEAR2/Pyrus_Developer/package.xml'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('/home/cellog/workspace/Pyrus/package.xml'));
+//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear.php.net/Console_Getopt'));
     PEAR2_Pyrus_Installer::commit();
 } catch (Exception $e) {
     PEAR2_Pyrus_Installer::rollback();

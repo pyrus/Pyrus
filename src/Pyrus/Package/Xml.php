@@ -18,9 +18,4 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
         $file = dirname($this->_file) . DIRECTORY_SEPARATOR . $file;
         return ($asstream ? fopen($file, 'rb') : file_get_contents($file));
     }
-
-    function getPackageFile()
-    {
-        return $this->packagefile;
-    }
 }

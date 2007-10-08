@@ -74,23 +74,22 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         try {
             $http = new PEAR2_HTTP_Request($param);
             $response = $http->sendRequest();
+            $name = 'unknown.tgz';
             if ($response->code == '200') {
                 if (isset($response->headers['content-disposition'])) {
                     if (preg_match('/filename="(.+)"/', $response->headers['content-disposition'], $match)) {
                         $name = $match[1];
-                    } else {
-                        $name = 'unknown.tgz';
                     }
-                } else {
-                    $name = 'unknown.tgz';
                 }
                 if (!@file_exists($dir)) {
                     mkdir($dir, 0755, true);
                 }
                 file_put_contents($dir . DIRECTORY_SEPARATOR . $name, $response->body);
+            } else {
+                throw new PEAR2_Pyrus_Package_Exception('Download failed, received ' . $response->code);
             }
             // whew, download worked!
-            $a = new PEAR2_Pyrus_Package($dir . DIRECTORY_SEPARATOR .$name);
+            $a = new PEAR2_Pyrus_Package($dir . DIRECTORY_SEPARATOR . $name);
             return $a->getInternalPackage();
         } catch (Exception $e) {
             if (!empty($saveparam)) {

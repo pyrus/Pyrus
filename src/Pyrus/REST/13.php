@@ -64,7 +64,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         $state   = isset($packageinfo['state'])   ? $packageinfo['state']   : null;
         $version = isset($packageinfo['version']) ? $packageinfo['version'] : null;
         try {
-            $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases.xml');
+            $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('No releases available for package "' .
                 $channel . '/' . $package . '"', $e);

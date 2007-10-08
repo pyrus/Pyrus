@@ -127,6 +127,11 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         reset($this->packagefile->info->_packageInfo['filelist']);
     }
 
+    function getPackageFile()
+    {
+        return $this->packagefile;
+    }
+
     function __call($func, $args)
     {
         // delegate to the internal object

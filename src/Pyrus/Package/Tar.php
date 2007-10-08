@@ -98,7 +98,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         $ret = $this->_tmpdir;
         // support old packages
         if (file_exists($a = $ret . DIRECTORY_SEPARATOR .
-              $this->packagefile->info->package . '-' .
+              $this->packagefile->info->name . '-' .
               $this->packagefile->info->version['release'])) {;
             return $a;
         }

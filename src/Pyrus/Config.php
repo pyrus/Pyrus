@@ -52,7 +52,8 @@ class PEAR2_Pyrus_Config
             'sig_type' => '',
             'sig_bin' => '',
             'sig_keyid' => '',
-            'sig_keydir' => ''
+            'sig_keydir' => '',
+            'my_pear_path' => '@php_dir@',
         );
     static private $configs = array();
     static private $userConfigs = array();
@@ -84,7 +85,8 @@ class PEAR2_Pyrus_Config
             'sig_type',
             'sig_bin',
             'sig_keyid',
-            'sig_keydir'
+            'sig_keydir',
+            'my_pear_path', // PATH_SEPARATOR-separated list of PEAR repositories to manage
         );
 
     private function _constructDefaults()
@@ -133,9 +135,9 @@ class PEAR2_Pyrus_Config
         ob_start();
         phpinfo(INFO_GENERAL);
         $stuff = ob_get_clean();
-        if (preg_match('@Configuration File (php.ini) Path => (.*)@', 
+        if (preg_match('@Loaded Configuration File => (.+)@', 
               $stuff, $climatch)) {
-            self::$defaults['php_ini'] = $climatch[0];
+            self::$defaults['php_ini'] = $climatch[1];
         } elseif (preg_match('@(?<="v">).+php\.ini@', $stuff, $htmlmatch)) {
             self::$defaults['php_ini'] = $htmlmatch[0];
         }
@@ -284,6 +286,9 @@ class PEAR2_Pyrus_Config
             }
             unset($x->$value);
         }
+        if (!$x->my_pear_path) {
+            $x->my_pear_path = $pearDirectory;
+        }
         self::$userConfigs[$userfile] = $x;
     }
 
@@ -327,7 +332,7 @@ class PEAR2_Pyrus_Config
         }
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$userConfigNames as $var) {
-            $x->$var = $this->$var;
+            $x->$var = (string) $this->$var;
         }
         if (!file_exists(dirname($userfile))) {
             mkdir(dirname($userfile), 0777, true);
@@ -422,6 +427,9 @@ class PEAR2_Pyrus_Config
         if ($value == 'uservars') {
             return self::$userConfigNames;
         }
+        if ($value == 'userfile') {
+            return $this->_userFile;
+        }
         if ($value == 'path') {
             return $this->pearDir;
         }
@@ -433,12 +441,18 @@ class PEAR2_Pyrus_Config
         if (!isset($this->$value)) {
             return str_replace('@php_dir@', $this->pearDir, self::$defaults[$value]);
         }
-        return (string) self::$configs[$this->pearDir]->$value;
+        if (in_array($value, self::$pearConfigNames)) {
+            return (string) self::$configs[$this->pearDir]->$value;
+        }
+        return (string) self::$userConfigs[$this->_userFile]->$value;
     }
 
     public function __isset($value)
     {
-        return isset(self::$configs[$this->pearDir]->$value);
+        if (in_array($value, self::$pearConfigNames)) {
+            return isset(self::$configs[$this->pearDir]->$value);
+        }
+        return isset(self::$userConfigs[$this->_userFile]->$value);
     }
 
     public function __set($key, $value)
@@ -447,7 +461,9 @@ class PEAR2_Pyrus_Config
             throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository');
         }
         if (!isset(self::$defaults[$key])) {
-            throw PEAR2_Pyrus_Config_Exception::unknownValue($key);
+            throw new PEAR2_Pyrus_Config_Exception(
+                'Unknown configuration variable "' . $key . '" in location ' .
+                $this->pearDir);
         }
         if (in_array($key, self::$pearConfigNames)) {
             // global config

@@ -162,11 +162,11 @@ class PEAR2_Pyrus_Installer_Role_Common
                 DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
         if (dirname($file) != '.' && empty($atts['install-as'])) {
+            $newpath = dirname($file);
             if ($pkg->isNewPackage()) {
                 // strip role from file path
                 // so php/Path/To/File.php becomes Path/To/File.php,
                 // data/package.xsd becomes package.xsd
-                $newpath = dirname($file);
                 if (strpos($newpath, $r = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '',
                       get_class($this)))) === 0) {
                     $newpath = substr($newpath, strlen($r) + 1);

@@ -328,15 +328,17 @@ class PEAR2_Pyrus_Installer
                     $md5sum = md5($contents);
                 }
                 $tasks = $file->tasks;
-                if (isset($tasks['tasks:replace'])) {
-                    if (isset($tasks['tasks:replace'][0])) {
-                        $tasks['tasks:replace'][] = $globalreplace;
+                if ($package->isNewPackage()) {
+                    if (isset($tasks['tasks:replace'])) {
+                        if (isset($tasks['tasks:replace'][0])) {
+                            $tasks['tasks:replace'][] = $globalreplace;
+                        } else {
+                            $tasks['tasks:replace'] = array($tasks['tasks:replace'],
+                                $globalreplace);
+                        }
                     } else {
-                        $tasks['tasks:replace'] = array($tasks['tasks:replace'],
-                            $globalreplace);
+                        $tasks['tasks:replace'] = $globalreplace;
                     }
-                } else {
-                    $tasks['tasks:replace'] = $globalreplace;
                 }
                 foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package)
                           as $task) {
