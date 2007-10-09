@@ -86,13 +86,21 @@ class PEAR2_Pyrus_XMLWriter
         }
         if (isset($element) && !isset($this->_namespaces[$ns])) {
             if (is_string($values)) {
-                $this->_writer->writeElementNs($ns, $element, $this->_namespaces[$ns], $values);
+                if (strlen($values)) {
+                    $this->_writer->writeElementNs($ns, $element, $this->_namespaces[$ns], $values);
+                } else {
+                    $this->_writer->writeElementNs($ns, $element, $this->_namespaces[$ns]);
+                }
             } else {
                 $this->_writer->startElementNs($ns, $element, $this->_namespaces[$ns]);
             }
         } else {
             if (is_string($values)) {
-                $this->_writer->writeElement($key, $values);
+                if (strlen($values)) {
+                    $this->_writer->writeElement($key, $values);
+                } else {
+                    $this->_writer->writeElement($key);
+                }
             } else {
                 $this->_writer->startElement($key);
             }
@@ -121,9 +129,16 @@ class PEAR2_Pyrus_XMLWriter
     private function _handleSibling($key, $values)
     {
         if (is_int($key) && $this->_iter->getDepth() == $this->_expectedDepth) {
-            if ($key && !is_string($values)) {
+            if ($key) {
                 $this->_startElement($this->_tag, $values);
-                $this->_pushState();
+                if (!is_string($values)) {
+                    $this->_pushState();
+                }
+            } else {
+                if (is_string($values)) {
+                    $this->_writer->text($values);
+                    $this->_writer->endElement();
+                }
             }
         }
         if (!is_string($values)) {
@@ -220,6 +235,10 @@ class PEAR2_Pyrus_XMLWriter
             }
             $next = '_handle' . $this->_type;
             while ($next = $this->{$next}($key, $values));
+        }
+        while ($lastdepth) {
+            $this->_finish($key, $values);
+            $lastdepth--;
         }
         $this->_writer->endDocument();
         return $this->_writer->flush();
