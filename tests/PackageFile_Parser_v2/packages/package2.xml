@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PEAR</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR Base System</summary>
+ <description>The PEAR package contains:
+ * the PEAR installer, for creating, distributing
+   and installing packages
+ * the PEAR_Exception PHP5 error handling mechanism
+ * the PEAR_ErrorStack advanced error handling mechanism
+ * the PEAR_Error error handling mechanism
+ * the OS_Guess class for retrieving info about the OS
+   where PHP is running on
+ * the System class for quick handling of common operations
+   with files and directories
+ * the PEAR base class
+
+  Features in a nutshell:
+  * full support for channels
+  * pre-download dependency validation
+  * new package.xml 2.0 format allows tremendous flexibility while maintaining BC
+  * support for optional dependency groups and limited support for sub-packaging
+  * robust dependency support
+  * full dependency validation on uninstall
+  * remote install for hosts with only ftp access - no more problems with
+    restricted host installation
+  * full support for mirroring
+  * support for bundling several packages into a single tarball
+  * support for static dependencies on a url-based package
+  * support for custom file roles and installation tasks
+ </description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pierre@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Tomas V.V.Cox</name>
+  <user>cox</user>
+  <email>cox@idecnet.com</email>
+  <active>no</active>
+ </lead>
+ <developer>
+  <name>Helgi Thormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Tias Guns</name>
+  <user>tias</user>
+  <email>tias@php.net</email>
+  <active>yes</active>
+ </developer>
+ <helper>
+  <name>Tim Jackson</name>
+  <user>timj</user>
+  <email>timj@php.net</email>
+  <active>no</active>
+ </helper>
+ <helper>
+  <name>Bertrand Gugger</name>
+  <user>toggg</user>
+  <email>toggg@php.net</email>
+  <active>no</active>
+ </helper>
+ <helper>
+  <name>Martin Jansen</name>
+  <user>mj</user>
+  <email>mj@php.net</email>
+  <active>no</active>
+ </helper>
+ <date>2007-10-01</date>
+ <version>
+  <release>1.7.0</release>
+  <api>1.7.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+  * implement Request #11964: introduce www role, www_dir config variable [cellog]
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="OS">
+    <file name="Guess.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+   </dir> <!-- /OS -->
+   <dir name="PEAR">
+    <dir name="ChannelFile">
+     <file name="Parser.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/ChannelFile -->
+    <dir name="Command">
+     <file name="Auth.xml" role="php"/>
+     <file name="Auth.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Build.xml" role="php"/>
+     <file name="Build.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Channels.xml" role="php"/>
+     <file name="Channels.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Common.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Config.xml" role="php"/>
+     <file name="Config.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Install.xml" role="php"/>
+     <file name="Install.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Mirror.xml" role="php"/>
+     <file name="Mirror.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Package.xml" role="php"/>
+     <file name="Package.php" role="php">
+      <tasks:replace from="@DATA-DIR@" to="data_dir" type="pear-config" />
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Pickle.xml" role="php"/>
+     <file name="Pickle.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Registry.xml" role="php"/>
+     <file name="Registry.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Remote.xml" role="php"/>
+     <file name="Remote.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Test.xml" role="php"/>
+     <file name="Test.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/Command -->
+    <dir name="Downloader">
+     <file name="Package.php" role="php">
+      <tasks:replace from="@PEAR-VER@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/Downloader -->
+    <dir name="Frontend">
+     <file name="CLI.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/Frontend -->
+    <dir name="Installer">
+     <dir name="Role">
+      <file name="Common.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Data.xml" role="php"/>
+      <file name="Data.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Doc.xml" role="php"/>
+      <file name="Doc.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Ext.xml" role="php"/>
+      <file name="Ext.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Php.xml" role="php"/>
+      <file name="Php.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Script.xml" role="php"/>
+      <file name="Script.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Src.xml" role="php"/>
+      <file name="Src.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Test.xml" role="php"/>
+      <file name="Test.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="Www.xml" role="php"/>
+      <file name="Www.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/Installer/Role -->
+     <file name="Role.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/Installer -->
+    <dir name="PackageFile">
+     <dir name="Generator">
+      <file name="v1.php" role="php">
+       <tasks:replace from="@PEAR-VER@" to="version" type="package-info" />
+      </file>
+      <file name="v2.php" role="php">
+       <tasks:replace from="@PEAR-VER@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/PackageFile/Generator -->
+     <dir name="Parser">
+      <file name="v1.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file name="v2.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/PackageFile/Parser -->
+     <dir name="v2">
+      <file role="php" name="rw.php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file role="php" name="Validator.php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/PackageFile/v2 -->
+     <file name="v1.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="v2.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/PackageFile -->
+    <dir name="REST">
+     <file name="10.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="11.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="13.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/REST -->
+    <dir name="Task">
+     <dir name="Postinstallscript">
+      <file name="rw.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/Task/Postinstallscript -->
+     <dir name="Replace">
+      <file name="rw.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/Task/Replace -->
+     <dir name="Unixeol">
+      <file name="rw.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/Task/Unixeol -->
+     <dir name="Windowseol">
+      <file name="rw.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /PEAR/Task/Windowseol -->
+     <file name="Common.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Postinstallscript.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Replace.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Unixeol.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file name="Windowseol.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/Task -->
+    <dir name="Validator">
+     <file name="PECL.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir> <!-- /PEAR/Validator -->
+    <file name="Autoloader.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Builder.php" role="php">
+     <tasks:replace from="@PEAR-VER@" to="version" type="package-info"/>
+    </file>
+    <file name="ChannelFile.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Command.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Common.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Config.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Dependency.php" role="php" />
+    <file name="DependencyDB.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Dependency2.php" role="php">
+     <tasks:replace from="@PEAR-VER@" to="version" type="package-info"/>
+    </file>
+    <file name="Downloader.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="ErrorStack.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Exception.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Frontend.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Installer.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="PackageFile.php" role="php">
+     <tasks:replace from="@PEAR-VER@" to="version" type="package-info" />
+    </file>
+    <file name="Packager.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Registry.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Remote.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="REST.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="RunTest.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="Validate.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file name="XMLParser.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+   </dir> <!-- /PEAR -->
+   <dir name="scripts" baseinstalldir="/">
+    <file name="pear.bat" role="script">
+     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+     <tasks:windowseol/>
+    </file>
+    <file name="peardev.bat" role="script">
+     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+     <tasks:windowseol/>
+    </file>
+    <file name="pecl.bat" role="script">
+     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+     <tasks:windowseol/>
+    </file>
+    <file name="pear.sh" role="script">
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+     <tasks:replace from="@pear_version@" to="version" type="package-info" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+     <tasks:unixeol/>
+    </file>
+    <file name="peardev.sh" role="script">
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+     <tasks:replace from="@pear_version@" to="version" type="package-info" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+     <tasks:unixeol/>
+    </file>
+    <file name="pecl.sh" role="script">
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+     <tasks:replace from="@pear_version@" to="version" type="package-info" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+     <tasks:unixeol/>
+    </file>
+    <file name="pearcmd.php" role="php">
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+     <tasks:replace from="@pear_version@" to="version" type="package-info" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+    </file>
+    <file name="peclcmd.php" role="php">
+     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+     <tasks:replace from="@pear_version@" to="version" type="package-info" />
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+    </file>
+   </dir> <!-- /scripts -->
+   <file name="INSTALL" role="doc" />
+   <file name="package.dtd" role="data" />
+   <file name="PEAR.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file name="README" role="doc" />
+   <file name="System.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file name="template.spec" role="data" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+   <package>
+    <name>Archive_Tar</name>
+    <channel>pear.php.net</channel>
+    <min>1.1</min>
+    <recommended>1.3.2</recommended>
+    <exclude>1.3.0</exclude>
+   </package>
+   <package>
+    <name>Structures_Graph</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.2</min>
+    <recommended>1.0.2</recommended>
+   </package>
+   <package>
+    <name>Console_Getopt</name>
+    <channel>pear.php.net</channel>
+    <min>1.2</min>
+    <recommended>1.2.3</recommended>
+   </package>
+   <package>
+    <name>PEAR_Frontend_Web</name>
+    <channel>pear.php.net</channel>
+    <max>0.4</max>
+    <conflicts/>
+   </package>
+   <package>
+    <name>PEAR_Frontend_Gtk</name>
+    <channel>pear.php.net</channel>
+    <max>0.4.0</max>
+    <exclude>0.4.0</exclude>
+    <conflicts/>
+   </package>
+   <extension>
+    <name>xml</name>
+   </extension>
+   <extension>
+    <name>pcre</name>
+   </extension>
+  </required>
+  <optional>
+   <package>
+    <name>XML_RPC</name>
+    <channel>pear.php.net</channel>
+    <min>1.4.0</min>
+   </package>
+  </optional>
+<!--  <group name="remoteinstall" hint="adds the ability to install packages to a remote ftp server">
+   <subpackage>
+    <name>PEAR_RemoteInstaller</name>
+    <channel>pear.php.net</channel>
+    <min>0.1.0</min>
+    <recommended>0.1.0</recommended>
+   </subpackage>
+  </group> -->
+  <group name="webinstaller" hint="PEAR's web-based installer">
+   <package>
+    <name>PEAR_Frontend_Web</name>
+    <channel>pear.php.net</channel>
+    <min>0.5.1</min>
+   </package>
+  </group>
+  <group name="gtkinstaller" hint="PEAR's PHP-GTK-based installer">
+   <package>
+    <name>PEAR_Frontend_Gtk</name>
+    <channel>pear.php.net</channel>
+    <min>0.4.0</min>
+   </package>
+  </group>
+  <group name="gtk2installer" hint="PEAR's PHP-GTK2-based installer">
+   <package>
+    <name>PEAR_Frontend_Gtk2</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </group>
+ </dependencies>
+ <phprelease>
+  <installconditions>
+   <os>
+    <name>windows</name>
+   </os>
+  </installconditions>
+  <filelist>
+   <install as="pear.bat" name="scripts/pear.bat" />
+   <install as="peardev.bat" name="scripts/peardev.bat" />
+   <install as="pecl.bat" name="scripts/pecl.bat" />
+   <install as="pearcmd.php" name="scripts/pearcmd.php" />
+   <install as="peclcmd.php" name="scripts/peclcmd.php" />
+   <ignore name="scripts/peardev.sh" />
+   <ignore name="scripts/pear.sh" />
+   <ignore name="scripts/pecl.sh" />
+  </filelist>
+ </phprelease>
+ <phprelease>
+  <filelist>
+   <install as="pear" name="scripts/pear.sh" />
+   <install as="peardev" name="scripts/peardev.sh" />
+   <install as="pecl" name="scripts/pecl.sh" />
+   <install as="pearcmd.php" name="scripts/pearcmd.php" />
+   <install as="peclcmd.php" name="scripts/peclcmd.php" />
+   <ignore name="scripts/pear.bat" />
+   <ignore name="scripts/peardev.bat" />
+   <ignore name="scripts/pecl.bat" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.6.2</release>
+    <api>1.6.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-09-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+  Minor bugfix release
+  * fix Bug #11420: warning on pecl (un)install with --register-only option [cellog]
+  * fix Bug #11481: PEAR_PackageFile_Parser_v1 skips single-char directories [pmjones]
+  * fix Bug #11517: Error : download directory &quot;/var/cache/php-pear&quot;
+    is not writeable. [remicollet]
+  * fix Bug #11616: Incorrect equality operator used when comparing md5 check sums [robham]
+  * fix Bug #11642: PEAR fails to authenticate when downloading deps from non-default
+    channels [timj]
+  * fix Bug #11657: Installer generate bad "dirtree" using INSTALL_ROOT [remicollet]
+  * fix Bug #11678: Registry.php getChannel() deadlocks [cellog]
+  * fix Bug #11703: pear convert and package.xml with optional dependencies fails [cellog]
+  * fix Bug #11754: Error at upgrade-all command run [cellog]
+  * fix Bug #11861: uninstall of package did not delete directory created during install
+    of package [cellog]
+  * fix Bug #11862: Notice: Array to string conversion in PEAR/PackageFile.php on line 433
+    [cellog]
+  * fix Bug #11883: run-tests -u -p SomePackage should run the topmost
+    &quot;AllTests.php&quot; file [cellog]
+  * fix Bug #11936: run-tests fails to preserve SYSTEMROOT environment variable [cellog]
+   </notes>
+  </release>
+ </changelog>
+</package>

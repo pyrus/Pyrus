@@ -125,7 +125,7 @@ class PEAR2_Pyrus_XMLParser
                 $a->loadXML($file);
             }
             libxml_use_internal_errors(true);
-            $this->reader->schemaValidate($schema);
+            $a->schemaValidate($schema);
             $causes = array();
             foreach (libxml_get_errors() as $error) {
                 $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .

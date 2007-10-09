@@ -98,6 +98,10 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         $this->_lastDepth = $this->_lastFileDepth = 0;
         $this->_inFile = 0;
         $ret = new $class;
+        if (!$ret instanceof PEAR2_Pyrus_PackageFile_v2) {
+            throw new PEAR2_Pyrus_PackageFile_Exception('Class ' . $class .
+                ' passed to parse() must be a child class of PEAR2_Pyrus_PackageFile_v2');
+        }
         
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
             $schema = PEAR2_Pyrus::getDataPath() . '/package-2.1.xsd';
@@ -125,7 +129,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
 
     protected function mergeTag($arr, $tag, $attr, $name, $depth)
     {
-        parent::mergeTag($arr, $tag, $attr, $name, $depth);
+        $arr = parent::mergeTag($arr, $tag, $attr, $name, $depth);
         if ($this->_inContents) {
             if ($this->_inFile) {
                 if ($depth < $this->_inFile) {
@@ -188,6 +192,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         } elseif ($name === 'contents') {
             $this->_inContents = true;
         }
+        return $arr;
     }
 }
 ?>
