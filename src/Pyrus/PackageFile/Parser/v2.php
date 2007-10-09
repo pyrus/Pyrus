@@ -123,7 +123,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         return $ret;
     }
 
-    protected function mergeTag(&$arr, $tag, $attr, $name, $depth)
+    protected function mergeTag($arr, $tag, $attr, $name, $depth)
     {
         parent::mergeTag($arr, $tag, $attr, $name, $depth);
         if ($this->_inContents) {

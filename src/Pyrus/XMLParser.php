@@ -6,11 +6,16 @@
  */
 class PEAR2_Pyrus_XMLParser
 {
+    protected $reader;
+    function __construct()
+    {
+        $this->reader = new XMLReader;
+    }
+
     function parseString($string, $schema = false)
     {
-        $a = new XMLReader;
-        $a->XML($string);
-        return $this->_parse($a, $string, $schema, false);
+        $this->reader->XML($string);
+        return $this->_parse($string, $schema, false);
     }
 
     /**
@@ -34,15 +39,14 @@ class PEAR2_Pyrus_XMLParser
      */
     function parse($file, $schema = false)
     {
-        $a = new XMLReader;
-        if (!$a->open($file)) {
+        if (!$this->reader->open($file)) {
             throw new PEAR2_Pyrus_XMLParser_Exception('Cannot open ' . $file .
                 ' for parsing');
         }
-        return $this->_parse($a, $file, $schema, true);
+        return $this->_parse($file, $schema, true);
     }
 
-    protected function mergeTag(&$arr, $tag, $attr, $name, $depth)
+    protected function mergeTag($arr, $tag, $attr, $name, $depth)
     {
         if ($attr) {
             // tag has attributes
@@ -61,7 +65,7 @@ class PEAR2_Pyrus_XMLParser
             $where = count($arr[$name]);
             if (!isset($arr[$name][$where])) {
                 $arr[$name][$where] = $tag;
-                return;
+                return $arr;
             }
             if (!is_array($arr[$name][$where])) {
                 if (strlen($arr[$name][$where])) {
@@ -78,91 +82,41 @@ class PEAR2_Pyrus_XMLParser
             if (isset($arr[$name])) {
                 // new sibling
                 $arr[$name] = array($arr[$name], $tag);
-                return;
+                return $arr;
             }
             $arr[$name] = $tag;
         }
+        return $arr;
     }
 
-    protected function mergeValue(&$arr, $value, $name)
+    protected function mergeValue($arr, $value)
     {
         if (is_array($arr) && isset($arr[0])) {
             // multiple siblings
-            $me = &$arr[count($arr[$name]) - 1];
+            $arr[count($arr) - 1] = $this->mergeActualValue(
+                $arr[count($arr) - 1], $value);
         } elseif (is_array($arr)) {
-            $me = &$arr;
+            $arr = $this->mergeActualValue($arr, $value);
         } else {
             $arr = $value;
-            return;
         }
-        if (isset($me['attribs'])) {
+        return $arr;
+    }
+
+    protected function mergeActualValue($me, $value)
+    {
+        if (count($me)) {
             $me['_content'] = $value;
         } else {
             $me = $value;
         }
+        return $me;
     }
 
-    private function _parse($a, $file, $schema, $isfile)
+    private function _parse($file, $schema, $isfile)
     {
-        $arr = $tagStack = $level = array();
-        $depth = 0;
-        $cur = &$arr;
-        $prevStack = array(&$arr);
-        while ($a->read()) {
-            if ($a->nodeType == XMLReader::ELEMENT) {
-                $tag = $a->name;
-                if (isset($level[count($tagStack)]) && $level[count($tagStack)] == $tag) {
-                    // next sibling tag
-                    if (!is_array($cur[$tag]) || !isset($cur[$tag][0])) {
-                        $cur[$tag] = array($cur[$tag]);
-                    }
-                }
-                $attrs = array();
-                if ($a->isEmptyElement) {
-                    if ($a->hasAttributes) {
-                        $attr = $a->moveToFirstAttribute();
-                        while ($attr) {
-                            $attrs[$a->name] = $a->value;
-                            $attr = $a->moveToNextAttribute();
-                        }
-                        $this->mergeTag($cur, '', $attrs, $tag, $depth);
-                        continue;
-                    }
-                    $this->mergeTag($cur, '', array(), $tag, $depth);
-                    continue;
-                }
-                $prevStack[] = &$cur;
-                $level[count($tagStack)] = $tag;
-                $tagStack[] = $tag;
-                if ($a->hasAttributes) {
-                    $attr = $a->moveToFirstAttribute();
-                    while ($attr) {
-                        $attrs[$a->name] = $a->value;
-                        $attr = $a->moveToNextAttribute();
-                    }
-                }
-                $this->mergeTag($cur, '', $attrs, $tag, $depth);
-                $cur = &$cur[$tag];
-                $depth++;
-                if (is_array($cur) && isset($cur[0])) {
-                    // seek to last sibling
-                    $cur = &$cur[count($cur) - 1];
-                }
-                continue;
-            }
-            if ($a->nodeType == XMLReader::END_ELEMENT) {
-                $cur = &$prevStack[count($prevStack) - 1];
-                $depth--;
-                array_pop($prevStack);
-                unset($level[count($tagStack)]);
-                $tag = array_pop($tagStack);
-                continue;
-            }
-            if ($a->nodeType == XMLReader::TEXT || $a->nodeType == XMLReader::CDATA) {
-                $this->mergeValue($cur, $a->value, $tag, $depth);
-            }
-        }
-        $a->close();
+        $arr = $this->_recursiveParse();
+        $this->reader->close();        
         if ($schema) {
             $a = new DOMDocument();
             if ($isfile) {
@@ -171,7 +125,7 @@ class PEAR2_Pyrus_XMLParser
                 $a->loadXML($file);
             }
             libxml_use_internal_errors(true);
-            $a->schemaValidate($schema);
+            $this->reader->schemaValidate($schema);
             $causes = array();
             foreach (libxml_get_errors() as $error) {
                 $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .
@@ -182,6 +136,56 @@ class PEAR2_Pyrus_XMLParser
             }
         }
         
+        return $arr;
+    }
+
+    private function _recursiveParse($arr = array())
+    {
+        $depth = $this->reader->depth;
+        while ($this->reader->read()) {
+            if ($this->reader->nodeType == XMLReader::ELEMENT) {
+                $tag = $this->reader->name;
+
+                $attrs = array();
+                if ($this->reader->isEmptyElement) {
+                    if ($this->reader->hasAttributes) {
+                        $attr = $this->reader->moveToFirstAttribute();
+                        while ($attr) {
+                            $attrs[$this->reader->name] = $this->reader->value;
+                            $attr = $this->reader->moveToNextAttribute();
+                        }
+                        $arr = $this->mergeTag($arr, '', $attrs, $tag, $depth);
+                        continue;
+                    }
+                    $arr = $this->mergeTag($arr, '', array(), $tag, $depth);
+                    continue;
+                }
+                if ($this->reader->hasAttributes) {
+                    $attr = $this->reader->moveToFirstAttribute();
+                    while ($attr) {
+                        $attrs[$this->reader->name] = $this->reader->value;
+                        $attr = $this->reader->moveToNextAttribute();
+                    }
+                }
+                $depth = $this->reader->depth;
+                $arr = $this->mergeTag($arr, '', $attrs, $tag, $depth);
+                if (is_array($arr[$tag]) && isset($arr[$tag][0])) {
+                    // seek to last sibling
+                    $arr[$tag][count($arr[$tag]) - 1] =
+                        $this->_recursiveParse($arr[$tag][count($arr[$tag]) - 1]);
+                } else {
+                    $arr[$tag] = $this->_recursiveParse($arr[$tag]);
+                }
+                continue;
+            }
+            if ($this->reader->nodeType == XMLReader::END_ELEMENT) {
+                return $arr;
+            }
+            if ($this->reader->nodeType == XMLReader::TEXT ||
+                  $this->reader->nodeType == XMLReader::CDATA) {
+                $arr = $this->mergeValue($arr, $this->reader->value);
+            }
+        }
         return $arr;
     }
 }

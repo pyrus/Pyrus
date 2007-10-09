@@ -165,7 +165,6 @@ try {
        <file role="php" name="Dependencies.php"/>
        <file role="php" name="Developer.php"/>
        <file role="php" name="Files.php"/>
-       <file role="php" name="Generator.php"/>
        <file role="php" name="Release.php"/>
        <file role="php" name="Remote.php"/>
        <file role="php" name="Validator.php"/>
