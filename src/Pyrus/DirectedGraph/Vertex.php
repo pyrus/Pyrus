@@ -52,7 +52,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
     {
         $count = count($this->connections);
         foreach ($this->connections as $node) {
-            if ($node->color() == self::BLACK) {
+            if ($node->color() != self::WHITE) {
                 --$count;
             }
         }
