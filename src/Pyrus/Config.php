@@ -21,11 +21,11 @@
  */
 class PEAR2_Pyrus_Config
 {
-    private $pearDir;
-    private $_userFile;
-    static private $_configs;
-    static private $_current;
-    static private $defaults =
+    protected $pearDir;
+    protected $userFile;
+    static protected $_configs;
+    static protected $_current;
+    static protected $defaults =
         array(
             'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext_dir',
@@ -55,9 +55,9 @@ class PEAR2_Pyrus_Config
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
         );
-    static private $configs = array();
-    static private $userConfigs = array();
-    static private $pearConfigNames = array(
+    static protected $configs = array();
+    static protected $userConfigs = array();
+    static protected $pearConfigNames = array(
             'php_dir', // pseudo-value in this implementation
             'ext_dir',
             'doc_dir',
@@ -68,7 +68,7 @@ class PEAR2_Pyrus_Config
             'php_bin',
             'php_ini',
         );
-    static private $userConfigNames = array(
+    static protected $userConfigNames = array(
             'default_channel',
             'preferred_mirror',
             'auto_discover',
@@ -99,16 +99,21 @@ class PEAR2_Pyrus_Config
         // set up default ext_dir
         if (getenv('PHP_PEAR_EXTENSION_DIR')) {
             self::$defaults['ext_dir'] = getenv('PHP_PEAR_EXTENSION_DIR');
+            PEAR2_Pyrus_Log::log(5, 'used PHP_PEAR_EXTENSION_DIR environment variable');
         } elseif (ini_get('extension_dir')) {
             self::$defaults['ext_dir'] = ini_get('extension_dir');
+            PEAR2_Pyrus_Log::log(5, 'used ini_get(extension_dir)');
         } elseif (defined('PEAR_EXTENSION_DIR')) {
             self::$defaults['ext_dir'] = PEAR_EXTENSION_DIR;
+            PEAR2_Pyrus_Log::log(5, 'used PEAR_EXTENSION_DIR constant');
         } elseif (defined('PHP_EXTENSION_DIR')) {
             self::$defaults['ext_dir'] = PHP_EXTENSION_DIR;
+            PEAR2_Pyrus_Log::log(5, 'used PHP_EXTENSION_DIR constant');
         }
         // set up default bin_dir
         if (getenv('PHP_PEAR_BIN_DIR')) {
             self::$defaults['bin_dir'] = getenv('PHP_PEAR_BIN_DIR');
+            PEAR2_Pyrus_Log::log(5, 'used PHP_PEAR_BIN_DIR environment variable');
         } elseif (PATH_SEPARATOR == ';') {
             // we're on windows, and shouldn't use PHP_BINDIR
             do {
@@ -257,7 +262,7 @@ class PEAR2_Pyrus_Config
                 }
             }
         }
-        $this->_userFile = $userfile;
+        $this->userFile = $userfile;
         if (!file_exists($userfile)) {
             return;
         }
@@ -428,7 +433,7 @@ class PEAR2_Pyrus_Config
             return self::$userConfigNames;
         }
         if ($value == 'userfile') {
-            return $this->_userFile;
+            return $this->userFile;
         }
         if ($value == 'path') {
             return $this->pearDir;
@@ -444,7 +449,7 @@ class PEAR2_Pyrus_Config
         if (in_array($value, self::$pearConfigNames)) {
             return (string) self::$configs[$this->pearDir]->$value;
         }
-        return (string) self::$userConfigs[$this->_userFile]->$value;
+        return (string) self::$userConfigs[$this->userFile]->$value;
     }
 
     public function __isset($value)
@@ -452,7 +457,7 @@ class PEAR2_Pyrus_Config
         if (in_array($value, self::$pearConfigNames)) {
             return isset(self::$configs[$this->pearDir]->$value);
         }
-        return isset(self::$userConfigs[$this->_userFile]->$value);
+        return isset(self::$userConfigs[$this->userFile]->$value);
     }
 
     public function __set($key, $value)
@@ -470,7 +475,7 @@ class PEAR2_Pyrus_Config
             self::$configs[$this->pearDir]->$key = $value;
         } else {
             // local config
-            self::$userConfigs[$this->_userFile]->$key = $value;
+            self::$userConfigs[$this->userFile]->$key = $value;
         }
     }
 }
