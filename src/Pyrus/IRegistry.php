@@ -2,7 +2,6 @@
 interface PEAR2_Pyrus_IRegistry
 {
     public function install(PEAR2_Pyrus_PackageFile_v2 $info);
-    public function upgrade(PEAR2_Pyrus_PackageFile_v2 $info);
     public function uninstall($name, $channel);
     public function exists($package, $channel);
     public function info($package, $channel, $field);

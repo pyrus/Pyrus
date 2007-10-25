@@ -122,15 +122,21 @@ class PEAR2_Pyrus_Config
                 } else {
                     $path = $_ENV['PATH'];
                 }
-                if (!$path) break; // can't get PATH, so use PHP_BINDIR
+                if (!$path) {
+                    PEAR2_Pyrus_Log::log(5, 'used PHP_BINDIR on windows for bin_dir default');
+                    break; // can't get PATH, so use PHP_BINDIR
+                }
                 $paths = explode(';', $path);
                 foreach ($paths as $path) {
                     if ($path != '.' && is_writable($path)) {
                         // this place will do
+                        PEAR2_Pyrus_Log::log(5, 'used ' . $path . ' for default bin_dir');
                         self::$defaults['bin_dir'] = $path;
                     }
                 }
             } while (false);
+        } else {
+            PEAR2_Pyrus_Log::log(5, 'used PHP_BINDIR for bin_dir default');
         }
         foreach (self::$pearConfigNames as $name) {
             // make sure we've got valid paths for the underlying OS
@@ -143,8 +149,12 @@ class PEAR2_Pyrus_Config
         if (preg_match('@Loaded Configuration File => (.+)@', 
               $stuff, $climatch)) {
             self::$defaults['php_ini'] = $climatch[1];
+            PEAR2_Pyrus_Log::log(5, 'Used ' . $climatch[1] . ' for php.ini location');
         } elseif (preg_match('@(?<="v">).+php\.ini@', $stuff, $htmlmatch)) {
             self::$defaults['php_ini'] = $htmlmatch[0];
+            PEAR2_Pyrus_Log::log(5, 'Used ' . $htmlmatch[0] . ' for php.ini location');
+        } else {
+            PEAR2_Pyrus_Log::log(5, 'Could not find php.ini');
         }
     }
 
@@ -153,6 +163,7 @@ class PEAR2_Pyrus_Config
         $pearDirectory = str_replace('\\', '/', $pearDirectory);
         $pearDirectory = str_replace('//', '/', $pearDirectory);
         $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
+        $pearDirectory = $this->setCascadingRegistries($pearDirectory);
         self::_constructDefaults();
         $this->loadConfigFile($pearDirectory, $userfile);
         $this->pearDir = $pearDirectory;
@@ -160,6 +171,32 @@ class PEAR2_Pyrus_Config
         if (!isset(self::$_current)) {
             self::$_current = $this;
         }
+    }
+
+    static public function setCascadingRegistries($path)
+    {
+        $paths = explode(PATH_SEPARATOR, $path);
+        $ret = $paths[0];
+        if (count($paths) == 1) {
+            // add registries within include_path by default
+            // if explicit path is specified, user knows what they
+            // are doing, don't add include_path
+            PEAR2_Pyrus_Log::log(1, 'Automatically cascading include_path');
+            $extra = explode(PATH_SEPARATOR, get_include_path());
+            array_unshift($extra, $reg);
+            $paths = $extra;
+        }
+        foreach ($paths as $path) {
+            $reg = PEAR2_Pyrus_Registry::singleton($path);
+            $regc = PEAR2_Pyrus_ChannelRegistry::singleton($path);
+            if (isset($last)) {
+                $last->setParent($reg);
+                $lastc->setParent($regc);
+            }
+            $last = $reg;
+            $lastc = $regc;
+        }
+        return $ret;
     }
 
     /**
@@ -223,6 +260,7 @@ class PEAR2_Pyrus_Config
     {
         if (!isset(self::$configs[$pearDirectory]) &&
               file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
+            PEAR2_Pyrus_Log::log(5, 'Loading configuration for ' . $pearDirectory);
             libxml_use_internal_errors(true);
             $x = simplexml_load_file($pearDirectory . DIRECTORY_SEPARATOR . '.config');
             if (!$x) {
@@ -243,9 +281,14 @@ class PEAR2_Pyrus_Config
                 if ($value == '@attributes') {
                     continue;
                 }
+                PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
+                    $value);
                 unset($x->$value);
             }
             self::$configs[$pearDirectory] = $x;
+        } else {
+            PEAR2_Pyrus_Log::log(5, 'Configuration not found for ' . $pearDirectory .
+                ', assuming defaults');
         }
         if (!$userfile) {
             if (class_exists('COM', false)) {
@@ -258,12 +301,20 @@ class PEAR2_Pyrus_Config
             if (!file_exists($userfile)) {
                 $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
                 if ($test && file_exists($test)) {
+                    PEAR2_Pyrus_Log::log(5, 'Found user configuration file in current directory' .
+                        $userfile);
                     $userfile = $test;
                 }
+            } else {
+                PEAR2_Pyrus_Log::log(5, 'Found default user configuration file ' .
+                    $userfile);
             }
+        } else {
+            PEAR2_Pyrus_Log::log(5, 'Using explicit user configuration file ' . $userfile);
         }
         $this->userFile = $userfile;
         if (!file_exists($userfile)) {
+            PEAR2_Pyrus_Log::log(5, 'User configuration file ' . $userfile . ' not found');
             return;
         }
         if (isset(self::$userConfigs[$userfile])) {
@@ -289,10 +340,15 @@ class PEAR2_Pyrus_Config
             if ($value == '@attributes') {
                 continue;
             }
+            PEAR2_Pyrus_Log::log(5, 'Removing unrecognized user configuration value ' .
+                $value);
             unset($x->$value);
         }
         if (!$x->my_pear_path) {
             $x->my_pear_path = $pearDirectory;
+            PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $pearDirectory);
+        } else {
+            $this->setCascadingRegistries($x->my_pear_path);
         }
         self::$userConfigs[$userfile] = $x;
     }
@@ -308,12 +364,16 @@ class PEAR2_Pyrus_Config
     function saveConfig($userfile = false)
     {
         if (!$userfile) {
-            if (class_exists('COM', false)) {
-                $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                    'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+            if ($this->userFile) {
+                $userfile = $this->userFile;
             } else {
-                $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                    '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+                if (class_exists('COM', false)) {
+                    $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                        'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+                } else {
+                    $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                        '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+                }
             }
         }
         $userfile = str_replace('\\', '/', $userfile);
@@ -340,7 +400,11 @@ class PEAR2_Pyrus_Config
             $x->$var = (string) $this->$var;
         }
         if (!file_exists(dirname($userfile))) {
-            mkdir(dirname($userfile), 0777, true);
+            if (!@mkdir(dirname($userfile), 0777, true)) {
+                throw new PEAR2_Pyrus_Config_Exception(
+                    'Unable to create directory ' . dirname($userfile) . ' to save ' .
+                    'user configuration ' . $userfile);
+            }
         }
         file_put_contents($userfile, $x->asXML());
 
@@ -349,7 +413,11 @@ class PEAR2_Pyrus_Config
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
         }
         if (!file_exists(dirname($system))) {
-            mkdir(dirname($system), 0777, true);
+            if (!@mkdir(dirname($system), 0777, true)) {
+                throw new PEAR2_Pyrus_Config_Exception(
+                    'Unable to create directory ' . dirname($system) . ' to save ' .
+                    'system configuration ' . $system);
+            }
         }
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {
@@ -373,12 +441,17 @@ class PEAR2_Pyrus_Config
         $snapshotdir = $conf->pearDir . DIRECTORY_SEPARATOR . '.configsnapshots';
         if (!file_exists($snapshotdir)) {
             // this will be simple - no snapshots exist yet
-            mkdir($snapshotdir, 0755, true);
+            if (!@mkdir($snapshotdir, 0755, true)) {
+                throw new PEAR2_Pyrus_Config_Exception(
+                    'Unable to create directory ' . $snapshotdir . ' to save ' .
+                    'system configuration snapshots');
+            }
             $snapshot = 'configsnapshot-' . date('Ymd') . '.xml';
             $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
             foreach (self::$pearConfigNames as $var) {
                 $x->$var = $conf->$var;
             }
+            PEAR2_Pyrus_Log::log(5, 'Saving configuration snapshot ' . $snapshot);
             file_put_contents($snapshotdir . DIRECTORY_SEPARATOR . $snapshot, $x->asXML());
             return $snapshot;
         }
@@ -391,8 +464,10 @@ class PEAR2_Pyrus_Config
                 if ($x->$var != $conf->$var) continue 2;
             }
             // found a match
+            PEAR2_Pyrus_Log::log(5, 'Found matching configuration snapshot ' . $snapshot);
             return $snapshot;
         }
+        PEAR2_Pyrus_Log::log(5, 'No matching configuration snapshot found');
         // no matches found
         $snapshot = 'configsnapshot-' . date('Ymd') . '.xml';
         $i = 0;
@@ -406,6 +481,7 @@ class PEAR2_Pyrus_Config
         foreach (self::$pearConfigNames as $var) {
             $x->$var = $conf->$var;
         }
+        PEAR2_Pyrus_Log::log(5, 'Saving configuration snapshot ' . $snapshot);
         file_put_contents($snapshotdir . DIRECTORY_SEPARATOR . $snapshot, $x->asXML());
         return $snapshot;
     }
@@ -444,10 +520,15 @@ class PEAR2_Pyrus_Config
                 $this->pearDir);
         }
         if (!isset($this->$value)) {
+            PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $value .
+                ' default value "' . self::$defaults[$value] . '"');
             return str_replace('@php_dir@', $this->pearDir, self::$defaults[$value]);
         }
         if (in_array($value, self::$pearConfigNames)) {
-            return (string) self::$configs[$this->pearDir]->$value;
+            PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $value .
+                ' value "' . self::$defaults[$value] . '"');
+            return (string) str_replace('@php_dir@', $this->pearDir, 
+                self::$configs[$this->pearDir]->$value);
         }
         return (string) self::$userConfigs[$this->userFile]->$value;
     }

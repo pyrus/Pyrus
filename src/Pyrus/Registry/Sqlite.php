@@ -68,11 +68,6 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        if ($this->database->singleQuery('SELECT name FROM packages WHERE name="' .
-              $info->name . '" AND channel="' . $info->channel . '"')) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                $info->channel . '/' . $info->name . ' has already been installed');
-        }
         $this->database->queryExec('BEGIN');
         $licloc = $info->license;
         $licuri = isset($licloc['attribs']['uri']) ? '"' .
@@ -292,23 +287,6 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         $this->database->queryExec('DELETE FROM packages WHERE name="' .
               sqlite_escape_string($package) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"');
-    }
-
-    function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
-    {
-        if (!$this->database->singleQuery('SELECT name FROM packages WHERE name="' .
-              sqlite_escape_string($info) . '" AND channel = "' .
-              sqlite_escape_string($channel) . '"')) {
-            return $this->installPackage($info);
-        }
-        $lastversion = $this->database->singleQuery('
-                SELECT version FROM packages WHERE name="' .
-              sqlite_escape_string($info) . '" AND channel = "' .
-              sqlite_escape_string($channel) . '"');
-        $this->uninstallPackage($info->name, $info->channel);
-        $this->installPackage($info);
-        $this->database->queryExec('UPDATE packages set lastinstalledversion="' .
-            sqlite_escape_string($lastversion) . '"');
     }
 
     function exists($package, $channel)

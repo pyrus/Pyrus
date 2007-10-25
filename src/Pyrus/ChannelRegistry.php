@@ -3,6 +3,13 @@
 class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEAR2_Pyrus_IChannelRegistry
 {
     static private $_allRegistries = array();
+    /**
+     * The parent registry
+     *
+     * This is used to implement cascading registries
+     * @var PEAR2_Pyrus_ChannelRegistry
+     */
+    protected $parent;
     private $_registries = array();
 
     protected function __construct($path, $registries = array('Sqlite', 'Xml'))
@@ -27,6 +34,11 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
+    }
+
+    public function setParent(PEAR2_Pyrus_ChannelRegistry $parent = null)
+    {
+        $this->parent = $parent;
     }
 
     static public function singleton($path, $registries = array('Sqlite', 'Xml'))

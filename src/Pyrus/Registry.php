@@ -11,24 +11,37 @@
  */
 class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 {
-    static private $_allRegistries = array();
-    private $_registries = array();
+    static protected $allRegistries = array();
     /**
-     * The channel registry
+     * The parent registry
      *
-     * @var PEAR2_Pyrus_ChannelRegistry
+     * This is used to implement cascading registries
+     * @var PEAR2_Pyrus_Registry
      */
-    static private $_channelRegistry;
+    protected $parent;
 
-    public static function setChannelRegistry(PEAR2_Pyrus_ChannelRegistry $reg)
+    protected $registries = array();
+    /**
+     * The channel registry for this path
+     *
+     * @var PEAR2_PyruschannelRegistry
+     */
+    protected $channelRegistry;
+
+    public function setChannelRegistry(PEAR2_PyruschannelRegistry $reg)
     {
-        self::$_channelRegistry = $reg;
+        $this->channelRegistry = $reg;
+    }
+
+    public function setParent(PEAR2_Pyrus_Registry $parent = null)
+    {
+        $this->parent = $parent;
     }
 
     protected function __construct($path, $registries = array('Sqlite', 'Xml'))
     {
-        if (!isset(self::$_channelRegistry)) {
-            self::$_channelRegistry = PEAR2_Pyrus_ChannelRegistry::singleton($path,
+        if (!isset($this->channelRegistry)) {
+            $this->channelRegistry = PEAR2_Pyrus_ChannelRegistry::singleton($path,
                 $registries);
         }
         $exceptions = array();
@@ -41,78 +54,105 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                         'Unknown registry type: ' . $registry);
                     continue;
                 }
-                $this->_registries[] = new $registry($path);
+                $this->registries[] = new $registry($path);
             } catch (Exception $e) {
                 $exceptions[] = $e;
             }
         }
-        if (!count($this->_registries)) {
+        if (!count($this->registries)) {
             throw new PEAR2_Pyrus_Registry_Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
     }
 
+    /**
+     * @param string $path
+     * @param array $registries
+     * @return PEAR2_Pyrus_Registry
+     */
     static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
-        if (!isset(self::$_allRegistries[$path])) {
-            self::$_allRegistries[$path] = new PEAR2_Pyrus_Registry($path);
+        if (!isset(self::$allRegistries[$path])) {
+            self::$allRegistries[$path] = new PEAR2_Pyrus_Registry($path);
         }
-        return self::$_allRegistries[$path];
+        return self::$allRegistries[$path];
     }
 
     public function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
-        foreach ($this->_registries as $reg) {
+        foreach ($this->registries as $reg) {
             $reg->install($info);
-        }
-    }
-
-    public function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
-    {
-        foreach ($this->_registries as $reg) {
-            $reg->upgrade($info);
         }
     }
 
     public function uninstall($name, $channel)
     {
-        foreach ($this->_registries as $reg) {
+        foreach ($this->registries as $reg) {
             $reg->uninstall($name, $channel);
         }
     }
 
-    public function exists($package, $channel)
+    /**
+     * Determines whether a package exists
+     *
+     * @param string $package
+     * @param string $channel
+     * @param bool $onlyMain if true, only check the primary registry
+     * @return unknown
+     */
+    public function exists($package, $channel, $onlyMain = false)
     {
-        return $this->_registries[0]->exists($package, $channel);
+        $ret = $this->registries[0]->exists($package, $channel);
+        if ($onlyMain) {
+            return $ret;
+        }
+        if (!$ret) {
+            return $this->parent->exists($package, $channel);
+        }
+        return true;
     }
 
-    public function info($package, $channel, $field)
+    public function info($package, $channel, $field, $onlyMain = false)
     {
-        return $this->_registries[0]->info($package, $channel, $field);
+        if ($onlyMain) {
+            return $this->registries[0]->info($package, $channel, $field);
+        }
+        if ($this->exists($package, $channel, true)) {
+            return $this->registries[0]->info($package, $channel, $field);
+        }
+        if ($this->exists($package, $channel, false)) {
+            // installed in parent registry
+            return $this->parent->info($package, $channel, $field);
+        }
     }
 
-    public function listPackages($channel)
+    public function listPackages($channel, $onlyMain = false)
     {
-        return $this->_registries[0]->listPackages($channel);
+        $ret = $this->registries[0]->listPackages($channel);
+        if ($onlyMain) {
+            return $ret;
+        }
+        return array_merge($ret, $this->parent->listPackages($channel));
     }
 
+    // TODO: fix to support cascading
     public function getIterator()
     {
-        return $this->_registries[0];
+        return $this->registries[0];
     }
 
     function __get($var)
     {
         // first registry is always the primary registry
         if ($var == 'package') {
-            return $this->_registries[0]->package;
+            return $this->registries[0]->package;
         }
         if ($var == 'channel') {
-            return self::$_channelRegistry;
+            return $this->channelRegistry;
         }
         if ($var == 'registries') {
-            return $this->_registries;
+            return $this->registries;
         }
     }
 }

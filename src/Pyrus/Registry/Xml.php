@@ -39,13 +39,6 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         file_put_contents($packagefile, (string) $info);
     }
 
-    function upgrade(PEAR2_Pyrus_PackageFile_v2 $info)
-    {
-        $packagefile = $this->_nameRegistryPath($info);
-        @unlink($packagefile);
-        $this->installPackage($info);
-    }
-
     function uninstall($package, $channel)
     {
         $packagefile = $this->_nameRegistryPath($info);
