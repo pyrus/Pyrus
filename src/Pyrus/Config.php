@@ -183,10 +183,11 @@ class PEAR2_Pyrus_Config
             // are doing, don't add include_path
             PEAR2_Pyrus_Log::log(1, 'Automatically cascading include_path');
             $extra = explode(PATH_SEPARATOR, get_include_path());
-            array_unshift($extra, $reg);
+            array_unshift($extra, $ret);
             $paths = $extra;
         }
         foreach ($paths as $path) {
+            if ($path === '.') continue;
             $reg = PEAR2_Pyrus_Registry::singleton($path);
             $regc = PEAR2_Pyrus_ChannelRegistry::singleton($path);
             if (isset($last)) {
