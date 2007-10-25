@@ -65,6 +65,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             // package.xml
             $dom = new DOMDocument;
             libxml_use_internal_errors(true);
+            libxml_clear_errors();
             $dom->loadXML($pf);
             $a = $pf->toArray();
             if ($a['package']['attribs']['version'] == '2.1') {

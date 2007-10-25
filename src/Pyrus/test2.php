@@ -1,10 +1,4 @@
 <?php
-include '/home/cellog/testpear/php/PEAR2/Autoload.php';
-include '/home/cellog/workspace/Pyrus/src/Pyrus/ScriptFrontend/Commands.php';
-$a = new PEAR2_Pyrus_ScriptFrontend_Commands;
-array_shift($_SERVER['argv']);
-$a->run($_SERVER['argv']);
-exit;
 function __autoload($class)
 {
     if (substr($class, 0, 4) != 'PEAR') return false;
@@ -12,9 +6,9 @@ function __autoload($class)
     $path = dirname(__FILE__) . implode('\\', $path) . '.php';
     include $path;
 }
-include $a = 'C:/development/PEAR2/Exception/Exception.php';
-include $b = 'C:/development/PEAR2/MultiErrors/MultiErrors.php';
-include 'C:/development/PEAR2/MultiErrors/MultiErrors/Exception.php';
+include $a = 'C:/development/PEAR2/Exception/trunk/src/Exception.php';
+include $b = 'C:/development/PEAR2/MultiErrors/trunk/src/MultiErrors.php';
+include 'C:/development/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
 include 'C:/development/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN.php';
 include 'C:/development/PEAR2/Pyrus_Developer/src/Developer/PackageFile/PEAR2SVN/Filter.php';
 include 'C:/development/PEAR2/Pyrus_Developer/src/Developer/PackageFile/v2.php';

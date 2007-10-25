@@ -262,6 +262,7 @@ class PEAR2_Pyrus_Config
               file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
             PEAR2_Pyrus_Log::log(5, 'Loading configuration for ' . $pearDirectory);
             libxml_use_internal_errors(true);
+            libxml_clear_errors();
             $x = simplexml_load_file($pearDirectory . DIRECTORY_SEPARATOR . '.config');
             if (!$x) {
                 $errors = libxml_get_errors();
@@ -321,6 +322,7 @@ class PEAR2_Pyrus_Config
             return;
         }
         libxml_use_internal_errors(true);
+        libxml_clear_errors();
         $x = simplexml_load_file($userfile);
         if (!$x) {
             $errors = libxml_get_errors();
