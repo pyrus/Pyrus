@@ -143,8 +143,8 @@ class PEAR2_Pyrus_XMLParser
 
     private function _recursiveParse($arr = array())
     {
-        $depth = $this->reader->depth;
         while ($this->reader->read()) {
+            $depth = $this->reader->depth;
             if ($this->reader->nodeType == XMLReader::ELEMENT) {
                 $tag = $this->reader->name;
 
@@ -156,9 +156,11 @@ class PEAR2_Pyrus_XMLParser
                             $attrs[$this->reader->name] = $this->reader->value;
                             $attr = $this->reader->moveToNextAttribute();
                         }
+                        $depth = $this->reader->depth;
                         $arr = $this->mergeTag($arr, '', $attrs, $tag, $depth);
                         continue;
                     }
+                    $depth = $this->reader->depth;
                     $arr = $this->mergeTag($arr, '', array(), $tag, $depth);
                     continue;
                 }

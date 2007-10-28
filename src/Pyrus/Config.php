@@ -21,10 +21,37 @@
  */
 class PEAR2_Pyrus_Config
 {
+    /**
+     * location of PEAR2 installation
+     *
+     * @var string
+     */
     protected $pearDir;
+    /**
+     * location of user-specific configuration file
+     *
+     * @var string
+     */
     protected $userFile;
-    static protected $_configs;
-    static protected $_current;
+    /**
+     * mapping of path => PEAR2 configuration objects
+     *
+     * @var array
+     */
+    static protected $configs = array();
+    /**
+     * The last instantiated configuration
+     *
+     * @var PEAR2_Pyrus_Config
+     */
+    static protected $current;
+    /**
+     * Default values for configuration.
+     *
+     * @php_dir@ is automatically replaced with the current
+     * PEAR2 configuration location
+     * @var array
+     */
     static protected $defaults =
         array(
             'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
@@ -55,8 +82,18 @@ class PEAR2_Pyrus_Config
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
         );
-    static protected $configs = array();
+    /**
+     * Mapping of user configuration file path => config values
+     *
+     * @var array
+     */
     static protected $userConfigs = array();
+    /**
+     * Configuration variable names that are bound to the PEAR installation
+     *
+     * These are values that should not change for different users
+     * @var array
+     */
     static protected $pearConfigNames = array(
             'php_dir', // pseudo-value in this implementation
             'ext_dir',
@@ -68,6 +105,13 @@ class PEAR2_Pyrus_Config
             'php_bin',
             'php_ini',
         );
+    /**
+     * Configuration variable names that are user-specific
+     *
+     * These are values that are user preferences rather than
+     * information necessary for installation on the filesystem.
+     * @var array
+     */
     static protected $userConfigNames = array(
             'default_channel',
             'preferred_mirror',
@@ -89,7 +133,13 @@ class PEAR2_Pyrus_Config
             'my_pear_path', // PATH_SEPARATOR-separated list of PEAR repositories to manage
         );
 
-    private function _constructDefaults()
+    /**
+     * Set up default configuration values that need to be determined at runtime
+     *
+     * The ext_dir variable, bin_dir variable, and php_ini are set up in
+     * this method.
+     */
+    protected static function constructDefaults()
     {
         static $called = false;
         if ($called) {
@@ -158,19 +208,41 @@ class PEAR2_Pyrus_Config
         }
     }
 
-    function __construct($pearDirectory, $userfile = false)
+    /**
+     * parse a configuration for a PEAR2 installation
+     *
+     * @param string $pearDirectory
+     * @param string $userfile
+     */
+    protected function __construct($pearDirectory, $userfile = false)
     {
         $pearDirectory = str_replace('\\', '/', $pearDirectory);
         $pearDirectory = str_replace('//', '/', $pearDirectory);
         $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
         $pearDirectory = $this->setCascadingRegistries($pearDirectory);
-        self::_constructDefaults();
+        self::constructDefaults();
         $this->loadConfigFile($pearDirectory, $userfile);
         $this->pearDir = $pearDirectory;
-        self::$_configs[$pearDirectory] = $this;
-        if (!isset(self::$_current)) {
-            self::$_current = $this;
+        self::$configs[$pearDirectory] = $this;
+        if (!isset(self::$current)) {
+            self::$current = $this;
         }
+    }
+
+    /**
+     * Retrieve configuration for a PEAR2 installation
+     *
+     * @param string $pearDirectory
+     * @param string $userfile
+     * @return PEAR2_Pyrus_Config
+     */
+    static public function singleton($pearDirectory, $userfile = false)
+    {
+        if (isset(self::$configs[$pearDirectory])) {
+            return self::$configs[$pearDirectory];
+        }
+        self::$configs[$pearDirectory] = new PEAR2_Pyrus_Config($pearDirectory, $userfile);
+        return self::$configs[$pearDirectory];
     }
 
     static public function setCascadingRegistries($path)
@@ -206,14 +278,21 @@ class PEAR2_Pyrus_Config
      */
     static public function current()
     {
-        if (isset(self::$_current)) {
-            return self::$_current;
+        if (isset(self::$current)) {
+            return self::$current;
         }
         // default
-        return new PEAR2_Pyrus_Config(getcwd());
+        return PEAR2_Pyrus_Config::singleton(getcwd());
     }
 
-    private function _locateLocalSettingsDirectory()
+    /**
+     * determines where user-specific configuration files should be saved.
+     *
+     * On unix, this is ~user/ or a location in /tmp based on the current directory.
+     * On windows, this is your Documents and Settings folder.
+     * @return string
+     */
+    protected function locateLocalSettingsDirectory()
     {
         if (class_exists('COM', false)) {
             // windows, grab current user My Documents folder
@@ -257,7 +336,7 @@ class PEAR2_Pyrus_Config
      * @param string $pearDirectory
      * @param string|false $userfile
      */
-    private function loadConfigFile($pearDirectory, $userfile = false)
+    protected function loadConfigFile($pearDirectory, $userfile = false)
     {
         if (!isset(self::$configs[$pearDirectory]) &&
               file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
@@ -294,10 +373,10 @@ class PEAR2_Pyrus_Config
         }
         if (!$userfile) {
             if (class_exists('COM', false)) {
-                $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             } else {
-                $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             }
             if (!file_exists($userfile)) {
@@ -371,10 +450,10 @@ class PEAR2_Pyrus_Config
                 $userfile = $this->userFile;
             } else {
                 if (class_exists('COM', false)) {
-                    $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                    $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                         'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
                 } else {
-                    $userfile = $this->_locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                    $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                         '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
                 }
             }

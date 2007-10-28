@@ -19,6 +19,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
     {
         $this->_packagefile = $parent;
         parent::__construct($a);
+        if ($t === '.') $t = '';
         $this->dir = $t;
         if ($this->dir && $this->dir != '/') $this->dir .= '/';
     }

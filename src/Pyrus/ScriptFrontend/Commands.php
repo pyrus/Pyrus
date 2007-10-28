@@ -39,14 +39,14 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             $maybe = array_shift($arr);
             $maybe = realpath($maybe);
             echo "Using PEAR installation found at $maybe\n";
-            $config = new PEAR2_Pyrus_Config($maybe);
+            $config = PEAR2_Pyrus_Config::singleton($maybe);
             return;
         }
         $mypath = PEAR2_Pyrus_Config::current()->my_pear_path;
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";
-                $config = new PEAR2_Pyrus_Config($path);
+                $config = PEAR2_Pyrus_Config::singleton($path);
                 return;
             }
         }
@@ -54,7 +54,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         foreach ($include_path as $path) {
             if ($path == '.') continue;
             echo "Using PEAR installation found at $path\n";
-            $config = new PEAR2_Pyrus_Config($path);
+            $config = PEAR2_Pyrus_Config::singleton($path);
             return;
         }
         echo "Using PEAR installation in current directory\n";

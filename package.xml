@@ -184,10 +184,6 @@ try {
      </dir>
      <dir name="Registry">
       <dir name="Sqlite">
-       <dir name="Channel">
-        <file role="php" name="Mirror.php"/>
-        <file role="php" name="Mirrors.php"/>
-       </dir>
        <file role="php" name="Creator.php"/>
        <file role="php" name="Package.php"/>
       </dir>
