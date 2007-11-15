@@ -56,7 +56,7 @@ include 'C:/development/PEAR2/MultiErrors/trunk/src/MultiErrors/Exception.php';
 //exit;
 define('OS_WINDOWS', true);
 define('OS_UNIX', false);
-$g = new PEAR2_Pyrus_Config('C:/development/pear-core/testpear');
+$g = PEAR2_Pyrus_Config::singleton('C:/development/pear-core/testpear');
 //$g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 try {
     PEAR2_Pyrus_Installer::begin();

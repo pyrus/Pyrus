@@ -10,6 +10,11 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
      */
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
+        $package = realpath($package);
+        if (!$package) {
+            throw new PEAR2_Pyrus_Package_Phar_Exception(
+                'Phar package ' . $package . ' does not exist');
+        }
         if (!class_exists('Phar')) {
             throw new PEAR2_Pyrus_Package_Phar_Exception(
                 'Phar extension is not available');
@@ -35,13 +40,20 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         $this->_tmpdir = $where;
         $pxml = $phar->getMetaData();
         foreach (new RecursiveIteratorIterator($phar) as $path => $info) {
-            $makepath = $where .
-                str_replace('phar://' .$package, '', $info->getPath());
-            if (!file_exists($makepath)) {
-                mkdir($makepath, 0755, true);
+            if (strpos(PHP_OS, 'WIN') !== false) {
+                $makepath = $where .
+                    str_replace('phar:///' . $package, '', $info->getPath());
+                $makepath = str_replace('/', '\\', $makepath);
+            } else {
+                $makepath = $where .
+                    str_replace('phar://' . $package, '', $info->getPath());
             }
             if (dirname($makepath . 'a') != $makepath) {
                 $makepath .= DIRECTORY_SEPARATOR;
+            }
+            if (!file_exists($makepath)) {
+                mkdir($makepath, 0755, true);
+                var_dump($makepath);exit;
             }
             file_put_contents($makepath . $info->getFilename(), fopen($info->getPathName(), 'rb'));
         }

@@ -62,7 +62,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function help($args)
     {
-        if ($args[0] == 'help') {
+        if (isset($args[0]) && $args[0] == 'help') {
             echo "Commands supported:\n";
             foreach ($this->commands as $command => $true) {
                 echo "$command\n";
