@@ -152,6 +152,33 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         return $this->registries[0];
     }
 
+    public function toPackageFile($package, $channel, $onlyMain = false)
+    {
+        if ($this->exists($package, $channel, true)) {
+            foreach ($this->registries as $reg) {
+                if ($reg instanceof PEAR2_Pyrus_Registry_Xml) {
+                	// prefer xml for retrieving packagefile object
+                	try {
+                	    return $reg->toPackageFile($package, $channel);
+                	} catch (Exception $e) {
+                	    // failed, cascade to using default registry instead
+                	}
+                }
+            }
+            return $this->registries[0]->toPackageFile($package, $channel);
+        }
+        if ($onlyMain) {
+            return null;
+        }
+        if ($this->exists($package, $channel, false)) {
+            if (!$this->parent) {
+                return null;
+            }
+            // installed in parent registry
+            return $this->parent->toPackageFile($package, $channel);
+        }
+    }
+
     function __get($var)
     {
         // first registry is always the primary registry

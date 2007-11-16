@@ -42,20 +42,21 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         foreach (new RecursiveIteratorIterator($phar) as $path => $info) {
             if (strpos(PHP_OS, 'WIN') !== false) {
                 $makepath = $where .
-                    str_replace('phar:///' . $package, '', $info->getPath());
+                    dirname(str_replace('phar:///' . $package, '', $info->getPathName()));
                 $makepath = str_replace('/', '\\', $makepath);
             } else {
                 $makepath = $where .
-                    str_replace('phar://' . $package, '', $info->getPath());
+                    dirname(str_replace('phar://' . $package, '', $info->getPathName()));
             }
-            if (dirname($makepath . 'a') != $makepath) {
+            if (dirname($makepath . 'a\\') != $makepath &&
+                  dirname($makepath . 'a\\') . DIRECTORY_SEPARATOR != $makepath) {
                 $makepath .= DIRECTORY_SEPARATOR;
             }
             if (!file_exists($makepath)) {
                 mkdir($makepath, 0755, true);
-                var_dump($makepath);exit;
             }
-            file_put_contents($makepath . $info->getFilename(), fopen($info->getPathName(), 'rb'));
+            $pharp = fopen($info->getPathName(), 'rb');
+            file_put_contents($makepath . $info->getFilename(), $pharp);
         }
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }

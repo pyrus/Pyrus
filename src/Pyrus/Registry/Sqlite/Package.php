@@ -23,9 +23,6 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  	
  	function offsetSet($offset, $value)
  	{
- 	    if ($offset == 'upgrade') {
- 	        $this->upgrade($value);
- 	    }
  	    if ($offset == 'install') {
  	        $this->install($value);
  	    }
@@ -33,7 +30,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
 
  	function offsetUnset($offset)
  	{
- 	    $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
+ 	    $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
  	    $this->uninstall($info['package'], $info['channel']);
  	}
 

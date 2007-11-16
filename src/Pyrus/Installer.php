@@ -28,6 +28,15 @@ class PEAR2_Pyrus_Installer
     protected static $installedPackages = array();
 
     /**
+     * Packages that have been installed and also successfully registered as installed
+     *
+     * This list is used when {@link rollback()} is called to determine
+     * the packages that should be removed from the registry
+     * @var array
+     */
+    protected static $registeredPackages = array();
+
+    /**
      * Packages that were removed during installation
      *
      * This list is used when {@link rollback()} is called to restore state
@@ -74,6 +83,19 @@ class PEAR2_Pyrus_Installer
     static function prepare(PEAR2_Pyrus_Package $package)
     {
         if (!isset(self::$installPackages[$package->channel . '/' . $package->name])) {
+            if (PEAR2_Pyrus_Config::current()->registry->exists(
+                  $package->name, $package->channel)) {
+                if (version_compare($package->version['release'],
+                      PEAR2_Pyrus_Config::current()->registry->info(
+                        $package->name, $package->channel, 'version'), '<=')) {
+                    // installed package is the same or newer version than this one
+                    if (!isset(self::$options['force'])) {
+                        PEAR2_Pyrus_Log::log(1, 'Skipping installed package ' .
+                            $package->channel . '/' . $package->name);
+                        return;
+                    }
+                }
+            }
             self::$installPackages[$package->channel . '/' . $package->name] = $package;
             self::prepareDependencies(
                 self::$installPackages[$package->channel . '/' . $package->name]);
@@ -172,12 +194,16 @@ class PEAR2_Pyrus_Installer
     static function rollback()
     {
         if (self::$inTransaction) {
+            self::$inTransaction = false;
             self::$transact->rollback();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             $err = new PEAR2_MultiErrors;
-            foreach (self::$installedPackages as $package) {
+            foreach (self::$registeredPackages as $package) {
                 try {
-                    $reg->uninstall($package->name, $package->channel);
+                    $reg->uninstall($package[0]->name, $package[0]->channel);
+                    if ($package[1]) {
+                        $reg->install($package[1]);
+                    }
                 } catch (Exception $e) {
                     $err->E_ERROR[] = $e;
                 }
@@ -196,8 +222,8 @@ class PEAR2_Pyrus_Installer
             }
             self::$installPackages = array();
             self::$installedPackages = array();
+            self::$registeredPackages = array();
             self::$removedPackages = array();
-            self::$inTransaction = false;
             if (count($err)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
@@ -241,15 +267,14 @@ class PEAR2_Pyrus_Installer
             self::$transact->commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (self::$installedPackages as $package) {
+                $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                self::$registered[] = array($package, $previous);
                 $reg->install($package->getPackageFile()->info);
             }
             self::$installPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
         } catch (Exception $e) {
-            try {
-                self::rollback();
-            } catch (Exception $ex) {
-            }
+            self::rollback();
             throw $e;
         }
     }
@@ -389,7 +414,7 @@ class PEAR2_Pyrus_Installer
                 }
                 // }}}
                 // {{{ set file permissions
-                if (!OS_WINDOWS) {
+                if (strpos(PHP_OS, 'WIN') === false) {
                     if ($role->isExecutable()) {
                         $mode = 0777 & octdec(PEAR2_Pyrus_Config::current()->umask);
                         PEAR2_Pyrus_Log::log(3, "+ chmod +x $dest_file");

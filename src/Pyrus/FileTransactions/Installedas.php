@@ -34,7 +34,7 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
     function _prependPath($path, $prepend)
     {
         if (strlen($prepend) > 0) {
-            if (OS_WINDOWS && preg_match('/^[a-z]:/i', $path)) {
+            if (strpos(PHP_OS, 'WIN') !== false && preg_match('/^[a-z]:/i', $path)) {
                 if (preg_match('/^[a-z]:/i', $prepend)) {
                     $prepend = substr($prepend, 2);
                 } elseif ($prepend{0} != '\\') {

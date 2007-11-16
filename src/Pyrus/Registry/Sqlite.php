@@ -68,6 +68,12 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        try {
+            // this ensures upgrade will work
+            $this->uninstall($info->name, $info->channel);
+        } catch (Exception $e) {
+            // ignore errors
+        }
         $this->database->queryExec('BEGIN');
         $licloc = $info->license;
         $licuri = isset($licloc['attribs']['uri']) ? '"' .
@@ -326,5 +332,30 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         if ($var === 'package') {
             return new PEAR2_Pyrus_Registry_Sqlite_Package($this);
         }
+    }
+
+    /**
+     * Extract a packagefile object from the registry
+     * @return PEAR2_Pyrus_PackageFile_v2
+     */
+    function toPackageFile($package, $channel)
+    {
+        if (!$this->exists($package, $channel)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+                'for package ' . $package . '/' . $channel . ', it is not installed');
+        }
+        $ret = new PEAR2_Pyrus_PackageFile_v2;
+        $ret->name = $package;
+        $ret->channel = $channel;
+        $ret->summary = $this->info($package, $channel, 'summary');
+        $ret->description = $this->info($package, $channel, 'description');
+        // maintainers
+        // date
+        // version
+        // stability
+        // license
+        // notes
+        // dependencies
+        // filelist
     }
 }

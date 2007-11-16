@@ -7,4 +7,8 @@ interface PEAR2_Pyrus_IRegistry
     public function info($package, $channel, $field);
     public function listPackages($channel);
     public function __get($var);
+    /**
+     * @return PEAR2_Pyrus_PackageFile_v2
+     */
+    public function toPackageFile($package, $channel);
 }

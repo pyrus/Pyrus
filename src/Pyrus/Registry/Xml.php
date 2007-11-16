@@ -32,6 +32,8 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        // remove previously installed version for upgrade
+        $this->uninstall($info->name, $info->channel);
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0777, true);
@@ -41,7 +43,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 
     function uninstall($package, $channel)
     {
-        $packagefile = $this->_nameRegistryPath($info);
+        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         @unlink($packagefile);
         @rmdir(dirname($packagefile));
     }
@@ -98,6 +100,17 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
                 'channel ' . $channel, $e);
         }
         return $ret;
+    }
+
+    public function toPackageFile($package, $channel)
+    {
+        if (!$this->exists($package, $channel)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+                'for package ' . $package . '/' . $channel . ', it is not installed');
+        }
+        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
+        $x = new PEAR2_Pyrus_PackageFile($packagefile);
+        return $x->info;
     }
 
     public function __get($var)
