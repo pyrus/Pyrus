@@ -108,11 +108,6 @@ class PEAR2_Pyrus_PackageFile_v2
      */
     var $_tasksNs;
 
-    function __construct()
-    {
-        $this->packageInfo['date'] = date('Y-m-d');
-    }
-
     function setPackagefile($file, $archive = false)
     {
         $this->_packageFile = $file;
@@ -829,6 +824,7 @@ class PEAR2_Pyrus_PackageFile_v2
     function __toString()
     {
         $this->packageInfo['attribs'] = $this->rootAttributes;
+        $this->packageInfo['date'] = date('Y-m-d');
         $arr = $this->toArray();
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }

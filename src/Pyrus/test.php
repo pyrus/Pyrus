@@ -1,14 +1,10 @@
 <?php
 include 'C:/development/pear-core/testpear/php/PEAR2/Autoload.php';
 $a = new PEAR2_Pyrus_Package_Creator(array(
-        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive('C:/development/PEAR2/Pyrus/trunk/pyrus.phar', '<?php
+        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive('C:\\development\\PEAR2\\Pyrus\\trunk\\pyrus.phar', '<?php
 function __autoload($class)
 {
-    if (strpos(PHP_OS, \'WIN\') !== false) {
-        include \'phar:///\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
-    } else {
-        include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
-    }
+    include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
 }
 $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 @array_shift($_SERVER[\'argv\']);

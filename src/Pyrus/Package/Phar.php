@@ -26,6 +26,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not open Phar archive ' .
                 $package, $e);
         }
+        $package = str_replace('\\', '/', $package);
         $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
@@ -40,14 +41,8 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         $this->_tmpdir = $where;
         $pxml = $phar->getMetaData();
         foreach (new RecursiveIteratorIterator($phar) as $path => $info) {
-            if (strpos(PHP_OS, 'WIN') !== false) {
-                $makepath = $where .
-                    dirname(str_replace('phar:///' . $package, '', $info->getPathName()));
-                $makepath = str_replace('/', '\\', $makepath);
-            } else {
-                $makepath = $where .
-                    dirname(str_replace('phar://' . $package, '', $info->getPathName()));
-            }
+            $makepath = $where .
+                dirname(str_replace('phar://' . $package, '', $info->getPathName()));
             if (dirname($makepath . 'a\\') != $makepath &&
                   dirname($makepath . 'a\\') . DIRECTORY_SEPARATOR != $makepath) {
                 $makepath .= DIRECTORY_SEPARATOR;

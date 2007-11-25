@@ -1118,28 +1118,20 @@ class PHP_Archive
     }
 }
 define('PYRUS_PHAR_FILE', __FILE__);
-if (strpos(PHP_OS, 'WIN') !== false) {
-    include 'phar:///' . __FILE__ . '/__index.php';
-} else {
-    include 'phar://' . __FILE__ . '/__index.php';
-}
+include 'phar://' . __FILE__ . '/__index.php';
 __HALT_COMPILER(); ?>
-&  “           5   s:45:"package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml";   __index.php¦   –<G¦  €a:¶      -   package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml€8   –<G€8  oâMå¶      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsdþ   –<Gþ  "Òü¶      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsdâM   –<GâM  ¡+"Ó¶      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsdäP   –<GäP  ¼¯,v¶         php/PEAR2/Pyrus.phpö    –<Gö   ðà›W¶         php/PEAR2/Pyrus/Channel.phpvH   –<GvH  J<G¶          php/PEAR2/Pyrus/Channel/Base.php   –<G  FÐ{¶      %   php/PEAR2/Pyrus/Channel/Exception.phpD    –<GD   !•¬÷¶      #   php/PEAR2/Pyrus/Channel/IMirror.phpQ    –<GQ   [˜¦¶      "   php/PEAR2/Pyrus/Channel/Mirror.phpµ   –<Gµ  Z¬y¶      #   php/PEAR2/Pyrus/ChannelRegistry.phpÈ   –<GÈ  *Ö¯¶      (   php/PEAR2/Pyrus/ChannelRegistry/Base.phpU(   –<GU(  }Ì²y¶      2   php/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php$2   –<G$2  +Bp¶      /   php/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.phpì   –<Gì  `€ê`¶      -   php/PEAR2/Pyrus/ChannelRegistry/Exception.phpÜ    –<GÜ   ˆÕFS¶      1   php/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.phpU   –<GU  É4¶      .   php/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.phpí   –<Gí  úr–+¶      *   php/PEAR2/Pyrus/ChannelRegistry/Sqlite.phpà   –<Gà  DgÄ¶      '   php/PEAR2/Pyrus/ChannelRegistry/Xml.php.   –<G.  ÉØÚ¶         php/PEAR2/Pyrus/Config.phpËa   –<GËa  !K¶      $   php/PEAR2/Pyrus/Config/Exception.phpC    –<GC   õÄ¶      (   php/PEAR2/Pyrus/Dependency/Exception.phpG    –<GG   sšj¶      (   php/PEAR2/Pyrus/Dependency/Validator.php2¯   –<G2¯   S}x¶      !   php/PEAR2/Pyrus/DirectedGraph.php%   –<G%  ¨·{ ¶      +   php/PEAR2/Pyrus/DirectedGraph/Exception.phpJ    –<GJ   }vô¶      (   php/PEAR2/Pyrus/DirectedGraph/Vertex.php7	   –<G7	  µ{`­¶         php/PEAR2/Pyrus/Downloader.phpŠ;   –<GŠ;  EgÔ¶         php/PEAR2/Pyrus/Exception.php<    –<G<   •“8·¶      $   php/PEAR2/Pyrus/FileTransactions.phpŽ!   –<GŽ!  1„“¶      0   php/PEAR2/Pyrus/FileTransactions/Installedas.phpí   –<Gí  úx¶      +   php/PEAR2/Pyrus/FileTransactions/Rename.phpA   –<GA  Éƒ ¡¶      *   php/PEAR2/Pyrus/FileTransactions/Rmdir.phpL   –<GL  îùè¶         php/PEAR2/Pyrus/IChannel.php   –<G  ÿOë¶      $   php/PEAR2/Pyrus/IChannelRegistry.php°   –<G°  YT-Ã¶      $   php/PEAR2/Pyrus/IFileTransaction.php×    –<G×   ¥ýÇ¶         php/PEAR2/Pyrus/Installer.php]I   –<G]I  &¶(¶      '   php/PEAR2/Pyrus/Installer/Exception.phpF    –<GF   smr¶      "   php/PEAR2/Pyrus/Installer/Role.php !   –<G !  á.^¶      )   php/PEAR2/Pyrus/Installer/Role/Common.phpÒ%   –<GÒ%  Tgf¶      '   php/PEAR2/Pyrus/Installer/Role/Data.phpò   –<Gò  °ä/ù¶      '   php/PEAR2/Pyrus/Installer/Role/Data.xml´   –<G´  Í ŒQ¶      &   php/PEAR2/Pyrus/Installer/Role/Doc.phpï   –<Gï  ì¥²¶      &   php/PEAR2/Pyrus/Installer/Role/Doc.xml³   –<G³  AâŽ¶      ,   php/PEAR2/Pyrus/Installer/Role/Exception.phpK    –<GK   ­ü±¶      &   php/PEAR2/Pyrus/Installer/Role/Ext.phpï   –<Gï  †d¬Ê¶      &   php/PEAR2/Pyrus/Installer/Role/Ext.xmlM   –<GM  $¨FÄ¶      &   php/PEAR2/Pyrus/Installer/Role/Php.phpï   –<Gï  Ib¿¶      &   php/PEAR2/Pyrus/Installer/Role/Php.xml»   –<G»  é€!è¶      )   php/PEAR2/Pyrus/Installer/Role/Script.phpø   –<Gø  ñŒÛ¶      )   php/PEAR2/Pyrus/Installer/Role/Script.xml¾   –<G¾  ÐTÄ¶      &   php/PEAR2/Pyrus/Installer/Role/Src.phpZ   –<GZ  Ä--¶      &   php/PEAR2/Pyrus/Installer/Role/Src.xml	   –<G	  ³»Ç¶      '   php/PEAR2/Pyrus/Installer/Role/Test.phpò   –<Gò  –aÉ`¶      '   php/PEAR2/Pyrus/Installer/Role/Test.xml´   –<G´  û|¶      &   php/PEAR2/Pyrus/Installer/Role/Www.phpÃ   –<GÃ  !¯€¶      &   php/PEAR2/Pyrus/Installer/Role/Www.xml¥   –<G¥  ý$P$¶         php/PEAR2/Pyrus/IPackage.php
-   –<G
-  xôD¶         php/PEAR2/Pyrus/IRegistry.phpK   –<GK  òÍ£*¶         php/PEAR2/Pyrus/Log.phpò   –<Gò  D'e‰¶         php/PEAR2/Pyrus/OSGuess.phpš,   –<Gš,  üÞ{l¶         php/PEAR2/Pyrus/Package.php@   –<G@  ‘D4L¶          php/PEAR2/Pyrus/Package/Base.php÷   –<G÷  I`ý¶      #   php/PEAR2/Pyrus/Package/Creator.php|$   –<G|$  cmƒ¶      -   php/PEAR2/Pyrus/Package/Creator/Exception.phpL    –<GL   uw=œ¶      0   php/PEAR2/Pyrus/Package/Creator/TaskIterator.phpù   –<Gù  U™/¶      &   php/PEAR2/Pyrus/Package/Dependency.php+1   –<G+1  ƒRÚâ¶      %   php/PEAR2/Pyrus/Package/Exception.phpD    –<GD   0©Ç¶      $   php/PEAR2/Pyrus/Package/ICreator.php&   –<G&  M¡˜F¶      .   php/PEAR2/Pyrus/Package/InstalledException.php[    –<G[   qpö¶          php/PEAR2/Pyrus/Package/Phar.phpÃ   –<GÃ  ±ó‚¶      *   php/PEAR2/Pyrus/Package/Phar/Exception.phpI    –<GI   îÀþ¶      "   php/PEAR2/Pyrus/Package/Remote.php´D   –<G´D  ‘YŽ¶         php/PEAR2/Pyrus/Package/Tar.php¾+   –<G¾+  ¤9j¶      )   php/PEAR2/Pyrus/Package/Tar/Exception.phpH    –<GH   $ÍË;¶         php/PEAR2/Pyrus/Package/Xml.phpE   –<GE  æ	åù¶         php/PEAR2/Pyrus/Package/Zip.phpv   –<Gv  •6k\¶      )   php/PEAR2/Pyrus/Package/Zip/Exception.phpH    –<GH   Å‡zÍ¶         php/PEAR2/Pyrus/PackageFile.php¸   –<G¸  ÐN¤D¶      )   php/PEAR2/Pyrus/PackageFile/Exception.phpH    –<GH   3ÑVr¶      *   php/PEAR2/Pyrus/PackageFile/IValidator.phpp    –<Gp   š¶      )   php/PEAR2/Pyrus/PackageFile/Parser/v2.phpy   –<Gy  é×û¨¶      "   php/PEAR2/Pyrus/PackageFile/v2.php7   –<G7  ,ÀîÍ¶      -   php/PEAR2/Pyrus/PackageFile/v2/Compatible.php"   –<G"  mc¶      7   php/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.phpV    –<GV   À“õ¥¶      /   php/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpéH   –<GéH  Ðóº¶      9   php/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.phpX    –<GX   ?Ôà7¶      ,   php/PEAR2/Pyrus/PackageFile/v2/Developer.php   –<G  le.¡¶      6   php/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.phpU    –<GU   E#¸“¶      (   php/PEAR2/Pyrus/PackageFile/v2/Files.php¬   –<G¬  —ÿD1¶      2   php/PEAR2/Pyrus/PackageFile/v2/Files/Exception.phpQ    –<GQ   Ú*¶¶      *   php/PEAR2/Pyrus/PackageFile/v2/Release.phpÑ.   –<GÑ.  ¾iÊ¶      4   php/PEAR2/Pyrus/PackageFile/v2/Release/Exception.phpS    –<GS   Rnü‰¶      )   php/PEAR2/Pyrus/PackageFile/v2/Remote.phpY    –<GY   e¥O¶      ,   php/PEAR2/Pyrus/PackageFile/v2/Validator.phpÖz   –<GÖz  o
-«~¶      /   php/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpZ   –<GZ  ã¦B4¶      <   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php¼   –<G¼  ‰ž<¶      7   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpu   –<Gu  mœQé¶      <   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpë    –<Gë   í«©—¶      A   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php…   –<G…  z^¯£¶      2   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpî	   –<Gî	  ›nû¶      <   php/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpý   –<Gý  ñ	ÅÉ¶         php/PEAR2/Pyrus/Registry.phpÛ   –<GÛ  Õu‹Ò¶      !   php/PEAR2/Pyrus/Registry/Base.php‚   –<G‚  ÚÑ&Î¶      $   php/PEAR2/Pyrus/Registry/Channel.phpm   –<Gm  /jè-¶      #   php/PEAR2/Pyrus/Registry/Config.phpw    –<Gw   .ßÌ
-¶      &   php/PEAR2/Pyrus/Registry/Exception.phpF    –<GF   v0b.¶      $   php/PEAR2/Pyrus/Registry/Package.phpd   –<Gd  	ñ/¿¶      #   php/PEAR2/Pyrus/Registry/Sqlite.phpÛ6   –<GÛ6  ã$á¶      +   php/PEAR2/Pyrus/Registry/Sqlite/Creator.php#]   –<G#]  ¹ƒ;˜¶      +   php/PEAR2/Pyrus/Registry/Sqlite/Package.php[   –<G[  ÷b-Ä¶          php/PEAR2/Pyrus/Registry/Xml.phpx   –<Gx  ©öúã¶         php/PEAR2/Pyrus/REST.php6   –<G6  ùÕt®¶         php/PEAR2/Pyrus/REST/10.php\r   –<G\r  tü}Æ¶         php/PEAR2/Pyrus/REST/11.php[)   –<G[)  €b4¶         php/PEAR2/Pyrus/REST/13.php¯*   –<G¯*  µìâ¶      "   php/PEAR2/Pyrus/REST/Exception.phpA    –<GA   îºy<¶      &   php/PEAR2/Pyrus/REST/HTTPException.phpP    –<GP   •d}Æ¶      +   php/PEAR2/Pyrus/ScriptFrontend/Commands.php²   –<G²  ?;“¶         php/PEAR2/Pyrus/Task/Common.phpæ   –<Gæ  L!÷¸¶      "   php/PEAR2/Pyrus/Task/Exception.phpA    –<GA   éÛW ¶      *   php/PEAR2/Pyrus/Task/Postinstallscript.phpè9   –<Gè9  ã“²b¶      -   php/PEAR2/Pyrus/Task/Postinstallscript/rw.phpø   –<Gø  ‰ýlš¶          php/PEAR2/Pyrus/Task/Replace.php	   –<G	  W¢lÀ¶      #   php/PEAR2/Pyrus/Task/Replace/rw.phpø   –<Gø  €²¶          php/PEAR2/Pyrus/Task/Unixeol.phpƒ
-   –<Gƒ
-  –bØv¶      #   php/PEAR2/Pyrus/Task/Unixeol/rw.php   –<G  Äô“¶      #   php/PEAR2/Pyrus/Task/Windowseol.php
-   –<G
-  yD<Þ¶      &   php/PEAR2/Pyrus/Task/Windowseol/rw.php   –<G  1ìÚ¶         php/PEAR2/Pyrus/Validate.php¶R   –<G¶R  ³¡›f¶      &   php/PEAR2/Pyrus/Validate/Exception.php¶   –<G¶  ``Ñ¶      "   php/PEAR2/Pyrus/Validator/PECL.phpo   –<Go  Â|Q¶         php/PEAR2/Pyrus/XMLParser.phpÉ   –<GÉ  Õ ‰Þ¶      '   php/PEAR2/Pyrus/XMLParser/Exception.phpF    –<GF   ^P¶         php/PEAR2/Pyrus/XMLWriter.phpW   –<GW  e(2L¶      '   php/PEAR2/Pyrus/XMLWriter/Exception.phpF    –<GF   ]Æ¤¶         php/PEAR2/Autoload.php7	   –<G7	  ®&&É¶         php/PEAR2/MultiErrors.phpN   –<GN  <Á±¶         php/PEAR2/Exception.php 0   –<G 0  zbÃ2¶      #   php/PEAR2/MultiErrors/Exception.phpB    –<GB   úÇz²¶         php/PEAR2/HTTP/Request.php“   –<G“  EbD|¶      "   php/PEAR2/HTTP/Request/Adapter.php«	   –<G«	  ˜ú z¶      ,   php/PEAR2/HTTP/Request/Adapter/Phpsocket.php8   –<G8  …x¶      ,   php/PEAR2/HTTP/Request/Adapter/Phpstream.php   –<G  ˜¬¤¶      $   php/PEAR2/HTTP/Request/Exception.phpE    –<GE   5Åö,¶      #   php/PEAR2/HTTP/Request/Response.php×   –<G×  Ó…H¶         php/Net/URL2.php9   –<G9  D«;b¶      <?php
+&  “           5   s:45:"package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml";   __index.phpþ   ¸AGþ   ÎHìé¶      -   package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml€8  ¸AG€8  oâMå¶      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsdþ  ¸AGþ  "Òü¶      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsdâM  ¸AGâM  ¡+"Ó¶      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsdäP  ¸AGäP  ¼¯,v¶         php/PEAR2/Pyrus.phpö   ¸AGö   ðà›W¶         php/PEAR2/Pyrus/Channel.phpvH  ¸AGvH  J<G¶          php/PEAR2/Pyrus/Channel/Base.php  ¸AG  FÐ{¶      %   php/PEAR2/Pyrus/Channel/Exception.phpD   ¸AGD   !•¬÷¶      #   php/PEAR2/Pyrus/Channel/IMirror.phpQ   ¸AGQ   [˜¦¶      "   php/PEAR2/Pyrus/Channel/Mirror.phpµ  ¸AGµ  Z¬y¶      #   php/PEAR2/Pyrus/ChannelRegistry.phpÈ  ¸AGÈ  *Ö¯¶      (   php/PEAR2/Pyrus/ChannelRegistry/Base.phpU(  ¸AGU(  }Ì²y¶      2   php/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php$2  ¸AG$2  +Bp¶      /   php/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.phpì  ¸AGì  `€ê`¶      -   php/PEAR2/Pyrus/ChannelRegistry/Exception.phpÜ   ¸AGÜ   ˆÕFS¶      1   php/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.phpU  ¸AGU  É4¶      .   php/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.phpí  ¸AGí  úr–+¶      *   php/PEAR2/Pyrus/ChannelRegistry/Sqlite.phpà  ¸AGà  DgÄ¶      '   php/PEAR2/Pyrus/ChannelRegistry/Xml.php.  ¸AG.  ÉØÚ¶         php/PEAR2/Pyrus/Config.phpËa  ¸AGËa  !K¶      $   php/PEAR2/Pyrus/Config/Exception.phpC   ¸AGC   õÄ¶      (   php/PEAR2/Pyrus/Dependency/Exception.phpG   ¸AGG   sšj¶      (   php/PEAR2/Pyrus/Dependency/Validator.php2¯  ¸AG2¯   S}x¶      !   php/PEAR2/Pyrus/DirectedGraph.php%  ¸AG%  ¨·{ ¶      +   php/PEAR2/Pyrus/DirectedGraph/Exception.phpJ   ¸AGJ   }vô¶      (   php/PEAR2/Pyrus/DirectedGraph/Vertex.php7	  ¸AG7	  µ{`­¶         php/PEAR2/Pyrus/Downloader.phpŠ;  ¸AGŠ;  EgÔ¶         php/PEAR2/Pyrus/Exception.php<   ¸AG<   •“8·¶      $   php/PEAR2/Pyrus/FileTransactions.phpŽ!  ¸AGŽ!  1„“¶      0   php/PEAR2/Pyrus/FileTransactions/Installedas.phpí  ¸AGí  úx¶      +   php/PEAR2/Pyrus/FileTransactions/Rename.phpA  ¸AGA  Éƒ ¡¶      *   php/PEAR2/Pyrus/FileTransactions/Rmdir.phpL  ¸AGL  îùè¶         php/PEAR2/Pyrus/IChannel.php  ¸AG  ÿOë¶      $   php/PEAR2/Pyrus/IChannelRegistry.php°  ¸AG°  YT-Ã¶      $   php/PEAR2/Pyrus/IFileTransaction.php×   ¸AG×   ¥ýÇ¶         php/PEAR2/Pyrus/Installer.phpfN  ¸AGfN  4¶      '   php/PEAR2/Pyrus/Installer/Exception.phpF   ¸AGF   smr¶      "   php/PEAR2/Pyrus/Installer/Role.php !  ¸AG !  á.^¶      )   php/PEAR2/Pyrus/Installer/Role/Common.phpÒ%  ¸AGÒ%  Tgf¶      '   php/PEAR2/Pyrus/Installer/Role/Data.phpò  ¸AGò  °ä/ù¶      '   php/PEAR2/Pyrus/Installer/Role/Data.xml´  ¸AG´  Í ŒQ¶      &   php/PEAR2/Pyrus/Installer/Role/Doc.phpï  ¸AGï  ì¥²¶      &   php/PEAR2/Pyrus/Installer/Role/Doc.xml³  ¸AG³  AâŽ¶      ,   php/PEAR2/Pyrus/Installer/Role/Exception.phpK   ¸AGK   ­ü±¶      &   php/PEAR2/Pyrus/Installer/Role/Ext.phpï  ¸AGï  †d¬Ê¶      &   php/PEAR2/Pyrus/Installer/Role/Ext.xmlM  ¸AGM  $¨FÄ¶      &   php/PEAR2/Pyrus/Installer/Role/Php.phpï  ¸AGï  Ib¿¶      &   php/PEAR2/Pyrus/Installer/Role/Php.xml»  ¸AG»  é€!è¶      )   php/PEAR2/Pyrus/Installer/Role/Script.phpø  ¸AGø  ñŒÛ¶      )   php/PEAR2/Pyrus/Installer/Role/Script.xml¾  ¸AG¾  ÐTÄ¶      &   php/PEAR2/Pyrus/Installer/Role/Src.phpZ  ¸AGZ  Ä--¶      &   php/PEAR2/Pyrus/Installer/Role/Src.xml	  ¸AG	  ³»Ç¶      '   php/PEAR2/Pyrus/Installer/Role/Test.phpò  ¸AGò  –aÉ`¶      '   php/PEAR2/Pyrus/Installer/Role/Test.xml´  ¸AG´  û|¶      &   php/PEAR2/Pyrus/Installer/Role/Www.phpÃ  ¸AGÃ  !¯€¶      &   php/PEAR2/Pyrus/Installer/Role/Www.xml¥  ¸AG¥  ý$P$¶         php/PEAR2/Pyrus/IPackage.php
+  ¸AG
+  xôD¶         php/PEAR2/Pyrus/IRegistry.php¼  ¸AG¼  (èpF¶         php/PEAR2/Pyrus/Log.phpò  ¸AGò  D'e‰¶         php/PEAR2/Pyrus/OSGuess.phpš,  ¸AGš,  üÞ{l¶         php/PEAR2/Pyrus/Package.php@  ¸AG@  ‘D4L¶          php/PEAR2/Pyrus/Package/Base.php÷  ¸AG÷  I`ý¶      #   php/PEAR2/Pyrus/Package/Creator.php|$  ¸AG|$  cmƒ¶      -   php/PEAR2/Pyrus/Package/Creator/Exception.phpL   ¸AGL   uw=œ¶      0   php/PEAR2/Pyrus/Package/Creator/TaskIterator.phpù  ¸AGù  U™/¶      &   php/PEAR2/Pyrus/Package/Dependency.php+1  ¸AG+1  ƒRÚâ¶      %   php/PEAR2/Pyrus/Package/Exception.phpD   ¸AGD   0©Ç¶      $   php/PEAR2/Pyrus/Package/ICreator.php&  ¸AG&  M¡˜F¶      .   php/PEAR2/Pyrus/Package/InstalledException.php[   ¸AG[   qpö¶          php/PEAR2/Pyrus/Package/Phar.php¦  ¸AG¦  £»¶      *   php/PEAR2/Pyrus/Package/Phar/Exception.phpI   ¸AGI   îÀþ¶      "   php/PEAR2/Pyrus/Package/Remote.php´D  ¸AG´D  ‘YŽ¶         php/PEAR2/Pyrus/Package/Tar.php¾+  ¸AG¾+  ¤9j¶      )   php/PEAR2/Pyrus/Package/Tar/Exception.phpH   ¸AGH   $ÍË;¶         php/PEAR2/Pyrus/Package/Xml.phpE  ¸AGE  æ	åù¶         php/PEAR2/Pyrus/Package/Zip.phpv  ¸AGv  •6k\¶      )   php/PEAR2/Pyrus/Package/Zip/Exception.phpH   ¸AGH   Å‡zÍ¶         php/PEAR2/Pyrus/PackageFile.php¸  ¸AG¸  ÐN¤D¶      )   php/PEAR2/Pyrus/PackageFile/Exception.phpH   ¸AGH   3ÑVr¶      *   php/PEAR2/Pyrus/PackageFile/IValidator.phpp   ¸AGp   š¶      )   php/PEAR2/Pyrus/PackageFile/Parser/v2.phpy  ¸AGy  é×û¨¶      "   php/PEAR2/Pyrus/PackageFile/v2.php7  ¸AG7  ,ÀîÍ¶      -   php/PEAR2/Pyrus/PackageFile/v2/Compatible.php"  ¸AG"  mc¶      7   php/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.phpV   ¸AGV   À“õ¥¶      /   php/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpéH  ¸AGéH  Ðóº¶      9   php/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.phpX   ¸AGX   ?Ôà7¶      ,   php/PEAR2/Pyrus/PackageFile/v2/Developer.php  ¸AG  le.¡¶      6   php/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.phpU   ¸AGU   E#¸“¶      (   php/PEAR2/Pyrus/PackageFile/v2/Files.php¬  ¸AG¬  —ÿD1¶      2   php/PEAR2/Pyrus/PackageFile/v2/Files/Exception.phpQ   ¸AGQ   Ú*¶¶      *   php/PEAR2/Pyrus/PackageFile/v2/Release.phpÑ.  ¸AGÑ.  ¾iÊ¶      4   php/PEAR2/Pyrus/PackageFile/v2/Release/Exception.phpS   ¸AGS   Rnü‰¶      )   php/PEAR2/Pyrus/PackageFile/v2/Remote.phpY   ¸AGY   e¥O¶      ,   php/PEAR2/Pyrus/PackageFile/v2/Validator.phpÖz  ¸AGÖz  o
+«~¶      /   php/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpZ  ¸AGZ  ã¦B4¶      <   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php¼  ¸AG¼  ‰ž<¶      7   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpu  ¸AGu  mœQé¶      <   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpë   ¸AGë   í«©—¶      A   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php…  ¸AG…  z^¯£¶      2   php/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpî	  ¸AGî	  ›nû¶      <   php/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpý  ¸AGý  ñ	ÅÉ¶         php/PEAR2/Pyrus/Registry.php°  ¸AG°  #G0à¶      !   php/PEAR2/Pyrus/Registry/Base.php‚  ¸AG‚  ÚÑ&Î¶      $   php/PEAR2/Pyrus/Registry/Channel.phpm  ¸AGm  /jè-¶      #   php/PEAR2/Pyrus/Registry/Config.phpw   ¸AGw   .ßÌ
+¶      &   php/PEAR2/Pyrus/Registry/Exception.phpF   ¸AGF   v0b.¶      $   php/PEAR2/Pyrus/Registry/Package.phpd  ¸AGd  	ñ/¿¶      #   php/PEAR2/Pyrus/Registry/Sqlite.phpÖ:  ¸AGÖ:  úHä¶      +   php/PEAR2/Pyrus/Registry/Sqlite/Creator.php#]  ¸AG#]  ¹ƒ;˜¶      +   php/PEAR2/Pyrus/Registry/Sqlite/Package.php  ¸AG  @¶â2¶          php/PEAR2/Pyrus/Registry/Xml.phpÍ  ¸AGÍ  !Ü¡¹¶         php/PEAR2/Pyrus/REST.php6  ¸AG6  ùÕt®¶         php/PEAR2/Pyrus/REST/10.php\r  ¸AG\r  tü}Æ¶         php/PEAR2/Pyrus/REST/11.php[)  ¸AG[)  €b4¶         php/PEAR2/Pyrus/REST/13.php¯*  ¸AG¯*  µìâ¶      "   php/PEAR2/Pyrus/REST/Exception.phpA   ¸AGA   îºy<¶      &   php/PEAR2/Pyrus/REST/HTTPException.phpP   ¸AGP   •d}Æ¶      +   php/PEAR2/Pyrus/ScriptFrontend/Commands.php²  ¸AG²  ?;“¶         php/PEAR2/Pyrus/Task/Common.phpæ  ¸AGæ  L!÷¸¶      "   php/PEAR2/Pyrus/Task/Exception.phpA   ¸AGA   éÛW ¶      *   php/PEAR2/Pyrus/Task/Postinstallscript.phpè9  ¸AGè9  ã“²b¶      -   php/PEAR2/Pyrus/Task/Postinstallscript/rw.phpø  ¸AGø  ‰ýlš¶          php/PEAR2/Pyrus/Task/Replace.php	  ¸AG	  W¢lÀ¶      #   php/PEAR2/Pyrus/Task/Replace/rw.phpø  ¸AGø  €²¶          php/PEAR2/Pyrus/Task/Unixeol.phpƒ
+  ¸AGƒ
+  –bØv¶      #   php/PEAR2/Pyrus/Task/Unixeol/rw.php  ¸AG  Äô“¶      #   php/PEAR2/Pyrus/Task/Windowseol.php
+  ¸AG
+  yD<Þ¶      &   php/PEAR2/Pyrus/Task/Windowseol/rw.php  ¸AG  1ìÚ¶         php/PEAR2/Pyrus/Validate.php¶R  ¸AG¶R  ³¡›f¶      &   php/PEAR2/Pyrus/Validate/Exception.php¶  ¸AG¶  ``Ñ¶      "   php/PEAR2/Pyrus/Validator/PECL.phpo  ¸AGo  Â|Q¶         php/PEAR2/Pyrus/XMLParser.phpÉ  ¸AGÉ  Õ ‰Þ¶      '   php/PEAR2/Pyrus/XMLParser/Exception.phpF   ¸AGF   ^P¶         php/PEAR2/Pyrus/XMLWriter.phpW  ¸AGW  e(2L¶      '   php/PEAR2/Pyrus/XMLWriter/Exception.phpF   ¸AGF   ]Æ¤¶         php/PEAR2/Autoload.php7	  ¸AG7	  ®&&É¶         php/PEAR2/MultiErrors.phpN  ¸AGN  <Á±¶         php/PEAR2/Exception.php 0  ¸AG 0  zbÃ2¶      #   php/PEAR2/MultiErrors/Exception.phpB   ¸AGB   úÇz²¶         php/PEAR2/HTTP/Request.php“  ¸AG“  EbD|¶      "   php/PEAR2/HTTP/Request/Adapter.php«	  ¸AG«	  ˜ú z¶      ,   php/PEAR2/HTTP/Request/Adapter/Phpsocket.php8  ¸AG8  …x¶      ,   php/PEAR2/HTTP/Request/Adapter/Phpstream.php  ¸AG  ˜¬¤¶      $   php/PEAR2/HTTP/Request/Exception.phpE   ¸AGE   5Åö,¶      #   php/PEAR2/HTTP/Request/Response.php×  ¸AG×  Ó…H¶         php/Net/URL2.php9  ¸AG9  D«;b¶      <?php
 function __autoload($class)
 {
-    if (strpos(PHP_OS, 'WIN') !== false) {
-        include 'phar:///' . PYRUS_PHAR_FILE . '/php/' . implode('/', explode('_', $class)) . '.php';
-    } else {
-        include 'phar://' . PYRUS_PHAR_FILE . '/php/' . implode('/', explode('_', $class)) . '.php';
-    }
+    include 'phar://' . PYRUS_PHAR_FILE . '/php/' . implode('/', explode('_', $class)) . '.php';
 }
 $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 @array_shift($_SERVER['argv']);
@@ -7609,6 +7601,15 @@ class PEAR2_Pyrus_Installer
     protected static $installedPackages = array();
 
     /**
+     * Packages that have been installed and also successfully registered as installed
+     *
+     * This list is used when {@link rollback()} is called to determine
+     * the packages that should be removed from the registry
+     * @var array
+     */
+    protected static $registeredPackages = array();
+
+    /**
      * Packages that were removed during installation
      *
      * This list is used when {@link rollback()} is called to restore state
@@ -7655,6 +7656,19 @@ class PEAR2_Pyrus_Installer
     static function prepare(PEAR2_Pyrus_Package $package)
     {
         if (!isset(self::$installPackages[$package->channel . '/' . $package->name])) {
+            if (PEAR2_Pyrus_Config::current()->registry->exists(
+                  $package->name, $package->channel)) {
+                if (version_compare($package->version['release'],
+                      PEAR2_Pyrus_Config::current()->registry->info(
+                        $package->name, $package->channel, 'version'), '<=')) {
+                    // installed package is the same or newer version than this one
+                    if (!isset(self::$options['force'])) {
+                        PEAR2_Pyrus_Log::log(1, 'Skipping installed package ' .
+                            $package->channel . '/' . $package->name);
+                        return;
+                    }
+                }
+            }
             self::$installPackages[$package->channel . '/' . $package->name] = $package;
             self::prepareDependencies(
                 self::$installPackages[$package->channel . '/' . $package->name]);
@@ -7753,12 +7767,16 @@ class PEAR2_Pyrus_Installer
     static function rollback()
     {
         if (self::$inTransaction) {
+            self::$inTransaction = false;
             self::$transact->rollback();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             $err = new PEAR2_MultiErrors;
-            foreach (self::$installedPackages as $package) {
+            foreach (self::$registeredPackages as $package) {
                 try {
-                    $reg->uninstall($package->name, $package->channel);
+                    $reg->uninstall($package[0]->name, $package[0]->channel);
+                    if ($package[1]) {
+                        $reg->install($package[1]);
+                    }
                 } catch (Exception $e) {
                     $err->E_ERROR[] = $e;
                 }
@@ -7777,8 +7795,8 @@ class PEAR2_Pyrus_Installer
             }
             self::$installPackages = array();
             self::$installedPackages = array();
+            self::$registeredPackages = array();
             self::$removedPackages = array();
-            self::$inTransaction = false;
             if (count($err)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
@@ -7822,15 +7840,14 @@ class PEAR2_Pyrus_Installer
             self::$transact->commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (self::$installedPackages as $package) {
+                $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                self::$registeredPackages[] = array($package, $previous);
                 $reg->install($package->getPackageFile()->info);
             }
             self::$installPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
         } catch (Exception $e) {
-            try {
-                self::rollback();
-            } catch (Exception $ex) {
-            }
+            self::rollback();
             throw $e;
         }
     }
@@ -8918,6 +8935,10 @@ interface PEAR2_Pyrus_IRegistry
     public function info($package, $channel, $field);
     public function listPackages($channel);
     public function __get($var);
+    /**
+     * @return PEAR2_Pyrus_PackageFile_v2
+     */
+    public function toPackageFile($package, $channel);
 }<?php
 class PEAR2_Pyrus_Log
 {
@@ -10161,14 +10182,8 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         $this->_tmpdir = $where;
         $pxml = $phar->getMetaData();
         foreach (new RecursiveIteratorIterator($phar) as $path => $info) {
-            if (strpos(PHP_OS, 'WIN') !== false) {
-                $makepath = $where .
-                    dirname(str_replace('phar:///' . $package, '', $info->getPathName()));
-                $makepath = str_replace('/', '\\', $makepath);
-            } else {
-                $makepath = $where .
-                    dirname(str_replace('phar://' . $package, '', $info->getPathName()));
-            }
+            $makepath = $where .
+                dirname(str_replace('phar://' . $package, '', $info->getPathName()));
             if (dirname($makepath . 'a\\') != $makepath &&
                   dirname($makepath . 'a\\') . DIRECTORY_SEPARATOR != $makepath) {
                 $makepath .= DIRECTORY_SEPARATOR;
@@ -14822,6 +14837,33 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         return $this->registries[0];
     }
 
+    public function toPackageFile($package, $channel, $onlyMain = false)
+    {
+        if ($this->exists($package, $channel, true)) {
+            foreach ($this->registries as $reg) {
+                if ($reg instanceof PEAR2_Pyrus_Registry_Xml) {
+                	// prefer xml for retrieving packagefile object
+                	try {
+                	    return $reg->toPackageFile($package, $channel);
+                	} catch (Exception $e) {
+                	    // failed, cascade to using default registry instead
+                	}
+                }
+            }
+            return $this->registries[0]->toPackageFile($package, $channel);
+        }
+        if ($onlyMain) {
+            return null;
+        }
+        if ($this->exists($package, $channel, false)) {
+            if (!$this->parent) {
+                return null;
+            }
+            // installed in parent registry
+            return $this->parent->toPackageFile($package, $channel);
+        }
+    }
+
     function __get($var)
     {
         // first registry is always the primary registry
@@ -15083,6 +15125,12 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        try {
+            // this ensures upgrade will work
+            $this->uninstall($info->name, $info->channel);
+        } catch (Exception $e) {
+            // ignore errors
+        }
         $this->database->queryExec('BEGIN');
         $licloc = $info->license;
         $licuri = isset($licloc['attribs']['uri']) ? '"' .
@@ -15341,6 +15389,31 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         if ($var === 'package') {
             return new PEAR2_Pyrus_Registry_Sqlite_Package($this);
         }
+    }
+
+    /**
+     * Extract a packagefile object from the registry
+     * @return PEAR2_Pyrus_PackageFile_v2
+     */
+    function toPackageFile($package, $channel)
+    {
+        if (!$this->exists($package, $channel)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+                'for package ' . $package . '/' . $channel . ', it is not installed');
+        }
+        $ret = new PEAR2_Pyrus_PackageFile_v2;
+        $ret->name = $package;
+        $ret->channel = $channel;
+        $ret->summary = $this->info($package, $channel, 'summary');
+        $ret->description = $this->info($package, $channel, 'description');
+        // maintainers
+        // date
+        // version
+        // stability
+        // license
+        // notes
+        // dependencies
+        // filelist
     }
 }
 <?php
@@ -16054,9 +16127,6 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  	
  	function offsetSet($offset, $value)
  	{
- 	    if ($offset == 'upgrade') {
- 	        $this->upgrade($value);
- 	    }
  	    if ($offset == 'install') {
  	        $this->install($value);
  	    }
@@ -16064,7 +16134,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
 
  	function offsetUnset($offset)
  	{
- 	    $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
+ 	    $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
  	    $this->uninstall($info['package'], $info['channel']);
  	}
 
@@ -16111,6 +16181,8 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        // remove previously installed version for upgrade
+        $this->uninstall($info->name, $info->channel);
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0777, true);
@@ -16120,7 +16192,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 
     function uninstall($package, $channel)
     {
-        $packagefile = $this->_nameRegistryPath($info);
+        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         @unlink($packagefile);
         @rmdir(dirname($packagefile));
     }
@@ -16177,6 +16249,17 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
                 'channel ' . $channel, $e);
         }
         return $ret;
+    }
+
+    public function toPackageFile($package, $channel)
+    {
+        if (!$this->exists($package, $channel)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+                'for package ' . $package . '/' . $channel . ', it is not installed');
+        }
+        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
+        $x = new PEAR2_Pyrus_PackageFile($packagefile);
+        return $x->info;
     }
 
     public function __get($var)
@@ -22290,4 +22373,4 @@ class Net_URL2
     }
 }
 ?>
-=y×yô<°\:Gªü¢æèA£VÕ   GBMB
+(9m=¡÷ËÞâ'á®:ÇcŽ   GBMB
