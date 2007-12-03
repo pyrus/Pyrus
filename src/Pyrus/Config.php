@@ -54,7 +54,7 @@ class PEAR2_Pyrus_Config
      */
     static protected $defaults =
         array(
-            'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
+            'php_dir' => '@php_dir@/src', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext_dir',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
@@ -156,9 +156,6 @@ class PEAR2_Pyrus_Config
         } elseif (defined('PEAR_EXTENSION_DIR')) {
             self::$defaults['ext_dir'] = PEAR_EXTENSION_DIR;
             PEAR2_Pyrus_Log::log(5, 'used PEAR_EXTENSION_DIR constant');
-        } elseif (defined('PHP_EXTENSION_DIR')) {
-            self::$defaults['ext_dir'] = PHP_EXTENSION_DIR;
-            PEAR2_Pyrus_Log::log(5, 'used PHP_EXTENSION_DIR constant');
         }
         // set up default bin_dir
         if (getenv('PHP_PEAR_BIN_DIR')) {
@@ -189,6 +186,11 @@ class PEAR2_Pyrus_Config
             PEAR2_Pyrus_Log::log(5, 'used PHP_BINDIR for bin_dir default');
         }
         foreach (self::$pearConfigNames as $name) {
+            // make sure we've got valid paths for the underlying OS
+            self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
+                                                 self::$defaults[$name]);
+        }
+        foreach (self::$userConfigNames as $name) {
             // make sure we've got valid paths for the underlying OS
             self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
                                                  self::$defaults[$name]);

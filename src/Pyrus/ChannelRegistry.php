@@ -2,6 +2,13 @@
 
 class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEAR2_Pyrus_IChannelRegistry
 {
+    /**
+     * Class to instantiate for singleton.
+     *
+     * This is useful for unit-testing and for extending the registry
+     * @var string
+     */
+    static public $className = 'PEAR2_Pyrus_ChannelRegistry';
     static private $_allRegistries = array();
     /**
      * The parent registry
@@ -44,7 +51,8 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
         if (!isset(self::$_allRegistries[$path])) {
-            self::$_allRegistries[$path] = new PEAR2_Pyrus_ChannelRegistry($path);
+            $a = self::$className;
+            self::$_allRegistries[$path] = new $a($path);
         }
         return self::$_allRegistries[$path];
     }

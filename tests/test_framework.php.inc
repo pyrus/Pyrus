@@ -117,6 +117,19 @@ class PEAR2_PHPT
         return false;
     }
 
+    function assertRegex($regex, $test, $message)
+    {
+        if (!preg_match($regex, $test)) {
+            $this->_failTest(debug_backtrace(), $message);
+            echo "Expecting:\nText Matching Regular Expression $regex\n";
+            echo "\nReceived:\n";
+            var_export($test);
+            echo "\n";
+            return false;
+        }
+        return true;
+    }
+
     function assertEquals($control, $test, $message)
     {
         if (str_replace(array("\r", "\n"), array('', ''),

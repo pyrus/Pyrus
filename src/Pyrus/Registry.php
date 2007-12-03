@@ -13,6 +13,13 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 {
     static protected $allRegistries = array();
     /**
+     * Class to instantiate for singleton.
+     *
+     * This is useful for unit-testing and for extending the registry
+     * @var string
+     */
+    static public $className = 'PEAR2_Pyrus_Registry';
+    /**
      * The parent registry
      *
      * This is used to implement cascading registries
@@ -74,7 +81,8 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
     static public function singleton($path, $registries = array('Sqlite', 'Xml'))
     {
         if (!isset(self::$allRegistries[$path])) {
-            self::$allRegistries[$path] = new PEAR2_Pyrus_Registry($path);
+            $a = self::$className;
+            self::$allRegistries[$path] = new $a($path);
         }
         return self::$allRegistries[$path];
     }

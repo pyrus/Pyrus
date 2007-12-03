@@ -74,6 +74,9 @@ class PEAR2_Pyrus_Installer_Role_Common
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         $role = str_replace('pear2_pyrus_installer_role_', '',
                 strtolower(get_class($this)));
+        if ($role === 'php') {
+            $role = 'src'; // we use "src" as the directory for role=php
+        }
         $file = $atts['name'];
         // strip role from file path
         // so src/Path/To/File.php becomes Path/To/File.php,
@@ -81,11 +84,6 @@ class PEAR2_Pyrus_Installer_Role_Common
         $newpath = $file;
         if (strpos($newpath, $role) === 0) {
             $newpath = substr($newpath, strlen($role) + 1);
-            if ($newpath === false) {
-                $newpath = $file;
-            }
-        } elseif ($role === 'php' && strpos($newpath, 'src') === 0) {
-            $newpath = substr($newpath, 4);
             if ($newpath === false) {
                 $newpath = $file;
             }
