@@ -44,9 +44,9 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
             $this->_info['channel'] = $channel;
             $this->_package = true;
         } else {
-            if (count($this->_packageInfo)) {
-                if (isset($this->_packageInfo[0])) {
-                    $this->_count = count($this->_packageInfo);
+            if (isset($this->_packageInfo['compatible'])) {
+                if (isset($this->_packageInfo['compatible'][0])) {
+                    $this->_count = count($this->_packageInfo['compatible']);
                 } else {
                     $this->_count = 1;
                 }

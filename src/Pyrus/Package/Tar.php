@@ -22,7 +22,12 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
             case 'tgz' :
                 if ($this->_fp) {
                     fclose($this->_fp);
-                    $this->_fp = gzopen($package, 'rb');
+                    if (!function_exists('gzopen')) {
+                        throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot extract package '.
+                            $package . ', PHP must have the zlib extension enabled --with-zlib.');
+                    } else {
+                        $this->_fp = gzopen($package, 'rb');
+                    }
                 }
                 break;
             case 'tbz' :
@@ -303,6 +308,8 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 }
             }
         } while ($this->_internalFileLength);
+        fclose($fp);
+        fclose($this->_fp);
         if (!$packagexml) {
             throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->_packagename .
                 ' does not contain a package.xml file');

@@ -164,7 +164,7 @@ class PEAR2_Pyrus_XMLWriter
                 }
                 $this->_writer->writeAttribute($key, $values);
             } else {
-                $this->_writer->writeAttributeNS($ns, $attr, $this->_namespaces[$ns], $values);
+                $this->_writer->writeAttributeNS($ns, $attr, $values, $values);
             }
         } else { // default namespace
             $this->_writer->writeAttribute($key, $values);

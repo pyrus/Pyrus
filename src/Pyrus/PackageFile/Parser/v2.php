@@ -90,7 +90,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
      *               a subclass
      * @return PEAR2_Pyrus_PackageFile_v2
      */
-    function parse($data, $file, $class = 'PEAR2_Pyrus_PackageFile_v2')
+    function parse($data, $file = false, $class = 'PEAR2_Pyrus_PackageFile_v2')
     {
         $this->_inContents = false;
         $this->_path = '';
