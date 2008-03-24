@@ -8,7 +8,7 @@ $ret = $parser->parse(file_get_contents($pxml), $pxml, 'Mockv2');
 $test->assertEquals(array (
   'filelist' => 
   array (
-    'channel-1.0.xsd' => 
+    'data/channel-1.0.xsd' => 
     array (
       'attribs' => 
       array (
@@ -16,7 +16,7 @@ $test->assertEquals(array (
         'name' => 'channel-1.0.xsd',
       ),
     ),
-    'package-2.0.xsd' => 
+    'data/package-2.0.xsd' => 
     array (
       'attribs' => 
       array (
@@ -24,7 +24,7 @@ $test->assertEquals(array (
         'name' => 'package-2.0.xsd',
       ),
     ),
-    'package-2.1.xsd' => 
+    'data/package-2.1.xsd' => 
     array (
       'attribs' => 
       array (
@@ -32,7 +32,7 @@ $test->assertEquals(array (
         'name' => 'package-2.1.xsd',
       ),
     ),
-    'src/Pyrus/Base.php' => 
+    'src/Pyrus/Channel/Base.php' => 
     array (
       'attribs' => 
       array (
@@ -40,7 +40,7 @@ $test->assertEquals(array (
         'name' => 'Base.php',
       ),
     ),
-    'src/Pyrus/Exception.php' => 
+    'src/Pyrus/Channel/Exception.php' => 
     array (
       'attribs' => 
       array (
@@ -48,7 +48,7 @@ $test->assertEquals(array (
         'name' => 'Exception.php',
       ),
     ),
-    'src/Pyrus/IMirror.php' => 
+    'src/Pyrus/Channel/IMirror.php' => 
     array (
       'attribs' => 
       array (
@@ -56,7 +56,7 @@ $test->assertEquals(array (
         'name' => 'IMirror.php',
       ),
     ),
-    'src/Pyrus/Mirror.php' => 
+    'src/Pyrus/Channel/Mirror.php' => 
     array (
       'attribs' => 
       array (
@@ -64,7 +64,7 @@ $test->assertEquals(array (
         'name' => 'Mirror.php',
       ),
     ),
-    'src/Pyrus/ChannelRegistry/Sqlite.php' => 
+    'src/Pyrus/ChannelRegistry/Channel/Sqlite.php' => 
     array (
       'attribs' => 
       array (
@@ -72,7 +72,31 @@ $test->assertEquals(array (
         'name' => 'Sqlite.php',
       ),
     ),
-    'src/Pyrus/ChannelRegistry/Xml.php' => 
+    'src/Pyrus/ChannelRegistry/Channel/Xml.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Xml.php',
+      ),
+    ),
+    'src/Pyrus/ChannelRegistry/Mirror/Sqlite.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Sqlite.php',
+      ),
+    ),
+    'src/Pyrus/ChannelRegistry/Mirror/Xml.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Xml.php',
+      ),
+    ),
+    'src/Pyrus/ChannelRegistry/Channel/Xml.php' => 
     array (
       'attribs' => 
       array (
@@ -96,7 +120,39 @@ $test->assertEquals(array (
         'name' => 'Exception.php',
       ),
     ),
-    'src/Pyrus/Validator.php' => 
+    'src/Pyrus/ChannelRegistry/Sqlite.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Sqlite.php',
+      ),
+    ),
+    'src/Pyrus/ChannelRegistry/Xml.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Xml.php',
+      ),
+    ),
+    'src/Pyrus/Config/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/Dependency/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/Dependency/Validator.php' => 
     array (
       'attribs' => 
       array (
@@ -104,7 +160,15 @@ $test->assertEquals(array (
         'name' => 'Validator.php',
       ),
     ),
-    'src/Pyrus/Vertex.php' => 
+    'src/Pyrus/DirectedGraph/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/DirectedGraph/Vertex.php' => 
     array (
       'attribs' => 
       array (
@@ -112,7 +176,7 @@ $test->assertEquals(array (
         'name' => 'Vertex.php',
       ),
     ),
-    'src/Pyrus/Installedas.php' => 
+    'src/Pyrus/FileTransactions/Installedas.php' => 
     array (
       'attribs' => 
       array (
@@ -120,7 +184,7 @@ $test->assertEquals(array (
         'name' => 'Installedas.php',
       ),
     ),
-    'src/Pyrus/Rename.php' => 
+    'src/Pyrus/FileTransactions/Rename.php' => 
     array (
       'attribs' => 
       array (
@@ -128,7 +192,7 @@ $test->assertEquals(array (
         'name' => 'Rename.php',
       ),
     ),
-    'src/Pyrus/Rmdir.php' => 
+    'src/Pyrus/FileTransactions/Rmdir.php' => 
     array (
       'attribs' => 
       array (
@@ -136,7 +200,7 @@ $test->assertEquals(array (
         'name' => 'Rmdir.php',
       ),
     ),
-    'src/Pyrus/Installer/Common.php' => 
+    'src/Pyrus/Installer/Role/Common.php' => 
     array (
       'attribs' => 
       array (
@@ -144,7 +208,7 @@ $test->assertEquals(array (
         'name' => 'Common.php',
       ),
     ),
-    'src/Pyrus/Installer/Data.php' => 
+    'src/Pyrus/Installer/Role/Data.php' => 
     array (
       'attribs' => 
       array (
@@ -152,7 +216,7 @@ $test->assertEquals(array (
         'name' => 'Data.php',
       ),
     ),
-    'src/Pyrus/Installer/Data.xml' => 
+    'src/Pyrus/Installer/Role/Data.xml' => 
     array (
       'attribs' => 
       array (
@@ -160,7 +224,7 @@ $test->assertEquals(array (
         'name' => 'Data.xml',
       ),
     ),
-    'src/Pyrus/Installer/Doc.php' => 
+    'src/Pyrus/Installer/Role/Doc.php' => 
     array (
       'attribs' => 
       array (
@@ -168,12 +232,116 @@ $test->assertEquals(array (
         'name' => 'Doc.php',
       ),
     ),
-    'src/Pyrus/Installer/Doc.xml' => 
+    'src/Pyrus/Installer/Role/Doc.xml' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
         'name' => 'Doc.xml',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Ext.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Ext.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Ext.xml' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Ext.xml',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Php.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Php.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Php.xml' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Php.xml',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Script.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Script.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Script.xml' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Script.xml',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Src.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Src.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Src.xml' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Src.xml',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Test.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Test.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Test.xml' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Test.xml',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Www.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Www.php',
+      ),
+    ),
+    'src/Pyrus/Installer/Role/Www.xml' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Www.xml',
       ),
     ),
     'src/Pyrus/Installer/Exception.php' => 
@@ -184,102 +352,6 @@ $test->assertEquals(array (
         'name' => 'Exception.php',
       ),
     ),
-    'src/Pyrus/Installer/Ext.php' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Ext.php',
-      ),
-    ),
-    'src/Pyrus/Installer/Ext.xml' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Ext.xml',
-      ),
-    ),
-    'src/Pyrus/Installer/Php.php' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Php.php',
-      ),
-    ),
-    'src/Pyrus/Installer/Php.xml' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Php.xml',
-      ),
-    ),
-    'src/Pyrus/Installer/Script.php' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Script.php',
-      ),
-    ),
-    'src/Pyrus/Installer/Script.xml' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Script.xml',
-      ),
-    ),
-    'src/Pyrus/Installer/Src.php' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Src.php',
-      ),
-    ),
-    'src/Pyrus/Installer/Src.xml' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Src.xml',
-      ),
-    ),
-    'src/Pyrus/Installer/Test.php' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Test.php',
-      ),
-    ),
-    'src/Pyrus/Installer/Test.xml' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Test.xml',
-      ),
-    ),
-    'src/Pyrus/Installer/Www.php' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Www.php',
-      ),
-    ),
-    'src/Pyrus/Installer/Www.xml' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'Www.xml',
-      ),
-    ),
     'src/Pyrus/Installer/Role.php' => 
     array (
       'attribs' => 
@@ -288,7 +360,7 @@ $test->assertEquals(array (
         'name' => 'Role.php',
       ),
     ),
-    'src/Pyrus/Package/Exception.php' => 
+    'src/Pyrus/Package/Creator/Exception.php' => 
     array (
       'attribs' => 
       array (
@@ -296,12 +368,36 @@ $test->assertEquals(array (
         'name' => 'Exception.php',
       ),
     ),
-    'src/Pyrus/Package/TaskIterator.php' => 
+    'src/Pyrus/Package/Creator/TaskIterator.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
         'name' => 'TaskIterator.php',
+      ),
+    ),
+    'src/Pyrus/Package/Phar/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/Package/Tar/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/Package/Zip/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
       ),
     ),
     'src/Pyrus/Package/Base.php' => 
@@ -326,6 +422,14 @@ $test->assertEquals(array (
       array (
         'role' => 'php',
         'name' => 'Dependency.php',
+      ),
+    ),
+    'src/Pyrus/Package/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
       ),
     ),
     'src/Pyrus/Package/ICreator.php' => 
@@ -384,7 +488,7 @@ $test->assertEquals(array (
         'name' => 'Zip.php',
       ),
     ),
-    'src/Pyrus/PackageFile/v2.php' => 
+    'src/Pyrus/PackageFile/Parser/v2.php' => 
     array (
       'attribs' => 
       array (
@@ -392,7 +496,39 @@ $test->assertEquals(array (
         'name' => 'v2.php',
       ),
     ),
-    'src/Pyrus/PackageFile/v2/Exception.php' => 
+    'src/Pyrus/PackageFile/v2/Compatible/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/PackageFile/v2/Dependencies/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/PackageFile/v2/Developer/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/PackageFile/v2/Files/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/PackageFile/v2/Release/Exception.php' => 
     array (
       'attribs' => 
       array (
@@ -456,7 +592,7 @@ $test->assertEquals(array (
         'name' => 'Validator.php',
       ),
     ),
-    'src/Pyrus/PackageFile/File.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/File.php' => 
     array (
       'attribs' => 
       array (
@@ -464,7 +600,7 @@ $test->assertEquals(array (
         'name' => 'File.php',
       ),
     ),
-    'src/Pyrus/PackageFile/FileAttribsFilter.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php' => 
     array (
       'attribs' => 
       array (
@@ -472,7 +608,7 @@ $test->assertEquals(array (
         'name' => 'FileAttribsFilter.php',
       ),
     ),
-    'src/Pyrus/PackageFile/FileContents.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/FileContents.php' => 
     array (
       'attribs' => 
       array (
@@ -480,7 +616,7 @@ $test->assertEquals(array (
         'name' => 'FileContents.php',
       ),
     ),
-    'src/Pyrus/PackageFile/FileContentsMulti.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/FileContentsMulti.php' => 
     array (
       'attribs' => 
       array (
@@ -488,7 +624,7 @@ $test->assertEquals(array (
         'name' => 'FileContentsMulti.php',
       ),
     ),
-    'src/Pyrus/PackageFile/FileInstallationFilter.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php' => 
     array (
       'attribs' => 
       array (
@@ -496,7 +632,7 @@ $test->assertEquals(array (
         'name' => 'FileInstallationFilter.php',
       ),
     ),
-    'src/Pyrus/PackageFile/FileTag.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/FileTag.php' => 
     array (
       'attribs' => 
       array (
@@ -504,7 +640,7 @@ $test->assertEquals(array (
         'name' => 'FileTag.php',
       ),
     ),
-    'src/Pyrus/PackageFile/PackagingIterator.php' => 
+    'src/Pyrus/PackageFile/v2Iterator/PackagingIterator.php' => 
     array (
       'attribs' => 
       array (
@@ -528,7 +664,15 @@ $test->assertEquals(array (
         'name' => 'IValidator.php',
       ),
     ),
-    'src/Pyrus/Registry/Sqlite/Mirror.php' => 
+    'src/Pyrus/PackageFile/v2.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'v2.php',
+      ),
+    ),
+    'src/Pyrus/Registry/Sqlite/Channel/Mirror.php' => 
     array (
       'attribs' => 
       array (
@@ -536,7 +680,7 @@ $test->assertEquals(array (
         'name' => 'Mirror.php',
       ),
     ),
-    'src/Pyrus/Registry/Sqlite/Mirrors.php' => 
+    'src/Pyrus/Registry/Sqlite/Channel/Mirrors.php' => 
     array (
       'attribs' => 
       array (
@@ -616,7 +760,7 @@ $test->assertEquals(array (
         'name' => 'Xml.php',
       ),
     ),
-    'src/Pyrus/10.php' => 
+    'src/Pyrus/REST/10.php' => 
     array (
       'attribs' => 
       array (
@@ -624,7 +768,7 @@ $test->assertEquals(array (
         'name' => '10.php',
       ),
     ),
-    'src/Pyrus/11.php' => 
+    'src/Pyrus/REST/11.php' => 
     array (
       'attribs' => 
       array (
@@ -632,7 +776,7 @@ $test->assertEquals(array (
         'name' => '11.php',
       ),
     ),
-    'src/Pyrus/13.php' => 
+    'src/Pyrus/REST/13.php' => 
     array (
       'attribs' => 
       array (
@@ -640,7 +784,15 @@ $test->assertEquals(array (
         'name' => '13.php',
       ),
     ),
-    'src/Pyrus/HTTPException.php' => 
+    'src/Pyrus/REST/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/REST/HTTPException.php' => 
     array (
       'attribs' => 
       array (
@@ -648,7 +800,7 @@ $test->assertEquals(array (
         'name' => 'HTTPException.php',
       ),
     ),
-    'src/Pyrus/Commands.php' => 
+    'src/Pyrus/ScriptFrontend/Commands.php' => 
     array (
       'attribs' => 
       array (
@@ -656,7 +808,31 @@ $test->assertEquals(array (
         'name' => 'Commands.php',
       ),
     ),
-    'src/Pyrus/Task/rw.php' => 
+    'src/Pyrus/Task/Postinstallscript/rw.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'rw.php',
+      ),
+    ),
+    'src/Pyrus/Task/Replace/rw.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'rw.php',
+      ),
+    ),
+    'src/Pyrus/Task/Unixeol/rw.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'rw.php',
+      ),
+    ),
+    'src/Pyrus/Task/Windowseol/rw.php' => 
     array (
       'attribs' => 
       array (
@@ -712,12 +888,36 @@ $test->assertEquals(array (
         'name' => 'Windowseol.php',
       ),
     ),
-    'src/Pyrus/PECL.php' => 
+    'src/Pyrus/Validate/Exception.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'PECL.php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/Validator/PECL.php' => 
+     array (
+       'attribs' => 
+       array (
+         'role' => 'php',
+         'name' => 'PECL.php',
+      ),
+    ),
+    'src/Pyrus/XMLParser/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
+      ),
+    ),
+    'src/Pyrus/XMLWriter/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
       ),
     ),
     'src/Pyrus/Channel.php' => 
@@ -758,6 +958,14 @@ $test->assertEquals(array (
       array (
         'role' => 'php',
         'name' => 'Downloader.php',
+      ),
+    ),
+    'src/Pyrus/Exception.php' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'Exception.php',
       ),
     ),
     'src/Pyrus/FileTransactions.php' => 

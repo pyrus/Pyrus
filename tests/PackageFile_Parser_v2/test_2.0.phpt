@@ -42,7 +42,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Auth.xml' => 
+    'PEAR/Command/Auth.xml' => 
     array (
       'attribs' => 
       array (
@@ -50,7 +50,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Auth.php' => 
+    'PEAR/Command/Auth.php' => 
     array (
       'attribs' => 
       array (
@@ -67,7 +67,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Build.xml' => 
+    'PEAR/Command/Build.xml' => 
     array (
       'attribs' => 
       array (
@@ -75,7 +75,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Build.php' => 
+    'PEAR/Command/Build.php' => 
     array (
       'attribs' => 
       array (
@@ -92,7 +92,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Channels.xml' => 
+    'PEAR/Command/Channels.xml' => 
     array (
       'attribs' => 
       array (
@@ -100,7 +100,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Channels.php' => 
+    'PEAR/Command/Channels.php' => 
     array (
       'attribs' => 
       array (
@@ -117,7 +117,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Common.php' => 
+    'PEAR/Command/Common.php' => 
     array (
       'attribs' => 
       array (
@@ -134,7 +134,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Config.xml' => 
+    'PEAR/Command/Config.xml' => 
     array (
       'attribs' => 
       array (
@@ -142,7 +142,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Config.php' => 
+    'PEAR/Command/Config.php' => 
     array (
       'attribs' => 
       array (
@@ -159,7 +159,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Install.xml' => 
+    'PEAR/Command/Install.xml' => 
     array (
       'attribs' => 
       array (
@@ -167,7 +167,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Install.php' => 
+    'PEAR/Command/Install.php' => 
     array (
       'attribs' => 
       array (
@@ -184,7 +184,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Mirror.xml' => 
+    'PEAR/Command/Mirror.xml' => 
     array (
       'attribs' => 
       array (
@@ -192,7 +192,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Mirror.php' => 
+    'PEAR/Command/Mirror.php' => 
     array (
       'attribs' => 
       array (
@@ -209,7 +209,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Package.xml' => 
+    'PEAR/Command/Package.xml' => 
     array (
       'attribs' => 
       array (
@@ -217,7 +217,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Package.php' => 
+    'PEAR/Command/Package.php' => 
     array (
       'attribs' => 
       array (
@@ -246,7 +246,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Pickle.xml' => 
+    'PEAR/Command/Pickle.xml' => 
     array (
       'attribs' => 
       array (
@@ -254,7 +254,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Pickle.php' => 
+    'PEAR/Command/Pickle.php' => 
     array (
       'attribs' => 
       array (
@@ -271,7 +271,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Registry.xml' => 
+    'PEAR/Command/Registry.xml' => 
     array (
       'attribs' => 
       array (
@@ -279,7 +279,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Registry.php' => 
+    'PEAR/Command/Registry.php' => 
     array (
       'attribs' => 
       array (
@@ -296,7 +296,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Remote.xml' => 
+    'PEAR/Command/Remote.xml' => 
     array (
       'attribs' => 
       array (
@@ -304,7 +304,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Remote.php' => 
+    'PEAR/Command/Remote.php' => 
     array (
       'attribs' => 
       array (
@@ -321,7 +321,7 @@ $test->assertEquals(array (
         ),
       ),
     ),
-    'PEAR/Test.xml' => 
+    'PEAR/Command/Test.xml' => 
     array (
       'attribs' => 
       array (
@@ -329,7 +329,7 @@ $test->assertEquals(array (
         'role' => 'php',
       ),
     ),
-    'PEAR/Test.php' => 
+    'PEAR/Command/Test.php' => 
     array (
       'attribs' => 
       array (
@@ -1039,6 +1039,44 @@ $test->assertEquals(array (
         ),
       ),
     ),
+    'PEAR/Common.php' => 
+    array (
+      'attribs' => 
+      array (
+        'name' => 'Common.php',
+        'role' => 'php',
+      ),
+      'tasks:replace' => 
+      array (
+        'attribs' => 
+        array (
+          'from' => '@package_version@',
+          'to' => 'version',
+          'type' => 'package-info',
+        ),
+      ),
+    ),
+    'PEAR/Config.php' => 
+    array (
+      'attribs' => 
+      array (
+        'name' => 'Config.php',
+         'role' => 'php',
+       ),
+       'tasks:replace' => 
+       array (
+        'role' => 'php',
+      ),
+      'tasks:replace' => 
+      array (
+        'attribs' => 
+        array (
+          'from' => '@package_version@',
+          'to' => 'version',
+          'type' => 'package-info',
+        ),
+      ),
+    ),
     'PEAR/Dependency.php' => 
     array (
       'attribs' => 
@@ -1188,6 +1226,40 @@ $test->assertEquals(array (
       'attribs' => 
       array (
         'name' => 'Packager.php',
+        'role' => 'php',
+      ),
+      'tasks:replace' => 
+      array (
+        'attribs' => 
+        array (
+          'from' => '@package_version@',
+          'to' => 'version',
+          'type' => 'package-info',
+        ),
+      ),
+    ),
+    'PEAR/Registry.php' => 
+    array (
+      'attribs' => 
+      array (
+        'name' => 'Registry.php',
+        'role' => 'php',
+      ),
+      'tasks:replace' => 
+      array (
+        'attribs' => 
+        array (
+          'from' => '@package_version@',
+          'to' => 'version',
+          'type' => 'package-info',
+        ),
+      ),
+    ),
+    'PEAR/Remote.php' => 
+    array (
+      'attribs' => 
+      array (
+        'name' => 'Remote.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
