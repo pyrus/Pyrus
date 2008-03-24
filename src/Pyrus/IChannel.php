@@ -24,6 +24,6 @@ interface PEAR2_Pyrus_IChannel
     public function setPath($protocol, $path);
     public function addFunction($type, $version, $name);
     public function setBaseUrl($resourceType, $url);
-    public function getValidationObject($package);
-    public function getValidationPackage($packagename);
+    public function getValidationObject($package = false);
+    public function getValidationPackage();
 }
