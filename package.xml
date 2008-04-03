@@ -72,6 +72,7 @@ try {
       </dir>
       <file role="php" name="Base.php"/>
       <file role="php" name="Exception.php"/>
+      <file role="php" name="ParseException.php"/>
       <file role="php" name="Sqlite.php"/>
       <file role="php" name="Xml.php"/>
      </dir>
