@@ -65,8 +65,8 @@ try {
     PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Exception/trunk/package.xml'));
     PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/MultiErrors/trunk/package.xml'));
     PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Pyrus_Developer/package.xml'));
-    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Pyrus/trunk/pyrus.phar'));
-//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Pyrus/trunk/package.xml'));
+//    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Pyrus/trunk/pyrus.phar'));
+    PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Pyrus/trunk/package.xml'));
     PEAR2_Pyrus_Installer::commit();
 } catch (Exception $e) {
     PEAR2_Pyrus_Installer::rollback();

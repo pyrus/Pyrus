@@ -33,5 +33,5 @@ class c extends PEAR2_Pyrus_ChannelRegistry
         return parent::__construct($path, $registries);
     }
 }
-PEAR2_Pyrus_Registry::$classname = 'r';
-PEAR2_Pyrus_ChannelRegistry::$classname = 'c';
+PEAR2_Pyrus_Registry::$className = 'r';
+PEAR2_Pyrus_ChannelRegistry::$className = 'c';

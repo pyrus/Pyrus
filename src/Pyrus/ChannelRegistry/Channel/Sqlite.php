@@ -103,14 +103,11 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         return $ret;
     }
 
- 	function getValidationPackage($packagename)
+ 	function getValidationPackage()
  	{
  	    $r = $this->database->singleQuery('SELECT validatepackage ' .
  	          'FROM channels WHERE ' .
  	          'channel=\'' . sqlite_escape_string($this->channelname) . '\'');
-        if ($r === $packagename) {
-            return array('attribs' => array('version' => '1.0'), '_content' => 'PEAR2_Pyrus_Validate');
-        }
         if ($r == 'PEAR_Validate' || $r == 'PEAR_Validate_PECL') {
             return array('attribs' => array('version' => '1.0'), '_content' => str_replace('PEAR_', 'PEAR2_Pyrus_', $r));
         }
@@ -131,7 +128,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         }
     }
 
- 	function getValidationObject($package)
+ 	public function getValidationObject($package = false)
  	{
  	    $a = $this->getValidationPackage($package);
  	    $b = $a['_content'];
