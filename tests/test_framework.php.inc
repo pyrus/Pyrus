@@ -1,7 +1,10 @@
 <?php
+$__e = error_reporting();
+error_reporting(E_ERROR|E_NOTICE|E_WARNING);
 @include_once 'Text/Diff.php';
 @include_once 'Text/Diff/Renderer.php';
 @include_once 'Text/Diff/Renderer/unified.php';
+error_reporting($__e);
 class PEAR2_PHPT
 {
     var $_diffonly;
