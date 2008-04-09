@@ -1,6 +1,6 @@
 <?php
 /**
- * File PHPDOC Comment
+ * PEAR2_Pyrus_FileTransactions_Rmdir
  * 
  * PHP version 5
  * 

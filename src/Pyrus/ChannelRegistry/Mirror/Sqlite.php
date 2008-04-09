@@ -1,6 +1,6 @@
 <?php
 /**
- * File PHPDOC Comment
+ * PEAR2_Pyrus_ChannelRegistrymirror_Sqlite
  * 
  * PHP version 5
  * 

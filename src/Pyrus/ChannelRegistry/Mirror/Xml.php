@@ -1,6 +1,6 @@
 <?php
 /**
- * File PHPDOC Comment
+ * PEAR2_Pyrus_ChannelRegistry_Mirror_Xml
  * 
  * PHP version 5
  * 

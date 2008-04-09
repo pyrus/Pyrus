@@ -1,6 +1,6 @@
 <?php
 /**
- * File PHPDOC Comment
+ * PEAR2_Pyrus_XMLWriter
  * 
  * PHP version 5
  * 
