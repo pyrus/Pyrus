@@ -1,5 +1,19 @@
 <?php
 /**
+ * PEAR2_Pyrus_Registry_Sqlite
+ *
+ * PHP version 5
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   SVN: $Id$
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ */
+
+/**
  * This is the central registry, that is used for all installer options,
  * stored as an SQLite database
  * 
@@ -8,6 +22,13 @@
  * - A list of installed packages
  * - the files in each package
  * - known channels
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
 {

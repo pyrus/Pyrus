@@ -2,27 +2,26 @@
 /**
  * Channel Validator for the pecl.php.net channel
  *
- * PHP 4 and PHP 5
- *
- * @category   pear
- * @package    PEAR
- * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: PECL.php,v 1.1 2006/12/28 20:42:32 cellog Exp $
- * @link       http://pear.php.net/package/PEAR
- * @since      File available since Release 1.4.0a5
+ * PHP version 5
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   SVN: $Id$
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
+
 /**
  * Channel Validator for the pecl.php.net channel
- * @category   pear
- * @package    PEAR
- * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
- * @link       http://pear.php.net/package/PEAR
- * @since      Class available since Release 1.4.0a5
+ *
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
 {

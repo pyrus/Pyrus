@@ -1,5 +1,19 @@
 <?php
 /**
+ * File PHPDOC Comment
+ * 
+ * PHP version 5
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   SVN: $Id$
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ */
+
+/**
  * Registry manager
  *
  * The registry for PEAR2 consists of four related components
@@ -8,6 +22,13 @@
  *  - saved original package.xml for each installed package
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 {

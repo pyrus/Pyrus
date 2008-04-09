@@ -1,5 +1,19 @@
 <?php
 /**
+ * PEAR2_Pyrus_PackageFile_v2Iterator_FileTag
+ * 
+ * PHP version 5
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   SVN: $Id$
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ */
+
+/**
  * Store the path to the current file recursively
  * 
  * Information can be accessed in three ways:
@@ -7,6 +21,13 @@
  * - $file['attribs'] as an array directly
  * - $file->name      as object member, to access attributes
  * - $file->tasks     as pseudo-object, to access each task
+ *
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
 {

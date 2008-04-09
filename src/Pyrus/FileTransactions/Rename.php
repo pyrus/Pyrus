@@ -1,4 +1,29 @@
 <?php
+/**
+ * File PHPDOC Comment
+ * 
+ * PHP version 5
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   SVN: $Id$
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ */
+
+/**
+ * Handle files which are renamed on installation. This alters the standard file
+ * transaction to rename an installed file to a different filename.
+ *
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ */
 class PEAR2_Pyrus_FileTransactions_Rename implements PEAR2_Pyrus_IFileTransaction
 {
     public function check($data, &$errors)

@@ -2,33 +2,26 @@
 /**
  * package.xml parsing class, package.xml version 2.0
  *
- * PHP versions 4 and 5
- *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
- * @category   pear
- * @package    PEAR
- * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: v2.php,v 1.2 2007/06/03 18:08:49 cellog Exp $
- * @link       http://pear.php.net/package/PEAR
- * @since      File available since Release 1.4.0a1
+ * PHP version 5
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   SVN: $Id$
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
+
 /**
  * Parser for package.xml version 2.0
- * @category   pear
- * @package    PEAR
- * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @PEAR-VER@
- * @link       http://pear.php.net/package/PEAR
- * @since      Class available since Release 1.4.0a1
+ * 
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Greg Beaver <cellog@php.net>
+ * @copyright 2008 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
 {
