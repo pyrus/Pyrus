@@ -37,7 +37,8 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
      *                     ['group' => 'groupname'])
      *                     or a string of format
      *                     [channel://][channame/]pname[-version|-state][/group=groupname]
-     * @return array|PEAR_Error
+     * 
+     * @return array
      */
     public function parseName($param, $defaultchannel = 'pear.php.net')
     {

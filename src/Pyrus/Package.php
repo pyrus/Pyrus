@@ -35,7 +35,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
     /**
      * The actual package representation
      *
-     * @var PEAR_Package_Xml|PEAR_Package_Tar|PEAR_Package_Phar
+     * @var PEAR2_Pyrus_Package_Xml|PEAR2_Pyrus_Package_Tar|PEAR2_Pyrus_Package_Phar
      */
     protected $internal;
     protected $from;

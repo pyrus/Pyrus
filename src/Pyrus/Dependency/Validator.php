@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR_Dependency2, advanced dependency validation
+ * PEAR2_Pyrus_Dependency_Validator, advanced dependency validation
  *
  * PHP versions 4 and 5
  * 
@@ -54,19 +54,18 @@ class PEAR2_Pyrus_Dependency_Validator
      */
     protected $registry;
     /**
-     * @var PEAR_Config
+     * @var PEAR2_Pyrus_Config
      */
     var $_config;
     /**
-     * Output of PEAR_Registry::parsedPackageName()
-     * @var array
+     * Package to validate
+     * @var PEAR2_Pyrus_Package
      */
     var $_currentPackage;
     /**
-     * @param PEAR_Config
-     * @param array installation options
-     * @param array format of PEAR_Registry::parsedPackageName()
+     * @param PEAR2_Pyrus_Package
      * @param int installation state (one of PEAR2_Pyrus_Validate::*)
+     * @param PEAR2_MultiErrors
      */
     function __construct($package, $state = PEAR2_Pyrus_Validate::INSTALLING,
                          PEAR2_MultiErrors $errs)
