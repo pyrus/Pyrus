@@ -18,7 +18,6 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 
- */
 /**
  * Validation class for package.xml - channel-level advanced validation
  * 

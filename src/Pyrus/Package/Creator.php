@@ -75,9 +75,9 @@ class PEAR2_Pyrus_Package_Creator
                     'in ' . $pear2MultiErrorsPath);
             }
         }
-        $this->_handles['php/PEAR2/Autoload.php'] = $pear2Autoload;
-        $this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
-        $this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
+        $this->_handles['src/PEAR2/Autoload.php'] = $pear2Autoload;
+        $this->_handles['src/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
+        $this->_handles['src/PEAR2/Exception.php'] = $pear2Exception;
         if ($creators instanceof PEAR2_Pyrus_Package_ICreator) {
             $this->_creators = array($creators);
         } elseif (is_array($creators)) {
@@ -174,7 +174,7 @@ class PEAR2_Pyrus_Package_Creator
                 $creator->addFile($packageat, $contents);
             }
         }
-        $creator->mkdir('php/PEAR2');
+        $creator->mkdir('src/PEAR2');
         foreach ($this->_handles as $path => $stream) {
             if (isset($alreadyPackaged[$path])) {
                 continue; // we're packaging this package
@@ -185,11 +185,11 @@ class PEAR2_Pyrus_Package_Creator
             fclose($stream);
         }
         foreach ($this->_creators as $creator) {
-            if (isset($alreadyPackaged['php/PEAR2/MultiErrors/Exception.php'])) {
+            if (isset($alreadyPackaged['src/PEAR2/MultiErrors/Exception.php'])) {
                 continue; // we're packaging MultiErrors package
             }
-            $creator->mkdir('php/PEAR2/MultiErrors');
-            $creator->addFile('php/PEAR2/MultiErrors/Exception.php',
+            $creator->mkdir('src/PEAR2/MultiErrors');
+            $creator->addFile('src/PEAR2/MultiErrors/Exception.php',
                 "<?php\nclass PEAR2_MultiErrors_Exception extends PEAR2_Exception {}");
         }
         foreach ($extrafiles as $path => $filename) {

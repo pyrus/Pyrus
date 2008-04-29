@@ -1,28 +1,30 @@
 <?php
-include '/Users/bbieber/pyrus/php/PEAR2/Autoload.php';
+include '/Users/bbieber/pyrus/src/PEAR2/Autoload.php';
 $dev_directory = '/Users/bbieber/workspace/Pyrus/';
 $a = new PEAR2_Pyrus_Package_Creator(array(
-        new PEAR2_Pyrus_Developer_Creator_Zip($dev_directory . 'PEAR2_Pyrus-0.1.0.zip'),
+        //new PEAR2_Pyrus_Developer_Creator_Xml($dev_directory . 'newpyrus.xml'),
+        //new PEAR2_Pyrus_Developer_Creator_Tar($dev_directory . 'newpyrus.tar'),
+        //new PEAR2_Pyrus_Developer_Creator_Zip($dev_directory . 'PEAR2_Pyrus-0.1.0.zip'),
         new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive($dev_directory . 'pyrus.phar', '<?php
 function __autoload($class)
 {
-    include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
+    include \'phar://\' . PYRUS_PHAR_FILE . \'/src/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
 }
 $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 @array_shift($_SERVER[\'argv\']);
 $frontend->run($_SERVER[\'argv\']);
 '),
-    ), '/Users/bbieber/pyrus/php', '/Users/bbieber/pyrus/php', '/Users/bbieber/pyrus/php');
+    ));
 $b = new PEAR2_Pyrus_Package($dev_directory . 'package.xml');
 $rp = '/Users/bbieber/PEAR2_SVN/PEAR2/HTTP_Request/trunk/src/HTTP';
 $a->render($b, array(
-    'php/PEAR2/HTTP/Request.php' => $rp . '/Request.php',
-    'php/PEAR2/HTTP/Request/Adapter.php' => $rp . '/Request/Adapter.php',
-    'php/PEAR2/HTTP/Request/Adapter/Phpsocket.php' => $rp . '/Request/Adapter/Phpsocket.php',
-    'php/PEAR2/HTTP/Request/Adapter/Phpstream.php' => $rp . '/Request/Adapter/Phpstream.php',
-    'php/PEAR2/HTTP/Request/Exception.php' => $rp . '/Request/Exception.php',
-    'php/PEAR2/HTTP/Request/Response.php' => $rp . '/Request/Response.php',
-    'php/Net/URL2.php' => '/usr/local/php5/lib/php/Net/URL2.php',
+    'src/PEAR2/HTTP/Request.php' => $rp . '/Request.php',
+    'src/PEAR2/HTTP/Request/Adapter.php' => $rp . '/Request/Adapter.php',
+    'src/PEAR2/HTTP/Request/Adapter/Phpsocket.php' => $rp . '/Request/Adapter/Phpsocket.php',
+    'src/PEAR2/HTTP/Request/Adapter/Phpstream.php' => $rp . '/Request/Adapter/Phpstream.php',
+    'src/PEAR2/HTTP/Request/Exception.php' => $rp . '/Request/Exception.php',
+    'src/PEAR2/HTTP/Request/Response.php' => $rp . '/Request/Response.php',
+    'src/Net/URL2.php' => '/usr/local/php5/lib/php/Net/URL2.php',
 ));
 exit;
 // this shows how it works
