@@ -23,6 +23,13 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelRegistry_Exception extends PEAR2_Exception
+class PEAR2_Pyrus_ChannelRegistry_ParseException extends PEAR2_Exception
 {
+    public $why;
+    
+    function __construct($message, $why)
+    {
+        $this->why = $why;
+        parent::__construct($message);
+    }
 }
