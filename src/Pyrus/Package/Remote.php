@@ -398,16 +398,16 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                   'version' => $info['version']));
     }
 
-    function checkDeprecated($info)
+    function checkDeprecated($pname)
     {
-        if (isset($info['deprecated']) && $info['deprecated']) {
+        if (isset($pname['deprecated']) && $pname['deprecated']) {
             // package is deprecated in favor of another
             PEAR2_Pyrus_Log::log(0,
                 'WARNING: "' . 
-                $pname['channel'] . '/' . $pname['package'] . '-' .
+                $pname['info']->channel . '/' . $pname['package'] . '-' .
                 '" is deprecated in favor of "' .
                     PEAR2_Pyrus_Config::current()->channelregistry
-                    ->parsedPackageNameToString($info['deprecated'], true) .
+                    ->parsedPackageNameToString($pname['deprecated'], true) .
                 '"');
         }
     }
