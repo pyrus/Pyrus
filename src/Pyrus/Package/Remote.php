@@ -315,9 +315,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         }
         // package exists, no releases fit the criteria for downloading
         $reg = PEAR2_Pyrus_Config::current()->registry;
-        if (isset($reg[$info['info']->channel . '/' . $info['info']->package])) {
-            // package is already installed
-            $reginfo = $reg[$info['info']->channel . '/' . $info['info']->package];
+        if ($reginfo = $reg->exists($info['info']->package, $info['info']->channel)) {
+            // package is already installedy
         }
         $instead =  ', will instead download version ' . $info['version'] .
                     ', stability "' . $info['info']->state . '"';
