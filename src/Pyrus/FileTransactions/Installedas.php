@@ -26,7 +26,7 @@
  */
 class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTransaction
 {
-    private $_dirTree = array();
+    private $_dirtree = array();
     private $pkginfo;
 
     public function reset(PEAR2_Pyrus_Package $package)

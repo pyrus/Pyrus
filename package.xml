@@ -35,7 +35,7 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-10-06</date>
+ <date>2008-04-29</date>
  <version>
   <release>2.0.0a1</release>
   <api>0.1.0</api>
@@ -248,6 +248,7 @@ try {
      <file role="php" name="IChannel.php"/>
      <file role="php" name="IChannelRegistry.php"/>
      <file role="php" name="IFileTransaction.php"/>
+     <file role="php" name="ILog.php"/>
      <file role="php" name="Installer.php"/>
      <file role="php" name="IPackage.php"/>
      <file role="php" name="IRegistry.php"/>

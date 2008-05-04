@@ -143,7 +143,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             if ($e->why !== 'channel') {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot process remote package', $e);
             }
-            if ($this->_downloader->discover($parsed['channel'])) {
+//            if ($this->_downloader->discover($param['channel'])) {
                 if (PEAR2_Pyrus_Config::current()->auto_discover) {
                     try {
                         $pname =
@@ -160,16 +160,16 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     }
                 } else {
 //                    if (!isset($options['soft'])) {
-                        PEAR2_Pyrus_Log::log(0, 'Channel "' . $parsed['channel'] .
+                        PEAR2_Pyrus_Log::log(0, 'Channel "' . $param['channel'] .
                             '" is not initialized, use ' .
-                            '"pyrus channel-discover ' . $parsed['channel'] . '" to initialize' .
+                            '"pyrus channel-discover ' . $param['channel'] . '" to initialize' .
                             'or pyrus config-set auto_discover 1');
 //                    }
                 }
-            } else {
-                throw new PEAR2_Pyrus_Package_Exception(
-                    'invalid package name/package file "' . $param . '"', $e);
-            }
+//            } else {
+//                throw new PEAR2_Pyrus_Package_Exception(
+//                    'invalid package name/package file "' . $param . '"', $e);
+//            }
         }
         $this->_parsedname = $pname;
         if (isset($pname['state'])) {
