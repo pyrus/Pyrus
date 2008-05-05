@@ -53,9 +53,9 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (isset($this->_info['attribs']['host'])) {
             return $this->_info['attribs']['host'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -65,12 +65,13 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (isset($this->_info['attribs']['port'])) {
             return $this->_info['attribs']['port'];
-        } else {
-            if ($this->getSSL()) {
-                return 443;
-            }
-            return 80;
         }
+
+        if ($this->getSSL()) {
+            return 443;
+        }
+
+        return 80;
     }
 
     /**
@@ -80,9 +81,9 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (isset($this->_info['attribs']['ssl'])) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 
@@ -94,11 +95,12 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             return false;
         }
+
         if (isset($this->_info[$protocol]['attribs']['path'])) {
             return $this->_info[$protocol]['attribs']['path'];
-        } else {
-            return $protocol . '.php';
         }
+
+        return $protocol . '.php';
     }
 
     /**
@@ -110,11 +112,8 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if ($this->parentChannel->getName() == '__uri') {
             return false;
         }
-        if ($protocol == 'rest') {
-            $function = 'baseurl';
-        } else {
-            $function = 'function';
-        }
+
+        $function = $protocol == 'rest' ? 'baseurl' : 'function';
         if (isset($this->_info[$protocol][$function])) {
             return $this->_info[$protocol][$function];
         }
@@ -125,6 +124,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if (isset($this->_info['rest'])) {
             return $this->_info['rest'];
         }
+
         return false;
     }
 
@@ -235,6 +235,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
                 $type);
         }
         $set = array('attribs' => array('version' => $version), '_content' => $name);
+
         if (!isset($this->_info[$type]['function'])) {
             $this->_info[$type]['function'] = $set;
         } elseif (!isset($this->_info[$type]['function'][0])) {
@@ -253,12 +254,14 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if (!isset($this->_info['rest'])) {
             $this->_info['rest'] = array();
         }
+
         if (!isset($this->_info['rest']['baseurl'])) {
             $this->_info['rest']['baseurl'] = $set;
             return;
         } elseif (!isset($this->_info['rest']['baseurl'][0])) {
             $this->_info['rest']['baseurl'] = array($this->_info['rest']['baseurl']);
         }
+
         foreach ($this->_info['rest']['baseurl'] as $i => $url) {
             if ($url['attribs']['type'] == $resourceType) {
                 $this->_info['rest']['baseurl'][$i] = $set;
