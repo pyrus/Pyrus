@@ -51,41 +51,41 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     {
         if ($this->_type === 'url') {
             return $this->internal;
-        } else {
-            $internal = $this->internal;
-            // first try to download zip, then tgz, then tar
-            $errs = new PEAR2_MultiErrors;
+        }
+
+        $internal = $this->internal;
+        // first try to download zip, then tgz, then tar
+        $errs = new PEAR2_MultiErrors;
+        try {
+            $this->internal = new PEAR2_Pyrus_Package_Remote(
+                $this->downloadInfo['url'] . '.zip', $this);
+        } catch (Exception $e) {
+            $errs->E_ERROR[] = $e;
+        }
+        if (isset($e)) {
+            unset($e);
             try {
                 $this->internal = new PEAR2_Pyrus_Package_Remote(
-                    $this->downloadInfo['url'] . '.zip', $this);
+                    $this->downloadInfo['url'] . '.tgz', $this);
             } catch (Exception $e) {
                 $errs->E_ERROR[] = $e;
             }
-            if (isset($e)) {
-                unset($e);
-                try {
-                    $this->internal = new PEAR2_Pyrus_Package_Remote(
-                        $this->downloadInfo['url'] . '.tgz', $this);
-                } catch (Exception $e) {
-                    $errs->E_ERROR[] = $e;
-                }
-            }
-            if (isset($e)) {
-                unset($e);
-                try {
-                    $this->internal = new PEAR2_Pyrus_Package_Remote(
-                        $this->downloadInfo['url'] . '.tar', $this);
-                } catch (Exception $e) {
-                    $errs->E_ERROR[] = $e;
-                    throw new PEAR2_Pyrus_Package_Exception(
-                        'Could not download abstract package ' .
-                        $this->downloadInfo['info']->channel . '/' .
-                        $this->downloadInfo['info']->name, $errs);
-                }
-            }
-            $this->internal->setFrom($internal);
-            return $this->internal;
         }
+        if (isset($e)) {
+            unset($e);
+            try {
+                $this->internal = new PEAR2_Pyrus_Package_Remote(
+                    $this->downloadInfo['url'] . '.tar', $this);
+            } catch (Exception $e) {
+                $errs->E_ERROR[] = $e;
+                throw new PEAR2_Pyrus_Package_Exception(
+                    'Could not download abstract package ' .
+                    $this->downloadInfo['info']->channel . '/' .
+                    $this->downloadInfo['info']->name, $errs);
+            }
+        }
+        $this->internal->setFrom($internal);
+        return $this->internal;
     }
 
     private function _fromUrl($param, $saveparam = '')
