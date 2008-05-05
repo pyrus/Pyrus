@@ -100,11 +100,11 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
         $base2 = false;
         $mirrors = $chan->mirrors;
         if (isset($mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror])) {
-            $mirror = $mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror];
+            $chan = $mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror];
         }
-        if (!$mirror->supportsREST() ||
-              !(($base2 = $mirror->getBaseURL('REST1.3')) ||
-              ($base = $mirror->getBaseURL('REST1.0')))) {
+        if (!$chan->supportsREST() ||
+              !(($base2 = $chan->getBaseURL('REST1.3')) ||
+              ($base = $chan->getBaseURL('REST1.0')))) {
             PEAR2_Pyrus_Config::current()->default_channel = $curchannel;
             throw new PEAR2_Pyrus_Package_Exception('Cannot process dependency ' .
                 'information remotely, ' .
