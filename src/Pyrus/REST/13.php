@@ -125,7 +125,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         return $this->returnDownloadURL($base, $package, $release, $info, $found, $skippedphp);
     }
 
-    function getDepDownloadURL($base, $xsdversion, $dependency, $deppackage,
+    function getDepDownloadURL($base, $dependency, $deppackage,
                                $prefstate = 'stable', $installed = false)
     {
         $channel = $dependency['channel'];
@@ -136,10 +136,10 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         }
         $state   = isset($dependency['state'])   ? $dependency['state']   : null;
         $version = isset($dependency['version']) ? $dependency['version'] : null;
-        $info = $this->_rest->retrieveData($base . 'r/' . strtolower($package) .
+        $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) .
             '/allreleases2.xml');
         try {
-            $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases.xml');
+            $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
                 . '" dependency "' . $channel . '/' . $package . '" has no releases', $e);
@@ -166,7 +166,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
             $info['r'] = array($info['r']);
         }
         foreach ($info['r'] as $release) {
-            if (!isset($this->_rest->_options['force']) && ($installed &&
+            if (!isset($this->rest->_options['force']) && ($installed &&
                   version_compare($release['v'], $installed, '<'))) {
                 continue;
             }
@@ -174,7 +174,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
                 continue;
             }
             // allow newer releases to say "I'm OK with the dependent package"
-            if ($xsdversion == '2.0' && isset($release['co'])) {
+            if (isset($release['co'])) {
                 if (!is_array($release['co']) || !isset($release['co'][0])) {
                     $release['co'] = array($release['co']);
                 }
