@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Sqlite_Creator
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -27,15 +27,15 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
 {
     /**
      * Initialize the database for the registry
-     * 
+     *
      * Registry information that must be stored:
      *
      * - A list of installed packages
      * - the files in each package
      * - known channels
-     * 
+     *
      * The SQLite database has this structure:
-     * 
+     *
      * <pre>
      * CREATE TABLE packages (
      *  name VARCHAR(80) NOT NULL,
@@ -57,7 +57,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  installtimeconfig VARCHAR(50), -- the path to configuration as stored
      *  PRIMARY KEY (name, channel)
      * );
-     * 
+     *
      * CREATE TABLE maintainers (
      *  packages_name VARCHAR(80) NOT NULL,
      *  packages_channel VARCHAR(255) NOT NULL,
@@ -67,7 +67,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  active CHAR(3) NOT NULL,
      *  PRIMARY KEY (packages_name, packages_channel, user)
      * );
-     * 
+     *
      * CREATE TABLE files (
      *  packages_name VARCHAR(80) NOT NULL,
      *  packages_channel VARCHAR(255) NOT NULL,
@@ -100,7 +100,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  exclude VARCHAR(20),
      *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
      * );
-     * 
+     *
      * CREATE TABLE channels (
      *  channel TEXT NOT NULL,
      *  summary TEXT NOT NULL,
@@ -122,7 +122,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  soappath TEXT NOT NULL,
      *  PRIMARY KEY (channel, server)
      * );
-     * 
+     *
      * CREATE TABLE channel_server_xmlrpc (
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
@@ -130,7 +130,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  version VARCHAR(20) NOT NULL,
      *  PRIMARY KEY (channel, server, function, version)
      * );
-     * 
+     *
      * CREATE TABLE channel_server_soap (
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
@@ -138,7 +138,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  version VARCHAR(20) NOT NULL,
      *  PRIMARY KEY (channel, server, function, version)
      * );
-     * 
+     *
      * CREATE TABLE channel_server_rest (
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
@@ -150,7 +150,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      * CREATE TABLE pearregistryversion (
      *  version VARCHAR(20) NOT NULL default "1.0.0"
      * );
-     * 
+     *
      * INSERT INTO pearregistryversion VALUES("1.0.0");
      *
      * CREATE TRIGGER package_delete DELETE ON packages
@@ -269,7 +269,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
             @$database->queryExec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
-          
+
         $query = '
           CREATE TABLE maintainers (
            packages_name VARCHAR(80) NOT NULL,
@@ -417,7 +417,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
           CREATE TABLE pearregistryversion (
            version VARCHAR(20) NOT NULL
           );
-          
+
           INSERT INTO pearregistryversion VALUES("1.0.0");
         ';
         $worked = @$database->queryExec($query, $error);

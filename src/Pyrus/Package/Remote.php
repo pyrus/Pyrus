@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Package_Remote
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -402,7 +402,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         if (isset($pname['deprecated']) && $pname['deprecated']) {
             // package is deprecated in favor of another
             PEAR2_Pyrus_Log::log(0,
-                'WARNING: "' . 
+                'WARNING: "' .
                 $pname['info']->channel . '/' . $pname['package'] . '-' .
                 '" is deprecated in favor of "' .
                     PEAR2_Pyrus_Config::current()->channelregistry

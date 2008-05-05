@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_FileTransactions_Installedas
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -37,7 +37,7 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
 
     public function check($data, &$errors)
     {
-        
+
     }
 
     public function commit($data, &$errors)

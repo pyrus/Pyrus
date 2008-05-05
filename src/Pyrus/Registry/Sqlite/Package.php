@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Sqlite_Package
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -44,7 +44,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  	    unset($this->_packagename);
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'install') {

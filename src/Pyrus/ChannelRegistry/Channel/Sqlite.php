@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -92,7 +92,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
      * @param string xmlrpc or soap
      */
     function getPath($protocol)
-    {   
+    {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
                 $protocol);

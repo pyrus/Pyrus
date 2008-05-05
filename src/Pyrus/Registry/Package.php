@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Package
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -44,7 +44,7 @@ class PEAR2_Pyrus_Registry_Package implements ArrayAccess
  	    $ret = clone $this;
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'upgrade') {
@@ -67,7 +67,7 @@ class PEAR2_Pyrus_Registry_Package implements ArrayAccess
  	        throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
  	    }
- 	    return $this->_reg->packageInfo($this->_packagename['package'], 
+ 	    return $this->_reg->packageInfo($this->_packagename['package'],
  	      $this->_packagename['channel'], $var);
  	}
 

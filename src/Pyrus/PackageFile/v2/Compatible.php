@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Release_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * Manage compatible packages with this one
- * 
+ *
  * To be used like:
  * <code>
  * // add a new compatible declaration or replace an existing one
@@ -39,7 +39,7 @@
  *     }
  * }
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -262,10 +262,10 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
         if (!$this->valid()) return null;
         if (!isset($this->_packageInfo['compatible'][0])) {
             return $this->_packageInfo['compatible']['channel'] . '/' .
-                   $this->_packageInfo['compatible']['package']; 
+                   $this->_packageInfo['compatible']['package'];
         }
         return $this->_packageInfo['compatible'][$this->_pos]['channel'] . '/' .
-               $this->_packageInfo['compatible'][$this->_pos]['package']; 
+               $this->_packageInfo['compatible'][$this->_pos]['package'];
     }
 
     function valid()

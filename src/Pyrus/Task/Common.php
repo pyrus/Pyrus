@@ -3,7 +3,7 @@
  * PEAR_Task_Common, base class for installer tasks
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_DirectedGraph
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -18,7 +18,7 @@
  *
  * This structure allows us to sort dependencies into the correct order for installation.
  * Iteration uses a depth-first search to perform a topological sort.
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

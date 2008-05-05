@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Base
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -37,7 +37,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
      *                     ['group' => 'groupname'])
      *                     or a string of format
      *                     [channel://][channame/]pname[-version|-state][/group=groupname]
-     * 
+     *
      * @return array
      */
     public function parseName($param, $defaultchannel = 'pear.php.net')
@@ -189,7 +189,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                     throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"', 'version/state');
-                }                    
+                }
             }
         }
         return $param;

@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -27,7 +27,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilt
 {
     function accept()
     {
-        $it = $this->getInnerIterator(); 
+        $it = $this->getInnerIterator();
         if (!$it->valid()) {
             return false;
         }

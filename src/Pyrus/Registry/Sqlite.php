@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Sqlite
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16,13 +16,13 @@
 /**
  * This is the central registry, that is used for all installer options,
  * stored as an SQLite database
- * 
+ *
  * Registry information that must be stored:
  *
  * - A list of installed packages
  * - the files in each package
  * - known channels
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -234,7 +234,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                                 $this->database->queryExec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->getName() . ' could not be installed in registry');
-                            }                        
+                            }
                         }
                     }
                 }
@@ -293,7 +293,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                                 $this->database->queryExec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->name . ' could not be installed in registry');
-                            }                        
+                            }
                         }
                     }
                 }

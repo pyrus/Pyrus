@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Package_Base
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -51,7 +51,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
     {
         return true;
     }
-    
+
     function setFrom(PEAR2_Pyrus_IPackage $from)
     {
         $this->from = $from;

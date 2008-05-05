@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Channel
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -41,7 +41,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             'xmlns' => 'http://pear.php.net/channel-1.0',
         ),
     );
-    
+
     public $rootAttributes = array(
             'version' => '1.0',
             'xmlns' => 'http://pear.php.net/channel-1.0',
@@ -159,7 +159,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      * @param string xmlrpc or soap
      */
     function getPath($protocol)
-    {   
+    {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $protocol);
@@ -260,11 +260,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
  	        case 'mirrors' :
  	            if (!isset($this->channelInfo['servers']['mirror'][0])) {
  	                return array(
- 	                  $this->channelInfo['name'] => 
+ 	                  $this->channelInfo['name'] =>
  	                  new PEAR2_Pyrus_Channel_Mirror(
                           $this->channelInfo['servers']['mirror'], $this));
  	            }
- 	            $ret = array($this->channelInfo['name'] => 
+ 	            $ret = array($this->channelInfo['name'] =>
  	                  new PEAR2_Pyrus_Channel_Mirror(
                           $this->channelInfo['servers']['mirror'], $this));
 

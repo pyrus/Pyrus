@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Dependencies
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * Manage dependencies
- * 
+ *
  * To be used like:
  * <code>
  * // reset deps
@@ -58,7 +58,7 @@
  * $pf->dependencies->required->os['windows'] = true; // only works on windows
  * // for conflicting OS deps
  * $pf->dependencies->required->os['freebsd'] = false; // doesn't work on FreeBSD
- * 
+ *
  * // dependency group setup
  * $group = $pf->dependencies->group['name']->hint('Install optional stuff as a group');
  * $group->package['channel/PackageName1'] = array();
@@ -66,7 +66,7 @@
  * $group->subpackage['channel/PackageName3'] = array('recommended' => '1.2.1');
  * $group->extension['extension'] = array();
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

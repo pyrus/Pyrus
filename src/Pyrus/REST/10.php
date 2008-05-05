@@ -3,7 +3,7 @@
  * PEAR_REST_10
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -219,14 +219,14 @@ class PEAR2_Pyrus_REST_10
             $release = $info['r'][0];
         }
         try {
-            $pinfo = $this->rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' . 
+            $pinfo = $this->rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' .
             'info.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $package .
                 '" does not have REST info xml available', $e);
         }
         try {
-            $releaseinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' . 
+            $releaseinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
             $release['v'] . '.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $package . '" Version "' . $release['v'] .
@@ -284,7 +284,7 @@ class PEAR2_Pyrus_REST_10
             $deprecated = false;
         }
         if ($found) {
-            return 
+            return
                 array('version' => $releaseinfo['v'],
                       'info' => $packagexml,
                       'package' => $releaseinfo['p']['_content'],
@@ -623,7 +623,7 @@ class PEAR2_Pyrus_REST_10
                 continue;
             }
             try {
-                $relinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' . 
+                $relinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
                 $release['v'] . '.xml');
             } catch (Exception $e) {
                 throw new PEAR2_Pyrus_REST_Exception('Cannot retrieve latest upgrade release' .

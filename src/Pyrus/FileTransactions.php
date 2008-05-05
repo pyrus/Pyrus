@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_FileTransactions
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -88,7 +88,7 @@ class PEAR2_Pyrus_FileTransactions
         PEAR2_Pyrus_Log::log(2, "about to commit $n file operations");
         // {{{ first, check permissions and such manually
         $errors = array();
-        
+
         foreach ($this->fileOperations as $tr) {
             list($type, $data) = $tr;
             switch ($type) {

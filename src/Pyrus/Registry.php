@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Registry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -17,12 +17,12 @@
  * Registry manager
  *
  * The registry for PEAR2 consists of four related components
- * 
+ *
  *  - an sqlite database
  *  - saved original package.xml for each installed package
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

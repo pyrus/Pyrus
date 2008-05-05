@@ -20,7 +20,7 @@
 
 /**
  * Validation class for package.xml - channel-level advanced validation
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -142,7 +142,7 @@ class PEAR2_Pyrus_Validate
      */
     function _addFailure($field, $reason)
     {
-        $this->_failures->E_ERROR[] = 
+        $this->_failures->E_ERROR[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
@@ -151,7 +151,7 @@ class PEAR2_Pyrus_Validate
      */
     private function _addWarning($field, $reason)
     {
-        $this->_failures->E_WARNING[] = 
+        $this->_failures->E_WARNING[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 

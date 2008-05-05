@@ -3,7 +3,7 @@
  * Channel Validator for the pecl.php.net channel
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Installer_Role_Php
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * php role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

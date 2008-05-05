@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Channel
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -45,7 +45,7 @@ class PEAR2_Pyrus_Registry_Channel extends PEAR2_Pyrus_Registry implements Array
  	    $ret = clone $this;
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'update') {

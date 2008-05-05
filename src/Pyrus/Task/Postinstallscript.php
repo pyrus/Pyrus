@@ -3,7 +3,7 @@
  * <tasks:postinstallscript>
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -134,7 +134,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                         return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
                             $fileXml['name'] . '" ' . $tasksNamespace .
                             'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace . 
+                            '" must have a ' . $tasksNamespace .
                             'conditiontype> tag containing either "=", ' .
                             '"!=", or "preg_match"');
                     }

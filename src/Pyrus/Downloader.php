@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Downloader
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -49,7 +49,7 @@ class PEAR2_Pyrus_Downloader
         } else {
             curl_setopt($c, CURLOPT_URL, $url);
         }
-        if ($config->http_proxy && 
+        if ($config->http_proxy &&
               $proxy = parse_url($config->http_proxy)) {
             curl_setopt($c, CURLOPT_HTTPPROXYTUNNEL, true);
             curl_setopt($c, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
@@ -66,7 +66,7 @@ class PEAR2_Pyrus_Downloader
                 call_user_func($callback, 'message', "Using HTTP proxy $host:$port");
             }
         } else {
-            
+
         }
         curl_setopt($c, CURLOPT_MAXREDIRS, 3);
         curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
@@ -90,7 +90,7 @@ class PEAR2_Pyrus_Downloader
 
     static function curlCallback($curl, $string)
     {
-        
+
     }
 
     static function headerCallback($curl, $string)
@@ -190,7 +190,7 @@ class PEAR2_Pyrus_Downloader
             $config = PEAR2_Pyrus_Config::singleton();
         }
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if ($config->http_proxy && 
+        if ($config->http_proxy &&
               $proxy = parse_url($config->http_proxy)) {
             $proxy_host = isset($proxy['host']) ? $proxy['host'] : null;
             if (isset($proxy['scheme']) && $proxy['scheme'] == 'https') {

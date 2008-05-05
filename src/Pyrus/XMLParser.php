@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_XMLParser
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * Process an XML file, convert it to an array
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @subpackage XML
@@ -42,7 +42,7 @@ class PEAR2_Pyrus_XMLParser
      * Using XMLReader, unserialize XML into an array
      *
      * This unserializer has limitations on the XML it can parse, for simplicity:
-     * 
+     *
      *  - Only a single text node (the last one) will be processed, so this code:
      *    <pre>
      *     <?xml version="1.0" ?><test>hi<tag/>there</test>
@@ -136,7 +136,7 @@ class PEAR2_Pyrus_XMLParser
     private function _parse($file, $schema, $isfile)
     {
         $arr = $this->_recursiveParse();
-        $this->reader->close();        
+        $this->reader->close();
         if ($schema) {
             $a = new DOMDocument();
             if ($isfile) {
@@ -157,7 +157,7 @@ class PEAR2_Pyrus_XMLParser
                 throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
             }
         }
-        
+
         return $arr;
     }
 

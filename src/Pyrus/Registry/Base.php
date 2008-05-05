@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Base
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -44,7 +44,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
  	    unset($this->packagename);
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'upgrade') {

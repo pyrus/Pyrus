@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_DirectedGraph_Vertex
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -58,7 +58,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
 
     /**
      * Set the color of a visited node
-     * 
+     *
      * WHITE = unvisited, GRAY = visited, BLACK = finished
      *
      * @param self::WHITE|self::GRAY|self::BLACK|null $color if null, return the current color

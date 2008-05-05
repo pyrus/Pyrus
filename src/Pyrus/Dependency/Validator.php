@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Dependency_Validator, advanced dependency validation
  *
  * PHP versions 4 and 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -20,7 +20,7 @@
  * WARNING: *any* changes to this class must be duplicated in the
  * test_PEAR_Dependency2 class found in tests/PEAR_Dependency2/setup.php.inc,
  * or unit tests will not actually validate the changes
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -778,7 +778,7 @@ class PEAR2_Pyrus_Dependency_Validator
                 if (!isset($this->_options['nodeps']) && !isset($this->_options['force']) &&
                       !isset($this->_options['loose'])) {
                     return $this->raiseError('%s dependency package "' . $depname .
-                        '" ' . $installed . ' version ' . $version . 
+                        '" ' . $installed . ' version ' . $version .
                         ' is not the recommended version ' . $dep['recommended'] .
                         ', but may be compatible, use --force to install');
                 } else {
@@ -955,7 +955,7 @@ class PEAR2_Pyrus_Dependency_Validator
 
     /**
      * validate a downloaded package against installed packages
-     * 
+     *
      * As of PEAR 1.4.3, this will only validate
      *
      * @param array|PEAR_Downloader_Package|PEAR_PackageFile_v1|PEAR_PackageFile_v2

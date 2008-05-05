@@ -3,7 +3,7 @@
  * PEAR2_Pyrus_Registry_Config
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -25,5 +25,5 @@
  */
 class PEAR2_Pyrus_Registry_Config
 {
-    
+
 }

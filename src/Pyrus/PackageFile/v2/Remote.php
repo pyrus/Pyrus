@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Remote
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -25,5 +25,5 @@
  */
 class PEAR2_Pyrus_PackageFile_v2_Remote extends PEAR2_Pyrus_PackageFile_v2
 {
-    
+
 }

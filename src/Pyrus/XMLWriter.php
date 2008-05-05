@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_XMLWriter
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * Process an array, and serialize it into XML
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @subpackage XML

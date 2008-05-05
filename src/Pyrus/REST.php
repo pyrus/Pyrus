@@ -15,7 +15,7 @@
 /**
  * Intelligently retrieve data, following hyperlinks if necessary, and re-directing
  * as well
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -276,7 +276,7 @@ class PEAR2_Pyrus_REST
         $port = $info['port'];
         $path = $info['path'];
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if ($this->config->http_proxy && 
+        if ($this->config->http_proxy &&
               $proxy = parse_url($this->config->http_proxy)) {
             $proxy_host = isset($proxy['host']) ? $proxy['host'] : null;
             if (isset($proxy['scheme']) && $proxy['scheme'] == 'https') {

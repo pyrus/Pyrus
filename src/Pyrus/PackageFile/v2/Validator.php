@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Validator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16,7 +16,7 @@
 /**
  * Private validation class used by PEAR2_Pyrus_PackageFile_v2 - do not use directly, its
  * sole purpose is to split up the PEAR/PackageFile/v2.php file to make it smaller
- * 
+ *
  * @access     private
  * @category   pear
  * @package   PEAR2_Pyrus
@@ -159,10 +159,10 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                             }
                         }
                     }
-                    $this->_errors->E_ERROR[] = 
+                    $this->_errors->E_ERROR[] =
                         new PEAR2_Pyrus_PackageFile_Exception(
                         'File "' . $name . '" has invalid role "' .
-                        $file->role . '", should be one of ' . implode(', ', 
+                        $file->role . '", should be one of ' . implode(', ',
                         PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType())));
                 }
                 if (count($file->tasks) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
@@ -175,7 +175,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 $ret = call_user_func(array($tagClass, 'validateXml'),
                                     $this->_pf, $v, $this->_pf->_config, $save);
                                 if (is_array($ret)) {
-                                    $this->_errors->E_ERROR[] = 
+                                    $this->_errors->E_ERROR[] =
                                         new PEAR2_Pyrus_PackageFile_Exception(
                                             $this->_invalidTask($task, $ret, isset($save['name']) ?
                                         $save['name'] : ''));
@@ -288,7 +288,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             foreach ($list['ignore'] as $file) {
                 if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
                     $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
-                        'Cannot have both <ignore> and <install> tags for file "' . 
+                        'Cannot have both <ignore> and <install> tags for file "' .
                         $file['attribs']['name'] . '"');
                 }
             }
@@ -341,7 +341,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         foreach ($releases as $rel) {
             if (is_array($rel) && array_key_exists('filelist', $rel)) {
                 if ($rel['filelist']) {
-                    
+
                     $this->_validateFilelist($rel['filelist']);
                 }
             }

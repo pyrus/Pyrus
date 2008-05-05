@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Release
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * Manage a release in package.xml
- * 
+ *
  * To be used like:
  *
  * <code>
@@ -47,7 +47,7 @@
  * // remove all releases
  * $pf->release = null;
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -101,7 +101,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                     $this->_packageInfo[$var] = array();
                 }
                 return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                           $this->_packageInfo[$var], $this->_filelist);                
+                           $this->_packageInfo[$var], $this->_filelist);
             } else {
                 if (!$var) {
                     return $this;

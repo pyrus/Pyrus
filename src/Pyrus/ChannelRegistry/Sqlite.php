@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Sqlite
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -112,7 +112,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             )
             ')) {
             throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
-                ' could not be added to the registry');    
+                ' could not be added to the registry');
         }
         if (!@$this->database->queryExec('
             INSERT INTO channel_servers
@@ -125,7 +125,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             )
             ')) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                ' could not be added to the registry');    
+                ' could not be added to the registry');
         }
         $servers = array(false);
         $mirrors = $channel->mirrors;
@@ -143,7 +143,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                     )
                     ')) {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                        ' could not be added to the registry');    
+                        ' could not be added to the registry');
                 }
             }
         }
@@ -171,7 +171,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                         )
                         ')) {
                         throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                            ' could not be added to the registry');    
+                            ' could not be added to the registry');
                     }
                 }
             }

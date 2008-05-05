@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Channel_Mirror
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -90,7 +90,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
      * @param string xmlrpc or soap
      */
     function getPath($protocol)
-    {   
+    {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             return false;
         }

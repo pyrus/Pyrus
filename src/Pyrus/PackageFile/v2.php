@@ -3,7 +3,7 @@
  * PEAR_PackageFile_v2, package.xml version 2.1
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -37,7 +37,7 @@ class PEAR2_Pyrus_PackageFile_v2
                              );
     /**
      * Parsed package information
-     * 
+     *
      * For created-from-scratch packagefiles, set some basic information needed.
      * @var array
      * @access private
@@ -165,7 +165,7 @@ class PEAR2_Pyrus_PackageFile_v2
         }
         if (!isset($this->filelist[$filename])) {
             throw new PEAR2_Pyrus_PackageFile_Exception(
-                'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);     
+                'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);
         }
         if ($attr == 'name') {
             throw new PEAR2_Pyrus_PackageFile_Exception('Cannot change name of file ' .
@@ -309,7 +309,7 @@ class PEAR2_Pyrus_PackageFile_v2
                         if (strtolower($dep['name']) == strtolower($package) &&
                               $depchannel == $channel) {
                             return true;
-                        }  
+                        }
                     }
                 }
             }
@@ -327,7 +327,7 @@ class PEAR2_Pyrus_PackageFile_v2
                             if (strtolower($dep['name']) == strtolower($package) &&
                                   $depchannel == $channel) {
                                 return true;
-                            }  
+                            }
                         }
                     }
                 }
@@ -805,7 +805,7 @@ class PEAR2_Pyrus_PackageFile_v2
             'license' => $license,
             'notes' => $this->notes,
         );
-        
+
         if (!is_array($this->packageInfo['changelog'])) {
             $this->packageInfo['changelog'] = $info;
         } elseif (!isset($this->packageInfo['changelog'][0])) {

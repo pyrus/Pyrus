@@ -76,7 +76,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
      * sequence the users should see the paramgroups.  The $params
      * parameter should either be the result of a call to {@link getParam()}
      * or an array of calls to getParam().
-     * 
+     *
      * Use {@link addConditionTypeGroup()} to add a <paramgroup> containing
      * a <conditiontype> tag
      * @param string $id <paramgroup> id as seen by the script
@@ -110,7 +110,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
      * sequence the users should see the paramgroups.  The $params
      * parameter should either be the result of a call to {@link getParam()}
      * or an array of calls to getParam().
-     * 
+     *
      * Use {@link addParamGroup()} to add a simple <paramgroup>
      *
      * @param string $id <paramgroup> id as seen by the script
@@ -157,7 +157,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
     function getParam($name, $prompt, $type = 'string', $default = null)
     {
         if ($default !== null) {
-            return 
+            return
             array(
                 $this->_pkg->getTasksNs() . ':name' => $name,
                 $this->_pkg->getTasksNs() . ':prompt' => $prompt,

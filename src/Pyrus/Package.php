@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Package
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -17,12 +17,12 @@
  * Abstract representation of a package
  *
  * specific package types are:
- * 
+ *
  * - package.xml
  * - package.tgz/package.tar
  * - package.phar
  * - remote undownloaded package
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -78,7 +78,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
         }
         return $this;
     }
-    
+
     function getLocation()
     {
         return $this->internal->getLocation();

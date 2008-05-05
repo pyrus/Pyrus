@@ -3,7 +3,7 @@
  * package.xml parsing class, package.xml version 2.0
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,7 +15,7 @@
 
 /**
  * Parser for package.xml version 2.0
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -95,7 +95,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
             throw new PEAR2_Pyrus_PackageFile_Exception('Class ' . $class .
                 ' passed to parse() must be a child class of PEAR2_Pyrus_PackageFile_v2');
         }
-        
+
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
             $schema = PEAR2_Pyrus::getDataPath() . '/package-2.1.xsd';
             // for running out of cvs

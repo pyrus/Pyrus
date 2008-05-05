@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_IRegistry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>

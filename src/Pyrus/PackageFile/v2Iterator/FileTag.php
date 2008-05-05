@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileTag
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15,9 +15,9 @@
 
 /**
  * Store the path to the current file recursively
- * 
+ *
  * Information can be accessed in three ways:
- * 
+ *
  * - $file['attribs'] as an array directly
  * - $file->name      as object member, to access attributes
  * - $file->tasks     as pseudo-object, to access each task

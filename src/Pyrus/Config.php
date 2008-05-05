@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Config
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -19,11 +19,11 @@
  * Unlike PEAR version 1.x, the new Pyrus configuration manager is tightly bound
  * to include_path, and will search through include_path for system configuration
  * Pyrus installations.
- * 
+ *
  * The User configuration file will be looked for in these locations:
  *
  * Unix:
- * 
+ *
  * - home directory
  * - current directory
  *
@@ -32,7 +32,7 @@
  * - local settings directory on windows for the current user.
  *   This is looked up directly in the windows registry using COM
  * - current directory
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -219,7 +219,7 @@ class PEAR2_Pyrus_Config
         ob_start();
         phpinfo(INFO_GENERAL);
         $stuff = ob_get_clean();
-        if (preg_match('@Loaded Configuration File => (.+)@', 
+        if (preg_match('@Loaded Configuration File => (.+)@',
               $stuff, $climatch)) {
             self::$defaults['php_ini'] = $climatch[1];
             PEAR2_Pyrus_Log::log(5, 'Used ' . $climatch[1] . ' for php.ini location');
@@ -344,13 +344,13 @@ class PEAR2_Pyrus_Config
      * Extract configuration from system + user configuration files
      *
      * Configuration is stored in XML format, in two locations.
-     * 
+     *
      * The system configuration contains all of the important directory
      * configuration variables like data_dir, and the location of php.ini and
      * the php executable php.exe or php.  This configuration is tightly bound
      * to the repository, and cannot be moved.  As such, php_dir is auto-defined
      * as dirname(/path/to/pear/.config), or /path/to/pear.
-     * 
+     *
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
@@ -596,7 +596,7 @@ class PEAR2_Pyrus_Config
      */
     static public function addConfigValue($key, $default, $system = true)
     {
-        
+
     }
 
     public function __get($value)
@@ -632,7 +632,7 @@ class PEAR2_Pyrus_Config
         if (in_array($value, self::$pearConfigNames)) {
             PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $value .
                 ' value "' . self::$defaults[$value] . '"');
-            return (string) str_replace('@php_dir@', $this->pearDir, 
+            return (string) str_replace('@php_dir@', $this->pearDir,
                 self::$configs[$this->pearDir]->$value);
         }
         return (string) self::$userConfigs[$this->userFile]->$value;

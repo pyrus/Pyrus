@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_ChannelRegistry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -159,7 +159,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      * Parse a string to determine which package file is requested
      *
      * This differentiates between the three kinds of packages:
-     * 
+     *
      *  - local files
      *  - remote static URLs
      *  - dynamic abstract package names
@@ -167,7 +167,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      * @return string|array A string is returned if this is a file, otherwise an array
      *                      containing information is returned
      */
-    static public function parsePackageName($pname, $assumeabstract = false) 
+    static public function parsePackageName($pname, $assumeabstract = false)
     {
         if (!$assumeabstract && @file_exists($pname) && @is_file($pname)) {
             return $pname;
