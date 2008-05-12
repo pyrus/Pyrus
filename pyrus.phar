@@ -1120,15 +1120,13 @@ class PHP_Archive
 define('PYRUS_PHAR_FILE', __FILE__);
 include 'phar://' . __FILE__ . '/__index.php';
 __HALT_COMPILER(); ?>
-ú&  ï           5   s:45:"package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml";   __index.php˛   d:H˛   ,O∏#∂      -   package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml49  d:H49  mµÇ∂      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd˛  d:H˛  "“¸∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd‚M  d:H‚M  °+"”∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd‰P  d:H‰P  ºØ,v∂         src/PEAR2/Pyrus.phpo  d:Ho  ”ì∂         src/PEAR2/Pyrus/Channel.phpÇK  d:HÇK  “ﬁÊW∂          src/PEAR2/Pyrus/Channel/Base.phpô	  d:Hô	  *WòÆ∂      %   src/PEAR2/Pyrus/Channel/Exception.php–  d:H–  ß—ÏP∂      #   src/PEAR2/Pyrus/Channel/IMirror.php‚  d:H‚  ΩΩè∂      "   src/PEAR2/Pyrus/Channel/Mirror.phpH  d:HH  IW´î∂      #   src/PEAR2/Pyrus/ChannelRegistry.php3  d:H3  öIó}∂      (   src/PEAR2/Pyrus/ChannelRegistry/Base.php1+  d:H1+  xf∂      2   src/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php\4  d:H\4  C]zS∂      /   src/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.php∂	  d:H∂	  '‰’@∂      -   src/PEAR2/Pyrus/ChannelRegistry/Exception.php  d:H  pﬂ;π∂      1   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.php  d:H  ƒJ∂      .   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.phpÆ	  d:HÆ	  Ô¸°!∂      2   src/PEAR2/Pyrus/ChannelRegistry/ParseException.phpö  d:Hö  ˆ◊/Ù∂      *   src/PEAR2/Pyrus/ChannelRegistry/Sqlite.php£  d:H£  So]‘∂      '   src/PEAR2/Pyrus/ChannelRegistry/Xml.php‰  d:H‰  ◊¬4ç∂         src/PEAR2/Pyrus/Config.phpçd  d:Hçd  •ßµ∂      $   src/PEAR2/Pyrus/Config/Exception.phpﬂ  d:Hﬂ  –U∂      (   src/PEAR2/Pyrus/Dependency/Exception.php⁄  d:H⁄  =∞œ∂      (   src/PEAR2/Pyrus/Dependency/Validator.phpÈ¨  d:HÈ¨  »b:L∂      !   src/PEAR2/Pyrus/DirectedGraph.phpå  d:Hå  ö®*∂      +   src/PEAR2/Pyrus/DirectedGraph/Exception.php·  d:H·  TÏ∂      (   src/PEAR2/Pyrus/DirectedGraph/Vertex.phpÒ  d:HÒ  „àîp∂         src/PEAR2/Pyrus/Downloader.php>  d:H>  ô°DO∂         src/PEAR2/Pyrus/Exception.php…  d:H…  û¸".∂      $   src/PEAR2/Pyrus/FileTransactions.php$  d:H$  ¬ïìy∂      0   src/PEAR2/Pyrus/FileTransactions/Installedas.phpˇ	  d:Hˇ	  !Xµ‰∂      +   src/PEAR2/Pyrus/FileTransactions/Rename.phpN
-  d:HN
-  ˙±∂∂      *   src/PEAR2/Pyrus/FileTransactions/Rmdir.phpˆ  d:Hˆ  K÷6∂         src/PEAR2/Pyrus/IChannel.phpô  d:Hô  „;;∂      $   src/PEAR2/Pyrus/IChannelRegistry.phpJ  d:HJ  ÔÓKi∂      $   src/PEAR2/Pyrus/IFileTransaction.phpk  d:Hk  ë)∂         src/PEAR2/Pyrus/ILog.php’  d:H’  ºÖΩˆ∂         src/PEAR2/Pyrus/Installer.phpÈP  d:HÈP  Ÿq∂      '   src/PEAR2/Pyrus/Installer/Exception.php·  d:H·  áµë8∂      "   src/PEAR2/Pyrus/Installer/Role.php∫  d:H∫  Á°Vì∂      )   src/PEAR2/Pyrus/Installer/Role/Common.phpe#  d:He#  aíà∂      '   src/PEAR2/Pyrus/Installer/Role/Data.php„  d:H„  TI∂      '   src/PEAR2/Pyrus/Installer/Role/Data.xml¥  d:H¥  Õ†åQ∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.php›  d:H›  ßÏ¿Y∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.xml≥  d:H≥  A‚êé∂      ,   src/PEAR2/Pyrus/Installer/Role/Exception.php‹  d:H‹  &üFí∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.php›  d:H›  :[Àˇ∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.xmlM  d:HM  $®Fƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.php›  d:H›  DU≤∂      &   src/PEAR2/Pyrus/Installer/Role/Php.xmlª  d:Hª  ÈÄ!Ë∂      )   src/PEAR2/Pyrus/Installer/Role/Script.phpÊ  d:HÊ  óGY∂      )   src/PEAR2/Pyrus/Installer/Role/Script.xmlæ  d:Hæ  –Tƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Src.phpH  d:HH  ¡áky∂      &   src/PEAR2/Pyrus/Installer/Role/Src.xml	  d:H	  ≥ª«∂      '   src/PEAR2/Pyrus/Installer/Role/Test.php‡  d:H‡  J+C–∂      '   src/PEAR2/Pyrus/Installer/Role/Test.xml¥  d:H¥  ˚|∂      &   src/PEAR2/Pyrus/Installer/Role/Www.php⁄  d:H⁄  àˇÅ∂      &   src/PEAR2/Pyrus/Installer/Role/Www.xml•  d:H•  ˝$P$∂         src/PEAR2/Pyrus/IPackage.phpç  d:Hç  Íåƒ∫∂         src/PEAR2/Pyrus/IRegistry.phpc  d:Hc  ©ö∂         src/PEAR2/Pyrus/Log.phpz  d:Hz  ø’œˇ∂         src/PEAR2/Pyrus/OSGuess.phpö,  d:Hö,  ¸ﬁ{l∂         src/PEAR2/Pyrus/Package.phpµ  d:Hµ  åÂL∂          src/PEAR2/Pyrus/Package/Base.phpñ  d:Hñ  =’˝Ã∂      #   src/PEAR2/Pyrus/Package/Creator.php'  d:H'  È\Æå∂      -   src/PEAR2/Pyrus/Package/Creator/Exception.phpÌ  d:HÌ  ˚¢Xc∂      0   src/PEAR2/Pyrus/Package/Creator/TaskIterator.php¬  d:H¬  ≠(∂      &   src/PEAR2/Pyrus/Package/Dependency.php»3  d:H»3  ZöÙ–∂      %   src/PEAR2/Pyrus/Package/Exception.php÷  d:H÷  ?õx∂      $   src/PEAR2/Pyrus/Package/ICreator.phpª  d:Hª  ÅœŒÒ∂      .   src/PEAR2/Pyrus/Package/InstalledException.php   d:H   £†@Ú∂          src/PEAR2/Pyrus/Package/Phar.phpc  d:Hc  ÉO|¯∂      *   src/PEAR2/Pyrus/Package/Phar/Exception.phpÂ  d:HÂ  £≈ëı∂      "   src/PEAR2/Pyrus/Package/Remote.phpZG  d:HZG  Üì∂         src/PEAR2/Pyrus/Package/Tar.phpÆ/  d:HÆ/  cçß|∂      )   src/PEAR2/Pyrus/Package/Tar/Exception.php‚  d:H‚  àôÂr∂         src/PEAR2/Pyrus/Package/Xml.phpÂ  d:HÂ  Å…xó∂         src/PEAR2/Pyrus/Package/Zip.php  d:H  =HQœ∂      )   src/PEAR2/Pyrus/Package/Zip/Exception.php‚  d:H‚  /jO8∂         src/PEAR2/Pyrus/PackageFile.phpL  d:HL  N8≥∂      )   src/PEAR2/Pyrus/PackageFile/Exception.php·  d:H·  ˛‚≈∂      *   src/PEAR2/Pyrus/PackageFile/IValidator.php  d:H  ı]®Â∂      )   src/PEAR2/Pyrus/PackageFile/Parser/v2.phpp  d:Hp  ¬∂      "   src/PEAR2/Pyrus/PackageFile/v2.php+õ  d:H+õ  Øœér∂      -   src/PEAR2/Pyrus/PackageFile/v2/Compatible.php∫$  d:H∫$  Å2ìÜ∂      7   src/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.php  d:H  \J„@∂      /   src/PEAR2/Pyrus/PackageFile/v2/Dependencies.php^K  d:H^K  ÈÔÉ·∂      9   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.php  d:H  ö”±z∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Developer.phpá   d:Há   ïT∂      6   src/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.php  d:H  Â√*∂      (   src/PEAR2/Pyrus/PackageFile/v2/Files.phpO  d:HO  ˘◊Ï∂      2   src/PEAR2/Pyrus/PackageFile/v2/Files/Exception.php
-  d:H
-  ö˝Ω∂      *   src/PEAR2/Pyrus/PackageFile/v2/Release.phpA1  d:HA1   ◊⁄Ê∂      4   src/PEAR2/Pyrus/PackageFile/v2/Release/Exception.php  d:H  kq)Í∂      )   src/PEAR2/Pyrus/PackageFile/v2/Remote.phpÛ  d:HÛ  ÷ròœ∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Validator.phpx  d:Hx  Øú$<∂      /   src/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpŒ  d:HŒ  WØ‡˙∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php=  d:H=  %lUq∂      7   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpÒ	  d:HÒ	  àM ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpl  d:Hl  •Mπ∂      A   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php>  d:H>  ëÙÆL∂      2   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpe  d:He  u˚ˇ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php†  d:H†  Ùª?∂         src/PEAR2/Pyrus/Registry.phpı  d:Hı  ˇ?;∂      !   src/PEAR2/Pyrus/Registry/Base.php
-  d:H
-  SL.—∂      $   src/PEAR2/Pyrus/Registry/Channel.php˝  d:H˝  ÙEâ∂      #   src/PEAR2/Pyrus/Registry/Config.php€  d:H€  \È-∂      &   src/PEAR2/Pyrus/Registry/Exception.phpﬂ  d:Hﬂ  ≤Ç∂      $   src/PEAR2/Pyrus/Registry/Package.phpÙ  d:HÙ  ˘ù›∂      #   src/PEAR2/Pyrus/Registry/Sqlite.php>=  d:H>=  „;gr∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Creator.php∫_  d:H∫_  ~/6c∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Package.php´  d:H´  ®|∂          src/PEAR2/Pyrus/Registry/Xml.phpô  d:Hô  9ﬁî∂         src/PEAR2/Pyrus/REST.php˝3  d:H˝3  <UM$∂         src/PEAR2/Pyrus/REST/10.php\p  d:H\p  ·Ñ|O∂         src/PEAR2/Pyrus/REST/11.php`'  d:H`'  ëE‘Ÿ∂         src/PEAR2/Pyrus/REST/13.php∞(  d:H∞(  ‘J’2∂      "   src/PEAR2/Pyrus/REST/Exception.phpÃ  d:HÃ  Án«∂      &   src/PEAR2/Pyrus/REST/HTTPException.php›  d:H›  &ø;
-∂      +   src/PEAR2/Pyrus/ScriptFrontend/Commands.phpP  d:HP  µ≥‰é∂         src/PEAR2/Pyrus/Task/Common.phpª  d:Hª  ∑w∂      "   src/PEAR2/Pyrus/Task/Exception.php”  d:H”  ∆U
-t∂      *   src/PEAR2/Pyrus/Task/Postinstallscript.php¡7  d:H¡7  -¥J∂      -   src/PEAR2/Pyrus/Task/Postinstallscript/rw.php¯  d:H¯  â˝lö∂          src/PEAR2/Pyrus/Task/Replace.phpÏ  d:HÏ  <∂      #   src/PEAR2/Pyrus/Task/Replace/rw.php¯  d:H¯  Ä≤∂          src/PEAR2/Pyrus/Task/Unixeol.phpf  d:Hf  QNwî∂      #   src/PEAR2/Pyrus/Task/Unixeol/rw.php  d:H  ƒÙìç∂      #   src/PEAR2/Pyrus/Task/Windowseol.php_  d:H_  ìÜd∆∂      &   src/PEAR2/Pyrus/Task/Windowseol/rw.php  d:H  1Ï⁄∂         src/PEAR2/Pyrus/Validate.phpÛQ  d:HÛQ  EïYÄ∂      &   src/PEAR2/Pyrus/Validate/Exception.phpI  d:HI  A†≈~∂      "   src/PEAR2/Pyrus/Validator/PECL.php∆  d:H∆  ,Ö·B∂         src/PEAR2/Pyrus/XMLParser.php  d:H  tÖN1∂      '   src/PEAR2/Pyrus/XMLParser/Exception.phpﬂ  d:Hﬂ  …oﬁ[∂         src/PEAR2/Pyrus/XMLWriter.phpÖ   d:HÖ   '·4Î∂      '   src/PEAR2/Pyrus/XMLWriter/Exception.phpﬂ  d:Hﬂ  \?h∂         src/PEAR2/Autoload.php7	  d:H7	  Æ&&…∂         src/PEAR2/MultiErrors.phpN  d:HN  <¡±∂         src/PEAR2/Exception.php 0  d:H 0  zb√2∂      #   src/PEAR2/MultiErrors/Exception.phpB   d:HB   ˙«z≤∂         src/PEAR2/HTTP/Request.php˜  d:H˜  ¿UG∂      "   src/PEAR2/HTTP/Request/Adapter.php  d:H  X”ë∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpsocket.phpæ,  d:Hæ,  pÔ∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpstream.php“  d:H“  «#“∂      $   src/PEAR2/HTTP/Request/Exception.phpE   d:HE   5≈ˆ,∂      #   src/PEAR2/HTTP/Request/Response.phpT  d:HT  «:T=∂         src/Net/URL2.php9  d:H9  D´;b∂      <?php
+'  ó           5   s:45:"package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml";   __index.php˛   ÿr(H˛   ,O∏#∂      -   package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml49  ÿr(H49  mµÇ∂      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd˛  ÿr(H˛  "“¸∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd‚M  ÿr(H‚M  °+"”∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd‰P  ÿr(H‰P  ºØ,v∂         src/PEAR2/Pyrus.phpm  ÿr(Hm  ^≈¡‚∂         src/PEAR2/Pyrus/Channel.phpzH  ÿr(HzH  '~)Ó∂          src/PEAR2/Pyrus/Channel/Base.phpó	  ÿr(Hó	  =ê/®∂      %   src/PEAR2/Pyrus/Channel/Exception.phpŒ  ÿr(HŒ  Ma-ö∂      #   src/PEAR2/Pyrus/Channel/IMirror.php‡  ÿr(H‡  ô*(å∂      "   src/PEAR2/Pyrus/Channel/Mirror.php´  ÿr(H´  íˇ’R∂      #   src/PEAR2/Pyrus/ChannelRegistry.php/  ÿr(H/  ÁÌU[∂      (   src/PEAR2/Pyrus/ChannelRegistry/Base.php+  ÿr(H+  ±y‘<∂      2   src/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.phpW4  ÿr(HW4  ∫˜º∂      /   src/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.php¥	  ÿr(H¥	  »ùI∂      -   src/PEAR2/Pyrus/ChannelRegistry/Exception.php  ÿr(H  ˜<^∂      1   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.php	  ÿr(H	  DçŸ/∂      .   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.php¨	  ÿr(H¨	  {·§ö∂      2   src/PEAR2/Pyrus/ChannelRegistry/ParseException.phpî  ÿr(Hî  Æ:c∂      *   src/PEAR2/Pyrus/ChannelRegistry/Sqlite.phpë  ÿr(Hë  !Ó∑J∂      '   src/PEAR2/Pyrus/ChannelRegistry/Xml.php‚  ÿr(H‚  æ«y∂         src/PEAR2/Pyrus/Config.php|d  ÿr(H|d  ¢&◊¬∂      $   src/PEAR2/Pyrus/Config/Exception.php›  ÿr(H›  ∑æ„∂      (   src/PEAR2/Pyrus/Dependency/Exception.phpÿ  ÿr(Hÿ  PÎõ}∂      (   src/PEAR2/Pyrus/Dependency/Validator.phpË®  ÿr(HË®  ÍÔ¶ç∂      !   src/PEAR2/Pyrus/DirectedGraph.phpâ  ÿr(Hâ  \U˘∂      +   src/PEAR2/Pyrus/DirectedGraph/Exception.phpﬂ  ÿr(Hﬂ  ú≈ßq∂      (   src/PEAR2/Pyrus/DirectedGraph/Vertex.phpÓ  ÿr(HÓ  p^Õ«∂         src/PEAR2/Pyrus/Downloader.phpû<  ÿr(Hû<  /£∂         src/PEAR2/Pyrus/Exception.php«  ÿr(H«  $ΩÙ<∂      $   src/PEAR2/Pyrus/FileTransactions.php$  ÿr(H$  ®svÀ∂      0   src/PEAR2/Pyrus/FileTransactions/Installedas.phpı	  ÿr(Hı	  Nœ∂Œ∂      +   src/PEAR2/Pyrus/FileTransactions/Rename.phpL
+  ÿr(HL
+  Ô«j∂      *   src/PEAR2/Pyrus/FileTransactions/Rmdir.php‰  ÿr(H‰  ¨%K∂         src/PEAR2/Pyrus/IChannel.phpó  ÿr(Hó  ı≤º1∂      $   src/PEAR2/Pyrus/IChannelRegistry.phpH  ÿr(HH  é
+û%∂      $   src/PEAR2/Pyrus/IFileTransaction.phpi  ÿr(Hi  ((∂         src/PEAR2/Pyrus/ILog.php”  ÿr(H”  æ/∂         src/PEAR2/Pyrus/Installer.phpÈP  ÿr(HÈP  Ÿq∂      '   src/PEAR2/Pyrus/Installer/Exception.phpﬂ  ÿr(Hﬂ  ™/P∂      "   src/PEAR2/Pyrus/Installer/Role.phpÕ  ÿr(HÕ  i¸∂      )   src/PEAR2/Pyrus/Installer/Role/Common.php|"  ÿr(H|"  å;9∂      '   src/PEAR2/Pyrus/Installer/Role/Data.php⁄  ÿr(H⁄  /ÿ“∂      '   src/PEAR2/Pyrus/Installer/Role/Data.xml¥  ÿr(H¥  Õ†åQ∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.php◊  ÿr(H◊  ®πkP∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.xml≥  ÿr(H≥  A‚êé∂      ,   src/PEAR2/Pyrus/Installer/Role/Exception.php‹  ÿr(H‹  &üFí∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.php◊  ÿr(H◊  Hë◊∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.xmlM  ÿr(HM  $®Fƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.php◊  ÿr(H◊  î,ñ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.xmlª  ÿr(Hª  ÈÄ!Ë∂      )   src/PEAR2/Pyrus/Installer/Role/Script.php‡  ÿr(H‡  ›äÑ∂      )   src/PEAR2/Pyrus/Installer/Role/Script.xmlæ  ÿr(Hæ  –Tƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Src.php<  ÿr(H<  zÿ|∂      &   src/PEAR2/Pyrus/Installer/Role/Src.xml	  ÿr(H	  ≥ª«∂      '   src/PEAR2/Pyrus/Installer/Role/Test.php⁄  ÿr(H⁄  l∆∑–∂      '   src/PEAR2/Pyrus/Installer/Role/Test.xml¥  ÿr(H¥  ˚|∂      &   src/PEAR2/Pyrus/Installer/Role/Www.php⁄  ÿr(H⁄  àˇÅ∂      &   src/PEAR2/Pyrus/Installer/Role/Www.xml•  ÿr(H•  ˝$P$∂         src/PEAR2/Pyrus/IPackage.phpã  ÿr(Hã  KUø∂         src/PEAR2/Pyrus/IRegistry.phpa  ÿr(Ha  ZÛ;ü∂         src/PEAR2/Pyrus/Log.phpx  ÿr(Hx  ÿ+V8∂         src/PEAR2/Pyrus/OSGuess.phpô,  ÿr(Hô,  √›ΩÕ∂         src/PEAR2/Pyrus/Package.php  ÿr(H  ú+∂          src/PEAR2/Pyrus/Package/Base.phpE  ÿr(HE  øévF∂      #   src/PEAR2/Pyrus/Package/Creator.php'  ÿr(H'  xÅóû∂      -   src/PEAR2/Pyrus/Package/Creator/Exception.phpÎ  ÿr(HÎ  ¯¯[Ú∂      0   src/PEAR2/Pyrus/Package/Creator/TaskIterator.php¿  ÿr(H¿   êÙã∂      &   src/PEAR2/Pyrus/Package/Dependency.phpæ3  ÿr(Hæ3  ´œìı∂      %   src/PEAR2/Pyrus/Package/Exception.php‘  ÿr(H‘  Ê1‰∂      $   src/PEAR2/Pyrus/Package/ICreator.phpπ  ÿr(Hπ  ñµS∂      .   src/PEAR2/Pyrus/Package/InstalledException.php˛  ÿr(H˛  '~Ö2∂          src/PEAR2/Pyrus/Package/Phar.phpL  ÿr(HL  ΩD⁄Ç∂      *   src/PEAR2/Pyrus/Package/Phar/Exception.php„  ÿr(H„  +cé¶∂      "   src/PEAR2/Pyrus/Package/Remote.phpÒD  ÿr(HÒD  ∆Í∞∂         src/PEAR2/Pyrus/Package/Tar.php§,  ÿr(H§,  IH8∂      )   src/PEAR2/Pyrus/Package/Tar/Exception.php‡  ÿr(H‡  yG8O∂         src/PEAR2/Pyrus/Package/Xml.php„  ÿr(H„  ìÚÖ∂         src/PEAR2/Pyrus/Package/Zip.php  ÿr(H  5bÇ∂      )   src/PEAR2/Pyrus/Package/Zip/Exception.php‡  ÿr(H‡  ∆Ó0¡∂         src/PEAR2/Pyrus/PackageFile.phpI  ÿr(HI  ©‰´S∂      )   src/PEAR2/Pyrus/PackageFile/Exception.phpﬂ  ÿr(Hﬂ  !‘V∂      *   src/PEAR2/Pyrus/PackageFile/IValidator.php  ÿr(H  ÉÕö∂      )   src/PEAR2/Pyrus/PackageFile/Parser/v2.php∫  ÿr(H∫  StÖ∂      "   src/PEAR2/Pyrus/PackageFile/v2.phpDó  ÿr(HDó  ÛßÁ∂      -   src/PEAR2/Pyrus/PackageFile/v2/Compatible.php¥$  ÿr(H¥$  9&˘∂      7   src/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.php  ÿr(H  yzZ∂      /   src/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpYK  ÿr(HYK  √”π∂      9   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.php  ÿr(H  UƒB+∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Developer.phpÉ   ÿr(HÉ   ë;∂      6   src/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.php  ÿr(H  Õw∂      (   src/PEAR2/Pyrus/PackageFile/v2/Files.phpM  ÿr(HM  „ëà‰∂      2   src/PEAR2/Pyrus/PackageFile/v2/Files/Exception.php  ÿr(H  ÄG6√∂      *   src/PEAR2/Pyrus/PackageFile/v2/Release.php-1  ÿr(H-1  (ˆıÅ∂      4   src/PEAR2/Pyrus/PackageFile/v2/Release/Exception.php	  ÿr(H	  uWA∂      )   src/PEAR2/Pyrus/PackageFile/v2/Remote.phpÌ  ÿr(HÌ  ¡,‰É∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Validator.php9u  ÿr(H9u  ´iòÛ∂      /   src/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpÃ  ÿr(HÃ  ≤ ÕÌ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php:  ÿr(H:  CO¬h∂      7   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpÔ	  ÿr(HÔ	  0?ë¡∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpj  ÿr(Hj  ´x@Ê∂      A   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php<  ÿr(H<  ≠’Ωk∂      2   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpa  ÿr(Ha  ï’∫ü∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpû  ÿr(Hû  ßUQä∂         src/PEAR2/Pyrus/Registry.phpÒ  ÿr(HÒ  ∫∑C∂      !   src/PEAR2/Pyrus/Registry/Base.php
+  ÿr(H
+  !OÃº∂      $   src/PEAR2/Pyrus/Registry/Channel.php˙  ÿr(H˙  /ÚÉ∂      #   src/PEAR2/Pyrus/Registry/Config.php÷  ÿr(H÷  Ûn=Y∂      &   src/PEAR2/Pyrus/Registry/Exception.php›  ÿr(H›  Ó}i∂      $   src/PEAR2/Pyrus/Registry/Package.php  ÿr(H  ªâ´N∂      #   src/PEAR2/Pyrus/Registry/Sqlite.php=  ÿr(H=  µâi∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Creator.phpõ_  ÿr(Hõ_  ñ"h∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Package.php®  ÿr(H®  Pé•∂          src/PEAR2/Pyrus/Registry/Xml.phpó  ÿr(Hó  ‰yßM∂         src/PEAR2/Pyrus/REST.php˚3  ÿr(H˚3  iSaY∂         src/PEAR2/Pyrus/REST/10.phpWp  ÿr(HWp  Z.Z◊∂         src/PEAR2/Pyrus/REST/11.phpS'  ÿr(HS'  …Ì°Ù∂         src/PEAR2/Pyrus/REST/13.phpâ(  ÿr(Hâ(  ∞¶ÌÃ∂      "   src/PEAR2/Pyrus/REST/Exception.php   ÿr(H   «€ÒB∂      &   src/PEAR2/Pyrus/REST/HTTPException.php‹  ÿr(H‹  DÑ:∂      +   src/PEAR2/Pyrus/ScriptFrontend/Commands.phpO  ÿr(HO  b!V∂         src/PEAR2/Pyrus/Task/Common.php  ÿr(H  Ωìö∂      "   src/PEAR2/Pyrus/Task/Exception.php—  ÿr(H—  Zá
+]∂      *   src/PEAR2/Pyrus/Task/Postinstallscript.phpõ6  ÿr(Hõ6  ](®≥∂      -   src/PEAR2/Pyrus/Task/Postinstallscript/rw.phpı  ÿr(Hı  Ë¥–‰∂          src/PEAR2/Pyrus/Task/Replace.phpY  ÿr(HY  î]≥©∂      #   src/PEAR2/Pyrus/Task/Replace/rw.php¯  ÿr(H¯  Ä≤∂          src/PEAR2/Pyrus/Task/Unixeol.php/  ÿr(H/  º‡úö∂      #   src/PEAR2/Pyrus/Task/Unixeol/rw.php  ÿr(H  ƒÙìç∂      #   src/PEAR2/Pyrus/Task/Windowseol.php(  ÿr(H(  7EÂ∂      &   src/PEAR2/Pyrus/Task/Windowseol/rw.php  ÿr(H  1Ï⁄∂         src/PEAR2/Pyrus/Validate.phpæO  ÿr(HæO  µç[∂      &   src/PEAR2/Pyrus/Validate/Exception.phpG  ÿr(HG  s~◊∂      "   src/PEAR2/Pyrus/Validator/PECL.php£  ÿr(H£  *Êî∂         src/PEAR2/Pyrus/XMLParser.phpD  ÿr(HD  sL≤∂      '   src/PEAR2/Pyrus/XMLParser/Exception.php›  ÿr(H›  J+ñr∂         src/PEAR2/Pyrus/XMLWriter.phpÇ   ÿr(HÇ   LèWc∂      '   src/PEAR2/Pyrus/XMLWriter/Exception.php›  ÿr(H›  ÀÔ<Ö∂         src/PEAR2/Autoload.php7	  ÿr(H7	  Æ&&…∂         src/PEAR2/MultiErrors.phpN  ÿr(HN  <¡±∂         src/PEAR2/Exception.php 0  ÿr(H 0  zb√2∂      #   src/PEAR2/MultiErrors/Exception.phpB   ÿr(HB   ˙«z≤∂         src/PEAR2/HTTP/Request.php˜  ÿr(H˜  ¿UG∂      "   src/PEAR2/HTTP/Request/Adapter.php  ÿr(H  X”ë∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpsocket.phpÎ,  ÿr(HÎ,  —ê~¶∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpstream.phpˇ  ÿr(Hˇ  Ì£+∂      $   src/PEAR2/HTTP/Request/Exception.phpE   ÿr(HE   5≈ˆ,∂      "   src/PEAR2/HTTP/Request/Headers.phpŸ  ÿr(HŸ  =2d∂      #   src/PEAR2/HTTP/Request/Response.phpT  ÿr(HT  «:T=∂         src/PEAR2/HTTP/Request/Uri.php¡  ÿr(H¡  m[∫\∂         src/Net/URL2.php9  ÿr(H9  D´;b∂      <?php
 function __autoload($class)
 {
     include 'phar://' . PYRUS_PHAR_FILE . '/src/' . implode('/', explode('_', $class)) . '.php';
@@ -2702,9 +2700,9 @@ try {
 <?php
 /**
  * PEAR2_Pyrus
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -2738,9 +2736,9 @@ class PEAR2_Pyrus
 <?php
 /**
  * PEAR2_Pyrus_Channel
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -2778,7 +2776,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             'xmlns' => 'http://pear.php.net/channel-1.0',
         ),
     );
-    
+
     public $rootAttributes = array(
             'version' => '1.0',
             'xmlns' => 'http://pear.php.net/channel-1.0',
@@ -2838,9 +2836,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if (isset($this->channelInfo['name'])) {
             return $this->channelInfo['name'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -2850,9 +2848,21 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if (isset($this->channelInfo['name'])) {
             return $this->channelInfo['name'];
-        } else {
-            return false;
         }
+
+        return false;
+    }
+
+    /**
+     * @return string|false
+     */
+    function getSummary()
+    {
+        if (isset($this->channelInfo['summary'])) {
+            return $this->channelInfo['summary'];
+        }
+
+        return false;
     }
 
     /**
@@ -2863,9 +2873,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (isset($this->channelInfo['servers']['primary']['attribs']['port'])) {
             return $this->channelInfo['servers']['primary']['attribs']['port'];
         }
+
         if ($this->getSSL()) {
             return 443;
         }
+
         return 80;
     }
 
@@ -2877,26 +2889,15 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
             return true;
         }
-        return false;
-    }
 
-    /**
-     * @return string|false
-     */
-    function getSummary()
-    {
-        if (isset($this->channelInfo['summary'])) {
-            return $this->channelInfo['summary'];
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
      * @param string xmlrpc or soap
      */
     function getPath($protocol)
-    {   
+    {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $protocol);
@@ -2922,9 +2923,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
         if (isset($this->channelInfo['servers']['primary'][$protocol]['function'])) {
             return $this->channelInfo['servers']['primary'][$protocol]['function'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -2939,18 +2940,23 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (!$protocols) {
             return false;
         }
+
         foreach ($protocols as $protocol) {
             if ($protocol['attribs']['version'] != $version) {
                 continue;
             }
+
             if ($name === null) {
                 return true;
             }
+
             if ($protocol['_content'] != $name) {
                 continue;
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -2966,8 +2972,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 
     function getREST()
     {
-        return isset($this->channelInfo['servers']['primary']['rest']) ?
-            $this->channelInfo['servers']['primary']['rest'] : false;
+        if (isset($this->channelInfo['servers']['primary']['rest'])) {
+            return $this->channelInfo['servers']['primary']['rest'];
+        }
+
+        return false;
     }
 
     /**
@@ -2983,35 +2992,37 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (!isset($rest['baseurl'][0])) {
             $rest['baseurl'] = array($rest['baseurl']);
         }
+
         foreach ($rest['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($resourceType)) {
                 return $baseurl['_content'];
             }
         }
+
         return false;
     }
 
- 	function __get($value)
- 	{
- 	    switch ($value) {
- 	        case 'mirrors' :
- 	            if (!isset($this->channelInfo['servers']['mirror'][0])) {
- 	                return array(
- 	                  $this->channelInfo['name'] => 
- 	                  new PEAR2_Pyrus_Channel_Mirror(
+    function __get($value)
+    {
+        switch ($value) {
+            case 'mirrors' :
+                if (!isset($this->channelInfo['servers']['mirror'][0])) {
+                    return array(
+                      $this->channelInfo['name'] =>
+                      new PEAR2_Pyrus_Channel_Mirror(
                           $this->channelInfo['servers']['mirror'], $this));
- 	            }
- 	            $ret = array($this->channelInfo['name'] => 
- 	                  new PEAR2_Pyrus_Channel_Mirror(
+                }
+                $ret = array($this->channelInfo['name'] =>
+                      new PEAR2_Pyrus_Channel_Mirror(
                           $this->channelInfo['servers']['mirror'], $this));
 
- 	            foreach ($this->channelInfo['servers']['mirror'] as $i => $mir) {
- 	                $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
- 	                      $this->channelInfo['servers']['mirror'][$i], $this);
+                foreach ($this->channelInfo['servers']['mirror'] as $i => $mir) {
+                    $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
+                          $this->channelInfo['servers']['mirror'][$i], $this);
                 }
                 return $ret;
- 	    }
- 	}
+        }
+    }
 
     /**
      * Empty all xmlrpc definitions
@@ -3071,8 +3082,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if ($server == '__uri') {
             return true;
         }
-        return (bool) preg_match('/^[a-z0-9\-]+(?:\.[a-z0-9\-]+)*(\/[a-z0-9\-]+)*\\z/i',
-            $server);
+
+        $regex = '/^[a-z0-9\-]+(?:\.[a-z0-9\-]+)*(\/[a-z0-9\-]+)*\\z/i';
+        return (bool) preg_match($regex, $server);
     }
 
     /**
@@ -3092,10 +3104,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if ($ssl) {
             $this->channelInfo['servers']['primary']['attribs']['ssl'] = 'yes';
-        } else {
-            if (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
-                unset($this->channelInfo['servers']['primary']['attribs']['ssl']);
-            }
+        } elseif (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
+            unset($this->channelInfo['servers']['primary']['attribs']['ssl']);
         }
     }
 
@@ -3107,8 +3117,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function setPath($protocol, $path)
     {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
-                $protocol);
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' . $protocol);
         }
         $this->channelInfo['servers']['primary'][$protocol]['attribs']['path'] = $path;
     }
@@ -3142,11 +3151,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (!$this->validChannelServer($alias)) {
             throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $server . '" is not a valid channel server');
         }
-        if ($local) {
-            $this->channelInfo['localalias'] = $alias;
-        } else {
-            $this->channelInfo['suggestedalias'] = $alias;
-        }
+
+        $a = $local ? 'localalias' : 'suggestedalias';
+        $this->channelInfo[$a] = $alias;
         return true;
     }
 
@@ -3247,19 +3254,22 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if ($this->channelInfo['name'] == '__uri') {
             return false; // the __uri channel cannot have mirrors by definition
         }
+
         $set = array('attribs' => array('host' => $server));
         if (is_numeric($port)) {
             $set['attribs']['port'] = $port;
         }
+
         if (!isset($this->channelInfo['servers']['mirror'])) {
             $this->channelInfo['servers']['mirror'] = $set;
             return true;
-        } else {
-            if (!isset($this->channelInfo['servers']['mirror'][0])) {
-                $this->channelInfo['servers']['mirror'] =
-                    array($this->channelInfo['servers']['mirror']);
-            }
         }
+
+        if (!isset($this->channelInfo['servers']['mirror'][0])) {
+            $this->channelInfo['servers']['mirror'] =
+                array($this->channelInfo['servers']['mirror']);
+        }
+
         $this->channelInfo['servers']['mirror'][] = $set;
         return true;
     }
@@ -3273,10 +3283,12 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (!$this->_isValid && !$this->validate()) {
             return false;
         }
+
         if (!isset($this->channelInfo['validatepackage'])) {
             return array('attribs' => array('version' => 'default'),
                 '_content' => 'PEAR2_Pyrus_Validate');
         }
+
         return $this->channelInfo['validatepackage'];
     }
 
@@ -3289,28 +3301,29 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getValidationObject($package = false)
     {
-        if (!$this->_isValid) {
-            if (!$this->validate()) {
-                return false;
-            }
+        if (!$this->_isValid && !$this->validate()) {
+            return false;
         }
+
         if (isset($this->channelInfo['validatepackage'])) {
             if ($package == $this->channelInfo['validatepackage']) {
                 // channel validation packages are always validated by PEAR_Validate
                 $val = new PEAR2_Pyrus_Validate;
                 return $val;
             }
+
             if (!class_exists(str_replace('.', '_',
                   $this->channelInfo['validatepackage']['_content']), true)) {
                 return false;
-            } else {
-                $vclass = str_replace('.', '_',
-                    $this->channelInfo['validatepackage']['_content']);
-                $val = new $vclass;
             }
+
+            $vclass = str_replace('.', '_',
+                $this->channelInfo['validatepackage']['_content']);
+            $val = new $vclass;
         } else {
             $val = new PEAR2_Pyrus_Validate;
         }
+
         return $val;
     }
 
@@ -3324,16 +3337,15 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (isset($this->channelInfo['_lastmodified'])) {
             return $this->channelInfo['_lastmodified'];
         }
+
         return time();
     }
-}
-?>
-<?php
+}<?php
 /**
  * PEAR2_Pyrus_Channel_Base
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -3418,9 +3430,9 @@ abstract class PEAR2_Pyrus_Channel_Base implements PEAR2_Pyrus_IChannel
 }<?php
 /**
  * PEAR2_Pyrus_Channel_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -3443,9 +3455,9 @@ abstract class PEAR2_Pyrus_Channel_Base implements PEAR2_Pyrus_IChannel
 class PEAR2_Pyrus_Channel_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Channel_IMirror
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -3471,9 +3483,9 @@ interface PEAR2_Pyrus_Channel_IMirror
 }<?php
 /**
  * PEAR2_Pyrus_Channel_Mirror
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -3523,9 +3535,9 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (isset($this->_info['attribs']['host'])) {
             return $this->_info['attribs']['host'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -3535,12 +3547,13 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (isset($this->_info['attribs']['port'])) {
             return $this->_info['attribs']['port'];
-        } else {
-            if ($this->getSSL()) {
-                return 443;
-            }
-            return 80;
         }
+
+        if ($this->getSSL()) {
+            return 443;
+        }
+
+        return 80;
     }
 
     /**
@@ -3550,9 +3563,9 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (isset($this->_info['attribs']['ssl'])) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 
@@ -3560,15 +3573,16 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
      * @param string xmlrpc or soap
      */
     function getPath($protocol)
-    {   
+    {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             return false;
         }
+
         if (isset($this->_info[$protocol]['attribs']['path'])) {
             return $this->_info[$protocol]['attribs']['path'];
-        } else {
-            return $protocol . '.php';
         }
+
+        return $protocol . '.php';
     }
 
     /**
@@ -3580,11 +3594,8 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if ($this->parentChannel->getName() == '__uri') {
             return false;
         }
-        if ($protocol == 'rest') {
-            $function = 'baseurl';
-        } else {
-            $function = 'function';
-        }
+
+        $function = $protocol == 'rest' ? 'baseurl' : 'function';
         if (isset($this->_info[$protocol][$function])) {
             return $this->_info[$protocol][$function];
         }
@@ -3595,6 +3606,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if (isset($this->_info['rest'])) {
             return $this->_info['rest'];
         }
+
         return false;
     }
 
@@ -3705,6 +3717,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
                 $type);
         }
         $set = array('attribs' => array('version' => $version), '_content' => $name);
+
         if (!isset($this->_info[$type]['function'])) {
             $this->_info[$type]['function'] = $set;
         } elseif (!isset($this->_info[$type]['function'][0])) {
@@ -3723,12 +3736,14 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if (!isset($this->_info['rest'])) {
             $this->_info['rest'] = array();
         }
+
         if (!isset($this->_info['rest']['baseurl'])) {
             $this->_info['rest']['baseurl'] = $set;
             return;
         } elseif (!isset($this->_info['rest']['baseurl'][0])) {
             $this->_info['rest']['baseurl'] = array($this->_info['rest']['baseurl']);
         }
+
         foreach ($this->_info['rest']['baseurl'] as $i => $url) {
             if ($url['attribs']['type'] == $resourceType) {
                 $this->_info['rest']['baseurl'][$i] = $set;
@@ -3740,9 +3755,9 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -3898,7 +3913,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      * Parse a string to determine which package file is requested
      *
      * This differentiates between the three kinds of packages:
-     * 
+     *
      *  - local files
      *  - remote static URLs
      *  - dynamic abstract package names
@@ -3906,7 +3921,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      * @return string|array A string is returned if this is a file, otherwise an array
      *                      containing information is returned
      */
-    static public function parsePackageName($pname, $assumeabstract = false) 
+    static public function parsePackageName($pname, $assumeabstract = false)
     {
         if (!$assumeabstract && @file_exists($pname) && @is_file($pname)) {
             return $pname;
@@ -3948,9 +3963,9 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Base
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -3984,7 +3999,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
      *                     ['group' => 'groupname'])
      *                     or a string of format
      *                     [channel://][channame/]pname[-version|-state][/group=groupname]
-     * 
+     *
      * @return array
      */
     public function parseName($param, $defaultchannel = 'pear.php.net')
@@ -4136,7 +4151,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                     throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"', 'version/state');
-                }                    
+                }
             }
         }
         return $param;
@@ -4224,9 +4239,9 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -4315,7 +4330,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
      * @param string xmlrpc or soap
      */
     function getPath($protocol)
-    {   
+    {
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
                 $protocol);
@@ -4586,9 +4601,9 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Channel_Xml
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -4686,9 +4701,9 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Xml extends PEAR2_Pyrus_Channel
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -4713,9 +4728,9 @@ class PEAR2_Pyrus_ChannelRegistry_Exception extends PEAR2_Exception
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistrymirror_Sqlite
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -4770,9 +4785,9 @@ class PEAR2_Pyrus_ChannelRegistrymirror_Sqlite extends PEAR2_Pyrus_ChannelRegist
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Mirror_Xml
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -4864,9 +4879,9 @@ class PEAR2_Pyrus_ChannelRegistry_Mirror_Xml extends PEAR2_Pyrus_Channel_Mirror
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_ParseException
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -4889,7 +4904,7 @@ class PEAR2_Pyrus_ChannelRegistry_Mirror_Xml extends PEAR2_Pyrus_Channel_Mirror
 class PEAR2_Pyrus_ChannelRegistry_ParseException extends PEAR2_Exception
 {
     public $why;
-    
+
     function __construct($message, $why)
     {
         $this->why = $why;
@@ -4898,9 +4913,9 @@ class PEAR2_Pyrus_ChannelRegistry_ParseException extends PEAR2_Exception
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Sqlite
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5009,7 +5024,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             )
             ')) {
             throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
-                ' could not be added to the registry');    
+                ' could not be added to the registry');
         }
         if (!@$this->database->queryExec('
             INSERT INTO channel_servers
@@ -5022,7 +5037,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             )
             ')) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                ' could not be added to the registry');    
+                ' could not be added to the registry');
         }
         $servers = array(false);
         $mirrors = $channel->mirrors;
@@ -5040,7 +5055,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                     )
                     ')) {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                        ' could not be added to the registry');    
+                        ' could not be added to the registry');
                 }
             }
         }
@@ -5068,7 +5083,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                         )
                         ')) {
                         throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                            ' could not be added to the registry');    
+                            ' could not be added to the registry');
                     }
                 }
             }
@@ -5113,9 +5128,9 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
 }<?php
 /**
  * PEAR2_Pyrus_ChannelRegistry_Xml
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5261,9 +5276,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 }<?php
 /**
  * PEAR2_Pyrus_Config
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5279,11 +5294,11 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
  * Unlike PEAR version 1.x, the new Pyrus configuration manager is tightly bound
  * to include_path, and will search through include_path for system configuration
  * Pyrus installations.
- * 
+ *
  * The User configuration file will be looked for in these locations:
  *
  * Unix:
- * 
+ *
  * - home directory
  * - current directory
  *
@@ -5292,7 +5307,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
  * - local settings directory on windows for the current user.
  *   This is looked up directly in the windows registry using COM
  * - current directory
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5479,7 +5494,7 @@ class PEAR2_Pyrus_Config
         ob_start();
         phpinfo(INFO_GENERAL);
         $stuff = ob_get_clean();
-        if (preg_match('@Loaded Configuration File => (.+)@', 
+        if (preg_match('@Loaded Configuration File => (.+)@',
               $stuff, $climatch)) {
             self::$defaults['php_ini'] = $climatch[1];
             PEAR2_Pyrus_Log::log(5, 'Used ' . $climatch[1] . ' for php.ini location');
@@ -5604,13 +5619,13 @@ class PEAR2_Pyrus_Config
      * Extract configuration from system + user configuration files
      *
      * Configuration is stored in XML format, in two locations.
-     * 
+     *
      * The system configuration contains all of the important directory
      * configuration variables like data_dir, and the location of php.ini and
      * the php executable php.exe or php.  This configuration is tightly bound
      * to the repository, and cannot be moved.  As such, php_dir is auto-defined
      * as dirname(/path/to/pear/.config), or /path/to/pear.
-     * 
+     *
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
@@ -5856,7 +5871,7 @@ class PEAR2_Pyrus_Config
      */
     static public function addConfigValue($key, $default, $system = true)
     {
-        
+
     }
 
     public function __get($value)
@@ -5892,7 +5907,7 @@ class PEAR2_Pyrus_Config
         if (in_array($value, self::$pearConfigNames)) {
             PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $value .
                 ' value "' . self::$defaults[$value] . '"');
-            return (string) str_replace('@php_dir@', $this->pearDir, 
+            return (string) str_replace('@php_dir@', $this->pearDir,
                 self::$configs[$this->pearDir]->$value);
         }
         return (string) self::$userConfigs[$this->userFile]->$value;
@@ -5928,9 +5943,9 @@ class PEAR2_Pyrus_Config
 <?php
 /**
  * PEAR2_Pyrus_Config_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5953,9 +5968,9 @@ class PEAR2_Pyrus_Config
 class PEAR2_Pyrus_Config_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Dependency_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5980,7 +5995,7 @@ class PEAR2_Pyrus_Dependency_Exception extends PEAR2_Exception {}<?php
  * PEAR2_Pyrus_Dependency_Validator, advanced dependency validation
  *
  * PHP versions 4 and 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -5997,7 +6012,7 @@ class PEAR2_Pyrus_Dependency_Exception extends PEAR2_Exception {}<?php
  * WARNING: *any* changes to this class must be duplicated in the
  * test_PEAR_Dependency2 class found in tests/PEAR_Dependency2/setup.php.inc,
  * or unit tests will not actually validate the changes
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -6755,7 +6770,7 @@ class PEAR2_Pyrus_Dependency_Validator
                 if (!isset($this->_options['nodeps']) && !isset($this->_options['force']) &&
                       !isset($this->_options['loose'])) {
                     return $this->raiseError('%s dependency package "' . $depname .
-                        '" ' . $installed . ' version ' . $version . 
+                        '" ' . $installed . ' version ' . $version .
                         ' is not the recommended version ' . $dep['recommended'] .
                         ', but may be compatible, use --force to install');
                 } else {
@@ -6932,7 +6947,7 @@ class PEAR2_Pyrus_Dependency_Validator
 
     /**
      * validate a downloaded package against installed packages
-     * 
+     *
      * As of PEAR 1.4.3, this will only validate
      *
      * @param array|PEAR_Downloader_Package|PEAR_PackageFile_v1|PEAR_PackageFile_v2
@@ -7016,9 +7031,9 @@ class PEAR2_Pyrus_Dependency_Validator
 ?><?php
 /**
  * PEAR2_Pyrus_DirectedGraph
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7033,7 +7048,7 @@ class PEAR2_Pyrus_Dependency_Validator
  *
  * This structure allows us to sort dependencies into the correct order for installation.
  * Iteration uses a depth-first search to perform a topological sort.
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7194,9 +7209,9 @@ class PEAR2_Pyrus_DirectedGraph implements Iterator
 }<?php
 /**
  * PEAR2_Pyrus_DirectedGraph_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7219,9 +7234,9 @@ class PEAR2_Pyrus_DirectedGraph implements Iterator
 class PEAR2_Pyrus_DirectedGraph_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_DirectedGraph_Vertex
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7276,7 +7291,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
 
     /**
      * Set the color of a visited node
-     * 
+     *
      * WHITE = unvisited, GRAY = visited, BLACK = finished
      *
      * @param self::WHITE|self::GRAY|self::BLACK|null $color if null, return the current color
@@ -7350,9 +7365,9 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
 }<?php
 /**
  * PEAR2_Pyrus_Downloader
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7398,7 +7413,7 @@ class PEAR2_Pyrus_Downloader
         } else {
             curl_setopt($c, CURLOPT_URL, $url);
         }
-        if ($config->http_proxy && 
+        if ($config->http_proxy &&
               $proxy = parse_url($config->http_proxy)) {
             curl_setopt($c, CURLOPT_HTTPPROXYTUNNEL, true);
             curl_setopt($c, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
@@ -7415,7 +7430,7 @@ class PEAR2_Pyrus_Downloader
                 call_user_func($callback, 'message', "Using HTTP proxy $host:$port");
             }
         } else {
-            
+
         }
         curl_setopt($c, CURLOPT_MAXREDIRS, 3);
         curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
@@ -7439,7 +7454,7 @@ class PEAR2_Pyrus_Downloader
 
     static function curlCallback($curl, $string)
     {
-        
+
     }
 
     static function headerCallback($curl, $string)
@@ -7539,7 +7554,7 @@ class PEAR2_Pyrus_Downloader
             $config = PEAR2_Pyrus_Config::singleton();
         }
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if ($config->http_proxy && 
+        if ($config->http_proxy &&
               $proxy = parse_url($config->http_proxy)) {
             $proxy_host = isset($proxy['host']) ? $proxy['host'] : null;
             if (isset($proxy['scheme']) && $proxy['scheme'] == 'https') {
@@ -7718,9 +7733,9 @@ class PEAR2_Pyrus_Downloader
 }<?php
 /**
  * PEAR2_Pyrus_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7743,9 +7758,9 @@ class PEAR2_Pyrus_Downloader
 class PEAR2_Pyrus_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_FileTransactions
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -7830,7 +7845,7 @@ class PEAR2_Pyrus_FileTransactions
         PEAR2_Pyrus_Log::log(2, "about to commit $n file operations");
         // {{{ first, check permissions and such manually
         $errors = array();
-        
+
         foreach ($this->fileOperations as $tr) {
             list($type, $data) = $tr;
             switch ($type) {
@@ -7977,9 +7992,9 @@ class PEAR2_Pyrus_FileTransactions
 }<?php
 /**
  * PEAR2_Pyrus_FileTransactions_Installedas
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8013,7 +8028,7 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
 
     public function check($data, &$errors)
     {
-        
+
     }
 
     public function commit($data, &$errors)
@@ -8062,9 +8077,9 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
 <?php
 /**
  * PEAR2_Pyrus_FileTransactions_Rename
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8143,9 +8158,9 @@ class PEAR2_Pyrus_FileTransactions_Rename implements PEAR2_Pyrus_IFileTransactio
 }<?php
 /**
  * PEAR2_Pyrus_FileTransactions_Rmdir
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8169,7 +8184,7 @@ class PEAR2_Pyrus_FileTransactions_Rmdir implements PEAR2_Pyrus_IFileTransaction
 {
     public function check($data, &$errors)
     {
-        
+
     }
 
     public function commit($data, &$errors)
@@ -8198,16 +8213,16 @@ class PEAR2_Pyrus_FileTransactions_Rmdir implements PEAR2_Pyrus_IFileTransaction
 
     public function rollback($data, &$errors)
     {
-        
+
     }
 
     public function cleanup(){}
 }<?php
 /**
  * PEAR2_Pyrus_IChannel
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8257,9 +8272,9 @@ interface PEAR2_Pyrus_IChannel
 }<?php
 /**
  * PEAR2_Pyrus_IChannelRegistry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8292,9 +8307,9 @@ interface PEAR2_Pyrus_IChannelRegistry
 }<?php
 /**
  * PEAR2_Pyrus_IFileTransaction
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8323,9 +8338,9 @@ interface PEAR2_Pyrus_IFileTransaction
 }<?php
 /**
  * PEAR2_Pyrus_ILog
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8837,9 +8852,9 @@ class PEAR2_Pyrus_Installer
 <?php
 /**
  * PEAR2_Pyrus_Installer_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -8864,7 +8879,7 @@ class PEAR2_Pyrus_Installer_Exception extends PEAR2_Exception {}<?php
  * PEAR2_Pyrus_Installer_Role
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9120,7 +9135,7 @@ class PEAR2_Pyrus_Installer_Role
  * Base class for all installation roles.
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9136,7 +9151,7 @@ class PEAR2_Pyrus_Installer_Role
  * This class allows extensibility of file roles.  Packages with complex
  * customization can now provide custom file roles along with the possibility of
  * adding configuration values to match.
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9180,7 +9195,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     function getPackagingLocation(PEAR2_Pyrus_PackageFile_v2 $pkg, $atts)
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
+        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         $role = str_replace('pear2_pyrus_installer_role_', '',
                 strtolower(get_class($this)));
@@ -9247,7 +9262,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     function processInstallation(PEAR2_Pyrus_Package $pkg, $atts, $file, $tmp_path, $layer = null)
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
+        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         if (!$roleInfo['locationconfig']) {
             return false;
@@ -9299,7 +9314,7 @@ class PEAR2_Pyrus_Installer_Role_Common
 
         // Clean up the DIRECTORY_SEPARATOR mess
         $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
-        
+
         list($dest_dir, $dest_file, $orig_file) = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
                                                     array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
                                                           DIRECTORY_SEPARATOR),
@@ -9313,7 +9328,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     function getLocationConfig()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
+        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         return $roleInfo['locationconfig'];
     }
@@ -9331,21 +9346,21 @@ class PEAR2_Pyrus_Installer_Role_Common
 
     function isExecutable()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
+        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         return $roleInfo['executable'];
     }
 
     function isInstallable()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role_Common::getInfo('PEAR2_Pyrus_Installer_Role_' . 
+        $roleInfo = PEAR2_Pyrus_Installer_Role_Common::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         return $roleInfo['installable'];
     }
 
     function isExtension()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' . 
+        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
         return $roleInfo['phpextension'];
     }
@@ -9353,9 +9368,9 @@ class PEAR2_Pyrus_Installer_Role_Common
 ?><?php
 /**
  * PEAR2_Pyrus_Installer_Role_Data
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9367,7 +9382,7 @@ class PEAR2_Pyrus_Installer_Role_Common
 
 /**
  * Data role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9393,9 +9408,9 @@ class PEAR2_Pyrus_Installer_Role_Data extends PEAR2_Pyrus_Installer_Role_Common 
 </role><?php
 /**
  * PEAR2_Pyrus_Installer_Role_Doc
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9407,7 +9422,7 @@ class PEAR2_Pyrus_Installer_Role_Data extends PEAR2_Pyrus_Installer_Role_Common 
 
 /**
  * Doc role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9458,9 +9473,9 @@ class PEAR2_Pyrus_Installer_Role_Doc extends PEAR2_Pyrus_Installer_Role_Common {
 class PEAR2_Pyrus_Installer_Role_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Installer_Role_Ext
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9472,7 +9487,7 @@ class PEAR2_Pyrus_Installer_Role_Exception extends PEAR2_Exception {}<?php
 
 /**
  * Ext role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9495,9 +9510,9 @@ class PEAR2_Pyrus_Installer_Role_Ext extends PEAR2_Pyrus_Installer_Role_Common {
 </role><?php
 /**
  * PEAR2_Pyrus_Installer_Role_Php
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9509,7 +9524,7 @@ class PEAR2_Pyrus_Installer_Role_Ext extends PEAR2_Pyrus_Installer_Role_Common {
 
 /**
  * php role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9535,9 +9550,9 @@ class PEAR2_Pyrus_Installer_Role_Php extends PEAR2_Pyrus_Installer_Role_Common {
 </role><?php
 /**
  * PEAR2_Pyrus_Installer_Role_Script
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9549,7 +9564,7 @@ class PEAR2_Pyrus_Installer_Role_Php extends PEAR2_Pyrus_Installer_Role_Common {
 
 /**
  * Script role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9575,9 +9590,9 @@ class PEAR2_Pyrus_Installer_Role_Script extends PEAR2_Pyrus_Installer_Role_Commo
 </role><?php
 /**
  * PEAR2_Pyrus_Installer_Role_Src
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9589,7 +9604,7 @@ class PEAR2_Pyrus_Installer_Role_Script extends PEAR2_Pyrus_Installer_Role_Commo
 
 /**
  * Src role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9618,9 +9633,9 @@ class PEAR2_Pyrus_Installer_Role_Src extends PEAR2_Pyrus_Installer_Role_Common
 </role><?php
 /**
  * PEAR2_Pyrus_Installer_Role_Test
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9632,7 +9647,7 @@ class PEAR2_Pyrus_Installer_Role_Src extends PEAR2_Pyrus_Installer_Role_Common
 
 /**
  * Test role
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9698,9 +9713,9 @@ class PEAR2_Pyrus_Installer_Role_Www extends PEAR2_Pyrus_Installer_Role_Common {
 </role><?php
 /**
  * PEAR2_Pyrus_IPackage
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9731,9 +9746,9 @@ interface PEAR2_Pyrus_IPackage extends ArrayAccess, Iterator
 }<?php
 /**
  * PEAR2_Pyrus_IRegistry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9768,9 +9783,9 @@ interface PEAR2_Pyrus_IRegistry
 }<?php
 /**
  * PEAR2_Pyrus_Log
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -9892,7 +9907,7 @@ class PEAR2_Pyrus_Log
 // Darwin home-eden.local 7.5.0 Darwin Kernel Version 7.5.0: Thu Aug  5 19:26:16 PDT 2004; root:xnu/xnu-517.7.21.obj~3/RELEASE_PPC  Power Macintosh
 //
 // Mac OS X early versions
-// 
+//
 
 // }}}
 
@@ -10162,9 +10177,9 @@ class PEAR2_Pyrus_OSGuess
 <?php
 /**
  * PEAR2_Pyrus_Package
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10178,12 +10193,12 @@ class PEAR2_Pyrus_OSGuess
  * Abstract representation of a package
  *
  * specific package types are:
- * 
+ *
  * - package.xml
  * - package.tgz/package.tar
  * - package.phar
  * - remote undownloaded package
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10239,7 +10254,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
         }
         return $this;
     }
-    
+
     function getLocation()
     {
         return $this->internal->getLocation();
@@ -10334,9 +10349,9 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
 }<?php
 /**
  * PEAR2_Pyrus_Package_Base
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10384,7 +10399,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
     {
         return true;
     }
-    
+
     function setFrom(PEAR2_Pyrus_IPackage $from)
     {
         $this->from = $from;
@@ -10396,6 +10411,29 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
             return $this->from->getFrom();
         }
         return $this;
+    }
+
+    /**
+     * Sort files/directories for removal
+     *
+     * Files are always removed first, followed by directories in
+     * path order
+     * @param unknown_type $a
+     * @param unknown_type $b
+     * @return unknown
+     */
+    static function sortstuff($a, $b)
+    {
+        // files can be removed in any order
+        if (is_file($a) && is_file($b)) return 0;
+        if (is_dir($a) && is_file($b)) return 1;
+        if (is_dir($b) && is_file($a)) return -1;
+        $countslasha = substr_count($a, DIRECTORY_SEPARATOR);
+        $countslashb = substr_count($b, DIRECTORY_SEPARATOR);
+        if ($countslasha > $countslashb) return -1;
+        if ($countslashb > $countslasha) return 1;
+        // if not subdirectories, tehy can be removed in any order
+        return 0;
     }
 
     /**
@@ -10415,9 +10453,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
                     if (isset($d['conflicts'])) {
                         continue;
                     }
-                    $dchannel = isset($d['channel']) ?
-                        $d['channel'] :
-                        '__uri';
+                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
                     if (isset($packages[$dchannel . '/' . $d['name']])) {
                         $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
                     }
@@ -10430,9 +10466,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
                     if (isset($d['conflicts'])) {
                         continue;
                     }
-                    $dchannel = isset($d['channel']) ?
-                        $d['channel'] :
-                        '__uri';
+                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
                     if (isset($packages[$dchannel . '/' . $d['name']])) {
                         $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
                     }
@@ -10512,9 +10546,9 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
 }<?php
 /**
  * PEAR2_Pyrus_Package_Creator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10608,7 +10642,7 @@ class PEAR2_Pyrus_Package_Creator
 
     /**
      * Render packages from the creators passed into the constructor.
-     * 
+     *
      * This will take any package source and an array mapping internal
      * path => file name and create new packages in the formats requested.
      *
@@ -10737,9 +10771,9 @@ class PEAR2_Pyrus_Package_Creator
 }<?php
 /**
  * PEAR2_Pyrus_Package_Creator_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10762,9 +10796,9 @@ class PEAR2_Pyrus_Package_Creator
 class PEAR2_Pyrus_Package_Creator_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Package_Creator_TaskIterator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10822,9 +10856,9 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
 }<?php
 /**
  * PEAR2_Pyrus_Package_Dependency
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -10921,11 +10955,11 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
         $base2 = false;
         $mirrors = $chan->mirrors;
         if (isset($mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror])) {
-            $mirror = $mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror];
+            $chan = $mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror];
         }
-        if (!$mirror->supportsREST() ||
-              !(($base2 = $mirror->getBaseURL('REST1.3')) ||
-              ($base = $mirror->getBaseURL('REST1.0')))) {
+        if (!$chan->supportsREST() ||
+              !(($base2 = $chan->getBaseURL('REST1.3')) ||
+              ($base = $chan->getBaseURL('REST1.0')))) {
             PEAR2_Pyrus_Config::current()->default_channel = $curchannel;
             throw new PEAR2_Pyrus_Package_Exception('Cannot process dependency ' .
                 'information remotely, ' .
@@ -11110,9 +11144,9 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
 }<?php
 /**
  * PEAR2_Pyrus_Package_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11135,9 +11169,9 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
 class PEAR2_Pyrus_Package_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Package_ICreator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11181,9 +11215,9 @@ interface PEAR2_Pyrus_Package_ICreator
 }<?php
 /**
  * PEAR2_Pyrus_Package_InstalledException
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11206,9 +11240,9 @@ interface PEAR2_Pyrus_Package_ICreator
 class PEAR2_Pyrus_Package_InstalledException extends PEAR2_Pyrus_Package_Exception {}<?php
 /**
  * PEAR2_Pyrus_Package_Phar
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11285,32 +11319,9 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }
 
-    /**
-     * Sort files/directories for removal
-     *
-     * Files are always removed first, followed by directories in
-     * path order
-     * @param unknown_type $a
-     * @param unknown_type $b
-     * @return unknown
-     */
-    static function sortstuff($a, $b)
-    {
-        // files can be removed in any order
-        if (is_file($a) && is_file($b)) return 0;
-        if (is_dir($a) && is_file($b)) return 1;
-        if (is_dir($b) && is_file($a)) return -1;
-        $countslasha = substr_count($a, DIRECTORY_SEPARATOR);
-        $countslashb = substr_count($b, DIRECTORY_SEPARATOR);
-        if ($countslasha > $countslashb) return -1;
-        if ($countslashb > $countslasha) return 1;
-        // if not subdirectories, tehy can be removed in any order
-        return 0;
-    }
-
     function __destruct()
     {
-        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Phar', 'sortstuff'));
+        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
             if (!file_exists($fileOrDir)) continue;
             if (is_file($fileOrDir)) {
@@ -11361,9 +11372,9 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 }<?php
 /**
  * PEAR2_Pyrus_Package_Phar_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11386,9 +11397,9 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 class PEAR2_Pyrus_Package_Phar_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Package_Remote
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11436,41 +11447,41 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     {
         if ($this->_type === 'url') {
             return $this->internal;
-        } else {
-            $internal = $this->internal;
-            // first try to download zip, then tgz, then tar
-            $errs = new PEAR2_MultiErrors;
+        }
+
+        $internal = $this->internal;
+        // first try to download zip, then tgz, then tar
+        $errs = new PEAR2_MultiErrors;
+        try {
+            $this->internal = new PEAR2_Pyrus_Package_Remote(
+                $this->downloadInfo['url'] . '.zip', $this);
+        } catch (Exception $e) {
+            $errs->E_ERROR[] = $e;
+        }
+        if (isset($e)) {
+            unset($e);
             try {
                 $this->internal = new PEAR2_Pyrus_Package_Remote(
-                    $this->downloadInfo['url'] . '.zip', $this);
+                    $this->downloadInfo['url'] . '.tgz', $this);
             } catch (Exception $e) {
                 $errs->E_ERROR[] = $e;
             }
-            if (isset($e)) {
-                unset($e);
-                try {
-                    $this->internal = new PEAR2_Pyrus_Package_Remote(
-                        $this->downloadInfo['url'] . '.tgz', $this);
-                } catch (Exception $e) {
-                    $errs->E_ERROR[] = $e;
-                }
-            }
-            if (isset($e)) {
-                unset($e);
-                try {
-                    $this->internal = new PEAR2_Pyrus_Package_Remote(
-                        $this->downloadInfo['url'] . '.tar', $this);
-                } catch (Exception $e) {
-                    $errs->E_ERROR[] = $e;
-                    throw new PEAR2_Pyrus_Package_Exception(
-                        'Could not download abstract package ' .
-                        $this->downloadInfo['info']->channel . '/' .
-                        $this->downloadInfo['info']->name, $errs);
-                }
-            }
-            $this->internal->setFrom($internal);
-            return $this->internal;
         }
+        if (isset($e)) {
+            unset($e);
+            try {
+                $this->internal = new PEAR2_Pyrus_Package_Remote(
+                    $this->downloadInfo['url'] . '.tar', $this);
+            } catch (Exception $e) {
+                $errs->E_ERROR[] = $e;
+                throw new PEAR2_Pyrus_Package_Exception(
+                    'Could not download abstract package ' .
+                    $this->downloadInfo['info']->channel . '/' .
+                    $this->downloadInfo['info']->name, $errs);
+            }
+        }
+        $this->internal->setFrom($internal);
+        return $this->internal;
     }
 
     private function _fromUrl($param, $saveparam = '')
@@ -11700,9 +11711,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         }
         // package exists, no releases fit the criteria for downloading
         $reg = PEAR2_Pyrus_Config::current()->registry;
-        if (isset($reg[$info['info']->channel . '/' . $info['info']->package])) {
-            // package is already installed
-            $reginfo = $reg[$info['info']->channel . '/' . $info['info']->package];
+        if ($reginfo = $reg->exists($info['info']->package, $info['info']->channel)) {
+            // package is already installedy
         }
         $instead =  ', will instead download version ' . $info['version'] .
                     ', stability "' . $info['info']->state . '"';
@@ -11788,7 +11798,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         if (isset($pname['deprecated']) && $pname['deprecated']) {
             // package is deprecated in favor of another
             PEAR2_Pyrus_Log::log(0,
-                'WARNING: "' . 
+                'WARNING: "' .
                 $pname['info']->channel . '/' . $pname['package'] . '-' .
                 '" is deprecated in favor of "' .
                     PEAR2_Pyrus_Config::current()->channelregistry
@@ -11799,9 +11809,9 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 }<?php
 /**
  * PEAR2_Pyrus_Package_Tar
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -11866,32 +11876,9 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         parent::__construct(new PEAR2_Pyrus_PackageFile($packagexml), $parent);
     }
 
-    /**
-     * Sort files/directories for removal
-     *
-     * Files are always removed first, followed by directories in
-     * path order
-     * @param unknown_type $a
-     * @param unknown_type $b
-     * @return unknown
-     */
-    static function sortstuff($a, $b)
-    {
-        // files can be removed in any order
-        if (is_file($a) && is_file($b)) return 0;
-        if (is_dir($a) && is_file($b)) return 1;
-        if (is_dir($b) && is_file($a)) return -1;
-        $countslasha = substr_count($a, DIRECTORY_SEPARATOR);
-        $countslashb = substr_count($b, DIRECTORY_SEPARATOR);
-        if ($countslasha > $countslashb) return -1;
-        if ($countslashb > $countslasha) return 1;
-        // if not subdirectories, tehy can be removed in any order
-        return 0;
-    }
-
     function __destruct()
     {
-        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Tar', 'sortstuff'));
+        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
             if (!file_exists($fileOrDir)) continue;
             if (is_file($fileOrDir)) {
@@ -12036,8 +12023,8 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
 
             throw new PEAR2_Pyrus_Package_Tar_Exception(
                 'Invalid checksum for header of file "' . $header['filename'] .
-	            '" : ' . $checksum . ' calculated, ' .
-			    $header['checksum'] . ' expected');
+                '" : ' . $checksum . ' calculated, ' .
+                $header['checksum'] . ' expected');
         }
 
         $header['filename'] = trim($header['filename']);
@@ -12142,9 +12129,9 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
 <?php
 /**
  * PEAR2_Pyrus_Package_Tar_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12167,9 +12154,9 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
 class PEAR2_Pyrus_Package_Tar_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_Package_Xml
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12211,9 +12198,9 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
 }<?php
 /**
  * PEAR2_Pyrus_Package_Zip
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12278,32 +12265,9 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
             $parent);
     }
 
-    /**
-     * Sort files/directories for removal
-     *
-     * Files are always removed first, followed by directories in
-     * path order
-     * @param unknown_type $a
-     * @param unknown_type $b
-     * @return unknown
-     */
-    static function sortstuff($a, $b)
-    {
-        // files can be removed in any order
-        if (is_file($a) && is_file($b)) return 0;
-        if (is_dir($a) && is_file($b)) return 1;
-        if (is_dir($b) && is_file($a)) return -1;
-        $countslasha = substr_count($a, DIRECTORY_SEPARATOR);
-        $countslashb = substr_count($b, DIRECTORY_SEPARATOR);
-        if ($countslasha > $countslashb) return -1;
-        if ($countslashb > $countslasha) return 1;
-        // if not subdirectories, tehy can be removed in any order
-        return 0;
-    }
-
     function __destruct()
     {
-        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Zip', 'sortstuff'));
+        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
             if (!file_exists($fileOrDir)) continue;
             if (is_file($fileOrDir)) {
@@ -12354,9 +12318,9 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
 }<?php
 /**
  * PEAR2_Pyrus_Package_Zip_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12379,9 +12343,9 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
 class PEAR2_Pyrus_Package_Zip_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12393,7 +12357,7 @@ class PEAR2_Pyrus_Package_Zip_Exception extends PEAR2_Exception {}<?php
 
 /**
  * Base class for a PEAR2 package file
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12421,9 +12385,9 @@ class PEAR2_Pyrus_PackageFile
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12446,9 +12410,9 @@ class PEAR2_Pyrus_PackageFile
 class PEAR2_Pyrus_PackageFile_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile_IValidator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12476,7 +12440,7 @@ interface PEAR2_Pyrus_PackageFile_IValidator
  * package.xml parsing class, package.xml version 2.0
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12488,7 +12452,7 @@ interface PEAR2_Pyrus_PackageFile_IValidator
 
 /**
  * Parser for package.xml version 2.0
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12568,7 +12532,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
             throw new PEAR2_Pyrus_PackageFile_Exception('Class ' . $class .
                 ' passed to parse() must be a child class of PEAR2_Pyrus_PackageFile_v2');
         }
-        
+
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
             $schema = PEAR2_Pyrus::getDataPath() . '/package-2.1.xsd';
             // for running out of cvs
@@ -12666,7 +12630,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
  * PEAR_PackageFile_v2, package.xml version 2.1
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -12700,7 +12664,7 @@ class PEAR2_Pyrus_PackageFile_v2
                              );
     /**
      * Parsed package information
-     * 
+     *
      * For created-from-scratch packagefiles, set some basic information needed.
      * @var array
      * @access private
@@ -12828,7 +12792,7 @@ class PEAR2_Pyrus_PackageFile_v2
         }
         if (!isset($this->filelist[$filename])) {
             throw new PEAR2_Pyrus_PackageFile_Exception(
-                'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);     
+                'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);
         }
         if ($attr == 'name') {
             throw new PEAR2_Pyrus_PackageFile_Exception('Cannot change name of file ' .
@@ -12972,7 +12936,7 @@ class PEAR2_Pyrus_PackageFile_v2
                         if (strtolower($dep['name']) == strtolower($package) &&
                               $depchannel == $channel) {
                             return true;
-                        }  
+                        }
                     }
                 }
             }
@@ -12990,7 +12954,7 @@ class PEAR2_Pyrus_PackageFile_v2
                             if (strtolower($dep['name']) == strtolower($package) &&
                                   $depchannel == $channel) {
                                 return true;
-                            }  
+                            }
                         }
                     }
                 }
@@ -13468,7 +13432,7 @@ class PEAR2_Pyrus_PackageFile_v2
             'license' => $license,
             'notes' => $this->notes,
         );
-        
+
         if (!is_array($this->packageInfo['changelog'])) {
             $this->packageInfo['changelog'] = $info;
         } elseif (!isset($this->packageInfo['changelog'][0])) {
@@ -13664,9 +13628,9 @@ class PEAR2_Pyrus_PackageFile_v2
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Release_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -13678,7 +13642,7 @@ class PEAR2_Pyrus_PackageFile_v2
 
 /**
  * Manage compatible packages with this one
- * 
+ *
  * To be used like:
  * <code>
  * // add a new compatible declaration or replace an existing one
@@ -13702,7 +13666,7 @@ class PEAR2_Pyrus_PackageFile_v2
  *     }
  * }
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -13925,10 +13889,10 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
         if (!$this->valid()) return null;
         if (!isset($this->_packageInfo['compatible'][0])) {
             return $this->_packageInfo['compatible']['channel'] . '/' .
-                   $this->_packageInfo['compatible']['package']; 
+                   $this->_packageInfo['compatible']['package'];
         }
         return $this->_packageInfo['compatible'][$this->_pos]['channel'] . '/' .
-               $this->_packageInfo['compatible'][$this->_pos]['package']; 
+               $this->_packageInfo['compatible'][$this->_pos]['package'];
     }
 
     function valid()
@@ -13946,9 +13910,9 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Compatible_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -13971,9 +13935,9 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
 class PEAR2_Pyrus_PackageFile_v2_Compatible_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Dependencies
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -13985,7 +13949,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible_Exception extends PEAR2_Exception {}
 
 /**
  * Manage dependencies
- * 
+ *
  * To be used like:
  * <code>
  * // reset deps
@@ -14028,7 +13992,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible_Exception extends PEAR2_Exception {}
  * $pf->dependencies->required->os['windows'] = true; // only works on windows
  * // for conflicting OS deps
  * $pf->dependencies->required->os['freebsd'] = false; // doesn't work on FreeBSD
- * 
+ *
  * // dependency group setup
  * $group = $pf->dependencies->group['name']->hint('Install optional stuff as a group');
  * $group->package['channel/PackageName1'] = array();
@@ -14036,7 +14000,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible_Exception extends PEAR2_Exception {}
  * $group->subpackage['channel/PackageName3'] = array('recommended' => '1.2.1');
  * $group->extension['extension'] = array();
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14461,9 +14425,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14486,9 +14450,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
 class PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Developer
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14500,7 +14464,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception extends PEAR2_Exception 
 
 /**
  * Manage an individual maintainer in package.xml
- * 
+ *
  * To be used like:
  *
  * <code>
@@ -14514,7 +14478,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception extends PEAR2_Exception 
  * isset($pf->maintainer['cellog']); // test for maintainer in package.xml
  * unset($pf->maintainer['cellog']); // remove from package.xml
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14727,9 +14691,9 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Developer_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14752,9 +14716,9 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 class PEAR2_Pyrus_PackageFile_v2_Developer_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Files
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14825,9 +14789,9 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Files_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14850,9 +14814,9 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
 class PEAR2_Pyrus_PackageFile_v2_Files_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Release
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14864,7 +14828,7 @@ class PEAR2_Pyrus_PackageFile_v2_Files_Exception extends PEAR2_Exception {}<?php
 
 /**
  * Manage a release in package.xml
- * 
+ *
  * To be used like:
  *
  * <code>
@@ -14896,7 +14860,7 @@ class PEAR2_Pyrus_PackageFile_v2_Files_Exception extends PEAR2_Exception {}<?php
  * // remove all releases
  * $pf->release = null;
  * </code>
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -14950,7 +14914,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                     $this->_packageInfo[$var] = array();
                 }
                 return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                           $this->_packageInfo[$var], $this->_filelist);                
+                           $this->_packageInfo[$var], $this->_filelist);
             } else {
                 if (!$var) {
                     return $this;
@@ -15172,9 +15136,9 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Release_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15197,9 +15161,9 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
 class PEAR2_Pyrus_PackageFile_v2_Release_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Remote
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15221,13 +15185,13 @@ class PEAR2_Pyrus_PackageFile_v2_Release_Exception extends PEAR2_Exception {}<?p
  */
 class PEAR2_Pyrus_PackageFile_v2_Remote extends PEAR2_Pyrus_PackageFile_v2
 {
-    
+
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2_Validator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15240,7 +15204,7 @@ class PEAR2_Pyrus_PackageFile_v2_Remote extends PEAR2_Pyrus_PackageFile_v2
 /**
  * Private validation class used by PEAR2_Pyrus_PackageFile_v2 - do not use directly, its
  * sole purpose is to split up the PEAR/PackageFile/v2.php file to make it smaller
- * 
+ *
  * @access     private
  * @category   pear
  * @package   PEAR2_Pyrus
@@ -15383,10 +15347,10 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                             }
                         }
                     }
-                    $this->_errors->E_ERROR[] = 
+                    $this->_errors->E_ERROR[] =
                         new PEAR2_Pyrus_PackageFile_Exception(
                         'File "' . $name . '" has invalid role "' .
-                        $file->role . '", should be one of ' . implode(', ', 
+                        $file->role . '", should be one of ' . implode(', ',
                         PEAR2_Pyrus_Installer_Role::getValidRoles($this->_pf->getPackageType())));
                 }
                 if (count($file->tasks) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
@@ -15399,7 +15363,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 $ret = call_user_func(array($tagClass, 'validateXml'),
                                     $this->_pf, $v, $this->_pf->_config, $save);
                                 if (is_array($ret)) {
-                                    $this->_errors->E_ERROR[] = 
+                                    $this->_errors->E_ERROR[] =
                                         new PEAR2_Pyrus_PackageFile_Exception(
                                             $this->_invalidTask($task, $ret, isset($save['name']) ?
                                         $save['name'] : ''));
@@ -15512,7 +15476,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             foreach ($list['ignore'] as $file) {
                 if (array_key_exists($file['attribs']['name'], $ignored_or_installed)) {
                     $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
-                        'Cannot have both <ignore> and <install> tags for file "' . 
+                        'Cannot have both <ignore> and <install> tags for file "' .
                         $file['attribs']['name'] . '"');
                 }
             }
@@ -15565,7 +15529,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         foreach ($releases as $rel) {
             if (is_array($rel) && array_key_exists('filelist', $rel)) {
                 if ($rel['filelist']) {
-                    
+
                     $this->_validateFilelist($rel['filelist']);
                 }
             }
@@ -15943,9 +15907,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
 ?><?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_File
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -15979,9 +15943,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_File extends RecursiveIteratorIterator
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16005,7 +15969,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilt
 {
     function accept()
     {
-        $it = $this->getInnerIterator(); 
+        $it = $this->getInnerIterator();
         if (!$it->valid()) {
             return false;
         }
@@ -16019,9 +15983,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilt
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileContents
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16103,9 +16067,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileContents extends RecursiveArrayIter
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileContentsMulti
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16135,9 +16099,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileContentsMulti extends PEAR2_Pyrus_P
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16244,9 +16208,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
 }<?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_FileTag
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16258,9 +16222,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
 
 /**
  * Store the path to the current file recursively
- * 
+ *
  * Information can be accessed in three ways:
- * 
+ *
  * - $file['attribs'] as an array directly
  * - $file->name      as object member, to access attributes
  * - $file->tasks     as pseudo-object, to access each task
@@ -16351,9 +16315,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
 <?php
 /**
  * PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16410,9 +16374,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator extends ArrayIterator
 }<?php
 /**
  * PEAR2_Pyrus_Registry
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16426,12 +16390,12 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator extends ArrayIterator
  * Registry manager
  *
  * The registry for PEAR2 consists of four related components
- * 
+ *
  *  - an sqlite database
  *  - saved original package.xml for each installed package
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16635,7 +16599,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
  * PEAR2_Pyrus_Registry_Base
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16676,7 +16640,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
  	    unset($this->packagename);
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'upgrade') {
@@ -16736,7 +16700,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
  * PEAR2_Pyrus_Registry_Channel
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16778,7 +16742,7 @@ class PEAR2_Pyrus_Registry_Channel extends PEAR2_Pyrus_Registry implements Array
  	    $ret = clone $this;
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'update') {
@@ -16798,7 +16762,7 @@ class PEAR2_Pyrus_Registry_Channel extends PEAR2_Pyrus_Registry implements Array
  * PEAR2_Pyrus_Registry_Config
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16820,13 +16784,13 @@ class PEAR2_Pyrus_Registry_Channel extends PEAR2_Pyrus_Registry implements Array
  */
 class PEAR2_Pyrus_Registry_Config
 {
-    
+
 }<?php
 /**
  * PEAR2_Pyrus_Registry_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16852,7 +16816,7 @@ class PEAR2_Pyrus_Registry_Exception extends PEAR2_Exception {}
  * PEAR2_Pyrus_Registry_Package
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16893,7 +16857,7 @@ class PEAR2_Pyrus_Registry_Package implements ArrayAccess
  	    $ret = clone $this;
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'upgrade') {
@@ -16916,7 +16880,7 @@ class PEAR2_Pyrus_Registry_Package implements ArrayAccess
  	        throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
  	    }
- 	    return $this->_reg->packageInfo($this->_packagename['package'], 
+ 	    return $this->_reg->packageInfo($this->_packagename['package'],
  	      $this->_packagename['channel'], $var);
  	}
 
@@ -16929,7 +16893,7 @@ class PEAR2_Pyrus_Registry_Package implements ArrayAccess
  * PEAR2_Pyrus_Registry_Sqlite
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -16942,13 +16906,13 @@ class PEAR2_Pyrus_Registry_Package implements ArrayAccess
 /**
  * This is the central registry, that is used for all installer options,
  * stored as an SQLite database
- * 
+ *
  * Registry information that must be stored:
  *
  * - A list of installed packages
  * - the files in each package
  * - known channels
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -17160,7 +17124,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                                 $this->database->queryExec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->getName() . ' could not be installed in registry');
-                            }                        
+                            }
                         }
                     }
                 }
@@ -17219,7 +17183,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                                 $this->database->queryExec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->name . ' could not be installed in registry');
-                            }                        
+                            }
                         }
                     }
                 }
@@ -17311,7 +17275,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
  * PEAR2_Pyrus_Registry_Sqlite_Creator
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -17335,15 +17299,15 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
 {
     /**
      * Initialize the database for the registry
-     * 
+     *
      * Registry information that must be stored:
      *
      * - A list of installed packages
      * - the files in each package
      * - known channels
-     * 
+     *
      * The SQLite database has this structure:
-     * 
+     *
      * <pre>
      * CREATE TABLE packages (
      *  name VARCHAR(80) NOT NULL,
@@ -17365,7 +17329,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  installtimeconfig VARCHAR(50), -- the path to configuration as stored
      *  PRIMARY KEY (name, channel)
      * );
-     * 
+     *
      * CREATE TABLE maintainers (
      *  packages_name VARCHAR(80) NOT NULL,
      *  packages_channel VARCHAR(255) NOT NULL,
@@ -17375,7 +17339,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  active CHAR(3) NOT NULL,
      *  PRIMARY KEY (packages_name, packages_channel, user)
      * );
-     * 
+     *
      * CREATE TABLE files (
      *  packages_name VARCHAR(80) NOT NULL,
      *  packages_channel VARCHAR(255) NOT NULL,
@@ -17408,7 +17372,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  exclude VARCHAR(20),
      *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
      * );
-     * 
+     *
      * CREATE TABLE channels (
      *  channel TEXT NOT NULL,
      *  summary TEXT NOT NULL,
@@ -17430,7 +17394,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  soappath TEXT NOT NULL,
      *  PRIMARY KEY (channel, server)
      * );
-     * 
+     *
      * CREATE TABLE channel_server_xmlrpc (
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
@@ -17438,7 +17402,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  version VARCHAR(20) NOT NULL,
      *  PRIMARY KEY (channel, server, function, version)
      * );
-     * 
+     *
      * CREATE TABLE channel_server_soap (
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
@@ -17446,7 +17410,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  version VARCHAR(20) NOT NULL,
      *  PRIMARY KEY (channel, server, function, version)
      * );
-     * 
+     *
      * CREATE TABLE channel_server_rest (
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
@@ -17458,7 +17422,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      * CREATE TABLE pearregistryversion (
      *  version VARCHAR(20) NOT NULL default "1.0.0"
      * );
-     * 
+     *
      * INSERT INTO pearregistryversion VALUES("1.0.0");
      *
      * CREATE TRIGGER package_delete DELETE ON packages
@@ -17577,7 +17541,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
             @$database->queryExec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
-          
+
         $query = '
           CREATE TABLE maintainers (
            packages_name VARCHAR(80) NOT NULL,
@@ -17725,7 +17689,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
           CREATE TABLE pearregistryversion (
            version VARCHAR(20) NOT NULL
           );
-          
+
           INSERT INTO pearregistryversion VALUES("1.0.0");
         ';
         $worked = @$database->queryExec($query, $error);
@@ -18021,7 +17985,7 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
  * PEAR2_Pyrus_Registry_Sqlite_Package
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -18062,7 +18026,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  	    unset($this->_packagename);
  	    return $ret;
  	}
- 	
+
  	function offsetSet($offset, $value)
  	{
  	    if ($offset == 'install') {
@@ -18090,7 +18054,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Package extends PEAR2_Pyrus_Registry_Sqlite im
  * PEAR2_Pyrus_Registry_Xml
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -18133,7 +18097,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
     {
         return PEAR2_Pyrus_Config::current()->path . DIRECTORY_SEPARATOR .
             '.registry' . DIRECTORY_SEPARATOR .
-            str_replace('/', '!', $channel) . 
+            str_replace('/', '!', $channel) .
             DIRECTORY_SEPARATOR . $package;
     }
 
@@ -18251,7 +18215,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 /**
  * Intelligently retrieve data, following hyperlinks if necessary, and re-directing
  * as well
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -18512,7 +18476,7 @@ class PEAR2_Pyrus_REST
         $port = $info['port'];
         $path = $info['path'];
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if ($this->config->http_proxy && 
+        if ($this->config->http_proxy &&
               $proxy = parse_url($this->config->http_proxy)) {
             $proxy_host = isset($proxy['host']) ? $proxy['host'] : null;
             if (isset($proxy['scheme']) && $proxy['scheme'] == 'https') {
@@ -18594,7 +18558,7 @@ class PEAR2_Pyrus_REST
  * PEAR_REST_10
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -18810,14 +18774,14 @@ class PEAR2_Pyrus_REST_10
             $release = $info['r'][0];
         }
         try {
-            $pinfo = $this->rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' . 
+            $pinfo = $this->rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' .
             'info.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $package .
                 '" does not have REST info xml available', $e);
         }
         try {
-            $releaseinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' . 
+            $releaseinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
             $release['v'] . '.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $package . '" Version "' . $release['v'] .
@@ -18875,7 +18839,7 @@ class PEAR2_Pyrus_REST_10
             $deprecated = false;
         }
         if ($found) {
-            return 
+            return
                 array('version' => $releaseinfo['v'],
                       'info' => $packagexml,
                       'package' => $releaseinfo['p']['_content'],
@@ -19214,7 +19178,7 @@ class PEAR2_Pyrus_REST_10
                 continue;
             }
             try {
-                $relinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' . 
+                $relinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
                 $release['v'] . '.xml');
             } catch (Exception $e) {
                 throw new PEAR2_Pyrus_REST_Exception('Cannot retrieve latest upgrade release' .
@@ -19305,7 +19269,7 @@ class PEAR2_Pyrus_REST_10
  * PEAR_REST_11 - implement faster list-all/remote-list command
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -19526,7 +19490,7 @@ class PEAR_REST_11
         $url = sprintf($url,
                     $base,
                     urlencode($category));
-            
+
         // gives '404 Not Found' error when category doesn't exist
         $packagelist = $this->_rest->retrieveData($url);
         if (PEAR::isError($packagelist)) {
@@ -19586,7 +19550,7 @@ class PEAR_REST_11
  * PEAR_REST_13
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -19708,7 +19672,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         return $this->returnDownloadURL($base, $package, $release, $info, $found, $skippedphp);
     }
 
-    function getDepDownloadURL($base, $xsdversion, $dependency, $deppackage,
+    function getDepDownloadURL($base, $dependency, $deppackage,
                                $prefstate = 'stable', $installed = false)
     {
         $channel = $dependency['channel'];
@@ -19719,10 +19683,10 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         }
         $state   = isset($dependency['state'])   ? $dependency['state']   : null;
         $version = isset($dependency['version']) ? $dependency['version'] : null;
-        $info = $this->_rest->retrieveData($base . 'r/' . strtolower($package) .
+        $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) .
             '/allreleases2.xml');
         try {
-            $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases.xml');
+            $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_REST_Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
                 . '" dependency "' . $channel . '/' . $package . '" has no releases', $e);
@@ -19749,7 +19713,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
             $info['r'] = array($info['r']);
         }
         foreach ($info['r'] as $release) {
-            if (!isset($this->_rest->_options['force']) && ($installed &&
+            if (!isset($this->rest->_options['force']) && ($installed &&
                   version_compare($release['v'], $installed, '<'))) {
                 continue;
             }
@@ -19757,7 +19721,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
                 continue;
             }
             // allow newer releases to say "I'm OK with the dependent package"
-            if ($xsdversion == '2.0' && isset($release['co'])) {
+            if (isset($release['co'])) {
                 if (!is_array($release['co']) || !isset($release['co'][0])) {
                     $release['co'] = array($release['co']);
                 }
@@ -19824,9 +19788,9 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
 ?><?php
 /**
  * PEAR2_Pyrus_REST_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -19851,7 +19815,7 @@ class PEAR2_Pyrus_REST_Exception extends PEAR2_Exception {}<?php
  * PEAR2_Pyrus_REST_HTTPException
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -19876,7 +19840,7 @@ class PEAR2_Pyrus_REST_HTTPException extends PEAR2_Pyrus_REST_Exception {}<?php
  * PEAR2_Pyrus_ScriptFrontend_Commands
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -20054,7 +20018,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
  * PEAR_Task_Common, base class for installer tasks
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -20243,9 +20207,9 @@ class PEAR2_Pyrus_Task_Common
 ?><?php
 /**
  * PEAR2_Pyrus_Task_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -20270,7 +20234,7 @@ class PEAR2_Pyrus_Task_Exception extends PEAR2_Exception {}<?php
  * <tasks:postinstallscript>
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -20401,7 +20365,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                         return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
                             $fileXml['name'] . '" ' . $tasksNamespace .
                             'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace . 
+                            '" must have a ' . $tasksNamespace .
                             'conditiontype> tag containing either "=", ' .
                             '"!=", or "preg_match"');
                     }
@@ -20652,7 +20616,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
      * sequence the users should see the paramgroups.  The $params
      * parameter should either be the result of a call to {@link getParam()}
      * or an array of calls to getParam().
-     * 
+     *
      * Use {@link addConditionTypeGroup()} to add a <paramgroup> containing
      * a <conditiontype> tag
      * @param string $id <paramgroup> id as seen by the script
@@ -20686,7 +20650,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
      * sequence the users should see the paramgroups.  The $params
      * parameter should either be the result of a call to {@link getParam()}
      * or an array of calls to getParam().
-     * 
+     *
      * Use {@link addParamGroup()} to add a simple <paramgroup>
      *
      * @param string $id <paramgroup> id as seen by the script
@@ -20733,7 +20697,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
     function getParam($name, $prompt, $type = 'string', $default = null)
     {
         if ($default !== null) {
-            return 
+            return
             array(
                 $this->_pkg->getTasksNs() . ':name' => $name,
                 $this->_pkg->getTasksNs() . ':prompt' => $prompt,
@@ -20754,7 +20718,7 @@ class PEAR_Task_Postinstallscript_rw extends PEAR_Task_Postinstallscript
  * <tasks:replace>
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -20983,7 +20947,7 @@ class PEAR_Task_Replace_rw extends PEAR_Task_Replace
  * <tasks:unixeol>
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -21115,7 +21079,7 @@ class PEAR_Task_Unixeol_rw extends PEAR_Task_Unixeol
  * <tasks:windowseol>
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -21264,7 +21228,7 @@ class PEAR_Task_Windowseol_rw extends PEAR_Task_Windowseol
 
 /**
  * Validation class for package.xml - channel-level advanced validation
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -21386,7 +21350,7 @@ class PEAR2_Pyrus_Validate
      */
     function _addFailure($field, $reason)
     {
-        $this->_failures->E_ERROR[] = 
+        $this->_failures->E_ERROR[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
@@ -21395,7 +21359,7 @@ class PEAR2_Pyrus_Validate
      */
     private function _addWarning($field, $reason)
     {
-        $this->_failures->E_WARNING[] = 
+        $this->_failures->E_WARNING[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
@@ -21822,9 +21786,9 @@ class PEAR2_Pyrus_Validate
 <?php
 /**
  * PEAR2_Pyrus_Validate_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -21877,7 +21841,7 @@ class PEAR2_Pyrus_Validate_Exception extends PEAR2_Exception
  * Channel Validator for the pecl.php.net channel
  *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -21932,9 +21896,9 @@ class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
 ?><?php
 /**
  * PEAR2_Pyrus_XMLParser
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -21946,7 +21910,7 @@ class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
 
 /**
  * Process an XML file, convert it to an array
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @subpackage XML
@@ -21973,7 +21937,7 @@ class PEAR2_Pyrus_XMLParser
      * Using XMLReader, unserialize XML into an array
      *
      * This unserializer has limitations on the XML it can parse, for simplicity:
-     * 
+     *
      *  - Only a single text node (the last one) will be processed, so this code:
      *    <pre>
      *     <?xml version="1.0" ?><test>hi<tag/>there</test>
@@ -22067,7 +22031,7 @@ class PEAR2_Pyrus_XMLParser
     private function _parse($file, $schema, $isfile)
     {
         $arr = $this->_recursiveParse();
-        $this->reader->close();        
+        $this->reader->close();
         if ($schema) {
             $a = new DOMDocument();
             if ($isfile) {
@@ -22088,7 +22052,7 @@ class PEAR2_Pyrus_XMLParser
                 throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
             }
         }
-        
+
         return $arr;
     }
 
@@ -22146,9 +22110,9 @@ class PEAR2_Pyrus_XMLParser
 }<?php
 /**
  * PEAR2_Pyrus_XMLParser_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -22171,9 +22135,9 @@ class PEAR2_Pyrus_XMLParser
 class PEAR2_Pyrus_XMLParser_Exception extends PEAR2_Exception {}<?php
 /**
  * PEAR2_Pyrus_XMLWriter
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -22185,7 +22149,7 @@ class PEAR2_Pyrus_XMLParser_Exception extends PEAR2_Exception {}<?php
 
 /**
  * Process an array, and serialize it into XML
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @subpackage XML
@@ -22436,9 +22400,9 @@ class PEAR2_Pyrus_XMLWriter
 }<?php
 /**
  * PEAR2_Pyrus_XMLWriter_Exception
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -23568,7 +23532,8 @@ class PEAR2_HTTP_Request_Adapter_Phpsocket extends PEAR2_HTTP_Request_Adapter {
         $details['httpVersion'] = $this->httpVersion;
 
 
-        $response = new PEAR2_HTTP_Request_Response($details,$this->body,$this->headers,$this->cookies);
+        $response = new PEAR2_HTTP_Request_Response(
+            $details,$this->body,new PEAR2_HTTP_Request_Headers($this->headers),$this->cookies);
         return $response;
     }
 
@@ -23891,7 +23856,8 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
             $this->processHeader($line);
         }
 
-        return new PEAR2_HTTP_Request_Response($details,$body,$this->headers,$this->cookies);
+        return new PEAR2_HTTP_Request_Response(
+            $details,$body,new PEAR2_HTTP_Request_Headers($this->headers),$this->cookies);
     }
 
     /**
@@ -23922,6 +23888,196 @@ class PEAR2_HTTP_Request_Adapter_PhpStream extends PEAR2_HTTP_Request_Adapter
 ?>
 <?php
 class PEAR2_HTTP_Request_Exception extends PEAR2_Exception {
+}
+<?php
+
+/**
+ * A container for HTTP request headers provides case insensitive access
+ *
+ * Array style access and object style access is provided
+ *
+ * Lazy processing of case insensitive access is provided so we don't strtolower the keys
+ * until the headers are actually used
+ *
+ * @todo decide if this should be pulled out of the package and provided as a generic class
+ */
+class PEAR2_HTTP_Request_Headers implements Iterator, ArrayAccess, Countable {
+
+	const ORIGINAL_CASE = 'fields';
+	const LOWER_CASE = 'lowerCase';
+	const CAMEL_CASE = 'camelCase';
+
+	public $iterationStyle = self::LOWER_CASE;
+
+	protected $fields = array();
+	protected $camelCase = null;
+	protected $lowerCase = null;
+
+	/**
+	 * Takes the headers to provide access too
+	 */
+	public function __construct($fields) {
+		$this->fields = $fields;
+	}
+
+	/**
+	 * Magic getter for object access
+	 */
+	public function __get($key) {
+		if (is_null($this->camelCase)) {
+			$this->camelCaseFields();
+		}
+
+		if (isset($this->camelCase[$key])) {
+			return $this->camelCase[$key];
+		}
+		return null;
+	}
+
+	/**
+	 * Magic setter for object access
+	 *
+	 * @todo set $this->fields and $this->lowerCase
+	 */
+	public function __set($key,$value) {
+		$this->camelCase[$key] = $value;
+	}
+
+	/**
+	 * Magic isset for object access
+	 */
+	public function __isset($key) {
+		if (is_null($this->camelCase)) {
+			$this->camelCaseFields();
+		}
+		return isset($this->camelCase[$key]);
+	}
+
+	/**
+	 * Magic unset for object access
+	 */
+	public function __unset($key) {
+		if (is_null($this->camelCase)) {
+			$this->camelCaseFields();
+		}
+		unset($this->camelCase[$key]);
+	}
+
+	/**
+	 * ArrayAccess Implementation
+	 */
+	public function offsetExists($key) {
+		if (is_null($this->lowerCase)) {
+			$this->lowerCaseFields();
+		}
+		$key = strtolower($key);
+		return isset($this->lowerCase[$key]);
+	}
+
+	/**
+	 * ArrayAccess Implementation
+	 */
+	public function offsetGet($key) {
+		if (is_null($this->lowerCase)) {
+			$this->lowerCaseFields();
+		}
+		$key = strtolower($key);
+		if (isset($this->lowerCase[$key])) {
+			return $this->lowerCase[$key];
+		}
+		return null;
+	}
+
+	/**
+	 * ArrayAccess Implementation
+	 */
+	public function offsetSet($key,$value) {
+		$key = strtolower($key);
+
+		$this->lowerCase[$key] = $value;
+	}
+
+	/**
+	 * ArrayAccess Implementation
+	 */
+	public function offsetUnset($key) {
+		if (is_null($this->lowerCase)) {
+			$this->lowerCaseFields();
+		}
+		$key = strtolower($key);
+		unset($this->lowerCase[$key]);
+	}
+
+	/**
+	 * Return the number of headers
+	 * Countable interface implmentation
+	 */
+	public function count() {
+		return count($this->fields);
+	}
+
+	/**
+	 * Iterator Implmentation
+	 */
+	public function current() {
+		return current($this->{$this->iterationStyle});
+	}
+
+	/**
+	 * Iterator Implmentation
+	 */
+	public function key() {
+		return key($this->{$this->iterationStyle});
+	}
+
+	/**
+	 * Iterator Implmentation
+	 */
+	public function next() {
+		return next($this->{$this->iterationStyle});
+	}
+
+	/**
+	 * Iterator Implmentation
+	 */
+	public function rewind() {
+		if (is_null($this->{$this->iterationStyle})) {
+			$m = $this->iterationStyle."Fields";
+			$this->$m();
+		}
+		reset($this->{$this->iterationStyle});
+	}
+
+	/**
+	 * Iterator Implmentation
+	 */
+	public function valid() {
+		return (boolean) current($this->{$this->iterationStyle});
+	}
+
+	/**
+	 * Make all keys lower case
+	 */
+	protected function lowerCaseFields() {
+		$fields = array();
+		foreach($this->fields as $k => $v) {
+			$fields[strtolower($k)] = $v;
+		}
+		$this->lowerCase = $fields;
+	}
+
+	/**
+	 * Make all keys camel case, removing dashes
+	 */
+	protected function camelCaseFields() {
+		$fields = array();
+		foreach($this->fields as $k => $v) {
+			$pieces = explode('-',$k);
+			$pieces = array_map('ucfirst',$pieces);
+			$fields[implode('',$pieces)] = $v;
+		}
+		$this->camelCase = $fields;
+	}
 }
 <?php
 /**
@@ -23983,6 +24139,54 @@ class PEAR2_HTTP_Request_Response
 } 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 ?>
+<?php
+
+/**
+ * Simple class for parsing url/uris
+ *
+ * Basically compatiable with Net_URL2 propery names but not methods
+ */
+class PEAR2_HTTP_Request_Uri {
+
+	protected $pieces = array();
+	protected $map = array(
+			'url' => 'uri',
+			'querystring' => 'query',
+			'anchor' => 'fragment',
+			'protocol' => 'scheme',
+			);
+	protected $schemes = array(
+			'http' => 80,
+			'https'=> 443,
+		);
+
+	public function __construct($uri) {
+		$this->pieces = parse_url($uri);
+		$this->pieces['uri'] = $uri;
+		if (!isset($this->pieces['port'])) {
+			if (isset($this->schemes[$this->pieces['scheme']])) {
+				$this->pieces['port'] = $this->schemes[$this->pieces['scheme']];
+			}
+			else {
+				$this->pieces['port'] = 80;
+			}
+		}
+	}
+
+	public function __get($key) {
+		if (isset($this->map[$key])) {
+			$key = $this->map[$key];
+		}
+		if (isset($this->pieces[$key])) {
+			return $this->pieces[$key];
+		}
+		return null;
+	}
+
+	public function toArray() {
+		return $this->pieces;
+	}
+}
 <?php
 // +-----------------------------------------------------------------------+
 // | Copyright (c) 2002-2004, Richard Heyes                                |
@@ -24444,4 +24648,4 @@ class Net_URL2
     }
 }
 ?>
-ñ∂ß¿˚Èyyù™gç¿¡ñ   GBMB
+w.¨míRU ◊Û∆8Ûd`•XG   GBMB

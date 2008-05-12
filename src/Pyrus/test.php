@@ -23,7 +23,9 @@ $a->render($b, array(
     'src/PEAR2/HTTP/Request/Adapter/Phpsocket.php' => $rp . '/Request/Adapter/Phpsocket.php',
     'src/PEAR2/HTTP/Request/Adapter/Phpstream.php' => $rp . '/Request/Adapter/Phpstream.php',
     'src/PEAR2/HTTP/Request/Exception.php' => $rp . '/Request/Exception.php',
+    'src/PEAR2/HTTP/Request/Headers.php' => $rp . '/Request/Headers.php',
     'src/PEAR2/HTTP/Request/Response.php' => $rp . '/Request/Response.php',
+    'src/PEAR2/HTTP/Request/Uri.php' => $rp . '/Request/Uri.php',
     'src/Net/URL2.php' => '/usr/local/php5/lib/php/Net/URL2.php',
 ));
 exit;
