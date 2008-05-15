@@ -45,7 +45,11 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         }
         $this->_packagename = $package;
         try {
-            $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+            if (Phar::isValidPharFilename($package, 1)) {
+                $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+            } else {
+                $phar = new PharData($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+            }
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not open Phar archive ' .
                 $package, $e);
@@ -63,7 +67,13 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             $where = substr($where, 0, strlen($where) - 1);
         }
         $this->_tmpdir = $where;
-        $pxml = $phar->getMetaData();
+        if (!$phar->isFileFormat(Phar::TAR)) {
+            $pxml = $phar->getMetaData();
+        } else {
+            // this line will be removed once metadata is implemented natively
+            // in tar-based phar archives
+            $pxml = unserialize($phar['.phar/metadata.bin']);
+        }
         $phar->extractTo($where);
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }

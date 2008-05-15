@@ -151,6 +151,9 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
                         return 'PEAR2_Pyrus_Package_Tar';
                     }
                 } else {
+                    if (extension_loaded('phar') && strtolower($info['extension']) != 'xml') {
+                        return 'PEAR2_Pyrus_Package_Phar';
+                    }
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
                             return 'PEAR2_Pyrus_Package_Xml';
