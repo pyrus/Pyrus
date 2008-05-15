@@ -10,7 +10,7 @@
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
 
 /**
@@ -21,7 +21,7 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
 class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 {
@@ -64,19 +64,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         }
         $this->_tmpdir = $where;
         $pxml = $phar->getMetaData();
-        foreach (new RecursiveIteratorIterator($phar) as $path => $info) {
-            $makepath = $where .
-                dirname(str_replace('phar://' . $package, '', $info->getPathName()));
-            if (dirname($makepath . 'a\\') != $makepath &&
-                  dirname($makepath . 'a\\') . DIRECTORY_SEPARATOR != $makepath) {
-                $makepath .= DIRECTORY_SEPARATOR;
-            }
-            if (!file_exists($makepath)) {
-                mkdir($makepath, 0755, true);
-            }
-            $pharp = fopen($info->getPathName(), 'rb');
-            file_put_contents($makepath . $info->getFilename(), $pharp);
-        }
+        $phar->extractTo($where);
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }
 
