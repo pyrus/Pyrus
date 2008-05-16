@@ -125,6 +125,7 @@ class PEAR2_Pyrus_Config
     static protected $pearConfigNames = array(
             'php_dir', // pseudo-value in this implementation
             'ext_dir',
+            'cfg_dir',
             'doc_dir',
             'bin_dir',
             'data_dir', // pseudo-value in this implementation
