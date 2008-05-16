@@ -308,10 +308,13 @@ class PEAR2_Pyrus_Config
             array_unshift($extra, $ret);
             $paths = $extra;
         }
+        $paths = array_unique($paths);
         foreach ($paths as $path) {
             if ($path === '.') continue;
             $reg = PEAR2_Pyrus_Registry::singleton($path);
+            $reg->setParent(); // clear any previous parent
             $regc = PEAR2_Pyrus_ChannelRegistry::singleton($path);
+            $regc->setParent(); // clear any previous parent
             if (isset($last)) {
                 $last->setParent($reg);
                 $lastc->setParent($regc);
