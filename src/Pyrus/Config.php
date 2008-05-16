@@ -364,7 +364,7 @@ class PEAR2_Pyrus_Config
                 $errors = libxml_get_errors();
                 $e = new PEAR2_MultiErrors;
                 foreach ($errors as $err) {
-                    $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception($err);
+                    $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception(trim($err->message));
                 }
                 libxml_clear_errors();
                 throw new PEAR2_Pyrus_Config_Exception(
