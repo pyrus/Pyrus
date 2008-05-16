@@ -216,16 +216,9 @@ class PEAR2_Pyrus_Config
             self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
                                                  self::$defaults[$name]);
         }
-        ob_start();
-        phpinfo(INFO_GENERAL);
-        $stuff = ob_get_clean();
-        if (preg_match('@Loaded Configuration File => (.+)@',
-              $stuff, $climatch)) {
-            self::$defaults['php_ini'] = $climatch[1];
-            PEAR2_Pyrus_Log::log(5, 'Used ' . $climatch[1] . ' for php.ini location');
-        } elseif (preg_match('@(?<="v">).+php\.ini@', $stuff, $htmlmatch)) {
-            self::$defaults['php_ini'] = $htmlmatch[0];
-            PEAR2_Pyrus_Log::log(5, 'Used ' . $htmlmatch[0] . ' for php.ini location');
+        self::$defaults['php_ini'] = php_ini_loaded_file();
+        if (self::$defaults['php_ini']) {
+            PEAR2_Pyrus_Log::log(5, 'Used ' . self::$defaults['php_ini'] . ' for php.ini location');
         } else {
             PEAR2_Pyrus_Log::log(5, 'Could not find php.ini');
         }
