@@ -416,7 +416,7 @@ class PEAR2_Pyrus_Config
                 if ($value == '@attributes') {
                     continue;
                 }
-                if ($var === 'php_dir' || $var === 'data_dir') {
+                if ($value === 'php_dir' || $value === 'data_dir') {
                     unset($x->$value); // both of these are abstract
                 }
                 PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
