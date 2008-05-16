@@ -58,6 +58,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         try {
             $this->channelInfo = $parser->parseString($data, $schema);
             $this->channelInfo = $this->channelInfo['channel'];
+            // Reset root attributes.
+            $this->channelInfo['attribs'] = $this->rootAttributes;
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('Invalid channel.xml', $e);
         }
