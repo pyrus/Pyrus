@@ -404,6 +404,9 @@ class PEAR2_Pyrus_Config
                 if ($value == '@attributes') {
                     continue;
                 }
+                if ($var === 'php_dir' || $var === 'data_dir') {
+                    unset($x->$value); // both of these are abstract
+                }
                 PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
                     $value);
                 unset($x->$value);
@@ -548,6 +551,9 @@ class PEAR2_Pyrus_Config
         }
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {
+            if ($var === 'php_dir' || $var === 'data_dir') {
+                continue; // both of these are abstract
+            }
             $x->$var = $this->$var;
             file_put_contents(dirname($system) . DIRECTORY_SEPARATOR .
                 $var . '.txt', $this->$var);
@@ -699,6 +705,9 @@ class PEAR2_Pyrus_Config
 
     public function __isset($value)
     {
+        if ($value === 'php_dir' || $value === 'data_dir') {
+            return true;
+        }
         if (in_array($value, self::$pearConfigNames)
             || in_array($value, self::$customPearConfigNames)) {
             return isset(self::$configs[$this->pearDir]->$value);
