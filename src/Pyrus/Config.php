@@ -583,6 +583,9 @@ class PEAR2_Pyrus_Config
             foreach (self::$pearConfigNames as $var) {
                 $x->$var = $conf->$var;
             }
+            foreach (self::$customPearConfigNames as $var) {
+                $x->$var = $conf->$var;
+            }
             PEAR2_Pyrus_Log::log(5, 'Saving configuration snapshot ' . $snapshot);
             file_put_contents($snapshotdir . DIRECTORY_SEPARATOR . $snapshot, $x->asXML());
             return $snapshot;
@@ -594,6 +597,9 @@ class PEAR2_Pyrus_Config
             $x = simplexml_load_file($snapshotdir . DIRECTORY_SEPARATOR . $snapshot);
             foreach (self::$pearConfigNames as $var) {
                 if ($x->$var != $conf->$var) continue 2;
+            }
+            foreach (self::$customPearConfigNames as $var) {
+                if (!isset($x->var) || $x->$var != $conf->$var) continue 2;
             }
             // found a match
             PEAR2_Pyrus_Log::log(5, 'Found matching configuration snapshot ' . $snapshot);
@@ -611,6 +617,9 @@ class PEAR2_Pyrus_Config
         // save the snapshot
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {
+            $x->$var = $conf->$var;
+        }
+        foreach (self::$customPearConfigNames as $var) {
             $x->$var = $conf->$var;
         }
         PEAR2_Pyrus_Log::log(5, 'Saving configuration snapshot ' . $snapshot);
@@ -646,6 +655,9 @@ class PEAR2_Pyrus_Config
         if ($value == 'systemvars') {
             return array_merge(self::$pearConfigNames, self::$customPearConfigNames);
         }
+        if ($value == 'uservars') {
+            return array_merge(self::$userConfigNames, self::$customUserConfigNames);
+        }
         if ($value == 'mainsystemvars') {
             return self::$pearConfigNames;
         }
@@ -658,7 +670,9 @@ class PEAR2_Pyrus_Config
         if ($value == 'path') {
             return $this->pearDir;
         }
-        if (!in_array($value, array_merge(self::$pearConfigNames, self::$userConfigNames))) {
+        if (!in_array($value, array_merge(self::$pearConfigNames, self::$userConfigNames,
+                                          self::$customPearConfigNames,
+                                          self::$customUserConfigNames))) {
             throw new PEAR2_Pyrus_Config_Exception(
                 'Unknown configuration variable "' . $value . '" in location ' .
                 $this->pearDir);
@@ -685,7 +699,8 @@ class PEAR2_Pyrus_Config
 
     public function __isset($value)
     {
-        if (in_array($value, self::$pearConfigNames) || in_array($value, self::$customPearConfigNames)) {
+        if (in_array($value, self::$pearConfigNames)
+            || in_array($value, self::$customPearConfigNames)) {
             return isset(self::$configs[$this->pearDir]->$value);
         }
         return isset(self::$userConfigs[$this->userFile]->$value);
@@ -701,7 +716,8 @@ class PEAR2_Pyrus_Config
                 'Unknown configuration variable "' . $key . '" in location ' .
                 $this->pearDir);
         }
-        if (in_array($key, self::$pearConfigNames) || in_array($key, self::$customPearConfigNames)) {
+        if (in_array($key, self::$pearConfigNames)
+            || in_array($key, self::$customPearConfigNames)) {
             // global config
             self::$configs[$this->pearDir]->$key = $value;
         } else {
