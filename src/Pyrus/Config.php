@@ -298,6 +298,13 @@ class PEAR2_Pyrus_Config
             // are doing, don't add include_path
             PEAR2_Pyrus_Log::log(1, 'Automatically cascading include_path');
             $extra = explode(PATH_SEPARATOR, get_include_path());
+            foreach ($extra as &$path) {
+                if (substr($path, strlen($path) - 3) == 'src' && $path[strlen($path) - 4] == DIRECTORY_SEPARATOR) {
+                    // include_path goes to the php_dir which is always src, so our config
+                    // file is in the parent directory.
+                    $path = dirname($path);
+                }
+            }
             array_unshift($extra, $ret);
             $paths = $extra;
         }
