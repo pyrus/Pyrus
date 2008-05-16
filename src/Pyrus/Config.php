@@ -87,6 +87,7 @@ class PEAR2_Pyrus_Config
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
             'data_dir' => '@php_dir@/data', // pseudo-value in this implementation
+            'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@/www',
             'test_dir' => '@php_dir@/tests',
             'php_bin' => '',
