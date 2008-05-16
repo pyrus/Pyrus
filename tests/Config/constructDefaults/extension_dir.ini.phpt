@@ -1,12 +1,11 @@
 --TEST--
 PEAR2_Pyrus_Config::constructDefaults() extension_dir from php.ini
+--SKIPIF--
+<?php if (!ini_get('extension_dir')) die("skip extension_dir not set"); ?>
 --ENV--
-PATH=.
+PHP_PEAR_EXTENSION_DIR=
 --FILE--
 <?php
-if (!ini_get('extension_dir')) {
-    ini_set('extension_dir', 'something');
-}
 require dirname(__FILE__) . '/setup.php.inc';
 tc::constructDefaults();
 $defaults = tc::getTestDefaults();
