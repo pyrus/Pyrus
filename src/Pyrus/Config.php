@@ -446,7 +446,7 @@ class PEAR2_Pyrus_Config
             $x->my_pear_path = $pearDirectory;
             PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $pearDirectory);
         } else {
-            $this->setCascadingRegistries($x->my_pear_path);
+            $this->setCascadingRegistries((string)$x->my_pear_path);
         }
         self::$userConfigs[$userfile] = $x;
     }
