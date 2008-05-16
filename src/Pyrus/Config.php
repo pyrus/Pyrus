@@ -642,8 +642,14 @@ class PEAR2_Pyrus_Config
             throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration name "'.  $key . '"');
         }
         if ($system) {
+            if (isset(self::$pearConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
+            }
             $var = 'customPearConfigNames';
         } else {
+            if (isset(self::$userConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
+            }
             $var = 'customUserConfigNames';
         }
         self::$$var[count(self::$$var)] = $key;
