@@ -133,12 +133,24 @@ class PEAR2_PHPT
         return true;
     }
 
-    function assertEquals($control, $test, $message)
+    function assertException($exception, $class, $emessage, $message)
     {
+        if (!($exception instanceof $class)) {
+            $this->_failTest(debug_backtrace(), $message);
+            echo "Expecting class $class, got ", get_class($exception);
+        }
+        $this->assertEquals($emessage, $exception->getMessage(), $message, debug_backtrace());
+    }
+
+    function assertEquals($control, $test, $message, $trace = null)
+    {
+        if (!$trace) {
+            $trace = debug_backtrace();
+        }
         if (str_replace(array("\r", "\n"), array('', ''),
             var_export($control, true)) != str_replace(array("\r", "\n"), array('', ''),
             var_export($test, true))) {
-            $this->_failTest(debug_backtrace(), $message);
+            $this->_failTest($trace, $message);
             if (class_exists('Text_Diff')) {
                 echo "Diff of expecting/received:\n";
                 $diff = new Text_Diff(

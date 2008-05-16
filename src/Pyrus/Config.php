@@ -410,7 +410,7 @@ class PEAR2_Pyrus_Config
             PEAR2_Pyrus_Log::log(5, 'Using explicit user configuration file ' . $userfile);
         }
         $this->userFile = $userfile;
-        if (!file_exists($userfile)) {
+        if (!$userfile || !file_exists($userfile)) {
             PEAR2_Pyrus_Log::log(5, 'User configuration file ' . $userfile . ' not found');
             return;
         }
@@ -424,7 +424,7 @@ class PEAR2_Pyrus_Config
             $errors = libxml_get_errors();
             $e = new PEAR2_MultiErrors;
             foreach ($errors as $err) {
-                $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception($err);
+                $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception(trim($err->message));
             }
             libxml_clear_errors();
             throw new PEAR2_Pyrus_Config_Exception(

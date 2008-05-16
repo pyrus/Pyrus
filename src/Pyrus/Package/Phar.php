@@ -67,8 +67,13 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             $where = substr($where, 0, strlen($where) - 1);
         }
         $this->_tmpdir = $where;
-        $pxml = $phar->getMetaData();
-        $phar->extractTo($where);
+        try {
+            $pxml = $phar->getMetaData();
+            $phar->extractTo($where);
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Package_Phar_Exception('Could not extract Phar archive ' .
+                $package, $e);
+        }
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }
 
