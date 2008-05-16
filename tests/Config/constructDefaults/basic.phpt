@@ -14,6 +14,7 @@ $test->assertEquals(array(
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
             'data_dir' => '@php_dir@/data', // pseudo-value in this implementation
+            'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@/www',
             'test_dir' => '@php_dir@/tests',
             'php_bin' => '',
@@ -44,6 +45,7 @@ $test->assertEquals(array(
             'doc_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'docs',
             'bin_dir' => PHP_BINDIR,
             'data_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'data', // pseudo-value in this implementation
+            'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'www',
             'test_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'tests',
             'php_bin' => '',
