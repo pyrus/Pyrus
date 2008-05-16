@@ -67,13 +67,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             $where = substr($where, 0, strlen($where) - 1);
         }
         $this->_tmpdir = $where;
-        if (!$phar->isFileFormat(Phar::TAR)) {
-            $pxml = $phar->getMetaData();
-        } else {
-            // this line will be removed once metadata is implemented natively
-            // in tar-based phar archives
-            $pxml = unserialize($phar['.phar/metadata.bin']);
-        }
+        $pxml = $phar->getMetaData();
         $phar->extractTo($where);
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }
