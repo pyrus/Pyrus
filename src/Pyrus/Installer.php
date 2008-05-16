@@ -1,9 +1,9 @@
 <?php
 /**
  * PEAR2_Pyrus_Installer
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -355,7 +355,7 @@ class PEAR2_Pyrus_Installer
             $dest_file = $dest_dir . DIRECTORY_SEPARATOR . '.tmp' .
                 basename($final_dest_file);
             // }}}
-    
+
             if (empty($this->_options['register-only'])) {
                 if (!file_exists($dest_dir) || !is_dir($dest_dir)) {
                     if (!mkdir($dest_dir, 0755, true)) {
