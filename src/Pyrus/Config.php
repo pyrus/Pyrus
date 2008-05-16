@@ -700,7 +700,7 @@ class PEAR2_Pyrus_Config
                 'Unknown configuration variable "' . $value . '" in location ' .
                 $this->pearDir);
         }
-        if (!isset($this->$value)) {
+        if (!isset($this->$value) || $value === 'php_dir' || $value === 'data_dir') {
             if (isset(self::$defaults[$value])) {
                 PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $value .
                     ' default value "' . self::$defaults[$value] . '"');
