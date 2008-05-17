@@ -189,6 +189,18 @@ class PEAR2_Pyrus_Config
         );
 
     /**
+     * __get variables that cannot be used as custom config values
+     * @var array
+     */
+    static protected $magicVars = array('registry',
+                                        'channelregistry',
+                                        'systemvars',
+                                        'uservars',
+                                        'mainsystemvars',
+                                        'mainuservars',
+                                        'userfile',
+                                        'path');
+    /**
      * Set up default configuration values that need to be determined at runtime
      *
      * The ext_dir variable, bin_dir variable, and php_ini are set up in
@@ -656,17 +668,38 @@ class PEAR2_Pyrus_Config
      */
     static public function addConfigValue($key, $default, $system = true)
     {
+        if (in_array($key, self::$magicVars, true)) {
+            throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration variable, already in use for retrieving configuration information');
+        }
         if (!preg_match('/^[a-z0-9-_]+\\z/', $key)) {
-            throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration name "'.  $key . '"');
+            throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration variable name "'.  $key . '"');
         }
         if ($system) {
             if (isset(self::$pearConfigNames[$key])) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
             }
+            if (isset(self::$customPearConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '"');
+            }
+            if (isset(self::$userConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing user configuration value "' . $key . '" with system value');
+            }
+            if (isset(self::$customUserConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom user configuration value "' . $key . '" with system value');
+            }
             $var = 'customPearConfigNames';
         } else {
             if (isset(self::$userConfigNames[$key])) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
+            }
+            if (isset(self::$customUserConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '"');
+            }
+            if (isset(self::$pearConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '" with user value');
+            }
+            if (isset(self::$customPearConfigNames[$key])) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '" with user value');
             }
             $var = 'customUserConfigNames';
         }
@@ -733,8 +766,28 @@ class PEAR2_Pyrus_Config
             $this->pearDir);
     }
 
+    public function __unset($key)
+    {
+        if (in_array($key, self::$magicVars, true)) {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot unset magic value ' . $key);
+        }
+        if ($key === 'php_dir' || $key === 'data_dir') {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot unset ' . $key);
+        }
+        if (isset($this->values[$key])) {
+            unset($this->values[$key]);
+            return;
+        }
+        if (isset(self::$userConfigs[$this->userFile][$key])) {
+            unset(self::$userConfigs[$this->userFile][$key]);
+        }
+    }
+
     public function __isset($key)
     {
+        if (in_array($key, self::$magicVars, true)) {
+            return true;
+        }
         if ($key === 'php_dir' || $key === 'data_dir') {
             return true;
         }
@@ -747,6 +800,9 @@ class PEAR2_Pyrus_Config
 
     public function __set($key, $value)
     {
+        if (in_array($key, self::$magicVars, true)) {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot set magic configuration variable ' . $key);
+        }
         if ($key == 'php_dir' || $key == 'data_dir') {
             throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository');
         }
