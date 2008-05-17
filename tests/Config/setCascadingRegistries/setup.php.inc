@@ -4,9 +4,11 @@ class r extends PEAR2_Pyrus_Registry
 {
     static public $parents = array();
     public $path;
-    function setParent(PEAR2_Pyrus_Registry $c)
+    function setParent(PEAR2_Pyrus_Registry $c = null)
     {
-        self::$parents[$c->path] = true;
+        if ($c) {
+            self::$parents[$c->path] = true;
+        }
         return parent::setParent($c);
     }
 
@@ -20,9 +22,11 @@ class c extends PEAR2_Pyrus_ChannelRegistry
 {
     static public $parents = array();
     public $path;
-    function setParent(PEAR2_Pyrus_ChannelRegistry $c)
+    function setParent(PEAR2_Pyrus_ChannelRegistry $c = null)
     {
-        self::$parents[$c->path] = true;
+        if ($c) {
+            self::$parents[$c->path] = true;
+        }
         return parent::setParent($c);
     }
 

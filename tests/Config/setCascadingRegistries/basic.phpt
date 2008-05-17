@@ -6,8 +6,9 @@ require dirname(__FILE__) . '/setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 PEAR2_Pyrus_Config::setCascadingRegistries(dirname(__FILE__) . '/something');
-$test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo' => true), r::$parents, 'registry');
-$test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo' => true), c::$parents, 'channel registry');
+restore_include_path();
+$test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something' => true), r::$parents, 'registry');
+$test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something' => true), c::$parents, 'channel registry');
 ?>
 ===DONE===
 --CLEAN--
