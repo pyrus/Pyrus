@@ -674,70 +674,75 @@ class PEAR2_Pyrus_Config
         self::$customDefaults[$key] = $default;
     }
 
-    public function __get($value)
+    public function __get($key)
     {
-        if (in_array($value, array_merge(self::$pearConfigNames, self::$userConfigNames,
+        if (in_array($key, array_merge(self::$pearConfigNames, self::$userConfigNames,
                                           self::$customPearConfigNames,
                                           self::$customUserConfigNames))) {
-            if (!isset($this->values[$value]) || $value === 'php_dir'
-                || $value === 'data_dir') {
-                if (isset(self::$defaults[$value])) {
+            if ((!isset(self::$userConfigs[$this->userFile][$key])
+                && !isset($this->values[$key])) || $key === 'php_dir'
+                || $key === 'data_dir') {
+                if (isset(self::$defaults[$key])) {
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
-                                         $value .
-                        ' default value "' . self::$defaults[$value] . '"');
-                    return str_replace('@php_dir@', $this->pearDir, self::$defaults[$value]);
+                                         $key .
+                        ' default value "' . self::$defaults[$key] . '"');
+                    return str_replace('@php_dir@', $this->pearDir, self::$defaults[$key]);
                 } else {
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
-                                         $value .
-                        ' default value "' . self::$customDefaults[$value] . '"');
+                                         $key .
+                        ' default value "' . self::$customDefaults[$key] . '"');
                     return str_replace('@php_dir@', $this->pearDir,
-                                       self::$customDefaults[$value]);
+                                       self::$customDefaults[$key]);
                 }
             }
-            if (in_array($value, array_merge(self::$pearConfigNames,
+            if (in_array($key, array_merge(self::$pearConfigNames,
                                              self::$customPearConfigNames))) {
-                PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $value .
-                    ' value "' . $this->values[$value] . '"');
-                return (string) str_replace('@php_dir@', $this->pearDir,
-                    $this->values[$value]);
+                PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $key .
+                    ' value "' . $this->values[$key] . '"');
+                return str_replace('@php_dir@', $this->pearDir,
+                    $this->values[$key]);
             }
-            return (string) $this->values[$value];
+            return self::$userConfigs[$this->userFile][$key];
         }
-        if ($value == 'registry') {
+        if ($key == 'registry') {
             return PEAR2_Pyrus_Registry::singleton($this->pearDir);
         }
-        if ($value == 'channelregistry') {
+        if ($key == 'channelregistry') {
             return PEAR2_Pyrus_ChannelRegistry::singleton($this->pearDir);
         }
-        if ($value == 'systemvars') {
+        if ($key == 'systemvars') {
             return array_merge(self::$pearConfigNames, self::$customPearConfigNames);
         }
-        if ($value == 'uservars') {
+        if ($key == 'uservars') {
             return array_merge(self::$userConfigNames, self::$customUserConfigNames);
         }
-        if ($value == 'mainsystemvars') {
+        if ($key == 'mainsystemvars') {
             return self::$pearConfigNames;
         }
-        if ($value == 'mainuservars') {
+        if ($key == 'mainuservars') {
             return self::$userConfigNames;
         }
-        if ($value == 'userfile') {
+        if ($key == 'userfile') {
             return $this->userFile;
         }
-        if ($value == 'path') {
+        if ($key == 'path') {
             return $this->pearDir;
         }
         throw new PEAR2_Pyrus_Config_Exception(
-            'Unknown configuration variable "' . $value . '" in location ' .
+            'Unknown configuration variable "' . $key . '" in location ' .
             $this->pearDir);
     }
 
-    public function __isset($value)
+    public function __isset($key)
     {
-        if ($value === 'php_dir' || $value === 'data_dir') {
+        if ($key === 'php_dir' || $key === 'data_dir') {
             return true;
         }
-        return isset($this->values[$value]);
+        if (in_array($key, self::$pearConfigNames)
+            || in_array($key, self::$customPearConfigNames)) {
+            return isset($this->values[$key]);
+        }
+        return isset(self::$userConfigs[$this->userFile][$key]);
     }
 
     public function __set($key, $value)
@@ -750,6 +755,10 @@ class PEAR2_Pyrus_Config
                 'Unknown configuration variable "' . $key . '" in location ' .
                 $this->pearDir);
         }
-        $this->values[$key] = $value;
+        if (in_array($key, self::$pearConfigNames)
+            || in_array($key, self::$customPearConfigNames)) {
+            $this->values[$key] = $value;
+        }
+        self::$userConfigs[$this->userFile][$key] = $value;
     }
 }
