@@ -703,7 +703,7 @@ class PEAR2_Pyrus_Config
             }
             $var = 'customUserConfigNames';
         }
-        self::$$var[count(self::$$var)] = $key;
+        self::${$var}[count(self::${$var})] = $key;
         self::$customDefaults[$key] = $default;
     }
 
