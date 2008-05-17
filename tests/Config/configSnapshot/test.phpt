@@ -62,10 +62,10 @@ $test->assertEquals('<?xml version="1.0"?>
 --CLEAN--
 <?php unlink(__DIR__ . '/testit/.config'); ?>
 <?php unlink(__DIR__ . '/testit/.pear2registry'); ?>
-<?php rmdir(__DIR__ . '/testit'); ?>
 <?php unlink(__DIR__ . '/testit/.configsnapshots/configsnapshot-' . date('Ymd') . '.xml'); ?>
 <?php unlink(__DIR__ . '/testit/.configsnapshots/configsnapshot-' . date('Ymd') . '.1.xml'); ?>
 <?php unlink(__DIR__ . '/testit/.configsnapshots/configsnapshot-' . date('Ymd') . '.1.1.xml'); ?>
 <?php rmdir(__DIR__ . '/testit/.configsnapshots'); ?>
+<?php rmdir(__DIR__ . '/testit'); ?>
 --EXPECT--
 ===DONE===
