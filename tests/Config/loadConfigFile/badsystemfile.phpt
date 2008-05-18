@@ -16,8 +16,9 @@ try {
 ?>
 ===DONE===
 --CLEAN--
-<?php unlink(__DIR__ . '/testit/.config'); ?>
-<?php unlink(__DIR__ . '/testit/.pear2registry'); ?>
-<?php rmdir(__DIR__ . '/testit'); ?>
+<?php
+$dir = __DIR__ . '/testit';
+include __DIR__ . '/../../clean.php.inc';
+?>
 --EXPECT--
 ===DONE===

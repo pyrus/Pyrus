@@ -6,7 +6,7 @@ require dirname(__FILE__) . '/setup.php.inc';
 set_include_path(''); // disable include_path cascading for simplicity
 file_put_contents($testpath . '/blah', '<?xml version="1.0" ?>
 <c>
- <my_pear_path>hi/there</my_pear_path>
+ <my_pear_path>' . $testpath . '/hi/there</my_pear_path>
 </c>');
 try {
     tc::$test = $test;
@@ -20,9 +20,9 @@ try {
 ?>
 ===DONE===
 --CLEAN--
-<?php unlink(__DIR__ . '/testit/.pear2registry'); ?>
-<?php unlink(__DIR__ . '/testit/.config'); ?>
-<?php unlink(__DIR__ . '/testit/blah'); ?>
-<?php rmdir(__DIR__ . '/testit'); ?>
+<?php
+$dir = __DIR__ . '/testit';
+include __DIR__ . '/../../clean.php.inc';
+?>
 --EXPECT--
 ===DONE===

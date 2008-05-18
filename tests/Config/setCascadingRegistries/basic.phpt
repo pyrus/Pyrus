@@ -17,14 +17,12 @@ $test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent p
 ===DONE===
 --CLEAN--
 <?php
-foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo'), RecursiveIteratorIterator::LEAVES_ONLY) as $name => $file) {
-    unlink($file->getPathname());
-}
-foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something'), RecursiveIteratorIterator::LEAVES_ONLY) as $name => $file) {
-    unlink($file->getPathname());
-}
-rmdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
-rmdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something');
+$dir = __DIR__ . '/foo';
+include __DIR__ . '/../../clean.php.inc';
+?>
+<?php
+$dir = __DIR__ . '/something';
+include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
 ===DONE===

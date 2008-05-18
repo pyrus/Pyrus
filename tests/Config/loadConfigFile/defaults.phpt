@@ -11,8 +11,9 @@ $test->assertEquals($testpath . '/notfound', $a->userFile, 'userfile');
 ?>
 ===DONE===
 --CLEAN--
-<?php unlink(__DIR__ . '/testit/.pear2registry'); ?>
-<?php unlink(__DIR__ . '/testit/.config'); ?>
-<?php rmdir(__DIR__ . '/testit'); ?>
+<?php
+$dir = __DIR__ . '/testit';
+include __DIR__ . '/../../clean.php.inc';
+?>
 --EXPECT--
 ===DONE===
