@@ -7,8 +7,12 @@ require dirname(__FILE__) . '/setup.php.inc';
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 $c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo', dirname(__FILE__) . '/something/blah');
 restore_include_path();
-$test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something' => true), r::$parents, 'registry');
-$test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something' => true), c::$parents, 'channel registry');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->registry->path, 'registry path');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo', $c->registry->parent->path, 'registry->parent path');
+$test->assertNull($c->registry->parent->parent, 'registry parent parent');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->channelregistry->path, 'channelregistry path');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo', $c->channelregistry->parent->path, 'channelregistry->parent path');
+$test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent');
 ?>
 ===DONE===
 --CLEAN--
