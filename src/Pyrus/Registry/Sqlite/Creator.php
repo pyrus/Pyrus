@@ -63,6 +63,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  packages_channel VARCHAR(255) NOT NULL,
      *  role VARCHAR(11) NOT NULL,
      *  user VARCHAR(20) NOT NULL,
+     *  name VARCHAR(200) NOT NULL,
      *  email VARCHAR(100) NOT NULL,
      *  active CHAR(3) NOT NULL,
      *  PRIMARY KEY (packages_name, packages_channel, user)
@@ -275,6 +276,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
            packages_name VARCHAR(80) NOT NULL,
            packages_channel VARCHAR(255) NOT NULL,
            role VARCHAR(11) NOT NULL,
+           name VARCHAR(200) NOT NULL,
            user VARCHAR(20) NOT NULL,
            email VARCHAR(100) NOT NULL,
            active CHAR(3) NOT NULL,

@@ -130,8 +130,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
              VALUES(
               "' . $info->name . '",
               "' . $info->channel . '",
-              "' . $info->version . '",
-              "' . $info->{'api-version'} . '",
+              "' . $info->version['release'] . '",
+              "' . $info->version['api'] . '",
               \'' . sqlite_escape_string($info->summary) . '\',
               \'' . sqlite_escape_string($info->description) . '\',
               "' . $info->stability['release'] . '",
@@ -156,12 +156,13 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
             foreach ($maintainers as $maintainer) {
                 if (!@self::$databases[$this->_path]->queryExec('
                      INSERT INTO maintainers
-                      (packages_name, packages_channel, role, user,
+                      (packages_name, packages_channel, role, name, user,
                        email, active)
                      VALUES(
                       "' . $info->name . '",
                       "' . $info->channel . '",
                       "' . $role . '",
+                      "' . $maintainer['name'] . '",
                       "' . $maintainer['user'] . '",
                       "' . $maintainer['email'] . '",
                       "' . $maintainer['active'] . '"
@@ -353,11 +354,16 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
 
     function info($package, $channel, $field)
     {
+        if ($field == 'date') {
+            $field = 'releasedate';
+        } else if ($field == 'time') {
+            $field = 'releasetime';
+        }
         $info = @self::$databases[$this->_path]->singleQuery('
             SELECT ' . $field . ' FROM packages WHERE
             name = \'' . sqlite_escape_string($package) . '\' AND
             channel = \'' . sqlite_escape_string($channel) . '\'', true);
-        if (!$info) {
+        if (self::$databases[$this->_path]->lastError()) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
                 ': ' . sqlite_error_string(self::$databases[$this->_path]->lastError()));
         }
@@ -392,6 +398,9 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
      */
     function toPackageFile($package, $channel)
     {
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite registry for ' . $this->_path);
+        }
         if (!$this->exists($package, $channel)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
                 'for package ' . $package . '/' . $channel . ', it is not installed');
@@ -401,13 +410,130 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         $ret->channel = $channel;
         $ret->summary = $this->info($package, $channel, 'summary');
         $ret->description = $this->info($package, $channel, 'description');
-        // maintainers
-        // date
-        // version
-        // stability
-        // license
-        // notes
-        // dependencies
-        // filelist
+        $a = self::$databases[$this->_path]
+            ->arrayQuery('SELECT * FROM maintainers
+                         WHERE
+                            packages_name="' . sqlite_escape_string($package) . '" AND
+                            packages_channel="' . sqlite_escape_string($channel) . '"', SQLITE_ASSOC);
+        if (!$a) {
+            throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
+                ' for package ' . $package . '/' . $channel . ', no maintainers registered');
+        }
+        foreach ($a as $maintainer) {
+            $ret->maintainer[$maintainer['user']]
+                ->name($maintainer['name'])
+                ->role($maintainer['role'])
+                ->email($maintainer['email'])
+                ->active($maintainer['active']);
+        }
+        $ret->date = $this->info($package, $channel, 'date');
+        if ($a = $this->info($package, $channel, 'time')) {
+            $ret->time = $this->info($package, $channel, 'time');
+        }
+        $ret->version['release'] = $this->info($package, $channel, 'version');
+        $ret->version['api'] = $this->info($package, $channel, 'apiversion');
+        $ret->stability['release'] = $this->info($package, $channel, 'stability');
+        $ret->stability['api'] = $this->info($package, $channel, 'apistability');
+        $uri = $this->info($package, $channel, 'licenseuri');
+        $path = $this->info($package, $channel, 'licensepath');
+        $license = $this->info($package, $channel, 'license');
+        if ($uri) {
+            $ret->license = array('attribs' => array('uri' => $uri), '_content' => $license);
+        } elseif ($path) {
+            $ret->license = array('attribs' => array('path' => $path), '_content' => $license);
+        } else {
+            $ret->license = $license;
+        }
+        $ret->notes = $this->info($package, $channel, 'releasenotes');
+        $a = self::$databases[$this->_path]
+            ->arrayQuery('SELECT packagepath,role FROM files
+                         WHERE
+                            packages_name="' . sqlite_escape_string($package) . '" AND
+                            packages_channel="' . sqlite_escape_string($channel) . '"', SQLITE_ASSOC);
+        if (!$a) {
+            throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
+                ' for package ' . $package . '/' . $channel . ', no files registered');
+        }
+        foreach ($a as $file) {
+            $ret->files[$file['packagepath']] = array('attribs' => array('role' => $file['role']));
+        }
+        // these two are dummy values not based on anything
+        $ret->dependencies->required->php = array('min' => phpversion());
+        $ret->dependencies->required->pearinstaller = array('min' => '2.0.0');
+        $a = self::$databases[$this->_path]
+            ->arrayQuery('SELECT * FROM package_dependencies
+                         WHERE
+                            packages_name="' . sqlite_escape_string($package) . '" AND
+                            packages_channel="' . sqlite_escape_string($channel) . '"
+                        ORDER BY required,deppackage,depchannel,conflicts', SQLITE_ASSOC);
+        $b = self::$databases[$this->_path]
+            ->arrayQuery('SELECT * FROM package_dependencies_exclude
+                         WHERE
+                            packages_name="' . sqlite_escape_string($package) . '" AND
+                            packages_channel="' . sqlite_escape_string($channel) . '"
+                        ORDER BY required,deppackage,depchannel,conflicts,exclude', SQLITE_ASSOC);
+        if (!$a) {
+            return $ret;
+        }
+        $rdeps = array();
+        $odeps = array();
+        foreach ($a as $dep) {
+            if ($dep['required']) {
+                $deps = 'rdeps';
+            } else {
+                $deps = 'odeps';
+            }
+            if (isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
+                $d = ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']];
+            } else {
+                $d = array();
+            }
+            if ($dep['min']) {
+                $d['min'] = $dep['min'];
+            }
+            if ($dep['max']) {
+                $d['max'] = $dep['max'];
+            }
+            if ($dep['conflicts']) {
+                $d['conflicts'] = '';
+            }
+            if ($dep['exclude']) {
+                if (!isset($d['exclude'])) {
+                    $d['exclude'] = array();
+                }
+                $d['exclude'][] = $dep['exclude'];
+            }
+            ${$deps}[$dep['depchannel'] . '/' . $deps[$dep['deppackage']]] = $d;
+        }
+        foreach ($b as $dep) {
+            if ($dep['required']) {
+                $deps = 'rdeps';
+            } else {
+                $deps = 'odeps';
+            }
+            if (!isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
+                continue;
+            }
+            $d = ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']];
+            if (isset($d['conflicts']) && !$dep['conflicts']) {
+                continue;
+            } elseif (!isset($d['conflicts']) && $dep['conflicts']) {
+                continue;
+            }
+            if ($dep['exclude']) {
+                if (!isset($d['exclude'])) {
+                    $d['exclude'] = array();
+                }
+                $d['exclude'][] = $dep['exclude'];
+            }
+            ${$deps}[$dep['depchannel'] . '/' . $deps[$dep['deppackage']]] = $d;
+        }
+        foreach ($rdeps as $dep => $info) {
+            $ret->dependencies->required->package[$dep] = $info;
+        }
+        foreach ($odeps as $dep => $info) {
+            $ret->dependencies->optional->package[$dep] = $info;
+        }
+        return $ret;
     }
 }
