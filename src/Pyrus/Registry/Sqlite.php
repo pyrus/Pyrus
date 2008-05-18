@@ -130,8 +130,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
              VALUES(
               "' . $info->name . '",
               "' . $info->channel . '",
-              "' . $info->version['release'] . '",
-              "' . $info->version['api'] . '",
+              "' . $info->version . '",
+              "' . $info->{'api-version'} . '",
               \'' . sqlite_escape_string($info->summary) . '\',
               \'' . sqlite_escape_string($info->description) . '\',
               "' . $info->stability['release'] . '",
