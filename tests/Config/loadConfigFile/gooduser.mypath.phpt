@@ -12,7 +12,7 @@ try {
     tc::$test = $test;
     $a = new tc($testpath, $testpath . '/blah');
     $test->assertEquals(tc::$called, 2, 'called times');
-    $test->assertEquals($testpath . PATH_SEPARATOR . 'hi/there', $a->pearDir, 'peardir');
+    $test->assertEquals($testpath, $a->pearDir, 'peardir');
     $test->assertEquals($testpath . '/blah', $a->userFile, 'userfile');
 } catch (Exception $e) {
     echo "failed with $e";
