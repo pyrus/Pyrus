@@ -400,10 +400,20 @@ class PEAR2_Pyrus_Config
                 $d = explode('\\', $user->UserName);
                 $curuser = $d[1];
             }
+
             $registry = new COM('Wscript.Shell');
-            return $registry->RegRead(
-                'HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\' .
-                'Explorer\\DocFolderPaths\\' . $curuser);
+            try {
+                $value = $registry->RegRead(
+                    'HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\' .
+                    'Explorer\\DocFolderPaths\\' . $curuser);
+            } catch (Exception $e) {
+                // Vista changed the reg entry
+                $value = $registry->RegRead(
+                    'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\' .
+                    'Explorer\\Shell Folders\\Personal');
+            }
+
+            return $value;
         } else {
             if (isset($_ENV['HOME'])) {
                 return $_ENV['HOME'];
