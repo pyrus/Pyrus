@@ -5,7 +5,7 @@ PEAR2_Pyrus_Config::setCascading Registries() basic test
 require dirname(__FILE__) . '/setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
-PEAR2_Pyrus_Config::setCascadingRegistries(dirname(__FILE__) . '/something');
+$c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo', dirname(__FILE__) . '/something/blah');
 restore_include_path();
 $test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something' => true), r::$parents, 'registry');
 $test->assertEquals(array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something' => true), c::$parents, 'channel registry');

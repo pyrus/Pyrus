@@ -26,10 +26,13 @@
  */
 class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 {
+    protected $readonly;
     private $_path;
-    function __construct($path)
+
+    function __construct($path, $readonly = false)
     {
         $this->_path = $path;
+        $this->readonly = $readonly;
     }
 
     private function _nameRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
@@ -57,6 +60,9 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
+        }
         // remove previously installed version for upgrade
         $this->uninstall($info->name, $info->channel);
         $packagefile = $this->_nameRegistryPath($info);
@@ -68,6 +74,9 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 
     function uninstall($package, $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
+        }
         $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         @unlink($packagefile);
         @rmdir(dirname($packagefile));

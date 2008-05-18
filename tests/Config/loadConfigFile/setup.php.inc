@@ -29,7 +29,7 @@ class tc extends PEAR2_Pyrus_Config
         return parent::__construct($pearDirectory, $userfile);
     }
 
-    static public function setCascadingRegistries($path)
+    public function setCascadingRegistries($path)
     {
         self::$test->assertEquals(self::$paths[self::$called++], $path, "called " . (self::$called - 1));
         return parent::setCascadingRegistries($path);

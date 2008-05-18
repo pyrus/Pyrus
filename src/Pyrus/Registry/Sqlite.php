@@ -33,20 +33,23 @@
 class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
 {
     /**
-     * The database resource
+     * The database resources, stored by path
      *
+     * This allows singleton access to the database by separate objects
      * @var SQLiteDatabase
      */
-    protected $database;
+    static protected $databases = array();
     private $_path;
+    protected $readonly;
 
     /**
      * Initialize the registry
      *
      * @param unknown_type $path
      */
-    function __construct($path)
+    function __construct($path, $readonly = false)
     {
+        $this->readonly = $readonly;
         if ($path) {
             if ($path != ':memory:') {
                 if (dirname($path) . DIRECTORY_SEPARATOR . '.pear2registry' != $path) {
@@ -54,27 +57,37 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                 }
             }
         }
-        $this->_init($path);
+        $this->_init($path, $readonly);
         $this->_path = $path;
     }
 
-    private function _init($path)
+    private function _init($path, $readonly)
     {
+        if (isset(self::$databases[$path]) && self::$databases[$path]) {
+            return;
+        }
+
         $error = '';
         if (!$path) {
             $path = ':memory:';
         } elseif (!file_exists(dirname($path))) {
+            if ($readonly) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite registry, registry is read-only');
+            }
             @mkdir(dirname($path), 0755, true);
         }
-        $this->database = new SQLiteDatabase($path, 0666, $error);
-        if (!$this->database) {
+        if ($readonly && !file_exists($path)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite registry, registry is read-only');
+        }
+        self::$databases[$path] = new SQLiteDatabase($path, 0666, $error);
+        if (!self::$databases[$path]) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot open SQLite registry: ' . $error);
         }
-        if (@$this->database->singleQuery('SELECT version FROM pearregistryversion') == '1.0.0') {
+        if (@self::$databases[$path]->singleQuery('SELECT version FROM pearregistryversion') == '1.0.0') {
             return;
         }
         $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
-        $a->create($this->database);
+        $a->create(self::$databases[$path]);
     }
 
     function getDatabase()
@@ -89,19 +102,25 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
      */
     function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
+        }
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite registry for ' . $this->_path);
+        }
         try {
             // this ensures upgrade will work
             $this->uninstall($info->name, $info->channel);
         } catch (Exception $e) {
             // ignore errors
         }
-        $this->database->queryExec('BEGIN');
+        self::$databases[$this->_path]->queryExec('BEGIN');
         $licloc = $info->license;
         $licuri = isset($licloc['attribs']['uri']) ? '"' .
             sqlite_escape_string($licloc['attribs']['uri']) . '"' : 'NULL';
         $licpath = isset($licloc['attribs']['path']) ? '"' .
             sqlite_escape_string($licloc['attribs']['path']) . '"' : 'NULL';
-        if (!@$this->database->queryExec('
+        if (!@self::$databases[$this->_path]->queryExec('
              INSERT INTO packages
               (name, channel, version, apiversion, summary,
                description, stability, apistability, releasedate,
@@ -128,14 +147,14 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
               "' . PEAR2_Pyrus_Config::configSnapshot() . '"
              )
             ')) {
-            $this->database->queryExec('ROLLBACK');
+            self::$databases[$this->_path]->queryExec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                 $info->channel . '/' . $info->name . ' could not be installed in registry');
         }
         foreach ($info->allmaintainers as $role => $maintainers) {
             if (!is_array($maintainers)) continue;
             foreach ($maintainers as $maintainer) {
-                if (!@$this->database->queryExec('
+                if (!@self::$databases[$this->_path]->queryExec('
                      INSERT INTO maintainers
                       (packages_name, packages_channel, role, user,
                        email, active)
@@ -148,7 +167,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                       "' . $maintainer['active'] . '"
                      )
                     ')) {
-                    $this->database->queryExec('ROLLBACK');
+                    self::$databases[$this->_path]->queryExec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
                 }
@@ -163,7 +182,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                 PEAR2_Pyrus_Installer_Role::factory($info, $role)->getLocationConfig();
         }
         foreach ($info->installcontents as $file) {
-            if (!@$this->database->queryExec('
+            if (!@self::$databases[$this->_path]->queryExec('
                  INSERT INTO files
                   (packages_name, packages_channel, packagepath, role, rolepath)
                  VALUES(
@@ -175,7 +194,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                        '', $curconfig->{$roles[$file->role]}) . '"
                  )
                 ')) {
-                $this->database->queryExec('ROLLBACK');
+                self::$databases[$this->_path]->queryExec('ROLLBACK');
                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                     $info->channel . '/' . $info->name . ' could not be installed in registry');
             }
@@ -193,7 +212,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                     $dmax = isset($d['max']) ?
                         '"' . $d['max'] . '"':
                         'NULL';
-                    if (!@$this->database->queryExec('
+                    if (!@self::$databases[$this->_path]->queryExec('
                          INSERT INTO package_dependencies
                           (required, packages_name, packages_channel, deppackage,
                            depchannel, conflicts, min, max)
@@ -208,7 +227,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                           ' . $dmax . '
                          )
                         ')) {
-                        $this->database->queryExec('ROLLBACK');
+                        self::$databases[$this->_path]->queryExec('ROLLBACK');
                         throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                             $info->channel . '/' . $info->getName() . ' could not be installed in registry');
                     }
@@ -217,7 +236,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                             $d['exclude'] = array($d['exclude']);
                         }
                         foreach ($d['exclude'] as $exclude) {
-                            if (!@$this->database->queryExec('
+                            if (!@self::$databases[$this->_path]->queryExec('
                                  INSERT INTO package_dependencies_exclude
                                   (required, packages_name, packages_channel,
                                    deppackage, depchannel, exclude, conflicts)
@@ -231,7 +250,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                                   "' . isset($d['conflicts']) . '"
                                  )
                                 ')) {
-                                $this->database->queryExec('ROLLBACK');
+                                self::$databases[$this->_path]->queryExec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->getName() . ' could not be installed in registry');
                             }
@@ -252,7 +271,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                     $dmax = isset($d['max']) ?
                         '"' . $d['max'] . '"':
                         'NULL';
-                    if (!@$this->database->queryExec('
+                    if (!@self::$databases[$this->_path]->queryExec('
                          INSERT INTO package_dependencies
                           (required, packages_name, packages_channel, deppackage,
                            depchannel, conflicts, min, max)
@@ -267,7 +286,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                           ' . $dmax . '
                          )
                         ')) {
-                        $this->database->queryExec('ROLLBACK');
+                        self::$databases[$this->_path]->queryExec('ROLLBACK');
                         throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                             $info->channel . '/' . $info->name . ' could not be installed in registry');
                     }
@@ -276,7 +295,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                             $d['exclude'] = array($d['exclude']);
                         }
                         foreach ($d['exclude'] as $exclude) {
-                            if (!@$this->database->queryExec('
+                            if (!@self::$databases[$this->_path]->queryExec('
                                  INSERT INTO package_dependencies_exclude
                                   (required, packages_name, packages_channel,
                                    deppackage, depchannel, exclude, conflicts)
@@ -290,7 +309,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                                   "' . isset($d['conflicts']) . '",
                                  )
                                 ')) {
-                                $this->database->queryExec('ROLLBACK');
+                                self::$databases[$this->_path]->queryExec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->name . ' could not be installed in registry');
                             }
@@ -299,47 +318,59 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                 }
             }
         }
-        $this->database->queryExec('COMMIT');
+        self::$databases[$this->_path]->queryExec('COMMIT');
     }
 
     function uninstall($package, $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall package, registry is read-only');
+        }
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite registry for ' . $this->_path);
+        }
         $channel = PEAR2_Pyrus_Config::current()->channelregistry[$channel]->getName();
-        if (!$this->database->singleQuery('SELECT name FROM packages WHERE name="' .
+        if (!self::$databases[$this->_path]->singleQuery('SELECT name FROM packages WHERE name="' .
               sqlite_escape_string($package) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"')) {
             throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel . '/' .
                 $package);
         }
-        $this->database->queryExec('DELETE FROM packages WHERE name="' .
+        self::$databases[$this->_path]->queryExec('DELETE FROM packages WHERE name="' .
               sqlite_escape_string($package) . '" AND channel = "' .
               sqlite_escape_string($channel) . '"');
     }
 
     function exists($package, $channel)
     {
-        return $this->database->singleQuery('SELECT COUNT(*) FROM packages WHERE ' .
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite registry for ' . $this->_path);
+        }
+        return self::$databases[$this->_path]->singleQuery('SELECT COUNT(*) FROM packages WHERE ' .
             'name=\'' . sqlite_escape_string($package) . '\' AND channel=\'' .
             sqlite_escape_string($channel) . '\'');
     }
 
     function info($package, $channel, $field)
     {
-        $info = @$this->database->singleQuery('
+        $info = @self::$databases[$this->_path]->singleQuery('
             SELECT ' . $field . ' FROM packages WHERE
             name = \'' . sqlite_escape_string($package) . '\' AND
             channel = \'' . sqlite_escape_string($channel) . '\'', true);
         if (!$info) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
-                ': ' . sqlite_error_string($this->database->lastError()));
+                ': ' . sqlite_error_string(self::$databases[$this->_path]->lastError()));
         }
         return $info;
     }
 
     function listPackages($channel)
     {
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite registry for ' . $this->_path);
+        }
         $ret = array();
-        foreach ($this->database->arrayQuery('SELECT name FROM packages WHERE
+        foreach (self::$databases[$this->_path]->arrayQuery('SELECT name FROM packages WHERE
             channel = \'' . sqlite_escape_string($channel) . '\'
             ORDER BY name
         ', SQLITE_NUM) as $res) {

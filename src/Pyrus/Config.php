@@ -55,6 +55,18 @@ class PEAR2_Pyrus_Config
      */
     protected $userFile;
     /**
+     * registry for this {@link $pearDir} value
+     *
+     * @var PEAR2_Pyrus_Registry
+     */
+    protected $myregistry;
+    /**
+     * channel registry for this {@link $pearDir} value
+     *
+     * @var PEAR2_Pyrus_Channel_Registry
+     */
+    protected $mychannelRegistry;
+    /**
      * configuration values for this configuration object
      *
      * @var string
@@ -273,7 +285,8 @@ class PEAR2_Pyrus_Config
     /**
      * parse a configuration for a PEAR2 installation
      *
-     * @param string $pearDirectory
+     * @param string $pearDirectory This can be either a single path, or a
+     *                              PATH_SEPARATOR-separated list of directories
      * @param string $userfile
      */
     protected function __construct($pearDirectory, $userfile = false)
@@ -282,9 +295,9 @@ class PEAR2_Pyrus_Config
         $pearDirectory = str_replace('//', '/', $pearDirectory);
         $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
         $pearDirectory = $this->setCascadingRegistries($pearDirectory);
+        $this->pearDir = $pearDirectory;
         self::constructDefaults();
         $this->loadConfigFile($pearDirectory, $userfile);
-        $this->pearDir = $pearDirectory;
         self::$configs[$pearDirectory] = $this;
         if (!isset(self::$current)) {
             self::$current = $this;
@@ -307,7 +320,10 @@ class PEAR2_Pyrus_Config
         return self::$configs[$pearDirectory];
     }
 
-    static public function setCascadingRegistries($path)
+    /**
+     * set the path to scan for pyrus installations
+     */
+    public function setCascadingRegistries($path)
     {
         $paths = explode(PATH_SEPARATOR, $path);
         $ret = $paths[0];
@@ -328,11 +344,19 @@ class PEAR2_Pyrus_Config
             $paths = $extra;
         }
         $paths = array_unique($paths);
+        $start = true;
         foreach ($paths as $path) {
             if ($path === '.') continue;
-            $reg = PEAR2_Pyrus_Registry::singleton($path);
+            $reg = new PEAR2_Pyrus_Registry($path, array('Sqlite', 'Xml'), !$start);
+            if ($start) {
+                $this->myregistry = $reg;
+            }
             $reg->setParent(); // clear any previous parent
-            $regc = PEAR2_Pyrus_ChannelRegistry::singleton($path);
+            $regc = new PEAR2_Pyrus_ChannelRegistry($path, array('Sqlite', 'Xml'), !$start);
+            if ($start) {
+                $this->mychannelRegistry = $regc;
+            }
+            $start = false;
             $regc->setParent(); // clear any previous parent
             if (isset($last)) {
                 $last->setParent($reg);
@@ -505,7 +529,9 @@ class PEAR2_Pyrus_Config
             $x->my_pear_path = $pearDirectory;
             PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $pearDirectory);
         } else {
-            $this->setCascadingRegistries((string)$x->my_pear_path);
+            // ensure that $pearDirectory is a part of this cascading directory path
+            $this->setCascadingRegistries((string)$pearDirectory . PATH_SEPARATOR .
+                                          $x->my_pear_path);
         }
         self::$userConfigs[$userfile] = (array) $x;
     }
@@ -738,10 +764,10 @@ class PEAR2_Pyrus_Config
             return self::$userConfigs[$this->userFile][$key];
         }
         if ($key == 'registry') {
-            return PEAR2_Pyrus_Registry::singleton($this->pearDir);
+            return $this->myregistry;
         }
         if ($key == 'channelregistry') {
-            return PEAR2_Pyrus_ChannelRegistry::singleton($this->pearDir);
+            return $this->mychannelRegistry;
         }
         if ($key == 'systemvars') {
             return array_merge(self::$pearConfigNames, self::$customPearConfigNames);

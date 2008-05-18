@@ -48,6 +48,20 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
      */
     protected $parent;
 
+    /**
+     * The base path of this registry
+     *
+     * @var string
+     */
+    protected $path;
+    /**
+     * If true, this registry is a cascaded parent registry, and should be treated
+     * as read-only.
+     *
+     * @var bool
+     */
+    protected $readonly;
+
     protected $registries = array();
     /**
      * The channel registry for this path
@@ -66,12 +80,12 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         $this->parent = $parent;
     }
 
-    protected function __construct($path, $registries = array('Sqlite', 'Xml'))
+    public function __construct($path, $registries = array('Sqlite', 'Xml'), $readonly = false)
     {
-        if (!isset($this->channelRegistry)) {
-            $this->channelRegistry = PEAR2_Pyrus_ChannelRegistry::singleton($path,
-                $registries);
-        }
+        $this->path = $path;
+        $this->readonly = $readonly;
+        $this->channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
+            $registries, $readonly);
         $exceptions = array();
         foreach ($registries as $registry) {
             try {
@@ -82,7 +96,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                         'Unknown registry type: ' . $registry);
                     continue;
                 }
-                $this->registries[] = new $registry($path);
+                $this->registries[] = new $registry($path, $readonly);
             } catch (Exception $e) {
                 $exceptions[] = $e;
             }
@@ -94,22 +108,11 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         }
     }
 
-    /**
-     * @param string $path
-     * @param array $registries
-     * @return PEAR2_Pyrus_Registry
-     */
-    static public function singleton($path, $registries = array('Sqlite', 'Xml'))
-    {
-        if (!isset(self::$allRegistries[$path])) {
-            $a = self::$className;
-            self::$allRegistries[$path] = new $a($path);
-        }
-        return self::$allRegistries[$path];
-    }
-
     public function install(PEAR2_Pyrus_PackageFile_v2 $info)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot install packages, registry is read-only');
+        }
         foreach ($this->registries as $reg) {
             $reg->install($info);
         }
@@ -117,6 +120,9 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 
     public function uninstall($name, $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall packages, registry is read-only');
+        }
         foreach ($this->registries as $reg) {
             $reg->uninstall($name, $channel);
         }

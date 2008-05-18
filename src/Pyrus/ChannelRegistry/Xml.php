@@ -25,6 +25,7 @@
  */
 class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 {
+    protected $readonly;
     private $_path;
 
     /**
@@ -32,8 +33,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
      *
      * @param string $path
      */
-    function __construct($path)
+    function __construct($path, $readonly = false)
     {
+        $this->readonly = $readonly;
         $this->_path = $path;
     }
 
@@ -80,6 +82,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 
     function add(PEAR2_Pyrus_IChannel $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
+        }
         $file = $this->getChannelFile($channel);
         if (@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
@@ -92,6 +97,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 
     function update(PEAR2_Pyrus_IChannel $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot update channel, registry is read-only');
+        }
         $file = $this->getChannelFile($channel);
         if (!@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
@@ -104,6 +112,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 
     function delete(PEAR2_Pyrus_IChannel $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
+        }
         @unlink($this->getChannelFile($channel));
         @unlink($this->getAliasFile($channel->getAlias()));
     }
