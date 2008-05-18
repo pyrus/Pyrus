@@ -70,7 +70,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
      */
     protected $channelRegistry;
 
-    public function setChannelRegistry(PEAR2_PyruschannelRegistry $reg)
+    public function setChannelRegistry(PEAR2_Pyrus_ChannelRegistry $reg)
     {
         $this->channelRegistry = $reg;
     }
