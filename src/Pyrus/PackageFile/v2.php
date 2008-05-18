@@ -559,7 +559,6 @@ class PEAR2_Pyrus_PackageFile_v2
                     return false;
                 }
                 return $this->packageInfo['version']['api'];
-            case 'version' :
             case 'release-version' :
                 if (!isset($this->packageInfo['version']) ||
                       !isset($this->packageInfo['version']['release'])) {
