@@ -347,12 +347,14 @@ class PEAR2_Pyrus_Config
         $start = true;
         foreach ($paths as $path) {
             if ($path === '.') continue;
-            $reg = new PEAR2_Pyrus_Registry($path, array('Sqlite', 'Xml'), !$start);
+            $a = PEAR2_Pyrus_Registry::$className;
+            $reg = new $a($path, array('Sqlite', 'Xml'), !$start);
             if ($start) {
                 $this->myregistry = $reg;
             }
             $reg->setParent(); // clear any previous parent
-            $regc = new PEAR2_Pyrus_ChannelRegistry($path, array('Sqlite', 'Xml'), !$start);
+            $b = PEAR2_Pyrus_ChannelRegistry::$className;
+            $regc = new $b($path, array('Sqlite', 'Xml'), !$start);
             if ($start) {
                 $this->mychannelRegistry = $regc;
             }
