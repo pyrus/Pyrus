@@ -51,9 +51,9 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
     }
 
     function getName()
- 	{
- 	    return $this->channelname;
- 	}
+    {
+        return $this->channelname;
+    }
 
     function setAlias($alias)
     {
@@ -65,11 +65,11 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         }
     }
 
- 	function getSummary()
- 	{
- 	    return $this->database->singleQuery('SELECT summary FROM channels WHERE ' .
- 	          'channel=\'' . sqlite_escape_string($this->channelname) . '\'');
- 	}
+    function getSummary()
+    {
+        return $this->database->singleQuery('SELECT summary FROM channels WHERE ' .
+              'channel=\'' . sqlite_escape_string($this->channelname) . '\'');
+    }
 
     /**
      * @return int|80 port number to connect to
@@ -81,12 +81,12 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
     }
 
- 	function getSSL($mirror = false)
- 	{
- 	    return $this->database->singleQuery('SELECT ssl FROM channel_servers WHERE
- 	          channel=\'' . sqlite_escape_string($this->channelname) . '\' AND
- 	          server=\'' . sqlite_escape_string($this->mirror) . '\'');
- 	}
+    function getSSL($mirror = false)
+    {
+        return $this->database->singleQuery('SELECT ssl FROM channel_servers WHERE
+              channel=\'' . sqlite_escape_string($this->channelname) . '\' AND
+              server=\'' . sqlite_escape_string($this->mirror) . '\'');
+    }
 
     /**
      * @param string xmlrpc or soap
@@ -152,43 +152,43 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         }
     }
 
- 	public function getValidationObject($package = false)
- 	{
- 	    $a = $this->getValidationPackage($package);
- 	    $b = $a['_content'];
- 	    return new $b;
- 	}
+    public function getValidationObject($package = false)
+    {
+        $a = $this->getValidationPackage($package);
+        $b = $a['_content'];
+        return new $b;
+    }
 
- 	function __get($value)
- 	{
- 	    switch ($value) {
- 	        case 'mirrors' :
- 	            $ret = array($this->channelname => $this);
- 	            foreach ($this->database->arrayQuery('SELECT server FROM channel_servers
- 	                  WHERE channel=\'' . sqlite_escape_string($this->channelname) . '\'
- 	                  AND server !=\'' . sqlite_escape_string($this->channelname) . '\'',
- 	                  SQLITE_ASSOC) as $mirror) {
- 	                $ret[$mirror] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this,
- 	                                    $this->database, $mirror);
-                }
-                return $ret;
- 	    }
- 	}
+    function __get($value)
+    {
+        switch ($value) {
+            case 'mirrors' :
+                $ret = array($this->channelname => $this);
+                foreach ($this->database->arrayQuery('SELECT server FROM channel_servers
+                      WHERE channel=\'' . sqlite_escape_string($this->channelname) . '\'
+                      AND server !=\'' . sqlite_escape_string($this->channelname) . '\'',
+                      SQLITE_ASSOC) as $mirror) {
+                    $ret[$mirror] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this,
+                                        $this->database, $mirror);
+            }
+            return $ret;
+        }
+    }
 
- 	public function toChannelObject()
- 	{
- 	    $a = new PEAR2_Pyrus_Channel;
- 	    $a->setName($this->getName());
- 	    $a->setSummary($this->getSummary());
- 	    $a->setPort($this->getPort());
- 	    $a->setSSL($this->getSSL());
- 	    $a->setValidationPackage();
- 	}
+    public function toChannelObject()
+    {
+        $a = new PEAR2_Pyrus_Channel;
+        $a->setName($this->getName());
+        $a->setSummary($this->getSummary());
+        $a->setPort($this->getPort());
+        $a->setSSL($this->getSSL());
+        $a->setValidationPackage();
+    }
 
- 	public function __toString()
- 	{
- 	    return $this->toChannelObject()->__toString();
- 	}
+    public function __toString()
+    {
+        return $this->toChannelObject()->__toString();
+    }
 
     function getMirrors()
     {
