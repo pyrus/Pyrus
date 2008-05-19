@@ -50,11 +50,11 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         }
 
         return PEAR2_Pyrus_Config::current()->path . DIRECTORY_SEPARATOR .
-            '.registry' . DIRECTORY_SEPARATOR . strtolower($package);
+            '.registry' . DIRECTORY_SEPARATOR . $channel . strtolower($package);
     }
 
     /**
-     * Create the Channel!PackageName.reg file
+     * Create the .registry/package.reg or file
      *
      * @param PEAR2_Pyrus_PackageFile_v2 $pf
      */
