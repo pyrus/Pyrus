@@ -161,6 +161,8 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
             if ($maintainers[$role]) {
                 foreach ($maintainers[$role] as $m) {
                     $m = array_merge(array('role' => $role), $m);
+                    $m['handle'] = $m['user'];
+                    unset($m['handle']);
                     $maint[] = $m;
                 }
             }
@@ -191,26 +193,7 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
                 '/' . $package);
         }
 
-        $packagefile = $this->_namePath($package, $channel) . '.reg';
-        if (!$packagefile || !isset($packagefile[0])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
-                $channel . '/' . $package);
-        }
-
-        $data = @unserialize($packagefile);
-        if ($data === false) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
-        }
-
-        if (!isset($data['attribs'])
-            || (isset($data['attribs']) && $data['attribs']['version'] == '1.0')) {
-            // make scrappy minimal package.xml we can use for dependencies/info
-        }
-
-        // create packagefile v2 here
-        $pf = new PEAR2_Pyrus_PackageFile_v2;
-        $pf->fromArray(array('package' => $data));
+        $pf = $this->toPackageFile($package, $channel);
 
         if ($field === null) {
             return $pf;
@@ -238,6 +221,8 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
                 // $a['name'] is not set on v1 regs
                 if ($a !== false && isset($a['name'])) {
                     $ret[] = $a['name'];
+                } elseif ($a !== false && isset($a['package'])) {
+                    $ret[] = $a['package'];
                 } else {
                     PEAR2_Pyrus_Log::log(0, 'Warning: corrupted REG registry entry: ' .
                         $file->getPathName());
@@ -256,16 +241,49 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
                 'for package ' . $package . '/' . $channel . ', it is not installed');
         }
-        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
+
+        $packagefile = $this->_namePath($package, $channel) . '.reg';
+        if (!$packagefile || !isset($packagefile[0])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
+                $channel . '/' . $package);
+        }
+
         $data = @unserialize($packagefile);
         if ($data === false) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', REG file might be corrupt!');
+                'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
         }
 
-        $a = new PEAR2_Pyrus_PackageFile_v2;
-        $a->fromArray(array('package' => $data));
-        return $a;
+        if (isset($data['xsdversion']) && $data['xsdversion'] == '1.0'
+            || !isset($data['attribs'])
+            || isset($data['attribs']) && $data['attribs']['version'] == '1.0') {
+            // make scrappy minimal package.xml we can use for dependencies/info
+            $pf = new PEAR2_Pyrus_PackageFile_v2;
+            $pf->package = $data['name'];
+            $pf->channel = 'pear.php.net';
+            $pf->version['release'] = $pf->version['api'] = $data['release_version'];
+            $pf->stability['release'] = $pf->stability['api'] = $data['release_state'];
+            $pf->notes = $data['release_notes'];
+            foreach ($data['maintainers'] as $maintainter) {
+                $pf->maintainers[$maintainer['handle']]->name($maintainer['name'])
+                   ->active('yes')->role($maintainer['role'])->email($maintainer['email']);
+            }
+            // we don't care what the piece of crap depends on, really, so make it valid
+            // and forget about it
+            $pf->dependencies->php['min'] = phpversion();
+            $pf->dependencies->pearinstaller['min'] = '1.4.0';
+            if (!isset($data['filelist'][0])) {
+                $data['filelist'] = array($data['filelist']);
+            }
+            foreach ($data['filelist'] as $file) {
+                $pf->files[$file['name']] = array('attribs' => $file);
+            }
+        } else {
+            // create packagefile v2 here
+            $pf = new PEAR2_Pyrus_PackageFile_v2;
+            $pf->fromArray(array('package' => $data));
+        }
+        return $pf;
     }
 
     public function __get($var)
