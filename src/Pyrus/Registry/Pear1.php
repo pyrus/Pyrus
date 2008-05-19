@@ -68,6 +68,104 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         }
 
         $arr = $info->toArray();
+        $arr['old']['version'] = $info->version['release'];
+        $arr['old']['release_date'] = $info->date;
+        $arr['old']['release_state'] = $info->state;
+        $license = $info->license;
+        if (is_array($license) && isset($license['_content'])) {
+            $license = $license['_content'];
+        }
+        $arr['old']['release_license'] = $license;
+        $arr['old']['release_notes'] = $info->notes;
+        $deps = array();
+        $deps[] = array_merge(array('type' => 'php'), (array) $info->dependencies->php);
+        $map = array(
+            'php' => 'php',
+            'package' => 'pkg',
+            'subpackage' => 'pkg',
+            'extension' => 'ext',
+            'os' => 'os',
+            'pearinstaller' => 'pkg',
+            );
+        foreach (array('package', 'subpackage', 'extension') as $dtype) {
+            foreach (array('required', 'optional') as $optorrequired) {
+                $optional = ($optorrequired == 'optional');
+                foreach ($info->dependencies->required->package as $dep) {
+                    $s = array('type' => $map[$dtype]);
+                    if (isset($dep['channel'])) {
+                        $s['channel'] = $dep['channel'];
+                    }
+                    if (isset($dep['uri'])) {
+                        $s['uri'] = $dep['uri'];
+                    }
+                    if (isset($dep['name'])) {
+                        $s['name'] = $dep['name'];
+                    }
+                    if (isset($dep['conflicts'])) {
+                        $s['rel'] = 'not';
+                    } else {
+                        if (!isset($dep['min']) &&
+                              !isset($dep['max'])) {
+                            $s['rel'] = 'has';
+                            $s['optional'] = $optional;
+                        } elseif (isset($dep['min']) &&
+                              isset($dep['max'])) {
+                            $s['rel'] = 'ge';
+                            $s1 = $s;
+                            $s1['rel'] = 'le';
+                            $s['version'] = $dep['min'];
+                            $s1['version'] = $dep['max'];
+                            if (isset($dep['channel'])) {
+                                $s1['channel'] = $dep['channel'];
+                            }
+                            if ($dtype != 'php') {
+                                $s['name'] = $dep['name'];
+                                $s1['name'] = $dep['name'];
+                            }
+                            $s['optional'] = $optional;
+                            $s1['optional'] = $optional;
+                            $deps[] = $s1;
+                        } elseif (isset($dep['min'])) {
+                            if (isset($dep['exclude']) &&
+                                  $dep['exclude'] == $dep['min']) {
+                                $s['rel'] = 'gt';
+                            } else {
+                                $s['rel'] = 'ge';
+                            }
+                            $s['version'] = $dep['min'];
+                            $s['optional'] = $optional;
+                            if ($dtype != 'php') {
+                                $s['name'] = $dep['name'];
+                            }
+                        } elseif (isset($dep['max'])) {
+                            if (isset($dep['exclude']) &&
+                                  $dep['exclude'] == $dep['max']) {
+                                $s['rel'] = 'lt';
+                            } else {
+                                $s['rel'] = 'le';
+                            }
+                            $s['version'] = $dep['max'];
+                            $s['optional'] = $optional;
+                            if ($dtype != 'php') {
+                                $s['name'] = $dep['name'];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $arr['old']['release_deps'] = $deps;
+        $maintainers = $info->allmaintainers;
+        $maint = array();
+        foreach (array('lead', 'developer', 'contributor', 'helper') as $role) {
+            if ($maintainers[$role]) {
+                foreach ($maintainers[$role] as $m) {
+                    $m = array_merge(array('role' => $role), $m);
+                    $maint[] = $m;
+                }
+            }
+        }
+        $arr['old']['maintainers'] = $maint;
         $arr['xsdversion'] = '2.0';
         $arr['_lastmodified'] = time();
 
@@ -102,7 +200,12 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         $data = @unserialize($packagefile);
         if ($data === false) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', REG file might be corrupt!');
+                'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
+        }
+
+        if (!isset($data['attribs'])
+            || (isset($data['attribs']) && $data['attribs']['version'] == '1.0')) {
+            // make scrappy minimal package.xml we can use for dependencies/info
         }
 
         // create packagefile v2 here
