@@ -70,6 +70,26 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         try {
             $pxml = $phar->getMetaData();
             $phar->extractTo($where);
+            if (!$pxml) {
+                foreach (new RecursiveIteratorIterator($phar,
+                            RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+                    $filename = $file->getFileName();
+                    if (preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
+                          $filename)) {
+                        $pxml = str_replace('phar://' . $phar->getPath(), '',
+                                            $file->getPathName());
+                        break;
+                    } elseif ($filename == 'package2.xml') {
+                        $pxml = str_replace('phar://' . $phar->getPath(), '',
+                                            $file->getPathName());
+                        break;
+                    } elseif ($filename == 'package.xml') {
+                        $pxml = str_replace('phar://' . $phar->getPath(), '',
+                                            $file->getPathName());
+                        break;
+                    }
+                }
+            }
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not extract Phar archive ' .
                 $package, $e);
