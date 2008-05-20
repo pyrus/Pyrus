@@ -107,12 +107,45 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
 
     public function get($channel)
     {
-        return $this->_registries[0]->get($channel);
+        try {
+            return $this->_registries[0]->get($channel);
+        } catch (Exception $e) {
+            // don't fail on the default channels, these should always exist
+            switch ($channel) {
+                case 'pear.php.net' :
+                    return $this->_registries[0]->getPearChannel();
+                case 'pear2.php.net' :
+                    return $this->_registries[0]->getPear2Channel();
+                case 'pecl.php.net' :
+                    return $this->_registries[0]->getPeclChannel();
+                case '__uri' :
+                    return $this->_registries[0]->getUriChannel();
+            }
+            throw $e;
+        }
     }
 
     public function exists($channel, $strict = true)
     {
-        return $this->_registries[0]->exists($channel, $strict);
+        if (!$this->_registries[0]->exists($channel, $strict)) {
+            switch ($channel) {
+                case 'pear.php.net' :
+                case 'pear2.php.net' :
+                case 'pecl.php.net' :
+                case '__uri' :
+                    return true;
+            }
+            if (!$strict) {
+                switch ($channel) {
+                    case 'pear' :
+                    case 'pear2' :
+                    case 'pecl' :
+                        return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 
     public function parseName($name)
@@ -132,7 +165,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
 
     public function offsetGet($offset)
     {
-        return $this->_registries[0]->get($offset);
+        return $this->get($offset);
     }
 
     public function offsetSet($offset, $value)
@@ -147,7 +180,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
 
     public function offsetExists($offset)
     {
-        return $this->_registries[0]->exists($offset);
+        return $this->exists($offset);
     }
 
     public function offsetUnset($offset)

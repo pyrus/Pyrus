@@ -138,6 +138,10 @@ class PEAR2_Pyrus_XMLParser
         $arr = $this->_recursiveParse();
         $this->reader->close();
         if ($schema) {
+            if (!file_exists($schema)) {
+                throw new PEAR2_Pyrus_XMLParser_Exception('Schema "' . $schema . '" ' .
+                                                          'does not exist');
+            }
             $a = new DOMDocument();
             if ($isfile) {
                 $a->load($file);

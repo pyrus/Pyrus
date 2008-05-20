@@ -37,6 +37,16 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     {
         $this->readonly = $readonly;
         $this->_path = $path;
+        if (!$this->readonly) {
+            if (!$this->exists('pear.php.net')) {
+                $this->initDefaultChannels();
+            }
+        }
+    }
+
+    public function getPath()
+    {
+        return $this->_path;
     }
 
     /**
@@ -145,16 +155,28 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
                            $this->_parent);
                 }
                 return $ret;
-         }
-     }
+        }
+        if (method_exists($this, "get$value")) {
+            $gv = "get$value";
+            return $this->$gv();
+        }
+    }
 
-     function listChannels()
-     {
+    function __set($var, $value)
+    {
+        if (method_exists($this, "set$var")) {
+            $sv = "set$var";
+            $this->$sv($value);
+        }
+    }
+
+    function listChannels()
+    {
         $ret = array();
-         foreach (new RegexIterator(new DirectoryIterator($path),
-                                    '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
+        foreach (new RegexIterator(new DirectoryIterator($this->_path),
+                                '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
             $ret[] = $this->get($this->_unmung($file));
         }
         return $ret;
-     }
+    }
 }

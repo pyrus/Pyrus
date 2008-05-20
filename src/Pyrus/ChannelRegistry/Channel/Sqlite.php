@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
+class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel, Countable
 {
     /**
      * The database resource
@@ -48,6 +48,13 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
                     $this->channelname . ' does not exist');
             }
         }
+    }
+
+    function count()
+    {
+        return $this->database->singleQuery(
+            'SELECT COUNT(*) FROM packages WHERE channel="' .
+            sqlite_escape_string($this->channelname) . '"');
     }
 
     function getName()
@@ -172,6 +179,18 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
                                         $this->database, $mirror);
             }
             return $ret;
+        }
+        if (method_exists($this, "get$value")) {
+            $gv = "get$value";
+            return $this->$gv();
+        }
+    }
+
+    function __set($var, $value)
+    {
+        if (method_exists($this, "set$var")) {
+            $sv = "set$var";
+            $this->$sv($value);
         }
     }
 

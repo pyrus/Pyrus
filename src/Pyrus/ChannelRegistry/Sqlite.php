@@ -53,6 +53,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         $this->_path = $path;
     }
 
+    public function getPath()
+    {
+        return $this->_path;
+    }
+
     private function _init($path, $readonly)
     {
         if (isset(self::$databases[$path]) && self::$databases[$path]) {
@@ -79,6 +84,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         }
         $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
         $a->create(self::$databases[$path]);
+        $this->initDefaultChannels();
     }
 
     function exists($channel, $strict = true)

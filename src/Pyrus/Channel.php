@@ -47,17 +47,24 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             'xmlns' => 'http://pear.php.net/channel-1.0',
         );
 
+    private $_xml;
+
     function __construct($data)
     {
         $parser = new PEAR2_Pyrus_XMLParser;
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
         // for running out of cvs
         if (!file_exists($schema)) {
-            $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
+            $schema = __DIR__ . '/../../data/channel-1.0.xsd';
         }
         try {
-            $this->channelInfo = $parser->parseString($data, $schema);
-            $this->channelInfo = $this->channelInfo['channel'];
+            if (is_array($data)) {
+                $this->channelInfo = $data;
+                $this->validate();
+            } else {
+                $this->channelInfo = $parser->parseString($data, $schema);
+                $this->channelInfo = $this->channelInfo['channel'];
+            }
             // Reset root attributes.
             $this->channelInfo['attribs'] = $this->rootAttributes;
         } catch (Exception $e) {
@@ -288,6 +295,18 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
                           $this->channelInfo['servers']['mirror'][$i], $this);
                 }
                 return $ret;
+        }
+        if (method_exists($this, "get$value")) {
+            $gv = "get$value";
+            return $this->$gv();
+        }
+    }
+
+    function __set($var, $value)
+    {
+        if (method_exists($this, "set$var")) {
+            $sv = "set$var";
+            $this->$sv($value);
         }
     }
 
@@ -557,6 +576,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
 
         return $this->channelInfo['validatepackage'];
+    }
+
+    function getArray()
+    {
+        return $this->_channelInfo;
     }
 
     /**

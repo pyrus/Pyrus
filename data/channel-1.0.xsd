@@ -32,7 +32,7 @@
    <xs:element name="rest" minOccurs="0">
     <xs:complexType>
      <xs:sequence>
-      <xs:element name="baseurl">
+      <xs:element name="baseurl" maxOccurs="unbounded">
        <xs:complexType>
         <xs:simpleContent>
          <xs:extension base="xs:string">
@@ -77,7 +77,7 @@
    <xs:element name="rest" minOccurs="0">
     <xs:complexType>
      <xs:sequence>
-      <xs:element name="baseurl">
+      <xs:element name="baseurl" maxOccurs="unbounded">
        <xs:complexType>
         <xs:simpleContent>
          <xs:extension base="xs:string">
@@ -134,14 +134,14 @@
     <xs:element name="name">
      <xs:simpleType>
       <xs:restriction base="xs:string">
-       <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+"/>
+       <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+|__uri"/>
       </xs:restriction>
      </xs:simpleType>
     </xs:element>
     <xs:element name="suggestedalias" minOccurs="0">
      <xs:simpleType>
       <xs:restriction base="xs:string">
-       <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+"/>
+       <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+|__uri"/>
       </xs:restriction>
      </xs:simpleType>
     </xs:element>

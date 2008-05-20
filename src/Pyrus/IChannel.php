@@ -37,6 +37,7 @@ interface PEAR2_Pyrus_IChannel
     public function toChannelObject();
     public function __toString();
     public function __get($var);
+    public function __set($var, $value);
     public function supportsREST();
     public function supports($type, $name = null, $version = '1.0');
     public function resetXmlrpc();

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Channel_Xml
+ * PEAR2_Pyrus_ChannelRegistry_Channel_Pear1
  *
  * PHP version 5
  *
@@ -10,7 +10,7 @@
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
 
 /**
@@ -21,12 +21,12 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-class PEAR2_Pyrus_ChannelRegistry_Channel_Xml extends PEAR2_Pyrus_Channel implements Countable
+class PEAR2_Pyrus_ChannelRegistry_Channel_Pear1 extends PEAR2_Pyrus_Channel implements Countable
 {
     private $_parent;
-    function __construct(PEAR2_Pyrus_ChannelRegistry_Xml $parent, $data)
+    function __construct(PEAR2_Pyrus_ChannelRegistry_Pear1 $parent, $data)
     {
         $this->_parent = $parent;
         parent::__construct($data);
