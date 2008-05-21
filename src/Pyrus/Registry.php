@@ -166,6 +166,8 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
             // installed in parent registry
             return $this->parent->info($package, $channel, $field);
         }
+
+        return null;
     }
 
     public function listPackages($channel, $onlyMain = false)
@@ -174,11 +176,12 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($onlyMain) {
             return $ret;
         }
+
         if ($this->parent) {
             return array_merge($ret, $this->parent->listPackages($channel));
-        } else {
-            return $ret;
         }
+
+        return $ret;
     }
 
     // TODO: fix to support cascading
@@ -192,12 +195,12 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($this->exists($package, $channel, true)) {
             foreach ($this->registries as $reg) {
                 if ($reg instanceof PEAR2_Pyrus_Registry_Xml) {
-                	// prefer xml for retrieving packagefile object
-                	try {
-                	    return $reg->toPackageFile($package, $channel);
-                	} catch (Exception $e) {
-                	    // failed, cascade to using default registry instead
-                	}
+                    // prefer xml for retrieving packagefile object
+                    try {
+                        return $reg->toPackageFile($package, $channel);
+                    } catch (Exception $e) {
+                        // failed, cascade to using default registry instead
+                    }
                 }
             }
             return $this->registries[0]->toPackageFile($package, $channel);
