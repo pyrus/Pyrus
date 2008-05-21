@@ -49,13 +49,18 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 
     private $_xml;
 
+    /**
+     * Construct a PEAR2_Pyrus channel object
+     *
+     * @param string $data Raw channel xml
+     */
     function __construct($data)
     {
         $parser = new PEAR2_Pyrus_XMLParser;
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
         // for running out of cvs
         if (!file_exists($schema)) {
-            $schema = __DIR__ . '/../../data/channel-1.0.xsd';
+            $schema = dirname(__FILE__) . '/../../data/channel-1.0.xsd';
         }
         try {
             if (is_array($data)) {
@@ -72,6 +77,10 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
     }
 
+    /**
+     * Validate the xml against the channel schema.
+     *
+     */
     function validate()
     {
         if (!isset($this->_xml)) {
@@ -90,6 +99,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
     }
 
+    /**
+     * Returns the raw xml for the channel file.
+     *
+     * @return string
+     */
     function __toString()
     {
         if (!isset($this->_xml)) {
