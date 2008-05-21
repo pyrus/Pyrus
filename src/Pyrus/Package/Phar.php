@@ -69,7 +69,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         $this->_tmpdir = $where;
         try {
             $pxml = $phar->getMetaData();
-            $phar->extractTo($where);
+            $phar->extractTo($where, null, true);
             if (!$pxml) {
                 foreach (new RecursiveIteratorIterator($phar,
                             RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
