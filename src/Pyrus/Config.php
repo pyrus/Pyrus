@@ -393,36 +393,19 @@ class PEAR2_Pyrus_Config
     protected function locateLocalSettingsDirectory()
     {
         if (class_exists('COM', false)) {
-            // windows, grab current user My Documents folder
-            $info = new COM('winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2');
-            $users = $info->ExecQuery("Select * From Win32_ComputerSystem");
-            foreach ($users as $user) {
-                $d = explode('\\', $user->UserName);
-                $curuser = $d[1];
-            }
-
-            $registry = new COM('Wscript.Shell');
-            try {
-                $value = $registry->RegRead(
-                    'HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\' .
-                    'Explorer\\DocFolderPaths\\' . $curuser);
-            } catch (Exception $e) {
-                // Vista changed the reg entry
-                $value = $registry->RegRead(
-                    'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\' .
-                    'Explorer\\Shell Folders\\Personal');
-            }
+            $shell = new COM('Wscript.Shell');
+            $value = $shell->SpecialFolders('MyDocuments');
 
             return $value;
-        } else {
-            if (isset($_ENV['HOME'])) {
-                return $_ENV['HOME'];
-            } elseif ($e = getenv('HOME')) {
-                return $e;
-            } else {
-                return '/tmp/' . md5($_ENV['PWD']);
-            }
         }
+
+        if (isset($_ENV['HOME'])) {
+            return $_ENV['HOME'];
+        } elseif ($e = getenv('HOME')) {
+            return $e;
+        }
+
+        return '/tmp/' . md5($_ENV['PWD']);
     }
 
     /**
