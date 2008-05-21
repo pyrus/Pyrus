@@ -26,7 +26,7 @@
 class PEAR2_Pyrus_REST
 {
     protected $config;
-    var $_options;
+    protected $_options;
     function __construct($options = array())
     {
         $this->config = PEAR2_Pyrus_Config::current();
@@ -68,6 +68,7 @@ class PEAR2_Pyrus_REST
         if ($ret = $this->useLocalCache($url, $cacheId)) {
             return $ret;
         }
+
         if (!isset($this->_options['offline'])) {
             $trieddownload = true;
             try {
@@ -137,11 +138,11 @@ class PEAR2_Pyrus_REST
         if ($cacheid === null) {
             $cacheidfile = $this->config->cache_dir . DIRECTORY_SEPARATOR .
                 md5($url) . 'rest.cacheid';
-            if (file_exists($cacheidfile)) {
-                $cacheid = unserialize(implode('', file($cacheidfile)));
-            } else {
+            if (!file_exists($cacheidfile)) {
                 return false;
             }
+
+            $cacheid = unserialize(implode('', file($cacheidfile)));
         }
         $cachettl = $this->config->cache_ttl;
         // If cache is newer than $cachettl seconds, we use the cache!
@@ -158,9 +159,9 @@ class PEAR2_Pyrus_REST
         if (file_exists($cacheidfile)) {
             $ret = unserialize(implode('', file($cacheidfile)));
             return $ret;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     function getCache($url)
@@ -169,10 +170,10 @@ class PEAR2_Pyrus_REST
             md5($url) . 'rest.cachefile';
         if (file_exists($cachefile)) {
             return unserialize(implode('', file($cachefile)));
-        } else {
-            throw new PEAR2_Pyrus_REST_Exception(
-                'No cached content available for "' . $url . '"');
         }
+
+        throw new PEAR2_Pyrus_REST_Exception(
+                'No cached content available for "' . $url . '"');
     }
 
     /**
@@ -195,16 +196,17 @@ class PEAR2_Pyrus_REST
         $fp = @fopen($cacheidfile, 'wb');
         if (!$fp) {
             $cache_dir = $this->config->cache_dir;
-            if (!is_dir($cache_dir)) {
-                if (!@mkdir($cache_dir, 0755, true)) {
-                    throw new PEAR2_Pyrus_REST_Exception(
-                        'Cannot create REST cache directory ' . $cache_dir);
-                }
-                $fp = @fopen($cacheidfile, 'wb');
-                if (!$fp) {
-                    return false;
-                }
-            } else {
+            if (is_dir($cache_dir)) {
+                return false;
+            }
+
+            if (!@mkdir($cache_dir, 0755, true)) {
+                throw new PEAR2_Pyrus_REST_Exception(
+                    'Cannot create REST cache directory ' . $cache_dir);
+            }
+
+            $fp = @fopen($cacheidfile, 'wb');
+            if (!$fp) {
                 return false;
             }
         }
@@ -223,6 +225,7 @@ class PEAR2_Pyrus_REST
                 )));
         }
         fclose($fp);
+
         $fp = @fopen($cachefile, 'wb');
         if (!$fp) {
             if (file_exists($cacheidfile)) {
@@ -351,5 +354,4 @@ class PEAR2_Pyrus_REST
         }
         return $data;
     }
-}
-?>
+}s
