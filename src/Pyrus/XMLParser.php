@@ -1,28 +1,8 @@
 <?php
 /**
- * PEAR2_Pyrus_XMLParser
- *
- * PHP version 5
- *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
- * @author    Greg Beaver <cellog@php.net>
- * @copyright 2008 The PEAR Group
- * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
- */
-
-/**
  * Process an XML file, convert it to an array
- *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @package PEAR2
  * @subpackage XML
- * @author    Greg Beaver <cellog@php.net>
- * @copyright 2008 The PEAR Group
- * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_XMLParser
 {
@@ -138,16 +118,18 @@ class PEAR2_Pyrus_XMLParser
         $arr = $this->_recursiveParse();
         $this->reader->close();
         if ($schema) {
-            if (!file_exists($schema)) {
-                throw new PEAR2_Pyrus_XMLParser_Exception('Schema "' . $schema . '" ' .
-                                                          'does not exist');
-            }
             $a = new DOMDocument();
             if ($isfile) {
                 $a->load($file);
             } else {
                 $a->loadXML($file);
             }
+            /*
+             from Rob Richards talk, use
+             $a->setSchema($schema);
+             and then check $a->isValid() in the _recursiveParse() and
+             log errors - much more efficient
+            */
             libxml_use_internal_errors(true);
             libxml_clear_errors();
             $a->schemaValidate($schema);
