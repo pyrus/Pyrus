@@ -1,11 +1,12 @@
 <?php
-include '/Users/bbieber/pyrus/src/PEAR2/Autoload.php';
-$dev_directory = '/Users/bbieber/workspace/Pyrus/';
+require __DIR__ .  '/../../../sandbox/Loader/src/PEAR2/Loader/PEAR2Svn.php';
+$dev_directory = dirname(dirname(__DIR__));
+PEAR2_Pyrus_Config::singleton('/home/cellog/testpear');
 $a = new PEAR2_Pyrus_Package_Creator(array(
         //new PEAR2_Pyrus_Developer_Creator_Xml($dev_directory . 'newpyrus.xml'),
         //new PEAR2_Pyrus_Developer_Creator_Tar($dev_directory . 'newpyrus.tar'),
         //new PEAR2_Pyrus_Developer_Creator_Zip($dev_directory . 'PEAR2_Pyrus-0.1.0.zip'),
-        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive($dev_directory . 'pyrus.phar', '<?php
+        new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive($dev_directory . '/pyrus.phar', '<?php
 function __autoload($class)
 {
     include \'phar://\' . PYRUS_PHAR_FILE . \'/src/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
@@ -15,8 +16,8 @@ $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 $frontend->run($_SERVER[\'argv\']);
 '),
     ));
-$b = new PEAR2_Pyrus_Package($dev_directory . 'package.xml');
-$rp = '/Users/bbieber/PEAR2_SVN/PEAR2/HTTP_Request/trunk/src/HTTP';
+$b = new PEAR2_Pyrus_Package(__DIR__ . '/../../package.xml');
+$rp = __DIR__ . '/../../../HTTP_Request/src/HTTP';
 $a->render($b, array(
     'src/PEAR2/HTTP/Request.php' => $rp . '/Request.php',
     'src/PEAR2/HTTP/Request/Adapter.php' => $rp . '/Request/Adapter.php',
@@ -26,7 +27,7 @@ $a->render($b, array(
     'src/PEAR2/HTTP/Request/Headers.php' => $rp . '/Request/Headers.php',
     'src/PEAR2/HTTP/Request/Response.php' => $rp . '/Request/Response.php',
     'src/PEAR2/HTTP/Request/Uri.php' => $rp . '/Request/Uri.php',
-    'src/Net/URL2.php' => '/usr/local/php5/lib/php/Net/URL2.php',
+    'src/Net/URL2.php' => '/usr/local/lib/php/Net/URL2.php',
 ));
 exit;
 // this shows how it works
