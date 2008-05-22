@@ -28,6 +28,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
     private $_packagename;
     static private $_tempfiles = array();
     private $_tmpdir;
+    private $_BCpackage = false;
 
     /**
      * @param string $package path to package file
@@ -80,10 +81,12 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
                                             $file->getPathName());
                         break;
                     } elseif ($filename == 'package2.xml') {
+                        $this->_BCpackage = true;
                         $pxml = str_replace('phar://' . $phar->getPath(), '',
                                             $file->getPathName());
                         break;
                     } elseif ($filename == 'package.xml') {
+                        $this->_BCpackage = true;
                         $pxml = str_replace('phar://' . $phar->getPath(), '',
                                             $file->getPathName());
                         break;
@@ -141,7 +144,14 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
-        $extract = $this->_tmpdir . DIRECTORY_SEPARATOR . $file;
+        $extract = '';
+        if ($this->_BCpackage) {
+            // old fashioned PEAR 1.x packages put everything in Package-Version/
+            // directory
+            $extract = DIRECTORY_SEPARATOR . $this->packagefile->info->name . '-' .
+                $this->packagefile->info->version['release'];
+        }
+        $extract = $this->_tmpdir . $extract . DIRECTORY_SEPARATOR . $file;
         $extract = str_replace('\\', '/', $extract);
         $extract = str_replace('//', '/', $extract);
         $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);

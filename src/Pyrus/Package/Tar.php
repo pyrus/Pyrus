@@ -124,6 +124,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
+        $extract = '';
         if ($this->_BCpackage) {
             // old fashioned PEAR 1.x packages put everything in Package-Version/
             // directory
