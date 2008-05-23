@@ -1,4 +1,6 @@
 <?php
+// XXXTODO Rob Richards recommends moving to DOM for all the xml tree junk for obvious reasons, so be
+// forewarned as I change crap Greg
 /**
  * PEAR2_Pyrus_Channel_Base
  *
