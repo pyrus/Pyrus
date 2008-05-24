@@ -96,13 +96,13 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function validate()
     {
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
-        // for running out of cvs
+        // for running out of svn
         if (!file_exists($schema)) {
-            $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(__FILE__))) . '/data/channel-1.0.xsd';
         }
         libxml_use_internal_errors(true);
         libxml_clear_errors();
-        $a->schemaValidate();
+        $this->channelInfo->schemaValidate($schema);
         $causes = array();
         foreach (libxml_get_errors() as $error) {
             $causes[] = new PEAR2_Pyrus_Channel_Exception("Line " .
