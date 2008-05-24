@@ -33,14 +33,16 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 
     /**
      * Parsed channel information
-     * @var array
+     * @var DOMDocument
      */
-    protected $channelInfo = array(
-        'attribs' => array(
-            'version' => '1.0',
-            'xmlns' => 'http://pear.php.net/channel-1.0',
-        ),
-    );
+    protected $channelInfo = '<?xml version="1.0" encoding="UTF-8" ?>
+        <channel version="1.0" xmlns="http://pear.php.net/channel-1.0">
+         <name/>
+         <summary/>
+         <servers>
+          <primary/>
+         </servers>
+        </channel>';
 
     public $rootAttributes = array(
             'version' => '1.0',
@@ -48,30 +50,40 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         );
 
     private $_xml;
+    protected $xpath;
 
     /**
      * Construct a PEAR2_Pyrus channel object
      *
      * @param string $data Raw channel xml
      */
-    function __construct($data)
+    function __construct($data = null)
     {
-        $parser = new PEAR2_Pyrus_XMLParser;
-        $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
-        // for running out of cvs
-        if (!file_exists($schema)) {
-            $schema = dirname(__FILE__) . '/../../data/channel-1.0.xsd';
-        }
         try {
-            if (is_array($data)) {
+            if (null === $data) {
+                $a = new DOMDocument;
+                $a->loadXML($this->channelInfo);
+                $this->channelInfo = $a;
+                return;
+            } elseif ($data instanceof DOMDocument) {
                 $this->channelInfo = $data;
-                $this->validate();
             } else {
-                $this->channelInfo = $parser->parseString($data, $schema);
-                $this->channelInfo = $this->channelInfo['channel'];
+                $this->channelInfo = new DOMDocument;
+                libxml_use_internal_errors(true);
+                libxml_clear_errors();
+                $this->channelInfo->loadXML($data, LIBXML_NOCDATA|LIBXML_NOBLANKS);
+                $causes = array();
+                foreach (libxml_get_errors() as $error) {
+                    $causes[] = new PEAR2_Pyrus_Channel_Exception("Line " .
+                         $error->line . ': ' . $error->message);
+                }
+                libxml_clear_errors();
+                if (count($causes)) {
+                    throw new PEAR2_Pyrus_Channel_Exception('Invalid XML document', $causes);
+                }
             }
-            // Reset root attributes.
-            $this->channelInfo['attribs'] = $this->rootAttributes;
+            $this->validate();
+            $this->xpath = new DOMXPath($this->channelInfo);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('Invalid channel.xml', $e);
         }
@@ -83,19 +95,22 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function validate()
     {
-        if (!isset($this->_xml)) {
-            $this->__toString();
-        }
-        $a = new PEAR2_Pyrus_XMLParser;
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
         // for running out of cvs
         if (!file_exists($schema)) {
             $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
         }
-        try {
-            $a->parseString($this->_xml, $schema);
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Channel_Exception('Invalid channel.xml', $e);
+        libxml_use_internal_errors(true);
+        libxml_clear_errors();
+        $a->schemaValidate();
+        $causes = array();
+        foreach (libxml_get_errors() as $error) {
+            $causes[] = new PEAR2_Pyrus_Channel_Exception("Line " .
+                 $error->line . ': ' . $error->message);
+        }
+        libxml_clear_errors();
+        if (count($causes)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Invalid XML document', $causes);
         }
     }
 
@@ -122,10 +137,10 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getName()
     {
-        if (isset($this->channelInfo['name'])) {
-            return $this->channelInfo['name'];
+        $name = $this->xpath->query('//channel/name/text()');
+        if ($name->item(0)) {
+            return trim($name->item(0)->nodeValue);
         }
-
         return false;
     }
 
@@ -134,11 +149,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getServer()
     {
-        if (isset($this->channelInfo['name'])) {
-            return $this->channelInfo['name'];
-        }
-
-        return false;
+        return $this->getName();
     }
 
     /**
@@ -146,11 +157,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getSummary()
     {
-        if (isset($this->channelInfo['summary'])) {
-            return $this->channelInfo['summary'];
-        }
-
-        return false;
+        $name = $this->xpath->query('//channel/summary/text()');
+        if (!$name->length) return false;
+        return trim($name->item(0)->nodeValue);
     }
 
     /**
@@ -158,8 +167,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getPort()
     {
-        if (isset($this->channelInfo['servers']['primary']['attribs']['port'])) {
-            return $this->channelInfo['servers']['primary']['attribs']['port'];
+        $name = $this->xpath->query('//channel/servers/primary/@port');
+        if ($name->length) {
+            return trim($name->item(0)->nodeValue);
         }
 
         if ($this->getSSL()) {
@@ -174,7 +184,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getSSL()
     {
-        if (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
+        $name = $this->xpath->query('//channel/servers/primary[@ssl="yes"]');
+        if ($name->length) {
             return true;
         }
 
@@ -186,19 +197,20 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getPath($protocol)
     {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+        if (!in_array($protocol, array('xmlrpc', 'soap'), true)) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $protocol);
         }
-        if (isset($this->channelInfo['servers']['primary'][$protocol]['attribs']['path'])) {
-            return $this->channelInfo['servers']['primary'][$protocol]['attribs']['path'];
+        $name = $this->xpath->query('//channel/servers/primary/' . $protocol . '/@path');
+        if ($name->length) {
+            return trim($name->item(0)->nodeValue);
         }
         return $protocol . '.php';
     }
 
     /**
      * @param string protocol type (xmlrpc, soap)
-     * @return array|false
+     * @return DOMNodeList|false
      */
     function getFunctions($protocol)
     {
@@ -209,8 +221,22 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if ($this->getName() == '__uri') {
             return false;
         }
-        if (isset($this->channelInfo['servers']['primary'][$protocol]['function'])) {
-            return $this->channelInfo['servers']['primary'][$protocol]['function'];
+        if (!in_array($protocol, array('xmlrpc', 'soap'), true)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        $name = $this->xpath->query('//channel/servers/primary/' . $protocol . '/@path');
+        if ($name->length) {
+            return trim($name->item(0)->nodeValue);
+        }
+        return $protocol . '.php';
+        if (!in_array($protocol, array('xmlrpc', 'soap'), true)) {
+            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+        $name = $this->xpath->query('//channel/servers/primary/' . $protocol . '/function');
+        if ($name->length) {
+            return $name;
         }
 
         return false;
@@ -229,23 +255,12 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             return false;
         }
 
-        foreach ($protocols as $protocol) {
-            if ($protocol['attribs']['version'] != $version) {
-                continue;
-            }
-
-            if ($name === null) {
-                return true;
-            }
-
-            if ($protocol['_content'] != $name) {
-                continue;
-            }
-
-            return true;
+        $node = $this->xpath->query('//function[@version="' . $version . '" and text()="' .
+                             $name . '"]', $protocols);
+        if ($node->length) {
+            return false;
         }
-
-        return false;
+        return true;
     }
 
     /**
@@ -255,16 +270,16 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function supportsREST()
     {
-        return isset($this->channelInfo['servers']['primary']['rest']);
+        return (bool) $this->xpath->query('//channel/servers/primary/rest')->length;
     }
 
     function getREST()
     {
-        if (isset($this->channelInfo['servers']['primary']['rest'])) {
-            return $this->channelInfo['servers']['primary']['rest'];
+        $ret = $this->xpath->query('//channel/servers/primary/rest');
+        if (!$ret->length) {
+            return false;
         }
-
-        return false;
+        return $ret;
     }
 
     /**
@@ -277,14 +292,12 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function getBaseURL($resourceType)
     {
         $rest = $this->getREST();
-        if (!isset($rest['baseurl'][0])) {
-            $rest['baseurl'] = array($rest['baseurl']);
-        }
 
-        foreach ($rest['baseurl'] as $baseurl) {
-            if (strtolower($baseurl['attribs']['type']) == strtolower($resourceType)) {
-                return $baseurl['_content'];
-            }
+        if (!$rest) return false;
+
+        $ret = $this->xpath->query('//baseurl[@type="' . $resourceType . '"]');
+        if ($ret->length) {
+            return trim($ret->item(0)->nodeValue);
         }
 
         return false;
@@ -294,19 +307,12 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         switch ($value) {
             case 'mirrors' :
-                if (!isset($this->channelInfo['servers']['mirror'][0])) {
-                    return array(
-                      $this->channelInfo['name'] =>
-                      new PEAR2_Pyrus_Channel_Mirror(
-                          $this->channelInfo['servers']['mirror'], $this));
-                }
-                $ret = array($this->channelInfo['name'] =>
-                      new PEAR2_Pyrus_Channel_Mirror(
-                          $this->channelInfo['servers']['mirror'], $this));
-
-                foreach ($this->channelInfo['servers']['mirror'] as $i => $mir) {
-                    $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
-                          $this->channelInfo['servers']['mirror'][$i], $this);
+                if ($mirrors = $this->xpath->query('//channel/servers/mirror')) {
+                    $ret = array();
+                    foreach($mirrors as $node) {
+                        $ret[$node->getAttribute('host')] = new PEAR2_Pyrus_Channel_Mirror(
+                            $node, $this);
+                    }
                 }
                 return $ret;
         }
@@ -329,8 +335,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function resetXmlrpc()
     {
-        if (isset($this->channelInfo['servers']['primary']['xmlrpc'])) {
-            unset($this->channelInfo['servers']['primary']['xmlrpc']);
+        $ret = $this->xpath->query('//channel/servers/primary/xmlrpc');
+        if ($ret) {
+            foreach ($ret as $node) {
+                $this->channelInfo->removeChild($node);
+            }
         }
     }
 
@@ -339,8 +348,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function resetSOAP()
     {
-        if (isset($this->channelInfo['servers']['primary']['soap'])) {
-            unset($this->channelInfo['servers']['primary']['soap']);
+        $ret = $this->xpath->query('//channel/servers/primary/soap');
+        if ($ret) {
+            foreach ($ret as $node) {
+                $this->channelInfo->removeChild($node);
+            }
         }
     }
 
@@ -349,8 +361,34 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function resetREST()
     {
-        if (isset($this->channelInfo['servers']['primary']['rest'])) {
-            unset($this->channelInfo['servers']['primary']['rest']);
+        $ret = $this->xpath->query('//channel/servers/primary/rest');
+        if ($ret) {
+            foreach ($ret as $node) {
+                $this->channelInfo->removeChild($node);
+            }
+        }
+    }
+
+    private function _setNode($tag, $value, $after = null)
+    {
+        $node = $this->channelInfo->createElement($tag, $value);
+
+        if ($list = $this->xpath->query('//channel/' . $tag)) {
+            $list->item(0)->nodeValue = $value;
+            return;
+        }
+
+        $node = $this->channelInfo->createElement($tag, $value);
+        if ($after && $next = $this->xpath->query('//channel/' . $after)) {
+            $this->channelInfo->insertBefore($node, $next);
+            return;
+        }
+
+        // no tags exist
+        if ($this->channelInfo->firstChild) {
+            $this->channelInfo->insertBefore($node, $this->channelInfo->firstChild);
+        } else {
+            $this->channelInfo->appendChild($node);
         }
     }
 
@@ -369,7 +407,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $name .
                 '" is not a valid channel server');
         }
-        $this->channelInfo['name'] = $name;
+        $this->_setNode('name', $name);
     }
 
     /**
@@ -393,7 +431,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function setPort($port)
     {
-        $this->channelInfo['servers']['primary']['attribs']['port'] = $port;
+        $sxml = simplexml_import_dom($this->channelInfo);
+        $sxml->channel->servers->primary->addAttribute('port', $port);
     }
 
     /**
@@ -402,10 +441,13 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function setSSL($ssl = true)
     {
+        $sxml = simplexml_import_dom($this->channelInfo);
         if ($ssl) {
-            $this->channelInfo['servers']['primary']['attribs']['ssl'] = 'yes';
-        } elseif (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
-            unset($this->channelInfo['servers']['primary']['attribs']['ssl']);
+            $sxml->channel->servers->primary->addAttribute('ssl', 'yes');
+        } else {
+            if (isset($sxml->channel->servers->primary['ssl'])) {
+                unset($sxml->channel->servers->primary['ssl']);
+            }
         }
     }
 
@@ -419,7 +461,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (!in_array($protocol, array('xmlrpc', 'soap'))) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' . $protocol);
         }
-        $this->channelInfo['servers']['primary'][$protocol]['attribs']['path'] = $path;
+        $sxml = simplexml_import_dom($this->channelInfo);
+        $sxml->channel->servers->primary->$protocol->addAttribute('path', $path);
     }
 
     /**
@@ -437,7 +480,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             $this->_validateWarning(PEAR_CHANNELFILE_ERROR_MULTILINE_SUMMARY,
                 array('summary' => $summary));
         }
-        $this->channelInfo['summary'] = $summary;
+        $this->_setNode('summary', $summary, 'suggestedalias');
         return true;
     }
 
@@ -453,7 +496,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
 
         $a = $local ? 'localalias' : 'suggestedalias';
-        $this->channelInfo[$a] = $alias;
+        $sxml = simplexml_import_dom($this->channelInfo);
+        $sxml->channel->servers->primary->addAttribute('port', $port);
         return true;
     }
 
@@ -462,14 +506,15 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getAlias()
     {
-        if (isset($this->channelInfo['localalias'])) {
-            return $this->channelInfo['localalias'];
+        $sxml = simplexml_import_dom($this->channelInfo);
+        if (isset($sxml->channel->localalias)) {
+            return (string) $sxml->channel->localalias;
         }
-        if (isset($this->channelInfo['suggestedalias'])) {
-            return $this->channelInfo['suggestedalias'];
+        if (isset($sxml->channel->suggestedalias)) {
+            return (string) $sxml->channel->suggestedalias;
         }
-        if (isset($this->channelInfo['name'])) {
-            return $this->channelInfo['name'];
+        if (isset($sxml->channel->name)) {
+            return (string) $sxml->channel->name;
         }
         return '';
     }
@@ -483,11 +528,18 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function setValidationPackage($validateclass, $version)
     {
+        $vc = $this->xpath($this->channelInfo, '//channel/validatepackage');
+
         if (empty($validateclass)) {
-            unset($this->channelInfo['validatepackage']);
+            if (!$vc) return;
+            $this->channelInfo->removeChild($vc);
+            return;
         }
-        $this->channelInfo['validatepackage'] = array('_content' => $validateclass);
-        $this->channelInfo['validatepackage']['attribs'] = array('version' => $version);
+        $this->channelInfo->removeChild($vc);
+        $vc = $this->channelInfo->createElement('validatepackage', $validateclass);
+        $ver = $this->channelInfo->createAttribute('version');
+        $ver->nodeValue = $version;
+        $vc->appendChild($ver);
     }
 
     /**
@@ -503,20 +555,25 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $type);
         }
-        $set = array('attribs' => array('version' => $version), '_content' => $name);
-        if (!isset($this->channelInfo['servers']['primary'][$type]['function'])) {
-            if (!isset($this->channelInfo['servers'])) {
-                $this->channelInfo['servers'] = array('primary' =>
-                    array($type => array()));
-            } elseif (!isset($this->channelInfo['servers']['primary'])) {
-                $this->channelInfo['servers']['primary'] = array($type => array());
-            }
-            $this->channelInfo['servers']['primary'][$type]['function'] = $set;
-        } elseif (!isset($this->channelInfo['servers']['primary'][$type]['function'][0])) {
-            $this->channelInfo['servers']['primary'][$type]['function'] = array(
-                $this->channelInfo['servers']['primary'][$type]['function']);
+        $func = $this->xpath->query('//channel/servers/primary/' . $type .
+                                    '/function[@version="' . $version .
+                                    '" and text()="' . $name . '"]');
+        if ($func->length) {
+            return;
         }
-        $this->channelInfo['servers']['primary'][$type]['function'][] = $set;
+        $thing = $this->xpath->query('//channel/servers/primary/' . $type);
+        if (!$thing->length) {
+            $thing = $this->xpath->query('//channel/servers/primary');
+            $proto = $this->channelInfo->createElement($type, '');
+            $thing->item(0)->appendChild($proto);
+            $thing = $proto;
+        } else {
+            $thing = $thing->item(0);
+        }
+
+        $set = $this->channelInfo->createElement('function', $name);
+        $set->appendChild($this->channelInfo->createAttribute('version', $version));
+        $thing->appendChild($set);
     }
 
     /**
@@ -525,23 +582,25 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function setBaseURL($resourceType, $url)
     {
-        $set = array('attribs' => array('type' => $resourceType), '_content' => $url);
-        if (!isset($this->channelInfo['servers']['primary']['rest'])) {
-            $this->channelInfo['servers']['primary']['rest'] = array();
-        }
-        if (!isset($this->channelInfo['servers']['primary']['rest']['baseurl'])) {
-            $this->channelInfo['servers']['primary']['rest']['baseurl'] = $set;
+        $func = $this->xpath->query('//channel/servers/primary/rest' .
+                                    '/baseurl[@type="' . $resourceType .
+                                    '" and text()="' . $url . '"]');
+        if ($func->length) {
             return;
-        } elseif (!isset($this->channelInfo['servers']['primary']['rest']['baseurl'][0])) {
-            $this->channelInfo['servers']['primary']['rest']['baseurl'] = array($this->channelInfo['servers']['primary']['rest']['baseurl']);
         }
-        foreach ($this->channelInfo['servers']['primary']['rest']['baseurl'] as $i => $url) {
-            if ($url['attribs']['type'] == $resourceType) {
-                $this->channelInfo['servers']['primary']['rest']['baseurl'][$i] = $set;
-                return;
-            }
+        $thing = $this->xpath->query('//channel/servers/primary/rest');
+        if (!$thing->length) {
+            $thing = $this->xpath->query('//channel/servers/primary');
+            $proto = $this->channelInfo->createElement('rest', '');
+            $thing->item(0)->appendChild($proto);
+            $thing = $proto;
+        } else {
+            $thing = $thing->item(0);
         }
-        $this->channelInfo['servers']['primary']['rest']['baseurl'][] = $set;
+
+        $set = $this->channelInfo->createElement('baseurl', $name);
+        $set->appendChild($this->channelInfo->createAttribute('type', $version));
+        $thing->appendChild($set);
     }
 
     /**
@@ -584,16 +643,23 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             return false;
         }
 
-        if (!isset($this->channelInfo['validatepackage'])) {
+        $name = $this->xpath->query('//channel/validatepackage');
+        if (!$name->length) {
             return array('attribs' => array('version' => 'default'),
                 '_content' => 'PEAR2_Pyrus_Validate');
         }
 
-        return $this->channelInfo['validatepackage'];
+        $ret = array('attribs' =>
+                     array('version' => $name->item(0)->getAttribute('version')),
+                     '_content' => $this->xpath->query('//channel/validatepackage/text()')
+                     ->item(0)->nodeValue);
+
+        return $ret;
     }
 
     function getArray()
     {
+        // TODO: make this return XML_Unserializer format
         return $this->_channelInfo;
     }
 
@@ -610,24 +676,23 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
             return false;
         }
 
-        if (isset($this->channelInfo['validatepackage'])) {
-            if ($package == $this->channelInfo['validatepackage']) {
-                // channel validation packages are always validated by PEAR_Validate
-                $val = new PEAR2_Pyrus_Validate;
-                return $val;
-            }
-
-            if (!class_exists(str_replace('.', '_',
-                  $this->channelInfo['validatepackage']['_content']), true)) {
-                return false;
-            }
-
-            $vclass = str_replace('.', '_',
-                $this->channelInfo['validatepackage']['_content']);
-            $val = new $vclass;
-        } else {
+        $vp = $this->getValidationPackage();
+        if ($package == $this->channelInfo['validatepackage']) {
+            // channel validation packages are always validated by PEAR_Validate
             $val = new PEAR2_Pyrus_Validate;
+            return $val;
         }
+
+        if (!class_exists(str_replace('.', '_',
+              $vp['_content']), true)) {
+            return false;
+        }
+
+        $vclass = str_replace('.', '_', $vp['_content']);
+        if (!class_exists($vclass, true)) {
+            $vclass = str_replace('.', '::', $vp['_content']);
+        }
+        $val = new $vclass;
 
         return $val;
     }
@@ -639,8 +704,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function lastModified()
     {
-        if (isset($this->channelInfo['_lastmodified'])) {
-            return $this->channelInfo['_lastmodified'];
+        if ($x = $this->xpath->query('//channel/_lastmodified')) {
+            return $x->item(0)->nodeValue;
         }
 
         return time();
