@@ -143,7 +143,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
                 ' could not be added to the registry');
         }
-        if (!self::$databases[$this->_path]->queryExec('
+        if (!@self::$databases[$this->_path]->queryExec('
             INSERT INTO channel_servers
             (channel, server, ssl, port, xmlrpcpath, soappath)
             VALUES(
@@ -188,7 +188,6 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         $mirrors = $channel->mirrors;
         if (count($mirrors)) {
             foreach ($mirrors as $mirror) {
-                $servers[] = $mirror->getName();
                 if (!@self::$databases[$this->_path]->queryExec('
                     INSERT INTO channel_servers
                     (channel, server, ssl, port, xmlrpcpath, soappath)
