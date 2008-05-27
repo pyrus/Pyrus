@@ -84,8 +84,6 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
     {
         $this->path = $path;
         $this->readonly = $readonly;
-        $this->channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
-            $registries, $readonly);
         $exceptions = array();
         foreach ($registries as $registry) {
             try {
@@ -106,6 +104,8 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
+        $this->channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
+            $registries, $readonly);
     }
 
     public function install(PEAR2_Pyrus_PackageFile_v2 $info)
