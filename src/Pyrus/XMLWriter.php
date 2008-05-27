@@ -16,13 +16,13 @@
 /**
  * Process an array, and serialize it into XML
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category   PEAR2
+ * @package    PEAR2_Pyrus
  * @subpackage XML
- * @author    Greg Beaver <cellog@php.net>
- * @copyright 2008 The PEAR Group
- * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @author     Greg Beaver <cellog@php.net>
+ * @copyright  2008 The PEAR Group
+ * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link       http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 class PEAR2_Pyrus_XMLWriter
 {
@@ -39,16 +39,31 @@ class PEAR2_Pyrus_XMLWriter
     private $_expectedDepth;
     private $_type;
     private $_lastkey;
+    
+    /**
+     * Construct a new xml writer object.
+     * <code>
+     * $xmlarray = array('channel'=>array('name'=>'pear2.php.net'));
+     * $channel = new PEAR2_Pyrus_XMLWriter($xmlarray);
+     * </code>
+     * 
+     * @param array $array Array representing the XML data.
+     */
     function __construct(array $array)
     {
         if (count($array) != 1) {
             throw new PEAR2_Pyrus_XMLWriter_Exception('Cannot serialize array to' .
                 'XML, array must have exactly 1 element');
         }
-        $this->_array = $array;
+        $this->_array  = $array;
         $this->_writer = new XMLWriter;
     }
 
+    /**
+     * Return the raw xml string representation.
+     * 
+     * @return string
+     */
     function __toString()
     {
         $this->_writer->openMemory();
@@ -70,6 +85,7 @@ class PEAR2_Pyrus_XMLWriter
     private function _popState()
     {
         $save = $this->_namespaces;
+        
         list($this->_type, $this->_tag, $this->_expectedDepth, $this->_namespaces) =
             array_pop($this->_state);
         foreach ($save as $ns) {
@@ -84,14 +100,14 @@ class PEAR2_Pyrus_XMLWriter
     private function _finish($key, $values)
     {
         switch ($this->_type) {
-            case 'Attribs' :
+        case 'Attribs' :
                 $this->_popState();
                 return false;
-            case 'Tag' :
+        case 'Tag' :
                 $this->_popState();
                 $this->_writer->endElement();
                 return false;
-            case 'Sibling' :
+        case 'Sibling' :
                 $this->_popState();
                 return false;
         }
@@ -127,10 +143,16 @@ class PEAR2_Pyrus_XMLWriter
         }
     }
 
+    /**
+     * Handle an individual tag/element in the XML
+     * 
+     * @param mixed $key    The key for this element.
+     * @param mixed $values The contents of this tag/element.
+     */
     private function _handleTag($key, $values)
     {
         if (is_int($key)) {
-            $this->_type = 'Sibling';
+            $this->_type          = 'Sibling';
             $this->_expectedDepth = $this->_iter->getDepth();
             $this->_pushState();
             // handle sibling tags
@@ -162,7 +184,7 @@ class PEAR2_Pyrus_XMLWriter
             }
         }
         if (!is_string($values)) {
-            $this->_type = 'Tag';
+            $this->_type          = 'Tag';
             $this->_expectedDepth = $this->_iter->getDepth() + 1;
             // handle internal tags
         }
@@ -195,6 +217,8 @@ class PEAR2_Pyrus_XMLWriter
 
     /**
      * @access private
+     * 
+     * @return bool
      */
     public static function _filter($a)
     {
@@ -204,20 +228,27 @@ class PEAR2_Pyrus_XMLWriter
         return true;
     }
 
+    /**
+     * Utilize custom serialization for XMLWriter object, to convert object
+     * to SQL.
+     * 
+     * @return string
+     */
     private function _serialize()
     {
-        $this->_namespaces = array();
-        $this->_tagStack = array();
         $this->_writer->setIndent(true);
         $this->_writer->setIndentString(' ');
         $this->_writer->startDocument('1.0', 'UTF-8');
-        $this->_state = array();
-        $this->_type = 'Tag';
+        $this->_namespaces    = array();
+        $this->_tagStack      = array();
+        $this->_state         = array();
+        $this->_type          = 'Tag';
         $this->_expectedDepth = 0;
-        $this->_lastkey = array();
-        $lastdepth = 0;
-        foreach ($this->_iter = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->_array),
-                     RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
+        $this->_lastkey       = array();
+        $lastdepth            = 0;
+        foreach ($this->_iter = new RecursiveIteratorIterator(
+                        new RecursiveArrayIterator($this->_array),
+                        RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
             $depth = $this->_iter->getDepth();
             while ($depth < $this->_expectedDepth) {
                 // finished with this tag
@@ -248,7 +279,7 @@ class PEAR2_Pyrus_XMLWriter
                     // attributes are 1 depth higher
                     $this->_pushState();
                     $this->_expectedDepth = $this->_iter->getDepth() + 1;
-                    $this->_type = 'Attribs';
+                    $this->_type          = 'Attribs';
                     // cycle to first attribute
                     continue;
                 }
