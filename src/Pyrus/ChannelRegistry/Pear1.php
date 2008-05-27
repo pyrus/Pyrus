@@ -154,13 +154,13 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
         }
     }
 
-    public function get($channel)
+    public function get($channel, $strict = true)
     {
-        if (!$this->exists($channel)) {
+        if (!$this->exists($channel, $strict)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Channel ' . $channel .
                 ' does not exist');
         }
-        $cont = file_get_contents($this->_channelFileName($channel, true));
+        $cont = file_get_contents($this->_channelFileName($channel, $strict));
         $a = @unserialize($cont);
         if (!$a || !is_array($a)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Channel ' . $channel .

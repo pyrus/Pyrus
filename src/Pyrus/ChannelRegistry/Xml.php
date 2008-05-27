@@ -129,9 +129,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         @unlink($this->getAliasFile($channel->getAlias()));
     }
 
-    function get($channel)
+    function get($channel, $strict = true)
     {
-        if ($this->exists($channel)) {
+        if ($this->exists($channel, $strict)) {
             $data = @file_get_contents($this->getChannelFile($channel));
             return new PEAR2_Pyrus_ChannelRegistry_Channel_Xml($this, $data);
         } else {

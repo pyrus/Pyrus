@@ -104,10 +104,10 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         }
     }
 
-    public function get($channel)
+    public function get($channel, $strict = true)
     {
         try {
-            return $this->_registries[0]->get($channel);
+            return $this->_registries[0]->get($channel, $strict);
         } catch (Exception $e) {
             // don't fail on the default channels, these should always exist
             switch ($channel) {

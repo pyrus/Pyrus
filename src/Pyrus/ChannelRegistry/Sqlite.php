@@ -243,12 +243,12 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         return $this->add($channel, true);
     }
 
-    function get($channel)
+    function get($channel, $strict = true)
     {
         if (!isset(self::$databases[$this->_path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite channel registry for ' . $this->_path);
         }
-        if ($this->exists($channel)) {
+        if ($this->exists($channel, $strict)) {
             return new PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite(self::$databases[$this->_path], $channel);
         } else {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);

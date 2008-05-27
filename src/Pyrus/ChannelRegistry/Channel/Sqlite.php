@@ -47,6 +47,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Channel ' .
                     $this->channelname . ' does not exist');
             }
+            $this->channelname = $channel;
         }
     }
 
@@ -139,13 +140,13 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
  	    $r = $this->database->singleQuery('SELECT validatepackage ' .
  	          'FROM channels WHERE ' .
  	          'channel=\'' . sqlite_escape_string($this->channelname) . '\'');
-        if ($r == 'PEAR_Validate' || $r == 'PEAR_Validate_PECL') {
-            return array('attribs' => array('version' => '1.0'), '_content' => str_replace('PEAR_', 'PEAR2_Pyrus_', $r));
-        }
-        $v = $this->database->singleQuery('SELECT validatepackageversion ' .
+            if ($r == 'PEAR_Validate' || $r == 'PEAR_Validate_PECL') {
+                return array('attribs' => array('version' => '1.0'), '_content' => str_replace('PEAR_', 'PEAR2_Pyrus_', $r));
+            }
+            $v = $this->database->singleQuery('SELECT validatepackageversion ' .
  	          'FROM channels WHERE ' .
  	          'channel=\'' . sqlite_escape_string($this->channelname) . '\'');
-        return array('attribs' => array('version' => $v), '_content' => $r);
+            return array('attribs' => array('version' => $v), '_content' => $r);
  	}
 
     public function getREST()

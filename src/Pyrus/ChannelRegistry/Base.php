@@ -149,7 +149,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                 '" in "' . $saveparam . '"', 'channel');
         }
         try {
-            $chan = $this->get($param['channel']);
+            $chan = $this->get($param['channel'], false);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_ChannelRegistry_ParseException("Exception: corrupt registry, could not " .
                 "retrieve channel " . $param['channel'] . " information", 'other', $e);
