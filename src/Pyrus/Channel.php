@@ -58,7 +58,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         $parser = new PEAR2_Pyrus_XMLParser;
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
-        // for running out of cvs
+        // for running out of svn
         if (!file_exists($schema)) {
             $schema = dirname(__FILE__) . '/../../data/channel-1.0.xsd';
         }
@@ -90,10 +90,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
         // for running out of cvs
         if (!file_exists($schema)) {
-            $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
+            $schema = dirname(__FILE__) . '/../../data/channel-1.0.xsd';
         }
         try {
             $a->parseString($this->_xml, $schema);
+            return true;
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('Invalid channel.xml', $e);
         }
@@ -202,13 +203,14 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getFunctions($protocol)
     {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
+        if (!in_array($protocol, array('rest', 'xmlrpc', 'soap'), true)) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $protocol);
         }
         if ($this->getName() == '__uri') {
             return false;
         }
+        if ($protocol == 'rest') return $this->getREST();
         if (isset($this->channelInfo['servers']['primary'][$protocol]['function'])) {
             return $this->channelInfo['servers']['primary'][$protocol]['function'];
         }
@@ -294,15 +296,16 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         switch ($value) {
             case 'mirrors' :
+                if (!isset($this->channelInfo['servers']['mirror'])) {
+                    return array();
+                }
                 if (!isset($this->channelInfo['servers']['mirror'][0])) {
                     return array(
-                      $this->channelInfo['name'] =>
+                      $this->channelInfo['servers']['mirror']['attribs']['host'] =>
                       new PEAR2_Pyrus_Channel_Mirror(
                           $this->channelInfo['servers']['mirror'], $this));
                 }
-                $ret = array($this->channelInfo['name'] =>
-                      new PEAR2_Pyrus_Channel_Mirror(
-                          $this->channelInfo['servers']['mirror'], $this));
+                $ret = array();
 
                 foreach ($this->channelInfo['servers']['mirror'] as $i => $mir) {
                     $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
@@ -580,7 +583,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getValidationPackage()
     {
-        if (!$this->_isValid && !$this->validate()) {
+        if (!$this->validate()) {
             return false;
         }
 
@@ -606,7 +609,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function getValidationObject($package = false)
     {
-        if (!$this->_isValid && !$this->validate()) {
+        if (!$this->validate()) {
             return false;
         }
 
