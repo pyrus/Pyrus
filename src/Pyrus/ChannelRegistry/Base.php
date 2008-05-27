@@ -386,6 +386,7 @@ http://pear.php.net/dtd/channel-1.0.xsd">
         $pear = $this->getPearChannel();
         $pear2 = clone $pear;
         $pear2->name = 'pear2.php.net';
+        $pear2->alias = 'pear2';
         $pear2->summary = 'PEAR2 packages for the Pyrus installer';
         $pecl = $this->getPeclChannel();
         $__uri = $this->getUriChannel();
