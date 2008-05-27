@@ -29,7 +29,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
     protected $packageList = array();
     function offsetExists($offset)
     {
-        $info = PEAR2_Pyrus_ChannelRegistry::parsePackageName($offset);
+        $info = PEAR2_Pyrus_Config::parsePackageName($offset);
         if (is_string($info)) {
             return false;
         }
@@ -38,7 +38,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
 
     function offsetGet($offset)
     {
-        $info = PEAR2_Pyrus_ChannelRegistry::parsePackageName($offset, true);
+        $info = PEAR2_Pyrus_Config::parsePackageName($offset, true);
         $this->packagename = $offset;
         $ret = clone $this;
         unset($this->packagename);
@@ -63,7 +63,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall packages, registry is read-only');
         }
-        $info = PEAR2_Pyrus_ChannelRegistry::parsePackageName($offset);
+        $info = PEAR2_Pyrus_Config::parsePackageName($offset);
         if (is_string($info)) {
             return;
         }
@@ -76,7 +76,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
             throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
             ' from unknown package');
         }
-        $info = $this->parsePackageName($this->_packagename);
+        $info = PEAR2_Pyrus_Config::parsePackageName($this->_packagename);
         return $this->info($info['package'], $info['channel'], $var);
     }
 

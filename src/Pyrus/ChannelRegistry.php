@@ -32,7 +32,6 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      * @var string
      */
     static public $className = 'PEAR2_Pyrus_ChannelRegistry';
-    static private $_allRegistries = array();
     /**
      * The parent registry
      *
@@ -150,12 +149,34 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
 
     public function parseName($name)
     {
-        return $this->_registries[0]->parseName($name);
+        foreach ($this->_registries as $reg) {
+            try {
+                return $reg->parseName($name);
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+        if ($this->parent) {
+            return $this->parent->parseName($name);
+        }
+        // recycle last exception
+        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unable to process package name', $e);
     }
 
     public function parsedNameToString($name)
     {
-        return $this->_registries[0]->parsedNameToString($name);
+        foreach ($this->_registries as $reg) {
+            try {
+                return $reg->parsedNameToString($name);
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+        if ($this->parent) {
+            return $this->parent->parsedNameToString($name);
+        }
+        // recycle last exception
+        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unable to convert to package name string', $e);
     }
 
     public function listChannels()
@@ -196,53 +217,6 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     public function __call($method, $args)
     {
         return call_user_func_array(array($this->_registries[0], $method), $args);
-    }
-
-    /**
-     * Parse a string to determine which package file is requested
-     *
-     * This differentiates between the three kinds of packages:
-     *
-     *  - local files
-     *  - remote static URLs
-     *  - dynamic abstract package names
-     * @param string $pname
-     * @return string|array A string is returned if this is a file, otherwise an array
-     *                      containing information is returned
-     */
-    static public function parsePackageName($pname, $assumeabstract = false)
-    {
-        if (!$assumeabstract && @file_exists($pname) && @is_file($pname)) {
-            return $pname;
-        }
-        if (!count(self::$_allRegistries)) {
-            $registry = new PEAR2_Pyrus_ChannelRegistry_Sqlite(false);
-        } else {
-            foreach (self::$_allRegistries as $registry) {
-                try {
-                    return $registry->parseName($pname);
-                } catch (Exception $e) {
-                    // next
-                }
-            }
-        }
-        return $registry->parseName($pname);
-    }
-
-    static public function parsedPackageNameToString($name)
-    {
-        if (!count(self::$_allRegistries)) {
-            $registry = new PEAR2_Pyrus_ChannelRegistry_Sqlite(false);
-        } else {
-            foreach (self::$_allRegistries as $registry) {
-                try {
-                    return $registry->parsedNameToString($name);
-                } catch (Exception $e) {
-                    // next
-                }
-            }
-        }
-        return $registry->parsedNameToString($name);
     }
 
     public function getIterator()

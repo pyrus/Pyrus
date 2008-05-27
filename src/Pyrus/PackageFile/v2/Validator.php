@@ -146,7 +146,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                 if (isset($role['uri'])) {
                                     $package = $role['uri'];
                                 } else {
-                                    $package = PEAR2_Pyrus_ChannelRegistry::
+                                    $package = PEAR2_Pyrus_Config::
                                         parsedPackageNameToString(array('package' =>
                                             $role['package'], 'channel' => $role['channel']),
                                             true);
@@ -192,7 +192,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                                         if (isset($role['uri'])) {
                                             $package = $role['uri'];
                                         } else {
-                                            $package = PEAR2_Pyrus_ChannelRegistry::
+                                            $package = PEAR2_Pyrus_Config::
                                                 parsedPackageNameToString(array('package' =>
                                                     $role['package'], 'channel' => $role['channel']),
                                                     true);

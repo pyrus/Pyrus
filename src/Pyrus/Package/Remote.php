@@ -137,8 +137,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     private function _fromString($param)
     {
         try {
-            $pname = PEAR2_Pyrus_Config::current()->channelregistry->parsePackageName($param,
-                true);
+            $pname = PEAR2_Pyrus_Config::parsePackageName($param, true);
         } catch (Exception $e) {
             if ($e->why !== 'channel') {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot process remote package', $e);
@@ -147,13 +146,12 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                 if (PEAR2_Pyrus_Config::current()->auto_discover) {
                     try {
                         $pname =
-                        PEAR2_Pyrus_Config::current()->
-                            channelregistry->parsePackageName($param,
+                        PEAR2_Pyrus_Config::parsePackageName($param,
                                 PEAR2_Pyrus_Config::current()->default_channel);
                     } catch (Exception $e) {
                         if (is_array($param)) {
                             $param =
-                              PEAR2_Pyrus_ChannelRegistry::parsedPackageNameToString($param);
+                              PEAR2_Pyrus_Config::parsedPackageNameToString($param);
                         }
                         throw new PEAR2_Pyrus_Package_Exception(
                             'invalid package name/package file "' . $param . '"', $e);
@@ -270,8 +268,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
               !isset($parr['group'])) {
             if (version_compare($version, $url['version'], '>=')) {
                 throw new PEAR2_Pyrus_Package_InstalledException(
-                    PEAR2_Pyrus_Config::current()->channelregistry
-                    ->parsedPackageNameToString($parr, true) .
+                    PEAR2_Pyrus_Config::parsedPackageNameToString($parr, true) .
                     ' is already installed and is newer than detected ' .
                     'release version ' . $url['version']);
             }
@@ -299,8 +296,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                 $saveparam = '';
             }
             throw new PEAR2_Pyrus_Package_Exception('No releases for package "' .
-                PEAR2_Pyrus_Config::current()->channelregistry
-                    ->parsedPackageNameToString($pname, true) . '" exist' . $saveparam);
+                PEAR2_Pyrus_Config::parsedPackageNameToString($pname, true) . '" exist' . $saveparam);
         }
         if (strtolower($info['info']->channel) != strtolower($pname['channel'])) {
             // downloaded package information claims it is from a different channel
@@ -332,7 +328,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     ', latest release is version ' . $info['php']['v'] .
                     ', but it requires PHP version "' .
                     $info['php']['m'] . '", use "' .
-                    $this->_registry->parsedPackageNameToString(
+                    PEAR2_Pyrus_Config::parsedPackageNameToString(
                         array('channel' => $pname['channel'], 'package' => $pname['package'],
                         'version' => $info['php']['v'])) . '" to install');
             }
@@ -405,8 +401,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                 'WARNING: "' .
                 $pname['info']->channel . '/' . $pname['package'] . '-' .
                 '" is deprecated in favor of "' .
-                    PEAR2_Pyrus_Config::current()->channelregistry
-                    ->parsedPackageNameToString($pname['deprecated'], true) .
+                    PEAR2_Pyrus_Config::parsedPackageNameToString($pname['deprecated'], true) .
                 '"');
         }
     }

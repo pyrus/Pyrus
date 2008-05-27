@@ -167,7 +167,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
                     }
                 }
             }
-            $info = PEAR2_Pyrus_ChannelRegistry::parsePackageName($package);
+            $info = PEAR2_Pyrus_Config::parsePackageName($package);
             return 'PEAR2_Pyrus_Package_Remote';
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Package_Exception('package "' . $package . '" is unknown', $e);

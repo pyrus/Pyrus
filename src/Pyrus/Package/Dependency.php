@@ -159,8 +159,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                 $saveparam = '';
             }
             throw new PEAR2_Pyrus_Package_Exception('No releases for package "' .
-                PEAR2_Pyrus_Config::current()->channelregistry
-                    ->parsedPackageNameToString($pname, true) . '" exist' . $saveparam);
+                PEAR2_Pyrus_Config::parsedPackageNameToString($pname, true) . '" exist' . $saveparam);
         }
         if (strtolower($info['info']->channel) != strtolower($pname['channel'])) {
             // downloaded package information claims it is from a different channel
@@ -200,7 +199,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                     ', latest release is version ' . $info['php']['v'] .
                     ', but it requires PHP version "' .
                     $info['php']['m'] . '", use "' .
-                    $this->_registry->parsedPackageNameToString(
+                    PEAR2_Pyrus_Config::parsedPackageNameToString(
                         array('channel' => $pname['channel'], 'package' => $pname['package'],
                         'version' => $info['php']['v'])) . '" to install');
             }
