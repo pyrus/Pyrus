@@ -145,7 +145,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
-    function configs($args)
+    function configShow($args)
     {
         $conf = PEAR2_Pyrus_Config::current();
         echo "System paths:\n";
