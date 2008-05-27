@@ -49,8 +49,8 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                 }
             }
         }
-        $this->_init($path, $readonly);
         $this->_path = $path;
+        $this->_init($path, $readonly);
     }
 
     public function getPath()
@@ -80,7 +80,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite registry: ' . $error);
         }
         if (@self::$databases[$path]->singleQuery('SELECT version FROM pearregistryversion') == '1.0.0') {
-            return;
+            if (!self::$databases[$path]->singleQuery('SELECT COUNT(*) FROM channels')) {
+                $this->initDefaultChannels();
+                return;
+            }
         }
         $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
         $a->create(self::$databases[$path]);
@@ -140,32 +143,40 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->getName() .
                 ' could not be added to the registry');
         }
-        if (!@self::$databases[$this->_path]->queryExec('
+        if (!self::$databases[$this->_path]->queryExec('
             INSERT INTO channel_servers
-            (channel, server, ssl, port)
+            (channel, server, ssl, port, xmlrpcpath, soappath)
             VALUES(
             "' . $channel->getName() . '",
             "' . $channel->getName() . '",
             ' . ($channel->getSSL() ? 1 : '0') . ',
-            ' . $channel->getPort() . '
+            ' . $channel->getPort() . ',
+            "' . sqlite_escape_string($channel->getSummary('xmlrpc')) . '",
+            "' . sqlite_escape_string($channel->getPath('soap')) . '"
             )
             ')) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
                 ' could not be added to the registry');
         }
-        $servers = array(false);
-        $mirrors = $channel->mirrors;
-        if (count($mirrors)) {
-            foreach ($mirrors as $mirror) {
-                $servers[] = $mirror['attribs']['host'];
+        foreach (array('xmlrpc', 'soap', 'rest') as $protocol) {
+            $functions = $channel->getFunctions($protocol);
+            if (!$functions) {
+                continue;
+            }
+            if (!isset($functions[0])) {
+                $functions = array($functions);
+            }
+            $attrib = $protocol == 'rest' ? 'type' : 'version';
+            foreach ($functions as $function) {
                 if (!@self::$databases[$this->_path]->queryExec('
-                    INSERT INTO channel_servers
-                    (channel, server, ssl, port)
+                    INSERT INTO channel_server_' . $protocol . '
+                    (channel, server, ' . ($protocol == 'rest' ? 'baseurl' : 'function') .
+                     ', ' . $attrib . ')
                     VALUES(
                     "' . $channel->getName() . '",
-                    "' . $mirror->getName() . '",
-                    ' . ($mirror->getSSL() ? 1 : '0') . ',
-                    ' . $mirror->getPort() . '
+                    "' . $channel->getName() . '",
+                    "' . $function['_content'] . '",
+                    "' . $function['attribs'][$attrib] . '"
                     )
                     ')) {
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
@@ -173,31 +184,50 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                 }
             }
         }
-        foreach ($servers as $server) {
-            foreach (array('xmlrpc', 'soap', 'rest') as $protocol) {
-                $functions = $channel->getFunctions($protocol, $server);
-                if (!$functions) {
-                    continue;
+
+        $mirrors = $channel->mirrors;
+        if (count($mirrors)) {
+            foreach ($mirrors as $mirror) {
+                $servers[] = $mirror->getName();
+                if (!@self::$databases[$this->_path]->queryExec('
+                    INSERT INTO channel_servers
+                    (channel, server, ssl, port, xmlrpcpath, soappath)
+                    VALUES(
+                    "' . $channel->getName() . '",
+                    "' . $mirror->getName() . '",
+                    ' . ($mirror->getSSL() ? 1 : '0') . ',
+                    ' . $mirror->getPort() . ',
+                    "' . sqlite_escape_string($mirror->getSummary('xmlrpc')) . '",
+                    "' . sqlite_escape_string($mirror->getPath('soap')) . '"
+                    )
+                    ')) {
+                    throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
+                        ' could not be added to the registry');
                 }
-                if (!isset($functions[0])) {
-                    $functions = array($functions);
-                }
-                $actualserver = $server ? $server : $channel->getName();
-                $attrib = $protocol == 'rest' ? 'type' : 'version';
-                foreach ($functions as $function) {
-                    if (!@self::$databases[$this->_path]->queryExec('
-                        INSERT INTO channel_server_' . $protocol . '
-                        (channel, server, ' . ($protocol == 'rest' ? 'baseurl' : 'function') .
-                         ', ' . $attrib . ')
-                        VALUES(
-                        "' . $channel->getName() . '",
-                        "' . $actualserver . '",
-                        "' . $function['_content'] . '",
-                        "' . $function['attribs'][$attrib] . '"
-                        )
-                        ')) {
-                        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                            ' could not be added to the registry');
+                foreach (array('xmlrpc', 'soap', 'rest') as $protocol) {
+                    $functions = $mirror->getFunctions($protocol);
+                    if (!$functions) {
+                        continue;
+                    }
+                    if (!isset($functions[0])) {
+                        $functions = array($functions);
+                    }
+                    $attrib = $protocol == 'rest' ? 'type' : 'version';
+                    foreach ($functions as $function) {
+                        if (!@self::$databases[$this->_path]->queryExec('
+                            INSERT INTO channel_server_' . $protocol . '
+                            (channel, server, ' . ($protocol == 'rest' ? 'baseurl' : 'function') .
+                             ', ' . $attrib . ')
+                            VALUES(
+                            "' . $channel->getName() . '",
+                            "' . $mirror->getName() . '",
+                            "' . $function['_content'] . '",
+                            "' . $function['attribs'][$attrib] . '"
+                            )
+                            ')) {
+                            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
+                                ' could not be added to the registry');
+                        }
                     }
                 }
             }

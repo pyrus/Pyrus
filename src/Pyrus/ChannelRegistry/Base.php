@@ -143,7 +143,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             }
         }
         // validation
-        $info = $this->exists($param['channel']);
+        $info = $this->exists($param['channel'], false);
         if (!$info) {
             throw new PEAR2_Pyrus_ChannelRegistry_ParseException('unknown channel "' . $param['channel'] .
                 '" in "' . $saveparam . '"', 'channel');

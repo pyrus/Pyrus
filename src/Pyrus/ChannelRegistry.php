@@ -59,7 +59,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
                     continue;
                 }
                 $this->_registries[] = new $registry($path, $readonly);
-            } catch (Exception $e) {
+            } catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
                 $exceptions[] = $e;
             }
         }
