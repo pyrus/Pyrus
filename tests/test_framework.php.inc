@@ -1,6 +1,7 @@
 <?php
 $__e = error_reporting();
 error_reporting(E_ERROR|E_NOTICE|E_WARNING);
+require_once __DIR__ . '/../../autoload.php';
 @include_once 'Text/Diff.php';
 @include_once 'Text/Diff/Renderer.php';
 @include_once 'Text/Diff/Renderer/unified.php';

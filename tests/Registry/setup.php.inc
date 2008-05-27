@@ -1,22 +1,3 @@
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-include 'PEAR2/MultiErrors.php';
-include 'PEAR2/Exception.php';
-include 'PEAR2/Pyrus/IRegistry.php';
-include 'PEAR2/Pyrus/IChannelRegistry.php';
-include 'PEAR2/Pyrus/ChannelRegistry.php';
-include 'PEAR2/Pyrus/Registry/Sqlite/Creator.php';
-include 'PEAR2/Pyrus/Registry/Exception.php';
-include 'PEAR2/Pyrus/Registry/Base.php';
-include 'PEAR2/Pyrus/Registry/Sqlite.php';
-include 'PEAR2/Pyrus/Registry/Xml.php';
-include 'PEAR2/Pyrus/ChannelRegistry/ParseException.php';
-include 'PEAR2/Pyrus/ChannelRegistry/Exception.php';
-include 'PEAR2/Pyrus/ChannelRegistry/Base.php';
-include 'PEAR2/Pyrus/ChannelRegistry/Sqlite.php';
-include 'PEAR2/Pyrus/ChannelRegistry/Xml.php';
-include 'PEAR2/Pyrus/Registry.php';
-include 'PEAR2/Pyrus/Config.php';
-include 'PEAR2/Pyrus/Config/Exception.php';
-include 'PEAR2/Pyrus/Log.php';
 $registryclass = 'PEAR2_Pyrus_Config';
