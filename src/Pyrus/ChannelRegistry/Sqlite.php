@@ -84,6 +84,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
                 $this->initDefaultChannels();
                 return;
             }
+            return;
         }
         $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
         $a->create(self::$databases[$path]);
