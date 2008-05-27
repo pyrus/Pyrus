@@ -176,8 +176,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
                       WHERE channel=\'' . sqlite_escape_string($this->channelname) . '\'
                       AND server !=\'' . sqlite_escape_string($this->channelname) . '\'',
                       SQLITE_ASSOC) as $mirror) {
-                    $ret[$mirror] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this,
-                                        $this->database, $mirror);
+                    $ret[$mirror] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this->database, $mirror, $this);
             }
             return $ret;
         }
