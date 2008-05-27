@@ -164,7 +164,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             if (!$functions) {
                 continue;
             }
-            if (!isset($functions[0])) {
+            if (!is_array($functions)) {
                 $functions = array($functions);
             }
             $attrib = $protocol == 'rest' ? 'type' : 'version';
