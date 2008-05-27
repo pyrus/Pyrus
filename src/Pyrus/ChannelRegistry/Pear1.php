@@ -119,7 +119,10 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add/update channel ' .
                 $channel->name . ', unable to open PEAR1 channel registry file');
         }
-        $info = $channel->toChannelObject()->toArray();
+        $info = (string) $channel->toChannelObject();
+        $parser = new PEAR2_Pyrus_XMLParser;
+        $info = $parser->parseString($info);
+        $info = $info['channel'];
         if ($lastmodified) {
             $info['_lastmodified'] = $lastmodified;
         } else {
