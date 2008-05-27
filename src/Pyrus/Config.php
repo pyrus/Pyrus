@@ -346,26 +346,37 @@ class PEAR2_Pyrus_Config
         $paths = array_unique($paths);
         $start = true;
         foreach ($paths as $path) {
-            if ($path === '.') continue;
-            $a = PEAR2_Pyrus_Registry::$className;
-            $reg = new $a($path, array('Sqlite', 'Xml'), !$start);
-            if ($start) {
-                $this->myregistry = $reg;
+            try {
+                if ($path === '.') continue;
+                $a = PEAR2_Pyrus_Registry::$className;
+                $reg = new $a($path, array('Sqlite', 'Xml'), !$start);
+                if ($start) {
+                    $this->myregistry = $reg;
+                }
+                $reg->setParent(); // clear any previous parent
+                $b = PEAR2_Pyrus_ChannelRegistry::$className;
+                $regc = new $b($path, array('Sqlite', 'Xml'), !$start);
+                if ($start) {
+                    $this->mychannelRegistry = $regc;
+                }
+                $start = false;
+                $regc->setParent(); // clear any previous parent
+                if (isset($last)) {
+                    $last->setParent($reg);
+                    $lastc->setParent($regc);
+                }
+                $last = $reg;
+                $lastc = $regc;
+            } catch (Exception $e) {
+                if ($start) {
+                    throw new PEAR2_Pyrus_Config_Exception(
+                        'Cannot initialize primary registry in path ' .
+                        $path, $e);
+                } else {
+                    // silently skip this registry
+                    continue;
+                }
             }
-            $reg->setParent(); // clear any previous parent
-            $b = PEAR2_Pyrus_ChannelRegistry::$className;
-            $regc = new $b($path, array('Sqlite', 'Xml'), !$start);
-            if ($start) {
-                $this->mychannelRegistry = $regc;
-            }
-            $start = false;
-            $regc->setParent(); // clear any previous parent
-            if (isset($last)) {
-                $last->setParent($reg);
-                $lastc->setParent($regc);
-            }
-            $last = $reg;
-            $lastc = $regc;
         }
         return $ret;
     }
