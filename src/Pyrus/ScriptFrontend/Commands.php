@@ -158,6 +158,18 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         echo "Adding channel ", $chan->name, " successful\n";
     }
 
+    function channelDel($args)
+    {
+        echo "Adding channel from channel.xml:\n";
+        $chan = PEAR2_Pyrus_Config::current()->channelregistry->get($args[0], false);
+        if (count($chan)) {
+            echo "Cannot remove channel ", $chan->name, "packages are installed\n";
+            exit -1;
+        }
+        PEAR2_Pyrus_Config::current()->channelregistry->delete($chan);
+        echo "Deleting channel ", $chan->name, " successful\n";
+    }
+
     function configShow($args)
     {
         $conf = PEAR2_Pyrus_Config::current();
