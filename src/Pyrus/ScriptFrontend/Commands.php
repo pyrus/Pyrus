@@ -145,6 +145,19 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    function channelAdd($args)
+    {
+        echo "Adding channel from channel.xml:\n";
+        $chan = file_get_contents($args[0]);
+        if (!$chan) {
+            echo "Retrieving channel.xml contents failed\n";
+            exit -1;
+        }
+        $chan = new PEAR2_Pyrus_Channel($chan);
+        PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
+        echo "Adding channel ", $chan->name, " successful\n";
+    }
+
     function configShow($args)
     {
         $conf = PEAR2_Pyrus_Config::current();
