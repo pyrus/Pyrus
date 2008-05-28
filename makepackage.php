@@ -8,7 +8,13 @@ require_once dirname(__FILE__).'/../autoload.php';
 
 $a = new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(dirname(__FILE__), 'PEAR2_Pyrus');
 
-$package = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
+try {
+    $package = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
+} catch (PEAR2_Pyrus_PackageFile_Exception $pppe) {
+    // Remove me for more debugging
+    die('Exception: ' . $pppe->getMessage());
+}
+
 $outfile = $package->name.'-'.$package->version['release'];
 $a = new PEAR2_Pyrus_Package_Creator(array(
                     new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive(__DIR__ . '/pyrus.phar', '<?php
