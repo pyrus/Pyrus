@@ -319,10 +319,25 @@ http://pear.php.net/dtd/channel-1.0.xsd">
 
     public function getPear2Channel()
     {
-        $pear2 = $this->getPearChannel();
-        $pear2->name = 'pear2.php.net';
-        $pear2->summary = 'PEAR2 packages for the Pyrus installer';
-        return $pear2;
+        return new PEAR2_Pyrus_Channel('<?xml version="1.0" encoding="ISO-8859-1"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
+http://pear.php.net/dtd/channel-1.0.xsd">
+ <name>pear2.php.net</name>
+ <suggestedalias>pear2</suggestedalias>
+ <summary>PEAR packages for PHP 5.3+ installed by Pyrus</summary>
+ <servers>
+  <primary>
+   <rest>
+
+    <baseurl type="REST1.0">http://pear2.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://pear2.php.net/rest/</baseurl>
+    <baseurl type="REST1.2">http://pear2.php.net/rest/</baseurl>
+    <baseurl type="REST1.3">http://pear2.php.net/rest/</baseurl>
+   </rest>
+  </primary>
+ </servers>
+</channel>
+');
     }
 
     public function getPeclChannel()
@@ -384,10 +399,7 @@ http://pear.php.net/dtd/channel-1.0.xsd">
     protected function initDefaultChannels()
     {
         $pear = $this->getPearChannel();
-        $pear2 = clone $pear;
-        $pear2->name = 'pear2.php.net';
-        $pear2->alias = 'pear2';
-        $pear2->summary = 'PEAR2 packages for the Pyrus installer';
+        $pear2 = $this->getPear2Channel();
         $pecl = $this->getPeclChannel();
         $__uri = $this->getUriChannel();
         $this->add($pear);

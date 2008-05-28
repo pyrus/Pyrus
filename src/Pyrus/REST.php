@@ -354,4 +354,4 @@ class PEAR2_Pyrus_REST
         }
         return $data;
     }
-}s
+}
