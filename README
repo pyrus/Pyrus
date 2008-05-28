@@ -1,8 +1,8 @@
-Pyrus is the package manager and installer for PHP 5.2 or newer
+Pyrus is the package manager and installer for PHP 5.3 or newer
 
 Pyrus provides the means to install and manage installations for
 packages built using package.xml version 2.0 or newer.  Pyrus is
-redesigned from the ground up for PHP 5.2 or newer, and provides
+redesigned from the ground up for PHP 5.3 or newer, and provides
 significant improvements over the older PEAR Installer.
 
 To use Pyrus, in this development series of releases, you need to
@@ -11,7 +11,6 @@ instantiate a simple script that creates a package and installs it:
 <?php
 // use full path if include_path is not set up
 include 'PEAR2/Autoload.php';
-require_once 'Net/URL2.php'; // PEAR package needed for PEAR2_HTTP_Request dep
 $config = PEAR2_Pyrus_Config::singleton('/where/to/install');
 // this can be a url to a remote package, a local .tgz, .zip or package.xml
 $p = new PEAR2_Pyrus_Package('thingtoinstall');
