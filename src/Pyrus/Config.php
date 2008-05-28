@@ -294,11 +294,11 @@ class PEAR2_Pyrus_Config
         $pearDirectory = str_replace('\\', '/', $pearDirectory);
         $pearDirectory = str_replace('//', '/', $pearDirectory);
         $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
-        $pearDirectory = $this->setCascadingRegistries($pearDirectory);
-        $this->pearDir = $pearDirectory;
         self::constructDefaults();
-        $this->loadConfigFile($pearDirectory, $userfile);
+        $pearDirectory = $this->loadUserSettings($pearDirectory, $userfile);
+        $this->loadConfigFile($pearDirectory);
         self::$configs[$pearDirectory] = $this;
+        $this->pearDir = $pearDirectory;
         if (!isset(self::$current)) {
             self::$current = $this;
         }
@@ -420,62 +420,12 @@ class PEAR2_Pyrus_Config
     }
 
     /**
-     * Extract configuration from system + user configuration files
+     * Load the user configuration file
      *
-     * Configuration is stored in XML format, in two locations.
-     *
-     * The system configuration contains all of the important directory
-     * configuration variables like data_dir, and the location of php.ini and
-     * the php executable php.exe or php.  This configuration is tightly bound
-     * to the repository, and cannot be moved.  As such, php_dir is auto-defined
-     * as dirname(/path/to/pear/.config), or /path/to/pear.
-     *
-     * Only 1 user configuration file is allowed, and contains user-specific
-     * settings, including the locations where to download package releases
-     * and where to cache files downloaded from the internet.  If false is passed
-     * in, PEAR2_Pyrus_Config will attempt to guess at the config file location as
-     * documented in the class docblock {@link PEAR2_Pyrus_Config}.
-     * @param string $pearDirectory
-     * @param string|false $userfile
+     * This loads exclusively the user config
      */
-    protected function loadConfigFile($pearDirectory, $userfile = false)
+    protected function loadUserSettings($pearDirectory, $userfile = false)
     {
-        if (!isset(self::$configs[$pearDirectory]) &&
-              file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
-            PEAR2_Pyrus_Log::log(5, 'Loading configuration for ' . $pearDirectory);
-            libxml_use_internal_errors(true);
-            libxml_clear_errors();
-            $x = simplexml_load_file($pearDirectory . DIRECTORY_SEPARATOR . '.config');
-            if (!$x) {
-                $errors = libxml_get_errors();
-                $e = new PEAR2_MultiErrors;
-                foreach ($errors as $err) {
-                    $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception(trim($err->message));
-                }
-                libxml_clear_errors();
-                throw new PEAR2_Pyrus_Config_Exception(
-                    'Unable to parse invalid PEAR configuration at "' . $pearDirectory . '"',
-                    $e);
-            }
-            $unsetvalues = array_diff(array_keys((array) $x), array_merge(self::$pearConfigNames, self::$customPearConfigNames));
-            // remove values that are not recognized system config variables
-            foreach ($unsetvalues as $value)
-            {
-                if ($value == '@attributes') {
-                    continue;
-                }
-                if ($value === 'php_dir' || $value === 'data_dir') {
-                    unset($x->$value); // both of these are abstract
-                }
-                PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
-                    $value);
-                unset($x->$value);
-            }
-            $this->values = (array) $x;
-        } else {
-            PEAR2_Pyrus_Log::log(5, 'Configuration not found for ' . $pearDirectory .
-                ', assuming defaults');
-        }
         if (!$userfile) {
             if (class_exists('COM', false)) {
                 $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
@@ -532,14 +482,75 @@ class PEAR2_Pyrus_Config
             unset($x->$value);
         }
         if (!$x->my_pear_path) {
+            $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory);
             $x->my_pear_path = $pearDirectory;
             PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $pearDirectory);
         } else {
             // ensure that $pearDirectory is a part of this cascading directory path
-            $this->setCascadingRegistries((string)$pearDirectory . PATH_SEPARATOR .
-                                          $x->my_pear_path);
+            $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory . PATH_SEPARATOR .
+                    $x->my_pear_path);
         }
         self::$userConfigs[$userfile] = (array) $x;
+        return $pearDirectory;
+    }
+
+    /**
+     * Extract configuration from system + user configuration files
+     *
+     * Configuration is stored in XML format, in two locations.
+     *
+     * The system configuration contains all of the important directory
+     * configuration variables like data_dir, and the location of php.ini and
+     * the php executable php.exe or php.  This configuration is tightly bound
+     * to the repository, and cannot be moved.  As such, php_dir is auto-defined
+     * as dirname(/path/to/pear/.config), or /path/to/pear.
+     *
+     * Only 1 user configuration file is allowed, and contains user-specific
+     * settings, including the locations where to download package releases
+     * and where to cache files downloaded from the internet.  If false is passed
+     * in, PEAR2_Pyrus_Config will attempt to guess at the config file location as
+     * documented in the class docblock {@link PEAR2_Pyrus_Config}.
+     * @param string $pearDirectory
+     * @param string|false $userfile
+     */
+    protected function loadConfigFile($pearDirectory)
+    {
+        if (isset(self::$configs[$pearDirectory]) ||
+              !file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
+            PEAR2_Pyrus_Log::log(5, 'Configuration not found for ' . $pearDirectory .
+                ', assuming defaults');
+            return;
+        }
+        PEAR2_Pyrus_Log::log(5, 'Loading configuration for ' . $pearDirectory);
+        libxml_use_internal_errors(true);
+        libxml_clear_errors();
+        $x = simplexml_load_file($pearDirectory . DIRECTORY_SEPARATOR . '.config');
+        if (!$x) {
+            $errors = libxml_get_errors();
+            $e = new PEAR2_MultiErrors;
+            foreach ($errors as $err) {
+                $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception(trim($err->message));
+            }
+            libxml_clear_errors();
+            throw new PEAR2_Pyrus_Config_Exception(
+                'Unable to parse invalid PEAR configuration at "' . $pearDirectory . '"',
+                $e);
+        }
+        $unsetvalues = array_diff(array_keys((array) $x), array_merge(self::$pearConfigNames, self::$customPearConfigNames));
+        // remove values that are not recognized system config variables
+        foreach ($unsetvalues as $value)
+        {
+            if ($value == '@attributes') {
+                continue;
+            }
+            if ($value === 'php_dir' || $value === 'data_dir') {
+                unset($x->$value); // both of these are abstract
+            }
+            PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
+                $value);
+            unset($x->$value);
+        }
+        $this->values = (array) $x;
     }
 
     /**

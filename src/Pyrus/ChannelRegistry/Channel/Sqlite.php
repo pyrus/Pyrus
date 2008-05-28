@@ -174,9 +174,8 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
                 $ret = array($this->channelname => $this);
                 foreach ($this->database->arrayQuery('SELECT server FROM channel_servers
                       WHERE channel=\'' . sqlite_escape_string($this->channelname) . '\'
-                      AND server !=\'' . sqlite_escape_string($this->channelname) . '\'',
-                      SQLITE_ASSOC) as $mirror) {
-                    $ret[$mirror] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this->database, $mirror, $this);
+                      AND server !=\'' . sqlite_escape_string($this->channelname) . '\'') as $mirror) {
+                    $ret[$mirror['server']] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this->database, $mirror['server'], $this);
             }
             return $ret;
         }
