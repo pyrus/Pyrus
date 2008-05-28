@@ -99,6 +99,14 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
         }
+        switch ($channel->name) {
+            case 'pear.php.net' :
+            case 'pear2.php.net' :
+            case 'pecl.php.net' :
+            case '__uri' :
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
+                    $channel->name);
+        }
         foreach ($this->_registries as $reg) {
             $reg->delete($channel);
         }
