@@ -35,7 +35,7 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-04-29</date>
+ <date>2008-05-28</date>
  <version>
   <release>2.0.0a1</release>
   <api>0.1.0</api>
@@ -63,6 +63,7 @@ try {
      </dir>
      <dir name="ChannelRegistry">
       <dir name="Channel">
+       <file role="php" name="Pear1.php"/>
        <file role="php" name="Sqlite.php"/>
        <file role="php" name="Xml.php"/>
       </dir>
@@ -73,6 +74,7 @@ try {
       <file role="php" name="Base.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="ParseException.php"/>
+      <file role="php" name="Pear1.php"/>
       <file role="php" name="Sqlite.php"/>
       <file role="php" name="Xml.php"/>
      </dir>
@@ -185,7 +187,7 @@ try {
      </dir>
      <dir name="Registry">
       <dir name="Pear1">
-        <file role="php" name="Package.php"/>
+       <file role="php" name="Package.php"/>
       </dir>
       <dir name="Sqlite">
        <file role="php" name="Creator.php"/>
@@ -268,6 +270,87 @@ try {
     </dir>
     <file role="php" name="Pyrus.php"/>
    </dir>
+   <dir name="tests" baseinstalldir="/">
+    <dir name="Config">
+     <dir name="addConfigValue">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.phpt"/>
+     </dir>
+     <dir name="configSnapshot">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.phpt"/>
+     </dir>
+     <dir name="constructDefaults">
+      <file role="test" name="basic.phpt"/>
+      <file role="test" name="bin_dir.env.phpt"/>
+      <file role="test" name="bin_dir.env2.phpt"/>
+      <file role="test" name="bin_dir.win.phpt"/>
+      <file role="test" name="extension_dir.env.phpt"/>
+      <file role="test" name="extension_dir.env2.phpt"/>
+      <file role="test" name="extension_dir.ini.phpt"/>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
+     <dir name="loadConfigFile">
+      <file role="test" name="badsystemfile.phpt"/>
+      <file role="test" name="baduserfile.phpt"/>
+      <file role="test" name="defaults.phpt"/>
+      <file role="test" name="goodsystemfile.phpt"/>
+      <file role="test" name="gooduser.mypath.phpt"/>
+      <file role="test" name="gooduserfile.phpt"/>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
+     <dir name="setCascadingRegistries">
+      <file role="test" name="basic.phpt"/>
+      <file role="test" name="run-tests.log"/>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="DirectedGraph">
+     <file role="test" name="basic.phpt"/>
+     <file role="test" name="cycles.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="PackageFile_Parser_v2">
+     <dir name="packages">
+      <file role="test" name="package.xml"/>
+      <file role="test" name="package2.xml"/>
+     </dir>
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="test_2.0.phpt"/>
+     <file role="test" name="test_2.1.phpt"/>
+    </dir>
+    <dir name="Registry">
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="XMLParser">
+     <file role="test" name="attribs.phpt"/>
+     <file role="test" name="attribs_content.phpt"/>
+     <file role="test" name="cdata.phpt"/>
+     <file role="test" name="childtag.phpt"/>
+     <file role="test" name="childtag_attribs.phpt"/>
+     <file role="test" name="childtag_content.phpt"/>
+     <file role="test" name="childtag_sibling_attribs.phpt"/>
+     <file role="test" name="empty.phpt"/>
+     <file role="test" name="recursivetag.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="siblingtags.phpt"/>
+    </dir>
+    <dir name="XMLWriter">
+     <file role="test" name="attribs.phpt"/>
+     <file role="test" name="attribs_content.phpt"/>
+     <file role="test" name="childtag.phpt"/>
+     <file role="test" name="childtag_attribs.phpt"/>
+     <file role="test" name="childtag_content.phpt"/>
+     <file role="test" name="childtag_sibling_attribs.phpt"/>
+     <file role="test" name="empty.phpt"/>
+     <file role="test" name="recursivetag.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="siblingtags.phpt"/>
+    </dir>
+    <file role="test" name="clean.php.inc"/>
+    <file role="test" name="test_framework.php.inc"/>
+   </dir>
   </dir>
  </contents>
  <dependencies>
@@ -280,5 +363,5 @@ try {
    </pearinstaller>
   </required>
  </dependencies>
- <phprelease></phprelease>
+ <phprelease/>
 </package>
