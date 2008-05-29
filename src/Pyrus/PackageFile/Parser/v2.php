@@ -102,12 +102,14 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
             if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
             }
-        } else {
+        } elseif (preg_match('/<package[^>]+version="2.0"/', $data)) {
             $schema = PEAR2_Pyrus::getDataPath() . '/package-2.0.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
             }
+        } else {
+            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot process package.xml version 1.0');
         }
         try {
             $ret->fromArray(parent::parseString($data, $schema));
