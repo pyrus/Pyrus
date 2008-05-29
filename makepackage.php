@@ -7,21 +7,12 @@ ini_set('display_errors',true);
 require_once dirname(__FILE__).'/../autoload.php';
 
 if (ini_get('phar.readonly') != "0") {
-    die('Error: phar.readonly is not set to "0" in your php.ini' . PHP_EOL);
+    throw new PEAR2_Pyrus_Exception('Error: phar.readonly is not set to "0" in your php.ini');
 }
 
 $a = new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(dirname(__FILE__), 'PEAR2_Pyrus');
 
-try {
-    $package = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
-} catch (PEAR2_Pyrus_PackageFile_Exception $pppe) {
-    // Remove me for more debugging
-    $msg  = 'Exception: ' . $pppe->getMessage() . PHP_EOL;
-    $msg .= '    File: ' . $pppe->getFile() . PHP_EOL;
-    $msg .= '    Line: ' . $pppe->getLine() . PHP_EOL;
-
-    die($msg);
-}
+$package = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
 
 $outfile = $package->name.'-'.$package->version['release'];
 $a = new PEAR2_Pyrus_Package_Creator(array(
