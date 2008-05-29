@@ -49,7 +49,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             $this->_findPEAR($args);
             if (isset($this->commands[$args[0]])) {
                 $command = array_shift($args);
-                $command = $this->commands[$args[0]];
+                $command = $this->commands[$command];
                 $this->$command($args);
             } else {
                 $this->help($args);
