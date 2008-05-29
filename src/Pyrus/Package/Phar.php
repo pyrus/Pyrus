@@ -131,6 +131,11 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         return $this->_tmpdir;
     }
 
+    function isNewPackage()
+    {
+        return !$this->_BCpackage;
+    }
+
     function __get($var)
     {
         if ($var === 'archivefile') {
