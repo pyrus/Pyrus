@@ -893,11 +893,11 @@ class PEAR2_Pyrus_Config
         if (!$assumeabstract && @file_exists($pname) && @is_file($pname)) {
             return $pname;
         }
-        return self::$current->channelregistry->parseName($pname);
+        return self::current()->channelregistry->parseName($pname);
     }
 
     static public function parsedPackageNameToString($name)
     {
-        return self::$current->channelregistry->parsedNameToString($name);
+        return self::current()->channelregistry->parsedNameToString($name);
     }
 }
