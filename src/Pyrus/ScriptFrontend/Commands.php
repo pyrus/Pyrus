@@ -68,7 +68,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             $config = PEAR2_Pyrus_Config::singleton($maybe);
             return;
         }
-        $mypath = PEAR2_Pyrus_Config::current()->my_pear_path;
+        $mypath = PEAR2_Pyrus_Config::singleton()->my_pear_path;
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";

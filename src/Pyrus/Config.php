@@ -289,12 +289,14 @@ class PEAR2_Pyrus_Config
      *                              PATH_SEPARATOR-separated list of directories
      * @param string $userfile
      */
-    protected function __construct($pearDirectory, $userfile = false)
+    protected function __construct($pearDirectory = false, $userfile = false)
     {
-        $pearDirectory = str_replace('\\', '/', $pearDirectory);
-        $pearDirectory = str_replace('//', '/', $pearDirectory);
-        $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
         self::constructDefaults();
+        if ($pearDirectory) {
+            $pearDirectory = str_replace('\\', '/', $pearDirectory);
+            $pearDirectory = str_replace('//', '/', $pearDirectory);
+            $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
+        }
         $pearDirectory = $this->loadUserSettings($pearDirectory, $userfile);
         $this->loadConfigFile($pearDirectory);
         self::$configs[$pearDirectory] = $this;
@@ -311,7 +313,7 @@ class PEAR2_Pyrus_Config
      * @param string $userfile
      * @return PEAR2_Pyrus_Config
      */
-    static public function singleton($pearDirectory, $userfile = false)
+    static public function singleton($pearDirectory = false, $userfile = false)
     {
         if (isset(self::$configs[$pearDirectory])) {
             return self::$configs[$pearDirectory];
@@ -391,7 +393,7 @@ class PEAR2_Pyrus_Config
             return self::$current;
         }
         // default
-        return PEAR2_Pyrus_Config::singleton(getcwd());
+        return PEAR2_Pyrus_Config::singleton();
     }
 
     /**
@@ -482,13 +484,20 @@ class PEAR2_Pyrus_Config
             unset($x->$value);
         }
         if (!$x->my_pear_path) {
+            if (!$pearDirectory) {
+                $pearDirectory = getcwd();
+            }
             $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory);
             $x->my_pear_path = $pearDirectory;
             PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $pearDirectory);
         } else {
-            // ensure that $pearDirectory is a part of this cascading directory path
-            $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory . PATH_SEPARATOR .
-                    $x->my_pear_path);
+            if (!$pearDirectory) {
+                $pearDirectory = $this->setCascadingRegistries((string) $x->my_pear_path);
+            } else {
+                // ensure that $pearDirectory is a part of this cascading directory path
+                $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory .
+                        PATH_SEPARATOR . $x->my_pear_path);
+            }
         }
         self::$userConfigs[$userfile] = (array) $x;
         return $pearDirectory;
