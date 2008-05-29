@@ -813,6 +813,12 @@ class PEAR2_Pyrus_Config
         if ($key == 'path') {
             return $this->pearDir;
         }
+        if ($key == 'customsystemvars') {
+            return self::$customPearConfigNames;
+        }
+        if ($key == 'customuservars') {
+            return self::$customUserConfigNames;
+        }
         throw new PEAR2_Pyrus_Config_Exception(
             'Unknown configuration variable "' . $key . '" in location ' .
             $this->pearDir);

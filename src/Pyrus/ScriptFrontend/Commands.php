@@ -225,11 +225,19 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
     {
         $conf = PEAR2_Pyrus_Config::current();
         echo "System paths:\n";
-        foreach ($conf->systemvars as $var) {
+        foreach ($conf->mainsystemvars as $var) {
             echo "  $var => " . $conf->$var . "\n";
         }
-        echo "Custom variables (from " . $conf->userfile . "):\n";
-        foreach ($conf->uservars as $var) {
+        echo "Custom System paths:\n";
+        foreach ($conf->customsystemvars as $var) {
+            echo "  $var => " . $conf->$var . "\n";
+        }
+        echo "User config (from " . $conf->userfile . "):\n";
+        foreach ($conf->mainuservars as $var) {
+            echo "  $var => " . $conf->$var . "\n";
+        }
+        echo "Custom User config (from " . $conf->userfile . "):\n";
+        foreach ($conf->customuservars as $var) {
             echo "  $var => " . $conf->$var . "\n";
         }
     }
@@ -240,9 +248,12 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         if (in_array($args[0], $conf->uservars)) {
             echo "Setting $args[0] in " . $conf->userfile . "\n";
             $conf->{$args[0]} = $args[1];
-        } else {
+        } elseif (in_array($args[0], $conf->systemvars)) {
             echo "Setting $args[0] in system paths\n";
             $conf->{$args[0]} = $args[1];
+        } else {
+            echo "Unknown config variable: $args[0]\n";
+            exit -1;
         }
         $conf->saveConfig();
     }
