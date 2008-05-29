@@ -26,6 +26,7 @@
 interface PEAR2_Pyrus_IPackage extends ArrayAccess, Iterator
 {
     function getFileContents($file, $asstream = false);
+    function getFilePath($file);
     function getLocation();
     function getFrom();
     function __get($var);

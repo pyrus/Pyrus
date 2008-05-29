@@ -71,6 +71,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
         return $this->internal->getFileContents($file, $asstream);
     }
 
+    function getFilePath($file)
+    {
+        return $this->internal->getFilePath($file);
+    }
+
     function getFrom()
     {
         if ($this->from) {

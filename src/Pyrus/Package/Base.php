@@ -195,4 +195,11 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
     {
         return key($this->packagefile->info->_packageInfo['filelist']);
     }
+
+    function getFileContents($file, $asstream = false)
+    {
+        return $asstream ?
+            fopen($this->getFilePath($extract), 'rb') :
+            file_get_contents($this->getFilePath($extract));
+    }
 }

@@ -139,7 +139,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         return parent::__get($var);
     }
 
-    function getFileContents($file, $asstream = false)
+    function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
@@ -155,6 +155,6 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         $extract = str_replace('\\', '/', $extract);
         $extract = str_replace('//', '/', $extract);
         $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
-        return $asstream ? fopen($extract, 'rb') : file_get_contents($extract);
+        return $extract;
     }
 }

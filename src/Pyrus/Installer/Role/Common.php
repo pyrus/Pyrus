@@ -178,7 +178,7 @@ class PEAR2_Pyrus_Installer_Role_Common
         } else {
             $dest_file = $dest_dir . DIRECTORY_SEPARATOR . $atts['install-as'];
         }
-        $orig_file = $tmp_path . DIRECTORY_SEPARATOR . $file;
+        $orig_file = $pkg->getFilePath($file);
 
         // Clean up the DIRECTORY_SEPARATOR mess
         $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
