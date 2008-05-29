@@ -58,7 +58,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         $errs = new PEAR2_MultiErrors;
         try {
             $this->internal = new PEAR2_Pyrus_Package_Remote(
-                $this->downloadInfo['url'] . '.zip', $this);
+                $this->downloadInfo['url'] . '.tgz', $this);
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
         }
@@ -66,7 +66,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             unset($e);
             try {
                 $this->internal = new PEAR2_Pyrus_Package_Remote(
-                    $this->downloadInfo['url'] . '.tgz', $this);
+                    $this->downloadInfo['url'] . '.tar', $this);
             } catch (Exception $e) {
                 $errs->E_ERROR[] = $e;
             }
@@ -75,7 +75,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             unset($e);
             try {
                 $this->internal = new PEAR2_Pyrus_Package_Remote(
-                    $this->downloadInfo['url'] . '.tar', $this);
+                    $this->downloadInfo['url'] . '.zip', $this);
             } catch (Exception $e) {
                 $errs->E_ERROR[] = $e;
                 throw new PEAR2_Pyrus_Package_Exception(
