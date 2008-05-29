@@ -145,6 +145,29 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    function channelDiscover($args)
+    {
+        $chan = 'http://' . $args[0] . '/channel.xml';
+        $http = new PEAR2_HTTP_Request($chan);
+        try {
+            $response = $http->sendRequest();
+        } catch (Exception $e) {
+            // try secure
+            try {
+                $chan = 'https://' . $args[0] . '/channel.xml';
+                $http = new PEAR2_HTTP_Request($chan);
+                $response = $http->sendRequest();
+            } catch (Exception $u) {
+                // failed, re-throw original error
+                throw $e;
+            }
+        }
+
+        $chan = new PEAR2_Pyrus_Channel($response->body);
+        PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
+        echo "Discovery of channel ", $chan->name, " successful\n";
+    }
+
     function channelAdd($args)
     {
         echo "Adding channel from channel.xml:\n";
