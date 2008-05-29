@@ -263,7 +263,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function getREST()
     {
         if (isset($this->channelInfo['servers']['primary']['rest'])) {
-            return $this->channelInfo['servers']['primary']['rest'];
+            return $this->channelInfo['servers']['primary']['rest']['baseurl'];
         }
 
         return false;
