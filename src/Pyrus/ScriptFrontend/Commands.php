@@ -117,7 +117,33 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 echo 'Installed ' . $package->channel . '\\' . $package->name . '-' . $package->version['release'] . "\n";
             }
         } catch (Exception $e) {
-            die($e);
+            echo $e;
+            exit -1;
+        }
+    }
+
+    function download($args)
+    {
+        PEAR2_Pyrus_Config::current()->download_dir = getcwd();
+        $packages = array();
+        foreach ($args as $arg) {
+            try {
+                $packages[] = array(new PEAR2_Pyrus_Package($arg), $arg);
+            } catch (Exception $e) {
+                echo "failed to init $arg for download (", $e->getMessage(), ")\n";
+            }
+        }
+        foreach ($packages as $package) {
+            $arg = $package[1];
+            $package = $package[0];
+            echo "Downloading ", $arg, '...';
+            try {
+                $package->download();
+                $path = $package->getInternalPackage()->getTarballPath();
+                echo "done ($path)\n";
+            } catch (Exception $e) {
+                echo 'failed! (', $e->getMessage(), ")\n";
+            }
         }
     }
 

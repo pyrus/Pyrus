@@ -89,7 +89,6 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
                         $this->_BCpackage = true;
                         $pxml = str_replace('phar://' . $phar->getPath(), '',
                                             $file->getPathName());
-                        break;
                     }
                 }
             }
