@@ -128,24 +128,25 @@
    </xs:extension>
   </xs:simpleContent>
  </xs:complexType>
+ <xs:simpleType name="channelname">
+  <xs:restriction base="xs:string">
+   <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+|__uri"/>
+  </xs:restriction>
+ </xs:simpleType>
  <xs:element name="channel">
   <xs:complexType>
    <xs:sequence>
-    <xs:element name="name">
-     <xs:simpleType>
-      <xs:restriction base="xs:string">
-       <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+|__uri"/>
-      </xs:restriction>
-     </xs:simpleType>
-    </xs:element>
-    <xs:element name="suggestedalias" minOccurs="0">
-     <xs:simpleType>
-      <xs:restriction base="xs:string">
-       <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+|__uri"/>
-      </xs:restriction>
-     </xs:simpleType>
-    </xs:element>
-    <xs:element name="summary" type="xs:string"/>
+     <xs:element name="name" type="ch:channelname"/>
+    <xs:choice>
+     <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="suggestedalias" type="ch:channelname"/>
+      <xs:element name="summary" type="xs:string"/>
+     </xs:sequence>
+     <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="summary" type="xs:string"/>
+      <xs:element name="suggestedalias" minOccurs="0" type="ch:channelname"/>
+     </xs:sequence>
+    </xs:choice>
     <xs:element name="validatepackage" minOccurs="0">
      <xs:complexType>
       <xs:simpleContent>
