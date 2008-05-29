@@ -179,4 +179,12 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         }
         return $ret;
     }
+
+    /**
+     * Don't even try - sqlite is the only one that can reliably implement this
+     */
+    public function getDependentPackages(PEAR2_Pyrus_IPackage $package)
+    {
+        return array();
+    }
 }

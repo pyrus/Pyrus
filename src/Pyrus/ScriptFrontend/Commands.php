@@ -122,6 +122,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    function uninstall($args)
+    {
+        
+    }
+
     function download($args)
     {
         PEAR2_Pyrus_Config::current()->download_dir = getcwd();

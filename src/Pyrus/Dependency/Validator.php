@@ -796,76 +796,11 @@ class PEAR2_Pyrus_Dependency_Validator
         return $this->_validatePackageDownload($dep, $required, array());
     }
 
-    /**
-     * Verify that uninstalling packages passed in to command line is OK.
-     *
-     * @param PEAR_Installer $dl
-     * @return PEAR_Error|true
-     */
-    function validatePackageUninstall(&$dl)
-    {
-        $params = array();
-        // construct an array of "downloaded" packages to fool the package dependency checker
-        // into using these to validate uninstalls of circular dependencies
-        $downloaded = $dl->getUninstallPackages();
-        foreach ($downloaded as $i => $pf) {
-            $params[$i] = $pf;
-        }
-        $deps = $this->registry->getDependentPackageDependencies($this->_currentPackage);
-        $fail = false;
-        if ($deps) {
-            foreach ($deps as $channel => $info) {
-                foreach ($info as $package => $ds) {
-                    foreach ($ds as $d) {
-                        $d['dep']['package'] = $d['dep']['name'];
-                        $checker = new PEAR2_Pyrus_Dependency_Validator($this->_config, $this->_options,
-                            array('channel' => $channel, 'package' => $package), $this->_state);
-                        $dep = $d['dep'];
-                        $required = $d['type'] == 'required';
-                        try {
-                            $ret = $checker->_validatePackageUninstall($dep, $required,
-                                 $params, $dl);
-                            if (is_array($ret)) {
-                                $dl->log(0, $ret[0]);
-                            }
-                        } catch (Exception  $e) {
-                            $dl->log(0, $e->getMessage());
-                            $fail = true;
-                        }
-                    }
-                }
-            }
-        }
-        if ($fail) {
-            if (isset($this->_options['nodeps']) || isset($this->_options['force'])) {
-                return $this->warning(
-                    'warning: %s should not be uninstalled, other installed packages depend ' .
-                    'on this package');
-            } else {
-                return $this->raiseError(
-                    '%s cannot be uninstalled, other installed packages depend on this package');
-            }
-        }
-        return true;
-    }
-
-    function _validatePackageUninstall($dep, $required, $params, &$dl)
+    function validatePackageUninstall($dep, $required, $param, $params)
     {
         $dep['package'] = $dep['name'];
         $depname = PEAR2_Pyrus_Config::parsedPackageNameToString($dep, true);
-        $found = false;
-        foreach ($params as $param) {
-            if ($param->name == $this->_currentPackage['package'] &&
-                  $param->channel == $this->_currentPackage['channel']) {
-                $found = true;
-                break;
-            }
-        }
-        $version = $this->registry->packageinfo($dep['name'], 'version',
-            $dep['channel']);
-        if (!$version) {
-            return true;
-        }
+        $version = $package->version;
         $extra = $this->_getExtraString($dep);
         if (isset($dep['exclude'])) {
             if (!is_array($dep['exclude'])) {
@@ -901,44 +836,8 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         if ($fail) {
-            if ($found) {
-                if (!isset($dl->___checked[$this->_currentPackage['channel']]
-                      [$this->_currentPackage['package']])) {
-                    $dl->___checked[$this->_currentPackage['channel']]
-                      [$this->_currentPackage['package']] = true;
-                    $deps = $this->registry->getDependentPackageDependencies(
-                        $this->_currentPackage);
-                    if ($deps) {
-                        foreach ($deps as $channel => $info) {
-                            foreach ($info as $package => $ds) {
-                                foreach ($ds as $d) {
-                                    $d['dep']['package'] = $d['dep']['name'];
-                                    $checker = new PEAR2_Pyrus_Dependency_Validator($this->_config, $this->_options,
-                                        array('channel' => $channel, 'package' => $package),
-                                        $this->_state);
-                                    $dep = $d['dep'];
-                                    $required = $d['type'] == 'required';
-                                    try {
-                                        $ret = $checker->_validatePackageUninstall($dep,
-                                             $required, $params, $dl);
-                                    } catch (Exception $e) {
-                                        $fail = true;
-                                        break 3;
-                                    }
-                                }
-                            }
-                            $fail = false;
-                        }
-                    }
-                } else {
-                    return true;
-                }
-            }
-            if (!$fail) {
-                return true;
-            }
             if ($required) {
-                if (!isset($this->_options['nodeps']) && !isset($this->_options['force'])) {
+                if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['nodeps']['force'])) {
                     return $this->raiseError($depname . $extra . ' is required by installed package' .
                         ' "%s"');
                 } else {

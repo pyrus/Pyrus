@@ -105,4 +105,44 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
     {
         $this->packageList = $this->listPackages(PEAR2_Pyrus_Config::current()->default_channel);
     }
+
+    /**
+     * Create vertices/edges of a directed graph for dependencies of this package
+     *
+     * Iterate over dependencies and create edges from this package to those it
+     * depends upon
+     * @param PEAR2_Pyrus_DirectedGraph $graph
+     * @param array $packages channel/package indexed array of PEAR2_Pyrus_Package objects
+     */
+    function makeUninstallConnections(PEAR2_Pyrus_DirectedGraph $graph, array $packages)
+    {
+        $graph->add($this);
+        $cxml = $this->toPackageFile();
+        foreach (array('required', 'optional') as $required) {
+            foreach (array('package', 'subpackage') as $package) {
+                foreach ($cxml->dependencies->$required->$package as $d) {
+                    if (isset($d['conflicts'])) {
+                        continue;
+                    }
+                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
+                    if (isset($packages[$dchannel . '/' . $d['name']])) {
+                        $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    }
+                }
+            }
+        }
+        foreach ($cxml->dependencies->group as $group) {
+            foreach (array('package', 'subpackage') as $package) {
+                foreach ($group->$package as $d) {
+                    if (isset($d['conflicts'])) {
+                        continue;
+                    }
+                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
+                    if (isset($packages[$dchannel . '/' . $d['name']])) {
+                        $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    }
+                }
+            }
+        }
+    }
 }

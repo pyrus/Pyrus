@@ -536,4 +536,28 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         }
         return $ret;
     }
+
+    public function getDependentPackages(PEAR2_Pyrus_IPackage $package)
+    {
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite channel registry for ' . $this->_path);
+        }
+        $ret = array();
+        foreach (self::$databases[$this->_path]->arrayQuery('SELECT
+                    packages_channel, packages_name
+                FROM package_dependencies
+                WHERE
+                    deppackage=\'' . sqlite_escape_string($package->name) . '\' AND
+                    depchannel=\'' . sqlite_escape_string($package->name) . '\'
+                ORDER BY packages_channel, packages_package
+        ', SQLITE_ASSOC) as $res) {
+            try {
+                $ret[] = $this->get($res[0] . '/' . $res[1]);
+            } catch (Exception $e) {
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Could not retrieve ' .
+                    'dependent package ' . $res[0] . '/' . $res[1], $e);
+            }
+        }
+        return $ret;
+    }
 }
