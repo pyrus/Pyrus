@@ -230,4 +230,14 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
             return $this->registries;
         }
     }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
 }

@@ -129,10 +129,31 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function listPackages($args)
     {
-        echo "Listing packages in channel " . PEAR2_Pyrus_Config::current()->default_channel .
-            ":\n";
-        foreach (PEAR2_Pyrus_Config::current()->registry as $package) {
-            echo $package->channel . '/' . $package->name . "\n";
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $creg = PEAR2_Pyrus_Config::current()->channelregistry;
+        $cascade = array(array($reg, $creg));
+        while ($p = $reg->getParent() && $c = $creg->getParent()) {
+            $cascade[] = array($p, $c);
+        }
+        array_reverse($cascade);
+        foreach ($cascade as $p) {
+            $c = $p[1];
+            $p = $p[0];
+            echo "Listing installed packages [", $p->getPath(), "]:\n";
+            $packages = array();
+            foreach ($c as $channel) {
+                PEAR2_Pyrus_Config::current()->default_channel = $channel->name;
+                foreach ($p as $package) {
+                    $packages[$channel->name][] = $package->name;
+                }
+            }
+            asort($packages);
+            foreach ($packages as $channel => $stuff) {
+                echo "[channel $channel]:\n";
+                foreach ($stuff as $package) {
+                    echo " $package\n";
+                }
+            }
         }
     }
 
