@@ -126,6 +126,11 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         } while (!file_exists($dir));
     }
 
+    function getTarballPath()
+    {
+        return $this->_packagename;
+    }
+
     function getLocation()
     {
         return $this->_tmpdir;
