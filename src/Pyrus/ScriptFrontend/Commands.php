@@ -36,7 +36,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 continue;
             }
             $this->commands[preg_replace_callback('/[A-Z]/',
-                    create_function('$m', 'return "-" . strtolower($m[0]);'), $name)] = true;
+                    create_function('$m', 'return "-" . strtolower($m[0]);'), $name)] = $name;
         }
     }
 
@@ -49,8 +49,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             $this->_findPEAR($args);
             if (isset($this->commands[$args[0]])) {
                 $command = array_shift($args);
-                $command = preg_replace_callback('/\\-([a-z])/',
-                        create_function('$m', 'return strtoupper($m[1]);'), $command);
+                $command = $this->commands[$args[0]];
                 $this->$command($args);
             } else {
                 $this->help($args);
