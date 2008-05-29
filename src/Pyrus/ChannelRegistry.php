@@ -236,4 +236,9 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     {
         return $this->parent;
     }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
 }

@@ -159,9 +159,17 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function listChannels($args)
     {
-        echo "Listing channels:\n";
-        foreach (PEAR2_Pyrus_Config::current()->channelregistry as $channel) {
-            echo $channel->getName() . ' (' . $channel->getAlias() . ")\n";
+        $creg = PEAR2_Pyrus_Config::current()->channelregistry;
+        $cascade = array($creg);
+        while ($c = $creg->getParent()) {
+            $cascade[] = $c;
+        }
+        array_reverse($cascade);
+        foreach ($cascade as $c) {
+            echo "Listing channels [", $c->getPath(), "]:\n";
+            foreach ($c as $channel) {
+                echo $channel->getName() . ' (' . $channel->getAlias() . ")\n";
+            }
         }
     }
 
