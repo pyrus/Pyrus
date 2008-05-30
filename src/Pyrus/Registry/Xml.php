@@ -106,6 +106,33 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         }
         if ($field == 'version') {
             $field = 'release-version';
+        } elseif ($field == 'installedfiles') {
+            $ret = array();
+            try {
+                $config = new PEAR2_Pyrus_Config_Snapshot($pf->date . ' ' . $pf->time);
+            } catch (Exception $e) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve files, config ' .
+                                        'snapshot could not be processed', $e);
+            }
+            $roles = array();
+            foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($info->getPackageType()) as $role) {
+                // set up a list of file role => configuration variable
+                // for storing in the registry
+                $roles[$role] =
+                    PEAR2_Pyrus_Installer_Role::factory($info, $role)->getLocationConfig();
+            }
+            $ret = array();
+            foreach ($pf->files as $path => $info) {
+                $ret[] = $config->{$roles[$info['role']]} . DIRECTORY_SEPARATOR . $path;
+            }
+            return $ret;
+        } elseif ($field == 'dirtree') {
+            $files = $this->installedfiles;
+            $ret = array();
+            foreach ($files as $file) {
+                $ret[dirname($file)] = true;
+            }
+            return $ret;
         }
         return $pf->$field;
     }

@@ -759,6 +759,13 @@ class PEAR2_Pyrus_PackageFile_v2
                 unset($this->packageInfo['channel']);
             }
         }
+        if ($var == 'api-version') {
+            $this->packageInfo['version']['api'] = $value;
+            return;
+        }
+        if ($var == 'release-version') {
+            $this->packageInfo['version']['release'] = $value;
+        }
         $this->packageInfo[$var] = $value;
     }
 
@@ -819,6 +826,7 @@ class PEAR2_Pyrus_PackageFile_v2
     {
         $this->packageInfo['attribs'] = $this->rootAttributes;
         $this->packageInfo['date'] = date('Y-m-d');
+        $this->packageInfo['time'] = date('H:i:s');
         $arr = $this->toArray();
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }

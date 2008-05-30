@@ -143,11 +143,10 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 echo "Package $package not installed, cannot uninstall\n";
             }
             foreach ($packages as $package) {
-                echo 'Uninstalled ' . $package->channel . '\\' . $package->name . '-' .
-                    $package->version['release'] . "\n";
+                echo 'Uninstalled ', $package->channel, '/', $package->name, "\n";
             }
             foreach ($failed as $package) {
-                echo "Package $package could not installed\n";
+                echo "Package $package could not be uninstalled\n";
             }
         } catch (Exception $e) {
             echo $e;

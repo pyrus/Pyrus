@@ -666,7 +666,7 @@ class PEAR2_Pyrus_Config
                     'Unable to create directory ' . $snapshotdir . ' to save ' .
                     'system configuration snapshots');
             }
-            $snapshot = 'configsnapshot-' . date('Ymd') . '.xml';
+            $snapshot = 'configsnapshot-' . date('Y-m-d H:i:s') . '.xml';
             $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
             foreach (self::$pearConfigNames as $var) {
                 $x->$var = $conf->$var;
@@ -695,13 +695,7 @@ class PEAR2_Pyrus_Config
         }
         PEAR2_Pyrus_Log::log(5, 'No matching configuration snapshot found');
         // no matches found
-        $snapshot = 'configsnapshot-' . date('Ymd') . '.xml';
-        $i = 0;
-        while (file_exists($snapshotdir . DIRECTORY_SEPARATOR . $snapshot)) {
-            $i++;
-            // keep appending ".1" until we get a unique filename
-            $snapshot = 'configsnapshot-' . date('Ymd') . str_repeat('.1', $i) . '.xml';
-        }
+        $snapshot = 'configsnapshot-' . date('Y-m-d H:i:s') . '.xml';
         // save the snapshot
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {

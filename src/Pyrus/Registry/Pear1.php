@@ -202,7 +202,29 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         if ($field == 'version') {
             $field = 'release-version';
         }
+        if ($field == 'installedfiles' || $field == 'dirtree') {
+            $packagefile = $this->_namePath($package, $channel) . '.reg';
+            if (!$packagefile || !isset($packagefile[0])) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
+                    $channel . '/' . $package);
+            }
 
+            $data = @unserialize($packagefile);
+            if ($data === false) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+                    'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
+            }
+
+            $ret = array();
+            foreach ($data['filelist'] as $file) {
+                if ($field == 'installedfiles') {
+                    $ret[] = $file['installed_as'];
+                } else {
+                    $ret[dirname($file['installed_as'])] = 1;
+                }
+            }
+            return $ret;
+        }
         return $pf->$field;
     }
 

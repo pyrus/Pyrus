@@ -354,13 +354,50 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
 
     function info($package, $channel, $field)
     {
+        if (!isset(self::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite registry for ' . $this->_path);
+        }
         if ($field == 'date') {
             $field = 'releasedate';
         } else if ($field == 'time') {
             $field = 'releasetime';
+        } elseif ($field == 'installedfiles') {
+            $ret = array();
+            $files = @self::$databases[$this->_path]->arrayQuery('SELECT
+                        rolepath, packagepath
+                    FROM files
+                    WHERE
+                        packages_name=\'' . sqlite_escape_string($package) .'\' AND
+                        packages_channel=\'' . sqlite_escape_string($channel) . '\'',
+                        SQLITE_ASSOC);
+            if (self::$databases[$this->_path]->lastError()) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
+                    ': ' . sqlite_error_string(self::$databases[$this->_path]->lastError()));
+            }
+            foreach ($files as $file) {
+                $ret[] = $file['rolepath'] . DIRECTORY_SEPARATOR .
+                    $file['packagepath'];
+            }
+            return $ret;
+        } elseif ($field == 'dirtree') {
+            $ret = array();
+            $files = @self::$databases[$this->_path]->arrayQuery('SELECT
+                        rolepath, packagepath
+                    FROM files
+                    WHERE
+                        packages_name=\'' . sqlite_escape_string($package) .'\' AND
+                        packages_channel=\'' . sqlite_escape_string($channel) . '\'',
+                        SQLITE_ASSOC);
+            if (self::$databases[$this->_path]->lastError()) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
+                    ': ' . sqlite_error_string(self::$databases[$this->_path]->lastError()));
+            }
+            foreach ($files as $file) {
+                $ret[dirname($file['rolepath'] . DIRECTORY_SEPARATOR .
+                    $file['packagepath'])] = 1;
+            }
+            return $ret;
         }
-        // XXX TODO: add "files" which gets an array of installed locations
-        // based on config snapshot
         $info = @self::$databases[$this->_path]->singleQuery('
             SELECT ' . $field . ' FROM packages WHERE
             name = \'' . sqlite_escape_string($package) . '\' AND
@@ -432,8 +469,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         if ($a = $this->info($package, $channel, 'time')) {
             $ret->time = $this->info($package, $channel, 'time');
         }
-        $ret->version['release'] = $this->info($package, $channel, 'version');
-        $ret->version['api'] = $this->info($package, $channel, 'apiversion');
+        $ret->{'release-version'} = $this->info($package, $channel, 'version');
+        $ret->{'api-version'} = $this->info($package, $channel, 'apiversion');
         $ret->stability['release'] = $this->info($package, $channel, 'stability');
         $ret->stability['api'] = $this->info($package, $channel, 'apistability');
         $uri = $this->info($package, $channel, 'licenseuri');

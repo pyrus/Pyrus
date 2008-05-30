@@ -112,7 +112,7 @@ class PEAR2_Pyrus_Uninstaller
             return;
         }
         self::$uninstallPackages[$package->channel . '/' . $package->name] = $package;
-        return $package;
+        return $package->toPackageFile($package->name, $package->channel);
     }
 
     /**
@@ -232,6 +232,12 @@ class PEAR2_Pyrus_Uninstaller
                 self::$uninstalledPackages[] = $package;
             }
             self::$transact->commit();
+            self::$transact->begin();
+            foreach ($actual as $package) {
+                // remove empty directories
+                $installer->cleanup($package);
+            }
+            self::$transact->commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (self::$uninstalledPackages as $package) {
                 $previous = $reg->toPackageFile($package->name, $package->channel, true);
@@ -257,17 +263,24 @@ class PEAR2_Pyrus_Uninstaller
      */
     function uninstall(PEAR2_Pyrus_IRegistry $package)
     {
-        foreach ($package->file as $file) {
-            if (empty($this->_options['register-only'])) {
-                $this->addFileOperation('delete', array($path));
-            }
+        if (!empty($this->_options['register-only'])) {
             // pretty much nothing happens if we are only registering the install
+            return;
         }
-        if ($dirtree = $package->getDirTree()) {
+        foreach ($package->installedfiles as $file) {
+            self::$transact->backup($file);
+            self::$transact->delete($file);
+        }
+    }
+
+    function cleanup(PEAR2_Pyrus_IRegistry $package)
+    {
+        if ($dirtree = $package->dirtree) {
             // attempt to delete empty directories
-            uksort($dirtree, array($this, '_sortDirs'));
+            uksort($dirtree, 'strnatcmp');
+            array_reverse($dirtree);
             foreach($dirtree as $dir => $notused) {
-                $this->addFileOperation('rmdir', array($dir));
+                self::$transact->rmdir($dir);
             }
         }
     }
