@@ -35,4 +35,8 @@ interface PEAR2_Pyrus_IRegistry
      * @return PEAR2_Pyrus_PackageFile_v2
      */
     public function toPackageFile($package, $channel);
+    /**
+     * Retrieve a list of package objects that depend on this package
+     */
+    public function getDependentPackages(PEAR2_Pyrus_IPackage $package);
 }

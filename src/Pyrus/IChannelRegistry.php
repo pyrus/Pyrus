@@ -33,8 +33,4 @@ interface PEAR2_Pyrus_IChannelRegistry
     public function parseName($name);
     public function parsedNameToString($name);
     public function listChannels();
-    /**
-     * Retrieve a list of package objects that depend on this package
-     */
-    public function getDependentPackages(PEAR2_Pyrus_IPackage $package);
 }

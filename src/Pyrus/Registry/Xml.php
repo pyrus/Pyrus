@@ -156,4 +156,12 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             return new PEAR2_Pyrus_Registry_Xml_Channel($this);
         }
     }
+
+    /**
+     * Don't even try - sqlite is the only one that can reliably implement this
+     */
+    public function getDependentPackages(PEAR2_Pyrus_IPackage $package)
+    {
+        return array();
+    }
 }
