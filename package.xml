@@ -34,7 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-05-29</date>
+ <date>2008-05-30</date>
+ <time>13:21:20</time>
  <version>
   <release>2.0.0a1</release>
   <api>0.1.0</api>
@@ -79,6 +80,7 @@ try {
      </dir>
      <dir name="Config">
       <file role="php" name="Exception.php"/>
+      <file role="php" name="Snapshot.php"/>
      </dir>
      <dir name="Dependency">
       <file role="php" name="Exception.php"/>
@@ -231,6 +233,9 @@ try {
       <file role="php" name="Unixeol.php"/>
       <file role="php" name="Windowseol.php"/>
      </dir>
+     <dir name="Uninstaller">
+      <file role="php" name="Exception.php"/>
+     </dir>
      <dir name="Validate">
       <file role="php" name="Exception.php"/>
      </dir>
@@ -263,6 +268,7 @@ try {
      <file role="php" name="PackageFile.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
+     <file role="php" name="Uninstaller.php"/>
      <file role="php" name="Validate.php"/>
      <file role="php" name="XMLParser.php"/>
      <file role="php" name="XMLWriter.php"/>
