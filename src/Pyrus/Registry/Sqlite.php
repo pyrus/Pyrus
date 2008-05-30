@@ -359,6 +359,8 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         } else if ($field == 'time') {
             $field = 'releasetime';
         }
+        // XXX TODO: add "files" which gets an array of installed locations
+        // based on config snapshot
         $info = @self::$databases[$this->_path]->singleQuery('
             SELECT ' . $field . ' FROM packages WHERE
             name = \'' . sqlite_escape_string($package) . '\' AND
@@ -537,7 +539,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         return $ret;
     }
 
-    public function getDependentPackages(PEAR2_Pyrus_IPackage $package)
+    public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
     {
         if (!isset(self::$databases[$this->_path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite channel registry for ' . $this->_path);
@@ -549,7 +551,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                 WHERE
                     deppackage=\'' . sqlite_escape_string($package->name) . '\' AND
                     depchannel=\'' . sqlite_escape_string($package->name) . '\'
-                ORDER BY packages_channel, packages_package
+                ORDER BY packages_channel, packages_name
         ', SQLITE_ASSOC) as $res) {
             try {
                 $ret[] = $this->get($res[0] . '/' . $res[1]);

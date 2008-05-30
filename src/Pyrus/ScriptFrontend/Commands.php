@@ -124,7 +124,35 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function uninstall($args)
     {
-        
+        PEAR2_Pyrus_Uninstaller::begin();
+        try {
+            $packages = $non = $failed = array();
+            foreach ($args as $arg) {
+                try {
+                    if (!isset(PEAR2_Pyrus_Config::current()->registry->package[$arg])) {
+                        $non[] = $arg;
+                        continue;
+                    }
+                    $packages[] = PEAR2_Pyrus_Uninstaller::prepare($arg);
+                } catch (Exception $e) {
+                    $failed[] = $arg;
+                }
+            }
+            PEAR2_Pyrus_Uninstaller::commit();
+            foreach ($non as $package) {
+                echo "Package $package not installed, cannot uninstall\n";
+            }
+            foreach ($packages as $package) {
+                echo 'Uninstalled ' . $package->channel . '\\' . $package->name . '-' .
+                    $package->version['release'] . "\n";
+            }
+            foreach ($failed as $package) {
+                echo "Package $package could not installed\n";
+            }
+        } catch (Exception $e) {
+            echo $e;
+            exit -1;
+        }
     }
 
     function download($args)

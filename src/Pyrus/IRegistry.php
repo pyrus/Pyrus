@@ -38,5 +38,5 @@ interface PEAR2_Pyrus_IRegistry
     /**
      * Retrieve a list of package objects that depend on this package
      */
-    public function getDependentPackages(PEAR2_Pyrus_IPackage $package);
+    public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package);
 }

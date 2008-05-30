@@ -103,7 +103,7 @@ class PEAR2_Pyrus_Uninstaller
     static function prepare($packageName)
     {
         try {
-            $package = PEAR2_Pyrus_Config::current()->registry[$packageName];
+            $package = PEAR2_Pyrus_Config::current()->registry->package[$packageName];
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Uninstaller_Exception('Invalid package name ' .
                                                         $packageName, $e);
@@ -112,6 +112,7 @@ class PEAR2_Pyrus_Uninstaller
             return;
         }
         self::$uninstallPackages[$package->channel . '/' . $package->name] = $package;
+        return $package;
     }
 
     /**
@@ -172,7 +173,7 @@ class PEAR2_Pyrus_Uninstaller
                     $err->E_ERROR[] = $e;
                 }
             }
-            foreach (self::$removedPackages as $package) {
+            foreach (self::$restoredPackages as $package) {
                 try {
                     $reg->uninstall($package->name, $package->channel);
                 } catch (Exception $e) {
@@ -184,10 +185,10 @@ class PEAR2_Pyrus_Uninstaller
                     $err->E_ERROR[] = $e;
                 }
             }
-            self::$installPackages = array();
-            self::$installedPackages = array();
+            self::$uninstallPackages = array();
+            self::$uninstalledPackages = array();
             self::$registeredPackages = array();
-            self::$removedPackages = array();
+            self::$restoredPackages = array();
             if (count($err)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
@@ -206,7 +207,7 @@ class PEAR2_Pyrus_Uninstaller
             $installer = new PEAR2_Pyrus_Uninstaller;
             // validate dependencies
             $errs = new PEAR2_MultiErrors;
-            foreach (self::$installPackages as $package) {
+            foreach (self::$uninstallPackages as $package) {
                 $package->validateUninstallDependencies(self::$uninstallPackages, $errs);
             }
             if (count($errs->E_ERROR)) {
@@ -216,7 +217,7 @@ class PEAR2_Pyrus_Uninstaller
             // create dependency connections and load them into the directed graph
             $graph = new PEAR2_Pyrus_DirectedGraph;
             foreach (self::$uninstallPackages as $package) {
-                $package->makeConnections($graph, self::$uninstallPackages);
+                $package->makeUninstallConnections($graph, self::$uninstallPackages);
             }
             // topologically sort packages and install them via iterating over the graph
             self::$transact->begin();

@@ -117,7 +117,7 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
     function makeUninstallConnections(PEAR2_Pyrus_DirectedGraph $graph, array $packages)
     {
         $graph->add($this);
-        $cxml = $this->toPackageFile();
+        $cxml = $this->toPackageFile($this->name, $this->channel);
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($cxml->dependencies->$required->$package as $d) {
@@ -140,6 +140,43 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
                     $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
                     if (isset($packages[$dchannel . '/' . $d['name']])) {
                         $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    }
+                }
+            }
+        }
+    }
+
+    public function validateUninstallDependencies(array $uninstallPackages,
+                                                  PEAR2_Multierrors $errs)
+    {
+        foreach ($uninstallPackages as $package) {
+            $dep = new PEAR2_Pyrus_Dependency_Validator($this->name,
+                PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
+            foreach ($this->getDependentPackages($package) as $deppackage) {
+                foreach (array('package', 'subpackage') as $packaged) {
+                    foreach ($deppackage->dependencies->required->$packaged as $d) {
+                        if ($package->package == '__uri') {
+                            if ($d['name'] != $package->name || $d['uri'] != $package->uri) {
+                                continue;
+                            }
+                        } else {
+                            if ($d['name'] != $package->name || $d['channel'] != $package->channel) {
+                                continue;
+                            }
+                        }
+                        $dep->validatePackageUninstall($d, true, $package, $uninstallPackages);
+                    }
+                    foreach ($deppackage->dependencies->optional->$packaged as $d) {
+                        if ($package->package == '__uri') {
+                            if ($d['name'] != $package->name || $d['uri'] != $package->uri) {
+                                continue;
+                            }
+                        } else {
+                            if ($d['name'] != $package->name || $d['channel'] != $package->channel) {
+                                continue;
+                            }
+                        }
+                        $dep->validatePackageUninstall($d, false, $package, $uninstallPackages);
                     }
                 }
             }

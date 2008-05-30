@@ -407,41 +407,4 @@ http://pear.php.net/dtd/channel-1.0.xsd">
         $this->add($pecl);
         $this->add($__uri);
     }
-
-    public function validateUninstallDependencies(array $uninstallPackages,
-                                                  PEAR2_Multierrors $errs)
-    {
-        foreach ($uninstallPackages as $package) {
-            $dep = new PEAR2_Pyrus_Dependency_Validator($this->packageInfo['name'],
-                PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
-            foreach ($this->getDependentPackages($package) as $deppackage) {
-                foreach (array('package', 'subpackage') as $packaged) {
-                    foreach ($deppackage->dependencies->required->$packaged as $d) {
-                        if ($package->package == '__uri') {
-                            if ($d['name'] != $package->name || $d['uri'] != $package->uri) {
-                                continue;
-                            }
-                        } else {
-                            if ($d['name'] != $package->name || $d['channel'] != $package->channel) {
-                                continue;
-                            }
-                        }
-                        $dep->validatePackageUninstall($d, true, $package, $uninstallPackages);
-                    }
-                    foreach ($deppackage->dependencies->optional->$packaged as $d) {
-                        if ($package->package == '__uri') {
-                            if ($d['name'] != $package->name || $d['uri'] != $package->uri) {
-                                continue;
-                            }
-                        } else {
-                            if ($d['name'] != $package->name || $d['channel'] != $package->channel) {
-                                continue;
-                            }
-                        }
-                        $dep->validatePackageUninstall($d, false, $package, $uninstallPackages);
-                    }
-                }
-            }
-        }
-    }
 }
