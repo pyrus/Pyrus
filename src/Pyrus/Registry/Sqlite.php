@@ -616,6 +616,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
                     'dependent package ' . $res[0] . '/' . $res[1], $e);
             }
         }
+
         return $ret;
     }
 }

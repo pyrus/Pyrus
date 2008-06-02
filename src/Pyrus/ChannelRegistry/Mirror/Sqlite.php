@@ -27,6 +27,7 @@ class PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite extends PEAR2_Pyrus_ChannelRegis
 {
     private $_channel;
     private $_parent;
+
     function __construct(SQLiteDatabase $db, $mirror, PEAR2_Pyrus_IChannel $parent)
     {
         if ($parent->getName() == '__uri') {
