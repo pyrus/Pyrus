@@ -665,7 +665,7 @@ class PEAR2_Pyrus_Config
         }
 
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
-        $file = dirname($system) . DIRECTORY_SEPARATOR;
+        $path = dirname($system) . DIRECTORY_SEPARATOR;
         foreach (self::$pearConfigNames as $var) {
             if ($var === 'php_dir' || $var === 'data_dir') {
                 continue; // both of these are abstract
