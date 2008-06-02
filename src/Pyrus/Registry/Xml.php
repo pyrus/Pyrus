@@ -104,6 +104,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         if ($field === null) {
             return $pf;
         }
+
         if ($field == 'version') {
             $field = 'release-version';
         } elseif ($field == 'installedfiles') {
@@ -134,6 +135,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             }
             return $ret;
         }
+
         return $pf->$field;
     }
 
