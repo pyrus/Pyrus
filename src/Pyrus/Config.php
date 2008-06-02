@@ -48,49 +48,55 @@ class PEAR2_Pyrus_Config
      * @var string
      */
     protected $pearDir;
+
     /**
      * location of user-specific configuration file
      *
      * @var string
      */
     protected $userFile;
+
     /**
      * registry for this {@link $pearDir} value
      *
      * @var PEAR2_Pyrus_Registry
      */
     protected $myregistry;
+
     /**
      * channel registry for this {@link $pearDir} value
      *
      * @var PEAR2_Pyrus_Channel_Registry
      */
     protected $mychannelRegistry;
+
     /**
      * configuration values for this configuration object
      *
      * @var string
      */
     protected $values;
+
     /**
      * mapping of path => PEAR2 configuration objects
      *
      * @var array
      */
     static protected $configs = array();
+
     /**
      * The last instantiated configuration
      *
      * @var PEAR2_Pyrus_Config
      */
     static protected $current;
+
     /**
      * Default values for custom configuration values set by custom file roles.
      * @var array
      */
-    static protected $customDefaults =
-        array(
-            );
+    static protected $customDefaults = array();
+
     /**
      * Default values for configuration.
      *
@@ -129,12 +135,14 @@ class PEAR2_Pyrus_Config
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
         );
+
     /**
      * Mapping of user configuration file path => config values
      *
      * @var array
      */
     static protected $userConfigs = array();
+
     /**
      * Configuration variable names that are bound to the PEAR installation
      *
@@ -153,6 +161,7 @@ class PEAR2_Pyrus_Config
             'php_bin',
             'php_ini',
         );
+
     /**
      * Custom configuration variable names that are bound to the PEAR installation
      *
@@ -160,8 +169,8 @@ class PEAR2_Pyrus_Config
      * set by custom file roles
      * @var array
      */
-    static protected $customPearConfigNames = array(
-        );
+    static protected $customPearConfigNames = array();
+
     /**
      * Configuration variable names that are user-specific
      *
@@ -197,8 +206,7 @@ class PEAR2_Pyrus_Config
      * are set up by custom file roles
      * @var array
      */
-    static protected $customUserConfigNames = array(
-        );
+    static protected $customUserConfigNames = array();
 
     /**
      * __get variables that cannot be used as custom config values
@@ -408,7 +416,6 @@ class PEAR2_Pyrus_Config
         if (class_exists('COM', false)) {
             $shell = new COM('Wscript.Shell');
             $value = $shell->SpecialFolders('MyDocuments');
-
             return $value;
         }
 
@@ -576,13 +583,10 @@ class PEAR2_Pyrus_Config
             if ($this->userFile) {
                 $userfile = $this->userFile;
             } else {
-                if (class_exists('COM', false)) {
-                    $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                        'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
-                } else {
-                    $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                        '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
-                }
+                // FIXME any reason why we don't name it .pear on windows ?
+                $pear = class_exists('COM', false) ? 'pear' : '.pear';
+                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                        $pear . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             }
         }
         $userfile = str_replace('\\', '/', $userfile);
@@ -611,12 +615,12 @@ class PEAR2_Pyrus_Config
         foreach (self::$customUserConfigNames as $var) {
             $x->$var = (string) $this->$var;
         }
-        if (!file_exists(dirname($userfile))) {
-            if (!@mkdir(dirname($userfile), 0777, true)) {
-                throw new PEAR2_Pyrus_Config_Exception(
-                    'Unable to create directory ' . dirname($userfile) . ' to save ' .
-                    'user configuration ' . $userfile);
-            }
+
+        $userfiledir = dirname($userfile);
+        if (!file_exists($userfiledir) && !@mkdir($userfiledir, 0777, true)) {
+            throw new PEAR2_Pyrus_Config_Exception(
+                'Unable to create directory ' . $userfiledir . ' to save ' .
+                'user configuration ' . $userfile);
         }
         file_put_contents($userfile, $x->asXML());
 
@@ -624,26 +628,24 @@ class PEAR2_Pyrus_Config
         if (dirname($system) != $this->pearDir) {
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
         }
-        if (!file_exists(dirname($system))) {
-            if (!@mkdir(dirname($system), 0777, true)) {
-                throw new PEAR2_Pyrus_Config_Exception(
-                    'Unable to create directory ' . dirname($system) . ' to save ' .
-                    'system configuration ' . $system);
-            }
+        if (!file_exists(dirname($system)) && !@mkdir(dirname($system), 0777, true)) {
+            throw new PEAR2_Pyrus_Config_Exception(
+                'Unable to create directory ' . dirname($system) . ' to save ' .
+                'system configuration ' . $system);
         }
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
+
+        $file = dirname($system) . DIRECTORY_SEPARATOR;
         foreach (self::$pearConfigNames as $var) {
             if ($var === 'php_dir' || $var === 'data_dir') {
                 continue; // both of these are abstract
             }
             $x->$var = $this->$var;
-            file_put_contents(dirname($system) . DIRECTORY_SEPARATOR .
-                $var . '.txt', $this->$var);
+            file_put_contents($path . $var . '.txt', $this->$var);
         }
         foreach (self::$customPearConfigNames as $var) {
             $x->$var = $this->$var;
-            file_put_contents(dirname($system) . DIRECTORY_SEPARATOR .
-                $var . '.txt', $this->$var);
+            file_put_contents($path . $var . '.txt', $this->$var);
         }
         file_put_contents($system, $x->asXML());
     }
