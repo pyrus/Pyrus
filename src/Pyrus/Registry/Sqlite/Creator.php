@@ -38,76 +38,76 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *
      * <pre>
      * CREATE TABLE packages (
-     *  name VARCHAR(80) NOT NULL,
-     *  channel VARCHAR(255) NOT NULL,
-     *  version VARCHAR(20) NOT NULL,
-     *  apiversion VARCHAR(20) NOT NULL,
+     *  name TEXT(80) NOT NULL,
+     *  channel TEXT(255) NOT NULL,
+     *  version TEXT(20) NOT NULL,
+     *  apiversion TEXT(20) NOT NULL,
      *  summary TEXT NOT NULL,
      *  description TEXT NOT NULL,
-     *  stability VARCHAR(8) NOT NULL,
-     *  apistability VARCHAR(8) NOT NULL,
+     *  stability TEXT(8) NOT NULL,
+     *  apistability TEXT(8) NOT NULL,
      *  releasedate DATE NOT NULL,
      *  releasetime TIME,
-     *  license VARCHAR(50) NOT NULL,
+     *  license TEXT(50) NOT NULL,
      *  licenseuri TEXT,
      *  licensepath TEXT,
      *  releasenotes TEXT,
-     *  lastinstalledversion VARCHAR(20),
-     *  installedwithpear VARCHAR(20),
-     *  installtimeconfig VARCHAR(50), -- the path to configuration as stored
+     *  lastinstalledversion TEXT(20),
+     *  installedwithpear TEXT(20),
+     *  installtimeconfig TEXT(50), -- the path to configuration as stored
      *  PRIMARY KEY (name, channel)
      * );
      *
      * CREATE TABLE maintainers (
-     *  packages_name VARCHAR(80) NOT NULL,
-     *  packages_channel VARCHAR(255) NOT NULL,
-     *  role VARCHAR(11) NOT NULL,
-     *  user VARCHAR(20) NOT NULL,
-     *  name VARCHAR(200) NOT NULL,
-     *  email VARCHAR(100) NOT NULL,
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  role TEXT(11) NOT NULL,
+     *  user TEXT(20) NOT NULL,
+     *  name TEXT(200) NOT NULL,
+     *  email TEXT(100) NOT NULL,
      *  active CHAR(3) NOT NULL,
      *  PRIMARY KEY (packages_name, packages_channel, user)
      * );
      *
      * CREATE TABLE files (
-     *  packages_name VARCHAR(80) NOT NULL,
-     *  packages_channel VARCHAR(255) NOT NULL,
-     *  packagepath VARCHAR(255) NOT NULL,
-     *  role VARCHAR(30) NOT NULL,
-     *  rolepath VARCHAR(255) NOT NULL,
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  packagepath TEXT(255) NOT NULL,
+     *  role TEXT(30) NOT NULL,
+     *  rolepath TEXT(255) NOT NULL,
      *  PRIMARY KEY (packagepath, role, rolepath),
      *  UNIQUE (packages_name, packages_channel, packagepath)
      * );
      *
      * CREATE TABLE package_dependencies (
      *  required BOOL NOT NULL,
-     *  packages_name VARCHAR(80) NOT NULL,
-     *  packages_channel VARCHAR(255) NOT NULL,
-     *  deppackage VARCHAR(80) NOT NULL,
-     *  depchannel VARCHAR(255) NOT NULL,
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  deppackage TEXT(80) NOT NULL,
+     *  depchannel TEXT(255) NOT NULL,
      *  conflicts BOOL NOT NULL,
-     *  min VARCHAR(20),
-     *  max VARCHAR(20),
+     *  min TEXT(20),
+     *  max TEXT(20),
      *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
      * );
      *
      * CREATE TABLE package_dependencies_exclude (
      *  required BOOL NOT NULL,
-     *  packages_name VARCHAR(80) NOT NULL,
-     *  packages_channel VARCHAR(255) NOT NULL,
-     *  deppackage VARCHAR(80) NOT NULL,
-     *  depchannel VARCHAR(255) NOT NULL,
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  deppackage TEXT(80) NOT NULL,
+     *  depchannel TEXT(255) NOT NULL,
      *  conflicts BOOL NOT NULL,
-     *  exclude VARCHAR(20),
+     *  exclude TEXT(20),
      *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
      * );
      *
      * CREATE TABLE channels (
      *  channel TEXT NOT NULL,
      *  summary TEXT NOT NULL,
-     *  suggestedalias VARCHAR(50) NOT NULL,
-     *  alias VARCHAR(50) NOT NULL,
-     *  validatepackageversion VARCHAR(20) NOT NULL default "default",
+     *  suggestedalias TEXT(50) NOT NULL,
+     *  alias TEXT(50) NOT NULL,
+     *  validatepackageversion TEXT(20) NOT NULL default "default",
      *  validatepackage NOT NULL default "PEAR_Validate",
      *  lastmodified DATETIME,
      *  PRIMARY KEY (channel),
@@ -128,7 +128,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
      *  function TEXT NOT NULL,
-     *  version VARCHAR(20) NOT NULL,
+     *  version TEXT(20) NOT NULL,
      *  PRIMARY KEY (channel, server, function, version)
      * );
      *
@@ -136,7 +136,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  channel TEXT NOT NULL,
      *  server TEXT NOT NULL,
      *  function TEXT NOT NULL,
-     *  version VARCHAR(20) NOT NULL,
+     *  version TEXT(20) NOT NULL,
      *  PRIMARY KEY (channel, server, function, version)
      * );
      *
@@ -149,7 +149,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      * );
      *
      * CREATE TABLE pearregistryversion (
-     *  version VARCHAR(20) NOT NULL default "1.0.0"
+     *  version TEXT(20) NOT NULL default "1.0.0"
      * );
      *
      * INSERT INTO pearregistryversion VALUES("1.0.0");
@@ -246,23 +246,23 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
         }
         $query = '
           CREATE TABLE packages (
-           name VARCHAR(80) NOT NULL,
-           channel VARCHAR(255) NOT NULL,
-           version VARCHAR(20) NOT NULL,
-           apiversion VARCHAR(20) NOT NULL,
+           name TEXT(80) NOT NULL,
+           channel TEXT(255) NOT NULL,
+           version TEXT(20) NOT NULL,
+           apiversion TEXT(20) NOT NULL,
            summary TEXT NOT NULL,
            description TEXT NOT NULL,
-           stability VARCHAR(8) NOT NULL,
-           apistability VARCHAR(8) NOT NULL,
+           stability TEXT(8) NOT NULL,
+           apistability TEXT(8) NOT NULL,
            releasedate DATE NOT NULL,
            releasetime TIME,
-           license VARCHAR(50) NOT NULL,
+           license TEXT(50) NOT NULL,
            licenseuri TEXT,
            licensepath TEXT,
            releasenotes TEXT,
-           lastinstalledversion VARCHAR(20),
-           installedwithpear VARCHAR(20),
-           installtimeconfig VARCHAR(50),
+           lastinstalledversion TEXT(20),
+           installedwithpear TEXT(20),
+           installtimeconfig TEXT(50),
            PRIMARY KEY (name, channel)
           );';
         $worked = @$database->queryExec($query, $error);
@@ -273,12 +273,12 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
 
         $query = '
           CREATE TABLE maintainers (
-           packages_name VARCHAR(80) NOT NULL,
-           packages_channel VARCHAR(255) NOT NULL,
-           role VARCHAR(11) NOT NULL,
-           name VARCHAR(200) NOT NULL,
-           user VARCHAR(20) NOT NULL,
-           email VARCHAR(100) NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           role TEXT(11) NOT NULL,
+           name TEXT(200) NOT NULL,
+           user TEXT(20) NOT NULL,
+           email TEXT(100) NOT NULL,
            active CHAR(3) NOT NULL,
            PRIMARY KEY (packages_name, packages_channel, user)
           );';
@@ -290,11 +290,11 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
 
         $query = '
           CREATE TABLE files (
-           packages_name VARCHAR(80) NOT NULL,
-           packages_channel VARCHAR(255) NOT NULL,
-           packagepath VARCHAR(255) NOT NULL,
-           role VARCHAR(30) NOT NULL,
-           rolepath VARCHAR(255) NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           packagepath TEXT(255) NOT NULL,
+           role TEXT(30) NOT NULL,
+           rolepath TEXT(255) NOT NULL,
            PRIMARY KEY (packagepath, role, rolepath),
            UNIQUE (packages_name, packages_channel, packagepath)
           );';
@@ -307,13 +307,13 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
         $query = '
           CREATE TABLE package_dependencies (
            required BOOL NOT NULL,
-           packages_name VARCHAR(80) NOT NULL,
-           packages_channel VARCHAR(255) NOT NULL,
-           deppackage VARCHAR(80) NOT NULL,
-           depchannel VARCHAR(255) NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           deppackage TEXT(80) NOT NULL,
+           depchannel TEXT(255) NOT NULL,
            conflicts BOOL NOT NULL,
-           min VARCHAR(20),
-           max VARCHAR(20),
+           min TEXT(20),
+           max TEXT(20),
            PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
           );';
         $worked = @$database->queryExec($query, $error);
@@ -325,11 +325,11 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
         $query = '
           CREATE TABLE package_dependencies_exclude (
            required BOOL NOT NULL,
-           packages_name VARCHAR(80) NOT NULL,
-           packages_channel VARCHAR(255) NOT NULL,
-           deppackage VARCHAR(80) NOT NULL,
-           depchannel VARCHAR(255) NOT NULL,
-           exclude VARCHAR(20),
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           deppackage TEXT(80) NOT NULL,
+           depchannel TEXT(255) NOT NULL,
+           exclude TEXT(20),
            conflicts BOOL NOT NULL,
            PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
           );';
@@ -343,9 +343,9 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
           CREATE TABLE channels (
            channel TEXT NOT NULL,
            summary TEXT NOT NULL,
-           suggestedalias VARCHAR(50) NOT NULL,
-           alias VARCHAR(50) NOT NULL,
-           validatepackageversion VARCHAR(20) NOT NULL default "default",
+           suggestedalias TEXT(50) NOT NULL,
+           alias TEXT(50) NOT NULL,
+           validatepackageversion TEXT(20) NOT NULL default "default",
            validatepackage NOT NULL default "PEAR_Validate",
            lastmodified TEXT,
            PRIMARY KEY (channel),
@@ -378,7 +378,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
            channel TEXT NOT NULL,
            server TEXT NOT NULL,
            function TEXT NOT NULL,
-           version VARCHAR(20) NOT NULL,
+           version TEXT(20) NOT NULL,
            PRIMARY KEY (channel, server, function, version)
           );';
         $worked = @$database->queryExec($query, $error);
@@ -392,7 +392,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
            channel TEXT NOT NULL,
            server TEXT NOT NULL,
            function TEXT NOT NULL,
-           version VARCHAR(20) NOT NULL,
+           version TEXT(20) NOT NULL,
            PRIMARY KEY (channel, server, function, version)
           );';
         $worked = @$database->queryExec($query, $error);
@@ -417,7 +417,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
 
         $query = '
           CREATE TABLE pearregistryversion (
-           version VARCHAR(20) NOT NULL
+           version TEXT(20) NOT NULL
           );
 
           INSERT INTO pearregistryversion VALUES("1.0.0");
