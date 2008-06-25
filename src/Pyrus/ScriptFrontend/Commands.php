@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ScriptFrontend_Commands
+ * This script handles the command line interface commands to Pyrus
  *
  * PHP version 5
  *
@@ -14,7 +14,10 @@
  */
 
 /**
- * PEAR2_Pyrus_ScriptFrontend_Commands
+ * This script handles the command line interface commands to Pyrus
+ * 
+ * Each command is a separate method, and will be called with the arguments
+ * entered by the end user.
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -40,6 +43,22 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * This method acts as a controller which dispatches the request to the 
+     * correct command/method.
+     * 
+     * <code>
+     * $cli = PEAR2_Pyrus_ScriptFrontend_Commands();
+     * $cli->run($args = array (0 => 'install',
+     *                          1 => 'PEAR2/Pyrus_Developer/package.xml'));
+     * </code>
+     *
+     * The above code will dispatch to the install command
+     * 
+     * @param array $args An array of command line arguments.
+     * 
+     * @return void
+     */
     function run($args)
     {
         try {
@@ -86,6 +105,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         echo "Using PEAR installation in current directory\n";
     }
 
+    /**
+     * Display the help dialog and list all commands supported.
+     *
+     * @param array $args Array of command line arguments
+     */
     function help($args)
     {
         if (isset($args[0]) && $args[0] == 'help') {
@@ -104,6 +128,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * install a local or remote package
+     *
+     * @param array $args
+     */
     function install($args)
     {
         PEAR2_Pyrus_Installer::begin();
@@ -122,6 +151,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * uninstall an installed package
+     *
+     * @param array $args
+     */
     function uninstall($args)
     {
         PEAR2_Pyrus_Uninstaller::begin();
@@ -154,6 +188,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * download a remote package
+     *
+     * @param array $args
+     */
     function download($args)
     {
         PEAR2_Pyrus_Config::current()->download_dir = getcwd();
@@ -179,12 +218,22 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * Upgrade a package
+     *
+     * @param array $args
+     */
     function upgrade($args)
     {
         PEAR2_Pyrus_Installer::$options['upgrade'] = true;
         $this->install($args);
     }
 
+    /**
+     * list all the installed packages
+     *
+     * @param array $args
+     */
     function listPackages($args)
     {
         $reg = PEAR2_Pyrus_Config::current()->registry;
@@ -215,6 +264,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * List all the known channels
+     *
+     * @param array $args
+     */
     function listChannels($args)
     {
         $creg = PEAR2_Pyrus_Config::current()->channelregistry;
@@ -231,6 +285,12 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * remotely connect to a channel server and grab the channel information,
+     * then add it to the current pyrus managed repo
+     *
+     * @param array $args $args[0] should be the channel name, eg:pear.unl.edu
+     */
     function channelDiscover($args)
     {
         $chan = 'http://' . $args[0] . '/channel.xml';
@@ -254,6 +314,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         echo "Discovery of channel ", $chan->name, " successful\n";
     }
 
+    /**
+     * add a channel to the current pyrus managed path using the raw channel.xml
+     *
+     * @param array $args $args[0] should be the channel.xml filename
+     */
     function channelAdd($args)
     {
         echo "Adding channel from channel.xml:\n";
@@ -279,6 +344,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         echo "Deleting channel ", $chan->name, " successful\n";
     }
 
+    /**
+     * Display pyrus configuration vars
+     *
+     * @param array $args
+     */
     function configShow($args)
     {
         $conf = PEAR2_Pyrus_Config::current();
@@ -300,6 +370,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    /**
+     * Set a configuration option.
+     *
+     * @param array $args
+     */
     function set($args)
     {
         $conf = PEAR2_Pyrus_Config::current();
@@ -316,6 +391,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         $conf->saveConfig();
     }
 
+    /**
+     * Set up a pear path managed by pyrus.
+     *
+     * @param array $args Arguments
+     */
     function mypear($args)
     {
         echo "Setting my pear repositories to:\n";
