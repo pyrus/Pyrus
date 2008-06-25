@@ -127,7 +127,7 @@ class PEAR2_Pyrus_Config
             'password' => '',
             'verbose' => 1,
             'preferred_state' => 'stable',
-            'umask' => '0644',
+            'umask' => '0022',
             'cache_ttl' => 3600,
             'sig_type' => '',
             'sig_bin' => '',
@@ -313,13 +313,13 @@ class PEAR2_Pyrus_Config
             $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
         }
 
-        $pearDirectory = $this->loadUserSettings($pearDirectory, $userfile);
+        $this->loadUserSettings($pearDirectory, $userfile);
         $this->loadConfigFile($pearDirectory);
         self::$configs[$pearDirectory] = $this;
         $this->pearDir = $pearDirectory;
-        if (!isset(self::$current)) {
-            self::$current = $this;
-        }
+
+        // Always set the current config to the most recently created one.
+        self::$current = $this;
     }
 
     /**
