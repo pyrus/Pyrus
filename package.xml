@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-05-30</date>
- <time>13:21:20</time>
+ <date>2008-06-25</date>
+ <time>17:01:58</time>
  <version>
   <release>2.0.0a1</release>
   <api>0.1.0</api>
@@ -233,9 +233,6 @@ try {
       <file role="php" name="Unixeol.php"/>
       <file role="php" name="Windowseol.php"/>
      </dir>
-     <dir name="Uninstaller">
-      <file role="php" name="Exception.php"/>
-     </dir>
      <dir name="Validate">
       <file role="php" name="Exception.php"/>
      </dir>
@@ -268,6 +265,9 @@ try {
      <file role="php" name="PackageFile.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
+     <file role="php" name="test.php"/>
+     <file role="php" name="test1.php"/>
+     <file role="php" name="test2.php"/>
      <file role="php" name="Uninstaller.php"/>
      <file role="php" name="Validate.php"/>
      <file role="php" name="XMLParser.php"/>
@@ -278,11 +278,22 @@ try {
    <dir name="tests" baseinstalldir="/">
     <dir name="Config">
      <dir name="addConfigValue">
+      <file role="test" name="run-tests.log"/>
       <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.diff"/>
+      <file role="test" name="test.exp"/>
+      <file role="test" name="test.log"/>
+      <file role="test" name="test.out"/>
+      <file role="test" name="test.php"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="configSnapshot">
       <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.diff"/>
+      <file role="test" name="test.exp"/>
+      <file role="test" name="test.log"/>
+      <file role="test" name="test.out"/>
+      <file role="test" name="test.php"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="constructDefaults">
@@ -296,17 +307,41 @@ try {
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="loadConfigFile">
+      <file role="test" name="badsystemfile.diff"/>
+      <file role="test" name="badsystemfile.exp"/>
+      <file role="test" name="badsystemfile.log"/>
+      <file role="test" name="badsystemfile.out"/>
+      <file role="test" name="badsystemfile.php"/>
       <file role="test" name="badsystemfile.phpt"/>
       <file role="test" name="baduserfile.phpt"/>
+      <file role="test" name="defaults.diff"/>
+      <file role="test" name="defaults.exp"/>
+      <file role="test" name="defaults.log"/>
+      <file role="test" name="defaults.out"/>
+      <file role="test" name="defaults.php"/>
       <file role="test" name="defaults.phpt"/>
+      <file role="test" name="goodsystemfile.diff"/>
+      <file role="test" name="goodsystemfile.exp"/>
+      <file role="test" name="goodsystemfile.log"/>
+      <file role="test" name="goodsystemfile.out"/>
+      <file role="test" name="goodsystemfile.php"/>
       <file role="test" name="goodsystemfile.phpt"/>
+      <file role="test" name="gooduser.mypath.diff"/>
+      <file role="test" name="gooduser.mypath.exp"/>
+      <file role="test" name="gooduser.mypath.log"/>
+      <file role="test" name="gooduser.mypath.out"/>
+      <file role="test" name="gooduser.mypath.php"/>
       <file role="test" name="gooduser.mypath.phpt"/>
       <file role="test" name="gooduserfile.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="setCascadingRegistries">
+      <file role="test" name="basic.diff"/>
+      <file role="test" name="basic.exp"/>
+      <file role="test" name="basic.log"/>
+      <file role="test" name="basic.out"/>
+      <file role="test" name="basic.php"/>
       <file role="test" name="basic.phpt"/>
-      <file role="test" name="run-tests.log"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
@@ -326,6 +361,9 @@ try {
      <file role="test" name="test_2.1.phpt"/>
     </dir>
     <dir name="Registry">
+     <dir name="Current">
+      <file role="test" name="singleton.phpt"/>
+     </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="XMLParser">
@@ -354,6 +392,7 @@ try {
      <file role="test" name="siblingtags.phpt"/>
     </dir>
     <file role="test" name="clean.php.inc"/>
+    <file role="test" name="run-tests.log"/>
     <file role="test" name="test_framework.php.inc"/>
    </dir>
   </dir>
