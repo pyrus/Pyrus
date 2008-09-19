@@ -277,13 +277,8 @@ class PEAR2_Pyrus_Config
             PEAR2_Pyrus_Log::log(5, 'used PHP_BINDIR for bin_dir default');
         }
 
-        foreach (self::$pearConfigNames as $name) {
-            // make sure we've got valid paths for the underlying OS
-            self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
-                                                 self::$defaults[$name]);
-        }
-
-        foreach (self::$userConfigNames as $name) {
+        foreach (array_merge(self::$pearConfigNames,
+                             self::$userConfigNames) as $name) {
             // make sure we've got valid paths for the underlying OS
             self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
                                                  self::$defaults[$name]);
@@ -308,9 +303,9 @@ class PEAR2_Pyrus_Config
     {
         self::constructDefaults();
         if ($pearDirectory) {
-            $pearDirectory = str_replace('\\', '/', $pearDirectory);
-            $pearDirectory = str_replace('//', '/', $pearDirectory);
-            $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
+            $pearDirectory = str_replace(array('\\', '//', '/'),
+                                         array('/',  '/', DIRECTORY_SEPARATOR),
+                                         $pearDirectory);
         }
 
         $this->loadUserSettings($pearDirectory, $userfile);
@@ -612,11 +607,12 @@ class PEAR2_Pyrus_Config
                         $pear . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             }
         }
-
-        $userfile = str_replace('\\', '/', $userfile);
-        $userfile = str_replace('//', '/', $userfile);
-        $userfile = str_replace('/', DIRECTORY_SEPARATOR, $userfile);
-        $test     = $userfile;
+        
+        $userfile = str_replace(array('\\', '//', '/'),
+                                array('/',  '/', DIRECTORY_SEPARATOR),
+                                $userfile);
+        
+        $test = $userfile;
         while ($test && !file_exists($test)) {
             $test = dirname($test);
         }
@@ -734,6 +730,12 @@ class PEAR2_Pyrus_Config
         PEAR2_Pyrus_Log::log(5, 'No matching configuration snapshot found');
         // no matches found
         $snapshot = 'configsnapshot-' . date('Y-m-d H:i:s') . '.xml';
+        $i = 0;
+        while (file_exists($snapshotdir . DIRECTORY_SEPARATOR . $snapshot)) {
+            $i++;
+            // keep appending ".1" until we get a unique filename
+            $snapshot = 'configsnapshot-' . date('Y-m-d H:i:s') . str_repeat('.1', $i) . '.xml';
+        }
         // save the snapshot
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {
