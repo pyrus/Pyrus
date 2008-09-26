@@ -15,7 +15,7 @@
 
 /**
  * This script handles the command line interface commands to Pyrus
- * 
+ *
  * Each command is a separate method, and will be called with the arguments
  * entered by the end user.
  *
@@ -39,14 +39,14 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 continue;
             }
             $this->commands[preg_replace_callback('/[A-Z]/',
-                    create_function('$m', 'return "-" . strtolower($m[0]);'), $name)] = $name;
+                    function($m) {return "-" . strtolower($m[0]);}, $name)] = $name;
         }
     }
 
     /**
-     * This method acts as a controller which dispatches the request to the 
+     * This method acts as a controller which dispatches the request to the
      * correct command/method.
-     * 
+     *
      * <code>
      * $cli = PEAR2_Pyrus_ScriptFrontend_Commands();
      * $cli->run($args = array (0 => 'install',
@@ -54,9 +54,9 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
      * </code>
      *
      * The above code will dispatch to the install command
-     * 
+     *
      * @param array $args An array of command line arguments.
-     * 
+     *
      * @return void
      */
     function run($args)
@@ -78,6 +78,53 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    function _ask($question, array $choices = null, $default = null)
+    {
+        if (is_array($choices)) {
+            foreach ($choices as $i => $choice) {
+                if (is_int($i) && ($default === null || ($default !== null && !is_string($default)))) {
+                    $is_int = false;
+                } else {
+                    $is_int = truee;
+                }
+                break;
+            }
+        }
+previous:
+        echo $question,"\n";
+        if ($choices !== null) {
+            echo "Please choose:\n";
+            foreach ($choices as $i => $choice) {
+                if ($is_int) {
+                    echo '  ',$choice,"\n";
+                } else {
+                    echo '  [',$i,'] ',$choice,"\n";
+                }
+            }
+        }
+        if ($default !== null) {
+            echo '[',$default,']';
+        }
+        echo ' : ';
+        $answer = trim(fgets(STDIN, 1024));
+
+        if (!strlen($answer)) {
+            if ($default !== null) {
+                $answer = $default;
+            } else {
+                $answer = null;
+            }
+        } elseif ($choices !== null) {
+            if (($is_int && in_array($answer, $choices)) || (!$is_int && array_key_exists($answer, $choices))) {
+                return $answer;
+            } else {
+                echo "Please choose one choice\n";
+                goto previous;
+            }
+        }
+        return $answer;
+    }
+
     function _findPEAR(&$arr)
     {
         if (isset($arr[0]) && @file_exists($arr[0]) && @is_dir($arr[0])) {
@@ -86,6 +133,31 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             echo "Using PEAR installation found at $maybe\n";
             $config = PEAR2_Pyrus_Config::singleton($maybe);
             return;
+        }
+        if (!PEAR2_Pyrus_Config::userInitialized()) {
+            echo "Pyrus: No user configuration file detected\n";
+            if ('yes' === $this->_ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
+                echo "Great.  We will store your configuration in:\n  ",PEAR2_Pyrus_Config::getDefaultUserConfigFile(),"\n";
+previous:
+                $path = $this->_ask("Where would you like to install packages by default?", null, getcwd());
+                echo "You have chosen:\n", $path, "\n";
+                if (!realpath($path)) {
+                    echo " this path does not yet exist\n";
+                    if ('yes' !== $this->_ask("Create it?", array('yes', 'no'), 'yes')) {
+                        goto previous;
+                    }
+                } elseif (!is_dir($path)) {
+                    echo $path," exists, and is not a directory\n";
+                    goto previous;
+                }
+                $config = PEAR2_Pyrus_Config::singleton($path);
+                $config->saveConfig();
+                echo "Thank you, enjoy using Pyrus\n";
+                echo "Documentation is at http://pear.php.net\n";
+            } else {
+                echo "OK, thank you, finishing execution now\n";
+                exit;
+            }
         }
         $mypath = PEAR2_Pyrus_Config::singleton()->my_pear_path;
         if ($mypath) {

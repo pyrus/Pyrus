@@ -414,13 +414,47 @@ class PEAR2_Pyrus_Config
     }
 
     /**
+     * Can be used to determine whether this user has ever run pyrus before
+     */
+    static public function userInitialized()
+    {
+        $userfile = self::getDefaultUserConfigFile();
+        if (!file_exists($userfile)) {
+            // try cwd, this could work
+            $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
+            if ($test && file_exists($test)) {
+                PEAR2_Pyrus_Log::log(5, 'User is initialized, found user configuration file in current directory' .
+                    $userfile);
+                return true;
+            }
+        } else {
+            PEAR2_Pyrus_Log::log(5, 'User is initialized, found default user configuration file ' .
+                $userfile);
+            return true;
+        }
+        // no way to tell, must be explicit
+        return false;
+    }
+
+    static public function getDefaultUserConfigFile()
+    {
+        if (class_exists('COM', false)) {
+            return self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+        } else {
+            return self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+        }
+    }
+
+    /**
      * determines where user-specific configuration files should be saved.
      *
      * On unix, this is ~user/ or a location in /tmp based on the current directory.
      * On windows, this is your Documents and Settings folder.
      * @return string
      */
-    protected function locateLocalSettingsDirectory()
+    static protected function locateLocalSettingsDirectory()
     {
         if (class_exists('COM', false)) {
             $shell = new COM('Wscript.Shell');
@@ -446,10 +480,10 @@ class PEAR2_Pyrus_Config
     {
         if (!$userfile) {
             if (class_exists('COM', false)) {
-                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                $userfile = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             } else {
-                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                $userfile = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             }
 
@@ -601,17 +635,15 @@ class PEAR2_Pyrus_Config
             if ($this->userFile) {
                 $userfile = $this->userFile;
             } else {
-                // FIXME any reason why we don't name it .pear on windows ?
-                $pear = class_exists('COM', false) ? 'pear' : '.pear';
-                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                        $pear . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+                $userfile = self::getDefaultUserConfigFile();
+                // FIXME any reason why we don't name it .pear on windows ? no special meaning
             }
         }
-        
+
         $userfile = str_replace(array('\\', '//', '/'),
                                 array('/',  '/', DIRECTORY_SEPARATOR),
                                 $userfile);
-        
+
         $test = $userfile;
         while ($test && !file_exists($test)) {
             $test = dirname($test);

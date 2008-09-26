@@ -34,14 +34,14 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-05-30</date>
- <time>13:21:20</time>
+ <date>2008-09-25</date>
+ <time>23:37:49</time>
  <version>
-  <release>2.0.0a1</release>
+  <release>0.1.0</release>
   <api>0.1.0</api>
  </version>
  <stability>
-  <release>alpha</release>
+  <release>devel</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
@@ -233,9 +233,6 @@ try {
       <file role="php" name="Unixeol.php"/>
       <file role="php" name="Windowseol.php"/>
      </dir>
-     <dir name="Uninstaller">
-      <file role="php" name="Exception.php"/>
-     </dir>
      <dir name="Validate">
       <file role="php" name="Exception.php"/>
      </dir>
@@ -268,6 +265,9 @@ try {
      <file role="php" name="PackageFile.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
+     <file role="php" name="test.php"/>
+     <file role="php" name="test1.php"/>
+     <file role="php" name="test2.php"/>
      <file role="php" name="Uninstaller.php"/>
      <file role="php" name="Validate.php"/>
      <file role="php" name="XMLParser.php"/>

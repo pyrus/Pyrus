@@ -27,7 +27,7 @@ $frontend->run($_SERVER[\'argv\']);
 '),),
                     dirname(__FILE__) . '/../Exception/src/Exception.php',
 					dirname(__FILE__) . '/../Autoload/src/Autoload.php',
-					dirname(__FILE__) . '/../MultiErrors/src/MultiErrors.php');
+					dirname(__FILE__) . '/../MultiErrors/src');
 $b = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
 $rp = __DIR__ . '/../HTTP_Request/src/HTTP';
 $a->render($b, array(

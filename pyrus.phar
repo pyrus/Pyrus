@@ -1120,34 +1120,20 @@ class PHP_Archive
 define('PYRUS_PHAR_FILE', __FILE__);
 include 'phar://' . __FILE__ . '/__index.php';
 __HALT_COMPILER(); ?>
-øW  3         5   s:45:"package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xml";   __index.php˛   c¿bH˛   ,O∏#∂      -   package-pear2.php.net-PEAR2_Pyrus-2.0.0a1.xmlçe  c¿bHçe  “¸"}∂         data/pear2.php.net/PEAR2_Pyrus/    c¿bH        ˇ      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd∫  c¿bH∫  ä≤vw∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd‚M  c¿bH‚M  °+"”∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd‰P  c¿bH‰P  ºØ,v∂      
-   src/PEAR2/    c¿bH        ˇ         src/PEAR2/Pyrus.phpm  c¿bHm  ^≈¡‚∂         src/PEAR2/Pyrus/    c¿bH        ˇ         src/PEAR2/Pyrus/Channel.php0L  c¿bH0L  Âß≥∂∂         src/PEAR2/Pyrus/Channel/    c¿bH        ˇ          src/PEAR2/Pyrus/Channel/Base.phpó	  c¿bHó	  =ê/®∂      %   src/PEAR2/Pyrus/Channel/Exception.phpŒ  c¿bHŒ  Ma-ö∂      #   src/PEAR2/Pyrus/Channel/IMirror.php‡  c¿bH‡  ô*(å∂      "   src/PEAR2/Pyrus/Channel/Mirror.php'  c¿bH'  Kﬁ≤∂      #   src/PEAR2/Pyrus/ChannelRegistry.phpY  c¿bHY  k‰GÄ∂          src/PEAR2/Pyrus/ChannelRegistry/    c¿bH        ˇ      (   src/PEAR2/Pyrus/ChannelRegistry/Base.phpG=  c¿bHG=  ¶LA∂      (   src/PEAR2/Pyrus/ChannelRegistry/Channel/    c¿bH        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Channel/Pear1.phph
-  c¿bHh
-  …Î]∂      2   src/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php9  c¿bH9  √†|¡∂      /   src/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.phpp
-  c¿bHp
-  ’ï§∂      -   src/PEAR2/Pyrus/ChannelRegistry/Exception.php  c¿bH  ˜<^∂      '   src/PEAR2/Pyrus/ChannelRegistry/Mirror/    c¿bH        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.php  c¿bH  ËXL∂      .   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.php¨	  c¿bH¨	  {·§ö∂      2   src/PEAR2/Pyrus/ChannelRegistry/ParseException.phpî  c¿bHî  Æ:c∂      )   src/PEAR2/Pyrus/ChannelRegistry/Pear1.phpC  c¿bHC  ‡æí∂      *   src/PEAR2/Pyrus/ChannelRegistry/Sqlite.php.  c¿bH.  ‘ÑZ¡∂      '   src/PEAR2/Pyrus/ChannelRegistry/Xml.php
-  c¿bH
-  ÷7Åı∂         src/PEAR2/Pyrus/Config.phpPà  c¿bHPà  ßØóÏ∂         src/PEAR2/Pyrus/Config/    c¿bH        ˇ      $   src/PEAR2/Pyrus/Config/Exception.php›  c¿bH›  ∑æ„∂      #   src/PEAR2/Pyrus/Config/Snapshot.php!  c¿bH!  x√º∂         src/PEAR2/Pyrus/Dependency/    c¿bH        ˇ      (   src/PEAR2/Pyrus/Dependency/Exception.phpÿ  c¿bHÿ  PÎõ}∂      (   src/PEAR2/Pyrus/Dependency/Validator.phpaó  c¿bHaó  r∂      !   src/PEAR2/Pyrus/DirectedGraph.phpâ  c¿bHâ  \U˘∂         src/PEAR2/Pyrus/DirectedGraph/    c¿bH        ˇ      +   src/PEAR2/Pyrus/DirectedGraph/Exception.phpﬂ  c¿bHﬂ  ú≈ßq∂      (   src/PEAR2/Pyrus/DirectedGraph/Vertex.phpÓ  c¿bHÓ  p^Õ«∂         src/PEAR2/Pyrus/Downloader.phpû<  c¿bHû<  /£∂         src/PEAR2/Pyrus/Exception.php«  c¿bH«  $ΩÙ<∂      $   src/PEAR2/Pyrus/FileTransactions.php$  c¿bH$  ®svÀ∂      !   src/PEAR2/Pyrus/FileTransactions/    c¿bH        ˇ      0   src/PEAR2/Pyrus/FileTransactions/Installedas.phpı	  c¿bHı	  Nœ∂Œ∂      +   src/PEAR2/Pyrus/FileTransactions/Rename.phpL
-  c¿bHL
-  Ô«j∂      *   src/PEAR2/Pyrus/FileTransactions/Rmdir.php‰  c¿bH‰  ¨%K∂         src/PEAR2/Pyrus/IChannel.php¡  c¿bH¡  xy¡∂      $   src/PEAR2/Pyrus/IChannelRegistry.phpY  c¿bHY  “7|î∂      $   src/PEAR2/Pyrus/IFileTransaction.phpi  c¿bHi  ((∂         src/PEAR2/Pyrus/ILog.php”  c¿bH”  æ/∂         src/PEAR2/Pyrus/Installer.php„P  c¿bH„P  øÚx∂         src/PEAR2/Pyrus/Installer/    c¿bH        ˇ      '   src/PEAR2/Pyrus/Installer/Exception.phpﬂ  c¿bHﬂ  ™/P∂      "   src/PEAR2/Pyrus/Installer/Role.phpÕ  c¿bHÕ  i¸∂         src/PEAR2/Pyrus/Installer/Role/    c¿bH        ˇ      )   src/PEAR2/Pyrus/Installer/Role/Common.phpn"  c¿bHn"  oÈ”∂      '   src/PEAR2/Pyrus/Installer/Role/Data.php⁄  c¿bH⁄  /ÿ“∂      '   src/PEAR2/Pyrus/Installer/Role/Data.xml¥  c¿bH¥  Õ†åQ∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.php◊  c¿bH◊  ®πkP∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.xml≥  c¿bH≥  A‚êé∂      ,   src/PEAR2/Pyrus/Installer/Role/Exception.php‹  c¿bH‹  &üFí∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.php◊  c¿bH◊  Hë◊∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.xmlM  c¿bHM  $®Fƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.php◊  c¿bH◊  î,ñ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.xmlª  c¿bHª  ÈÄ!Ë∂      )   src/PEAR2/Pyrus/Installer/Role/Script.php‡  c¿bH‡  ›äÑ∂      )   src/PEAR2/Pyrus/Installer/Role/Script.xmlæ  c¿bHæ  –Tƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Src.php<  c¿bH<  zÿ|∂      &   src/PEAR2/Pyrus/Installer/Role/Src.xml	  c¿bH	  ≥ª«∂      '   src/PEAR2/Pyrus/Installer/Role/Test.php⁄  c¿bH⁄  l∆∑–∂      '   src/PEAR2/Pyrus/Installer/Role/Test.xml¥  c¿bH¥  ˚|∂      &   src/PEAR2/Pyrus/Installer/Role/Www.php⁄  c¿bH⁄  àˇÅ∂      &   src/PEAR2/Pyrus/Installer/Role/Www.xml•  c¿bH•  ˝$P$∂         src/PEAR2/Pyrus/IPackage.php≠  c¿bH≠  b
-o#∂         src/PEAR2/Pyrus/IRegistry.php  c¿bH  !–∂         src/PEAR2/Pyrus/Log.phpx  c¿bHx  ÿ+V8∂         src/PEAR2/Pyrus/OSGuess.phpô,  c¿bHô,  √›ΩÕ∂         src/PEAR2/Pyrus/Package.phpy  c¿bHy  1RMl∂         src/PEAR2/Pyrus/Package/    c¿bH        ˇ          src/PEAR2/Pyrus/Package/Base.php  c¿bH  (v∫ﬁ∂      #   src/PEAR2/Pyrus/Package/Creator.php'  c¿bH'  xÅóû∂          src/PEAR2/Pyrus/Package/Creator/    c¿bH        ˇ      -   src/PEAR2/Pyrus/Package/Creator/Exception.phpÎ  c¿bHÎ  ¯¯[Ú∂      0   src/PEAR2/Pyrus/Package/Creator/TaskIterator.php¿  c¿bH¿   êÙã∂      &   src/PEAR2/Pyrus/Package/Dependency.phpè3  c¿bHè3  Øœ_]∂      %   src/PEAR2/Pyrus/Package/Exception.php‘  c¿bH‘  Ê1‰∂      $   src/PEAR2/Pyrus/Package/ICreator.phpπ  c¿bHπ  ñµS∂      .   src/PEAR2/Pyrus/Package/InstalledException.php˛  c¿bH˛  '~Ö2∂          src/PEAR2/Pyrus/Package/Phar.phpÉ  c¿bHÉ  ¯Ï…ﬁ∂         src/PEAR2/Pyrus/Package/Phar/    c¿bH        ˇ      *   src/PEAR2/Pyrus/Package/Phar/Exception.php„  c¿bH„  +cé¶∂      "   src/PEAR2/Pyrus/Package/Remote.phpÛC  c¿bHÛC  ﬂäZö∂         src/PEAR2/Pyrus/Package/Tar.phpº,  c¿bHº,  ¥°’À∂         src/PEAR2/Pyrus/Package/Tar/    c¿bH        ˇ      )   src/PEAR2/Pyrus/Package/Tar/Exception.php‡  c¿bH‡  yG8O∂         src/PEAR2/Pyrus/Package/Xml.phpÄ  c¿bHÄ  ü∫ ∂         src/PEAR2/Pyrus/Package/Zip.php£  c¿bH£  ¥£;Å∂         src/PEAR2/Pyrus/Package/Zip/    c¿bH        ˇ      )   src/PEAR2/Pyrus/Package/Zip/Exception.php‡  c¿bH‡  ∆Ó0¡∂         src/PEAR2/Pyrus/PackageFile.php  c¿bH  Õc‡m∂         src/PEAR2/Pyrus/PackageFile/    c¿bH        ˇ      )   src/PEAR2/Pyrus/PackageFile/Exception.phpﬂ  c¿bHﬂ  !‘V∂      *   src/PEAR2/Pyrus/PackageFile/IValidator.php  c¿bH  ÉÕö∂      #   src/PEAR2/Pyrus/PackageFile/Parser/    c¿bH        ˇ      )   src/PEAR2/Pyrus/PackageFile/Parser/v2.phpe  c¿bHe  ã˘.∂      "   src/PEAR2/Pyrus/PackageFile/v2.phpiò  c¿bHiò  9
-À∂         src/PEAR2/Pyrus/PackageFile/v2/    c¿bH        ˇ      -   src/PEAR2/Pyrus/PackageFile/v2/Compatible.php¥$  c¿bH¥$  9&˘∂      *   src/PEAR2/Pyrus/PackageFile/v2/Compatible/    c¿bH        ˇ      7   src/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.php  c¿bH  yzZ∂      /   src/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpYK  c¿bHYK  √”π∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/    c¿bH        ˇ      9   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.php  c¿bH  UƒB+∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Developer.phpÉ   c¿bHÉ   ë;∂      )   src/PEAR2/Pyrus/PackageFile/v2/Developer/    c¿bH        ˇ      6   src/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.php  c¿bH  Õw∂      (   src/PEAR2/Pyrus/PackageFile/v2/Files.phpM  c¿bHM  „ëà‰∂      %   src/PEAR2/Pyrus/PackageFile/v2/Files/    c¿bH        ˇ      2   src/PEAR2/Pyrus/PackageFile/v2/Files/Exception.php  c¿bH  ÄG6√∂      *   src/PEAR2/Pyrus/PackageFile/v2/Release.php-1  c¿bH-1  (ˆıÅ∂      '   src/PEAR2/Pyrus/PackageFile/v2/Release/    c¿bH        ˇ      4   src/PEAR2/Pyrus/PackageFile/v2/Release/Exception.php	  c¿bH	  uWA∂      )   src/PEAR2/Pyrus/PackageFile/v2/Remote.phpÌ  c¿bHÌ  ¡,‰É∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Validator.php'u  c¿bH'u  Q£ ƒ∂      '   src/PEAR2/Pyrus/PackageFile/v2Iterator/    c¿bH        ˇ      /   src/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpÃ  c¿bHÃ  ≤ ÕÌ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php:  c¿bH:  CO¬h∂      7   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpÔ	  c¿bHÔ	  0?ë¡∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpj  c¿bHj  ´x@Ê∂      A   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php<  c¿bH<  ≠’Ωk∂      2   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpa  c¿bHa  ï’∫ü∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpû  c¿bHû  ßUQä∂         src/PEAR2/Pyrus/Registry.php˚  c¿bH˚  zÅø0∂         src/PEAR2/Pyrus/Registry/    c¿bH        ˇ      !   src/PEAR2/Pyrus/Registry/Base.php´  c¿bH´  	9É£∂      $   src/PEAR2/Pyrus/Registry/Channel.php˙  c¿bH˙  /ÚÉ∂      #   src/PEAR2/Pyrus/Registry/Config.php÷  c¿bH÷  Ûn=Y∂      &   src/PEAR2/Pyrus/Registry/Exception.php›  c¿bH›  Ó}i∂      $   src/PEAR2/Pyrus/Registry/Package.php  c¿bH  ªâ´N∂      "   src/PEAR2/Pyrus/Registry/Pear1.php01  c¿bH01  k˚$Ù∂         src/PEAR2/Pyrus/Registry/Pear1/    c¿bH        ˇ      *   src/PEAR2/Pyrus/Registry/Pear1/Package.php≤  c¿bH≤  Y1¯∂      #   src/PEAR2/Pyrus/Registry/Sqlite.phprg  c¿bHrg  ´i»∂          src/PEAR2/Pyrus/Registry/Sqlite/    c¿bH        ˇ      +   src/PEAR2/Pyrus/Registry/Sqlite/Creator.php¥I  c¿bH¥I  Î:Ò⁄∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Package.php‹  c¿bH‹  ∞ÙîZ∂          src/PEAR2/Pyrus/Registry/Xml.php¥  c¿bH¥  QK∂         src/PEAR2/Pyrus/REST.phpå3  c¿bHå3  Hã¯≈∂         src/PEAR2/Pyrus/REST/    c¿bH        ˇ         src/PEAR2/Pyrus/REST/10.phpWp  c¿bHWp  Z.Z◊∂         src/PEAR2/Pyrus/REST/11.phpS'  c¿bHS'  …Ì°Ù∂         src/PEAR2/Pyrus/REST/13.phpâ(  c¿bHâ(  ∞¶ÌÃ∂      "   src/PEAR2/Pyrus/REST/Exception.php   c¿bH   «€ÒB∂      &   src/PEAR2/Pyrus/REST/HTTPException.php‹  c¿bH‹  DÑ:∂         src/PEAR2/Pyrus/ScriptFrontend/    c¿bH        ˇ      +   src/PEAR2/Pyrus/ScriptFrontend/Commands.phpÏ1  c¿bHÏ1  È„£∂         src/PEAR2/Pyrus/Task/    c¿bH        ˇ         src/PEAR2/Pyrus/Task/Common.php  c¿bH  Ωìö∂      "   src/PEAR2/Pyrus/Task/Exception.php—  c¿bH—  Zá
-]∂      *   src/PEAR2/Pyrus/Task/Postinstallscript.phpõ6  c¿bHõ6  ](®≥∂      '   src/PEAR2/Pyrus/Task/Postinstallscript/    c¿bH        ˇ      -   src/PEAR2/Pyrus/Task/Postinstallscript/rw.phpı  c¿bHı  Ë¥–‰∂          src/PEAR2/Pyrus/Task/Replace.phpY  c¿bHY  î]≥©∂         src/PEAR2/Pyrus/Task/Replace/    c¿bH        ˇ      #   src/PEAR2/Pyrus/Task/Replace/rw.php¯  c¿bH¯  Ä≤∂          src/PEAR2/Pyrus/Task/Unixeol.php/  c¿bH/  º‡úö∂         src/PEAR2/Pyrus/Task/Unixeol/    c¿bH        ˇ      #   src/PEAR2/Pyrus/Task/Unixeol/rw.php  c¿bH  ƒÙìç∂      #   src/PEAR2/Pyrus/Task/Windowseol.php(  c¿bH(  7EÂ∂          src/PEAR2/Pyrus/Task/Windowseol/    c¿bH        ˇ      &   src/PEAR2/Pyrus/Task/Windowseol/rw.php  c¿bH  1Ï⁄∂         src/PEAR2/Pyrus/test.phpπ  c¿bHπ  ä¥∂         src/PEAR2/Pyrus/test1.phpî  c¿bHî  ∂D˚7∂         src/PEAR2/Pyrus/test2.php  c¿bH  qè∂         src/PEAR2/Pyrus/Uninstaller.phpT(  c¿bHT(  UOAœ∂         src/PEAR2/Pyrus/Validate.phpæO  c¿bHæO  µç[∂         src/PEAR2/Pyrus/Validate/    c¿bH        ˇ      &   src/PEAR2/Pyrus/Validate/Exception.phpG  c¿bHG  s~◊∂         src/PEAR2/Pyrus/Validator/    c¿bH        ˇ      "   src/PEAR2/Pyrus/Validator/PECL.php£  c¿bH£  *Êî∂         src/PEAR2/Pyrus/XMLParser.phpÿ  c¿bHÿ  ñqf¬∂         src/PEAR2/Pyrus/XMLParser/    c¿bH        ˇ      '   src/PEAR2/Pyrus/XMLParser/Exception.php›  c¿bH›  J+ñr∂         src/PEAR2/Pyrus/XMLWriter.php⁄#  c¿bH⁄#  
-‘{ﬂ∂         src/PEAR2/Pyrus/XMLWriter/    c¿bH        ˇ      '   src/PEAR2/Pyrus/XMLWriter/Exception.php›  c¿bH›  ÀÔ<Ö∂         test/pear2.php.net/PEAR2_Pyrus/    c¿bH        ˇ      ,   test/pear2.php.net/PEAR2_Pyrus/clean.php.incY  c¿bHY  |≈¥∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/    c¿bH        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/run-tests.logñ   c¿bHñ   myÆ∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/setup.php.incä   c¿bHä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.diff  c¿bH  q^]∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.exp
-   c¿bH
-   O’A§∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.logü  c¿bHü  üAõS∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.out^  c¿bH^  }ä≤∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.php◊  c¿bH◊  "Øm∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.phpt}  c¿bH}  _Ä|⁄∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/    c¿bH        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/setup.php.incä   c¿bHä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.diffw  c¿bHw  ›¥˙∫∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.exp
-   c¿bH
-   O’A§∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.logﬁ  c¿bHﬁ  )ôÑË∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.outù  c¿bHù  ö"à;∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.phpç
-  c¿bHç
-  '-Ñå∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.phpt3  c¿bH3  ¶è]∂      8   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/    c¿bH        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/basic.phptl  c¿bHl  NM≠X∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env.phpte  c¿bHe  \:´∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env2.phptî  c¿bHî  °t:Ñ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.win.phpt™  c¿bH™  –âÇp∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env.phptq  c¿bHq  K1ï∂      O   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env2.phptÎ  c¿bHÎ  DﬂÎ£∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.ini.phpt≠  c¿bH≠  +°.¬∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/setup.php.incµ  c¿bHµ  3*∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/    c¿bH        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.diffÕ  c¿bHÕ  ‹M”í∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.exp
-   c¿bH
-   O’A§∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.logº  c¿bHº  ( J∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.out{  c¿bH{  >.Ú∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.php^  c¿bH^  W©J∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.phpt  c¿bH  	NπÊ∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/baduserfile.phpt  c¿bH  ‹íåC∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.diff»  c¿bH»  ®@Q∏∂      A   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.exp
-   c¿bH
-   O’A§∂      A   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.log∑  c¿bH∑  Ju¨ë∂      A   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.outv  c¿bHv  nﬂ,∂      A   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.phpM  c¿bHM  ôpﬂÄ∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.phpt  c¿bH  	S3æ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.diff  c¿bH  5_nr∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.exp   c¿bH   ≠\'ù∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.logÂ  c¿bHÂ  h‡Dí∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.outü  c¿bHü  îµÃ∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.phpò  c¿bHò  }´¥˚∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.phptS  c¿bHS  ÁEÿæ∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.diff*  c¿bH*  ¡”ço∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.exp
-   c¿bH
-   O’A§∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.log›  c¿bH›  ﬁÜ"∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.outú  c¿bHú  ªË∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.phpN  c¿bHN  Â€t∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.phpt  c¿bH  oí–¡∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduserfile.phpt  c¿bH  Ë…Ü€∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/setup.php.inc◊  c¿bH◊  pùA∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/    c¿bH        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.diff≤  c¿bH≤  N?∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.exp
-   c¿bH
-   O’A§∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.log{  c¿bH{  =≤e∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.out:  c¿bH:  Ü√ûR∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.php  c¿bH  ˙fÑ∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.phpt  c¿bH  j¯Úƒ∂      J   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/setup.php.inc9  c¿bH9  'ıjm∂      3   test/pear2.php.net/PEAR2_Pyrus/Config/setup.php.ince   c¿bHe   €i±∂      -   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/    c¿bH        ˇ      7   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/basic.phptÃ  c¿bHÃ  1jÂ∂      8   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/cycles.phptò  c¿bHò  @øºª∂      :   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/setup.php.incj   c¿bHj   ˆ–¯∂      >   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/    c¿bH        ˇ      I   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package.xmlÎ&  c¿bHÎ&  ÜA¢Ô∂      J   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package2.xmlºV  c¿bHºV  QΩúê∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/setup.php.incˆ  c¿bHˆ  ˜ÏD∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.0.phptõ´ c¿bHõ´ ∞@92∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.1.phptˇ c¿bHˇ uê≥∂      0   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/    c¿bH        ˇ      >   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.phpt¬  c¿bH¬  ’æ›D∂      5   test/pear2.php.net/PEAR2_Pyrus/Registry/setup.php.incg   c¿bHg   óÌı∂      ,   test/pear2.php.net/PEAR2_Pyrus/run-tests.logy  c¿bHy  (!Oï∂      5   test/pear2.php.net/PEAR2_Pyrus/test_framework.php.incÁ  c¿bHÁ  8ÛF∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLParser/    c¿bH        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs.phptÁ  c¿bHÁ  k&n∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs_content.phptn  c¿bHn  ‚wiÒ∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/cdata.phpt  c¿bH  {û∏(∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag.phpt  c¿bH  WŸXH∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_attribs.phpt}  c¿bH}  ·”ÿ¿∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_content.phpt=  c¿bH=  *UÙ˛∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_sibling_attribs.phpt≤  c¿bH≤  TX[∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/empty.phptÙ   c¿bHÙ   T2Ê∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLParser/recursivetag.phptﬂ  c¿bHﬂ  ™◊ÜL∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/setup.php.inc¢   c¿bH¢   œ:ŸÏ∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLParser/siblingtags.phpt+  c¿bH+  ≈=Èµ∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/    c¿bH        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs.phpt  c¿bH  ™u&Œ∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs_content.phptá  c¿bHá  7-BÃ∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag.phpt4  c¿bH4  5N≈∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_attribs.phptò  c¿bHò  ∞¯‘∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_content.phptX  c¿bHX  í.,∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_sibling_attribs.phpt—  c¿bH—  nÄ–Ó∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/empty.phpt  c¿bH  ]~x,∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/recursivetag.phpt  c¿bH  ™°[∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/setup.php.incÖ   c¿bHÖ   ?>Ú*∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/siblingtags.phptK  c¿bHK  vqa∂         src/PEAR2/Autoload.php7	  c¿bH7	  Æ&&…∂         src/PEAR2/MultiErrors.phpN  c¿bHN  <¡±∂         src/PEAR2/Exception.php 0  c¿bH 0  zb√2∂         src/PEAR2/MultiErrors/    c¿bH        ˇ      #   src/PEAR2/MultiErrors/Exception.phpB   c¿bHB   ˙«z≤∂         src/PEAR2/HTTP/    c¿bH        ˇ         src/PEAR2/HTTP/Request.php˘  c¿bH˘  ML@ñ∂         src/PEAR2/HTTP/Request/    c¿bH        ˇ      "   src/PEAR2/HTTP/Request/Adapter.phpS  c¿bHS  [®h…∂         src/PEAR2/HTTP/Request/Adapter/    c¿bH        ˇ      ,   src/PEAR2/HTTP/Request/Adapter/Phpsocket.phpÎ,  c¿bHÎ,  —ê~¶∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpstream.php˜  c¿bH˜  Sö¯ƒ∂      $   src/PEAR2/HTTP/Request/Exception.phpE   c¿bHE   5≈ˆ,∂      "   src/PEAR2/HTTP/Request/Headers.phpŸ  c¿bHŸ  =2d∂      #   src/PEAR2/HTTP/Request/Response.phpD  c¿bHD  t5¸Ò∂         src/PEAR2/HTTP/Request/Uri.php¡  c¿bH¡  m[∫\∂      <?php
+⁄I           3   s:43:"package-pear2.php.net-PEAR2_Pyrus-0.1.0.xml";   __index.php˛   +g‹H˛   ,O∏#∂      +   package-pear2.php.net-PEAR2_Pyrus-0.1.0.xmlâT  +g‹HâT  æªû¯∂         data/pear2.php.net/PEAR2_Pyrus/    +g‹H        ˇ      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd∫  +g‹H∫  ä≤vw∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd‚M  +g‹H‚M  °+"”∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd‰P  +g‹H‰P  ºØ,v∂      
+   src/PEAR2/    +g‹H        ˇ         src/PEAR2/Pyrus.phpm  +g‹Hm  ^≈¡‚∂         src/PEAR2/Pyrus/    +g‹H        ˇ         src/PEAR2/Pyrus/Channel.php0L  +g‹H0L  Âß≥∂∂         src/PEAR2/Pyrus/Channel/    +g‹H        ˇ          src/PEAR2/Pyrus/Channel/Base.phpó	  +g‹Hó	  =ê/®∂      %   src/PEAR2/Pyrus/Channel/Exception.phpŒ  +g‹HŒ  Ma-ö∂      #   src/PEAR2/Pyrus/Channel/IMirror.php‡  +g‹H‡  ô*(å∂      "   src/PEAR2/Pyrus/Channel/Mirror.php'  +g‹H'  Kﬁ≤∂      #   src/PEAR2/Pyrus/ChannelRegistry.phpY  +g‹HY  k‰GÄ∂          src/PEAR2/Pyrus/ChannelRegistry/    +g‹H        ˇ      (   src/PEAR2/Pyrus/ChannelRegistry/Base.phpG=  +g‹HG=  ¶LA∂      (   src/PEAR2/Pyrus/ChannelRegistry/Channel/    +g‹H        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Channel/Pear1.phph
+  +g‹Hh
+  …Î]∂      2   src/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php9  +g‹H9  √†|¡∂      /   src/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.phpp
+  +g‹Hp
+  ’ï§∂      -   src/PEAR2/Pyrus/ChannelRegistry/Exception.php  +g‹H  ˜<^∂      '   src/PEAR2/Pyrus/ChannelRegistry/Mirror/    +g‹H        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.php  +g‹H  ËXL∂      .   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.php¨	  +g‹H¨	  {·§ö∂      2   src/PEAR2/Pyrus/ChannelRegistry/ParseException.phpî  +g‹Hî  Æ:c∂      )   src/PEAR2/Pyrus/ChannelRegistry/Pear1.phpC  +g‹HC  ‡æí∂      *   src/PEAR2/Pyrus/ChannelRegistry/Sqlite.php.  +g‹H.  ‘ÑZ¡∂      '   src/PEAR2/Pyrus/ChannelRegistry/Xml.php
+  +g‹H
+  ÷7Åı∂         src/PEAR2/Pyrus/Config.phpﬂå  +g‹Hﬂå  _ûz∞∂         src/PEAR2/Pyrus/Config/    +g‹H        ˇ      $   src/PEAR2/Pyrus/Config/Exception.php›  +g‹H›  ∑æ„∂      #   src/PEAR2/Pyrus/Config/Snapshot.php!  +g‹H!  x√º∂         src/PEAR2/Pyrus/Dependency/    +g‹H        ˇ      (   src/PEAR2/Pyrus/Dependency/Exception.phpÿ  +g‹Hÿ  PÎõ}∂      (   src/PEAR2/Pyrus/Dependency/Validator.php[ó  +g‹H[ó  †IÕ∂      !   src/PEAR2/Pyrus/DirectedGraph.phpâ  +g‹Hâ  \U˘∂         src/PEAR2/Pyrus/DirectedGraph/    +g‹H        ˇ      +   src/PEAR2/Pyrus/DirectedGraph/Exception.phpﬂ  +g‹Hﬂ  ú≈ßq∂      (   src/PEAR2/Pyrus/DirectedGraph/Vertex.phpÓ  +g‹HÓ  p^Õ«∂         src/PEAR2/Pyrus/Downloader.phpû<  +g‹Hû<  /£∂         src/PEAR2/Pyrus/Exception.php«  +g‹H«  $ΩÙ<∂      $   src/PEAR2/Pyrus/FileTransactions.php$  +g‹H$  ®svÀ∂      !   src/PEAR2/Pyrus/FileTransactions/    +g‹H        ˇ      0   src/PEAR2/Pyrus/FileTransactions/Installedas.phpı	  +g‹Hı	  Nœ∂Œ∂      +   src/PEAR2/Pyrus/FileTransactions/Rename.phpL
+  +g‹HL
+  Ô«j∂      *   src/PEAR2/Pyrus/FileTransactions/Rmdir.php‰  +g‹H‰  ¨%K∂         src/PEAR2/Pyrus/IChannel.php¡  +g‹H¡  xy¡∂      $   src/PEAR2/Pyrus/IChannelRegistry.phpY  +g‹HY  “7|î∂      $   src/PEAR2/Pyrus/IFileTransaction.phpi  +g‹Hi  ((∂         src/PEAR2/Pyrus/ILog.php”  +g‹H”  æ/∂         src/PEAR2/Pyrus/Installer.php„P  +g‹H„P  øÚx∂         src/PEAR2/Pyrus/Installer/    +g‹H        ˇ      '   src/PEAR2/Pyrus/Installer/Exception.phpﬂ  +g‹Hﬂ  ™/P∂      "   src/PEAR2/Pyrus/Installer/Role.phpÕ  +g‹HÕ  i¸∂         src/PEAR2/Pyrus/Installer/Role/    +g‹H        ˇ      )   src/PEAR2/Pyrus/Installer/Role/Common.phpn"  +g‹Hn"  oÈ”∂      '   src/PEAR2/Pyrus/Installer/Role/Data.php⁄  +g‹H⁄  /ÿ“∂      '   src/PEAR2/Pyrus/Installer/Role/Data.xml¥  +g‹H¥  Õ†åQ∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.php◊  +g‹H◊  ®πkP∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.xml≥  +g‹H≥  A‚êé∂      ,   src/PEAR2/Pyrus/Installer/Role/Exception.php‹  +g‹H‹  &üFí∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.php◊  +g‹H◊  Hë◊∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.xmlM  +g‹HM  $®Fƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.php◊  +g‹H◊  î,ñ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.xmlª  +g‹Hª  ÈÄ!Ë∂      )   src/PEAR2/Pyrus/Installer/Role/Script.php‡  +g‹H‡  ›äÑ∂      )   src/PEAR2/Pyrus/Installer/Role/Script.xmlæ  +g‹Hæ  –Tƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Src.php<  +g‹H<  zÿ|∂      &   src/PEAR2/Pyrus/Installer/Role/Src.xml	  +g‹H	  ≥ª«∂      '   src/PEAR2/Pyrus/Installer/Role/Test.php⁄  +g‹H⁄  l∆∑–∂      '   src/PEAR2/Pyrus/Installer/Role/Test.xml¥  +g‹H¥  ˚|∂      &   src/PEAR2/Pyrus/Installer/Role/Www.php⁄  +g‹H⁄  àˇÅ∂      &   src/PEAR2/Pyrus/Installer/Role/Www.xml•  +g‹H•  ˝$P$∂         src/PEAR2/Pyrus/IPackage.php≠  +g‹H≠  b
+o#∂         src/PEAR2/Pyrus/IRegistry.php  +g‹H  !–∂         src/PEAR2/Pyrus/Log.phpx  +g‹Hx  ÿ+V8∂         src/PEAR2/Pyrus/OSGuess.phpô,  +g‹Hô,  √›ΩÕ∂         src/PEAR2/Pyrus/Package.phpy  +g‹Hy  1RMl∂         src/PEAR2/Pyrus/Package/    +g‹H        ˇ          src/PEAR2/Pyrus/Package/Base.php  +g‹H  (v∫ﬁ∂      #   src/PEAR2/Pyrus/Package/Creator.php,  +g‹H,  ¬™◊∫∂          src/PEAR2/Pyrus/Package/Creator/    +g‹H        ˇ      -   src/PEAR2/Pyrus/Package/Creator/Exception.phpÎ  +g‹HÎ  ¯¯[Ú∂      0   src/PEAR2/Pyrus/Package/Creator/TaskIterator.php¿  +g‹H¿   êÙã∂      &   src/PEAR2/Pyrus/Package/Dependency.phpè3  +g‹Hè3  Øœ_]∂      %   src/PEAR2/Pyrus/Package/Exception.php‘  +g‹H‘  Ê1‰∂      $   src/PEAR2/Pyrus/Package/ICreator.phpπ  +g‹Hπ  ñµS∂      .   src/PEAR2/Pyrus/Package/InstalledException.php˛  +g‹H˛  '~Ö2∂          src/PEAR2/Pyrus/Package/Phar.phpÉ  +g‹HÉ  ¯Ï…ﬁ∂         src/PEAR2/Pyrus/Package/Phar/    +g‹H        ˇ      *   src/PEAR2/Pyrus/Package/Phar/Exception.php„  +g‹H„  +cé¶∂      "   src/PEAR2/Pyrus/Package/Remote.phpÛC  +g‹HÛC  ﬂäZö∂         src/PEAR2/Pyrus/Package/Tar.phpº,  +g‹Hº,  ¥°’À∂         src/PEAR2/Pyrus/Package/Tar/    +g‹H        ˇ      )   src/PEAR2/Pyrus/Package/Tar/Exception.php‡  +g‹H‡  yG8O∂         src/PEAR2/Pyrus/Package/Xml.phpÄ  +g‹HÄ  ü∫ ∂         src/PEAR2/Pyrus/Package/Zip.php£  +g‹H£  ¥£;Å∂         src/PEAR2/Pyrus/Package/Zip/    +g‹H        ˇ      )   src/PEAR2/Pyrus/Package/Zip/Exception.php‡  +g‹H‡  ∆Ó0¡∂         src/PEAR2/Pyrus/PackageFile.php  +g‹H  Õc‡m∂         src/PEAR2/Pyrus/PackageFile/    +g‹H        ˇ      )   src/PEAR2/Pyrus/PackageFile/Exception.phpﬂ  +g‹Hﬂ  !‘V∂      *   src/PEAR2/Pyrus/PackageFile/IValidator.php  +g‹H  ÉÕö∂      #   src/PEAR2/Pyrus/PackageFile/Parser/    +g‹H        ˇ      )   src/PEAR2/Pyrus/PackageFile/Parser/v2.phpe  +g‹He  ã˘.∂      "   src/PEAR2/Pyrus/PackageFile/v2.phpiò  +g‹Hiò  9
+À∂         src/PEAR2/Pyrus/PackageFile/v2/    +g‹H        ˇ      -   src/PEAR2/Pyrus/PackageFile/v2/Compatible.php¥$  +g‹H¥$  9&˘∂      *   src/PEAR2/Pyrus/PackageFile/v2/Compatible/    +g‹H        ˇ      7   src/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.php  +g‹H  yzZ∂      /   src/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpYK  +g‹HYK  √”π∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/    +g‹H        ˇ      9   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.php  +g‹H  UƒB+∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Developer.phpÉ   +g‹HÉ   ë;∂      )   src/PEAR2/Pyrus/PackageFile/v2/Developer/    +g‹H        ˇ      6   src/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.php  +g‹H  Õw∂      (   src/PEAR2/Pyrus/PackageFile/v2/Files.phpM  +g‹HM  „ëà‰∂      %   src/PEAR2/Pyrus/PackageFile/v2/Files/    +g‹H        ˇ      2   src/PEAR2/Pyrus/PackageFile/v2/Files/Exception.php  +g‹H  ÄG6√∂      *   src/PEAR2/Pyrus/PackageFile/v2/Release.php-1  +g‹H-1  (ˆıÅ∂      '   src/PEAR2/Pyrus/PackageFile/v2/Release/    +g‹H        ˇ      4   src/PEAR2/Pyrus/PackageFile/v2/Release/Exception.php	  +g‹H	  uWA∂      )   src/PEAR2/Pyrus/PackageFile/v2/Remote.phpÌ  +g‹HÌ  ¡,‰É∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Validator.php%u  +g‹H%u  ¿mR'∂      '   src/PEAR2/Pyrus/PackageFile/v2Iterator/    +g‹H        ˇ      /   src/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpÃ  +g‹HÃ  ≤ ÕÌ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php:  +g‹H:  CO¬h∂      7   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpÔ	  +g‹HÔ	  0?ë¡∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpj  +g‹Hj  ´x@Ê∂      A   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php<  +g‹H<  ≠’Ωk∂      2   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpa  +g‹Ha  ï’∫ü∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpû  +g‹Hû  ßUQä∂         src/PEAR2/Pyrus/Registry.php˚  +g‹H˚  zÅø0∂         src/PEAR2/Pyrus/Registry/    +g‹H        ˇ      !   src/PEAR2/Pyrus/Registry/Base.php´  +g‹H´  	9É£∂      $   src/PEAR2/Pyrus/Registry/Channel.php˙  +g‹H˙  /ÚÉ∂      #   src/PEAR2/Pyrus/Registry/Config.php÷  +g‹H÷  Ûn=Y∂      &   src/PEAR2/Pyrus/Registry/Exception.php›  +g‹H›  Ó}i∂      $   src/PEAR2/Pyrus/Registry/Package.php  +g‹H  ªâ´N∂      "   src/PEAR2/Pyrus/Registry/Pear1.php01  +g‹H01  k˚$Ù∂         src/PEAR2/Pyrus/Registry/Pear1/    +g‹H        ˇ      *   src/PEAR2/Pyrus/Registry/Pear1/Package.php≤  +g‹H≤  Y1¯∂      #   src/PEAR2/Pyrus/Registry/Sqlite.phprg  +g‹Hrg  ´i»∂          src/PEAR2/Pyrus/Registry/Sqlite/    +g‹H        ˇ      +   src/PEAR2/Pyrus/Registry/Sqlite/Creator.php¥I  +g‹H¥I  Î:Ò⁄∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Package.php‹  +g‹H‹  ∞ÙîZ∂          src/PEAR2/Pyrus/Registry/Xml.php¥  +g‹H¥  QK∂         src/PEAR2/Pyrus/REST.phpä3  +g‹Hä3  K„∂         src/PEAR2/Pyrus/REST/    +g‹H        ˇ         src/PEAR2/Pyrus/REST/10.phpWp  +g‹HWp  Z.Z◊∂         src/PEAR2/Pyrus/REST/11.phpS'  +g‹HS'  …Ì°Ù∂         src/PEAR2/Pyrus/REST/13.phpâ(  +g‹Hâ(  ∞¶ÌÃ∂      "   src/PEAR2/Pyrus/REST/Exception.php   +g‹H   «€ÒB∂      &   src/PEAR2/Pyrus/REST/HTTPException.php‹  +g‹H‹  DÑ:∂         src/PEAR2/Pyrus/ScriptFrontend/    +g‹H        ˇ      +   src/PEAR2/Pyrus/ScriptFrontend/Commands.phpÆ<  +g‹HÆ<  ÿÕùF∂         src/PEAR2/Pyrus/Task/    +g‹H        ˇ         src/PEAR2/Pyrus/Task/Common.php  +g‹H  Ωìö∂      "   src/PEAR2/Pyrus/Task/Exception.php—  +g‹H—  Zá
+]∂      *   src/PEAR2/Pyrus/Task/Postinstallscript.phpõ6  +g‹Hõ6  ](®≥∂      '   src/PEAR2/Pyrus/Task/Postinstallscript/    +g‹H        ˇ      -   src/PEAR2/Pyrus/Task/Postinstallscript/rw.phpı  +g‹Hı  Ë¥–‰∂          src/PEAR2/Pyrus/Task/Replace.phpY  +g‹HY  î]≥©∂         src/PEAR2/Pyrus/Task/Replace/    +g‹H        ˇ      #   src/PEAR2/Pyrus/Task/Replace/rw.php¯  +g‹H¯  Ä≤∂          src/PEAR2/Pyrus/Task/Unixeol.php/  +g‹H/  º‡úö∂         src/PEAR2/Pyrus/Task/Unixeol/    +g‹H        ˇ      #   src/PEAR2/Pyrus/Task/Unixeol/rw.php  +g‹H  ƒÙìç∂      #   src/PEAR2/Pyrus/Task/Windowseol.php(  +g‹H(  7EÂ∂          src/PEAR2/Pyrus/Task/Windowseol/    +g‹H        ˇ      &   src/PEAR2/Pyrus/Task/Windowseol/rw.php  +g‹H  1Ï⁄∂         src/PEAR2/Pyrus/test.phpπ  +g‹Hπ  ä¥∂         src/PEAR2/Pyrus/test1.phpî  +g‹Hî  ∂D˚7∂         src/PEAR2/Pyrus/test2.php  +g‹H  qè∂         src/PEAR2/Pyrus/Uninstaller.phpT(  +g‹HT(  UOAœ∂         src/PEAR2/Pyrus/Validate.phpæO  +g‹HæO  µç[∂         src/PEAR2/Pyrus/Validate/    +g‹H        ˇ      &   src/PEAR2/Pyrus/Validate/Exception.phpG  +g‹HG  s~◊∂         src/PEAR2/Pyrus/Validator/    +g‹H        ˇ      "   src/PEAR2/Pyrus/Validator/PECL.php£  +g‹H£  *Êî∂         src/PEAR2/Pyrus/XMLParser.phpÿ  +g‹Hÿ  ñqf¬∂         src/PEAR2/Pyrus/XMLParser/    +g‹H        ˇ      '   src/PEAR2/Pyrus/XMLParser/Exception.php›  +g‹H›  J+ñr∂         src/PEAR2/Pyrus/XMLWriter.php⁄#  +g‹H⁄#  
+‘{ﬂ∂         src/PEAR2/Pyrus/XMLWriter/    +g‹H        ˇ      '   src/PEAR2/Pyrus/XMLWriter/Exception.php›  +g‹H›  ÀÔ<Ö∂         test/pear2.php.net/PEAR2_Pyrus/    +g‹H        ˇ      ,   test/pear2.php.net/PEAR2_Pyrus/clean.php.incY  +g‹HY  |≈¥∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/    +g‹H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/setup.php.incä   +g‹Hä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.phptç  +g‹Hç  IÙd•∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/    +g‹H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/setup.php.incä   +g‹Hä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.phptÉ  +g‹HÉ  „9˝:∂      8   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/    +g‹H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/basic.phptl  +g‹Hl  ‹å˜∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env.phpte  +g‹He  \:´∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env2.phptî  +g‹Hî  °t:Ñ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.win.phpt™  +g‹H™  –âÇp∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env.phptq  +g‹Hq  K1ï∂      O   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env2.phptÎ  +g‹HÎ  DﬂÎ£∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.ini.phpt≠  +g‹H≠  +°.¬∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/setup.php.incµ  +g‹Hµ  3*∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/    +g‹H        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.phpt  +g‹H  	NπÊ∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/baduserfile.phpt  +g‹H  ‹íåC∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.phpt  +g‹H  	S3æ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.phptS  +g‹HS  ÁEÿæ∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.phpt  +g‹H  oí–¡∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduserfile.phpt  +g‹H  Ë…Ü€∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/setup.php.inc◊  +g‹H◊  pùA∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/    +g‹H        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.phpt  +g‹H  j¯Úƒ∂      J   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/setup.php.inc9  +g‹H9  'ıjm∂      3   test/pear2.php.net/PEAR2_Pyrus/Config/setup.php.ince   +g‹He   €i±∂      -   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/    +g‹H        ˇ      7   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/basic.phptÃ  +g‹HÃ  1jÂ∂      8   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/cycles.phptò  +g‹Hò  @øºª∂      :   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/setup.php.incj   +g‹Hj   ˆ–¯∂      >   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/    +g‹H        ˇ      I   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package.xmlÎ&  +g‹HÎ&  ÜA¢Ô∂      J   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package2.xmlºV  +g‹HºV  QΩúê∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/setup.php.incˆ  +g‹Hˆ  ˜ÏD∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.0.phptõ´ +g‹Hõ´ ∞@92∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.1.phptˇ +g‹Hˇ uê≥∂      0   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/    +g‹H        ˇ      >   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.phpt¬  +g‹H¬  ’æ›D∂      5   test/pear2.php.net/PEAR2_Pyrus/Registry/setup.php.incg   +g‹Hg   óÌı∂      5   test/pear2.php.net/PEAR2_Pyrus/test_framework.php.incÁ  +g‹HÁ  8ÛF∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLParser/    +g‹H        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs.phptÁ  +g‹HÁ  k&n∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs_content.phptn  +g‹Hn  ‚wiÒ∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/cdata.phpt  +g‹H  {û∏(∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag.phpt  +g‹H  WŸXH∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_attribs.phpt}  +g‹H}  ·”ÿ¿∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_content.phpt=  +g‹H=  *UÙ˛∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_sibling_attribs.phpt≤  +g‹H≤  TX[∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/empty.phptÙ   +g‹HÙ   T2Ê∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLParser/recursivetag.phptﬂ  +g‹Hﬂ  ™◊ÜL∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/setup.php.inc¢   +g‹H¢   œ:ŸÏ∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLParser/siblingtags.phpt+  +g‹H+  ≈=Èµ∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/    +g‹H        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs.phpt  +g‹H  ™u&Œ∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs_content.phptá  +g‹Há  7-BÃ∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag.phpt4  +g‹H4  5N≈∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_attribs.phptò  +g‹Hò  ∞¯‘∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_content.phptX  +g‹HX  í.,∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_sibling_attribs.phpt—  +g‹H—  nÄ–Ó∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/empty.phpt  +g‹H  ]~x,∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/recursivetag.phpt  +g‹H  ™°[∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/setup.php.incÖ   +g‹HÖ   ?>Ú*∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/siblingtags.phptK  +g‹HK  vqa∂         src/PEAR2/Autoload.php7	  +g‹H7	  Æ&&…∂         src/PEAR2/MultiErrors.phpN  +g‹HN  <¡±∂      #   src/PEAR2/MultiErrors/Exception.phpB   +g‹HB   ˙«z≤∂         src/PEAR2/Exception.php 0  +g‹H 0  zb√2∂         src/PEAR2/HTTP/    +g‹H        ˇ         src/PEAR2/HTTP/Request.php˘  +g‹H˘  ML@ñ∂         src/PEAR2/HTTP/Request/    +g‹H        ˇ      "   src/PEAR2/HTTP/Request/Adapter.phpx  +g‹Hx  ·%≥∂         src/PEAR2/HTTP/Request/Adapter/    +g‹H        ˇ      ,   src/PEAR2/HTTP/Request/Adapter/Phpsocket.phpÎ,  +g‹HÎ,  —ê~¶∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpstream.php˜  +g‹H˜  Sö¯ƒ∂      $   src/PEAR2/HTTP/Request/Exception.phpE   +g‹HE   5≈ˆ,∂      "   src/PEAR2/HTTP/Request/Headers.phpŸ  +g‹HŸ  =2d∂      #   src/PEAR2/HTTP/Request/Response.phpD  +g‹HD  t5¸Ò∂         src/PEAR2/HTTP/Request/Uri.php¡  +g‹H¡  m[∫\∂      <?php
 function __autoload($class)
 {
     include 'phar://' . PYRUS_PHAR_FILE . '/src/' . implode('/', explode('_', $class)) . '.php';
@@ -1191,14 +1177,14 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-06-25</date>
- <time>17:01:58</time>
+ <date>2008-09-25</date>
+ <time>23:37:49</time>
  <version>
-  <release>2.0.0a1</release>
+  <release>0.1.0</release>
   <api>0.1.0</api>
  </version>
  <stability>
-  <release>alpha</release>
+  <release>devel</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
@@ -1227,7 +1213,6 @@ try {
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//XMLParser/attribs_content.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//XMLParser/attribs.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//test_framework.php.inc" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//run-tests.log" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//PackageFile_Parser_v2/test_2.1.phpt" baseinstalldir="/"/>
@@ -1241,38 +1226,13 @@ try {
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduserfile.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/baduserfile.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/badsystemfile.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/badsystemfile.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/badsystemfile.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/badsystemfile.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/badsystemfile.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/badsystemfile.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/constructDefaults/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/constructDefaults/extension_dir.ini.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/constructDefaults/extension_dir.env2.phpt" baseinstalldir="/"/>
@@ -1282,20 +1242,9 @@ try {
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/constructDefaults/bin_dir.env.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/constructDefaults/basic.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/test.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/test.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/test.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/test.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/test.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/test.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/configSnapshot/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/test.phpt" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/test.php" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/test.out" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/test.log" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/test.exp" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/test.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/setup.php.inc" baseinstalldir="/"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/addConfigValue/run-tests.log" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//clean.php.inc" baseinstalldir="/"/>
    <file role="php" name="src/PEAR2/Pyrus/XMLWriter/Exception.php" baseinstalldir="PEAR2"/>
    <file role="php" name="src/PEAR2/Pyrus/XMLWriter.php" baseinstalldir="PEAR2"/>
@@ -6373,13 +6322,8 @@ class PEAR2_Pyrus_Config
             PEAR2_Pyrus_Log::log(5, 'used PHP_BINDIR for bin_dir default');
         }
 
-        foreach (self::$pearConfigNames as $name) {
-            // make sure we've got valid paths for the underlying OS
-            self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
-                                                 self::$defaults[$name]);
-        }
-
-        foreach (self::$userConfigNames as $name) {
+        foreach (array_merge(self::$pearConfigNames,
+                             self::$userConfigNames) as $name) {
             // make sure we've got valid paths for the underlying OS
             self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
                                                  self::$defaults[$name]);
@@ -6404,9 +6348,9 @@ class PEAR2_Pyrus_Config
     {
         self::constructDefaults();
         if ($pearDirectory) {
-            $pearDirectory = str_replace('\\', '/', $pearDirectory);
-            $pearDirectory = str_replace('//', '/', $pearDirectory);
-            $pearDirectory = str_replace('/', DIRECTORY_SEPARATOR, $pearDirectory);
+            $pearDirectory = str_replace(array('\\', '//', '/'),
+                                         array('/',  '/', DIRECTORY_SEPARATOR),
+                                         $pearDirectory);
         }
 
         $this->loadUserSettings($pearDirectory, $userfile);
@@ -6515,13 +6459,47 @@ class PEAR2_Pyrus_Config
     }
 
     /**
+     * Can be used to determine whether this user has ever run pyrus before
+     */
+    static public function userInitialized()
+    {
+        $userfile = self::getDefaultUserConfigFile();
+        if (!file_exists($userfile)) {
+            // try cwd, this could work
+            $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
+            if ($test && file_exists($test)) {
+                PEAR2_Pyrus_Log::log(5, 'User is initialized, found user configuration file in current directory' .
+                    $userfile);
+                return true;
+            }
+        } else {
+            PEAR2_Pyrus_Log::log(5, 'User is initialized, found default user configuration file ' .
+                $userfile);
+            return true;
+        }
+        // no way to tell, must be explicit
+        return false;
+    }
+
+    static public function getDefaultUserConfigFile()
+    {
+        if (class_exists('COM', false)) {
+            return self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+        } else {
+            return self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+        }
+    }
+
+    /**
      * determines where user-specific configuration files should be saved.
      *
      * On unix, this is ~user/ or a location in /tmp based on the current directory.
      * On windows, this is your Documents and Settings folder.
      * @return string
      */
-    protected function locateLocalSettingsDirectory()
+    static protected function locateLocalSettingsDirectory()
     {
         if (class_exists('COM', false)) {
             $shell = new COM('Wscript.Shell');
@@ -6547,10 +6525,10 @@ class PEAR2_Pyrus_Config
     {
         if (!$userfile) {
             if (class_exists('COM', false)) {
-                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                $userfile = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             } else {
-                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
+                $userfile = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
                     '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
             }
 
@@ -6702,17 +6680,16 @@ class PEAR2_Pyrus_Config
             if ($this->userFile) {
                 $userfile = $this->userFile;
             } else {
-                // FIXME any reason why we don't name it .pear on windows ?
-                $pear = class_exists('COM', false) ? 'pear' : '.pear';
-                $userfile = $this->locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                        $pear . DIRECTORY_SEPARATOR . 'pearconfig.xml';
+                $userfile = self::getDefaultUserConfigFile();
+                // FIXME any reason why we don't name it .pear on windows ? no special meaning
             }
         }
 
-        $userfile = str_replace('\\', '/', $userfile);
-        $userfile = str_replace('//', '/', $userfile);
-        $userfile = str_replace('/', DIRECTORY_SEPARATOR, $userfile);
-        $test     = $userfile;
+        $userfile = str_replace(array('\\', '//', '/'),
+                                array('/',  '/', DIRECTORY_SEPARATOR),
+                                $userfile);
+
+        $test = $userfile;
         while ($test && !file_exists($test)) {
             $test = dirname($test);
         }
@@ -6830,6 +6807,12 @@ class PEAR2_Pyrus_Config
         PEAR2_Pyrus_Log::log(5, 'No matching configuration snapshot found');
         // no matches found
         $snapshot = 'configsnapshot-' . date('Y-m-d H:i:s') . '.xml';
+        $i = 0;
+        while (file_exists($snapshotdir . DIRECTORY_SEPARATOR . $snapshot)) {
+            $i++;
+            // keep appending ".1" until we get a unique filename
+            $snapshot = 'configsnapshot-' . date('Y-m-d H:i:s') . str_repeat('.1', $i) . '.xml';
+        }
         // save the snapshot
         $x = simplexml_load_string('<pearconfig version="1.0"></pearconfig>');
         foreach (self::$pearConfigNames as $var) {
@@ -7820,7 +7803,7 @@ class PEAR2_Pyrus_Dependency_Validator
      */
     function getPEARVersion()
     {
-        return '2.0.0a1' === '2.0.0a1' ? '2.0.0' : '2.0.0a1';
+        return '0.1.0' === '0.1.0' ? '2.0.0' : '0.1.0';
     }
 
     function validatePearinstallerDependency($dep)
@@ -11833,7 +11816,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
  */
 class PEAR2_Pyrus_Package_Creator
 {
-    const VERSION = '2.0.0a1';
+    const VERSION = '0.1.0';
     private $_creators;
     private $_handles = array();
     /**
@@ -11852,7 +11835,7 @@ class PEAR2_Pyrus_Package_Creator
         } else {
             if (!($pear2Exception = @fopen($pear2ExceptionPath, 'r', true))) {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/Exception.php' .
-                    'in ' . $pear2ExceptionPath);
+                    ' in ' . $pear2ExceptionPath);
             }
         }
         if (!$pear2AutoloadPath) {
@@ -11864,8 +11847,11 @@ class PEAR2_Pyrus_Package_Creator
         } else {
             if (!($pear2Autoload = @fopen($pear2AutoloadPath, 'r', true))) {
                 fclose($pear2Exception);
+                if ($a = realpath($pear2AutoloadPath)) {
+                    $pear2AutoloadPath = $a;
+                }
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/Autoload.php' .
-                    'in ' . $pear2AutoloadPath);
+                    ' in ' . $pear2AutoloadPath);
             }
         }
         if (!$pear2MultiErrorsPath) {
@@ -11875,16 +11861,34 @@ class PEAR2_Pyrus_Package_Creator
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors.php, please' .
                     ' pass in the path to the constructor');
             }
+            if (!($pear2MultiErrorsException = @fopen('PEAR2/MultiErrors/Exception.php', 'r', true))) {
+                fclose($pear2Exception);
+                fclose($pear2Autoload);
+                fclose($pear2MultiErrors);
+                throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors/Exception.php, please' .
+                    ' pass in the path to the constructor');
+            }
         } else {
-            if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath, 'r', true))) {
+            if (dirname($pear2MultiErrorsPath) == dirname($pear2MultiErrorsPath . 'test')) {
+                $pear2MultiErrorsPath .= '/';
+            }
+            if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors.php' .
-                    'in ' . $pear2MultiErrorsPath);
+                    ' in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
+            }
+            if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r', true))) {
+                fclose($pear2Exception);
+                fclose($pear2Autoload);
+                fclose($pear2MultiErrors);
+                throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors/Exception.php' .
+                    ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
             }
         }
         $this->_handles['src/PEAR2/Autoload.php'] = $pear2Autoload;
         $this->_handles['src/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
+        $this->_handles['src/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
         $this->_handles['src/PEAR2/Exception.php'] = $pear2Exception;
         if ($creators instanceof PEAR2_Pyrus_Package_ICreator) {
             $this->_creators = array($creators);
@@ -11909,7 +11913,7 @@ class PEAR2_Pyrus_Package_Creator
      * This will take any package source and an array mapping internal
      * path => file name and create new packages in the formats requested.
      *
-     * All files in package.xml will have the string 2.0.0a1
+     * All files in package.xml will have the string 0.1.0
      * automatically replaced with the current package's version
      * @param PEAR2_Pyrus_Package $package
      * @param array $extrafiles
@@ -16612,7 +16616,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             return false;
         }
         $myversion = self::VERSION;
-        if ($myversion === '2.0.0a1') {
+        if ($myversion === '0.1.0') {
             // we're running from CVS, assume we're 2.0.0
             $myversion = '2.0.0';
         }
@@ -20461,7 +20465,7 @@ class PEAR2_Pyrus_REST
         } elseif ($lastmodified) {
             $request->setHeader('If-Modified-Since', $lastmodified);
         }
-        $request->setHeader('User-Agent', 'PEAR2_Pyrus/2.0.0a1/PHP/' . PHP_VERSION);
+        $request->setHeader('User-Agent', 'PEAR2_Pyrus/0.1.0/PHP/' . PHP_VERSION);
         $username = $this->config->username;
         $password = $this->config->password;
         if ($username && $password) {
@@ -21806,7 +21810,7 @@ class PEAR2_Pyrus_REST_HTTPException extends PEAR2_Pyrus_REST_Exception {}<?php
 
 /**
  * This script handles the command line interface commands to Pyrus
- * 
+ *
  * Each command is a separate method, and will be called with the arguments
  * entered by the end user.
  *
@@ -21830,14 +21834,14 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 continue;
             }
             $this->commands[preg_replace_callback('/[A-Z]/',
-                    create_function('$m', 'return "-" . strtolower($m[0]);'), $name)] = $name;
+                    function($m) {return "-" . strtolower($m[0]);}, $name)] = $name;
         }
     }
 
     /**
-     * This method acts as a controller which dispatches the request to the 
+     * This method acts as a controller which dispatches the request to the
      * correct command/method.
-     * 
+     *
      * <code>
      * $cli = PEAR2_Pyrus_ScriptFrontend_Commands();
      * $cli->run($args = array (0 => 'install',
@@ -21845,9 +21849,9 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
      * </code>
      *
      * The above code will dispatch to the install command
-     * 
+     *
      * @param array $args An array of command line arguments.
-     * 
+     *
      * @return void
      */
     function run($args)
@@ -21869,6 +21873,53 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
         }
     }
 
+    function _ask($question, array $choices = null, $default = null)
+    {
+        if (is_array($choices)) {
+            foreach ($choices as $i => $choice) {
+                if (is_int($i) && ($default === null || ($default !== null && !is_string($default)))) {
+                    $is_int = false;
+                } else {
+                    $is_int = truee;
+                }
+                break;
+            }
+        }
+previous:
+        echo $question,"\n";
+        if ($choices !== null) {
+            echo "Please choose:\n";
+            foreach ($choices as $i => $choice) {
+                if ($is_int) {
+                    echo '  ',$choice,"\n";
+                } else {
+                    echo '  [',$i,'] ',$choice,"\n";
+                }
+            }
+        }
+        if ($default !== null) {
+            echo '[',$default,']';
+        }
+        echo ' : ';
+        $answer = trim(fgets(STDIN, 1024));
+
+        if (!strlen($answer)) {
+            if ($default !== null) {
+                $answer = $default;
+            } else {
+                $answer = null;
+            }
+        } elseif ($choices !== null) {
+            if (($is_int && in_array($answer, $choices)) || (!$is_int && array_key_exists($answer, $choices))) {
+                return $answer;
+            } else {
+                echo "Please choose one choice\n";
+                goto previous;
+            }
+        }
+        return $answer;
+    }
+
     function _findPEAR(&$arr)
     {
         if (isset($arr[0]) && @file_exists($arr[0]) && @is_dir($arr[0])) {
@@ -21877,6 +21928,31 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             echo "Using PEAR installation found at $maybe\n";
             $config = PEAR2_Pyrus_Config::singleton($maybe);
             return;
+        }
+        if (!PEAR2_Pyrus_Config::userInitialized()) {
+            echo "Pyrus: No user configuration file detected\n";
+            if ('yes' === $this->_ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
+                echo "Great.  We will store your configuration in:\n  ",PEAR2_Pyrus_Config::getDefaultUserConfigFile(),"\n";
+previous:
+                $path = $this->_ask("Where would you like to install packages by default?", null, getcwd());
+                echo "You have chosen:\n", $path, "\n";
+                if (!realpath($path)) {
+                    echo $path," does not yet exist\n";
+                    if ('yes' !== $this->_ask("Create it?", array('yes', 'no'), 'yes')) {
+                        goto previous;
+                    }
+                } elseif (!is_dir($path)) {
+                    echo $path," exists, and is not a directory\n";
+                    goto previous;
+                }
+                $config = PEAR2_Pyrus_Config::singleton($path);
+                $config->saveConfig();
+                echo "Thank you, enjoy using Pyrus\n";
+                echo "Documentation is at http://pear.php.net\n";
+            } else {
+                echo "OK, thank you, finishing execution now\n";
+                exit;
+            }
         }
         $mypath = PEAR2_Pyrus_Config::singleton()->my_pear_path;
         if ($mypath) {
@@ -25139,132 +25215,11 @@ foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), Rec
 }
 rmdir($dir);
 ?>
-TOTAL TIME: 00:00
-0 PASSED TESTS
-0 SKIPPED TESTS
-1 FAILED TESTS:
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.phpt
 <?php
 require __DIR__ . '/../setup.php.inc';
 $testpath = __DIR__ . '/testit';
 mkdir($testpath);
 $cdir = $testpath . '/.configsnapshots/';
-001- ===DONE===
-001+ Test Failure: "1"
-002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php line 14
-003+ Diff of expecting/received:
-004+ @@ -1 +1 @@
-005+ -'configsnapshot-20080529.xml'
-006+ +'configsnapshot-20080529.1.xml'
-007+ Expecting:
-008+ 'configsnapshot-20080529.xml'
-009+ Received:
-010+ 'configsnapshot-20080529.1.xml'
-011+ 
-012+ Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/testit/.configsnapshots//configsnapshot-20080529.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php on line 29
-013+ Test Failure: "contents 1"
-014+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php line 29
-015+ Diff of expecting/received:
-016+ @@ -1,3 +1 @@
-017+ -'<?xml version="1.0"?>
-018+ -<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini><foo>hi</foo></pearconfig>
-019+ -'
-020+ +false
-021+ Expecting:
-022+ '<?xml version="1.0"?>
-023+ <pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini><foo>hi</foo></pearconfig>
-024+ '
-025+ Received:
-026+ false
-027+ ===DONE======DONE===
----- EXPECTED OUTPUT
-===DONE===
----- ACTUAL OUTPUT
-Test Failure: "1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php line 14
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080529.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080529.1.xml'
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/testit/.configsnapshots//configsnapshot-20080529.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php on line 29
-Test Failure: "contents 1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php line 29
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini><foo>hi</foo></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini><foo>hi</foo></pearconfig>
-'
-Received:
-false
-===DONE===
----- FAILED
-Test Failure: "1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php line 14
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080529.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080529.1.xml'
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/testit/.configsnapshots//configsnapshot-20080529.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php on line 29
-Test Failure: "contents 1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.php line 29
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini><foo>hi</foo></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini><foo>hi</foo></pearconfig>
-'
-Received:
-false
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
-$a = $configclass::singleton($testpath, $testpath . '/blah');
-$a->addConfigValue('foo', 'booya');
-$a->addConfigValue('foo2', 'booya2', false);
-$test->assertEquals('booya', $a->foo, 'foo');
-$test->assertEquals('booya2', $a->foo2, 'foo');
-$a->foo = 'hi';
-$a->foo2 = 'hi2';
-$test->assertEquals('hi', $a->foo, 'foo');
-$test->assertEquals('hi2', $a->foo2, 'foo2');
-$d = DIRECTORY_SEPARATOR;
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 1);
-
-$test->assertEquals('<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>' .
-    $a->php_dir . '</php_dir><ext_dir>' .
-    $a->ext_dir . '</ext_dir><cfg_dir>' .
-    $a->cfg_dir . '</cfg_dir><doc_dir>' .
-    $a->doc_dir . '</doc_dir><bin_dir>' .
-    $a->bin_dir . '</bin_dir><data_dir>' .
-    $a->data_dir . '</data_dir><www_dir>' .
-    $a->www_dir . '</www_dir><test_dir>' .
-    $a->test_dir . '</test_dir><php_bin>' .
-    $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini><foo>' .
-    $a->foo . '</foo></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.xml'), 'contents 1');
-?>
-===DONE===
 --TEST--
 PEAR2_Pyrus_Config::addConfigValue()
 --FILE--
@@ -25281,7 +25236,7 @@ $a->foo2 = 'hi2';
 $test->assertEquals('hi', $a->foo, 'foo');
 $test->assertEquals('hi2', $a->foo2, 'foo2');
 $d = DIRECTORY_SEPARATOR;
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 1);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.xml', $a->configSnapshot(), 1);
 
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
@@ -25296,7 +25251,7 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini><foo>' .
     $a->foo . '</foo></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.xml'), 'contents 1');
+', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.xml'), 'contents 1');
 ?>
 ===DONE===
 --CLEAN--
@@ -25311,425 +25266,6 @@ require __DIR__ . '/../setup.php.inc';
 $testpath = __DIR__ . '/testit';
 mkdir($testpath);
 $cdir = $testpath . '/.configsnapshots/';
-001- ===DONE===
-001+ Test Failure: "1"
-002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 6
-003+ Diff of expecting/received:
-004+ @@ -1 +1 @@
-005+ -'configsnapshot-20080529.xml'
-006+ +'configsnapshot-20080528.1.1.1.xml'
-007+ Expecting:
-008+ 'configsnapshot-20080529.xml'
-009+ Received:
-010+ 'configsnapshot-20080528.1.1.1.xml'
-011+ Test Failure: "2"
-012+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 7
-013+ Diff of expecting/received:
-014+ @@ -1 +1 @@
-015+ -'configsnapshot-20080529.xml'
-016+ +'configsnapshot-20080528.1.1.1.xml'
-017+ Expecting:
-018+ 'configsnapshot-20080529.xml'
-019+ Received:
-020+ 'configsnapshot-20080528.1.1.1.xml'
-021+ Test Failure: "3"
-022+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 8
-023+ Diff of expecting/received:
-024+ @@ -1 +1 @@
-025+ -'configsnapshot-20080529.xml'
-026+ +'configsnapshot-20080528.1.1.1.xml'
-027+ Expecting:
-028+ 'configsnapshot-20080529.xml'
-029+ Received:
-030+ 'configsnapshot-20080528.1.1.1.xml'
-031+ Test Failure: "4"
-032+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 11
-033+ Diff of expecting/received:
-034+ @@ -1 +1 @@
-035+ -'configsnapshot-20080529.1.xml'
-036+ +'configsnapshot-20080528.1.xml'
-037+ Expecting:
-038+ 'configsnapshot-20080529.1.xml'
-039+ Received:
-040+ 'configsnapshot-20080528.1.xml'
-041+ Test Failure: "5"
-042+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 12
-043+ Diff of expecting/received:
-044+ @@ -1 +1 @@
-045+ -'configsnapshot-20080529.1.xml'
-046+ +'configsnapshot-20080528.1.xml'
-047+ Expecting:
-048+ 'configsnapshot-20080529.1.xml'
-049+ Received:
-050+ 'configsnapshot-20080528.1.xml'
-051+ Test Failure: "6"
-052+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 14
-053+ Diff of expecting/received:
-054+ @@ -1 +1 @@
-055+ -'configsnapshot-20080529.xml'
-056+ +'configsnapshot-20080528.1.1.1.xml'
-057+ Expecting:
-058+ 'configsnapshot-20080529.xml'
-059+ Received:
-060+ 'configsnapshot-20080528.1.1.1.xml'
-061+ Test Failure: "7"
-062+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 16
-063+ Diff of expecting/received:
-064+ @@ -1 +1 @@
-065+ -'configsnapshot-20080529.1.1.xml'
-066+ +'configsnapshot-20080528.1.1.xml'
-067+ Expecting:
-068+ 'configsnapshot-20080529.1.1.xml'
-069+ Received:
-070+ 'configsnapshot-20080528.1.1.xml'
-071+ 
-072+ Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 30
-073+ Test Failure: "contents 1"
-074+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 30
-075+ Diff of expecting/received:
-076+ @@ -1,3 +1 @@
-077+ -'<?xml version="1.0"?>
-078+ -<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-079+ -'
-080+ +false
-081+ Expecting:
-082+ '<?xml version="1.0"?>
-083+ <pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-084+ '
-085+ Received:
-086+ false
-087+ 
-088+ Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.1.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 43
-089+ Test Failure: "contents 2"
-090+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 43
-091+ Diff of expecting/received:
-092+ @@ -1,3 +1 @@
-093+ -'<?xml version="1.0"?>
-094+ -<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>hi</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-095+ -'
-096+ +false
-097+ Expecting:
-098+ '<?xml version="1.0"?>
-099+ <pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>hi</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-100+ '
-101+ Received:
-102+ false
-103+ 
-104+ Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.1.1.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 56
-105+ Test Failure: "contents 3"
-106+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 56
-107+ Diff of expecting/received:
-108+ @@ -1,3 +1 @@
-109+ -'<?xml version="1.0"?>
-110+ -<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>another</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-111+ -'
-112+ +false
-113+ Expecting:
-114+ '<?xml version="1.0"?>
-115+ <pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>another</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-116+ '
-117+ Received:
-118+ false
-119+ ===DONE======DONE===
----- EXPECTED OUTPUT
-===DONE===
----- ACTUAL OUTPUT
-Test Failure: "1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 6
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "2"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 7
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "3"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 8
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "4"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 11
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.1.xml'
-+'configsnapshot-20080528.1.xml'
-Expecting:
-'configsnapshot-20080529.1.xml'
-Received:
-'configsnapshot-20080528.1.xml'
-Test Failure: "5"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 12
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.1.xml'
-+'configsnapshot-20080528.1.xml'
-Expecting:
-'configsnapshot-20080529.1.xml'
-Received:
-'configsnapshot-20080528.1.xml'
-Test Failure: "6"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 14
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "7"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 16
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.1.1.xml'
-+'configsnapshot-20080528.1.1.xml'
-Expecting:
-'configsnapshot-20080529.1.1.xml'
-Received:
-'configsnapshot-20080528.1.1.xml'
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 30
-Test Failure: "contents 1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 30
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-'
-Received:
-false
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.1.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 43
-Test Failure: "contents 2"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 43
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>hi</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>hi</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-'
-Received:
-false
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.1.1.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 56
-Test Failure: "contents 3"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 56
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>another</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>another</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-'
-Received:
-false
-===DONE===
----- FAILED
-Test Failure: "1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 6
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "2"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 7
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "3"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 8
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "4"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 11
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.1.xml'
-+'configsnapshot-20080528.1.xml'
-Expecting:
-'configsnapshot-20080529.1.xml'
-Received:
-'configsnapshot-20080528.1.xml'
-Test Failure: "5"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 12
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.1.xml'
-+'configsnapshot-20080528.1.xml'
-Expecting:
-'configsnapshot-20080529.1.xml'
-Received:
-'configsnapshot-20080528.1.xml'
-Test Failure: "6"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 14
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.xml'
-+'configsnapshot-20080528.1.1.1.xml'
-Expecting:
-'configsnapshot-20080529.xml'
-Received:
-'configsnapshot-20080528.1.1.1.xml'
-Test Failure: "7"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 16
-Diff of expecting/received:
-@@ -1 +1 @@
--'configsnapshot-20080529.1.1.xml'
-+'configsnapshot-20080528.1.1.xml'
-Expecting:
-'configsnapshot-20080529.1.1.xml'
-Received:
-'configsnapshot-20080528.1.1.xml'
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 30
-Test Failure: "contents 1"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 30
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-'
-Received:
-false
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.1.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 43
-Test Failure: "contents 2"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 43
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>hi</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>hi</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-'
-Received:
-false
-
-Warning: file_get_contents(/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/testit/.configsnapshots//configsnapshot-20080529.1.1.xml): failed to open stream: No such file or directory in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php on line 56
-Test Failure: "contents 3"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.php line 56
-Diff of expecting/received:
-@@ -1,3 +1 @@
--'<?xml version="1.0"?>
--<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>another</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
--'
-+false
-Expecting:
-'<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>/src</php_dir><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/cfg</cfg_dir><doc_dir>/docs</doc_dir><bin_dir>/usr/local/php5/bin</bin_dir><data_dir>/data</data_dir><www_dir>/www</www_dir><test_dir>another</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
-'
-Received:
-false
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
-$a = $configclass::singleton($testpath, $testpath . '/blah');
-$d = DIRECTORY_SEPARATOR;
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 1);
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 2);
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 3);
-$t = $a->test_dir;
-$a->test_dir = 'hi';
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.1.xml', $a->configSnapshot(), 4);
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.1.xml', $a->configSnapshot(), 5);
-$a->test_dir = $t;
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 6);
-$a->test_dir = 'another';
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.1.1.xml', $a->configSnapshot(), 7);
-
-$test->assertEquals('<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>' .
-    $a->php_dir . '</php_dir><ext_dir>' .
-    $a->ext_dir . '</ext_dir><cfg_dir>' .
-    $a->cfg_dir . '</cfg_dir><doc_dir>' .
-    $a->doc_dir . '</doc_dir><bin_dir>' .
-    $a->bin_dir . '</bin_dir><data_dir>' .
-    $a->data_dir . '</data_dir><www_dir>' .
-    $a->www_dir . '</www_dir><test_dir>' .
-    $t . '</test_dir><php_bin>' .
-    $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.xml'), 'contents 1');
-$test->assertEquals('<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>' .
-    $a->php_dir . '</php_dir><ext_dir>' .
-    $a->ext_dir . '</ext_dir><cfg_dir>' .
-    $a->cfg_dir . '</cfg_dir><doc_dir>' .
-    $a->doc_dir . '</doc_dir><bin_dir>' .
-    $a->bin_dir . '</bin_dir><data_dir>' .
-    $a->data_dir . '</data_dir><www_dir>' .
-    $a->www_dir . '</www_dir><test_dir>' .
-    'hi</test_dir><php_bin>' .
-    $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.1.xml'), 'contents 2');
-$test->assertEquals('<?xml version="1.0"?>
-<pearconfig version="1.0"><php_dir>' .
-    $a->php_dir . '</php_dir><ext_dir>' .
-    $a->ext_dir . '</ext_dir><cfg_dir>' .
-    $a->cfg_dir . '</cfg_dir><doc_dir>' .
-    $a->doc_dir . '</doc_dir><bin_dir>' .
-    $a->bin_dir . '</bin_dir><data_dir>' .
-    $a->data_dir . '</data_dir><www_dir>' .
-    $a->www_dir . '</www_dir><test_dir>' .
-    'another</test_dir><php_bin>' .
-    $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.1.1.xml'), 'contents 3');
-?>
-===DONE===
 --TEST--
 PEAR2_Pyrus_Config::configSnapshot()
 --FILE--
@@ -25738,17 +25274,17 @@ require dirname(__FILE__) . '/setup.php.inc';
 set_include_path(''); // disable include_path cascading for simplicity
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 $d = DIRECTORY_SEPARATOR;
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 1);
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 2);
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 3);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.xml', $a->configSnapshot(), 1);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.xml', $a->configSnapshot(), 2);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.xml', $a->configSnapshot(), 3);
 $t = $a->test_dir;
 $a->test_dir = 'hi';
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.1.xml', $a->configSnapshot(), 4);
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.1.xml', $a->configSnapshot(), 5);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.1.xml', $a->configSnapshot(), 4);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.1.xml', $a->configSnapshot(), 5);
 $a->test_dir = $t;
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.xml', $a->configSnapshot(), 6);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.xml', $a->configSnapshot(), 6);
 $a->test_dir = 'another';
-$test->assertEquals('configsnapshot-' . date('Ymd') . '.1.1.xml', $a->configSnapshot(), 7);
+$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.1.1.xml', $a->configSnapshot(), 7);
 
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
@@ -25762,7 +25298,7 @@ $test->assertEquals('<?xml version="1.0"?>
     $t . '</test_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.xml'), 'contents 1');
+', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.xml'), 'contents 1');
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
     $a->php_dir . '</php_dir><ext_dir>' .
@@ -25775,7 +25311,7 @@ $test->assertEquals('<?xml version="1.0"?>
     'hi</test_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.1.xml'), 'contents 2');
+', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.1.xml'), 'contents 2');
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
     $a->php_dir . '</php_dir><ext_dir>' .
@@ -25788,7 +25324,7 @@ $test->assertEquals('<?xml version="1.0"?>
     'another</test_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Ymd') . '.1.1.xml'), 'contents 3');
+', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.1.1.xml'), 'contents 3');
 ?>
 ===DONE===
 --CLEAN--
@@ -25830,7 +25366,7 @@ $test->assertEquals(array(
             'password' => '',
             'verbose' => 1,
             'preferred_state' => 'stable',
-            'umask' => '0644',
+            'umask' => '0022',
             'cache_ttl' => 3600,
             'sig_type' => '',
             'sig_bin' => '',
@@ -25860,7 +25396,7 @@ $test->assertEquals(array(
             'password' => '',
             'verbose' => '1',
             'preferred_state' => 'stable',
-            'umask' => '0644',
+            'umask' => '0022',
             'cache_ttl' => '3600',
             'sig_type' => '',
             'sig_bin' => '',
@@ -25996,57 +25532,6 @@ class tc extends PEAR2_Pyrus_Config
         return parent::constructDefaults();
     }
 }
-001- ===DONE===
-001+ Test Failure: "peardir"
-002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/badsystemfile.php line 8
-003+ Diff of expecting/received:
-004+ @@ -1 +1 @@
-005+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-006+ +NULL
-007+ Expecting:
-008+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-009+ Received:
-010+ NULL
-011+ ===DONE======DONE===
----- EXPECTED OUTPUT
-===DONE===
----- ACTUAL OUTPUT
-Test Failure: "peardir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/badsystemfile.php line 8
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-NULL
-===DONE===
----- FAILED
-Test Failure: "peardir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/badsystemfile.php line 8
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-NULL
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
-file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>oops> <cra&p>; ?>');
-try {
-    tc::$test = $test;
-    $a = new tc($testpath, $testpath . '/blah');
-    $test->assertEquals($testpath, $a->pearDir, 'peardir');
-    $test->assertEquals($testpath . '/blah', $a->userFile, 'userfile');
-} catch (Exception $e) {
-    $test->assertException($e, 'PEAR2_Pyrus_Config_Exception', 'Unable to parse invalid PEAR configuration at "' . $testpath . '"', 'exception');
-}
-?>
-===DONE===
 --TEST--
 PEAR2_Pyrus_Config::loadConfigFile() corrupt systemfile
 --FILE--
@@ -26095,52 +25580,6 @@ include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
 ===DONE===
-001- ===DONE===
-001+ Test Failure: "peardir"
-002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/defaults.php line 6
-003+ Diff of expecting/received:
-004+ @@ -1 +1 @@
-005+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-006+ +NULL
-007+ Expecting:
-008+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-009+ Received:
-010+ NULL
-011+ ===DONE======DONE===
----- EXPECTED OUTPUT
-===DONE===
----- ACTUAL OUTPUT
-Test Failure: "peardir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/defaults.php line 6
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-NULL
-===DONE===
----- FAILED
-Test Failure: "peardir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/defaults.php line 6
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-NULL
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
-tc::$test = $test;
-$a = new tc($testpath, $testpath . '/notfound');
-$test->assertEquals($testpath, $a->pearDir, 'peardir');
-$test->assertEquals($testpath . '/notfound', $a->userFile, 'userfile');
-?>
-===DONE===
 --TEST--
 PEAR2_Pyrus_Config::loadConfigFile() no configuration found, use defaults
 --FILE--
@@ -26159,357 +25598,6 @@ $dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
-===DONE===
-001- here
-001+ Test Failure: "peardir"
-002- ===DONE===
-002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 19
-003+ Diff of expecting/received:
-004+ @@ -1 +1 @@
-005+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-006+ +NULL
-007+ Expecting:
-008+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-009+ Received:
-010+ NULL
-011+ Test Failure: "php_dir"
-012+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 21
-013+ Diff of expecting/received:
-014+ @@ -1 +1 @@
-015+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/src'
-016+ +'/src'
-017+ Expecting:
-018+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/src'
-019+ Received:
-020+ '/src'
-021+ Test Failure: "data_dir"
-022+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 22
-023+ Diff of expecting/received:
-024+ @@ -1 +1 @@
-025+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/data'
-026+ +'/data'
-027+ Expecting:
-028+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/data'
-029+ Received:
-030+ '/data'
-031+ Test Failure: "ext_dir"
-032+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 23
-033+ Diff of expecting/received:
-034+ @@ -1 +1 @@
-035+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/foo'
-036+ +'/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613'
-037+ Expecting:
-038+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/foo'
-039+ Received:
-040+ '/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613'
-041+ Test Failure: "doc_dir"
-042+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 24
-043+ Diff of expecting/received:
-044+ @@ -1 +1 @@
-045+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bah'
-046+ +'/docs'
-047+ Expecting:
-048+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bah'
-049+ Received:
-050+ '/docs'
-051+ Test Failure: "bin_dir"
-052+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 25
-053+ Diff of expecting/received:
-054+ @@ -1 +1 @@
-055+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bar'
-056+ +'/usr/local/php5/bin'
-057+ Expecting:
-058+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bar'
-059+ Received:
-060+ '/usr/local/php5/bin'
-061+ Test Failure: "www_dir"
-062+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 26
-063+ Diff of expecting/received:
-064+ @@ -1 +1 @@
-065+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/boo'
-066+ +'/www'
-067+ Expecting:
-068+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/boo'
-069+ Received:
-070+ '/www'
-071+ Test Failure: "test_dir"
-072+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 27
-073+ Diff of expecting/received:
-074+ @@ -1 +1 @@
-075+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/blah'
-076+ +'/tests'
-077+ Expecting:
-078+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/blah'
-079+ Received:
-080+ '/tests'
-081+ Test Failure: "php_bin"
-082+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 28
-083+ Diff of expecting/received:
-084+ @@ -1 +1 @@
-085+ -'/path/to/php'
-086+ +''
-087+ Expecting:
-088+ '/path/to/php'
-089+ Received:
-090+ ''
-091+ Test Failure: "php_ini"
-092+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 29
-093+ Diff of expecting/received:
-094+ @@ -1 +1 @@
-095+ -'/path/to/php.ini'
-096+ +'/usr/local/php5/lib/php.ini'
-097+ Expecting:
-098+ '/path/to/php.ini'
-099+ Received:
-100+ '/usr/local/php5/lib/php.ini'
-101+ here
-102+ ===DONE===here
-===DONE===
----- EXPECTED OUTPUT
-here
-===DONE===
----- ACTUAL OUTPUT
-Test Failure: "peardir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 19
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-NULL
-Test Failure: "php_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 21
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/src'
-+'/src'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/src'
-Received:
-'/src'
-Test Failure: "data_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 22
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/data'
-+'/data'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/data'
-Received:
-'/data'
-Test Failure: "ext_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 23
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/foo'
-+'/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/foo'
-Received:
-'/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613'
-Test Failure: "doc_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 24
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bah'
-+'/docs'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bah'
-Received:
-'/docs'
-Test Failure: "bin_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 25
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bar'
-+'/usr/local/php5/bin'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bar'
-Received:
-'/usr/local/php5/bin'
-Test Failure: "www_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 26
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/boo'
-+'/www'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/boo'
-Received:
-'/www'
-Test Failure: "test_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 27
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/blah'
-+'/tests'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/blah'
-Received:
-'/tests'
-Test Failure: "php_bin"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 28
-Diff of expecting/received:
-@@ -1 +1 @@
--'/path/to/php'
-+''
-Expecting:
-'/path/to/php'
-Received:
-''
-Test Failure: "php_ini"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 29
-Diff of expecting/received:
-@@ -1 +1 @@
--'/path/to/php.ini'
-+'/usr/local/php5/lib/php.ini'
-Expecting:
-'/path/to/php.ini'
-Received:
-'/usr/local/php5/lib/php.ini'
-here
-===DONE===
----- FAILED
-Test Failure: "peardir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 19
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-NULL
-Test Failure: "php_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 21
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/src'
-+'/src'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/src'
-Received:
-'/src'
-Test Failure: "data_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 22
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/data'
-+'/data'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/data'
-Received:
-'/data'
-Test Failure: "ext_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 23
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/foo'
-+'/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/foo'
-Received:
-'/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613'
-Test Failure: "doc_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 24
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bah'
-+'/docs'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bah'
-Received:
-'/docs'
-Test Failure: "bin_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 25
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bar'
-+'/usr/local/php5/bin'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/bar'
-Received:
-'/usr/local/php5/bin'
-Test Failure: "www_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 26
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/boo'
-+'/www'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/boo'
-Received:
-'/www'
-Test Failure: "test_dir"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 27
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/blah'
-+'/tests'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/blah'
-Received:
-'/tests'
-Test Failure: "php_bin"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 28
-Diff of expecting/received:
-@@ -1 +1 @@
--'/path/to/php'
-+''
-Expecting:
-'/path/to/php'
-Received:
-''
-Test Failure: "php_ini"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.php line 29
-Diff of expecting/received:
-@@ -1 +1 @@
--'/path/to/php.ini'
-+'/usr/local/php5/lib/php.ini'
-Expecting:
-'/path/to/php.ini'
-Received:
-'/usr/local/php5/lib/php.ini'
-here
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
-file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>
-<c>
- <!-- make sure php_dir and data_dir are not processed -->
- <php_dir>oops</php_dir>
- <data_dir>I did it again</data_dir>
- <ext_dir>@php_dir@/foo</ext_dir>
- <doc_dir>@php_dir@/bah</doc_dir>
- <bin_dir>@php_dir@/bar</bin_dir>
- <www_dir>@php_dir@/boo</www_dir>
- <test_dir>@php_dir@/blah</test_dir>
- <php_bin>/path/to/php</php_bin>
- <php_ini>/path/to/php.ini</php_ini>
- <unknown>ha!</unknown>
-</c>');
-$a = $configclass::singleton($testpath, $testpath . '/blah');
-$test->assertEquals($testpath, $a->path, 'peardir');
-$test->assertEquals($testpath . '/blah', $a->userfile, 'userfile');
-$test->assertEquals($testpath . '/src', $a->php_dir, 'php_dir');
-$test->assertEquals($testpath . '/data', $a->data_dir, 'data_dir');
-$test->assertEquals($testpath . '/foo', $a->ext_dir, 'ext_dir');
-$test->assertEquals($testpath . '/bah', $a->doc_dir, 'doc_dir');
-$test->assertEquals($testpath . '/bar', $a->bin_dir, 'bin_dir');
-$test->assertEquals($testpath . '/boo', $a->www_dir, 'www_dir');
-$test->assertEquals($testpath . '/blah', $a->test_dir, 'test_dir');
-$test->assertEquals('/path/to/php', $a->php_bin, 'php_bin');
-$test->assertEquals('/path/to/php.ini', $a->php_ini, 'php_ini');
-try {
-    $test->assertEquals('this should NOT execute, should go to exception', $a->unknown, 'unknown');
-} catch (PEAR2_Pyrus_Config_Exception $e) {
-    echo "here\n";
-    $test->assertEquals('Unknown configuration variable "unknown" in location ' .
-            $a->path, $e->getMessage(), 'exception message');
-}
-?>
 ===DONE===
 --TEST--
 PEAR2_Pyrus_Config::loadConfigFile() good systemfile
@@ -26559,91 +25647,6 @@ include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
 here
-===DONE===
-001- ===DONE===
-001+ Test Failure: "called 0"
-002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
-003+ Diff of expecting/received:
-004+ @@ -1 +1 @@
-005+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-006+ +'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
-007+ Expecting:
-008+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-009+ Received:
-010+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
-011+ Test Failure: "called times"
-012+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/gooduser.mypath.php line 11
-013+ Diff of expecting/received:
-014+ @@ -1 +1 @@
-015+ -1
-016+ +2
-017+ Expecting:
-018+ 1
-019+ Received:
-020+ 2
-021+ ===DONE======DONE===
----- EXPECTED OUTPUT
-===DONE===
----- ACTUAL OUTPUT
-Test Failure: "called 0"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
-Test Failure: "called times"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/gooduser.mypath.php line 11
-Diff of expecting/received:
-@@ -1 +1 @@
--1
-+2
-Expecting:
-1
-Received:
-2
-===DONE===
----- FAILED
-Test Failure: "called 0"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
-Received:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
-Test Failure: "called times"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/gooduser.mypath.php line 11
-Diff of expecting/received:
-@@ -1 +1 @@
--1
-+2
-Expecting:
-1
-Received:
-2
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
-file_put_contents($testpath . '/blah', '<?xml version="1.0" ?>
-<c>
- <my_pear_path>' . $testpath . '/hi/there</my_pear_path>
-</c>');
-try {
-    tc::$test = $test;
-    $a = new tc($testpath, $testpath . '/blah');
-    $test->assertEquals(tc::$called, 2, 'called times');
-    $test->assertEquals($testpath, $a->pearDir, 'peardir');
-    $test->assertEquals($testpath . '/blah', $a->userFile, 'userfile');
-} catch (Exception $e) {
-    echo "failed with $e";
-}
-?>
 ===DONE===
 --TEST--
 PEAR2_Pyrus_Config::loadConfigFile() good userfile with my_pear_path set
@@ -26790,204 +25793,6 @@ class tc extends PEAR2_Pyrus_Config
         return parent::setCascadingRegistries($path);
     }
 }
-001- ===DONE===
-001+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 7
-002+ Test Failure: "registry path"
-003+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 7
-004+ Diff of expecting/received:
-005+ @@ -1 +1 @@
-006+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-007+ +NULL
-008+ Expecting:
-009+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-010+ Received:
-011+ NULL
-012+ 
-013+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 8
-014+ 
-015+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 8
-016+ Test Failure: "registry->parent path"
-017+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 8
-018+ Diff of expecting/received:
-019+ @@ -1 +1 @@
-020+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-021+ +NULL
-022+ Expecting:
-023+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-024+ Received:
-025+ NULL
-026+ 
-027+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 9
-028+ 
-029+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 9
-030+ 
-031+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 10
-032+ Test Failure: "channelregistry path"
-033+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 10
-034+ Diff of expecting/received:
-035+ @@ -1 +1 @@
-036+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-037+ +NULL
-038+ Expecting:
-039+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-040+ Received:
-041+ NULL
-042+ 
-043+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 11
-044+ 
-045+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 11
-046+ Test Failure: "channelregistry->parent path"
-047+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 11
-048+ Diff of expecting/received:
-049+ @@ -1 +1 @@
-050+ -'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-051+ +NULL
-052+ Expecting:
-053+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-054+ Received:
-055+ NULL
-056+ 
-057+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 12
-058+ 
-059+ Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 12
-060+ ===DONE======DONE===
----- EXPECTED OUTPUT
-===DONE===
----- ACTUAL OUTPUT
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 7
-Test Failure: "registry path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 7
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 8
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 8
-Test Failure: "registry->parent path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 8
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 9
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 9
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 10
-Test Failure: "channelregistry path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 10
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 11
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 11
-Test Failure: "channelregistry->parent path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 11
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 12
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 12
-===DONE===
----- FAILED
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 7
-Test Failure: "registry path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 7
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 8
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 8
-Test Failure: "registry->parent path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 8
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 9
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 9
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 10
-Test Failure: "channelregistry path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 10
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 11
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 11
-Test Failure: "channelregistry->parent path"
- in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 11
-Diff of expecting/received:
-@@ -1 +1 @@
--'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-+NULL
-Expecting:
-'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
-Received:
-NULL
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 12
-
-Notice: Trying to get property of non-object in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php on line 12
-===DONE===<?php
-require dirname(__FILE__) . '/setup.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
-$c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo', dirname(__FILE__) . '/something/blah');
-restore_include_path();
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->registry->path, 'registry path');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo', $c->registry->parent->path, 'registry->parent path');
-$test->assertNull($c->registry->parent->parent, 'registry parent parent');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->channelregistry->path, 'channelregistry path');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo', $c->channelregistry->parent->path, 'channelregistry->parent path');
-$test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent');
-?>
-===DONE===
 --TEST--
 PEAR2_Pyrus_Config::setCascading Registries() basic test
 --FILE--
@@ -34854,19 +33659,6 @@ $test->assertEquals('PEAR2_Pyrus_Registry',
 ===DONE===<?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
 $registryclass = 'PEAR2_Pyrus_Config';
-TOTAL TIME: 00:03
-28 PASSED TESTS
-2 SKIPPED TESTS
-9 FAILED TESTS:
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/badsystemfile.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/baduserfile.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/defaults.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/goodsystemfile.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/gooduser.mypath.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/gooduserfile.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/configSnapshot/test.phpt
-/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/addConfigValue/test.phpt
 <?php
 $__e = error_reporting();
 error_reporting(E_ERROR|E_NOTICE|E_WARNING);
@@ -35850,6 +34642,7 @@ class PEAR2_MultiErrors implements Iterator, Countable, ArrayAccess {
  	}
 }
 ?><?php
+class PEAR2_MultiErrors_Exception extends PEAR2_Exception {}<?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
 /**
  * PEAR2_Exception
@@ -36204,7 +34997,6 @@ abstract class PEAR2_Exception extends Exception
     }
 }
 ?><?php
-class PEAR2_MultiErrors_Exception extends PEAR2_Exception {}<?php
 /**
  * class to do http requests, uses a adapter based system for performing those requests
  *
@@ -36476,7 +35268,7 @@ abstract class PEAR2_HTTP_Request_Adapter
     /**
      * Listeners from the parent
      */
-    protected $_listeners;
+    protected $_listeners = array();
 
     /**
      * Parsed cookies
@@ -36509,6 +35301,8 @@ abstract class PEAR2_HTTP_Request_Adapter
 
         file_put_contents($file,$response->body);
         unset($response->body);
+
+        return $response;
     }
 
     protected function parseResponseCode($line) 
@@ -37350,4 +36144,4 @@ class PEAR2_HTTP_Request_Uri {
 		return $this->pieces;
 	}
 }
-Ùæs∆Ä˙£JD)Ò˝;õ:“`‚3   GBMB
+`ïÊ ∏Y/f1Ê¯«ô+ˇG   GBMB
