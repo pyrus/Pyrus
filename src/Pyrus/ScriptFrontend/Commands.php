@@ -163,7 +163,6 @@ previous:
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";
-                $config = PEAR2_Pyrus_Config::singleton($path);
                 return;
             }
         }

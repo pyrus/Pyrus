@@ -479,13 +479,7 @@ class PEAR2_Pyrus_Config
     protected function loadUserSettings($pearDirectory, $userfile = false)
     {
         if (!$userfile) {
-            if (class_exists('COM', false)) {
-                $userfile = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                    'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
-            } else {
-                $userfile = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR .
-                    '.pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
-            }
+            $userfile = self::getDefaultUserConfigFile();
 
             if (!file_exists($userfile)) {
                 $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
