@@ -440,10 +440,10 @@ class PEAR2_Pyrus_Installer
                 // {{{ set file permissions
                 if (strpos(PHP_OS, 'WIN') === false) {
                     if ($role->isExecutable()) {
-                        $mode = 0777 & octdec(PEAR2_Pyrus_Config::current()->umask);
+                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0777);
                         PEAR2_Pyrus_Log::log(3, "+ chmod +x $dest_file");
                     } else {
-                        $mode = 0666 & octdec(PEAR2_Pyrus_Config::current()->umask);
+                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0666);
                     }
                     self::$transact->chmod($mode, $dest_file);
                     if (!@chmod($dest_file, $mode)) {

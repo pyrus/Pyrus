@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2008-09-29</date>
- <time>14:08:48</time>
+ <time>17:03:09</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -323,6 +323,73 @@ try {
      <file role="test" name="cycles.phpt"/>
      <file role="test" name="setup.php.inc"/>
     </dir>
+    <dir name="Installer">
+     <dir name="testit">
+      <dir name=".configsnapshots">
+       <file role="test" name="configsnapshot-2008-09-29 17:01:52.xml"/>
+      </dir>
+      <dir name=".registry">
+       <dir name="pear2.php.net">
+        <dir name="PEAR2_SimpleChannelServer">
+         <file role="test" name="0.1.0-package.xml"/>
+        </dir>
+       </dir>
+      </dir>
+      <dir name="bin">
+       <file role="test" name="pearscs"/>
+      </dir>
+      <dir name="docs">
+       <dir name="pear2.php.net">
+        <dir name="PEAR2_SimpleChannelServer">
+         <dir name="examples">
+          <file role="test" name="update_channel.php"/>
+         </dir>
+        </dir>
+       </dir>
+      </dir>
+      <dir name="src" baseinstalldir="PEAR2">
+       <dir name="PEAR2">
+        <dir name="SimpleChannelServer">
+         <dir name="Categories">
+          <file role="test" name="Exception.php"/>
+         </dir>
+         <dir name="REST">
+          <file role="test" name="Category.php"/>
+          <file role="test" name="Maintainer.php"/>
+          <file role="test" name="Manager.php"/>
+          <file role="test" name="Package.php"/>
+          <file role="test" name="Release.php"/>
+         </dir>
+         <file role="test" name="Categories.php"/>
+         <file role="test" name="Channel.php"/>
+         <file role="test" name="CLI.php"/>
+         <file role="test" name="Exception.php"/>
+         <file role="test" name="Get.php"/>
+        </dir>
+        <file role="test" name="SimpleChannelServer.php"/>
+       </dir>
+      </dir>
+      <file role="test" name=".config"/>
+      <file role="test" name=".pear2registry"/>
+      <file role="test" name="bin_dir.txt"/>
+      <file role="test" name="cfg_dir.txt"/>
+      <file role="test" name="channel-pear.php.net.xml"/>
+      <file role="test" name="channel-pear2.php.net.xml"/>
+      <file role="test" name="channel-pecl.php.net.xml"/>
+      <file role="test" name="channel-__uri.xml"/>
+      <file role="test" name="channelalias-pear.txt"/>
+      <file role="test" name="channelalias-pear2.txt"/>
+      <file role="test" name="channelalias-pecl.txt"/>
+      <file role="test" name="channelalias-__uri.txt"/>
+      <file role="test" name="doc_dir.txt"/>
+      <file role="test" name="ext_dir.txt"/>
+      <file role="test" name="php_bin.txt"/>
+      <file role="test" name="php_ini.txt"/>
+      <file role="test" name="test_dir.txt"/>
+      <file role="test" name="www_dir.txt"/>
+     </dir>
+     <file role="test" name="install_script.phpt"/>
+    </dir>
     <dir name="PackageFile_Parser_v2">
      <dir name="packages">
       <file role="test" name="package.xml"/>
@@ -340,6 +407,26 @@ try {
     </dir>
     <dir name="ScriptFrontend">
      <dir name="Commands">
+      <dir name="testit">
+       <file role="test" name=".config"/>
+       <file role="test" name=".pear2registry"/>
+       <file role="test" name="bin_dir.txt"/>
+       <file role="test" name="cfg_dir.txt"/>
+       <file role="test" name="channel-pear.php.net.xml"/>
+       <file role="test" name="channel-pear2.php.net.xml"/>
+       <file role="test" name="channel-pecl.php.net.xml"/>
+       <file role="test" name="channel-__uri.xml"/>
+       <file role="test" name="channelalias-pear.txt"/>
+       <file role="test" name="channelalias-pear2.txt"/>
+       <file role="test" name="channelalias-pecl.txt"/>
+       <file role="test" name="channelalias-__uri.txt"/>
+       <file role="test" name="doc_dir.txt"/>
+       <file role="test" name="ext_dir.txt"/>
+       <file role="test" name="php_bin.txt"/>
+       <file role="test" name="php_ini.txt"/>
+       <file role="test" name="test_dir.txt"/>
+       <file role="test" name="www_dir.txt"/>
+      </dir>
       <file role="test" name="listChannels.phpt"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
