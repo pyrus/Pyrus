@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-09-26</date>
- <time>17:25:42</time>
+ <date>2008-09-28</date>
+ <time>22:42:02</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -300,11 +300,21 @@ try {
       <file role="test" name="baduserfile.phpt"/>
       <file role="test" name="defaults.phpt"/>
       <file role="test" name="goodsystemfile.phpt"/>
+      <file role="test" name="gooduser.mypath.diff"/>
+      <file role="test" name="gooduser.mypath.exp"/>
+      <file role="test" name="gooduser.mypath.log"/>
+      <file role="test" name="gooduser.mypath.out"/>
+      <file role="test" name="gooduser.mypath.php"/>
       <file role="test" name="gooduser.mypath.phpt"/>
       <file role="test" name="gooduserfile.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="setCascadingRegistries">
+      <file role="test" name="basic.diff"/>
+      <file role="test" name="basic.exp"/>
+      <file role="test" name="basic.log"/>
+      <file role="test" name="basic.out"/>
+      <file role="test" name="basic.php"/>
       <file role="test" name="basic.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
@@ -326,7 +336,43 @@ try {
     </dir>
     <dir name="Registry">
      <dir name="Current">
+      <file role="test" name="singleton.diff"/>
+      <file role="test" name="singleton.exp"/>
+      <file role="test" name="singleton.log"/>
+      <file role="test" name="singleton.out"/>
+      <file role="test" name="singleton.php"/>
       <file role="test" name="singleton.phpt"/>
+     </dir>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="ScriptFrontend">
+     <dir name="Commands">
+      <dir name="testit">
+       <file role="test" name=".config"/>
+       <file role="test" name=".pear2registry"/>
+       <file role="test" name="bin_dir.txt"/>
+       <file role="test" name="cfg_dir.txt"/>
+       <file role="test" name="channel-pear.php.net.xml"/>
+       <file role="test" name="channel-pear2.php.net.xml"/>
+       <file role="test" name="channel-pecl.php.net.xml"/>
+       <file role="test" name="channel-__uri.xml"/>
+       <file role="test" name="channelalias-pear.txt"/>
+       <file role="test" name="channelalias-pear2.txt"/>
+       <file role="test" name="channelalias-pecl.txt"/>
+       <file role="test" name="channelalias-__uri.txt"/>
+       <file role="test" name="doc_dir.txt"/>
+       <file role="test" name="ext_dir.txt"/>
+       <file role="test" name="php_bin.txt"/>
+       <file role="test" name="php_ini.txt"/>
+       <file role="test" name="test_dir.txt"/>
+       <file role="test" name="www_dir.txt"/>
+      </dir>
+      <file role="test" name="listChannels.diff"/>
+      <file role="test" name="listChannels.exp"/>
+      <file role="test" name="listChannels.log"/>
+      <file role="test" name="listChannels.out"/>
+      <file role="test" name="listChannels.php"/>
+      <file role="test" name="listChannels.phpt"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>

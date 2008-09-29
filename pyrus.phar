@@ -1120,20 +1120,27 @@ class PHP_Archive
 define('PYRUS_PHAR_FILE', __FILE__);
 include 'phar://' . __FILE__ . '/__index.php';
 __HALT_COMPILER(); ?>
-⁄I           3   s:43:"package-pear2.php.net-PEAR2_Pyrus-0.1.0.xml";   __index.php˛   ta›H˛   ,O∏#∂      +   package-pear2.php.net-PEAR2_Pyrus-0.1.0.xmlâT  ta›HâT  cAg…∂         data/pear2.php.net/PEAR2_Pyrus/    ta›H        ˇ      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd∫  ta›H∫  ä≤vw∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd‚M  ta›H‚M  °+"”∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd‰P  ta›H‰P  ºØ,v∂      
-   src/PEAR2/    ta›H        ˇ         src/PEAR2/Pyrus.phpm  ta›Hm  ^≈¡‚∂         src/PEAR2/Pyrus/    ta›H        ˇ         src/PEAR2/Pyrus/Channel.php0L  ta›H0L  Âß≥∂∂         src/PEAR2/Pyrus/Channel/    ta›H        ˇ          src/PEAR2/Pyrus/Channel/Base.phpó	  ta›Hó	  =ê/®∂      %   src/PEAR2/Pyrus/Channel/Exception.phpŒ  ta›HŒ  Ma-ö∂      #   src/PEAR2/Pyrus/Channel/IMirror.php‡  ta›H‡  ô*(å∂      "   src/PEAR2/Pyrus/Channel/Mirror.php'  ta›H'  Kﬁ≤∂      #   src/PEAR2/Pyrus/ChannelRegistry.phpY  ta›HY  k‰GÄ∂          src/PEAR2/Pyrus/ChannelRegistry/    ta›H        ˇ      (   src/PEAR2/Pyrus/ChannelRegistry/Base.phpG=  ta›HG=  ¶LA∂      (   src/PEAR2/Pyrus/ChannelRegistry/Channel/    ta›H        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Channel/Pear1.phph
-  ta›Hh
-  …Î]∂      2   src/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php9  ta›H9  √†|¡∂      /   src/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.phpp
-  ta›Hp
-  ’ï§∂      -   src/PEAR2/Pyrus/ChannelRegistry/Exception.php  ta›H  ˜<^∂      '   src/PEAR2/Pyrus/ChannelRegistry/Mirror/    ta›H        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.php  ta›H  ËXL∂      .   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.php¨	  ta›H¨	  {·§ö∂      2   src/PEAR2/Pyrus/ChannelRegistry/ParseException.phpî  ta›Hî  Æ:c∂      )   src/PEAR2/Pyrus/ChannelRegistry/Pear1.phpC  ta›HC  ‡æí∂      *   src/PEAR2/Pyrus/ChannelRegistry/Sqlite.php.  ta›H.  &òÉƒ∂      '   src/PEAR2/Pyrus/ChannelRegistry/Xml.php
-  ta›H
-  ÷7Åı∂         src/PEAR2/Pyrus/Config.phpãã  ta›Hãã  ú˝ÑG∂         src/PEAR2/Pyrus/Config/    ta›H        ˇ      $   src/PEAR2/Pyrus/Config/Exception.php›  ta›H›  ∑æ„∂      #   src/PEAR2/Pyrus/Config/Snapshot.php!  ta›H!  x√º∂         src/PEAR2/Pyrus/Dependency/    ta›H        ˇ      (   src/PEAR2/Pyrus/Dependency/Exception.phpÿ  ta›Hÿ  PÎõ}∂      (   src/PEAR2/Pyrus/Dependency/Validator.php[ó  ta›H[ó  †IÕ∂      !   src/PEAR2/Pyrus/DirectedGraph.phpâ  ta›Hâ  \U˘∂         src/PEAR2/Pyrus/DirectedGraph/    ta›H        ˇ      +   src/PEAR2/Pyrus/DirectedGraph/Exception.phpﬂ  ta›Hﬂ  ú≈ßq∂      (   src/PEAR2/Pyrus/DirectedGraph/Vertex.phpÓ  ta›HÓ  p^Õ«∂         src/PEAR2/Pyrus/Downloader.phpû<  ta›Hû<  /£∂         src/PEAR2/Pyrus/Exception.php«  ta›H«  $ΩÙ<∂      $   src/PEAR2/Pyrus/FileTransactions.php$  ta›H$  ®svÀ∂      !   src/PEAR2/Pyrus/FileTransactions/    ta›H        ˇ      0   src/PEAR2/Pyrus/FileTransactions/Installedas.phpı	  ta›Hı	  Nœ∂Œ∂      +   src/PEAR2/Pyrus/FileTransactions/Rename.phpL
-  ta›HL
-  Ô«j∂      *   src/PEAR2/Pyrus/FileTransactions/Rmdir.php‰  ta›H‰  ¨%K∂         src/PEAR2/Pyrus/IChannel.php¡  ta›H¡  xy¡∂      $   src/PEAR2/Pyrus/IChannelRegistry.phpY  ta›HY  “7|î∂      $   src/PEAR2/Pyrus/IFileTransaction.phpi  ta›Hi  ((∂         src/PEAR2/Pyrus/ILog.php”  ta›H”  æ/∂         src/PEAR2/Pyrus/Installer.php„P  ta›H„P  øÚx∂         src/PEAR2/Pyrus/Installer/    ta›H        ˇ      '   src/PEAR2/Pyrus/Installer/Exception.phpﬂ  ta›Hﬂ  ™/P∂      "   src/PEAR2/Pyrus/Installer/Role.phpÕ  ta›HÕ  i¸∂         src/PEAR2/Pyrus/Installer/Role/    ta›H        ˇ      )   src/PEAR2/Pyrus/Installer/Role/Common.phpn"  ta›Hn"  oÈ”∂      '   src/PEAR2/Pyrus/Installer/Role/Data.php⁄  ta›H⁄  /ÿ“∂      '   src/PEAR2/Pyrus/Installer/Role/Data.xml¥  ta›H¥  Õ†åQ∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.php◊  ta›H◊  ®πkP∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.xml≥  ta›H≥  A‚êé∂      ,   src/PEAR2/Pyrus/Installer/Role/Exception.php‹  ta›H‹  &üFí∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.php◊  ta›H◊  Hë◊∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.xmlM  ta›HM  $®Fƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.php◊  ta›H◊  î,ñ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.xmlª  ta›Hª  ÈÄ!Ë∂      )   src/PEAR2/Pyrus/Installer/Role/Script.php‡  ta›H‡  ›äÑ∂      )   src/PEAR2/Pyrus/Installer/Role/Script.xmlæ  ta›Hæ  –Tƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Src.php<  ta›H<  zÿ|∂      &   src/PEAR2/Pyrus/Installer/Role/Src.xml	  ta›H	  ≥ª«∂      '   src/PEAR2/Pyrus/Installer/Role/Test.php⁄  ta›H⁄  l∆∑–∂      '   src/PEAR2/Pyrus/Installer/Role/Test.xml¥  ta›H¥  ˚|∂      &   src/PEAR2/Pyrus/Installer/Role/Www.php⁄  ta›H⁄  àˇÅ∂      &   src/PEAR2/Pyrus/Installer/Role/Www.xml•  ta›H•  ˝$P$∂         src/PEAR2/Pyrus/IPackage.php≠  ta›H≠  b
-o#∂         src/PEAR2/Pyrus/IRegistry.php  ta›H  !–∂         src/PEAR2/Pyrus/Log.phpx  ta›Hx  ÿ+V8∂         src/PEAR2/Pyrus/OSGuess.phpô,  ta›Hô,  √›ΩÕ∂         src/PEAR2/Pyrus/Package.phpy  ta›Hy  1RMl∂         src/PEAR2/Pyrus/Package/    ta›H        ˇ          src/PEAR2/Pyrus/Package/Base.php  ta›H  (v∫ﬁ∂      #   src/PEAR2/Pyrus/Package/Creator.php,  ta›H,  ¬™◊∫∂          src/PEAR2/Pyrus/Package/Creator/    ta›H        ˇ      -   src/PEAR2/Pyrus/Package/Creator/Exception.phpÎ  ta›HÎ  ¯¯[Ú∂      0   src/PEAR2/Pyrus/Package/Creator/TaskIterator.php¿  ta›H¿   êÙã∂      &   src/PEAR2/Pyrus/Package/Dependency.phpè3  ta›Hè3  Øœ_]∂      %   src/PEAR2/Pyrus/Package/Exception.php‘  ta›H‘  Ê1‰∂      $   src/PEAR2/Pyrus/Package/ICreator.phpπ  ta›Hπ  ñµS∂      .   src/PEAR2/Pyrus/Package/InstalledException.php˛  ta›H˛  '~Ö2∂          src/PEAR2/Pyrus/Package/Phar.phpÉ  ta›HÉ  ¯Ï…ﬁ∂         src/PEAR2/Pyrus/Package/Phar/    ta›H        ˇ      *   src/PEAR2/Pyrus/Package/Phar/Exception.php„  ta›H„  +cé¶∂      "   src/PEAR2/Pyrus/Package/Remote.phpÛC  ta›HÛC  ﬂäZö∂         src/PEAR2/Pyrus/Package/Tar.phpº,  ta›Hº,  ¥°’À∂         src/PEAR2/Pyrus/Package/Tar/    ta›H        ˇ      )   src/PEAR2/Pyrus/Package/Tar/Exception.php‡  ta›H‡  yG8O∂         src/PEAR2/Pyrus/Package/Xml.phpÄ  ta›HÄ  ü∫ ∂         src/PEAR2/Pyrus/Package/Zip.php£  ta›H£  ¥£;Å∂         src/PEAR2/Pyrus/Package/Zip/    ta›H        ˇ      )   src/PEAR2/Pyrus/Package/Zip/Exception.php‡  ta›H‡  ∆Ó0¡∂         src/PEAR2/Pyrus/PackageFile.php  ta›H  Õc‡m∂         src/PEAR2/Pyrus/PackageFile/    ta›H        ˇ      )   src/PEAR2/Pyrus/PackageFile/Exception.phpﬂ  ta›Hﬂ  !‘V∂      *   src/PEAR2/Pyrus/PackageFile/IValidator.php  ta›H  ÉÕö∂      #   src/PEAR2/Pyrus/PackageFile/Parser/    ta›H        ˇ      )   src/PEAR2/Pyrus/PackageFile/Parser/v2.phpe  ta›He  ã˘.∂      "   src/PEAR2/Pyrus/PackageFile/v2.phpiò  ta›Hiò  9
-À∂         src/PEAR2/Pyrus/PackageFile/v2/    ta›H        ˇ      -   src/PEAR2/Pyrus/PackageFile/v2/Compatible.php¥$  ta›H¥$  9&˘∂      *   src/PEAR2/Pyrus/PackageFile/v2/Compatible/    ta›H        ˇ      7   src/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.php  ta›H  yzZ∂      /   src/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpYK  ta›HYK  √”π∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/    ta›H        ˇ      9   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.php  ta›H  UƒB+∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Developer.phpÉ   ta›HÉ   ë;∂      )   src/PEAR2/Pyrus/PackageFile/v2/Developer/    ta›H        ˇ      6   src/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.php  ta›H  Õw∂      (   src/PEAR2/Pyrus/PackageFile/v2/Files.phpM  ta›HM  „ëà‰∂      %   src/PEAR2/Pyrus/PackageFile/v2/Files/    ta›H        ˇ      2   src/PEAR2/Pyrus/PackageFile/v2/Files/Exception.php  ta›H  ÄG6√∂      *   src/PEAR2/Pyrus/PackageFile/v2/Release.php-1  ta›H-1  (ˆıÅ∂      '   src/PEAR2/Pyrus/PackageFile/v2/Release/    ta›H        ˇ      4   src/PEAR2/Pyrus/PackageFile/v2/Release/Exception.php	  ta›H	  uWA∂      )   src/PEAR2/Pyrus/PackageFile/v2/Remote.phpÌ  ta›HÌ  ¡,‰É∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Validator.php%u  ta›H%u  ¿mR'∂      '   src/PEAR2/Pyrus/PackageFile/v2Iterator/    ta›H        ˇ      /   src/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpÃ  ta›HÃ  ≤ ÕÌ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php:  ta›H:  CO¬h∂      7   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpÔ	  ta›HÔ	  0?ë¡∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpj  ta›Hj  ´x@Ê∂      A   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php<  ta›H<  ≠’Ωk∂      2   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpa  ta›Ha  ï’∫ü∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpû  ta›Hû  ßUQä∂         src/PEAR2/Pyrus/Registry.php˚  ta›H˚  zÅø0∂         src/PEAR2/Pyrus/Registry/    ta›H        ˇ      !   src/PEAR2/Pyrus/Registry/Base.php´  ta›H´  	9É£∂      $   src/PEAR2/Pyrus/Registry/Channel.php˙  ta›H˙  /ÚÉ∂      #   src/PEAR2/Pyrus/Registry/Config.php÷  ta›H÷  Ûn=Y∂      &   src/PEAR2/Pyrus/Registry/Exception.php›  ta›H›  Ó}i∂      $   src/PEAR2/Pyrus/Registry/Package.php  ta›H  ªâ´N∂      "   src/PEAR2/Pyrus/Registry/Pear1.php01  ta›H01  k˚$Ù∂         src/PEAR2/Pyrus/Registry/Pear1/    ta›H        ˇ      *   src/PEAR2/Pyrus/Registry/Pear1/Package.php≤  ta›H≤  Y1¯∂      #   src/PEAR2/Pyrus/Registry/Sqlite.phprg  ta›Hrg  ´i»∂          src/PEAR2/Pyrus/Registry/Sqlite/    ta›H        ˇ      +   src/PEAR2/Pyrus/Registry/Sqlite/Creator.php¥I  ta›H¥I  Î:Ò⁄∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Package.php‹  ta›H‹  ∞ÙîZ∂          src/PEAR2/Pyrus/Registry/Xml.php¥  ta›H¥  QK∂         src/PEAR2/Pyrus/REST.phpä3  ta›Hä3  K„∂         src/PEAR2/Pyrus/REST/    ta›H        ˇ         src/PEAR2/Pyrus/REST/10.phpWp  ta›HWp  Z.Z◊∂         src/PEAR2/Pyrus/REST/11.phpS'  ta›HS'  …Ì°Ù∂         src/PEAR2/Pyrus/REST/13.phpâ(  ta›Hâ(  ∞¶ÌÃ∂      "   src/PEAR2/Pyrus/REST/Exception.php   ta›H   «€ÒB∂      &   src/PEAR2/Pyrus/REST/HTTPException.php‹  ta›H‹  DÑ:∂         src/PEAR2/Pyrus/ScriptFrontend/    ta›H        ˇ      +   src/PEAR2/Pyrus/ScriptFrontend/Commands.phpr<  ta›Hr<  ø_õ¡∂         src/PEAR2/Pyrus/Task/    ta›H        ˇ         src/PEAR2/Pyrus/Task/Common.php  ta›H  Ωìö∂      "   src/PEAR2/Pyrus/Task/Exception.php—  ta›H—  Zá
-]∂      *   src/PEAR2/Pyrus/Task/Postinstallscript.phpõ6  ta›Hõ6  ](®≥∂      '   src/PEAR2/Pyrus/Task/Postinstallscript/    ta›H        ˇ      -   src/PEAR2/Pyrus/Task/Postinstallscript/rw.phpı  ta›Hı  Ë¥–‰∂          src/PEAR2/Pyrus/Task/Replace.phpY  ta›HY  î]≥©∂         src/PEAR2/Pyrus/Task/Replace/    ta›H        ˇ      #   src/PEAR2/Pyrus/Task/Replace/rw.php¯  ta›H¯  Ä≤∂          src/PEAR2/Pyrus/Task/Unixeol.php/  ta›H/  º‡úö∂         src/PEAR2/Pyrus/Task/Unixeol/    ta›H        ˇ      #   src/PEAR2/Pyrus/Task/Unixeol/rw.php  ta›H  ƒÙìç∂      #   src/PEAR2/Pyrus/Task/Windowseol.php(  ta›H(  7EÂ∂          src/PEAR2/Pyrus/Task/Windowseol/    ta›H        ˇ      &   src/PEAR2/Pyrus/Task/Windowseol/rw.php  ta›H  1Ï⁄∂         src/PEAR2/Pyrus/test.phpπ  ta›Hπ  ä¥∂         src/PEAR2/Pyrus/test1.phpî  ta›Hî  ∂D˚7∂         src/PEAR2/Pyrus/test2.php  ta›H  qè∂         src/PEAR2/Pyrus/Uninstaller.phpT(  ta›HT(  UOAœ∂         src/PEAR2/Pyrus/Validate.phpæO  ta›HæO  µç[∂         src/PEAR2/Pyrus/Validate/    ta›H        ˇ      &   src/PEAR2/Pyrus/Validate/Exception.phpG  ta›HG  s~◊∂         src/PEAR2/Pyrus/Validator/    ta›H        ˇ      "   src/PEAR2/Pyrus/Validator/PECL.php£  ta›H£  *Êî∂         src/PEAR2/Pyrus/XMLParser.phpÿ  ta›Hÿ  ñqf¬∂         src/PEAR2/Pyrus/XMLParser/    ta›H        ˇ      '   src/PEAR2/Pyrus/XMLParser/Exception.php›  ta›H›  J+ñr∂         src/PEAR2/Pyrus/XMLWriter.php⁄#  ta›H⁄#  
-‘{ﬂ∂         src/PEAR2/Pyrus/XMLWriter/    ta›H        ˇ      '   src/PEAR2/Pyrus/XMLWriter/Exception.php›  ta›H›  ÀÔ<Ö∂         test/pear2.php.net/PEAR2_Pyrus/    ta›H        ˇ      ,   test/pear2.php.net/PEAR2_Pyrus/clean.php.incY  ta›HY  |≈¥∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/    ta›H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/setup.php.incä   ta›Hä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.phptç  ta›Hç  IÙd•∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/    ta›H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/setup.php.incä   ta›Hä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.phptÉ  ta›HÉ  „9˝:∂      8   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/    ta›H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/basic.phptl  ta›Hl  ‹å˜∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env.phpte  ta›He  \:´∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env2.phptî  ta›Hî  °t:Ñ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.win.phpt™  ta›H™  –âÇp∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env.phptq  ta›Hq  K1ï∂      O   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env2.phptÎ  ta›HÎ  DﬂÎ£∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.ini.phpt≠  ta›H≠  +°.¬∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/setup.php.incµ  ta›Hµ  3*∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/    ta›H        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.phpt  ta›H  	NπÊ∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/baduserfile.phpt  ta›H  ‹íåC∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.phpt  ta›H  	S3æ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.phptS  ta›HS  ÁEÿæ∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.phpt  ta›H  oí–¡∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduserfile.phpt  ta›H  Ë…Ü€∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/setup.php.inc◊  ta›H◊  pùA∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/    ta›H        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.phpt  ta›H  j¯Úƒ∂      J   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/setup.php.inc9  ta›H9  'ıjm∂      3   test/pear2.php.net/PEAR2_Pyrus/Config/setup.php.ince   ta›He   €i±∂      -   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/    ta›H        ˇ      7   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/basic.phptÃ  ta›HÃ  1jÂ∂      8   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/cycles.phptò  ta›Hò  @øºª∂      :   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/setup.php.incj   ta›Hj   ˆ–¯∂      >   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/    ta›H        ˇ      I   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package.xmlÎ&  ta›HÎ&  ÜA¢Ô∂      J   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package2.xmlºV  ta›HºV  QΩúê∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/setup.php.incˆ  ta›Hˆ  ˜ÏD∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.0.phptõ´ ta›Hõ´ ∞@92∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.1.phptˇ ta›Hˇ uê≥∂      0   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/    ta›H        ˇ      >   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.phpt¬  ta›H¬  ’æ›D∂      5   test/pear2.php.net/PEAR2_Pyrus/Registry/setup.php.incg   ta›Hg   óÌı∂      5   test/pear2.php.net/PEAR2_Pyrus/test_framework.php.incÁ  ta›HÁ  8ÛF∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLParser/    ta›H        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs.phptÁ  ta›HÁ  k&n∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs_content.phptn  ta›Hn  ‚wiÒ∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/cdata.phpt  ta›H  {û∏(∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag.phpt  ta›H  WŸXH∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_attribs.phpt}  ta›H}  ·”ÿ¿∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_content.phpt=  ta›H=  *UÙ˛∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_sibling_attribs.phpt≤  ta›H≤  TX[∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/empty.phptÙ   ta›HÙ   T2Ê∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLParser/recursivetag.phptﬂ  ta›Hﬂ  ™◊ÜL∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/setup.php.inc¢   ta›H¢   œ:ŸÏ∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLParser/siblingtags.phpt+  ta›H+  ≈=Èµ∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/    ta›H        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs.phpt  ta›H  ™u&Œ∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs_content.phptá  ta›Há  7-BÃ∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag.phpt4  ta›H4  5N≈∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_attribs.phptò  ta›Hò  ∞¯‘∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_content.phptX  ta›HX  í.,∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_sibling_attribs.phpt—  ta›H—  nÄ–Ó∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/empty.phpt  ta›H  ]~x,∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/recursivetag.phpt  ta›H  ™°[∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/setup.php.incÖ   ta›HÖ   ?>Ú*∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/siblingtags.phptK  ta›HK  vqa∂         src/PEAR2/Autoload.php7	  ta›H7	  Æ&&…∂         src/PEAR2/MultiErrors.phpN  ta›HN  <¡±∂      #   src/PEAR2/MultiErrors/Exception.phpB   ta›HB   ˙«z≤∂         src/PEAR2/Exception.php 0  ta›H 0  zb√2∂         src/PEAR2/HTTP/    ta›H        ˇ         src/PEAR2/HTTP/Request.php˘  ta›H˘  ML@ñ∂         src/PEAR2/HTTP/Request/    ta›H        ˇ      "   src/PEAR2/HTTP/Request/Adapter.phpx  ta›Hx  ·%≥∂         src/PEAR2/HTTP/Request/Adapter/    ta›H        ˇ      ,   src/PEAR2/HTTP/Request/Adapter/Phpsocket.phpÎ,  ta›HÎ,  —ê~¶∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpstream.php˜  ta›H˜  Sö¯ƒ∂      $   src/PEAR2/HTTP/Request/Exception.phpE   ta›HE   5≈ˆ,∂      "   src/PEAR2/HTTP/Request/Headers.phpŸ  ta›HŸ  =2d∂      #   src/PEAR2/HTTP/Request/Response.phpD  ta›HD  t5¸Ò∂         src/PEAR2/HTTP/Request/Uri.php¡  ta›H¡  m[∫\∂      <?php
+BZ  7         3   s:43:"package-pear2.php.net-PEAR2_Pyrus-0.1.0.xml";   __index.php˛   °N‡H˛   ,O∏#∂      +   package-pear2.php.net-PEAR2_Pyrus-0.1.0.xml‹g  °N‡H‹g  hN-{∂         data/pear2.php.net/PEAR2_Pyrus/    °N‡H        ˇ      .   data/pear2.php.net/PEAR2_Pyrus/channel-1.0.xsd∫  °N‡H∫  ä≤vw∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.0.xsd‚M  °N‡H‚M  °+"”∂      .   data/pear2.php.net/PEAR2_Pyrus/package-2.1.xsd‰P  °N‡H‰P  ºØ,v∂      
+   src/PEAR2/    °N‡H        ˇ         src/PEAR2/Pyrus.phpm  °N‡Hm  ^≈¡‚∂         src/PEAR2/Pyrus/    °N‡H        ˇ         src/PEAR2/Pyrus/Channel.php0L  °N‡H0L  Âß≥∂∂         src/PEAR2/Pyrus/Channel/    °N‡H        ˇ          src/PEAR2/Pyrus/Channel/Base.phpó	  °N‡Hó	  =ê/®∂      %   src/PEAR2/Pyrus/Channel/Exception.phpŒ  °N‡HŒ  Ma-ö∂      #   src/PEAR2/Pyrus/Channel/IMirror.php‡  °N‡H‡  ô*(å∂      "   src/PEAR2/Pyrus/Channel/Mirror.php'  °N‡H'  Kﬁ≤∂      #   src/PEAR2/Pyrus/ChannelRegistry.phpY  °N‡HY  k‰GÄ∂          src/PEAR2/Pyrus/ChannelRegistry/    °N‡H        ˇ      (   src/PEAR2/Pyrus/ChannelRegistry/Base.phpG=  °N‡HG=  ¶LA∂      (   src/PEAR2/Pyrus/ChannelRegistry/Channel/    °N‡H        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Channel/Pear1.phph
+  °N‡Hh
+  …Î]∂      2   src/PEAR2/Pyrus/ChannelRegistry/Channel/Sqlite.php9  °N‡H9  √†|¡∂      /   src/PEAR2/Pyrus/ChannelRegistry/Channel/Xml.phpp
+  °N‡Hp
+  ’ï§∂      -   src/PEAR2/Pyrus/ChannelRegistry/Exception.php  °N‡H  ˜<^∂      '   src/PEAR2/Pyrus/ChannelRegistry/Mirror/    °N‡H        ˇ      1   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Sqlite.php  °N‡H  ËXL∂      .   src/PEAR2/Pyrus/ChannelRegistry/Mirror/Xml.php¨	  °N‡H¨	  {·§ö∂      2   src/PEAR2/Pyrus/ChannelRegistry/ParseException.phpî  °N‡Hî  Æ:c∂      )   src/PEAR2/Pyrus/ChannelRegistry/Pear1.phpC  °N‡HC  ‡æí∂      *   src/PEAR2/Pyrus/ChannelRegistry/Sqlite.php.  °N‡H.  &òÉƒ∂      '   src/PEAR2/Pyrus/ChannelRegistry/Xml.php
+  °N‡H
+  ÷7Åı∂         src/PEAR2/Pyrus/Config.php¬ã  °N‡H¬ã  ®Gys∂         src/PEAR2/Pyrus/Config/    °N‡H        ˇ      $   src/PEAR2/Pyrus/Config/Exception.php›  °N‡H›  ∑æ„∂      #   src/PEAR2/Pyrus/Config/Snapshot.php!  °N‡H!  x√º∂         src/PEAR2/Pyrus/Dependency/    °N‡H        ˇ      (   src/PEAR2/Pyrus/Dependency/Exception.phpÿ  °N‡Hÿ  PÎõ}∂      (   src/PEAR2/Pyrus/Dependency/Validator.php[ó  °N‡H[ó  †IÕ∂      !   src/PEAR2/Pyrus/DirectedGraph.phpâ  °N‡Hâ  \U˘∂         src/PEAR2/Pyrus/DirectedGraph/    °N‡H        ˇ      +   src/PEAR2/Pyrus/DirectedGraph/Exception.phpﬂ  °N‡Hﬂ  ú≈ßq∂      (   src/PEAR2/Pyrus/DirectedGraph/Vertex.phpÓ  °N‡HÓ  p^Õ«∂         src/PEAR2/Pyrus/Downloader.phpû<  °N‡Hû<  /£∂         src/PEAR2/Pyrus/Exception.php«  °N‡H«  $ΩÙ<∂      $   src/PEAR2/Pyrus/FileTransactions.php$  °N‡H$  ®svÀ∂      !   src/PEAR2/Pyrus/FileTransactions/    °N‡H        ˇ      0   src/PEAR2/Pyrus/FileTransactions/Installedas.phpı	  °N‡Hı	  Nœ∂Œ∂      +   src/PEAR2/Pyrus/FileTransactions/Rename.phpL
+  °N‡HL
+  Ô«j∂      *   src/PEAR2/Pyrus/FileTransactions/Rmdir.php‰  °N‡H‰  ¨%K∂         src/PEAR2/Pyrus/IChannel.php¡  °N‡H¡  xy¡∂      $   src/PEAR2/Pyrus/IChannelRegistry.phpY  °N‡HY  “7|î∂      $   src/PEAR2/Pyrus/IFileTransaction.phpi  °N‡Hi  ((∂         src/PEAR2/Pyrus/ILog.php”  °N‡H”  æ/∂         src/PEAR2/Pyrus/Installer.php„P  °N‡H„P  øÚx∂         src/PEAR2/Pyrus/Installer/    °N‡H        ˇ      '   src/PEAR2/Pyrus/Installer/Exception.phpﬂ  °N‡Hﬂ  ™/P∂      "   src/PEAR2/Pyrus/Installer/Role.phpÕ  °N‡HÕ  i¸∂         src/PEAR2/Pyrus/Installer/Role/    °N‡H        ˇ      )   src/PEAR2/Pyrus/Installer/Role/Common.phpn"  °N‡Hn"  oÈ”∂      '   src/PEAR2/Pyrus/Installer/Role/Data.php⁄  °N‡H⁄  /ÿ“∂      '   src/PEAR2/Pyrus/Installer/Role/Data.xml¥  °N‡H¥  Õ†åQ∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.php◊  °N‡H◊  ®πkP∂      &   src/PEAR2/Pyrus/Installer/Role/Doc.xml≥  °N‡H≥  A‚êé∂      ,   src/PEAR2/Pyrus/Installer/Role/Exception.php‹  °N‡H‹  &üFí∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.php◊  °N‡H◊  Hë◊∂      &   src/PEAR2/Pyrus/Installer/Role/Ext.xmlM  °N‡HM  $®Fƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.php◊  °N‡H◊  î,ñ∂      &   src/PEAR2/Pyrus/Installer/Role/Php.xmlª  °N‡Hª  ÈÄ!Ë∂      )   src/PEAR2/Pyrus/Installer/Role/Script.php‡  °N‡H‡  ›äÑ∂      )   src/PEAR2/Pyrus/Installer/Role/Script.xmlæ  °N‡Hæ  –Tƒ∂      &   src/PEAR2/Pyrus/Installer/Role/Src.php<  °N‡H<  zÿ|∂      &   src/PEAR2/Pyrus/Installer/Role/Src.xml	  °N‡H	  ≥ª«∂      '   src/PEAR2/Pyrus/Installer/Role/Test.php⁄  °N‡H⁄  l∆∑–∂      '   src/PEAR2/Pyrus/Installer/Role/Test.xml¥  °N‡H¥  ˚|∂      &   src/PEAR2/Pyrus/Installer/Role/Www.php⁄  °N‡H⁄  àˇÅ∂      &   src/PEAR2/Pyrus/Installer/Role/Www.xml•  °N‡H•  ˝$P$∂         src/PEAR2/Pyrus/IPackage.php≠  °N‡H≠  b
+o#∂         src/PEAR2/Pyrus/IRegistry.php  °N‡H  !–∂         src/PEAR2/Pyrus/Log.phpx  °N‡Hx  ÿ+V8∂         src/PEAR2/Pyrus/OSGuess.phpô,  °N‡Hô,  √›ΩÕ∂         src/PEAR2/Pyrus/Package.phpy  °N‡Hy  1RMl∂         src/PEAR2/Pyrus/Package/    °N‡H        ˇ          src/PEAR2/Pyrus/Package/Base.php  °N‡H  (v∫ﬁ∂      #   src/PEAR2/Pyrus/Package/Creator.php,  °N‡H,  ¬™◊∫∂          src/PEAR2/Pyrus/Package/Creator/    °N‡H        ˇ      -   src/PEAR2/Pyrus/Package/Creator/Exception.phpÎ  °N‡HÎ  ¯¯[Ú∂      0   src/PEAR2/Pyrus/Package/Creator/TaskIterator.php¿  °N‡H¿   êÙã∂      &   src/PEAR2/Pyrus/Package/Dependency.phpè3  °N‡Hè3  Øœ_]∂      %   src/PEAR2/Pyrus/Package/Exception.php‘  °N‡H‘  Ê1‰∂      $   src/PEAR2/Pyrus/Package/ICreator.phpπ  °N‡Hπ  ñµS∂      .   src/PEAR2/Pyrus/Package/InstalledException.php˛  °N‡H˛  '~Ö2∂          src/PEAR2/Pyrus/Package/Phar.phpÉ  °N‡HÉ  ¯Ï…ﬁ∂         src/PEAR2/Pyrus/Package/Phar/    °N‡H        ˇ      *   src/PEAR2/Pyrus/Package/Phar/Exception.php„  °N‡H„  +cé¶∂      "   src/PEAR2/Pyrus/Package/Remote.phpÛC  °N‡HÛC  ﬂäZö∂         src/PEAR2/Pyrus/Package/Tar.phpº,  °N‡Hº,  ¥°’À∂         src/PEAR2/Pyrus/Package/Tar/    °N‡H        ˇ      )   src/PEAR2/Pyrus/Package/Tar/Exception.php‡  °N‡H‡  yG8O∂         src/PEAR2/Pyrus/Package/Xml.phpÄ  °N‡HÄ  ü∫ ∂         src/PEAR2/Pyrus/Package/Zip.php£  °N‡H£  ¥£;Å∂         src/PEAR2/Pyrus/Package/Zip/    °N‡H        ˇ      )   src/PEAR2/Pyrus/Package/Zip/Exception.php‡  °N‡H‡  ∆Ó0¡∂         src/PEAR2/Pyrus/PackageFile.php  °N‡H  Õc‡m∂         src/PEAR2/Pyrus/PackageFile/    °N‡H        ˇ      )   src/PEAR2/Pyrus/PackageFile/Exception.phpﬂ  °N‡Hﬂ  !‘V∂      *   src/PEAR2/Pyrus/PackageFile/IValidator.php  °N‡H  ÉÕö∂      #   src/PEAR2/Pyrus/PackageFile/Parser/    °N‡H        ˇ      )   src/PEAR2/Pyrus/PackageFile/Parser/v2.phpe  °N‡He  ã˘.∂      "   src/PEAR2/Pyrus/PackageFile/v2.phpiò  °N‡Hiò  9
+À∂         src/PEAR2/Pyrus/PackageFile/v2/    °N‡H        ˇ      -   src/PEAR2/Pyrus/PackageFile/v2/Compatible.php¥$  °N‡H¥$  9&˘∂      *   src/PEAR2/Pyrus/PackageFile/v2/Compatible/    °N‡H        ˇ      7   src/PEAR2/Pyrus/PackageFile/v2/Compatible/Exception.php  °N‡H  yzZ∂      /   src/PEAR2/Pyrus/PackageFile/v2/Dependencies.phpYK  °N‡HYK  √”π∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/    °N‡H        ˇ      9   src/PEAR2/Pyrus/PackageFile/v2/Dependencies/Exception.php  °N‡H  UƒB+∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Developer.phpÉ   °N‡HÉ   ë;∂      )   src/PEAR2/Pyrus/PackageFile/v2/Developer/    °N‡H        ˇ      6   src/PEAR2/Pyrus/PackageFile/v2/Developer/Exception.php  °N‡H  Õw∂      (   src/PEAR2/Pyrus/PackageFile/v2/Files.phpM  °N‡HM  „ëà‰∂      %   src/PEAR2/Pyrus/PackageFile/v2/Files/    °N‡H        ˇ      2   src/PEAR2/Pyrus/PackageFile/v2/Files/Exception.php  °N‡H  ÄG6√∂      *   src/PEAR2/Pyrus/PackageFile/v2/Release.php-1  °N‡H-1  (ˆıÅ∂      '   src/PEAR2/Pyrus/PackageFile/v2/Release/    °N‡H        ˇ      4   src/PEAR2/Pyrus/PackageFile/v2/Release/Exception.php	  °N‡H	  uWA∂      )   src/PEAR2/Pyrus/PackageFile/v2/Remote.phpÌ  °N‡HÌ  ¡,‰É∂      ,   src/PEAR2/Pyrus/PackageFile/v2/Validator.php%u  °N‡H%u  ¿mR'∂      '   src/PEAR2/Pyrus/PackageFile/v2Iterator/    °N‡H        ˇ      /   src/PEAR2/Pyrus/PackageFile/v2Iterator/File.phpÃ  °N‡HÃ  ≤ ÕÌ∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileAttribsFilter.php:  °N‡H:  CO¬h∂      7   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContents.phpÔ	  °N‡HÔ	  0?ë¡∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileContentsMulti.phpj  °N‡Hj  ´x@Ê∂      A   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileInstallationFilter.php<  °N‡H<  ≠’Ωk∂      2   src/PEAR2/Pyrus/PackageFile/v2Iterator/FileTag.phpa  °N‡Ha  ï’∫ü∂      <   src/PEAR2/Pyrus/PackageFile/v2Iterator/PackagingIterator.phpû  °N‡Hû  ßUQä∂         src/PEAR2/Pyrus/Registry.php˚  °N‡H˚  zÅø0∂         src/PEAR2/Pyrus/Registry/    °N‡H        ˇ      !   src/PEAR2/Pyrus/Registry/Base.php´  °N‡H´  	9É£∂      $   src/PEAR2/Pyrus/Registry/Channel.php˙  °N‡H˙  /ÚÉ∂      #   src/PEAR2/Pyrus/Registry/Config.php÷  °N‡H÷  Ûn=Y∂      &   src/PEAR2/Pyrus/Registry/Exception.php›  °N‡H›  Ó}i∂      $   src/PEAR2/Pyrus/Registry/Package.php  °N‡H  ªâ´N∂      "   src/PEAR2/Pyrus/Registry/Pear1.php01  °N‡H01  k˚$Ù∂         src/PEAR2/Pyrus/Registry/Pear1/    °N‡H        ˇ      *   src/PEAR2/Pyrus/Registry/Pear1/Package.php≤  °N‡H≤  Y1¯∂      #   src/PEAR2/Pyrus/Registry/Sqlite.phprg  °N‡Hrg  ´i»∂          src/PEAR2/Pyrus/Registry/Sqlite/    °N‡H        ˇ      +   src/PEAR2/Pyrus/Registry/Sqlite/Creator.php¥I  °N‡H¥I  Î:Ò⁄∂      +   src/PEAR2/Pyrus/Registry/Sqlite/Package.php‹  °N‡H‹  ∞ÙîZ∂          src/PEAR2/Pyrus/Registry/Xml.php¥  °N‡H¥  QK∂         src/PEAR2/Pyrus/REST.phpä3  °N‡Hä3  K„∂         src/PEAR2/Pyrus/REST/    °N‡H        ˇ         src/PEAR2/Pyrus/REST/10.phpWp  °N‡HWp  Z.Z◊∂         src/PEAR2/Pyrus/REST/11.phpS'  °N‡HS'  …Ì°Ù∂         src/PEAR2/Pyrus/REST/13.phpâ(  °N‡Hâ(  ∞¶ÌÃ∂      "   src/PEAR2/Pyrus/REST/Exception.php   °N‡H   «€ÒB∂      &   src/PEAR2/Pyrus/REST/HTTPException.php‹  °N‡H‹  DÑ:∂         src/PEAR2/Pyrus/ScriptFrontend/    °N‡H        ˇ      +   src/PEAR2/Pyrus/ScriptFrontend/Commands.php±<  °N‡H±<  òœû∂         src/PEAR2/Pyrus/Task/    °N‡H        ˇ         src/PEAR2/Pyrus/Task/Common.php  °N‡H  Ωìö∂      "   src/PEAR2/Pyrus/Task/Exception.php—  °N‡H—  Zá
+]∂      *   src/PEAR2/Pyrus/Task/Postinstallscript.phpõ6  °N‡Hõ6  ](®≥∂      '   src/PEAR2/Pyrus/Task/Postinstallscript/    °N‡H        ˇ      -   src/PEAR2/Pyrus/Task/Postinstallscript/rw.phpı  °N‡Hı  Ë¥–‰∂          src/PEAR2/Pyrus/Task/Replace.phpY  °N‡HY  î]≥©∂         src/PEAR2/Pyrus/Task/Replace/    °N‡H        ˇ      #   src/PEAR2/Pyrus/Task/Replace/rw.php¯  °N‡H¯  Ä≤∂          src/PEAR2/Pyrus/Task/Unixeol.php/  °N‡H/  º‡úö∂         src/PEAR2/Pyrus/Task/Unixeol/    °N‡H        ˇ      #   src/PEAR2/Pyrus/Task/Unixeol/rw.php  °N‡H  ƒÙìç∂      #   src/PEAR2/Pyrus/Task/Windowseol.php(  °N‡H(  7EÂ∂          src/PEAR2/Pyrus/Task/Windowseol/    °N‡H        ˇ      &   src/PEAR2/Pyrus/Task/Windowseol/rw.php  °N‡H  1Ï⁄∂         src/PEAR2/Pyrus/test.php.  °N‡H.  ≠	√M∂         src/PEAR2/Pyrus/test1.phpî  °N‡Hî  ∂D˚7∂         src/PEAR2/Pyrus/test2.php  °N‡H  qè∂         src/PEAR2/Pyrus/Uninstaller.phpT(  °N‡HT(  UOAœ∂         src/PEAR2/Pyrus/Validate.phpæO  °N‡HæO  µç[∂         src/PEAR2/Pyrus/Validate/    °N‡H        ˇ      &   src/PEAR2/Pyrus/Validate/Exception.phpG  °N‡HG  s~◊∂         src/PEAR2/Pyrus/Validator/    °N‡H        ˇ      "   src/PEAR2/Pyrus/Validator/PECL.php£  °N‡H£  *Êî∂         src/PEAR2/Pyrus/XMLParser.phpÿ  °N‡Hÿ  ñqf¬∂         src/PEAR2/Pyrus/XMLParser/    °N‡H        ˇ      '   src/PEAR2/Pyrus/XMLParser/Exception.php›  °N‡H›  J+ñr∂         src/PEAR2/Pyrus/XMLWriter.php⁄#  °N‡H⁄#  
+‘{ﬂ∂         src/PEAR2/Pyrus/XMLWriter/    °N‡H        ˇ      '   src/PEAR2/Pyrus/XMLWriter/Exception.php›  °N‡H›  ÀÔ<Ö∂         test/pear2.php.net/PEAR2_Pyrus/    °N‡H        ˇ      ,   test/pear2.php.net/PEAR2_Pyrus/clean.php.incY  °N‡HY  |≈¥∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/    °N‡H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/setup.php.incä   °N‡Hä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/addConfigValue/test.phptç  °N‡Hç  IÙd•∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/    °N‡H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/setup.php.incä   °N‡Hä   ®Å7∂      >   test/pear2.php.net/PEAR2_Pyrus/Config/configSnapshot/test.phptÉ  °N‡HÉ  „9˝:∂      8   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/    °N‡H        ˇ      B   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/basic.phptl  °N‡Hl  ‹å˜∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env.phpte  °N‡He  \:´∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.env2.phptî  °N‡Hî  °t:Ñ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/bin_dir.win.phpt™  °N‡H™  –âÇp∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env.phptq  °N‡Hq  K1ï∂      O   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.env2.phptÎ  °N‡HÎ  DﬂÎ£∂      N   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/extension_dir.ini.phpt≠  °N‡H≠  +°.¬∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/constructDefaults/setup.php.incµ  °N‡Hµ  3*∂      5   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/    °N‡H        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/badsystemfile.phpt  °N‡H  	NπÊ∂      E   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/baduserfile.phpt  °N‡H  ‹íåC∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/defaults.phpt  °N‡H  	S3æ∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/goodsystemfile.phptS  °N‡HS  ÁEÿæ∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.diffî  °N‡Hî  ıµHt∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.exp
+   °N‡H
+   O’A§∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.logw  °N‡Hw  ÁQ¯∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.out6  °N‡H6  Øëã∂      H   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.phpN  °N‡HN  Â€t∂      I   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduser.mypath.phpt  °N‡H  oí–¡∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/gooduserfile.phpt  °N‡H  Ë…Ü€∂      B   test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/setup.php.inc◊  °N‡H◊  pùA∂      =   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/    °N‡H        ˇ      G   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.diff≤  °N‡H≤   !∂∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.exp
+   °N‡H
+   O’A§∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.logw  °N‡Hw  mÛ_$∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.out6  °N‡H6  Vx∂      F   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.php  °N‡H  ˙fÑ∂      G   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/basic.phpt  °N‡H  j¯Úƒ∂      J   test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/setup.php.inc9  °N‡H9  'ıjm∂      3   test/pear2.php.net/PEAR2_Pyrus/Config/setup.php.ince   °N‡He   €i±∂      -   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/    °N‡H        ˇ      7   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/basic.phptÃ  °N‡HÃ  1jÂ∂      8   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/cycles.phptò  °N‡Hò  @øºª∂      :   test/pear2.php.net/PEAR2_Pyrus/DirectedGraph/setup.php.incj   °N‡Hj   ˆ–¯∂      >   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/    °N‡H        ˇ      I   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package.xmlÎ&  °N‡HÎ&  ÜA¢Ô∂      J   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/packages/package2.xmlºV  °N‡HºV  QΩúê∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/setup.php.incˆ  °N‡Hˆ  ˜ÏD∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.0.phptõ´ °N‡Hõ´ ∞@92∂      B   test/pear2.php.net/PEAR2_Pyrus/PackageFile_Parser_v2/test_2.1.phptˇ °N‡Hˇ uê≥∂      0   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/    °N‡H        ˇ      >   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.diffW  °N‡HW  Ë √◊∂      =   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.exp
+   °N‡H
+   O’A§∂      =   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.logj  °N‡Hj  XwÖ¡∂      =   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.out)  °N‡H)  ¡ÿ,∂      =   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.php"  °N‡H"  3 «Î∂      >   test/pear2.php.net/PEAR2_Pyrus/Registry/Current/singleton.phptx  °N‡Hx  êÀ‚k∂      5   test/pear2.php.net/PEAR2_Pyrus/Registry/setup.php.incg   °N‡Hg   óÌı∂      7   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/    °N‡H        ˇ      H   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listChannels.diff∆  °N‡H∆  ŒÂFH∂      G   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listChannels.exp5   °N‡H5   "‰§a∂      G   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listChannels.logK  °N‡HK  =4L°∂      G   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listChannels.outﬂ  °N‡Hﬂ  ’uL˚∂      G   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listChannels.php:  °N‡H:  ˆ≈jÊ∂      H   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listChannels.phpt  °N‡H  _[Ï∂      >   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/    °N‡H        ˇ      E   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/.configú  °N‡Hú  æçr∂      L   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/.pear2registry ¥  °N‡H ¥  
+ÍÅ*∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/bin_dir.txt   °N‡H   Óv√ù∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/cfg_dir.txtW   °N‡HW   îáW≤∂      V   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channel-pear.php.net.xml  °N‡H  ÙbÁ4∂      W   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channel-pear2.php.net.xmlA  °N‡HA  zπø∂      V   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channel-pecl.php.net.xml÷  °N‡H÷  s¡›^∂      O   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channel-__uri.xmlZ  °N‡HZ  ñ‹x∂      S   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channelalias-pear.txt   °N‡H   ´ ÀŒ∂      T   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channelalias-pear2.txt   °N‡H   @˜6∂      S   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channelalias-pecl.txt   °N‡H   ui<Æ∂      T   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/channelalias-__uri.txt   °N‡H   ¿ÿRî∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/doc_dir.txtX   °N‡HX   „	¥∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/ext_dir.txt<   °N‡H<   8∞É ∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/php_bin.txt    °N‡H        ∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/php_ini.txt   °N‡H   2ì›Ö∂      J   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/test_dir.txtY   °N‡HY   ëä-~∂      I   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/testit/www_dir.txtW   °N‡HW   LøÁ∂      ;   test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/setup.php.inc?   °N‡H?   3`M¬∂      5   test/pear2.php.net/PEAR2_Pyrus/test_framework.php.incÁ  °N‡HÁ  8ÛF∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLParser/    °N‡H        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs.phptÁ  °N‡HÁ  k&n∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLParser/attribs_content.phptn  °N‡Hn  ‚wiÒ∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/cdata.phpt  °N‡H  {û∏(∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag.phpt  °N‡H  WŸXH∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_attribs.phpt}  °N‡H}  ·”ÿ¿∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_content.phpt=  °N‡H=  *UÙ˛∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLParser/childtag_sibling_attribs.phpt≤  °N‡H≤  TX[∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLParser/empty.phptÙ   °N‡HÙ   T2Ê∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLParser/recursivetag.phptﬂ  °N‡Hﬂ  ™◊ÜL∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLParser/setup.php.inc¢   °N‡H¢   œ:ŸÏ∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLParser/siblingtags.phpt+  °N‡H+  ≈=Èµ∂      )   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/    °N‡H        ˇ      5   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs.phpt  °N‡H  ™u&Œ∂      =   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/attribs_content.phptá  °N‡Há  7-BÃ∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag.phpt4  °N‡H4  5N≈∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_attribs.phptò  °N‡Hò  ∞¯‘∂      >   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_content.phptX  °N‡HX  í.,∂      F   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/childtag_sibling_attribs.phpt—  °N‡H—  nÄ–Ó∂      3   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/empty.phpt  °N‡H  ]~x,∂      :   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/recursivetag.phpt  °N‡H  ™°[∂      6   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/setup.php.incÖ   °N‡HÖ   ?>Ú*∂      9   test/pear2.php.net/PEAR2_Pyrus/XMLWriter/siblingtags.phptK  °N‡HK  vqa∂         src/PEAR2/Autoload.php7	  °N‡H7	  Æ&&…∂         src/PEAR2/MultiErrors.phpN  °N‡HN  <¡±∂      #   src/PEAR2/MultiErrors/Exception.phpB   °N‡HB   ˙«z≤∂         src/PEAR2/Exception.php 0  °N‡H 0  zb√2∂         src/PEAR2/HTTP/    °N‡H        ˇ         src/PEAR2/HTTP/Request.php˘  °N‡H˘  ML@ñ∂         src/PEAR2/HTTP/Request/    °N‡H        ˇ      "   src/PEAR2/HTTP/Request/Adapter.phpx  °N‡Hx  ·%≥∂         src/PEAR2/HTTP/Request/Adapter/    °N‡H        ˇ      ,   src/PEAR2/HTTP/Request/Adapter/Phpsocket.phpÎ,  °N‡HÎ,  —ê~¶∂      ,   src/PEAR2/HTTP/Request/Adapter/Phpstream.php˜  °N‡H˜  Sö¯ƒ∂      $   src/PEAR2/HTTP/Request/Exception.phpE   °N‡HE   5≈ˆ,∂      "   src/PEAR2/HTTP/Request/Headers.phpŸ  °N‡HŸ  =2d∂      #   src/PEAR2/HTTP/Request/Response.phpD  °N‡HD  t5¸Ò∂         src/PEAR2/HTTP/Request/Uri.phpø  °N‡Hø  {Å∏"∂      <?php
 function __autoload($class)
 {
     include 'phar://' . PYRUS_PHAR_FILE . '/src/' . implode('/', explode('_', $class)) . '.php';
@@ -1177,8 +1184,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-09-26</date>
- <time>17:25:42</time>
+ <date>2008-09-28</date>
+ <time>22:42:02</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -1213,8 +1220,38 @@ try {
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//XMLParser/attribs_content.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//XMLParser/attribs.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//test_framework.php.inc" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/setup.php.inc" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/www_dir.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/test_dir.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/php_ini.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/php_bin.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/ext_dir.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/doc_dir.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channelalias-__uri.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channelalias-pecl.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channelalias-pear2.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channelalias-pear.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channel-__uri.xml" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channel-pecl.php.net.xml" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channel-pear2.php.net.xml" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/channel-pear.php.net.xml" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/cfg_dir.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/bin_dir.txt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/.pear2registry" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/testit/.config" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/listChannels.phpt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/listChannels.php" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/listChannels.out" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/listChannels.log" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/listChannels.exp" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//ScriptFrontend/Commands/listChannels.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.phpt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.php" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.out" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.log" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.exp" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Registry/Current/singleton.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//PackageFile_Parser_v2/test_2.1.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//PackageFile_Parser_v2/test_2.0.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//PackageFile_Parser_v2/setup.php.inc" baseinstalldir="/"/>
@@ -1226,9 +1263,19 @@ try {
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.phpt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.php" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.out" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.log" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.exp" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/setCascadingRegistries/basic.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/setup.php.inc" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduserfile.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.phpt" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.php" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.out" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.log" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.exp" baseinstalldir="/"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/gooduser.mypath.diff" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/goodsystemfile.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/defaults.phpt" baseinstalldir="/"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus//Config/loadConfigFile/baduserfile.phpt" baseinstalldir="/"/>
@@ -6355,6 +6402,7 @@ class PEAR2_Pyrus_Config
 
         $this->loadUserSettings($pearDirectory, $userfile);
         $this->loadConfigFile($pearDirectory);
+        $this->setCascadingRegistries($pearDirectory);
         self::$configs[$pearDirectory] = $this;
         $this->pearDir = $pearDirectory;
 
@@ -21874,7 +21922,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 if (is_int($i) && ($default === null || ($default !== null && !is_string($default)))) {
                     $is_int = false;
                 } else {
-                    $is_int = truee;
+                    $is_int = true;
                 }
                 break;
             }
@@ -21952,6 +22000,7 @@ previous:
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";
+                $config = PEAR2_Pyrus_Config::singleton($path);
                 return;
             }
         }
@@ -23461,7 +23510,7 @@ class PEAR_Task_Windowseol_rw extends PEAR_Task_Windowseol
 ?><?php
 require __DIR__ .  '/../../../sandbox/Loader/src/PEAR2/Loader/PEAR2Svn.php';
 $dev_directory = dirname(dirname(__DIR__));
-PEAR2_Pyrus_Config::singleton('/home/cellog/testpear');
+PEAR2_Pyrus_Config::singleton('/Users/bbieber/pyrus');
 $a = new PEAR2_Pyrus_Package_Creator(array(
         //new PEAR2_Pyrus_Developer_Creator_Xml($dev_directory . 'newpyrus.xml'),
         //new PEAR2_Pyrus_Developer_Creator_Tar($dev_directory . 'newpyrus.tar'),
@@ -23475,7 +23524,10 @@ $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 @array_shift($_SERVER[\'argv\']);
 $frontend->run($_SERVER[\'argv\']);
 '),
-    ));
+    ),
+    __DIR__.'/../../../Exception/src',
+    __DIR__.'/../../../Autoload/src',
+    __DIR__.'/../../../MultiErrors/src');
 $b = new PEAR2_Pyrus_Package(__DIR__ . '/../../package.xml');
 $rp = __DIR__ . '/../../../HTTP_Request/src/HTTP';
 $a->render($b, array(
@@ -25641,6 +25693,67 @@ include __DIR__ . '/../../clean.php.inc';
 --EXPECT--
 here
 ===DONE===
+001- ===DONE===
+001+ Test Failure: "called 0"
+002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
+003+ Expecting:
+004+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
+005+ Received:
+006+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
+007+ Test Failure: "called 1"
+008+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
+009+ Expecting:
+010+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
+011+ Received:
+012+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
+013+ ===DONE======DONE===
+---- EXPECTED OUTPUT
+===DONE===
+---- ACTUAL OUTPUT
+Test Failure: "called 0"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
+Expecting:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
+Received:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
+Test Failure: "called 1"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
+Expecting:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
+Received:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
+===DONE===
+---- FAILED
+Test Failure: "called 0"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
+Expecting:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
+Received:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
+Test Failure: "called 1"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/setup.php.inc line 35
+Expecting:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit:/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit/hi/there'
+Received:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/loadConfigFile/testit'
+===DONE===<?php
+require dirname(__FILE__) . '/setup.php.inc';
+set_include_path(''); // disable include_path cascading for simplicity
+file_put_contents($testpath . '/blah', '<?xml version="1.0" ?>
+<c>
+ <my_pear_path>' . $testpath . '/hi/there</my_pear_path>
+</c>');
+try {
+    tc::$test = $test;
+    $a = new tc($testpath, $testpath . '/blah');
+    $test->assertEquals(tc::$called, 2, 'called times');
+    $test->assertEquals($testpath, $a->pearDir, 'peardir');
+    $test->assertEquals($testpath . '/blah', $a->userFile, 'userfile');
+} catch (Exception $e) {
+    echo "failed with $e";
+}
+?>
+===DONE===
 --TEST--
 PEAR2_Pyrus_Config::loadConfigFile() good userfile with my_pear_path set
 --FILE--
@@ -25786,6 +25899,78 @@ class tc extends PEAR2_Pyrus_Config
         return parent::setCascadingRegistries($path);
     }
 }
+001- ===DONE===
+001+ Test Failure: "registry->parent path"
+002+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 8
+003+ Expecting:
+004+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
+005+ Received:
+006+ '/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
+007+ Test Failure: "registry parent parent"
+008+  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 9
+009+ Unexpected non-null value: 
+010+ r::__set_state(array(
+011+    'parent' => 
+012+   r::__set_state(array(
+013+      'parent' => 
+014+     r::__set_state(array(
+015+        'parent' => 
+016+       r::__set_state(array(
+017+ 
+018+ Fatal error: Nesting level too deep - recursive dependency? in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/test_framework.php.inc on line 49===DONE===
+---- EXPECTED OUTPUT
+===DONE===
+---- ACTUAL OUTPUT
+Test Failure: "registry->parent path"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 8
+Expecting:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
+Received:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
+Test Failure: "registry parent parent"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 9
+Unexpected non-null value: 
+r::__set_state(array(
+   'parent' => 
+  r::__set_state(array(
+     'parent' => 
+    r::__set_state(array(
+       'parent' => 
+      r::__set_state(array(
+
+Fatal error: Nesting level too deep - recursive dependency? in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/test_framework.php.inc on line 49
+---- FAILED
+Test Failure: "registry->parent path"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 8
+Expecting:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/foo'
+Received:
+'/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/something'
+Test Failure: "registry parent parent"
+ in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Config/setCascadingRegistries/basic.php line 9
+Unexpected non-null value: 
+r::__set_state(array(
+   'parent' => 
+  r::__set_state(array(
+     'parent' => 
+    r::__set_state(array(
+       'parent' => 
+      r::__set_state(array(
+
+Fatal error: Nesting level too deep - recursive dependency? in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/test_framework.php.inc on line 49<?php
+require dirname(__FILE__) . '/setup.php.inc';
+@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
+set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
+$c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo', dirname(__FILE__) . '/something/blah');
+restore_include_path();
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->registry->path, 'registry path');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo', $c->registry->parent->path, 'registry->parent path');
+$test->assertNull($c->registry->parent->parent, 'registry parent parent');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->channelregistry->path, 'channelregistry path');
+$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo', $c->channelregistry->parent->path, 'channelregistry->parent path');
+$test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent');
+?>
+===DONE===
 --TEST--
 PEAR2_Pyrus_Config::setCascading Registries() basic test
 --FILE--
@@ -33634,11 +33819,28 @@ try {
 ?>
 ===DONE===
 --EXPECT--
-===DONE===--TEST--
-test current returns singleton registry object
---FILE--
-<?php
+===DONE===001- ===DONE===
+001+ Fatal error: Uncaught PEAR2_Pyrus_Registry_Exception: Error: no existing SQLite registry for  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry.php on line 141
+002+ #0 /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry.php(141): PEAR2_Pyrus_Registry_Sqlite->exists('foo', 'bar')
+003+ #1 /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Registry/Current/singleton.php(12): PEAR2_Pyrus_Registry->exists('foo', 'bar')
+004+ #2 {main}
+005+   thrown in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry/Sqlite.php on line 357===DONE===
+---- EXPECTED OUTPUT
+===DONE===
+---- ACTUAL OUTPUT
+Fatal error: Uncaught PEAR2_Pyrus_Registry_Exception: Error: no existing SQLite registry for  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry.php on line 141
+#0 /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry.php(141): PEAR2_Pyrus_Registry_Sqlite->exists('foo', 'bar')
+#1 /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Registry/Current/singleton.php(12): PEAR2_Pyrus_Registry->exists('foo', 'bar')
+#2 {main}
+  thrown in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry/Sqlite.php on line 357
+---- FAILED
+Fatal error: Uncaught PEAR2_Pyrus_Registry_Exception: Error: no existing SQLite registry for  in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry.php on line 141
+#0 /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry.php(141): PEAR2_Pyrus_Registry_Sqlite->exists('foo', 'bar')
+#1 /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/Registry/Current/singleton.php(12): PEAR2_Pyrus_Registry->exists('foo', 'bar')
+#2 {main}
+  thrown in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/Registry/Sqlite.php on line 357<?php
 require dirname(__FILE__) . '/../setup.php.inc';
+set_include_path('test');
 $test->assertEquals('PEAR2_Pyrus_Config',
                     get_class(PEAR2_Pyrus_Config::current()),
                     'test config');
@@ -33646,13 +33848,349 @@ $test->assertEquals('PEAR2_Pyrus_Config',
 $test->assertEquals('PEAR2_Pyrus_Registry',
                     get_class(PEAR2_Pyrus_Config::current()->registry),
                     'test registry');
+                    
+$test->assertEquals(false, PEAR2_Pyrus_Config::current()->registry->exists('foo', 'bar'),
+                    'test registry exists');
+?>
+===DONE===
+--TEST--
+test current returns singleton registry object
+--FILE--
+<?php
+require dirname(__FILE__) . '/../setup.php.inc';
+set_include_path('test');
+$test->assertEquals('PEAR2_Pyrus_Config',
+                    get_class(PEAR2_Pyrus_Config::current()),
+                    'test config');
+
+$test->assertEquals('PEAR2_Pyrus_Registry',
+                    get_class(PEAR2_Pyrus_Config::current()->registry),
+                    'test registry');
+                    
+$test->assertEquals(false, PEAR2_Pyrus_Config::current()->registry->exists('foo', 'bar'),
+                    'test registry exists');
 ?>
 ===DONE===
 --EXPECT--
 ===DONE===<?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
 $registryclass = 'PEAR2_Pyrus_Config';
+002+ Setting my pear repositories to:
+003+ /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit
+004+ Using PEAR installation found at /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit
+005+ 
+006+ Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 35 bytes) in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/ScriptFrontend/Commands.php on line 349Using PEAR installation found at /Users/bbieber/pyrus
+---- EXPECTED OUTPUT
+Using PEAR installation found at /Users/bbieber/pyrus
+---- ACTUAL OUTPUT
+Using PEAR installation found at /Users/bbieber/pyrus
+Setting my pear repositories to:
+/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit
+Using PEAR installation found at /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit
+
+Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 35 bytes) in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/ScriptFrontend/Commands.php on line 349
+---- FAILED
+Using PEAR installation found at /Users/bbieber/pyrus
+Setting my pear repositories to:
+/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit
+Using PEAR installation found at /Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit
+
+Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 35 bytes) in /Users/bbieber/Documents/workspace/PEAR2/Pyrus/src/Pyrus/ScriptFrontend/Commands.php on line 349<?php
+set_include_path(dirname(__FILE__).'/testit');
+require dirname(dirname(__FILE__)) . '/setup.php.inc';
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli->run($args = array (0 => 'mypear',
+                         1 => __DIR__ . '/testit'));
+$cli->run($args = array (0 => 'list-channels'));
+?>
+===DONE===
+--TEST--
+PEAR2_Pyrus_ScriptFrontend_Commands::listChannels()
+--FILE--
 <?php
+set_include_path(dirname(__FILE__).'/testit');
+require dirname(dirname(__FILE__)) . '/setup.php.inc';
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli->run($args = array (0 => 'mypear',
+                         1 => __DIR__ . '/testit'));
+$cli->run($args = array (0 => 'list-channels'));
+?>
+===DONE===
+--CLEAN--
+<?php
+$dir = __DIR__ . '/testit';
+include __DIR__ . '/../../clean.php.inc';
+?>
+--EXPECT--
+Using PEAR installation found at /Users/bbieber/pyrus
+<?xml version="1.0"?>
+<pearconfig version="1.0"><ext_dir>/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613</ext_dir><cfg_dir>/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/cfg</cfg_dir><doc_dir>/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/docs</doc_dir><bin_dir>/usr/local/bin</bin_dir><www_dir>/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/www</www_dir><test_dir>/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/tests</test_dir><php_bin></php_bin><php_ini>/usr/local/php5/lib/php.ini</php_ini></pearconfig>
+** This file contains an SQLite 2.1 database ** (u„⁄        ø                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ,    T      ÚÄ    ' < ? Útable package_dependencies package_dependencies 16 CREATE TABLE package_dependencies (
+           required BOOL NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+                lÄ    " 2 5 ltable channel_servers channel_servers 26 CREATE TABLE channel_servers (
+           channel TEXT NOT NULL,
+           server TEXT NOT NULL,
+           ssl integer NOT NULL default 0,
+           port integer NOT NULL defau       X  E Ä  .BEEindex (channel_server_soap autoindex 1) channel_server_soap 32    &        ÜÄ    # , . Ütrigger package_delete packages 0 CREATE TRIGGER package_delete DELETE ON packages
+            FOR EACH ROW BEGIN
+              DELETE FROM maintainers
+              WHERE
+                maintainers.packages_name = old.(   ¨                                                                                                                                                                                  ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          y TEXT NOT NULL,
+           description TEXT NOT NULL,
+           stability TEXT(8) NOT NULL,
+           apistability TEXT(8) NOT NULL,
+           releasedate DATE NOT NULL,
+           releasetime TIME,
+           license TEXT(50) NOT NULL,
+           licenseuri TEXT,
+           licensepath TEXT,
+           releasenotes TEXT,
+           lastinstalledversion TEXT(20),
+           installedwithpear TEXT(20),
+           installtimeconfig TEXT(50),
+           PRIMARY KEY (name, channel)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ,
+           user TEXT(20) NOT NULL,
+           email TEXT(100) NOT NULL,
+           active CHAR(3) NOT NULL,
+           PRIMARY KEY (packages_name, packages_channel, user)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             rolepath TEXT(255) NOT NULL,
+           PRIMARY KEY (packagepath, role, rolepath),
+           UNIQUE (packages_name, packages_channel, packagepath)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Ù       €Ä     $ & €table packages packages 4 CREATE TABLE packages (
+           name TEXT(80) NOT NULL,
+           channel TEXT(255) NOT NULL,
+           version TEXT(20) NOT NULL,
+           apiversion TEXT(20) NOT NULL,
+           summar        D  . Ä  #,..index (packages autoindex 1) packages 3 ˇø     @  °Ä     * , °table maintainers maintainers 7 CREATE TABLE maintainers (
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           role TEXT(11) NOT NULL,
+           name TEXT(200) NOT NULL        Ñ  4 Ä  &244index (maintainers autoindex 1) maintainers 6      Ä  ãÄ      ! ãtable files files 11 CREATE TABLE files (
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           packagepath TEXT(255) NOT NULL,
+           role TEXT(30) NOT NULL,
+                ∏  ( Ä   &((index (files autoindex 1) files 9          ) Ä   &))index (files autoindex 2) files 10 z                @     `   G Ä  	/DGGindex (package_dependencies autoindex 1) package_dependencies 15       \  ıÄ  
+  / L O ıtable package_dependencies_exclude package_dependencies_exclude 19 CREATE TABLE package_dependencies_exclude (
+           required BOOL NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TE        ƒ  W Ä  7TWWindex (package_dependencies_exclude autoindex 1) package_dependencies_exclude 18       ¿  ΩÄ     $ ' Ωtable channels channels 23 CREATE TABLE channels (
+           channel TEXT NOT NULL,
+           summary TEXT NOT NULL,
+           suggestedalias TEXT(50) NOT NULL,
+           alias TEXT(50) NOT NULL,
+           validatep           / Ä  #,//index (channels autoindex 1) channels 21 ø         / Ä  #,//index (channels autoindex 2) channels 22 ø¿                                                                                                                                                                                                      ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               deppackage TEXT(80) NOT NULL,
+           depchannel TEXT(255) NOT NULL,
+           conflicts BOOL NOT NULL,
+           min TEXT(20),
+           max TEXT(20),
+           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          XT(255) NOT NULL,
+           deppackage TEXT(80) NOT NULL,
+           depchannel TEXT(255) NOT NULL,
+           exclude TEXT(20),
+           conflicts BOOL NOT NULL,
+           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    h Ä      (     cpear.php.net Ä  ˇø     H     cpear2.php.net Ä  ø           cpecl.php.net Ä  ˇø          c__uri Ä   Ä                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  P h     
+       cpear Ä  ne     8     cpear2 Ä  n    
+       cpecl Ä  ne          c__uri Ä   ò                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                å   s Ä  >CHPespear.php.net PHP Extension and Application Repository pear pear default PEAR2_Pyrus_Validate i:1222659539; í       { Ä  DJPXm{pear2.php.net PEAR packages for PHP 5.3+ installed by Pyrus pear2 pear2 default PEAR2_Pyrus_Validate i:1222659539;       ê  e Ä  5:?CWepecl.php.net PHP Extension Community Library pecl pecl 1.0 PEAR_Validator_PECL i:1222659539;             h Ä  17=EZh__uri Pseudo-channel for static packages __uri __uri default PEAR2_Pyrus_Validate i:1222659539; ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ackageversion TEXT(20) NOT NULL default "default",
+           validatepackage NOT NULL default "PEAR_Validate",
+           lastmodified TEXT,
+           PRIMARY KEY (channel),
+           UNIQUE(alias)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   4     cpear.php.net cpear.php.net Ä      # î     cpear.php.net cus.pear.php.net Ä       #      cpear.php.net cde.pear.php.net Ä  @    " ƒ     cpear2.php.net cpear2.php.net Ä              cpecl.php.net cpecl.php.net Ä       d     c__uri c__uri Ä  ˇø                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         p   X Ä  !#&OXpear.php.net pear.php.net 0 80 PHP Extension and Application Repository soap.php      ¥   3 Ä  $&)*3pear.php.net us.pear.php.net 0 80  soap.php       ¸   5 Ä  $&+,5pear.php.net de.pear.php.net 1 3452  soap.php ¿•      l  _ Ä  #%(V_pear2.php.net pear2.php.net 0 80 PEAR packages for PHP 5.3+ installed by Pyrus soap.php       Ã  O Ä  !#&FOpecl.php.net pecl.php.net 0 80 PHP Extension Community Library soap.php ø         D Ä  ;D__uri __uri 0 80 Pseudo-channel for static packages soap.php ‡                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  lt 80,
+           xmlrpcpath TEXT NOT NULL,
+           soappath TEXT NOT NULL,
+           PRIMARY KEY (channel, server)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ¨     X   = Ä  *:==index (channel_servers autoindex 1) channel_servers 25 q     T  :Ä    ( > A :table channel_server_xmlrpc channel_server_xmlrpc 30 CREATE TABLE channel_server_xmlrpc (
+           channel TEXT NOT NULL,
+           server TEXT NOT NULL,
+           function TEXT NOT NULL,
+           version TEXT(20)         ∞  I Ä  0FIIindex (channel_server_xmlrpc autoindex 1) channel_server_xmlrpc 29             4Ä    & : = 4table channel_server_soap channel_server_soap 33 CREATE TABLE channel_server_soap (
+           channel TEXT NOT NULL,
+           server TEXT NOT NULL,
+           function TEXT NOT NULL,
+           version TEXT(20) NOT NU"   T                                                                                                                                                                                                                                                                                                                                                      Ù8    0 d    cpecl.php.net cpecl.php.net clogintest c1.0 Ä      A ∞    cpecl.php.net cpecl.php.net cpackage.listLatestReleases c1.0 Ä  Õˇø    6 D     cpecl.php.net cpecl.php.net cpackage.listAll c1.0 Ä       3 î     cpecl.php.net cpecl.php.net cpackage.info c1.0 Ä  ø    = ÿ     cpecl.php.net cpecl.php.net cpackage.getDownloadURL c1.0 Ä         @     cpecl.php.net cpecl.php.net cpackage.getDepDownloadURL c1.0 Ä      5       cpecl.php.net cpecl.php.net cpackage.search c1.0 Ä  e     6      cpecl.php.net cpecl.php.net cchannel.listAll c1.0 Ä   »                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @     H   - Ä  )-pecl.php.net pecl.php.net logintest 1.0 Õˇø     ò   > Ä  :>pecl.php.net pecl.php.net package.listLatestReleases 1.0 ˇø     ‹   3 Ä  /3pecl.php.net pecl.php.net package.listAll 1.0         0 Ä  ,0pecl.php.net pecl.php.net package.info 1.0      h  : Ä  6:pecl.php.net pecl.php.net package.getDownloadURL 1.0        ∏  = Ä  9=pecl.php.net pecl.php.net package.getDepDownloadURL 1.0 Õˇø     ¸  2 Ä  .2pecl.php.net pecl.php.net package.search 1.0           3 Ä  /3pecl.php.net pecl.php.net channel.listAll 1.0  ¿                                                                                                                                                                                                                                                                                                                                                                                                                                                                  NOT NULL,
+           PRIMARY KEY (channel, server, function, version)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ¯                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          LL,
+           PRIMARY KEY (channel, server, function, version)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      8    D X     cpear.php.net cpear.php.net chttp://pear.php.net/rest/ cREST1.0 Ä      D ®     cpear.php.net cpear.php.net chttp://pear.php.net/rest/ cREST1.1 Ä      D ¯     cpear.php.net cpear.php.net chttp://pear.php.net/rest/ cREST1.2 Ä      D H    cpear.php.net cpear.php.net chttp://pear.php.net/rest/ cREST1.3 Ä      G ú    cpear2.php.net cpear2.php.net chttp://pear2.php.net/rest/ cREST1.0 Ä  í    G     cpear2.php.net cpear2.php.net chttp://pear2.php.net/rest/ cREST1.1 Ä  í    G D    cpear2.php.net cpear2.php.net chttp://pear2.php.net/rest/ cREST1.2 Ä  í    G ò    cpear2.php.net cpear2.php.net chttp://pear2.php.net/rest/ cREST1.3 Ä  í    D Ë    cpecl.php.net cpecl.php.net chttp://pecl.php.net/rest/ cREST1.0 Ä  	    D       cpecl.php.net cpecl.php.net chttp://pecl.php.net/rest/ cREST1.1 Ä  
+»                                                                                                                                                                                                            P     \   A Ä  'Apear.php.net pear.php.net REST1.0 http://pear.php.net/rest/ ”í     ∞   A Ä  'Apear.php.net pear.php.net REST1.1 http://pear.php.net/rest/ ”í       A Ä  'Apear.php.net pear.php.net REST1.2 http://pear.php.net/rest/ ”í     X  A Ä  'Apear.php.net pear.php.net REST1.3 http://pear.php.net/rest/ ”í     ¨  D Ä  !)Dpear2.php.net pear2.php.net REST1.0 http://pear2.php.net/rest/         D Ä  !)Dpear2.php.net pear2.php.net REST1.1 http://pear2.php.net/rest/      T  D Ä  !)Dpear2.php.net pear2.php.net REST1.2 http://pear2.php.net/rest/      ®  D Ä  !)Dpear2.php.net pear2.php.net REST1.3 http://pear2.php.net/rest/      ¸  A Ä  	'Apecl.php.net pecl.php.net REST1.0 http://pecl.php.net/rest/ ”í         A Ä  
+'Apecl.php.net pecl.php.net REST1.1 http://pecl.php.net/rest/ ”í∞                                                                                                                                                                                          PRIMARY KEY (channel, server, baseurl, type)
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ¯       (Ä    & : = (table channel_server_rest channel_server_rest 36 CREATE TABLE channel_server_rest (
+           channel TEXT NOT NULL,
+           server TEXT NOT NULL,
+           type TEXT NOT NULL,
+           baseurl TEXT NOT NULL,
+    %        \  E Ä  .BEEindex (channel_server_rest autoindex 1) channel_server_rest 35             ã Ä   47ãtable pearregistryversion pearregistryversion 39 CREATE TABLE pearregistryversion (
+           version TEXT(20) NOT NULL
+          )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Ä  1.0.0 ‡                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  name AND
+                maintainers.packages_channel = old.channel;
+              DELETE FROM files
+              WHERE
+                files.packages_name = old.name AND
+                files.packages_channel = old.channel;
+              DELETE FROM package_dependencies
+              WHERE
+                package_dependencies.packages_name = old.name AND
+                package_dependencies.packages_channel = old.channel;
+              DELETE FROM package_dependencies_exclude
+              WHERE
+                package_dependencies_exclude.packages_name = old.name AND
+                package_dependencies_exclude.packages_channel = old.channel;
+            END                                                                                                                                                                                                                                                                                                                                                                   nnel IN (SELECT channel FROM packages);
+            END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         d.channel;
+              DELETE FROM channel_server_xmlrpc
+              WHERE
+                channel_server_xmlrpc.channel = old.channel;
+              DELETE FROM channel_server_soap
+              WHERE
+                channel_server_soap.channel = old.channel;
+              DELETE FROM channel_server_rest
+              WHERE
+                channel_server_rest.channel = old.channel;
+            END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                conflicts,
+                min,
+                max
+            FROM package_dependencies
+            UNION
+            SELECT
+                packages_name,
+                packages_channel
+                deppackage,
+                depchannel,
+                exclude,
+                conflicts,
+                null as min,
+                null as max
+            FROM package_dependencies_exclude                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ¯        Ä    " + -  trigger channel_check channels 0 CREATE TRIGGER channel_check BEFORE DELETE ON channels
+            BEGIN
+             SELECT RAISE(ROLLBACK, 'Cannot delete channel, installed packages use it')
+             WHERE old.cha)           ~Ä    # , . ~trigger channel_delete channels 0 CREATE TRIGGER channel_delete DELETE ON channels
+            FOR EACH ROW BEGIN
+              DELETE FROM channel_servers
+              WHERE
+                channel_servers.channel = ol*        ¸  Ä       view deps deps 0 CREATE VIEW deps AS
+            SELECT
+                packages_name,
+                packages_channel
+                deppackage,
+                depchannel,
+                null as exclude,
+           +            ∏Ä     % ' ∏view protocols protocols 0 CREATE VIEW protocols AS
+            SELECT
+                channel,
+                server,
+                function,
+                version,
+                "xmlrpc" as protocol
+            -              FROM channel_server_xmlrpc
+            UNION
+            SELECT
+                channel,
+                server,
+                function,
+                version,
+                "soap" as protocol
+            FROM channel_server_soap
+            UNION
+            SELECT
+                channel,
+                server,
+                baseurl as function,
+                type as version,
+                "rest" as protocol
+            FROM channel_server_rest                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             /usr/local/bin/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/cfg<?xml version="1.0" encoding="UTF-8"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0">
+ <name>pear.php.net</name>
+ <suggestedalias>pear</suggestedalias>
+ <summary>PHP Extension and Application Repository</summary>
+ <servers>
+  <primary>
+   <rest>
+    <baseurl type="REST1.0">http://pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.2">http://pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.3">http://pear.php.net/rest/</baseurl>
+   </rest>
+  </primary>
+  <mirror host="us.pear.php.net">
+   <rest>
+    <baseurl type="REST1.0">http://us.pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://us.pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.2">http://us.pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.3">http://us.pear.php.net/rest/</baseurl>
+   </rest>
+  </mirror>
+  <mirror host="de.pear.php.net" ssl="yes" port="3452">
+   <rest>
+    <baseurl type="REST1.0">https://de.pear.php.net:3452/rest/</baseurl>
+    <baseurl type="REST1.1">https://de.pear.php.net:3452/rest/</baseurl>
+    <baseurl type="REST1.2">https://de.pear.php.net:3452/rest/</baseurl>
+    <baseurl type="REST1.3">https://de.pear.php.net:3452/rest/</baseurl>
+   </rest>
+  </mirror>
+ </servers>
+</channel>
+<?xml version="1.0" encoding="UTF-8"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0">
+ <name>pear2.php.net</name>
+ <suggestedalias>pear2</suggestedalias>
+ <summary>PEAR packages for PHP 5.3+ installed by Pyrus</summary>
+ <servers>
+  <primary>
+   <rest>
+    <baseurl type="REST1.0">http://pear2.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://pear2.php.net/rest/</baseurl>
+    <baseurl type="REST1.2">http://pear2.php.net/rest/</baseurl>
+    <baseurl type="REST1.3">http://pear2.php.net/rest/</baseurl>
+   </rest>
+  </primary>
+ </servers>
+</channel>
+<?xml version="1.0" encoding="UTF-8"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0">
+ <name>pecl.php.net</name>
+ <suggestedalias>pecl</suggestedalias>
+ <summary>PHP Extension Community Library</summary>
+ <validatepackage version="1.0">PEAR_Validator_PECL</validatepackage>
+ <servers>
+  <primary>
+   <xmlrpc>
+    <function version="1.0">logintest</function>
+    <function version="1.0">package.listLatestReleases</function>
+    <function version="1.0">package.listAll</function>
+    <function version="1.0">package.info</function>
+    <function version="1.0">package.getDownloadURL</function>
+    <function version="1.0">package.getDepDownloadURL</function>
+    <function version="1.0">package.search</function>
+    <function version="1.0">channel.listAll</function>
+   </xmlrpc>
+   <rest>
+    <baseurl type="REST1.0">http://pecl.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://pecl.php.net/rest/</baseurl>
+   </rest>
+  </primary>
+ </servers>
+</channel>
+<?xml version="1.0" encoding="UTF-8"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0">
+ <name>__uri</name>
+ <suggestedalias>__uri</suggestedalias>
+ <summary>Pseudo-channel for static packages</summary>
+ <servers>
+  <primary>
+   <xmlrpc>
+    <function version="1.0">****</function>
+   </xmlrpc>
+  </primary>
+ </servers>
+</channel>
+pear.php.netpear2.php.netpecl.php.net__uri/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/docs/usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613/usr/local/php5/lib/php.ini/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/tests/Users/bbieber/Documents/workspace/PEAR2/Pyrus/tests/ScriptFrontend/Commands/testit/www<?php
+include dirname(__FILE__) . '/../test_framework.php.inc';<?php
 $__e = error_reporting();
 error_reporting(E_ERROR|E_NOTICE|E_WARNING);
 require_once __DIR__ . '/../../autoload.php';
@@ -36094,7 +36632,7 @@ class PEAR2_HTTP_Request_Response
 /**
  * Simple class for parsing url/uris
  *
- * Basically compatiable with Net_URL2 propery names but not methods
+ * Basically compatiable with Net_URL2 property names but not methods
  */
 class PEAR2_HTTP_Request_Uri {
 
@@ -36116,8 +36654,7 @@ class PEAR2_HTTP_Request_Uri {
 		if (!isset($this->pieces['port'])) {
 			if (isset($this->schemes[$this->pieces['scheme']])) {
 				$this->pieces['port'] = $this->schemes[$this->pieces['scheme']];
-			}
-			else {
+			} else {
 				$this->pieces['port'] = 80;
 			}
 		}
@@ -36137,4 +36674,4 @@ class PEAR2_HTTP_Request_Uri {
 		return $this->pieces;
 	}
 }
-0j+∫Ä∆π˙7◊«∆î.ÈØ•º   GBMB
+ò•”cÜ¿¯˚Å„uœ95ﬁ`:ﬁ   GBMB

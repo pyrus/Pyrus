@@ -310,6 +310,7 @@ class PEAR2_Pyrus_Config
 
         $this->loadUserSettings($pearDirectory, $userfile);
         $this->loadConfigFile($pearDirectory);
+        $this->setCascadingRegistries($pearDirectory);
         self::$configs[$pearDirectory] = $this;
         $this->pearDir = $pearDirectory;
 

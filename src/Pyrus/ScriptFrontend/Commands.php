@@ -85,7 +85,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 if (is_int($i) && ($default === null || ($default !== null && !is_string($default)))) {
                     $is_int = false;
                 } else {
-                    $is_int = truee;
+                    $is_int = true;
                 }
                 break;
             }
@@ -163,6 +163,7 @@ previous:
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";
+                $config = PEAR2_Pyrus_Config::singleton($path);
                 return;
             }
         }
