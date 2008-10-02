@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PEAR2/Pyrus" default="build" basedir=".">
+  <target name="build" depends="checkphp,phar,phpt,php-documentor"/>
+  <target name="dist" depends="phar" />
+  
+  <target name="checkphp">
+    <apply executable="php" failonerror="true">
+      <arg value="-l" />
+      <fileset dir="${basedir}/src">
+        <include name="**/*.php" />
+      </fileset>
+    </apply>
+  </target>
+  
+  <target name="phpcs">
+    <exec executable="phpcs" dir="${basedir}" output="${basedir}/phpcs.xml">
+        <arg line="--report=checkstyle --standard=PEAR src"/>
+    </exec>
+  </target> 
+  
+  <target name="phar">
+    <exec executable="php" dir="${basedir}" failonerror="on">
+        <arg line="makepackage.php" />
+    </exec> 
+  </target>
+  
+  <target name="checkout">
+    <exec executable="svn" dir="${basedir}">
+        <arg line="up" />
+    </exec>
+  </target>
+  
+  <target name="phpt">
+    <exec executable="pear" dir="${basedir}" failonerror="on">
+        <arg line="run-tests -r ${basedir}/tests" />
+    </exec>
+  </target>
+  
+  <target name="php-documentor">
+    <exec executable="phpdoc" dir="${basedir}/src">
+        <arg line="-ct type -ue on -t ${basedir}/docs -d ${basedir}/src -po PEAR2_Pyrus -ti 'Pyrus PEAR2 Installer API Documentation'"/>
+    </exec>
+  </target>
+</project>

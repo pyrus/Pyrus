@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-09-29</date>
- <time>17:03:09</time>
+ <date>2008-10-02</date>
+ <time>10:15:27</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
@@ -407,26 +407,6 @@ try {
     </dir>
     <dir name="ScriptFrontend">
      <dir name="Commands">
-      <dir name="testit">
-       <file role="test" name=".config"/>
-       <file role="test" name=".pear2registry"/>
-       <file role="test" name="bin_dir.txt"/>
-       <file role="test" name="cfg_dir.txt"/>
-       <file role="test" name="channel-pear.php.net.xml"/>
-       <file role="test" name="channel-pear2.php.net.xml"/>
-       <file role="test" name="channel-pecl.php.net.xml"/>
-       <file role="test" name="channel-__uri.xml"/>
-       <file role="test" name="channelalias-pear.txt"/>
-       <file role="test" name="channelalias-pear2.txt"/>
-       <file role="test" name="channelalias-pecl.txt"/>
-       <file role="test" name="channelalias-__uri.txt"/>
-       <file role="test" name="doc_dir.txt"/>
-       <file role="test" name="ext_dir.txt"/>
-       <file role="test" name="php_bin.txt"/>
-       <file role="test" name="php_ini.txt"/>
-       <file role="test" name="test_dir.txt"/>
-       <file role="test" name="www_dir.txt"/>
-      </dir>
       <file role="test" name="listChannels.phpt"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
