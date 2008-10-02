@@ -74,6 +74,11 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         $this->parent = $parent;
     }
 
+    /**
+     * Add a channel to the registry.
+     *
+     * @param PEAR2_Pyrus_IChannel $channel Channel to add.
+     */
     public function add(PEAR2_Pyrus_IChannel $channel)
     {
         if ($this->readonly) {
@@ -132,6 +137,14 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         }
     }
 
+    /**
+     * Check if channel has been discovered and in the registry.
+     *
+     * @param string $channel Channel name or alias: pear.php.net, pear
+     * @param bool   $strict  Do not check aliases.
+     * 
+     * @return bool
+     */
     public function exists($channel, $strict = true)
     {
         if (!$this->_registries[0]->exists($channel, $strict)) {
