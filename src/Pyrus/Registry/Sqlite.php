@@ -457,7 +457,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         }
         if (!$this->exists($package, $channel)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', it is not installed');
+                'for package ' . $channel . '/' . $package . ', it is not installed');
         }
         $ret = new PEAR2_Pyrus_PackageFile_v2;
         $ret->name        = $package;
