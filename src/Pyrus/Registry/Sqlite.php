@@ -472,7 +472,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         $a = self::$databases[$this->_path]->arrayQuery($sql, SQLITE_ASSOC);
         if (!$a) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
-                ' for package ' . $package . '/' . $channel . ', no maintainers registered');
+                ' for package ' . $channel . '/' . $package . ', no maintainers registered');
         }
         foreach ($a as $maintainer) {
             $ret->maintainer[$maintainer['user']]
@@ -509,7 +509,7 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
         $a = self::$databases[$this->_path]->arrayQuery($sql, SQLITE_ASSOC);
         if (!$a) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
-                ' for package ' . $package . '/' . $channel . ', no files registered');
+                ' for package ' . $channel . '/' . $package . ', no files registered');
         }
         foreach ($a as $file) {
             $ret->files[$file['packagepath']] = array('attribs' => array('role' => $file['role']));
