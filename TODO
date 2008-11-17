@@ -5,10 +5,15 @@ Implement array access for registry so you can use isset($reg['pear.php.net/Vali
 
 Collect contributor data on files copied from PEAR to request permission to change license.
 
-Separate out filetransactions as the other three are currently?
-
 Declare depdendencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
 
 Package-2.0 and 2.1 xsd needs to be relaxed a bit to allow flexible ordering of elements.
     Some ideas - change sequence to choice and enumerate the possible sequences within the choice,
     this will make a very large xsd, but may work. Something we need to try out.
+
+Try out the how the Pyrus_Config::locateLocalSettingsDirectory handles if a settings dir is changed
+this will mostly be a test of what approach in COM will suite us best
+
+Separate out filetransactions as the other three are currently?
+Investigate the slowdown caused by having all FileTransaction types in their own files.
+Greg talks about up to 5 second delay on having it like this on a single package installation
