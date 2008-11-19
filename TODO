@@ -15,3 +15,6 @@ this will mostly be a test of what approach in COM will suite us best
 Separate out filetransactions as the other three are currently?
 Investigate the slowdown caused by having all FileTransaction types in their own files.
 Greg talks about up to 5 second delay on having it like this on a single package installation
+
+Sync OSGuess from pear to pyrus
+Rewrite it ?
