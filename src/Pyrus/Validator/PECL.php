@@ -43,16 +43,16 @@ class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
     function validatePackageName()
     {
         $ret = parent::validatePackageName();
-        if ($this->_packagexml->getPackageType() == 'extsrc' ||
-              $this->_packagexml->getPackageType() == 'zendextsrc') {
-            if (strtolower($this->_packagexml->getPackage()) !=
-                  strtolower($this->_packagexml->getProvidesExtension())) {
+        if (in_array($this->_packagexml->getPackageType(), array('extsrc', 'zendextsrc'))) {
+            $package  = $this->_packagexml->getPackage();
+            $provides = $this->_packagexml->getProvidesExtension();
+            if (strtolower($package) != strtolower($provides)) {
                 $this->_addWarning('providesextension', 'package name "' .
-                    $this->_packagexml->getPackage() . '" is different from extension name "' .
-                    $this->_packagexml->getProvidesExtension() . '"');
+                    $package . '" is different from extension name "' .
+                    $provides . '"');
             }
         }
+
         return $ret;
     }
 }
-?>
