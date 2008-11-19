@@ -3,8 +3,6 @@ TODO:
 Implement array access for registry so you can use isset($reg['pear.php.net/Validate']), or
     $info = $reg['pear.php.net/Validate'];
 
-Collect contributor data on files copied from PEAR to request permission to change license.
-
 Declare depdendencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
 
 Package-2.0 and 2.1 xsd needs to be relaxed a bit to allow flexible ordering of elements.
