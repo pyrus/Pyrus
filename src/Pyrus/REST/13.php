@@ -136,8 +136,8 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         }
         $state   = isset($dependency['state'])   ? $dependency['state']   : null;
         $version = isset($dependency['version']) ? $dependency['version'] : null;
-        $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) .
-            '/allreleases2.xml');
+        // FIXME aren't we just doing the same thing twice over here ?
+        $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) .  '/allreleases2.xml');
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
@@ -152,16 +152,14 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         $pinfo['package'] = $dependency['name'];
         $min = isset($dependency['min']) ? $dependency['min'] : false;
         $max = isset($dependency['max']) ? $dependency['max'] : false;
-        $recommended = isset($dependency['recommended']) ?
-            $dependency['recommended'] : false;
+        $recommended = isset($dependency['recommended']) ? $dependency['recommended'] : false;
         if (isset($dependency['exclude'])) {
             if (!isset($dependency['exclude'][0])) {
                 $exclude = array($dependency['exclude']);
             }
         }
-        $found = false;
-        $release = false;
-        $skippedphp = false;
+
+        $skippedphp = $release = $found = false;
         if (!is_array($info['r']) || !isset($info['r'][0])) {
             $info['r'] = array($info['r']);
         }
@@ -238,4 +236,3 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         return $this->returnDownloadURL($base, $package, $release, $info, $found, $skippedphp);
     }
 }
-?>
