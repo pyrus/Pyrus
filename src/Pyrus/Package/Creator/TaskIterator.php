@@ -40,13 +40,16 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
         if (!$this->_inner->valid()) {
             return false;
         }
+
         if ($this->_inner->key() == 'attribs') {
             return false;
         }
+
         $key = $this->key();
         if (strpos($key, $this->_tasksNs . ':') !== 0) {
             return false;
         }
+
         return true;
     }
 

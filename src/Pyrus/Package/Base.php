@@ -62,6 +62,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         if ($this->from) {
             return $this->from->getFrom();
         }
+
         return $this;
     }
 
@@ -105,6 +106,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
                     if (isset($d['conflicts'])) {
                         continue;
                     }
+
                     $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
                     if (isset($packages[$dchannel . '/' . $d['name']])) {
                         $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
@@ -112,12 +114,14 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
                 }
             }
         }
+
         foreach ($this->dependencies->group as $group) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
                     if (isset($d['conflicts'])) {
                         continue;
                     }
+
                     $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
                     if (isset($packages[$dchannel . '/' . $d['name']])) {
                         $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
@@ -137,6 +141,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         if (strpos($offset, 'contents://') === 0) {
             return $this->getFileContents(substr($offset, 11));
         }
+
         return $this->packagefile->info->getFile($offset);
     }
 

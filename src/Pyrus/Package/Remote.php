@@ -62,6 +62,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
         }
+
         if (isset($e)) {
             unset($e);
             try {
@@ -71,6 +72,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                 $errs->E_ERROR[] = $e;
             }
         }
+
         if (isset($e)) {
             unset($e);
             try {
@@ -84,6 +86,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     $this->downloadInfo['info']->name, $errs);
             }
         }
+
         $this->internal->setFrom($internal);
         return $this->internal;
     }
@@ -99,19 +102,22 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             $http = new PEAR2_HTTP_Request($param);
             $response = $http->sendRequest();
             $name = 'unknown.tgz';
-            if ($response->code == '200') {
-                if (isset($response->headers['content-disposition'])) {
-                    if (preg_match('/filename="(.+)"/', $response->headers['content-disposition'], $match)) {
-                        $name = $match[1];
-                    }
-                }
-                if (!@file_exists($dir)) {
-                    mkdir($dir, 0755, true);
-                }
-                file_put_contents($dir . DIRECTORY_SEPARATOR . $name, $response->body);
-            } else {
+            if ($response->code != '200') {
                 throw new PEAR2_Pyrus_Package_Exception('Download failed, received ' . $response->code);
             }
+
+            if (isset($response->headers['content-disposition'])) {
+                if (preg_match('/filename="(.+)"/', $response->headers['content-disposition'], $match)) {
+                    $name = $match[1];
+                }
+            }
+
+            if (!@file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
+
+            file_put_contents($dir . DIRECTORY_SEPARATOR . $name, $response->body);
+
             // whew, download worked!
             $a = new PEAR2_Pyrus_Package($dir . DIRECTORY_SEPARATOR . $name);
             return $a->getInternalPackage();
@@ -142,6 +148,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             if ($e->why !== 'channel') {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot process remote package', $e);
             }
+
 //            if ($this->_downloader->discover($param['channel'])) {
                 if (PEAR2_Pyrus_Config::current()->auto_discover) {
                     try {
@@ -153,6 +160,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                             $param =
                               PEAR2_Pyrus_Config::parsedPackageNameToString($param);
                         }
+
                         throw new PEAR2_Pyrus_Package_Exception(
                             'invalid package name/package file "' . $param . '"', $e);
                     }
@@ -169,17 +177,11 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 //                    'invalid package name/package file "' . $param . '"', $e);
 //            }
         }
-        $this->_parsedname = $pname;
-        if (isset($pname['state'])) {
-            $this->_explicitState = $pname['state'];
-        } else {
-            $this->_explicitState = false;
-        }
-        if (isset($pname['group'])) {
-            $this->_explicitGroup = true;
-        } else {
-            $this->_explicitGroup = false;
-        }
+
+        $this->_parsedname    = $pname;
+        $this->_explicitState = isset($pname['state']) ? $pname['state'] : false;
+        $this->_explicitGroup = isset($pname['group']) ? true            : false;
+
         $info = $this->getPackageDownloadUrl($pname);
         $this->analyze($info, $param, $pname);
         $this->downloadInfo = $info;
@@ -210,37 +212,40 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     'Unknown remote channel: ' . $remotechannel);
             } while (false);
         }
+
         try {
             $chan = PEAR2_Pyrus_Config::current()->channelregistry[$parr['channel']];
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Package_Exception('Cannot retrieve download information ' .
                 'for remote abstract package ' . $parr['channel'] . '/' . $parr['package'], $e);
         }
+
         try {
             $version = PEAR2_Pyrus_Config::current()->registry->info($parr['package'],
                 $parr['channel'], 'version');
         } catch (Exception $e) {
             $version = null;
         }
-        $base2 = false;
-        $mirrors = $chan->mirrors;
-        if (isset($mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror])) {
-            $mirror = $mirrors[PEAR2_Pyrus_Config::current()->preferred_mirror];
-        } else {
-            $mirror = $chan;
-        }
+
+        $base2    = false;
+        $mirrors  = $chan->mirrors;
+        $p_mirror = PEAR2_Pyrus_Config::current()->preferred_mirror;
+        $mirror   = isset($mirrors[$p_mirror]) ? $mirrors[$p_mirror] : $chan;
+
         if (!$mirror->supportsREST() ||
               !(($base2 = $mirror->getBaseURL('REST1.3')) ||
               ($base = $mirror->getBaseURL('REST1.0')))) {
             throw new PEAR2_Pyrus_Package_Exception('Cannot retrieve remote information, ' .
                 'channel ' . $chan->getName() . ' does not support REST');
         }
+
         if ($base2) {
             $rest = new PEAR2_Pyrus_REST_13;
             $base = $base2;
         } else {
             $rest = new PEAR2_Pyrus_REST_10;
         }
+
         try {
             if (!isset($parr['version']) && !isset($parr['state']) && $version
                   && !isset(PEAR2_Pyrus_Installer::$options['downloadonly'])) {
@@ -253,15 +258,18 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             throw new PEAR2_Pyrus_Package_Exception('Cannot retrieve download information ' .
             'for remote abstract package ' . $parr['channel'] . '/' . $parr['package'], $e);
         }
+
         if ($parr['channel'] != $curchannel) {
             PEAR2_Pyrus_Config::current()->default_channel = $curchannel;
         }
+
         $url['raw'] = false; // no checking is necessary for REST
         if (!is_string($url['info'])) {
             throw new PEAR2_Pyrus_Package_Exception(
                 'Invalid remote dependencies retrieved from REST - ' .
                 'this should never happen');
         }
+
         if (!isset(PEAR2_Pyrus_Installer::$options['force']) &&
               !isset(PEAR2_Pyrus_Installer::$options['downloadonly']) &&
               $version &&
@@ -273,6 +281,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     'release version ' . $url['version']);
             }
         }
+
         $parser = new PEAR2_Pyrus_PackageFile_Parser_v2;
         $pf = $parser->parse($url['info'], false, 'PEAR2_Pyrus_PackageFile_v2_Remote');
         $url['info'] = $pf;
@@ -290,14 +299,15 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     {
         if (!$info) {
             // no releases exist
+            $saveparam = '';
             if (!is_string($param)) {
                 $saveparam = ", cannot download \"$param\"";
-            } else {
-                $saveparam = '';
             }
+
             throw new PEAR2_Pyrus_Package_Exception('No releases for package "' .
                 PEAR2_Pyrus_Config::parsedPackageNameToString($pname, true) . '" exist' . $saveparam);
         }
+
         if (strtolower($info['info']->channel) != strtolower($pname['channel'])) {
             // downloaded package information claims it is from a different channel
             throw new PEAR2_Pyrus_Package_Exception(
@@ -305,61 +315,67 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                 '" retrieved another channel\'s name for download! ("' .
                 $info['info']->channel . '")');
         }
+
         if (isset($info['url'])) {
             $this->checkDeprecated($info);
             return $info;
         }
+
         // package exists, no releases fit the criteria for downloading
         $reg = PEAR2_Pyrus_Config::current()->registry;
         if ($reginfo = $reg->exists($info['info']->package, $info['info']->channel)) {
             // package is already installedy
         }
+
         $instead =  ', will instead download version ' . $info['version'] .
                     ', stability "' . $info['info']->state . '"';
         // releases exist, but we failed to get any
         if (isset(PEAR2_Pyrus_Installer::$options['force'])) {
             $this->analyzeForced($info, $param, $pname);
+            $this->checkDeprecated($info);
+            return $info;
+        }
+
+        if (isset($info['php']) && $info['php']) {
+            // package download failed because the package requires a higher PHP
+            // version than our own
+            throw new PEAR2_Pyrus_Package_Exception('Failed to download ' .
+                $pname['channel'] . '/' . $pname['package'] .
+                ', latest release is version ' . $info['php']['v'] .
+                ', but it requires PHP version "' .
+                $info['php']['m'] . '", use "' .
+                PEAR2_Pyrus_Config::parsedPackageNameToString(
+                    array('channel' => $pname['channel'], 'package' => $pname['package'],
+                    'version' => $info['php']['v'])) . '" to install');
+        }
+
+        // construct helpful error message
+        if (isset($pname['version'])) {
+            $vs = ', version "' . $pname['version'] . '"';
+        } elseif (isset($pname['state'])) {
+            $vs = ', stability "' . $pname['state'] . '"';
         } else {
-            if (isset($info['php']) && $info['php']) {
-                // package download failed because the package requires a higher PHP
-                // version than our own
-                throw new PEAR2_Pyrus_Package_Exception('Failed to download ' .
-                    $pname['channel'] . '/' . $pname['package'] .
-                    ', latest release is version ' . $info['php']['v'] .
-                    ', but it requires PHP version "' .
-                    $info['php']['m'] . '", use "' .
-                    PEAR2_Pyrus_Config::parsedPackageNameToString(
-                        array('channel' => $pname['channel'], 'package' => $pname['package'],
-                        'version' => $info['php']['v'])) . '" to install');
-            }
-            // construct helpful error message
-            if (isset($pname['version'])) {
-                $vs = ', version "' . $pname['version'] . '"';
-            } elseif (isset($pname['state'])) {
-                $vs = ', stability "' . $pname['state'] . '"';
-            } else {
-                $vs = ' within preferred state "' . PEAR2_Pyrus_Config::current()->preferred_state . '"';
-            }
-            // this is only set by the "download-all" command
-            if (isset(PEAR2_Pyrus_Installer::$options['ignorepreferred_state'])) {
-                throw new PEAR2_Pyrus_Package_Exception(
-                    'Failed to download ' . $pname['channel'] . '/' . $pname['package'] . '-'
-                     . $vs .
-                    ', latest release is version ' . $info['version'] .
-                    ', stability "' . $info['info']->stability['release'] . '", use "' .
-                    $pname['channel'] . '/' . $pname['package'] . '-' .
-                    $info['version'] . '" to install');
-            }
+            $vs = ' within preferred state "' . PEAR2_Pyrus_Config::current()->preferred_state . '"';
+        }
+
+        // this is only set by the "download-all" command
+        if (isset(PEAR2_Pyrus_Installer::$options['ignorepreferred_state'])) {
             throw new PEAR2_Pyrus_Package_Exception(
-                'Failed to download ' . $pname['channel'] . '/' . $pname['package']
+                'Failed to download ' . $pname['channel'] . '/' . $pname['package'] . '-'
                  . $vs .
                 ', latest release is version ' . $info['version'] .
                 ', stability "' . $info['info']->stability['release'] . '", use "' .
                 $pname['channel'] . '/' . $pname['package'] . '-' .
                 $info['version'] . '" to install');
         }
-        $this->checkDeprecated($info);
-        return $info;
+
+        throw new PEAR2_Pyrus_Package_Exception(
+            'Failed to download ' . $pname['channel'] . '/' . $pname['package']
+             . $vs .
+            ', latest release is version ' . $info['version'] .
+            ', stability "' . $info['info']->stability['release'] . '", use "' .
+            $pname['channel'] . '/' . $pname['package'] . '-' .
+            $info['version'] . '" to install');
     }
 
     function analyzeForced($info, $param, $pname)
@@ -382,10 +398,12 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             $vs = ' within preferred state "' . $this->_config->get(
                 'preferred_state') . '"';
         }
+
         if (!isset(PEAR2_Pyrus_Installer::$options['soft'])) {
             PEAR2_Pyrus_Log::log(1, 'WARNING: failed to download ' . $pname['channel'] .
                 '/' . $pname['package'] . $vs . $instead);
         }
+
         // download the latest release
         return $this->getPackageDownloadUrl(
             array('package' => $pname['package'],

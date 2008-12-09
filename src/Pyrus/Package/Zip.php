@@ -38,12 +38,14 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Zip_Exception(
                 'Zip extension is not available');
         }
+
         $this->_packagename = $package;
         $zip = new ZIPArchive;
         if (true !== ($zip->open($package))) {
             throw new PEAR2_Pyrus_Package_Zip_Exception('Could not open ZIP archive ' .
                 $package);
         }
+
         if (false !== ($pxml = $zip->getNameIndex(0))) {
             if (!preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
                       $pxml)) {
@@ -51,6 +53,7 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
                     'is not package.xml, cannot process');
             }
         }
+
         $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
@@ -58,10 +61,12 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
         if (!file_exists($where)) {
             mkdir($where, 0777, true);
         }
+
         $where = realpath($where);
         if (dirname($where . 'a') != $where) {
             $where .= DIRECTORY_SEPARATOR;
         }
+
         $this->_tmpdir = $where;
         $zip->extractTo($where);
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml),
@@ -72,7 +77,10 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
     {
         usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
-            if (!file_exists($fileOrDir)) continue;
+            if (!file_exists($fileOrDir)) {
+                continue;
+            }
+
             if (is_file($fileOrDir)) {
                 unlink($fileOrDir);
             } elseif (is_dir($fileOrDir)) {
@@ -104,6 +112,7 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
         if ($var === 'archivefile') {
             return $this->_packagename;
         }
+
         return parent::__get($var);
     }
 
@@ -112,6 +121,7 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
+
         $extract = $this->_tmpdir . DIRECTORY_SEPARATOR . $file;
         $extract = str_replace('\\', '/', $extract);
         $extract = str_replace('//', '/', $extract);

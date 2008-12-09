@@ -47,6 +47,7 @@ class PEAR2_Pyrus_Package_Creator
                     ' in ' . $pear2ExceptionPath);
             }
         }
+
         if (!$pear2AutoloadPath) {
             if (!($pear2Autoload = @fopen('PEAR2/Autoload.php', 'r', true))) {
                 fclose($pear2Exception);
@@ -63,6 +64,7 @@ class PEAR2_Pyrus_Package_Creator
                     ' in ' . $pear2AutoloadPath);
             }
         }
+
         if (!$pear2MultiErrorsPath) {
             if (!($pear2MultiErrors = @fopen('PEAR2/MultiErrors.php', 'r', true))) {
                 fclose($pear2Exception);
@@ -70,6 +72,7 @@ class PEAR2_Pyrus_Package_Creator
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors.php, please' .
                     ' pass in the path to the constructor');
             }
+
             if (!($pear2MultiErrorsException = @fopen('PEAR2/MultiErrors/Exception.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
@@ -81,12 +84,14 @@ class PEAR2_Pyrus_Package_Creator
             if (dirname($pear2MultiErrorsPath) == dirname($pear2MultiErrorsPath . 'test')) {
                 $pear2MultiErrorsPath .= '/';
             }
+
             if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors.php' .
                     ' in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
             }
+
             if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
@@ -95,6 +100,7 @@ class PEAR2_Pyrus_Package_Creator
                     ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
             }
         }
+
         $this->_handles['src/PEAR2/Autoload.php'] = $pear2Autoload;
         $this->_handles['src/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
         $this->_handles['src/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
@@ -106,6 +112,7 @@ class PEAR2_Pyrus_Package_Creator
                 if ($creator instanceof PEAR2_Pyrus_Package_ICreator) {
                     continue;
                 }
+
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Invalid ' .
                     'PEAR2 package creator passed into PEAR2_Pyrus_Package_Creator');
             }
@@ -132,6 +139,7 @@ class PEAR2_Pyrus_Package_Creator
         foreach ($this->_creators as $creator) {
             $creator->init();
         }
+
         $packagexml = 'package-' . $package->channel . '-' . $package->name . '-' .
             $package->version['release'] . '.xml';
         if (self::VERSION === '@' . 'PACKAGE_VERSION@') {
@@ -140,11 +148,13 @@ class PEAR2_Pyrus_Package_Creator
         } else {
             $package->packagerversion = self::VERSION;
         }
-        $packageingstr = (string) new PEAR2_Pyrus_XMLWriter(
-            $package->toArray(true)); // get packaging package.xml
+
+        // get packaging package.xml
+        $packageingstr = (string) new PEAR2_Pyrus_XMLWriter($package->toArray(true));
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
         }
+
         // $packageat is the relative path within the archive
         // $info is an array of format:
         // array('attribs' => array('name' => ...)[, 'tasks:blah' ...])
@@ -157,10 +167,12 @@ class PEAR2_Pyrus_Package_Creator
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Invalid path, cannot' .
                     ' save a root path ' . $packageat);
             }
+
             if (preg_match('@^\.\.?/|/\.\.?\\z|/\.\./@', $packageat)) {
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Invalid path, cannot' .
                     ' use directory reference . or .. ' . $packageat);
             }
+
             $alreadyPackaged[$packageat] = true;
             $contents = $package->getFileContents($info['attribs']['name']);
             $globalreplace = array('attribs' =>
@@ -176,8 +188,8 @@ class PEAR2_Pyrus_Package_Creator
             } else {
                 $info['tasks:replace'] = $globalreplace;
             }
-            foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package) as
-                     $task) {
+
+            foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package) as $task) {
                 // do pre-processing of file contents
                 try {
                     // TODO: get last installed version into that last "null"
@@ -190,29 +202,36 @@ class PEAR2_Pyrus_Package_Creator
                     // TODO: handle exceptions
                 }
             }
+
             foreach ($this->_creators as $creator) {
                 $creator->mkdir(dirname($packageat));
                 $creator->addFile($packageat, $contents);
             }
         }
+
         $creator->mkdir('src/PEAR2');
         foreach ($this->_handles as $path => $stream) {
             if (isset($alreadyPackaged[$path])) {
                 continue; // we're packaging this package
             }
+
             foreach ($this->_creators as $creator) {
                 $creator->addFile($path, $stream);
             }
+
             fclose($stream);
         }
+
         foreach ($this->_creators as $creator) {
             if (isset($alreadyPackaged['src/PEAR2/MultiErrors/Exception.php'])) {
                 continue; // we're packaging MultiErrors package
             }
+
             $creator->mkdir('src/PEAR2/MultiErrors');
             $creator->addFile('src/PEAR2/MultiErrors/Exception.php',
                 "<?php\nclass PEAR2_MultiErrors_Exception extends PEAR2_Exception {}");
         }
+
         foreach ($extrafiles as $path => $filename) {
             $path = str_replace('\\', '/', $path);
             $path = str_replace('//', '/', $path);
@@ -221,25 +240,31 @@ class PEAR2_Pyrus_Package_Creator
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Invalid path, cannot' .
                     ' save a root path ' . $path);
             }
+
             if (preg_match('@^\.\.?/|/\.\.?\\z|/\.\./@', $path)) {
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Invalid path, cannot' .
                     ' use directory reference . or .. ' . $path);
             }
+
             if (isset($alreadyPackaged[$path])) {
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Path ' . $path .
                     'has already been added, and cannot be overwritten');
             }
+
             $alreadyPackaged[$path] = true;
             if (!@file_exists($filename) || !($fp = @fopen($filename, 'rb'))) {
                 throw new PEAR2_Pyrus_Package_Creator_Exception('Extra file ' .
                     $filename . ' does not exist or cannot be read');
             }
+
             foreach ($this->_creators as $creator) {
                 $creator->mkdir(dirname($path));
                 $creator->addFile($path, $fp);
             }
+
             fclose($fp);
         }
+
         foreach ($this->_creators as $creator) {
             $creator->close();
         }

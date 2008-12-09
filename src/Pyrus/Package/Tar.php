@@ -61,9 +61,11 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 }
                 stream_filter_append($this->_fp, 'bzip2.decompress');
         }
+
         if (!$this->_fp) {
             throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package ' . $package);
         }
+
         $packagexml = $this->_extract();
         parent::__construct(new PEAR2_Pyrus_PackageFile($packagexml), $parent);
     }
@@ -72,7 +74,10 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     {
         usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
-            if (!file_exists($fileOrDir)) continue;
+            if (!file_exists($fileOrDir)) {
+                continue;
+            }
+
             if (is_file($fileOrDir)) {
                 unlink($fileOrDir);
             } elseif (is_dir($fileOrDir)) {
@@ -129,6 +134,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
+
         $extract = '';
         if ($this->_BCpackage) {
             // old fashioned PEAR 1.x packages put everything in Package-Version/
@@ -136,6 +142,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
             $extract = $this->packagefile->info->name . '-' .
                 $this->packagefile->info->version['release'];
         }
+
         $extract = $this->_tmpdir . $extract . DIRECTORY_SEPARATOR . $file;
         $extract = str_replace('\\', '/', $extract);
         $extract = str_replace('//', '/', $extract);
@@ -270,10 +277,12 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         if (!file_exists($where)) {
             mkdir($where, 0777, true);
         }
+
         $where = realpath($where);
         if (dirname($where . 'a') != $where) {
             $where .= DIRECTORY_SEPARATOR;
         }
+
         $this->_tmpdir = $where;
         do {
             $header = fread($this->_fp, 512);
@@ -281,6 +290,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 // end of archive
                 break;
             }
+
             $header = $this->_readHeader($header);
             $extract = $where . $header['filename'];
             $extract = str_replace('\\', '/', $extract);
@@ -291,6 +301,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 self::_addTempDirectory(dirname($extract));
                 mkdir(dirname($extract), 0777, true);
             }
+
             $fp = fopen($extract, 'wb');
             $amount = stream_copy_to_stream($this->_fp, $fp, $this->_internalFileLength);
             if ($amount != $this->_internalFileLength) {
@@ -298,9 +309,11 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                     'Unable to fully extract ' . $header['filename'] . ' from ' .
                     $this->_packagename);
             }
+
             if ($this->_footerLength) {
                 fseek($this->_fp, $this->_footerLength, SEEK_CUR);
             }
+
             if (!$packagexml) {
                 if (preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
                       $header['filename'])) {
@@ -315,12 +328,14 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 }
             }
         } while ($this->_internalFileLength);
+
         fclose($fp);
         fclose($this->_fp);
         if (!$packagexml) {
             throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->_packagename .
                 ' does not contain a package.xml file');
         }
+
         return $packagexml;
     }
 }

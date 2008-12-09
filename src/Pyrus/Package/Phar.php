@@ -40,10 +40,12 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Phar_Exception(
                 'Phar package ' . $package . ' does not exist');
         }
+
         if (!class_exists('Phar')) {
             throw new PEAR2_Pyrus_Package_Phar_Exception(
                 'Phar extension is not available');
         }
+
         $this->_packagename = $package;
         try {
             if (Phar::isValidPharFilename($package, 1)) {
@@ -55,6 +57,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not open Phar archive ' .
                 $package, $e);
         }
+
         $package = str_replace('\\', '/', $package);
         $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
@@ -63,10 +66,12 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         if (!file_exists($where)) {
             mkdir($where, 0777, true);
         }
+
         $where = realpath($where);
         if (dirname($where . 'a') == $where) {
             $where = substr($where, 0, strlen($where) - 1);
         }
+
         $this->_tmpdir = $where;
         try {
             $pxml = $phar->getMetaData();
@@ -96,6 +101,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not extract Phar archive ' .
                 $package, $e);
         }
+
         parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
     }
 
@@ -103,7 +109,10 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
     {
         usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
-            if (!file_exists($fileOrDir)) continue;
+            if (!file_exists($fileOrDir)) {
+                continue;
+            }
+
             if (is_file($fileOrDir)) {
                 unlink($fileOrDir);
             } elseif (is_dir($fileOrDir)) {
@@ -145,6 +154,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         if ($var === 'archivefile') {
             return $this->_packagename;
         }
+
         return parent::__get($var);
     }
 
@@ -153,6 +163,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
+
         $extract = '';
         if ($this->_BCpackage) {
             // old fashioned PEAR 1.x packages put everything in Package-Version/
@@ -160,6 +171,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             $extract = DIRECTORY_SEPARATOR . $this->packagefile->info->name . '-' .
                 $this->packagefile->info->version['release'];
         }
+
         $extract = $this->_tmpdir . $extract . DIRECTORY_SEPARATOR . $file;
         $extract = str_replace('\\', '/', $extract);
         $extract = str_replace('//', '/', $extract);
