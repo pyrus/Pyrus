@@ -44,18 +44,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Pear1 extends PEAR2_Pyrus_Channel impl
         return count($reg->listPackages($this->_parent->name));
     }
 
-    public function resetXmlrpc()
-    {
-        parent::resetXmlrpc();
-        $this->_parent->update($this);
-    }
-
-    public function resetSOAP()
-    {
-        parent::resetSOAP();
-        $this->_parent->update($this);
-    }
-
     public function resetREST()
     {
         parent::resetREST();
@@ -77,18 +65,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Pear1 extends PEAR2_Pyrus_Channel impl
     public function setSSL($ssl = true)
     {
         parent::setSSL($ssl);
-        $this->_parent->update($this);
-    }
-
-    public function setPath($protocol, $path)
-    {
-        parent::setPath($protocol, $path);
-        $this->_parent->update($this);
-    }
-
-    public function addFunction($type, $version, $name)
-    {
-        parent::addFunction($type, $version, $name);
         $this->_parent->update($this);
     }
 

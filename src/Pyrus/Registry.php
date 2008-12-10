@@ -82,9 +82,9 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 
     public function __construct($path, $registries = array('Sqlite', 'Xml'), $readonly = false)
     {
-        $this->path = $path;
+        $this->path     = $path;
         $this->readonly = $readonly;
-        $exceptions = array();
+        $exceptions     = array();
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
@@ -99,11 +99,13 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                 $exceptions[] = $e;
             }
         }
+
         if (!count($this->registries)) {
             throw new PEAR2_Pyrus_Registry_Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
+
         $this->channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
             $registries, $readonly);
     }
@@ -113,6 +115,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install packages, registry is read-only');
         }
+
         foreach ($this->registries as $reg) {
             $reg->install($info);
         }
@@ -123,6 +126,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall packages, registry is read-only');
         }
+
         foreach ($this->registries as $reg) {
             $reg->uninstall($name, $channel);
         }
@@ -142,12 +146,15 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($onlyMain) {
             return $ret;
         }
+
         if (!$ret) {
             if (!$this->parent) {
                 return false;
             }
+
             return $this->parent->exists($package, $channel);
         }
+
         return true;
     }
 
@@ -156,13 +163,16 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($onlyMain) {
             return $this->registries[0]->info($package, $channel, $field);
         }
+
         if ($this->exists($package, $channel, true)) {
             return $this->registries[0]->info($package, $channel, $field);
         }
+
         if ($this->exists($package, $channel, false)) {
             if (!$this->parent) {
                 return null;
             }
+
             // installed in parent registry
             return $this->parent->info($package, $channel, $field);
         }
@@ -203,16 +213,20 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                     }
                 }
             }
+
             return $this->registries[0]->toPackageFile($package, $channel);
         }
+
         if ($onlyMain) {
             return null;
         }
+
         if ($this->exists($package, $channel, false)) {
             if (!$this->parent) {
                 return null;
             }
             // installed in parent registry
+
             return $this->parent->toPackageFile($package, $channel);
         }
     }
@@ -223,9 +237,11 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         if ($var == 'package') {
             return $this->registries[0]->package;
         }
+
         if ($var == 'channel') {
             return $this->channelRegistry;
         }
+
         if ($var == 'registries') {
             return $this->registries;
         }

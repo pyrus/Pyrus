@@ -86,33 +86,17 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         return false;
     }
 
-
-    /**
-     * @param string xmlrpc or soap
-     */
-    function getPath($protocol)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            return false;
-        }
-
-        if (isset($this->_info[$protocol]['attribs']['path'])) {
-            return $this->_info[$protocol]['attribs']['path'];
-        }
-
-        return $protocol . '.php';
-    }
-
     /**
      * @param string protocol type (xmlrpc, soap)
      * @return array|false
      */
     function getFunctions($protocol)
     {
-        if (!in_array($protocol, array('rest', 'xmlrpc', 'soap'), true)) {
+        if (!in_array($protocol, array('rest'), true)) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $protocol);
         }
+
         if ($this->parentChannel->getName() == '__uri') {
             return false;
         }
@@ -181,40 +165,6 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     }
 
     /**
-     * Set the path to the entry point for a protocol
-     * @param xmlrpc|soap
-     * @param string
-     */
-    function setPath($protocol, $path)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-        $this->_info[$protocol]['attribs']['path'] = $path;
-    }
-
-    /**
-     * Empty all xmlrpc definitions
-     */
-    function resetXmlrpc()
-    {
-        if (isset($this->_info['xmlrpc'])) {
-            unset($this->_info['xmlrpc']);
-        }
-    }
-
-    /**
-     * Empty all SOAP definitions
-     */
-    function resetSOAP()
-    {
-        if (isset($this->_info['soap'])) {
-            unset($this->_info['soap']);
-        }
-    }
-
-    /**
      * Empty all REST definitions
      */
     function resetREST()
@@ -222,29 +172,6 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
         if (isset($this->_info['rest'])) {
             unset($this->_info['rest']);
         }
-    }
-
-    /**
-     * Add a protocol to a mirror's provides section
-     * @param string mirror name (server)
-     * @param string protocol type
-     * @param string protocol version
-     * @param string protocol name, if any
-     */
-    function addFunction($type, $version, $name)
-    {
-        if (!in_array($type, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
-                $type);
-        }
-        $set = array('attribs' => array('version' => $version), '_content' => $name);
-
-        if (!isset($this->_info[$type]['function'])) {
-            $this->_info[$type]['function'] = $set;
-        } elseif (!isset($this->_info[$type]['function'][0])) {
-            $this->_info[$type]['function'] = array($this->_info[$type]['function']);
-        }
-        $this->_info[$type]['function'][] = $set;
     }
 
     /**

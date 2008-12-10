@@ -119,25 +119,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *  server TEXT NOT NULL,
      *  ssl integer NOT NULL default 0,
      *  port integer NOT NULL default 80,
-     *  xmlrpcpath TEXT NOT NULL,
-     *  soappath TEXT NOT NULL,
      *  PRIMARY KEY (channel, server)
-     * );
-     *
-     * CREATE TABLE channel_server_xmlrpc (
-     *  channel TEXT NOT NULL,
-     *  server TEXT NOT NULL,
-     *  function TEXT NOT NULL,
-     *  version TEXT(20) NOT NULL,
-     *  PRIMARY KEY (channel, server, function, version)
-     * );
-     *
-     * CREATE TABLE channel_server_soap (
-     *  channel TEXT NOT NULL,
-     *  server TEXT NOT NULL,
-     *  function TEXT NOT NULL,
-     *  version TEXT(20) NOT NULL,
-     *  PRIMARY KEY (channel, server, function, version)
      * );
      *
      * CREATE TABLE channel_server_rest (
@@ -179,12 +161,6 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *     DELETE FROM channel_servers
      *     WHERE
      *       channel_servers.channel = old.channel;
-     *     DELETE FROM channel_server_xmlrpc
-     *     WHERE
-     *       channel_server_xmlrpc.channel = old.channel;
-     *     DELETE FROM channel_server_soap
-     *     WHERE
-     *       channel_server_soap.channel = old.channel;
      *     DELETE FROM channel_server_rest
      *     WHERE
      *       channel_server_rest.channel = old.channel;
@@ -213,22 +189,6 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
      *   FROM package_dependencies_exclude
      *
      * CREATE VIEW protocols AS
-     *  SELECT
-     *      channel,
-     *      server,
-     *      function,
-     *      version,
-     *      "xmlrpc" as protocol
-     *  FROM channel_server_xmlrpc
-     *  UNION
-     *  SELECT
-     *      channel,
-     *      server,
-     *      function,
-     *      version,
-     *      "soap" as protocol
-     *  FROM channel_server_soap
-     *  UNION
      *  SELECT
      *      channel,
      *      server,
@@ -363,37 +323,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
            server TEXT NOT NULL,
            ssl integer NOT NULL default 0,
            port integer NOT NULL default 80,
-           xmlrpcpath TEXT NOT NULL,
-           soappath TEXT NOT NULL,
            PRIMARY KEY (channel, server)
-          );';
-        $worked = @$database->queryExec($query, $error);
-        if (!$worked) {
-            @$database->queryExec('ROLLBACK');
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
-        }
-
-        $query = '
-          CREATE TABLE channel_server_xmlrpc (
-           channel TEXT NOT NULL,
-           server TEXT NOT NULL,
-           function TEXT NOT NULL,
-           version TEXT(20) NOT NULL,
-           PRIMARY KEY (channel, server, function, version)
-          );';
-        $worked = @$database->queryExec($query, $error);
-        if (!$worked) {
-            @$database->queryExec('ROLLBACK');
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
-        }
-
-        $query = '
-          CREATE TABLE channel_server_soap (
-           channel TEXT NOT NULL,
-           server TEXT NOT NULL,
-           function TEXT NOT NULL,
-           version TEXT(20) NOT NULL,
-           PRIMARY KEY (channel, server, function, version)
           );';
         $worked = @$database->queryExec($query, $error);
         if (!$worked) {
@@ -473,12 +403,6 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
               DELETE FROM channel_servers
               WHERE
                 channel_servers.channel = old.channel;
-              DELETE FROM channel_server_xmlrpc
-              WHERE
-                channel_server_xmlrpc.channel = old.channel;
-              DELETE FROM channel_server_soap
-              WHERE
-                channel_server_soap.channel = old.channel;
               DELETE FROM channel_server_rest
               WHERE
                 channel_server_rest.channel = old.channel;
@@ -522,22 +446,6 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
 
         $query = '
           CREATE VIEW protocols AS
-            SELECT
-                channel,
-                server,
-                function,
-                version,
-                "xmlrpc" as protocol
-            FROM channel_server_xmlrpc
-            UNION
-            SELECT
-                channel,
-                server,
-                function,
-                version,
-                "soap" as protocol
-            FROM channel_server_soap
-            UNION
             SELECT
                 channel,
                 server,

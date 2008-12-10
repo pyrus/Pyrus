@@ -183,71 +183,21 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     }
 
     /**
-     * @param string xmlrpc or soap
-     */
-    function getPath($protocol)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-        if (isset($this->channelInfo['servers']['primary'][$protocol]['attribs']['path'])) {
-            return $this->channelInfo['servers']['primary'][$protocol]['attribs']['path'];
-        }
-        return $protocol . '.php';
-    }
-
-    /**
      * @param string protocol type (xmlrpc, soap)
      * @return array|false
      */
     function getFunctions($protocol)
     {
-        if (!in_array($protocol, array('rest', 'xmlrpc', 'soap'), true)) {
+        if (!in_array($protocol, array('rest'), true)) {
             throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
                 $protocol);
         }
+
         if ($this->getName() == '__uri') {
             return false;
         }
-        if ($protocol == 'rest') return $this->getREST();
-        if (isset($this->channelInfo['servers']['primary'][$protocol]['function'])) {
-            return $this->channelInfo['servers']['primary'][$protocol]['function'];
-        }
 
-        return false;
-    }
-
-    /**
-     * @param string protocol type
-     * @param string protocol name
-     * @param string version
-     * @return boolean
-     */
-    function supports($type, $name = null, $version = '1.0')
-    {
-        $protocols = $this->getFunctions($type);
-        if (!$protocols) {
-            return false;
-        }
-
-        foreach ($protocols as $protocol) {
-            if ($protocol['attribs']['version'] != $version) {
-                continue;
-            }
-
-            if ($name === null) {
-                return true;
-            }
-
-            if ($protocol['_content'] != $name) {
-                continue;
-            }
-
-            return true;
-        }
-
-        return false;
+        return $this->getREST();
     }
 
     /**
@@ -328,26 +278,6 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     }
 
     /**
-     * Empty all xmlrpc definitions
-     */
-    function resetXmlrpc()
-    {
-        if (isset($this->channelInfo['servers']['primary']['xmlrpc'])) {
-            unset($this->channelInfo['servers']['primary']['xmlrpc']);
-        }
-    }
-
-    /**
-     * Empty all SOAP definitions
-     */
-    function resetSOAP()
-    {
-        if (isset($this->channelInfo['servers']['primary']['soap'])) {
-            unset($this->channelInfo['servers']['primary']['soap']);
-        }
-    }
-
-    /**
      * Empty all REST definitions
      */
     function resetREST()
@@ -413,19 +343,6 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     }
 
     /**
-     * Set the path to the entry point for a protocol
-     * @param xmlrpc|soap
-     * @param string
-     */
-    function setPath($protocol, $path)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' . $protocol);
-        }
-        $this->channelInfo['servers']['primary'][$protocol]['attribs']['path'] = $path;
-    }
-
-    /**
      * @param string
      * @return boolean success
      * @error PEAR_CHANNELFILE_ERROR_NO_SUMMARY
@@ -468,12 +385,15 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (isset($this->channelInfo['localalias'])) {
             return $this->channelInfo['localalias'];
         }
+
         if (isset($this->channelInfo['suggestedalias'])) {
             return $this->channelInfo['suggestedalias'];
         }
+
         if (isset($this->channelInfo['name'])) {
             return $this->channelInfo['name'];
         }
+
         return '';
     }
 
@@ -491,35 +411,6 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
         $this->channelInfo['validatepackage'] = array('_content' => $validateclass);
         $this->channelInfo['validatepackage']['attribs'] = array('version' => $version);
-    }
-
-    /**
-     * Add a protocol to the provides section
-     * @param string protocol type
-     * @param string protocol version
-     * @param string protocol name
-     * @return bool
-     */
-    function addFunction($type, $version, $name)
-    {
-        if (!in_array($type, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
-                $type);
-        }
-        $set = array('attribs' => array('version' => $version), '_content' => $name);
-        if (!isset($this->channelInfo['servers']['primary'][$type]['function'])) {
-            if (!isset($this->channelInfo['servers'])) {
-                $this->channelInfo['servers'] = array('primary' =>
-                    array($type => array()));
-            } elseif (!isset($this->channelInfo['servers']['primary'])) {
-                $this->channelInfo['servers']['primary'] = array($type => array());
-            }
-            $this->channelInfo['servers']['primary'][$type]['function'] = $set;
-        } elseif (!isset($this->channelInfo['servers']['primary'][$type]['function'][0])) {
-            $this->channelInfo['servers']['primary'][$type]['function'] = array(
-                $this->channelInfo['servers']['primary'][$type]['function']);
-        }
-        $this->channelInfo['servers']['primary'][$type]['function'][] = $set;
     }
 
     /**

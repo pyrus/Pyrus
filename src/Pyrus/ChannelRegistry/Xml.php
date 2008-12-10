@@ -69,6 +69,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if ($channel instanceof PEAR2_Pyrus_IChannel) {
             $channel = $channel->getName();
         }
+
         return $this->_path . DIRECTORY_SEPARATOR . 'channel-' .
             $this->_mung($channel) . '.xml';
     }
@@ -84,9 +85,11 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if (file_exists($this->getChannelFile($channel))) {
             return true;
         }
+
         if ($strict) {
             return false;
         }
+
         return file_exists($this->getAliasFile($channel));
     }
 
@@ -95,11 +98,13 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
         }
+
         $file = $this->getChannelFile($channel);
         if (@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                 $channel->getName() . ' has already been discovered');
         }
+
         file_put_contents($file, (string) $channel);
         $alias = $channel->getAlias();
         file_put_contents($this->getAliasFile($alias), $channel->getName());
@@ -110,11 +115,13 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot update channel, registry is read-only');
         }
+
         $file = $this->getChannelFile($channel);
         if (!@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                 $channel->getName() . ' is unknown');
         }
+
         file_put_contents($file, (string) $channel);
         $alias = $channel->getAlias();
         file_put_contents($this->getAliasFile($alias), $channel->getName());
@@ -125,6 +132,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
         }
+
         @unlink($this->getChannelFile($channel));
         @unlink($this->getAliasFile($channel->getAlias()));
     }
@@ -134,13 +142,13 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if ($this->exists($channel, $strict)) {
             $data = @file_get_contents($this->getChannelFile($channel));
             return new PEAR2_Pyrus_ChannelRegistry_Channel_Xml($this, $data);
-        } else {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
         }
+
+        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
     }
 
     function __get($value)
-     {
+    {
          switch ($value) {
              case 'mirrors' :
                  if (!isset($this->_channelInfo['servers']['mirror'][0])) {
@@ -148,14 +156,17 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
                                    $this->_channelInfo['servers']['mirror'], $this,
                                   $this->_parent));
                  }
+
                  $ret = array();
                  foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
                      $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
                            $this->_channelInfo['servers']['mirror'][$i], $this,
                            $this->_parent);
                 }
+
                 return $ret;
         }
+
         if (method_exists($this, "get$value")) {
             $gv = "get$value";
             return $this->$gv();
@@ -177,6 +188,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
                                 '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
             $ret[] = $this->get($this->_unmung($file));
         }
+
         return $ret;
     }
 }

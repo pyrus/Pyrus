@@ -39,18 +39,6 @@ class PEAR2_Pyrus_ChannelRegistry_Mirror_Xml extends PEAR2_Pyrus_Channel_Mirror
         return $chan;
     }
 
-    public function resetXmlrpc()
-    {
-        parent::resetXmlrpc();
-        $this->_parent->update($this->parentChannel);
-    }
-
-    public function resetSOAP()
-    {
-        parent::resetSOAP();
-        $this->_parent->update($this->parentChannel);
-    }
-
     public function resetREST()
     {
         parent::resetREST();

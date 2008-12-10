@@ -97,47 +97,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         return $this->database->singleQuery($sql);
     }
 
-    /**
-     * @param string xmlrpc or soap
-     */
-    function getPath($protocol)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-
-        $sql = 'SELECT ' . $protocol . 'path FROM channel_servers WHERE
-              channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-              server = \'' . sqlite_escape_string($this->mirror) . '\'';
-        $a = $this->database->singleQuery($sql);
-        if (!$a) {
-            return $protocol . '.php';
-        }
-    }
-
-    /**
-     * @param string protocol type (xmlrpc, soap)
-     * @return array|false
-     */
-    function getFunctions($protocol)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-
-        $sql = 'SELECT * FROM channel_server_' . $protocol . '
-            WHERE channel = \'' . sqlite_escape_string($this->channelname) . '\ AND
-            server = \'' . sqlite_escape_string($this->mirror) . '\'';
-        $functions = $this->database->arrayQuery($sql, SQLITE_ASSOC);
-        $ret = array();
-        foreach ($functions as $func) {
-            $ret[] = array('attribs' => array('version' => $func['version']), '_content' => $func['function']);
-        }
-        return $ret;
-    }
-
     function getValidationPackage()
     {
         $sql = 'SELECT validatepackage ' .
@@ -234,30 +193,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         return (bool) $this->database->singleQuery($sql);
     }
 
-    public function supports($protocol, $name = null, $version = '1.0')
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-
-        if ($name === null) {
-            $sql = 'SELECT COUNT(*) FROM channel_server_' . $protocol . '
-                WHERE
-                  channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-                  server = \'' . sqlite_escape_string($this->mirror) . '\'';
-            return (bool) $this->database->singleQuery($sql);
-        }
-
-        $sql = '
-            SELECT COUNT(*) FROM channel_server_' . $protocol . ' WHERE
-              channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-              server = \'' . sqlite_escape_string($this->mirror) . '\' AND
-              function = \'' . sqlite_escape_string($name) . '\' AND
-              version = \'' . sqlite_escape_string($version) . '\'';
-        return (bool) $this->database->singleQuery($sql);
-    }
-
     /**
      * Get the URL to access a base resource.
      *
@@ -273,30 +208,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
               server = \'' . sqlite_escape_string($this->mirror) . '\' AND
               type = \'' . sqlite_escape_string($resourceType) . '\'';
         return $this->database->singleQuery($sql);
-    }
-
-    /**
-     * Empty all xmlrpc definitions
-     */
-    function resetXmlrpc()
-    {
-        $sql = '
-            DELETE FROM channel_server_xmlrpc WHERE
-              channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-              server = \'' . sqlite_escape_string($this->mirror) . '\'';
-        return $this->database->queryExec($sql);
-    }
-
-    /**
-     * Empty all SOAP definitions
-     */
-    function resetSOAP()
-    {
-        $sql = '
-            DELETE FROM channel_server_soap WHERE
-              channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-              server = \'' . sqlite_escape_string($this->mirror) . '\'';
-        return $this->database->queryExec($sql);
     }
 
     /**
@@ -334,46 +245,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
               channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
               server = \'' . sqlite_escape_string($this->mirror) . '\'';
         return $this->database->queryExec($sql);
-    }
-
-    function setPath($protocol, $path)
-    {
-        if (!in_array($protocol, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-
-        $sql = '
-            UPDATE channel_server_' . $protocol . '
-            SET path = \'' . sqlite_escape_string($path) . '\'WHERE
-              channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-              server = \'' . sqlite_escape_string($this->mirror) . '\'';
-        return $this->database->queryExec($sql);
-    }
-
-    function addFunction($type, $version, $name)
-    {
-        if (!in_array($type, array('xmlrpc', 'soap'))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
-                $type);
-        }
-
-        $sql = '
-            INSERT INTO channel_server_' . $type . '
-             (channel, server, function, version)
-             VALUES(\'' . sqlite_escape_string($this->channelname) . '\',
-                    \'' . sqlite_escape_string($this->mirror) . '\',
-                    \'' . sqlite_escape_string($name) . '\',
-                    \'' . sqlite_escape_string($version) . '\'';
-        if (!$this->database->queryExec($sql)) {
-            $sql = '
-                UPDATE channel_server_' . $type . '
-                SET version = \'' . sqlite_escape_string($version) . '\' WHERE
-                    channel = \'' . sqlite_escape_string($this->channelname) . '\' AND
-                    function = \'' . sqlite_escape_string($name) . '\' AND
-                    server = \'' . sqlite_escape_string($this->mirror) . '\'';
-            $this->database->queryExec($sql);
-        }
     }
 
     function setBaseUrl($resourceType, $url)

@@ -44,18 +44,6 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Xml extends PEAR2_Pyrus_Channel implem
         return count($reg->listPackages($this->_parent->name));
     }
 
-    public function resetXmlrpc()
-    {
-        parent::resetXmlrpc();
-        $this->_parent->update($this);
-    }
-
-    public function resetSOAP()
-    {
-        parent::resetSOAP();
-        $this->_parent->update($this);
-    }
-
     public function resetREST()
     {
         parent::resetREST();

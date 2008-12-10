@@ -40,24 +40,24 @@ class PEAR2_Pyrus_Registry_Channel extends PEAR2_Pyrus_Registry implements Array
     }
 
     function offsetGet($offset)
- 	{
- 	    $this->_channelname = $offset;
- 	    $ret = clone $this;
- 	    return $ret;
- 	}
+    {
+        $this->_channelname = $offset;
+        $ret = clone $this;
+        return $ret;
+    }
 
- 	function offsetSet($offset, $value)
- 	{
- 	    if ($offset == 'update') {
- 	        $this->updateChannel($value);
- 	    }
- 	    if ($offset == 'add') {
- 	        $this->addChannel($value);
- 	    }
- 	}
+    function offsetSet($offset, $value)
+    {
+        if ($offset == 'update') {
+            $this->updateChannel($value);
+        }
+        if ($offset == 'add') {
+            $this->addChannel($value);
+        }
+    }
 
- 	function offsetUnset($offset)
- 	{
- 	    $this->deleteChannel($offset);
- 	}
+    function offsetUnset($offset)
+    {
+        $this->deleteChannel($offset);
+    }
 }
