@@ -31,6 +31,7 @@ class PEAR2_Pyrus_FileTransactions_Rename implements PEAR2_Pyrus_IFileTransactio
         if (!file_exists($data[0])) {
             $errors[] = "cannot rename file $data[0], doesn't exist";
         }
+
         // check that dest dir. is writable
         if (!is_writable(dirname($data[1]))) {
             $errors[] = "permission denied ($type): $data[1]";
@@ -39,26 +40,24 @@ class PEAR2_Pyrus_FileTransactions_Rename implements PEAR2_Pyrus_IFileTransactio
 
     public function commit($data, &$errors)
     {
-        if (file_exists($data[1])) {
-            $test = @unlink($data[1]);
-        } else {
-            $test = null;
-        }
+        $test = file_exists($data[1]) ? @unlink($data[1]) : null;
         if (!$test && file_exists($data[1])) {
+            $extra = '';
             if ($data[2]) {
                 $extra = ', this extension must be installed manually.  Rename to "' .
                     basename($data[1]) . '"';
-            } else {
-                $extra = '';
             }
+
             if (!isset($this->_options['soft'])) {
                 PEAR2_Pyrus_Log::log(1, 'Could not delete ' . $data[1] . ', cannot rename ' .
                     $data[0] . $extra);
             }
+
             if (!isset($this->_options['ignore-errors'])) {
                 return false;
             }
         }
+
         // permissions issues with rename - copy() is far superior
         $perms = @fileperms($data[0]);
         if (!@copy($data[0], $data[1])) {
@@ -66,6 +65,7 @@ class PEAR2_Pyrus_FileTransactions_Rename implements PEAR2_Pyrus_IFileTransactio
                 ' ' . $php_errormsg);
             return false;
         }
+
         // copy over permissions, otherwise they are lost
         @chmod($data[1], $perms);
         @unlink($data[0]);

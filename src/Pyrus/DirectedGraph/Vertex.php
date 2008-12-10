@@ -43,6 +43,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
             throw new PEAR2_Pyrus_DirectedGraph_Exception('data must be an object, was ' .
                 gettype($data));
         }
+
         $this->data = $data;
     }
 
@@ -69,6 +70,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
         if ($color === null) {
             return $this->color;
         }
+
         $this->color = $color;
     }
 
@@ -80,6 +82,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
                 --$count;
             }
         }
+
         return $count;
     }
 

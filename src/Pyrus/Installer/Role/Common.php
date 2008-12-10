@@ -70,6 +70,7 @@ class PEAR2_Pyrus_Installer_Role_Common
         if ($role === 'php') {
             $role = 'src'; // we use "src" as the directory for role=php
         }
+
         $file = $atts['name'];
         // strip role from file path
         // so src/Path/To/File.php becomes Path/To/File.php,
@@ -81,15 +82,18 @@ class PEAR2_Pyrus_Installer_Role_Common
                 $newpath = $file;
             }
         }
+
         if ($newpath) {
             $file = $newpath;
         }
+
         if ($roleInfo['honorsbaseinstall']) {
             $dest_dir = $role;
             if (array_key_exists('baseinstalldir', $atts)) {
                 if ($atts['baseinstalldir'] != '/') {
                     $dest_dir .= '/' . $atts['baseinstalldir'];
                 }
+
                 if (strlen($atts['baseinstalldir'])) {
                     $dest_dir .= '/';
                 }
@@ -113,6 +117,7 @@ class PEAR2_Pyrus_Installer_Role_Common
         } else {
             $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name . '/';
         }
+
         return $dest_dir . $file;
     }
 
@@ -135,10 +140,10 @@ class PEAR2_Pyrus_Installer_Role_Common
         if (!$roleInfo['locationconfig']) {
             return false;
         }
+
         $where = $this->config->{$roleInfo['locationconfig']};
         if ($roleInfo['honorsbaseinstall']) {
-            $dest_dir = $save_destdir =
-                $where;
+            $dest_dir = $save_destdir = $where;
             if (!empty($atts['baseinstalldir'])) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $atts['baseinstalldir'];
             }
@@ -152,6 +157,7 @@ class PEAR2_Pyrus_Installer_Role_Common
             $dest_dir = $save_destdir = $where .
                 DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
+
         if (dirname($file) != '.' && empty($atts['install-as'])) {
             $newpath = dirname($file);
             if ($pkg->isNewPackage()) {
@@ -173,11 +179,14 @@ class PEAR2_Pyrus_Installer_Role_Common
             }
             $dest_dir .= DIRECTORY_SEPARATOR . $newpath;
         }
+
+        $dest_file = $dest_dir . DIRECTORY_SEPARATOR;
         if (empty($atts['install-as'])) {
-            $dest_file = $dest_dir . DIRECTORY_SEPARATOR . basename($file);
+            $dest_file .= basename($file);
         } else {
-            $dest_file = $dest_dir . DIRECTORY_SEPARATOR . $atts['install-as'];
+            $dest_file .= $atts['install-as'];
         }
+
         $orig_file = $pkg->getFilePath($file);
 
         // Clean up the DIRECTORY_SEPARATOR mess
@@ -233,4 +242,3 @@ class PEAR2_Pyrus_Installer_Role_Common
         return $roleInfo['phpextension'];
     }
 }
-?>

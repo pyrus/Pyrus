@@ -174,10 +174,19 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
      */
     private function _save()
     {
-        if (!$this->_role) return;
-        if (!$this->_developer) return;
+        if (!$this->_role) {
+            return;
+        }
+
+        if (!$this->_developer) {
+            return;
+        }
+
         if (!isset($this->_info['user']) || !isset($this->_info['name']) ||
-              !isset($this->_info['email']) || !isset($this->_info['active'])) return;
+              !isset($this->_info['email']) || !isset($this->_info['active'])) {
+            return;
+        }
+
         $role = $this->locateMaintainerRole($this->_developer);
         if (!$role) {
             // create new
@@ -185,14 +194,17 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
                 $this->_packageInfo[$this->_role] = $this->_info;
                 return;
             }
+
             if (!isset($this->_packageInfo[$this->_role][0])) {
                 $this->_packageInfo[$this->_role] = array($this->_packageInfo[$this->_role],
                     $this->_info);
             } else {
                 $this->_packageInfo[$this->_role][] = $this->_info;
             }
+
             return;
         }
+
         // remove the maintainer from their old role
         if ($role !== $this->_role) {
             if (!isset($this->_packageInfo[$role][0])) {
@@ -211,10 +223,12 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
                 }
             }
         }
+
         if (!isset($this->_packageInfo[$this->_role])) {
             $this->_packageInfo[$this->_role] = $this->_info;
             return;
         }
+
         if (!isset($this->_packageInfo[$this->_role][0])) {
             if ($role !== $this->_role) {
                 // We are a new entry into this role, and now there are 2 of us

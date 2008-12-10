@@ -176,6 +176,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
             if ($var === null) {
                 $var = 0;
             }
+
             if (is_int($var)) {
                 if (!isset($this->_packageInfo[$var])) {
                     if (count($this->_packageInfo)) {
@@ -185,10 +186,12 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                         $this->_packageInfo[$var] = array();
                     }
                 }
+
                 return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
                     $this->_packageInfo[$var], $this->_filelist);
             }
         }
+
         if ($this->_installcondition === 'extension') {
             if (!is_string($var)) {
                 throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('extension names must be ' .
@@ -206,15 +209,20 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                 throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('extension can only be set to' .
                     ' array or string');
             }
+
             $this->_setExtension($info);
             return;
         }
+
         switch ($var) {
             case 'php' :
                 $info = array();
                 if (is_array($value)) {
                     foreach (array('min', 'max', 'exclude') as $index) {
-                        if (!isset($value[$index])) continue;
+                        if (!isset($value[$index])) {
+                            continue;
+                        }
+
                         $info[$index] = $value[$index];
                     }
                 } elseif (is_string($value)) {
@@ -226,24 +234,32 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                 $info = array();
                 if (is_array($value)) {
                     foreach (array('pattern', 'conflicts') as $index) {
-                        if (!isset($value[$index])) continue;
+                        if (!isset($value[$index])) {
+                            continue;
+                        }
+
                         $info[$index] = $value[$index];
                     }
                 } elseif (is_string($value)) {
                     $info = array('pattern' => $value);
                 }
+
                 $this->_packageInfo = $value;
                 break;
             case 'os' :
                 $info = array();
                 if (is_array($value)) {
                     foreach (array('name', 'conflicts') as $index) {
-                        if (!isset($value[$index])) continue;
+                        if (!isset($value[$index])) {
+                            continue;
+                        }
+
                         $info[$index] = $value[$index];
                     }
                 } elseif (is_string($value)) {
                     $info = array('name' => $value);
                 }
+
                 $this->_packageInfo = $value;
                 break;
             case 'extension' :
@@ -278,17 +294,21 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
             throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('file ignore is not supported' .
                 ' within installconditions');
         }
+
         if (isset($this->_filelist[$file])) {
             if (!isset($this->_packageInfo['ignore'])) {
                 $this->_packageInfo['ignore'] = array('attribs' => array('name' => $file));
                 return;
             }
+
             if (!isset($this->_packageInfo['ignore'][0])) {
                 $this->_packageInfo['ignore'] = array($this->_packageInfo['ignore'],
                     array('attribs' => array('name' => $file)));
             }
+
             $this->_packageInfo['ignore'][] = array('attribs' => array('name' => $file));
         }
+
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
             ' - add to filelist before ignoring');
     }
@@ -298,25 +318,30 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         if (!is_string($file) || !is_string($newname)) {
             throw BadMethodCallException('$file and $newname must be strings');
         }
+
         if ($this->_installcondition) {
             throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('file ignore is not supported' .
                 ' within installconditions');
         }
+
         if (isset($this->_filelist[$file])) {
             if (!isset($this->_packageInfo['install'])) {
                 $this->_packageInfo['install'] = array('attribs' =>
                     array('name' => $file, 'as' => $newname));
                 return;
             }
+
             if (!isset($this->_packageInfo['install'][0])) {
                 $this->_packageInfo['install'] = array($this->_packageInfo['install'],
                     array('attribs' => array('name' => $file, 'as' => $newname)));
                 return;
             }
+
             $this->_packageInfo['install'][] = array('attribs' =>
                 array('name' => $file, 'as' => $newname));
             return;
         }
+
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
             ' - add to filelist before adding install as tag');
     }

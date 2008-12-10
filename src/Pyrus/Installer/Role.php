@@ -39,10 +39,12 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         foreach (self::$_roles as $class => $info) {
             if (!$info['config_vars']) {
                 continue;
             }
+
             $config->addConfigValue($info['config_vars']);
         }
     }
@@ -59,9 +61,11 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         if (!in_array($role, self::getValidRoles($pkg->getPackageType()))) {
             return $a;
         }
+
         $a = 'PEAR2_Pyrus_Installer_Role_' . ucfirst($role);
         return new $a(PEAR2_Pyrus_Config::current());
     }
@@ -80,19 +84,23 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         static $ret = array();
         if ($clear) {
             $ret = array();
         }
+
         if (isset($ret[$release])) {
             return $ret[$release];
         }
+
         $ret[$release] = array();
         foreach (self::$_roles as $role => $okreleases) {
             if (in_array($release, $okreleases['releasetypes'])) {
                 $ret[$release][] = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '', $role));
             }
         }
+
         return $ret[$release];
     }
 
@@ -111,10 +119,12 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         static $ret;
         if ($clear) {
             unset($ret);
         }
+
         if (!isset($ret)) {
             $ret = array();
             foreach (self::$_roles as $role => $okreleases) {
@@ -123,6 +133,7 @@ class PEAR2_Pyrus_Installer_Role
                 }
             }
         }
+
         return $ret;
     }
 
@@ -141,10 +152,12 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         static $ret;
         if ($clear) {
             unset($ret);
         }
+
         if (!isset($ret)) {
             $ret = array();
             foreach (self::$_roles as $role => $okreleases) {
@@ -153,6 +166,7 @@ class PEAR2_Pyrus_Installer_Role
                 }
             }
         }
+
         return $ret;
     }
 
@@ -168,10 +182,12 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         static $ret;
         if ($clear) {
             unset($ret);
         }
+
         if (!isset($ret)) {
             $ret = array();
             foreach (self::$_roles as $role => $okreleases) {
@@ -180,6 +196,7 @@ class PEAR2_Pyrus_Installer_Role
                 }
             }
         }
+
         return $ret;
     }
 
@@ -202,17 +219,21 @@ class PEAR2_Pyrus_Installer_Role
         if ($dir === null) {
             $dir = dirname(__FILE__) . '/Role';
         }
+
         if (!file_exists($dir) || !is_dir($dir)) {
             throw new PEAR2_Pyrus_Installer_Role_Exception("registerRoles: opendir($dir) failed");
         }
+
         $dp = @opendir($dir);
         if (empty($dp)) {
             throw new PEAR2_Pyrus_Installer_Role_Exception("registerRoles: opendir($dir) failed");
         }
+
         while ($entry = readdir($dp)) {
             if ($entry{0} == '.' || substr($entry, -4) != '.xml') {
                 continue;
             }
+
             $class = "PEAR2_Pyrus_Installer_Role_".substr($entry, 0, -4);
             // List of roles
             if (!isset(self::$_roles[$class])) {
@@ -225,6 +246,7 @@ class PEAR2_Pyrus_Installer_Role
                 self::$_roles[$class] = $data;
             }
         }
+
         closedir($dp);
         $roles = self::$_roles;
         ksort($roles);
@@ -247,10 +269,11 @@ class PEAR2_Pyrus_Installer_Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
+
         if (empty(self::$_roles[$role])) {
             throw new PEAR2_Pyrus_Installer_Role_Exception('Unknown Role class: "' . $role . '"');
         }
+
         return self::$_roles[$role];
     }
 }
-?>

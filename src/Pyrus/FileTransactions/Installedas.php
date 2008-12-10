@@ -37,7 +37,6 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
 
     public function check($data, &$errors)
     {
-
     }
 
     public function commit($data, &$errors)
@@ -70,6 +69,7 @@ class PEAR2_Pyrus_FileTransactions_Installedas implements PEAR2_Pyrus_IFileTrans
                 $path = $prepend . $path;
             }
         }
+
         return $path;
     }
 
