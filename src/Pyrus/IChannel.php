@@ -30,7 +30,6 @@ interface PEAR2_Pyrus_IChannel
     public function getPort();
     public function getSSL();
     public function getSummary();
-    public function getPath($protocol);
     public function getREST();
     public function getFunctions($protocol);
     public function getBaseURL($resourceType);

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR_REST_11 - implement faster list-all/remote-list command
+ * PEAR2_Pyrus_REST_11 - implement faster list-all/remote-list command
  *
  * PHP version 5
  *
@@ -23,16 +23,16 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR_REST_11
+class PEAR2_Pyrus_REST_11
 {
     /**
      * @var PEAR_REST
      */
-    var $_rest;
+    protected $_rest;
 
-    function PEAR_REST_11($config, $options = array())
+    function __construct($config, $options = array())
     {
-        $this->_rest = new PEAR_REST($config, $options);
+        $this->_rest = new PEAR2_Pyrus_REST($config, $options);
     }
 
     function listAll($base, $dostable, $basic = true)

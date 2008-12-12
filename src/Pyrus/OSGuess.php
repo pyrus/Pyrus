@@ -176,10 +176,10 @@ class PEAR2_Pyrus_OSGuess
                         $cpu = 'powerpc';
                     }
                 }
-                $release = ereg_replace('/^([0-9]+\.[0-9]+).*/', '\1', $parts[2]);
+                $release = preg_replace('/^([0-9]+\.[0-9]+).*/', '\1', $parts[2]);
                 break;
             default:
-                $release = ereg_replace('-.*', '', $parts[2]);
+                $release = preg_replace('-.*', '', $parts[2]);
                 break;
         }
 
