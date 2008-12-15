@@ -62,6 +62,20 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite implements PEAR2_Pyrus_IChannel
         return $this->channelname;
     }
 
+    function getFunctions($protocol)
+    {
+        if (!in_array($protocol, array('rest'), true)) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown protocol: ' .
+                $protocol);
+        }
+
+        if ($this->getName() == '__uri') {
+            return false;
+        }
+
+        return $this->getREST();
+    }
+
     function setAlias($alias)
     {
         $error = '';

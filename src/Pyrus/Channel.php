@@ -60,7 +60,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
-            $schema = dirname(__FILE__) . '/../../data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(__FILE__))) . '/data/channel-1.0.xsd';
         }
         try {
             if (is_array($data)) {
@@ -88,9 +88,9 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
         $a = new PEAR2_Pyrus_XMLParser;
         $schema = PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd';
-        // for running out of cvs
+        // for running out of svn
         if (!file_exists($schema)) {
-            $schema = dirname(__FILE__) . '/../../data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(__FILE__))) . '/data/channel-1.0.xsd';
         }
         try {
             $a->parseString($this->_xml, $schema);
