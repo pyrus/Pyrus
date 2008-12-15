@@ -75,7 +75,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite registry, registry is read-only');
         }
 
-        self::$databases[$path] = new SQLite3($path, 0666);
+        self::$databases[$path] = new SQLite3($path);
         if (!self::$databases[$path]) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite registry: ' . $error);
         }
@@ -90,7 +90,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             return;
         }
 
-        $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
+        $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
         $a->create(self::$databases[$path]);
         $this->initDefaultChannels();
     }
@@ -170,11 +170,14 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             VALUES(
                 :channel, :server, :ssl, :port
             )';
-
+        $ssl = 0;
+        if ($channel->getSSL()) {
+            $ssl = 1;
+        }
         $stmt = @self::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':channel', $channel->getName());
         $stmt->bindParam(':server',  $channel->getName());
-        $stmt->bindParam(':ssl',     ($channel->getSSL() ? 1 : '0'), SQLITE3_INTEGER);
+        $stmt->bindParam(':ssl',     $ssl, SQLITE3_INTEGER);
         $stmt->bindParam(':port',    $channel->getPort(), SQLITE3_INTEGER);
 
         if (!$stmt->execute()) {
@@ -186,7 +189,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
         $functions = $channel->getFunctions('rest');
         if (!$functions) {
-            continue;
+            // continue;
         }
 
         if (!is_array($functions)) {
@@ -226,12 +229,16 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                         :channel, :server, :ssl, :port
                     )';
 
+                $ssl = 0;
+                if ($mirror->getSSL()) {
+                    $ssl = 1;
+                }
                 $stmt = @self::$databases[$this->_path]->prepare($sql);
 
                 $stmt->bindParam(':channel', $channel->getName());
                 $stmt->bindParam(':server',  $mirror->getName());
-                $stmt->bindParam(':ssl',     ($mirror->getSSL() ? 1 : '0'));
-                $stmt->bindParam(':port',    $mirror->getPort());
+                $stmt->bindParam(':ssl',     $ssl, SQLITE3_INTEGER);
+                $stmt->bindParam(':port',    $mirror->getPort(), SQLITE3_INTEGER);
 
                 if (!$stmt->execute()) {
                     self::$databases[$this->_path]->exec('ROLLBACK');

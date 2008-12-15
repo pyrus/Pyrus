@@ -90,7 +90,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             return;
         }
 
-        $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
+        $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
         $a->create(self::$databases[$path]);
     }
 
