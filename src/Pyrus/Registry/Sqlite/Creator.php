@@ -459,6 +459,10 @@ CREATE TRIGGER channel_check BEFORE DELETE ON channels
             @$database->queryExec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
         }
-        @$database->queryExec('COMMIT');
+        $worked = @$database->queryExec('COMMIT');
+        if (!$worked) {
+            @$database->queryExec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+        }
     }
 }
