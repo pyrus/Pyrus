@@ -66,28 +66,35 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             $path = ':memory:';
         } elseif (!file_exists(dirname($path))) {
             if ($readonly) {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite registry, registry is read-only');
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite channel registry, registry is read-only');
             }
             @mkdir(dirname($path), 0755, true);
         }
 
         if ($readonly && !file_exists($path)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite registry, registry is read-only');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite channel registry, registry is read-only');
         }
 
         self::$databases[$path] = new SQLiteDatabase($path, 0666, $error);
         if (!self::$databases[$path]) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite channel registry: ' . $error);
         }
 
         $sql = 'SELECT version FROM pearregistryversion';
         if (@self::$databases[$path]->singleQuery($sql) == '1.0.0') {
             $sql = 'SELECT COUNT(*) FROM channels';
             if (!self::$databases[$path]->singleQuery($sql)) {
+                if ($readonly) {
+                    throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot create SQLite channel registry, registry is read-only');
+                }
                 $this->initDefaultChannels();
                 return;
             }
             return;
+        }
+
+        if ($readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot create SQLite channel registry, registry is read-only');
         }
 
         $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;

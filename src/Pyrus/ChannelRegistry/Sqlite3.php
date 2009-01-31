@@ -66,13 +66,13 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             $path = ':memory:';
         } elseif (!file_exists(dirname($path))) {
             if ($readonly) {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
             }
             @mkdir(dirname($path), 0755, true);
         }
 
         if ($readonly && !file_exists($path)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
         self::$databases[$path] = new SQLite3($path);
@@ -80,17 +80,24 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         if (!self::$databases[$path]->lastErrorCode()) {
             $temp = self::$databases[$path];
             unset(self::$databases[$path]);
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite3 registry: ' . $temp->lastErrorMsg());
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
         }
 
         $sql = 'SELECT version FROM pearregistryversion';
         if (@self::$databases[$path]->querySingle($sql) == '1.0.0') {
             $sql = 'SELECT COUNT(*) FROM channels';
             if (!self::$databases[$path]->querySingle($sql)) {
+                if ($readonly) {
+                    throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                }
                 $this->initDefaultChannels();
                 return;
             }
             return;
+        }
+
+        if ($readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
         $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
