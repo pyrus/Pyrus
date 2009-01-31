@@ -367,7 +367,7 @@ class PEAR2_Pyrus_Config
             try {
                 if ($path === '.') continue;
                 $a = PEAR2_Pyrus_Registry::$className;
-                $reg = new $a($path, array('Sqlite', 'Xml'), !$start);
+                $reg = new $a($path, array('Sqlite3', 'Xml'), !$start);
 
                 if ($start) {
                     $this->myregistry = $reg;
@@ -375,7 +375,7 @@ class PEAR2_Pyrus_Config
 
                 $reg->setParent(); // clear any previous parent
                 $b = PEAR2_Pyrus_ChannelRegistry::$className;
-                $regc = new $b($path, array('Sqlite', 'Xml'), !$start);
+                $regc = new $b($path, array('Sqlite3', 'Xml'), !$start);
                 if ($start) {
                     $this->mychannelRegistry = $regc;
                 }

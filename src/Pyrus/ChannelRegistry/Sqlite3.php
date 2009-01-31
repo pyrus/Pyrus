@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Sqlite
+ * PEAR2_Pyrus_ChannelRegistry_Sqlite3
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * An implementation of a Pyrus channel registry using Sqlite as the storage
+ * An implementation of a Pyrus channel registry using Sqlite3 as the storage
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -313,7 +313,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
         }
 
-        return new PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite(self::$databases[$this->_path], $channel);
+        return new PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3(self::$databases[$this->_path], $channel);
     }
 
     function delete(PEAR2_Pyrus_IChannel $channel)

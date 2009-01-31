@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite
+ * PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * A class for handling a channel entry within an Sqlite channel registry.
+ * A class for handling a channel entry within an Sqlite3 channel registry.
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -28,7 +28,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_IChanne
     /**
      * The database resource
      *
-     * @var SQLiteDatabase
+     * @var SQLite3
      */
     protected $database;
     protected $mirror;
@@ -146,7 +146,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_IChanne
                 $res = $this->database->query($sql);
 
                 foreach ($res->arrayFetch(SQLITE_ASSOC) as $mirror) {
-                    $ret[$mirror['server']] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite($this->database, $mirror['server'], $this);
+                    $ret[$mirror['server']] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite3($this->database, $mirror['server'], $this);
                 }
             return $ret;
         }

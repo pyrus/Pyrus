@@ -43,7 +43,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     protected $readonly;
     private $_registries = array();
 
-    public function __construct($path, $registries = array('Sqlite', 'Xml'), $readonly = false)
+    public function __construct($path, $registries = array('Sqlite3', 'Xml'), $readonly = false)
     {
         $this->path = $path;
         $this->readonly = $readonly;

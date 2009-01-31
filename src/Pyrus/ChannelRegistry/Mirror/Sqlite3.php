@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite
+ * PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite3
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Represents a mirror within a Sqlite channel registry.
+ * Represents a mirror within a Sqlite3 channel registry.
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Sqlite_Creator
+ * PEAR2_Pyrus_Registry_Sqlite3_Creator
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Initialize a sqlite registry
+ * Initialize a sqlite3 registry
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus

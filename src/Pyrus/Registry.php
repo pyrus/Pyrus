@@ -80,7 +80,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         $this->parent = $parent;
     }
 
-    public function __construct($path, $registries = array('Sqlite', 'Xml'), $readonly = false)
+    public function __construct($path, $registries = array('Sqlite3', 'Xml'), $readonly = false)
     {
         $this->path     = $path;
         $this->readonly = $readonly;
