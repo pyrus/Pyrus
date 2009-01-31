@@ -89,6 +89,9 @@ class PEAR2_Pyrus_Registry_Sqlite extends PEAR2_Pyrus_Registry_Base
             return;
         }
 
+        if ($readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite registry, registry is read-only');
+        }
         $a = new PEAR2_Pyrus_Registry_Sqlite_Creator;
         $a->create(self::$databases[$path]);
     }
