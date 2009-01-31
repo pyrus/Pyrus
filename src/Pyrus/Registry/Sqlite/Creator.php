@@ -386,7 +386,7 @@ class PEAR2_Pyrus_Registry_Sqlite_Creator
         }
 
         $query = '
-CREATE TRIGGER channel_check BEFORE DELETE ON channels
+            CREATE TRIGGER channel_check BEFORE DELETE ON channels
             BEGIN
              SELECT RAISE(ROLLBACK, \'Cannot delete channel, installed packages use it\')
              WHERE old.channel IN (SELECT channel FROM packages);
