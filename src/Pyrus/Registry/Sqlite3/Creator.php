@@ -203,7 +203,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
     {
         if (!$database->exec('BEGIN')) {
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -231,7 +231,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -249,7 +249,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -266,7 +266,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -285,7 +285,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -303,7 +303,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -322,7 +322,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -337,7 +337,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -352,7 +352,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -366,7 +366,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -394,7 +394,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -407,7 +407,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -425,7 +425,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -456,7 +456,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
         $query = '
@@ -473,8 +473,13 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite registry: ' . $error);
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
-        @$database->exec('COMMIT');
+        $worked = @$database->exec('COMMIT');
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
     }
 }
