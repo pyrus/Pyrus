@@ -124,7 +124,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite channel registry for ' . $this->_path);
         }
 
-        $sql = 'SELECT channel FROM channels WHERE channel = "' . $channel->getName() . '"';
+        $sql = 'SELECT channel FROM channels WHERE channel = "' . sqlite_escape_string($channel->getName()) . '"';
         if (self::$databases[$this->_path]->singleQuery($sql)) {
             if (!$update) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
@@ -136,6 +136,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
         }
 
         $validate = $channel->getValidationPackage();
+
         self::$databases[$this->_path]->queryExec('BEGIN');
         $sql = '
             INSERT INTO channels
