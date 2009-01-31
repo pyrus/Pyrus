@@ -113,7 +113,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite extends PEAR2_Pyrus_ChannelRegistry_Bas
 
         return false;
     }
-var $foo;
+
     function add(PEAR2_Pyrus_IChannel $channel, $update = false)
     {
         if ($this->readonly) {

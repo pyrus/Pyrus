@@ -101,15 +101,13 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
             return false;
         }
 
-        if (isset($this->_info[$protocol]['function'])) {
-            return $this->_info[$protocol]['function'];
-        }
+        return $this->getREST();
     }
 
     function getREST()
     {
         if (isset($this->_info['rest'])) {
-            return $this->_info['rest'];
+            return $this->_info['rest']['baseurl'];
         }
 
         return false;
