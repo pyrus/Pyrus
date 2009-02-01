@@ -139,35 +139,44 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                releasetime, license, licenseuri, licensepath,
                releasenotes, lastinstalledversion, installedwithpear,
                installtimeconfig)
-            VALUES(:name, :channel, :version-release, :version-api, :summary,
-                :description, :stability-release, :stability-api, :date, :time,
-                :license, :license-uri, :license-path, :notes, :lastinstalledv,
+            VALUES(:name, :channel, :versionrelease, :versionapi, :summary,
+                :description, :stabilityrelease, :stabilityapi, :date, :time,
+                :license, :licenseuri, :licensepath, :notes, :lastinstalledv,
                 :lastinstalledp, :lastinstalltime
             )';
 
-        $stmt = @self::$databases[$this->_path]->prepare($sql);
-        $stmt->bindParam(':name',              $info->name);
-        $stmt->bindParam(':channel',           $info->channel);
-        $stmt->bindParam(':version-release',   $info->version['release']);
-        $stmt->bindParam(':version-api',       $info->version['api']);
-        $stmt->bindParam(':summary',           $info->summary);
-        $stmt->bindParam(':desc',              $info->description);
-        $stmt->bindParam(':stability-release', $info->stability['release']);
-        $stmt->bindParam(':stability-api',     $info->stability['api']);
-        $stmt->bindParam(':date',              $info->date);
+        $stmt = self::$databases[$this->_path]->prepare($sql);
+        // this odd code eliminates notices
+        $n = $info->name;
+        $stmt->bindParam(':name',              $n);
+        $c = $info->channel;
+        $stmt->bindParam(':channel',           $c);
+        $stmt->bindParam(':versionrelease',   $info->version['release']);
+        $stmt->bindParam(':versionapi',       $info->version['api']);
+        $s = $info->summary;
+        $stmt->bindParam(':summary',           $s);
+        $d = $info->description;
+        $stmt->bindParam(':description',              $d);
+        $stmt->bindParam(':stabilityrelease', $info->stability['release']);
+        $stmt->bindParam(':stabilityapi',     $info->stability['api']);
+        $a = $info->date;
+        $stmt->bindParam(':date',              $a);
         $stmt->bindParam(':time',              $time);
         $stmt->bindParam(':license',           $info->license['_content']);
-        $stmt->bindParam(':license-uri',       $licuri);
-        $stmt->bindParam(':license-path',      $licpath);
-        $stmt->bindParam(':notes',             $info->notes);
-        $stmt->bindParam(':lastinstalledv',    null);
-        $stmt->bindParam(':lastinstalledp',    '2.0.0');
+        $stmt->bindParam(':licenseuri',       $licuri, ($licuri === null) ? SQLITE3_NULL : SQLITE3_TEXT);
+        $stmt->bindParam(':licensepath',      $licpath, ($licpath === null) ? SQLITE3_NULL : SQLITE3_TEXT);
+        $t = $info->notes;
+        $stmt->bindParam(':notes',             $t);
+        $o = null;
+        $stmt->bindParam(':lastinstalledv',    $o, SQLITE3_NULL);
+        $v = '2.0.0';
+        $stmt->bindParam(':lastinstalledp',    $v);
         $stmt->bindParam(':lastinstalltime',   PEAR2_Pyrus_Config::configSnapshot());
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                $info->channel . '/' . $info->name . ' could not be installed in registry');
+                $info->channel . '/' . $info->name . ' could not be installed in registry: ' . self::$databases[$this->_path]->lastErrorMsg());
         }
         $stmt->close();
 
@@ -217,15 +226,20 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $stmt = self::$databases[$this->_path]->prepare($sql);
 
-        $stmt->bindParam(':name',     $info->name);
-        $stmt->bindParam(':channel',  $info->channel);
-        $stmt->bindParam(':path',     $info->name);
-        $stmt->bindParam(':role',     $info->role);
+        $n = $info->name;
+        $c = $info->channel;
+        $stmt->bindParam(':name',     $n);
+        $stmt->bindParam(':channel',  $c);
 
         foreach ($info->installcontents as $file) {
             $rolepath = str_replace($this->_path . DIRECTORY_SEPARATOR,
                    '', $curconfig->{$roles[$file->role]});
             $stmt->bindParam(':rolepath', $rolepath);
+            $p = $file->name;
+            $stmt->bindParam(':path',     $p);
+            $r = str_replace($this->_path . DIRECTORY_SEPARATOR,
+                       '', $curconfig->{$roles[$file->role]});
+            $stmt->bindParam(':role',     $r);
 
             if (!$stmt->execute()) {
                 self::$databases[$this->_path]->exec('ROLLBACK');

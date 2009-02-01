@@ -227,7 +227,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            installtimeconfig TEXT(50),
            PRIMARY KEY (name, channel)
           );';
-        $worked = @$database->exec($query);
+        $worked = $database->exec($query);
         if (!$worked) {
             @$database->exec('ROLLBACK');
             $error = $database->lastErrorMsg();
