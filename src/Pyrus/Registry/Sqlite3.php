@@ -500,7 +500,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             name = \'' . self::$databases[$this->_path]->escapeString($package) . '\' AND
             channel = \'' . self::$databases[$this->_path]->escapeString($channel) . '\'';
 
-        $info = @self::$databases[$this->_path]->singleQuery($sql, true);
+        $info = @self::$databases[$this->_path]->querySingle($sql);
         if (self::$databases[$this->_path]->lastErrorCode()) {
             $error = self::$databases[$this->_path]->lastErrorMsg();
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
