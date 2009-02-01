@@ -19,7 +19,7 @@ $test->assertEquals(true, file_exists(__DIR__ . '/testit/bin/pearscs'), 'script 
 --CLEAN--
 <?php
 $dir = __DIR__ . '/testit';
-include __DIR__ . '/../../clean.php.inc';
+include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--
 ===DONE===
