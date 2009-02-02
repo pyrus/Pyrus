@@ -79,8 +79,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
         }
 
-        self::$databases[$path] = new SQLite3($path);
-        // hopefully this works
+        @(self::$databases[$path] = new SQLite3($path));
+        // ScottMac needs to fix sqlite3 FIXME
         if (self::$databases[$path]->lastErrorCode()) {
             $error = self::$databases[$path]->lastErrorMsg();
             throw new PEAR2_Pyrus_Registry_Exception('Cannot open SQLite3 registry: ' . $error);

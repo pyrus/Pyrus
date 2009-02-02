@@ -35,6 +35,18 @@ $test->assertNull($c->registry->parent->parent, 'registry parent parent');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something2', $c->channelregistry->path, 'channelregistry path');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->channelregistry->parent->path, 'channelregistry->parent path');
 $test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent');
+
+// now check starting with unregisterable directory
+if (substr(PHP_OS, 0, 3) != 'WIN') {
+    // no way to do this on windows that I know of
+    try {
+        $c = $configclass::singleton('/', __DIR__ . '/something/blah');
+        echo "ERROR: no exception thrown\n";
+    } catch (Exception $e) {
+        $test->assertEquals($configclass . '_Exception', get_class($e), 'exception class');
+        $test->assertEquals('Cannot initialize primary registry in path /', $e->getMessage(), 'exception message');
+    }
+}
 ?>
 ===DONE===
 --CLEAN--

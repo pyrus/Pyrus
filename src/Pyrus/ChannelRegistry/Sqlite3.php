@@ -75,7 +75,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
-        self::$databases[$path] = new SQLite3($path);
+        @(self::$databases[$path] = new SQLite3($path));
         // hopefully this works
         if (!self::$databases[$path]->lastErrorCode()) {
             $temp = self::$databases[$path];

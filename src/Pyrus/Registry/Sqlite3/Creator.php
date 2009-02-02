@@ -201,7 +201,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      */
     function create(SQLite3 $database)
     {
-        if (!$database->exec('BEGIN')) {
+        if (!@$database->exec('BEGIN')) {
             $error = $database->lastErrorMsg();
             throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
