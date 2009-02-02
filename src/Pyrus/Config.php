@@ -785,7 +785,8 @@ class PEAR2_Pyrus_Config
     static public function addConfigValue($key, $default, $system = true)
     {
         if (in_array($key, self::$magicVars, true)) {
-            throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration variable, already in use for retrieving configuration information');
+            throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration variable '
+                                                   . $key . ', already in use for retrieving configuration information');
         }
 
         if (!preg_match('/^[a-z0-9-_]+\\z/', $key)) {
@@ -793,36 +794,36 @@ class PEAR2_Pyrus_Config
         }
 
         if ($system) {
-            if (isset(self::$pearConfigNames[$key])) {
+            if (in_array($key, self::$pearConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
             }
 
-            if (isset(self::$customPearConfigNames[$key])) {
+            if (in_array($key, self::$customPearConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '"');
             }
 
-            if (isset(self::$userConfigNames[$key])) {
+            if (in_array($key, self::$userConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing user configuration value "' . $key . '" with system value');
             }
 
-            if (isset(self::$customUserConfigNames[$key])) {
+            if (in_array($key, self::$customUserConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom user configuration value "' . $key . '" with system value');
             }
             $var = 'customPearConfigNames';
         } else {
-            if (isset(self::$userConfigNames[$key])) {
+            if (in_array($key, self::$userConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
             }
 
-            if (isset(self::$customUserConfigNames[$key])) {
+            if (in_array($key, self::$customUserConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '"');
             }
 
-            if (isset(self::$pearConfigNames[$key])) {
+            if (in_array($key, self::$pearConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '" with user value');
             }
 
-            if (isset(self::$customPearConfigNames[$key])) {
+            if (in_array($key, self::$customPearConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '" with user value');
             }
             $var = 'customUserConfigNames';
