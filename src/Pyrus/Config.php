@@ -824,7 +824,7 @@ class PEAR2_Pyrus_Config
             }
 
             if (in_array($key, self::$customPearConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '" with user value');
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom system configuration value "' . $key . '" with user value');
             }
             $var = 'customUserConfigNames';
         }
