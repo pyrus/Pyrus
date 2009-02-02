@@ -1,13 +1,11 @@
 --TEST--
-PEAR2_Pyrus_Config::loadConfigFile() good systemfile
+PEAR2_Pyrus_Config::loadConfigFile() good systemfile 3
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
 set_include_path(''); // disable include_path cascading for simplicity
 file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>
 <c>
- <!-- make sure php_dir and data_dir are not processed -->
- <data_dir>I did it again</data_dir>
  <ext_dir>@php_dir@/foo</ext_dir>
  <doc_dir>@php_dir@/bah</doc_dir>
  <bin_dir>@php_dir@/bar</bin_dir>

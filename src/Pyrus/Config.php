@@ -603,10 +603,10 @@ class PEAR2_Pyrus_Config
         $unsetvalues = array_diff($keys = array_keys((array) $x), array_merge(self::$pearConfigNames, self::$customPearConfigNames));
         // remove values that are not recognized system config variables
         // both data_dir and php_dir are abstract values, delete them if present
-        $keys[] = 'php_dir';
-        $keys[] = 'data_dir';
+        $unsetvalues[] = 'php_dir';
+        $unsetvalues[] = 'data_dir';
         foreach ($unsetvalues as $value) {
-            if (!array_key_exists($value, $keys)) {
+            if (!in_array($value, $keys)) {
                 continue;
             }
 
