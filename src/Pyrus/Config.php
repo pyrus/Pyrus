@@ -600,15 +600,14 @@ class PEAR2_Pyrus_Config
                 $e);
         }
 
-        $unsetvalues = array_diff(array_keys((array) $x), array_merge(self::$pearConfigNames, self::$customPearConfigNames));
+        $unsetvalues = array_diff($keys = array_keys((array) $x), array_merge(self::$pearConfigNames, self::$customPearConfigNames));
         // remove values that are not recognized system config variables
+        // both data_dir and php_dir are abstract values, delete them if present
+        $keys[] = 'php_dir';
+        $keys[] = 'data_dir';
         foreach ($unsetvalues as $value) {
-            if ($value == '@attributes') {
+            if (!array_key_exists($value, $keys)) {
                 continue;
-            }
-
-            if ($value === 'php_dir' || $value === 'data_dir') {
-                unset($x->$value); // both of these are abstract
             }
 
             PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
