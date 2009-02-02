@@ -333,7 +333,7 @@ class PEAR2_Pyrus_Config
             return self::$configs[$pearDirectory];
         }
 
-        self::$configs[$pearDirectory] = new PEAR2_Pyrus_Config($pearDirectory, $userfile);
+        self::$configs[$pearDirectory] = new static($pearDirectory, $userfile);
         return self::$configs[$pearDirectory];
     }
 
@@ -482,7 +482,7 @@ class PEAR2_Pyrus_Config
     protected function loadUserSettings($pearDirectory, $userfile = false)
     {
         if (!$userfile) {
-            $userfile = self::getDefaultUserConfigFile();
+            $userfile = static::getDefaultUserConfigFile();
 
             if (!file_exists($userfile)) {
                 $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
