@@ -17,9 +17,18 @@ $dir = getcwd();
 chdir(__DIR__);
 $test->assertFileExists(__DIR__ . '/pearconfig.xml', 'pearconfig.xml does not exist');
 $test->assertTrue(r::userInitialized(), 'third, pearconfig.xml found');
-unlink(__DIR__ . '/pearconfig.xml');
+file_put_contents('pearconfig.xml', '<?xml version="1.0"?>
+<pearconfig version="1.0"><default_channel>pear2.php.net</default_channel><preferred_mirror>pear2.php.net</preferred_mirror><auto_discover>0</auto_discover><download_dir>/hoo/boy</download_dir></pearconfig>
+');
+$t = r::singleton();
+$test->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'pearconfig.xml', $t->userfile, 'pearconfig.xml file');
+$test->assertEquals('/hoo/boy', $t->download_dir, 'check whether it loaded pearconfig.xml');
 chdir($dir);
 ?>
 ===DONE===
+--CLEAN--
+<?php
+unlink(__DIR__ . '/pearconfig.xml');
+?>
 --EXPECT--
 ===DONE===
