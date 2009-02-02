@@ -1,10 +1,5 @@
 --TEST--
 PEAR2_Pyrus_Config::userInitialized() basic test
---INI--
-extension_dir=
---ENV--
-PATH=.
-PHP_PEAR_BIN_DIR=
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -29,6 +24,11 @@ chdir($dir);
 --CLEAN--
 <?php
 unlink(__DIR__ . '/pearconfig.xml');
+foreach (new DirectoryIterator(__DIR__) as $file) {
+    if ($file->isDot()) continue;
+    if ($file->getFileName() == '.pear2registry') unlink($file->getPathName());
+    if (substr($file->getFileName(), 0, 4) == 'chan') unlink($file->getPathName());
+}
 ?>
 --EXPECT--
 ===DONE===
