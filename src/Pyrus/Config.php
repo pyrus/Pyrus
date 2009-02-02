@@ -421,7 +421,7 @@ class PEAR2_Pyrus_Config
      */
     static public function userInitialized()
     {
-        $userfile = self::getDefaultUserConfigFile();
+        $userfile = static::getDefaultUserConfigFile();
         if (!file_exists($userfile)) {
             // try cwd, this could work
             $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
