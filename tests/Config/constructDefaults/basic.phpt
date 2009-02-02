@@ -72,7 +72,7 @@ $phpini = tc::getTestDefaults();
 $test->assertRegex('/\.ini/', $phpini['php_ini'], 'php_ini');
 // increase code coverage
 $c = PEAR2_Pyrus_Config::current();
-$test->assertSame($c, PEAR2_Pyrus_Config::singleton());
+$test->assertSame($c, PEAR2_Pyrus_Config::singleton(), 'current = singleton');
 ?>
 ===DONE===
 --EXPECT--
