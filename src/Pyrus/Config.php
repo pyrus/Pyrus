@@ -955,8 +955,12 @@ class PEAR2_Pyrus_Config
             throw new PEAR2_Pyrus_Config_Exception('Cannot set magic configuration variable ' . $key);
         }
 
-        if ($key == 'php_dir' || $key == 'data_dir') {
-            throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository');
+        if ($key == 'php_dir') {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository to change this value');
+        }
+
+        if ($key == 'data_dir') {
+            throw new PEAR2_Pyrus_Config_Exception('Cannot set data_dir, move the repository to change this value');
         }
 
         if (!isset(self::$defaults[$key]) && !isset(self::$customDefaults[$key])) {
@@ -968,6 +972,7 @@ class PEAR2_Pyrus_Config
         if (in_array($key, self::$pearConfigNames)
             || in_array($key, self::$customPearConfigNames)) {
             $this->values[$key] = $value;
+            return;
         }
 
         self::$userConfigs[$this->userFile][$key] = $value;
