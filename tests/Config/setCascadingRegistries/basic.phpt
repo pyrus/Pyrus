@@ -6,6 +6,7 @@ require dirname(__FILE__) . '/setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 $unused = $configclass::singleton(__DIR__ . '/foo', __DIR__ . '/something/blah');
+$coverage = $configclass::singleton(__DIR__ . '/foo', __DIR__ . '/something/blah');
 $c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo', dirname(__FILE__) . '/something/blah');
 restore_include_path();
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something', $c->registry->path, 'registry path');
