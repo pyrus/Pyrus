@@ -397,7 +397,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
             }
             if (isset($this->_packageInfo[0])) {
                 foreach ($this->_packageInfo as $i => $dep) {
-                    if ($dep['package'] === $package && $dep['channel'] === $channel) {
+                    if ($dep['name'] === $package && $dep['channel'] === $channel) {
                         $this->_packageInfo[$i] = $info;
                         return;
                     }
