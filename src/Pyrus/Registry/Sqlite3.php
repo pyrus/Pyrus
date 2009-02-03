@@ -57,7 +57,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
         }
         $this->_init($path, $readonly);
-        $this->_path = $path;
+        $this->_path = $path ? $path : ':memory:';
     }
 
     private function _init($path, $readonly)
