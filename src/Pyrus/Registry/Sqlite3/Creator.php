@@ -98,8 +98,8 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  deppackage TEXT(80) NOT NULL,
      *  depchannel TEXT(255) NOT NULL,
      *  conflicts BOOL NOT NULL,
-     *  exclude TEXT(20),
-     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
+     *  exclude TEXT(20) NOT NULL,
+     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, exclude)
      * );
      *
      * CREATE TABLE channels (
@@ -295,9 +295,9 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            packages_channel TEXT(255) NOT NULL,
            deppackage TEXT(80) NOT NULL,
            depchannel TEXT(255) NOT NULL,
-           exclude TEXT(20),
            conflicts BOOL NOT NULL,
-           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
+           exclude TEXT(20) NOT NULL,
+           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, exclude)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
