@@ -263,19 +263,21 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $dmax     = isset($d['max']) ? $d['max'] : null;
 
                     $stmt->clear();
-                    $stmt->bindParam(':required', ($required == 'required' ? 1 : 0), SQLITE3_INTEGER);
+                    $req = ($required == 'required' ? 1 : 0);
+                    $stmt->bindParam(':required', $req, SQLITE3_INTEGER);
                     $stmt->bindParam(':name', $n);
                     $stmt->bindParam(':channel', $c);
                     $stmt->bindParam(':dep_package', $d['name']);
                     $stmt->bindParam(':dep_channel', $dchannel);
-                    $stmt->bindParam(':conflicts', isset($d['conflicts']), SQLITE3_INTEGER);
+                    $con = isset($d['conflicts']);
+                    $stmt->bindParam(':conflicts', $con, SQLITE3_INTEGER);
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
 
                     if (!$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
                         throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
-                            $info->channel . '/' . $info->getName() . ' could not be installed in registry');
+                            $info->channel . '/' . $info->name . ' could not be installed in registry');
                     }
 
                     if (isset($d['exclude'])) {
