@@ -447,9 +447,12 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess, Iterator, 
             }
             return;
         }
+        // $var is the os name or the arch name
+        // $value is true or false, for defining required (true) or conflicts (false)
         if (isset($this->_type) && in_array($this->_type, array('arch', 'os'))) {
             $val = (bool) $value;
-            $info = array(($this->_type === 'arch' ? 'pattern' : 'name') => $var);
+            $name = ($this->_type === 'arch' ? 'pattern' : 'name');
+            $info = array($name => $var);
             if (!$val) {
                 $info['conflicts'] = '';
             }
