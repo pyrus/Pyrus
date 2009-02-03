@@ -185,15 +185,17 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 (:name, :channel, :role, :m_name, :m_user, :m_email, :m_active)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
+        $n = $info->name;
+        $c = $info->channel;
         foreach ($info->allmaintainers as $role => $maintainers) {
-            if (!is_array($maintainers)) {
+            if (!is_array($maintainers) && !($maintainers instanceof \ArrayObject)) {
                 continue;
             }
 
             foreach ($maintainers as $maintainer) {
                 $stmt->clear();
-                $stmt->bindParam(':name',     $info->name);
-                $stmt->bindParam(':channel',  $info->channel);
+                $stmt->bindParam(':name',     $n);
+                $stmt->bindParam(':channel',  $c);
                 $stmt->bindParam(':role',     $role);
                 $stmt->bindParam(':m_name',   $maintainer['name']);
                 $stmt->bindParam(':m_user',   $maintainer['user']);
