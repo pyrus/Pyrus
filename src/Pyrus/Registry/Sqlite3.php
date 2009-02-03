@@ -226,8 +226,6 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
-        $n = $info->name;
-        $c = $info->channel;
         $stmt->bindParam(':name',     $n);
         $stmt->bindParam(':channel',  $c);
 
@@ -266,8 +264,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
                     $stmt->clear();
                     $stmt->bindParam(':required', ($required == 'required' ? 1 : 0), SQLITE3_INTEGER);
-                    $stmt->bindParam(':name', $info->name);
-                    $stmt->bindParam(':channel', $info->channel);
+                    $stmt->bindParam(':name', $n);
+                    $stmt->bindParam(':channel', $c);
                     $stmt->bindParam(':dep_package', $d['name']);
                     $stmt->bindParam(':dep_channel', $dchannel);
                     $stmt->bindParam(':conflicts', isset($d['conflicts']), SQLITE3_INTEGER);
@@ -296,8 +294,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         foreach ($d['exclude'] as $exclude) {
                             $stmt1->clear();
                             $stmt1->bindParam(':required', ($required == 'required' ? 1 : 0), SQLITE3_INTEGER);
-                            $stmt1->bindParam(':name', $info->name);
-                            $stmt1->bindParam(':channel', $info->channel);
+                            $stmt1->bindParam(':name', $n);
+                            $stmt1->bindParam(':channel', $c);
                             $stmt1->bindParam(':dep_package', $d['name']);
                             $stmt1->bindParam(':dep_channel', $dchannel);
                             $stmt1->bindParam(':exclude', $exclude);
@@ -332,8 +330,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $dmax     = isset($d['max']) ? $d['max'] : null;
 
                     $stmt->clear();
-                    $stmt->bindParam(':name', $info->name);
-                    $stmt->bindParam(':channel', $info->channel);
+                    $stmt->bindParam(':name', $n);
+                    $stmt->bindParam(':channel', $c);
                     $stmt->bindParam(':dep_package', $d['name,']);
                     $stmt->bindParam(':dep_channel', $dchannel);
                     $stmt->bindParam(':conflitcs', isset($d['conflicts']), SQLITE3_INTEGER);
@@ -362,8 +360,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         foreach ($d['exclude'] as $exclude) {
                             $stmt1->clear();
                             $stmt1->bindParam(':required', ($required == 'required' ? 1 : 0), SQLITE3_INTEGER);
-                            $stmt1->bindParam(':name',        $info->name);
-                            $stmt1->bindParam(':channel',     $info->channel);
+                            $stmt1->bindParam(':name',        $n);
+                            $stmt1->bindParam(':channel',     $c);
                             $stmt1->bindParam(':dep_package', $d['name']);
                             $stmt1->bindParam(':dep_channel', $dchannel);
                             $stmt1->bindParam(':exclude',     $exclude);
