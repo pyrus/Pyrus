@@ -30,6 +30,9 @@ $group->package['pear2.php.net/PackageName1'] = array();
 $group->package['pear2.php.net/PackageName2'] = array('min' => '1.2.0');
 $group->subpackage['pear2.php.net/PackageName3'] = array('recommended' => '1.2.1');
 $group->extension['extension'] = array();
+$group->package['pecl.php.net/PackageName'] =
+        array('min' => '1.1.0', 'max' => '1.2.0', 'recommended' => '1.1.1',
+            'exclude' => array('1.1.0a1', '1.1.0a2'), 'providesextension' => 'packagename');
 
 $reg->install($info);
 ?>
