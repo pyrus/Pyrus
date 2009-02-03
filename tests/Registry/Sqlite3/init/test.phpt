@@ -18,6 +18,8 @@ class r extends PEAR2_Pyrus_Registry_Sqlite3
 $a = new r(false);
 $b = new r(false);
 $test->assertEquals($a::$databases, $b::$databases, 'ensure they the same');
+$test->assertEquals($a->getDatabase(), $b->getDatabase(), 'another test');
+$test->assertEquals(':memory:', $a->getDatabase(), 'last one');
 ?>
 ===DONE===
 --EXPECT--
