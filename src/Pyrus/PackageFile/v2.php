@@ -618,6 +618,11 @@ class PEAR2_Pyrus_PackageFile_v2
                                  'package' => $this->packageInfo['srcpackage']);
                 }
                 return false;
+            case 'license' :
+                if (!isset($this->packageInfo['license'])) {
+                    $this->packageInfo['license'] = array();
+                }
+                return new PEAR2_Pyrus_PackageFile_v2_License($this->packageInfo['license']);
             case 'files' :
                 return new PEAR2_Pyrus_PackageFile_v2_Files($this->filelist);
             case 'maintainer' :
@@ -658,7 +663,10 @@ class PEAR2_Pyrus_PackageFile_v2
     function __set($var, $value)
     {
         if ($var === 'license') {
-            if (!is_array($value)) {
+            if ($value instanceof PEAR2_Pyrus_PackageFile_v2_License) {
+                $this->packageInfo['license'] = $value->getArray();
+                $value->link($this->packageInfo['license']);
+            } elseif (!is_array($value)) {
                 $licensemap =
                     array(
                         'php' => 'http://www.php.net/license',

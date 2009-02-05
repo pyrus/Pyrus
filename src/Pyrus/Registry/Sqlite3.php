@@ -126,8 +126,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         static::$databases[$this->_path]->exec('BEGIN');
         $licloc = $info->license;
-        $licuri = isset($licloc['attribs']['uri']) ? $licloc['attribs']['uri'] : null;
-        $licpath = isset($licloc['attribs']['path']) ? $licloc['attribs']['path'] : null;
+        $licuri = $info->license['uri'];
+        $licpath = $info->license['path'];
         $time = ($info->time ? $info->time : null);
 
         $sql = '
@@ -160,7 +160,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $a = $info->date;
         $stmt->bindParam(':date',              $a);
         $stmt->bindParam(':time',              $time);
-        $stmt->bindParam(':license',           $info->license['_content']);
+        $lname = $info->license['name'];
+        $stmt->bindParam(':license',           $lname);
         $stmt->bindParam(':licenseuri',        $licuri, ($licuri === null) ? SQLITE3_NULL : SQLITE3_TEXT);
         $stmt->bindParam(':licensepath',       $licpath, ($licpath === null) ? SQLITE3_NULL : SQLITE3_TEXT);
         $t = $info->notes;

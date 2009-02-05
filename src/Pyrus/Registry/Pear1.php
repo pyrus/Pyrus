@@ -71,10 +71,7 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         $arr['old']['version'] = $info->version['release'];
         $arr['old']['release_date'] = $info->date;
         $arr['old']['release_state'] = $info->state;
-        $license = $info->license;
-        if (is_array($license) && isset($license['_content'])) {
-            $license = $license['_content'];
-        }
+        $license = $info->license['name'];
         $arr['old']['release_license'] = $license;
         $arr['old']['release_notes'] = $info->notes;
         $deps = array();

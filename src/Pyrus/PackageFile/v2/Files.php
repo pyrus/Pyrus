@@ -36,11 +36,6 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
         unset($this->array[$var]);
     }
 
-    function offsetIsset($var)
-    {
-        return isset($this->array[$var]);
-    }
-
     function offsetGet($var)
     {
         if (isset($this->array[$var])) {
