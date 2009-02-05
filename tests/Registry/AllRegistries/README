@@ -1,1 +1,3 @@
 This folder contains tests and supporting files that all registries must pass
+Specifically, the Registry package object (PEAR2_Pyrus_Registry_Sqlite3_Package)
+must conform to these tests
