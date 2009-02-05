@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>PEAR2_SimpleChannelServer</name>
+ <channel>pear2.php.net</channel>
+ <summary>A Simple Channel Server for PEAR2 compatible channels
+</summary>
+ <description>
+This package contains a set of scripts to create a simple PEAR compatible
+channel server. Included with the package is the pearscs command which you
+can use for the command line to manage a pear channel.
+
+The pearscs utility will be installed in the directory configured by the
+bin_dir setting within Pyrus.
+</description>
+ <lead>
+  <name>Gregory Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Brett Bieber</name>
+  <user>saltybeagle</user>
+  <email>brett.bieber@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2008-12-15</date>
+ <time>11:51:01</time>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>First attempt.
+</notes>
+ <contents>
+  <dir name="/">
+   <dir name="examples">
+    <file role="doc" name="update_channel.php"/>
+   </dir>
+   <dir name="scripts" baseinstalldir="/">
+    <file role="script" name="pearscs"/>
+   </dir>
+   <dir name="src" baseinstalldir="PEAR2">
+    <dir name="SimpleChannelServer">
+     <dir name="Categories">
+      <file role="php" name="Exception.php"/>
+     </dir>
+     <dir name="REST">
+      <file role="php" name="Category.php"/>
+      <file role="php" name="Maintainer.php"/>
+      <file role="php" name="Manager.php"/>
+      <file role="php" name="Package.php"/>
+      <file role="php" name="Release.php"/>
+     </dir>
+     <file role="php" name="Categories.php"/>
+     <file role="php" name="Channel.php"/>
+     <file role="php" name="CLI.php"/>
+     <file role="php" name="Exception.php"/>
+     <file role="php" name="Get.php"/>
+    </dir>
+    <file role="php" name="SimpleChannelServer.php"/>
+   </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>

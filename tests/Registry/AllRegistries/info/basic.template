@@ -1,0 +1,18 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+$test->assertEquals('PEAR2_SimpleChannelServer', $reg->name, 'name');
+$test->assertEquals('pear2.php.net', $reg->channel, 'channel');
+$test->assertEquals('A Simple Channel Server for PEAR2 compatible channels', $reg->summary, 'summary');
+$test->assertEquals('This package contains a set of scripts to create a simple PEAR compatible
+channel server. Included with the package is the pearscs command which you
+can use for the command line to manage a pear channel.
+
+The pearscs utility will be installed in the directory configured by the
+bin_dir setting within Pyrus.', $reg->description, 'description');
+$test->assertEquals('2008-12-15', $reg->date, 'date');
+$test->assertEquals('11:51:01', $reg->time, 'time');
+$test->assertEquals('First attempt.', $reg->notes, 'notes');
+$test->assertEquals('alpha', $reg->{'api-state'}, 'api-state');
+$test->assertEquals('devel', $reg->state, 'state');
+$test->assertEquals('0.1.0', $reg->{'release-version'}, 'release-version');
+$test->assertEquals('0.1.0', $reg->{'api-version'}, 'api-version');

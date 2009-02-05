@@ -84,11 +84,19 @@ class PEAR2_Pyrus_PackageFile_v2
     private $_dirtree = array();
 
     /**
-     * path to package .xml or false if this is an abstract parsed-from-string xml
+     * path to package.xml or false if this is an abstract parsed-from-string xml
      * @var string|false
      * @access private
      */
-    private $_packageFile = false;
+    protected $_packageFile = false;
+
+    /**
+     * path to archive containing this package file, or false if this is a package.xml
+     * or abstract parsed-from-string xml
+     * @var string|false
+     * @access private
+     */
+    protected $_archiveFile = false;
 
     /**
      * Optional Dependency group requested for installation

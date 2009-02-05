@@ -2,7 +2,7 @@
 test Registry __construct error
 --FILE--
 <?php
-require dirname(__FILE__) . '/../setup.php.inc';
+require dirname(__FILE__) . '/../../setup.php.inc';
 
 try {
     $a = new $registryclass(__DIR__, array('b#b#b#'));
