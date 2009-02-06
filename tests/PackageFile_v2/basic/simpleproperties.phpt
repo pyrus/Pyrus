@@ -12,6 +12,14 @@ $c->saveConfig();
 require __DIR__ . '/../setupFiles/setupPackageFile.php.inc';
 $reg = $package; // simulate registry package using packagefile
 require __DIR__ . '/../../Registry/AllRegistries/info/basic.template';
+
+// don't try this at home!
+$reg->fromArray(array('package' => array()));
+$test->assertEquals(false, $reg->{'api-version'}, 'api-version blank');
+$test->assertEquals(false, $reg->{'api-state'}, 'api-state blank');
+$test->assertEquals(false, $reg->{'release-version'}, 'api-version blank');
+$test->assertEquals(false, $reg->state, 'state blank');
+
 ?>
 ===DONE===
 --CLEAN--

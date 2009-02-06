@@ -103,5 +103,6 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
         }
         $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'],
             $var, $value);
+        parent::__construct($this->_packagefile->files[$this->dir . $this['attribs']['name']]);
     }
 }

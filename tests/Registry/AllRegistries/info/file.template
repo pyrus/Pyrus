@@ -1,0 +1,129 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$testit = array();
+foreach ($reg->contents as $file) {
+    $testit[] = (array) $file;
+}
+
+$test->assertEquals(array (
+  0 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'doc',
+      'name' => 'update_channel.php',
+    ),
+  ),
+  1 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'script',
+      'name' => 'pearscs',
+    ),
+  ),
+  2 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Exception.php',
+    ),
+  ),
+  3 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Category.php',
+    ),
+  ),
+  4 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Maintainer.php',
+    ),
+  ),
+  5 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Manager.php',
+    ),
+  ),
+  6 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Package.php',
+    ),
+  ),
+  7 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Release.php',
+    ),
+  ),
+  8 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Categories.php',
+    ),
+  ),
+  9 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Channel.php',
+    ),
+  ),
+  10 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'CLI.php',
+    ),
+  ),
+  11 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Exception.php',
+    ),
+  ),
+  12 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'Get.php',
+    ),
+  ),
+  13 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'SimpleChannelServer.php',
+    ),
+  ),
+), $testit, 'output');
+
+$test->assertEquals('php', $file->role, 'php 1');
+$test->assertEquals(basename($file->name), $reg->files['src/SimpleChannelServer.php']['attribs']['name'], 'verify we have the same thing');
+$test->assertEquals('php', $reg->files['src/SimpleChannelServer.php']['attribs']['role'], 'again verify');
+$file->role = 'oog';
+$test->assertEquals('oog', $file->role, 'php 2');
+$test->assertEquals('oog', $reg->files['src/SimpleChannelServer.php']['attribs']['role'], 'again verify 2');

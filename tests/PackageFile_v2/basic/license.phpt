@@ -12,6 +12,10 @@ $c->saveConfig();
 require __DIR__ . '/../setupFiles/setupPackageFile.php.inc';
 $reg = $package; // simulate registry package using packagefile
 require __DIR__ . '/../../Registry/AllRegistries/info/license.template';
+
+// don't try this at home!
+$newguy->fromArray(array('package' => array()));
+$test->assertEquals(null, $newguy->license['name'], 'blank name');
 ?>
 ===DONE===
 --CLEAN--
