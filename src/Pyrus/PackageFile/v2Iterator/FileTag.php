@@ -69,8 +69,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
     function __get($var)
     {
         if ($var == 'name') {
-            if (isset($this['install-as'])) {
-                return $this['install-as'];
+            $attribs = parent::offsetGet('attribs');
+            if (isset($attribs['install-as'])) {
+                return $attribs['install-as'];
             }
             return $this->dir . $this['attribs']['name'];
         }
@@ -78,6 +79,10 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
             $ret = $this->getArrayCopy();
             unset($ret['attribs']);
             return $ret;
+        }
+        if ($var == 'install-as') {
+            $attribs = parent::offsetGet('attribs');
+            return $attribs['install-as'];
         }
         return $this['attribs'][$var];
     }
@@ -93,7 +98,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
         if (strpos($var, $this->_packagefile->getTasksNs()) === 0) {
             // setting a file task
             if ($value instanceof PEAR2_Pyrus_Task_Common) {
-                $this->_packagefile->setFileAttribute($this->_dir .
+                $this->_packagefile->setFileAttribute($this->dir .
                     $this['attribs']['name'], $var, $value->getArrayCopy());
                 return;
             }

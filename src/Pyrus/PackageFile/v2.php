@@ -168,6 +168,18 @@ class PEAR2_Pyrus_PackageFile_v2
     function setFileAttribute($filename, $attr, $value)
     {
         if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as'), true)) {
+            // check to see if this is a task
+            if ($this->isValidTask($attr)) {
+                if (!isset($this->filelist[$filename][$attr])) {
+                    $this->filelist[$filename][$attr] = $value;
+                } else {
+                    if (!isset($this->filelist[$filename][$attr][0])) {
+                        $this->filelist[$filename][$attr] = array($this->filelist[$filename][$attr]);
+                    }
+                    $this->filelist[$filename][$attr][] = $value;
+                }
+                return;
+            }
             throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Cannot set invalid attribute ' . $attr . ' for file ' . $filename);
         }
@@ -180,6 +192,20 @@ class PEAR2_Pyrus_PackageFile_v2
                 $filename);
         }
         $this->filelist[$filename]['attribs'][$attr] = $value;
+    }
+
+    function isValidTask($name)
+    {
+        $tasksns = $this->getTasksNs();
+        if (strlen($name) <= strlen($tasksns) + 1) {
+            return false;
+        }
+        if (substr($name, 0, strlen($tasksns)) === $tasksns) {
+            if ($name[strlen($tasksns)] == ':') {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

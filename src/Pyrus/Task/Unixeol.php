@@ -49,8 +49,9 @@ class PEAR2_Pyrus_Task_Unixeol extends PEAR2_Pyrus_Task_Common
      * @param array raw, parsed xml
      * @param unused
      */
-    function init($xml, $attribs)
+    function init($xml, $attribs, $lastversion)
     {
+        parent::init($xml, $fileattribs, $lastversion);
     }
 
     /**

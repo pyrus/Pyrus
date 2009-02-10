@@ -49,7 +49,7 @@ define('PEAR2_PYRUS_TASK_PACKAGEANDINSTALL', 3);
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Common
+class PEAR2_Pyrus_Task_Common extends \ArrayObject
 {
     /**
      * Valid types for this version are 'simple' and 'multiple'
@@ -127,6 +127,7 @@ class PEAR2_Pyrus_Task_Common
      */
     function init($xml, $fileAttributes, $lastVersion)
     {
+        parent::__construct($xml);
     }
 
     /**

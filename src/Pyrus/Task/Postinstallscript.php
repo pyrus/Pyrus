@@ -224,6 +224,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         $this->_class = str_replace ('.php', '', $this->_class) . '_postinstall';
         $this->_params = $xml;
         $this->_lastversion = $lastversion;
+        parent::init($xml, $fileattribs, $lastversion);
     }
 
     /**

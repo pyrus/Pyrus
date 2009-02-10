@@ -88,9 +88,10 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
      * @param array raw, parsed xml
      * @param unused
      */
-    function init($xml, $attribs)
+    function init($xml, $attribs, $lastVersion)
     {
         $this->_replacements = isset($xml['attribs']) ? array($xml) : $xml;
+        parent::init($xml, $attribs, $lastVersion);
     }
 
     /**
