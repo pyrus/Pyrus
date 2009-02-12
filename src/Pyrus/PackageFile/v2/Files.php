@@ -46,9 +46,12 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
 
     function offsetSet($var, $value)
     {
+        if ($value instanceof ArrayObject) {
+            $value = $value->getArrayCopy();
+        }
         if (!is_array($value)) {
-            throw new PEAR2_PackageFile_v2_Files_Exception('File must be an array of
-                attributes and tasks');
+            throw new PEAR2_Pyrus_PackageFile_v2_Files_Exception('File must be an array of '
+                . 'attributes and tasks');
         }
 
         if (!isset($value['attribs'])) {

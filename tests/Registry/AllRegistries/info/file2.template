@@ -1,0 +1,32 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$test->assertEquals(array (
+  'attribs' => 
+  array (
+    'role' => 'doc',
+    'name' => 'update_channel.php',
+  ),
+), $reg->files['examples/update_channel.php'], 'first');
+unset($reg->files['examples/update_channel.php']);
+$test->assertEquals(null, $reg->files['examples/update_channel.php'], 'second');
+
+$test->assertEquals(null, $reg->files['poop'], 'non-existing');
+$test->assertEquals(false, isset($reg->files['poop']), 'isset 1');
+$test->assertEquals(true, isset($reg->files['src/SimpleChannelServer.php']), 'isset 1');
+try {
+    $reg->files['poop'] = new stdClass;
+    throw new Exception('setting non-array should not happen');
+} catch (PEAR2_Pyrus_PackageFile_v2_Files_Exception $e) {
+    $test->assertEquals('File must be an array of '
+                . 'attributes and tasks', $e->getMessage(), 'message');
+}
+try {
+    $reg->files['poop'] = array('oops');
+    throw new Exception('setting array with non-attribs should not happen');
+} catch (PEAR2_Pyrus_PackageFile_v2_Files_Exception $e) {
+    $test->assertEquals('File role must be set for' .
+                ' file poop', $e->getMessage(), 'message 2');
+}
+$reg->files['poop'] = new ArrayObject(array('role' => 'php'));
+$test->assertEquals(array('attribs' => array('role' => 'php', 'name' => 'poop')), $reg->files['poop'], 'after setting');

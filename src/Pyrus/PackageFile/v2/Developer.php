@@ -43,13 +43,9 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
     private $_developer = null;
     private $_role = null;
     private $_info = array('name' => null, 'user' => null, 'email' => null, 'active' => null);
-    function __construct(array &$parent, $developer = null)
+    function __construct(array &$parent)
     {
         $this->_packageInfo = &$parent;
-        if ($developer) {
-            $this->_developer = $developer;
-            $this->_info['user'] = $developer;
-        }
     }
 
     /**
@@ -75,7 +71,10 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
     {
         if ($this->_developer === null) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
-                'Cannnot access developer info for unknown developer');
+                'Cannot access developer info for unknown developer');
+        }
+        if ($var === 'role') {
+            return $this->_role;
         }
         if (!isset($this->_info[$var])) {
             return null;
@@ -87,7 +86,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
     {
         if ($this->_developer === null) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
-                'Cannnot set developer info for unknown developer');
+                'Cannot set developer info for unknown developer');
         }
         if ($var == 'role') {
             $this->_role = $args[0];
@@ -108,19 +107,40 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 
     function offsetGet($var)
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Developer($this->_packageInfo, $var);
+        if ($this->_developer !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                'Cannot retrieve two developers simultaneously (as in $pf->maintainer[\'' . $this->_developer . '\'][\'' .
+                $var . '\']');
+        }
+        $developer = $var;
+        if ($role = $this->locateMaintainerRole($developer)) {
+            if (!isset($this->_packageInfo[$role][0])) {
+                $this->_info = $this->_packageInfo[$role];
+            } else {
+                foreach ($this->_packageInfo[$role] as $data) {
+                    if ($data['user'] == $developer) {
+                        $this->_info = $data;
+                        break;
+                    }
+                }
+            }
+            $this->_role = $role;
+        }
+        $this->_developer = $developer;
+        $this->_info['user'] = $developer;
+        return $this;
     }
 
     function offsetSet($var, $value)
     {
         $this->_developer = $var;
         $this->_info['user'] = $var;
-        if ($var instanceof PEAR2_Pyrus_PackageFile_v2_Developer) {
+        if ($value instanceof PEAR2_Pyrus_PackageFile_v2_Developer) {
             $this->_info['name'] = $value->name;
             $this->_info['email'] = $value->email;
             $this->_info['active'] = $value->active;
-        }
-        if (is_array($value) || $value instanceof ArrayObject) {
+            $this->_role = $value->role;
+        } elseif (is_array($value) || $value instanceof ArrayObject) {
             if (!isset($value['name']) || !isset($value['email']) || !isset($value['active'])) {
                 throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                     'Invalid array used to set ' . $this->_developer . ' information');
@@ -128,6 +148,11 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             $this->_info['name'] = $value['name'];
             $this->_info['email'] = $value['email'];
             $this->_info['active'] = $value['active'];
+            if (isset($value['role'])) {
+                $this->_role = $value['role'];
+            } else {
+                $this->_role = 'lead';
+            }
         }
         $this->_save();
     }
@@ -144,13 +169,14 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             // already non-existent
             return;
         }
-        if (count($this->_packageInfo[$role]) == 1) {
+        if (!isset($this->_packageInfo[$role][0])) {
             unset($this->_packageInfo[$role]);
             return;
         }
         foreach ($this->_packageInfo[$role] as $i => $stuff) {
             if ($stuff['user'] == $var) {
                 unset($this->_packageInfo[$role][$i]);
+                $this->_packageInfo[$role] = array_values($this->_packageInfo[$role]);
                 if (count($this->_packageInfo[$role]) == 1) {
                     $this->_packageInfo[$role] = $this->_packageInfo[$role][0];
                 }
