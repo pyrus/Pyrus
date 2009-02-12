@@ -41,3 +41,42 @@ $test->assertEquals('Gregory Beaver', $greg3->name, 'name 3');
 $test->assertEquals('cellog@php.net', $greg3->email, 'email 3');
 $test->assertEquals('yes', $greg3->active, 'active 3');
 $test->assertEquals('developer', $greg3->role, 'role 3');
+
+$reg->maintainer['foo'] = array('name' => 'Foo Bar', 'email' => 'foo@example.com', 'active' => 'yes');
+
+$foo = $reg->maintainer['foo'];
+$test->assertEquals('foo', $foo->user, 'user 4');
+$test->assertEquals('Foo Bar', $foo->name, 'name 4');
+$test->assertEquals('foo@example.com', $foo->email, 'email 4');
+$test->assertEquals('yes', $foo->active, 'active 4');
+$test->assertEquals('lead', $foo->role, 'role 4');
+
+$reg->maintainer['doink'] = array('name' => 'Foo Doink', 'email' => 'foo1@example.com', 'active' => 'no', 'role' => 'developer');
+
+$doink = $reg->maintainer['doink'];
+$test->assertEquals('doink', $doink->user, 'user 5');
+$test->assertEquals('Foo Doink', $doink->name, 'name 5');
+$test->assertEquals('foo1@example.com', $doink->email, 'email 5');
+$test->assertEquals('no', $doink->active, 'active 5');
+$test->assertEquals('developer', $doink->role, 'role 5');
+
+try {
+    $reg->maintainer['oops'] = array('blah' => 'blah');
+    throw new Exception('oops 1');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Invalid array used to set oops information', $e->getMessage(), 'oops 1');
+}
+
+try {
+    $reg->maintainer['oops2'] = array('name' => 'blah');
+    throw new Exception('oops 2');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Invalid array used to set oops2 information', $e->getMessage(), 'oops 2');
+}
+
+try {
+    $reg->maintainer['oops3'] = array('name' => 'blah', 'email' => 'poo');
+    throw new Exception('oops 3');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Invalid array used to set oops3 information', $e->getMessage(), 'oops 3');
+}
