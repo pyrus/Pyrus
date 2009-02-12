@@ -1,0 +1,91 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+try {
+    $foo = array();
+    $oops = new PEAR2_Pyrus_PackageFile_v2_Developer($foo);
+    $a = $oops->name;
+    throw new Exception('oops did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Cannot access developer info for unknown developer', $e->getMessage(), 'no dev set');
+}
+
+try {
+    $oops->name('hi');
+    throw new Exception('oops 3 did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Cannot set developer info for unknown developer', $e->getMessage(), 'no dev set 3');
+}
+
+$greg = $reg->maintainer['cellog'];
+$test->assertEquals(null, $greg->nonexisting, 'non-existing');
+
+try {
+    $a = $reg->maintainer['cellog']['greg'];
+    throw new Exception('double did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Cannot retrieve two developers simultaneously (as in $pf->maintainer[\'cellog\'][\'greg\']', $e->getMessage(), 'double dev set');
+}
+
+try {
+    $a = $reg->maintainer[0];
+    throw new Exception('numeric did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Developer handle cannot be numeric', $e->getMessage(), 'numeric');
+}
+
+try {
+    $reg->maintainer[0] = array();
+    throw new Exception('numeric 2 did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Developer handle cannot be numeric', $e->getMessage(), 'numeric 2');
+}
+
+try {
+    $greg->flurb('blah');
+    throw new Exception('flurb did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Cannot set unknown value flurb', $e->getMessage(), 'flurb');
+}
+
+try {
+    $greg->name('blah', 'foo');
+    throw new Exception('double name did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Can only set name to 1 value', $e->getMessage(), 'double name');
+}
+
+try {
+    $greg->name(array());
+    throw new Exception('array name did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Invalid value for name, must be a string', $e->getMessage(), 'array name');
+}
+
+$a = $greg->name('Foo Bar');
+$test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Developer', $a, 'right class');
+$test->assertEquals('Foo Bar', $greg->name, 'after setting name');
+
+$foo = $reg->maintainer['foo'];
+$foo->name('Blah Blah');
+// we don't save unless we know the role
+$test->assertEquals(null, $reg->maintainer['foo']->name, 'after name change');
+
+$foo = $reg->maintainer['foo'];
+$foo->role('lead');
+$test->assertEquals(null, $reg->maintainer['foo']->name, 'after name change 2');
+$foo->name('Blah Blah');
+$test->assertEquals('Blah Blah', $reg->maintainer['foo']->name, 'after name change 3');
+
+$bar = $reg->maintainer['bar'];
+$bar->role('helper');
+$test->assertEquals('helper', $reg->maintainer['bar']->role, 'after role change');
+$bar->name('Blah Blah');
+$foobar = $reg->maintainer['foobar'];
+$foobar->role('lead');
+$greg->role('helper');
+$test->assertEquals('helper', $reg->maintainer['cellog']->role, 'after role change 2');
+$reg->maintainer['saltybeagle']->role('helper');
+$test->assertEquals('helper', $reg->maintainer['saltybeagle']->role, 'after role change 3');
+$foobar->role('helper');
+$test->assertEquals('helper', $reg->maintainer['foobar']->role, 'after role change 4');

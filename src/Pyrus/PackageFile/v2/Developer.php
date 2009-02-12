@@ -90,15 +90,20 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
         }
         if ($var == 'role') {
             $this->_role = $args[0];
+            $this->_save();
             return $this;
         }
         if (!array_key_exists($var, $this->_info) || $var == 'user') {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannot set unknown value ' . $var);
         }
-        if (count($args) != 1 || !is_string($args[0])) {
+        if (count($args) != 1) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
-                'Invalid value for ' . $var);
+                'Can only set ' . $var . ' to 1 value');
+        }
+        if (!is_string($args[0])) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                'Invalid value for ' . $var . ', must be a string');
         }
         $this->_info[$var] = $args[0];
         $this->_save();
@@ -111,6 +116,9 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannot retrieve two developers simultaneously (as in $pf->maintainer[\'' . $this->_developer . '\'][\'' .
                 $var . '\']');
+        }
+        if (!is_string($var)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception('Developer handle cannot be numeric');
         }
         $developer = $var;
         if ($role = $this->locateMaintainerRole($developer)) {
@@ -133,6 +141,9 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 
     function offsetSet($var, $value)
     {
+        if (!is_string($var)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception('Developer handle cannot be numeric');
+        }
         $this->_developer = $var;
         $this->_info['user'] = $var;
         if ($value instanceof PEAR2_Pyrus_PackageFile_v2_Developer) {
@@ -200,16 +211,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
      */
     private function _save()
     {
-        if (!$this->_role) {
-            return;
-        }
-
-        if (!$this->_developer) {
-            return;
-        }
-
-        if (!isset($this->_info['user']) || !isset($this->_info['name']) ||
-              !isset($this->_info['email']) || !isset($this->_info['active'])) {
+        if (!$this->_role || !isset($this->_developer)) {
             return;
         }
 
