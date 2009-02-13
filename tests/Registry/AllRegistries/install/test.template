@@ -1,3 +1,5 @@
 <?php
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'package does not exist');
 $reg->install($info);
+$test->assertEquals(true, (bool)$reg->exists($info->name, $info->channel), 'package was installed');
 ?>

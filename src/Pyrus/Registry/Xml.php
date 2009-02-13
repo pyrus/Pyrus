@@ -84,7 +84,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
 
     public function exists($package, $channel)
     {
-        $packagefile = $this->_namePath($package, $channel);
+        $packagefile = $this->_namePath($channel, $package);
         return @file_exists($packagefile) && @is_dir($packagefile);
     }
 
@@ -94,15 +94,18 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel .
                 '/' . $package);
         }
-        $packagefile = glob($this->_namePath($package, $channel) .
+        $packagefile = glob($this->_namePath($channel, $package) .
             DIRECTORY_SEPARATOR . '*.xml');
         if (!$packagefile || !isset($packagefile[0])) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
                 $channel . '/' . $package);
         }
+        
+        $package = new PEAR2_Pyrus_Package($packagefile[0]);
+        
         // create packagefile v2 here
         if ($field === null) {
-            return $pf;
+            return $package;
         }
 
         if ($field == 'version') {
@@ -110,20 +113,20 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         } elseif ($field == 'installedfiles') {
             $ret = array();
             try {
-                $config = new PEAR2_Pyrus_Config_Snapshot($pf->date . ' ' . $pf->time);
+                $config = new PEAR2_Pyrus_Config_Snapshot($package->date . ' ' . $package->time);
             } catch (Exception $e) {
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve files, config ' .
                                         'snapshot could not be processed', $e);
             }
             $roles = array();
-            foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($info->getPackageType()) as $role) {
+            foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
                 // set up a list of file role => configuration variable
                 // for storing in the registry
                 $roles[$role] =
-                    PEAR2_Pyrus_Installer_Role::factory($info, $role)->getLocationConfig();
+                    PEAR2_Pyrus_Installer_Role::factory($package, $role)->getLocationConfig();
             }
             $ret = array();
-            foreach ($pf->files as $path => $info) {
+            foreach ($package->files as $path => $info) {
                 $ret[] = $config->{$roles[$info['role']]} . DIRECTORY_SEPARATOR . $path;
             }
             return $ret;
@@ -136,7 +139,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             return $ret;
         }
 
-        return $pf->$field;
+        return $package->$field;
     }
 
     public function listPackages($channel)
@@ -171,9 +174,9 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
                 'for package ' . $package . '/' . $channel . ', it is not installed');
         }
-        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
-        $x = new PEAR2_Pyrus_PackageFile($packagefile);
-        return $x->info;
+        $packagefile = $this->info($package, $channel, null);
+        
+        return $packagefile->getInternalPackage();
     }
 
     public function __get($var)
