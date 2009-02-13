@@ -579,7 +579,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':name',    $package);
         $stmt->bindParam(':channel', $channel);
-        $result = $stmt->prepare();
+        $result = $stmt->execute();
 
         if (!$result) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
@@ -623,7 +623,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':name',    $package);
         $stmt->bindParam(':channel', $channel);
-        $result = $stmt->prepare();
+        $result = $stmt->execute();
 
         if (!$result) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
@@ -644,14 +644,14 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"
                 ORDER BY required, deppackage, depchannel, conflicts';
-        $a = static::$databases[$this->_path]->arrayQuery($sql, SQLITE_ASSOC);
+        $a = static::$databases[$this->_path]->query($sql);
 
         $sql = 'SELECT * FROM package_dependencies_exclude
                 WHERE
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"
                 ORDER BY required, deppackage, depchannel, conflicts, exclude';
-        $b = static::$databases[$this->_path]->arrayQuery($sql, SQLITE_ASSOC);
+        $b = static::$databases[$this->_path]->query($sql);
         if (!$a) {
             return $ret;
         }
