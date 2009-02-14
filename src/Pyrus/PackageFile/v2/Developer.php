@@ -241,12 +241,12 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
                 foreach ($this->_packageInfo[$role] as $i => $dev) {
                     if ($dev['user'] == $this->_developer) {
                         unset($this->_packageInfo[$role][$i]);
+                        $this->_packageInfo[$role] =
+                            array_values($this->_packageInfo[$role]);
                         if (count($this->_packageInfo[$role]) == 1) {
                             $this->_packageInfo[$role] = $this->_packageInfo[$role][0];
-                        } else {
-                            $this->_packageInfo[$role] =
-                                array_values($this->_packageInfo[$role]);
                         }
+                        break;
                     }
                 }
             }

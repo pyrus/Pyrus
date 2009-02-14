@@ -194,6 +194,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
 
             foreach ($maintainers as $maintainer) {
+                if (!$maintainer) {
+                    continue;
+                }
                 $stmt->clear();
                 $stmt->bindParam(':name',     $n);
                 $stmt->bindParam(':channel',  $c);

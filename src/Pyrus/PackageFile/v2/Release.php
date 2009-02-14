@@ -23,19 +23,17 @@
  * $pf->type = 'php';
  * // release is an extension source package
  * $pf->type = 'extsrc';
- * $pf->release[0]->installconditions['php'] = array('min' => '5.2.0');
+ * $pf->release[0]->installconditions['php']->min('5.2.0');
  * // defaults to "min"
  * $pf->release[0]->installconditions['php'] = '5.2.0';
  * // defaults to "pattern"
  * $pf->release[0]->installconditions['arch'] = 'i386';
- * $pf->release[0]->installconditions['arch'] =
- *      array('pattern' => 'i386', 'conflicts' => 'yes');
+ * $pf->release[0]->installconditions['arch']->pattern('i386')->conflicts();
  * // defaults to "name"
  * $pf->release[0]->installconditions['os'] = 'windows';
  * // defaults to existing
- * $pf->release[0]->installconditions['extension']['PDO'] = array();
- * $pf->release[0]->installconditions['extension']['PDO'] =
- *      array('min' => '1.0');
+ * $pf->release[0]->installconditions['extension'][0]->name('PDO');
+ * $pf->release[0]->installconditions['extension'][0]->name('PDO')->min('1.0');
  * $pf->release[0]->ignore('path/to/file.ext');
  * $pf->release[0]->installAs('path/to/anotherfile.ext', 'new/name.php');
  * // add another release
@@ -60,21 +58,37 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
     private $_parent;
     private $_packageInfo;
     private $_filelist;
-    private $_installcondition;
-    function __construct(array &$parent, array &$packageInfo, array &$filelist,
-                         $installcondition = null)
+    protected $index;
+    protected $info = array();
+    function __construct($parent, $packageInfo, array $filelist, $index = null)
     {
-        $this->_parent = &$parent;
-        $this->_packageInfo = &$packageInfo;
-        $this->_filelist = &$filelist;
-        $this->_installcondition = $installcondition;
+        $this->_parent = $parent;
+        $this->_packageInfo = $packageInfo;
+        $this->_filelist = $filelist;
+        if ($index !== null) {
+            $this->index = $index;
+            $this->info = $packageInfo;
+        } else {
+            if (isset($packageInfo[0])) {
+                $this->info = $packageInfo;
+            } else if (count($packageInfo)) {
+                $this->info = array($packageInfo);
+            }
+        }
     }
 
     function __get($var)
     {
+        if (!isset($this->index)) {
+            return null;
+        }
         if ($var === 'installconditions') {
-            return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                       $this->_packageInfo[$var], $this->_filelist, true);
+            if (!isset($this->info['installcondition'])) {
+                $this->info['installcondition'] = array();
+            }
+            $conditions =
+                new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition($this, $this->info['installcondition']);
+            return $conditions;
         }
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown variable ' . $var .
             ', installconditions is the only supported variable');
@@ -82,193 +96,124 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
 
     function count()
     {
-        if (isset($this->_packageInfo[0])) {
-            return count($this->_packageInfo);
+        if (isset($this->index)) {
+            return 1;
         }
-        return count($this->_packageInfo) ? 1 : 0;
+        return count($this->info);
     }
 
     function offsetGet($var)
     {
-        if (is_int($var) && !$this->_installcondition) {
-            if (isset($this->_packageInfo[0])) {
-                if (!isset($this->_packageInfo[$var])) {
+        if (is_int($var) && !isset($this->index)) {
+            if (isset($this->info[0])) {
+                if (!isset($this->info[$var])) {
                     if ($var != count($this)) {
                         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
                             'Can only set the ' .
                             'next highest release index ' . count($this) . ', not ' . $var);
                     }
-                    $this->_packageInfo[$var] = array();
+                    $this->info[$var] = array();
                 }
-                return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                           $this->_packageInfo[$var], $this->_filelist);
+                return new PEAR2_Pyrus_PackageFile_v2_Release($this,
+                           $this->info[$var], $this->_filelist, $var);
             } else {
-                if (!$var) {
-                    return $this;
-                }
                 if ($var != count($this)) {
                     throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Can only set the ' .
                         'next highest release index ' . count($this) . ', not ' . $var);
                 }
-                $this->_packageInfo = array($this->_packageInfo, array());
-                return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                           $this->_packageInfo[$var], $this->_filelist);
+                $this->info[$var] = array();
+                return new PEAR2_Pyrus_PackageFile_v2_Release($this,
+                           $this->info[$var], $this->_filelist, $var);
             }
         }
-        if (is_string($var) && $this->_installcondition == 'extension') {
-            if (!isset($this->_packageInfo[$var])) {
-                $this->_packageInfo[$var] = array();
-            }
-            return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                       $this->_packageInfo[$var], $this->_filelist, 'extension');
-        }
-        if (!is_int($var) && !$this->_installcondition) {
-            if (is_string($this->_installcondition)) {
-                if (isset($this->_packageInfo[$var])) {
-                    return $this->_packageInfo[$var];
-                }
-                return null;
-            }
-            if (in_array($var, array('php', 'os', 'arch', 'extension'), true)) {
-                if (!isset($this->_packageInfo['installconditions'])) {
-                    $this->_packageInfo['installconditions'] = array();
-                }
-                if (!isset($this->_packageInfo['installconditions'][$var])) {
-                    $this->_packageInfo['installconditions'][$var] = array();
-                }
-                if ($var !== 'extension') {
-                    return $this->_packageInfo['installconditions'][$var];
-                }
-                return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                           $this->_packageInfo[$var], $this->_filelist, 'extension');
-            }
-        }
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot access numeric index of ' .
-            $this->_installcondition . ' install condition');
     }
 
-    private function _setExtension($info)
+    /**
+     * @return PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition
+     */
+    function getInstallCondition()
     {
-        if (!isset($this->_packageInfo[0])) {
-            if (!count($this->_packageInfo)) {
-                $this->_packageInfo = $info;
-                return;
-            }
-            if ($this->_packageInfo['name'] == $info['name']) {
-                $this->_packageInfo = $info;
-            } else {
-                $this->_packageInfo = array($this->_packageInfo, $info);
-            }
-        } else {
-            foreach ($this->_packageInfo as $i => $cond) {
-                if ($dep['name'] === $info['name']) {
-                    $this->_packageInfo[$i] = $info;
-                    return;
-                }
-            }
-            $this->_packageInfo[] = $info;
+        if (!isset($this->index)) {
+            return null;
         }
+        if (!isset($this->info[$this->index]['installcondition'])) {
+            return false;
+        }
+        return $this->info[$this->index]['installcondition'];
+    }
+
+    function getInstallAs()
+    {
+        if (!isset($this->index)) {
+            return null;
+        }
+        if (!isset($this->info['install'])) {
+            return false;
+        }
+        return $this->info['install'];
+    }
+
+    function getIgnore()
+    {
+        if (!isset($this->index)) {
+            return null;
+        }
+        if (!isset($this->info['ignore'])) {
+            return false;
+        }
+        return $this->info['ignore'];
+    }
+
+    function ignores($file)
+    {
+        $ignore = $this->getIgnore();
+        if (!$ignore) {
+            return false;
+        }
+        if (!isset($ignore[0])) {
+            $ignore = array($ignore);
+        }
+        foreach ($ignore as $ignored) {
+            if ($ignored['attribs']['name'] == $file) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function installsAs($file)
+    {
+        $install = $this->getInstallAs();
+        if (!$install) {
+            return $file;
+        }
+        if (!isset($install[0])) {
+            $install = array($install);
+        }
+        foreach ($install as $as) {
+            if ($as['attribs']['name'] == $file) {
+                return $as['attribs']['as'];
+            }
+        }
+        return $file;
     }
 
     function offsetSet($var, $value)
     {
-        if (!isset($this->_installcondition)) {
-            if ($var === null) {
-                $var = 0;
-            }
-
-            if (is_int($var)) {
-                if (!isset($this->_packageInfo[$var])) {
-                    if (count($this->_packageInfo)) {
-                        $this->_packageInfo = array($this->_packageInfo);
-                    }
-                    if (!isset($this->_packageInfo[$var])) {
-                        $this->_packageInfo[$var] = array();
-                    }
-                }
-
-                return new PEAR2_Pyrus_PackageFile_v2_Release($this->_parent,
-                    $this->_packageInfo[$var], $this->_filelist);
-            }
+        if ($var === null) {
+            $var = count($this->info);
         }
 
-        if ($this->_installcondition === 'extension') {
-            if (!is_string($var)) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('extension names must be ' .
-                    'strings for installconditions');
+        if (is_int($var)) {
+            if ($value instanceof PEAR2_Pyrus_PackageFile_v2_Release) {
+                $this->info[$var] = array('installcondition' => $value->getInstallCondition(),
+                                          'install' => $value->getInstallAs(),
+                                          'ignore' => $value->getIgnore());
+                $this->save();
+                return;
             }
-            $info = array();
-            if (is_array($value)) {
-                foreach (array('name', 'min', 'max', 'exclude', 'conflicts') as $index) {
-                    if (!isset($value[$index])) continue;
-                    $info[$index] = $value[$index];
-                }
-            } elseif (is_string($value)) {
-                $info = array('name' => $value);
-            } else {
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('extension can only be set to' .
-                    ' array or string');
-            }
-
-            $this->_setExtension($info);
-            return;
         }
-
-        switch ($var) {
-            case 'php' :
-                $info = array();
-                if (is_array($value)) {
-                    foreach (array('min', 'max', 'exclude') as $index) {
-                        if (!isset($value[$index])) {
-                            continue;
-                        }
-
-                        $info[$index] = $value[$index];
-                    }
-                } elseif (is_string($value)) {
-                    $info = array('min' => $value);
-                }
-                $this->_packageInfo = $value;
-                break;
-            case 'arch' :
-                $info = array();
-                if (is_array($value)) {
-                    foreach (array('pattern', 'conflicts') as $index) {
-                        if (!isset($value[$index])) {
-                            continue;
-                        }
-
-                        $info[$index] = $value[$index];
-                    }
-                } elseif (is_string($value)) {
-                    $info = array('pattern' => $value);
-                }
-
-                $this->_packageInfo = $value;
-                break;
-            case 'os' :
-                $info = array();
-                if (is_array($value)) {
-                    foreach (array('name', 'conflicts') as $index) {
-                        if (!isset($value[$index])) {
-                            continue;
-                        }
-
-                        $info[$index] = $value[$index];
-                    }
-                } elseif (is_string($value)) {
-                    $info = array('name' => $value);
-                }
-
-                $this->_packageInfo = $value;
-                break;
-            case 'extension' :
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Use [\'extensionname\'] to set' .
-                ' an extension\'s installcondition');
-            default :
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown installcondition ' .
-                    $var);
-        }
+        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set ' . $var);
     }
 
     /**
@@ -276,7 +221,8 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
      */
     function offsetUnset($var)
     {
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('unset not supported');
+        unset($this->info[$var]);
+        $this->save();
     }
 
     /**
@@ -285,28 +231,23 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
      */
     function offsetExists($var)
     {
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('isset not supported');
+        return isset($this->info[$var]);
     }
 
     function ignore($file)
     {
-        if ($this->_installcondition) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('file ignore is not supported' .
-                ' within installconditions');
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot ignore ' .
+                            'file ' . $file . ' without specifying which release section to ignore it in');
         }
-
         if (isset($this->_filelist[$file])) {
-            if (!isset($this->_packageInfo['ignore'])) {
-                $this->_packageInfo['ignore'] = array('attribs' => array('name' => $file));
-                return;
+            if (!isset($this->info['ignore'])) {
+                $this->info['ignore'] = array(array('attribs' => array('name' => $file)));
+            } else {
+                $this->info['ignore'][] = array('attribs' => array('name' => $file));
             }
-
-            if (!isset($this->_packageInfo['ignore'][0])) {
-                $this->_packageInfo['ignore'] = array($this->_packageInfo['ignore'],
-                    array('attribs' => array('name' => $file)));
-            }
-
-            $this->_packageInfo['ignore'][] = array('attribs' => array('name' => $file));
+            $this->save();
+            return;
         }
 
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
@@ -315,34 +256,104 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
 
     function installAs($file, $newname)
     {
-        if (!is_string($file) || !is_string($newname)) {
-            throw BadMethodCallException('$file and $newname must be strings');
-        }
-
-        if ($this->_installcondition) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('file ignore is not supported' .
-                ' within installconditions');
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot install ' .
+                            'file ' . $file . ' to ' . $newname .
+                            ' without specifying which release section to install it in');
         }
 
         if (isset($this->_filelist[$file])) {
-            if (!isset($this->_packageInfo['install'])) {
-                $this->_packageInfo['install'] = array('attribs' =>
+            if (!isset($this->info['install'])) {
+                $this->info['install'] = array(array('attribs' =>
+                    array('name' => $file, 'as' => $newname)));
+            } else {
+                $this->_packageInfo['install'][] = array('attribs' =>
                     array('name' => $file, 'as' => $newname));
-                return;
             }
-
-            if (!isset($this->_packageInfo['install'][0])) {
-                $this->_packageInfo['install'] = array($this->_packageInfo['install'],
-                    array('attribs' => array('name' => $file, 'as' => $newname)));
-                return;
-            }
-
-            $this->_packageInfo['install'][] = array('attribs' =>
-                array('name' => $file, 'as' => $newname));
+            $this->save();
             return;
         }
 
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
             ' - add to filelist before adding install as tag');
+    }
+
+    function setInstallCondition(PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition $c)
+    {
+        $this->info['installcondition'] = $c->getInfo();
+        $this->save();
+    }
+
+    function setReleaseInfo($index, $info)
+    {
+        $this->info[$index] = $info;
+    }
+
+    /**
+     * Saves results to the parent packagefile object
+     */
+    protected function save()
+    {
+        if (isset($this->index)) {
+            $this->_parent->setReleaseInfo($this->index, $this->info);
+            return $this->_parent->save();
+        }
+        $newXml = $this->info;
+        foreach ($newXml as $index => $info) {
+            if (isset($info['ignore']) && count($info['ignore']) == 1 && !isset($info['ignore']['attribs'])) {
+                $newXml[$index]['ignore'] = $newXml[$index]['ignore'][0];
+            }
+            if (isset($info['install']) && count($info['install']) == 1 && !isset($info['install']['attribs'])) {
+                $newXml[$index]['install'] = $newXml[$index]['install'][0];
+            }
+            if (isset($info['ignore']) && !count($info['ignore'])) {
+                unset($newXml[$index]['ignore']);
+            }
+            if (isset($info['install']) && !count($info['install'])) {
+                unset($newXml[$index]['install']);
+            }
+            if (isset($info['installcondition']) && count($info['installcondition'])) {
+                foreach (array('php', 'os', 'arch') as $key) {
+                    if (!isset($info['installcondition'][$key])) {
+                        continue;
+                    }
+                    foreach (array_keys($info['installcondition'][$key]) as $ikey) {
+                        if ($info['installcondition'][$key][$ikey] === null) {
+                            unset($newXml[$index]['installcondition'][$key][$ikey]);
+                        }
+                    }
+                }
+                if (isset($info['installcondition']['extension']) && !count($info['installcondition']['extension'])) {
+                    unset($newXml[$index]['installcondition']['extension']);
+                } elseif (isset($info['installcondition']['extension'])) {
+                    if (!isset($info['installcondition']['extension'][0])) {
+                        $newXml[$index]['installcondition']['extension'] = $info['installcondition']['extension'] =
+                            array($info['installcondition']['extension']);
+                    }
+                    foreach ($info['installcondition']['extension'] as $extkey => $ext) {
+                        foreach (array_keys($ext) as $key) {
+                            if ($ext[$key] === null) {
+                                unset($newXml[$index]['installcondition']['extension'][$extkey][$key]);
+                            }
+                        }
+                    }
+                    if (isset($info['installcondition']['extension']) && count($info['installcondition']['extension']) == 1) {
+                        $newXml[$index]['installcondition']['extension'] =
+                            $newXml[$index]['installcondition']['extension'][0];
+                    }
+                }
+
+                if (!count($info['installcondition'])) {
+                    unset($newXml[$index]['installcondition']);
+                    continue;
+                }
+            } else {
+                unset($newXml[$index]['installcondition']);
+            }
+        }
+        if (count($newXml) == 1) {
+            $newXml = $newXml[0];
+        }
+        $this->_parent->rawrelease = $newXml;
     }
 }

@@ -606,19 +606,19 @@ class PEAR2_Pyrus_PackageFile_v2
                 }
                 return $this->packageInfo['stability']['api'];
             case 'allmaintainers' :
-                $leads = $this->tag('lead');
+                $leads = (array) $this->tag('lead');
                 if ($leads && !isset($leads[0])) {
                     $leads = array($leads);
                 }
-                $developers = $this->tag('developer');
+                $developers = (array) $this->tag('developer');
                 if ($developers && !isset($developers[0])) {
                     $developers = array($developers);
                 }
-                $helpers = $this->tag('helper');
+                $helpers = (array) $this->tag('helper');
                 if ($helpers && !isset($helpers[0])) {
                     $helpers = array($helpers);
                 }
-                $contributors = $this->tag('contributors');
+                $contributors = (array) $this->tag('contributor');
                 if ($contributors && !isset($contributors[0])) {
                     $contributors = array($contributors);
                 }
@@ -673,11 +673,11 @@ class PEAR2_Pyrus_PackageFile_v2
                         $t .= 'release';
                     }
                 }
-                if (!$this->packageInfo[$t]) {
+                if (!isset($this->packageInfo[$t]) || !is_array($this->packageInfo[$t])) {
                     $this->packageInfo[$t] = array();
                 }
                 return new PEAR2_Pyrus_PackageFile_v2_Release(
-                    $this->packageInfo, $this->packageInfo[$t], $this->filelist);
+                    $this, $this->packageInfo[$t], $this->filelist);
             case 'compatible' :
                 return new PEAR2_Pyrus_PackageFile_v2_Compatible($this->packageInfo);
             case 'schemaOK' :
@@ -750,6 +750,14 @@ class PEAR2_Pyrus_PackageFile_v2
         }
         if ($var === 'rawdependencies' && is_array($value)) {
             $this->packageInfo['dependencies'] = $value;
+            return;
+        }
+        if ($var === 'rawrelease' && is_array($value)) {
+            $t = $this->getPackageType();
+            if ($t != 'bundle') {
+                $t .= 'release';
+            }
+            $this->packageInfo[$t] = $value;
             return;
         }
         if ($var === 'rawcompatible' && is_array($value)) {

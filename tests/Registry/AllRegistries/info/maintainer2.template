@@ -89,3 +89,212 @@ $reg->maintainer['saltybeagle']->role('helper');
 $test->assertEquals('helper', $reg->maintainer['saltybeagle']->role, 'after role change 3');
 $foobar->role('helper');
 $test->assertEquals('helper', $reg->maintainer['foobar']->role, 'after role change 4');
+
+$foobar->role('contributor');
+$bar->role('developer');
+
+$test->assertEquals(array (
+  'lead' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'foo',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+  'developer' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'bar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+  'helper' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Foo Bar',
+      'user' => 'cellog',
+      'email' => 'cellog@php.net',
+      'active' => 'yes',
+    ),
+    1 => 
+    array (
+      'name' => 'Brett Bieber',
+      'user' => 'saltybeagle',
+      'email' => 'brett.bieber@gmail.com',
+      'active' => 'yes',
+    ),
+  ),
+  'contributor' => 
+  array (
+    0 => 
+    array (
+      'name' => NULL,
+      'user' => 'foobar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+), $reg->allmaintainers, 'allmaintainers');
+
+$greg->role('lead');
+
+$test->assertEquals(array (
+  'lead' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'foo',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+    1 => 
+    array (
+      'name' => 'Foo Bar',
+      'user' => 'cellog',
+      'email' => 'cellog@php.net',
+      'active' => 'yes',
+    ),
+  ),
+  'developer' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'bar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+  'helper' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Brett Bieber',
+      'user' => 'saltybeagle',
+      'email' => 'brett.bieber@gmail.com',
+      'active' => 'yes',
+    ),
+  ),
+  'contributor' => 
+  array (
+    0 => 
+    array (
+      'name' => NULL,
+      'user' => 'foobar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+), $reg->allmaintainers, 'allmaintainers 1');
+
+$greg->role('developer');
+
+$test->assertEquals(array (
+  'lead' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'foo',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+  'developer' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'bar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+    1 => 
+    array (
+      'name' => 'Foo Bar',
+      'user' => 'cellog',
+      'email' => 'cellog@php.net',
+      'active' => 'yes',
+    ),
+  ),
+  'helper' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Brett Bieber',
+      'user' => 'saltybeagle',
+      'email' => 'brett.bieber@gmail.com',
+      'active' => 'yes',
+    ),
+  ),
+  'contributor' => 
+  array (
+    0 => 
+    array (
+      'name' => NULL,
+      'user' => 'foobar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+), $reg->allmaintainers, 'allmaintainers 2');
+
+$greg->role('contributor');
+
+$test->assertEquals(array (
+  'lead' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'foo',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+  'developer' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Blah Blah',
+      'user' => 'bar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+  ),
+  'helper' => 
+  array (
+    0 => 
+    array (
+      'name' => 'Brett Bieber',
+      'user' => 'saltybeagle',
+      'email' => 'brett.bieber@gmail.com',
+      'active' => 'yes',
+    ),
+  ),
+  'contributor' => 
+  array (
+    0 => 
+    array (
+      'name' => NULL,
+      'user' => 'foobar',
+      'email' => NULL,
+      'active' => NULL,
+    ),
+    1 => 
+    array (
+      'name' => 'Foo Bar',
+      'user' => 'cellog',
+      'email' => 'cellog@php.net',
+      'active' => 'yes',
+    ),
+  ),
+), $reg->allmaintainers, 'allmaintainers 3');
