@@ -16,7 +16,7 @@ try {
     $test->assertEquals('PHP Extension and Application Repository', $chan->summary, 'getSummary');
     $test->assertEquals('pear', $chan->alias, 'getAlias');
     $test->assertEquals(false, $chan->ssl, 'getSSL');
-    $test->assertEquals(80, (int)$chan->port, 'getSSL');
+    $test->assertEquals(80, $chan->port, 'getSSL');
     $test->assertEquals(true, $chan->supportsREST(), 'supportsREST');
     
     $exp_rest = array();
@@ -41,6 +41,9 @@ try {
     $test->assertEquals('http://pear.php.net/rest1.2/', $chan->getBaseURL('REST1.2'), 'REST 1.2');
     $test->assertEquals('http://pear.php.net/rest1.3/', $chan->getBaseURL('REST1.3'), 'REST 1.3');
     $test->assertEquals($exp_rest, $chan->getFunctions('rest'), 'getFunctions');
+    
+    $chan->resetREST();
+    $test->assertEquals(false, $chan->getRest(), 'resetREST');
     
     $mirrors = $chan->mirrors;
     $test->assertEquals(true, is_array($mirrors), 'Mirrors returns array');

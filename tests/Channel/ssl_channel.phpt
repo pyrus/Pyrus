@@ -13,7 +13,7 @@ try {
         $test->assertEquals(false, $thrown, 'validate channel file '.$e->getMessage());
     }
     $test->assertEquals(true, $chan->ssl, 'getSSL');
-    $test->assertEquals(443, (int)$chan->port, 'getPort');
+    $test->assertEquals(443, $chan->port, 'getPort');
 } catch(Exception $e) {
     $thrown = true;
 }
