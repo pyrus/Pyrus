@@ -160,7 +160,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function getPort()
     {
         if (isset($this->channelInfo['servers']['primary']['attribs']['port'])) {
-            return $this->channelInfo['servers']['primary']['attribs']['port'];
+            return (int)$this->channelInfo['servers']['primary']['attribs']['port'];
         }
 
         if ($this->getSSL()) {
@@ -369,7 +369,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function setAlias($alias, $local = false)
     {
         if (!$this->validChannelServer($alias)) {
-            throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $server . '" is not a valid channel server');
+            throw new PEAR2_Pyrus_Channel_Exception('Alias "' . $alias . '" is not a valid channel alias');
         }
 
         $a = $local ? 'localalias' : 'suggestedalias';
