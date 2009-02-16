@@ -229,11 +229,11 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     function getBaseURL($resourceType)
     {
         $rest = $this->getREST();
-        if (!isset($rest['baseurl'][0])) {
-            $rest['baseurl'] = array($rest['baseurl']);
+        if (!isset($rest[0])) {
+            $rest = array($rest);
         }
 
-        foreach ($rest['baseurl'] as $baseurl) {
+        foreach ($rest as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($resourceType)) {
                 return $baseurl['_content'];
             }
@@ -495,7 +495,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      * Retrieve the object that can be used for custom validation
      * @param string|false the name of the package to validate.  If the package is
      *                     the channel validation package, PEAR_Validate is returned
-     * @return PEAR_Validate|false false is returned if the validation package
+     * @return PEAR2_Pyrus_Validate|false false is returned if the validation package
      *         cannot be located
      */
     function getValidationObject($package = false)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0">
+ <name>pear.example.com</name>
+ <suggestedalias>sslchannel</suggestedalias>
+ <summary>Test SSL Channel</summary>
+ <servers>
+  <primary ssl="yes" port="443">
+   <rest>
+    <baseurl type="REST1.0">https://pear.example.com/rest1.0/</baseurl>
+    <baseurl type="REST1.1">https://pear.example.com/rest1.1/</baseurl>
+    <baseurl type="REST1.3">https://pear.example.com/rest1.3/</baseurl>
+   </rest>
+  </primary>
+ </servers>
+</channel>

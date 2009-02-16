@@ -9,8 +9,9 @@
   <primary>
    <rest>
 
-    <baseurl type="REST1.0">http://pear.unl.edu/Chiara_PEAR_Server_REST/</baseurl>
-    <baseurl type="REST1.1">http://pear.unl.edu/Chiara_PEAR_Server_REST/</baseurl>
+    <baseurl type="REST1.0">http://pear.unl.edu/Chiara_PEAR_Server_REST1.0/</baseurl>
+    <baseurl type="REST1.1">http://pear.unl.edu/Chiara_PEAR_Server_REST1.1/</baseurl>
+    <baseurl type="REST1.3">http://pear.unl.edu/Chiara_PEAR_Server_REST1.3/</baseurl>
    </rest>
   </primary>
  </servers>
