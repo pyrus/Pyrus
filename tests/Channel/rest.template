@@ -1,0 +1,31 @@
+<?php
+// Use this template to test REST basics, set $channel to the channel object,
+// Set $restbase to the base for the rest dirs
+$test->assertEquals(true, $channel->supportsREST(), 'supportsREST');
+$exp_rest = array();
+$exp_rest[] = array (
+        'attribs'  => array ('type' => 'REST1.0'),
+        '_content' => $restbase.'rest1.0/');
+$exp_rest[] = array (
+        'attribs'  => array ('type' => 'REST1.1'),
+        '_content' => $restbase.'rest1.1/');
+$exp_rest[] = array (
+        'attribs'  => array ('type' => 'REST1.2'),
+        '_content' => $restbase.'rest1.2/');
+$exp_rest[] = array (
+        'attribs'  => array ('type' => 'REST1.3'),
+        '_content' => $restbase.'rest1.3/');
+
+$rest = $channel->getREST();
+$test->assertEquals(true, is_array($rest), 'array of REST dirs returned');
+$test->assertEquals($exp_rest, $rest, 'Rest servers returned');
+$test->assertEquals($restbase.'rest1.0/', $channel->getBaseURL('REST1.0'), 'REST 1.0');
+$test->assertEquals($restbase.'rest1.1/', $channel->getBaseURL('REST1.1'), 'REST 1.1');
+$test->assertEquals($restbase.'rest1.2/', $channel->getBaseURL('REST1.2'), 'REST 1.2');
+$test->assertEquals($restbase.'rest1.3/', $channel->getBaseURL('REST1.3'), 'REST 1.3');
+$test->assertEquals($exp_rest, $channel->getFunctions('rest'), 'getFunctions');
+
+$test->assertEquals(false, $channel->getBaseURL('REST99.9'), 'Invalid resouceType, when baseURLs are set');
+
+$channel->resetREST();
+$test->assertEquals(false, $channel->getRest(), 'resetREST');

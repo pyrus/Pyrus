@@ -64,7 +64,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     function getPort()
     {
         if (isset($this->_info['attribs']['port'])) {
-            return $this->_info['attribs']['port'];
+            return (int)$this->_info['attribs']['port'];
         }
 
         if ($this->getSSL()) {
@@ -138,10 +138,10 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
     {
         if (empty($name)) {
             throw new PEAR2_Pyrus_Channel_Exception('Mirror server must be non-empty');
-            return false;
-        } elseif (!$this->validChannelServer($name)) {
+        }
+        if (!$this->validChannelServer($name)) {
             throw new PEAR2_Pyrus_Channel_Exception('Mirror server "' . $name .
-                '" for channel "' . parent::getName() . '" is not a valid channel server');
+                '" for channel "' . $this->getChannel() . '" is not a valid channel server');
         }
         $this->_info['attribs']['host'] = $name;
     }

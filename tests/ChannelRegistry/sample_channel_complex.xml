@@ -17,10 +17,10 @@ http://pear.php.net/dtd/channel-1.0.xsd">
   <mirror host="us.pear.php.net">
 
    <rest>
-    <baseurl type="REST1.0">http://us.pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.1">http://us.pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.2">http://us.pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.3">http://us.pear.php.net/rest/</baseurl>
+    <baseurl type="REST1.0">http://us.pear.php.net/rest1.0/</baseurl>
+    <baseurl type="REST1.1">http://us.pear.php.net/rest1.1/</baseurl>
+    <baseurl type="REST1.2">http://us.pear.php.net/rest1.2/</baseurl>
+    <baseurl type="REST1.3">http://us.pear.php.net/rest1.3/</baseurl>
    </rest>
   </mirror>
 

@@ -76,25 +76,7 @@ try {
 
 $test->assertEquals(true, ($channel->lastModified()>=time()), 'Last modified date is current time by default');
 
-$channel->resetREST();
-
-$channel->setBaseURL('REST1.0', 'http://pear.example.com/rest1.0/');
-$exp_rest = array (
-            'attribs'  => array ('type' => 'REST1.0'),
-            '_content' => 'http://pear.example.com/rest1.0/');
-$test->assertEquals($exp_rest, $channel->getREST(), 'setBaseURL');
-
-$channel->setBaseURL('REST1.1', 'http://pear.example.com/rest1.1/');
-
-$exp_rest = array($exp_rest);
-$exp_rest[] = array (
-            'attribs'  => array ('type' => 'REST1.1'),
-            '_content' => 'http://pear.example.com/rest1.1/');
-$test->assertEquals($exp_rest, $channel->getREST(), 'setBaseURL #2 adding second baseurl');
-
-$channel->setBaseURL('REST1.0', 'http://pear.example.com/rest1.00/');
-$exp_rest[0]['_content'] = 'http://pear.example.com/rest1.00/';
-$test->assertEquals($exp_rest, $channel->getREST(), 'setBaseURL #3 Update URL of existing baseurl');
+require __DIR__ . '/rest_creation.template';
 
 $channel->addMirror('pear.mirror.com');
 $test->assertEquals(true, $channel->mirrors['pear.mirror.com'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror was set');
@@ -106,12 +88,6 @@ $test->assertEquals(true, $channel->mirrors['pear.mirror.com'] instanceof PEAR2_
 $channel->addMirror('pear.mirror3.com', 999);
 $test->assertEquals(999, $channel->mirrors['pear.mirror3.com']->port, 'Mirror #3 added with specific port number');
 
-try {
-    $channel->getFunctions('llama');
-    throw new Exception('Was able to get the llama functions');
-} catch(Exception $e) {
-    $test->assertEquals('Unknown protocol: llama', $e->getMessage(), 'Get invalid protocol functions');
-}
 
 ?>
 ===DONE===
