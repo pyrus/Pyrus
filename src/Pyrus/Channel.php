@@ -297,8 +297,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     {
         if (empty($name)) {
             throw new PEAR2_Pyrus_Channel_Exception('Primary server must be non-empty');
-            return false;
-        } elseif (!$this->validChannelServer($name)) {
+        }
+        if (!$this->validChannelServer($name)) {
             throw new PEAR2_Pyrus_Channel_Exception('Primary server "' . $name .
                 '" is not a valid channel server');
         }
@@ -488,7 +488,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 
     function getArray()
     {
-        return $this->_channelInfo;
+        return $this->channelInfo;
     }
 
     /**
@@ -505,8 +505,8 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         }
 
         if (isset($this->channelInfo['validatepackage'])) {
-            if ($package == $this->channelInfo['validatepackage']) {
-                // channel validation packages are always validated by PEAR_Validate
+            if ($package == $this->channelInfo['validatepackage']['_content']) {
+                // channel validation packages are always validated by PEAR2_Pyrus_Validate
                 $val = new PEAR2_Pyrus_Validate;
                 return $val;
             }

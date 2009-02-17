@@ -12,6 +12,7 @@ try {
         $thrown = true;
         $test->assertEquals(false, $thrown, 'validate channel file '.$e->getMessage());
     }
+    $test->assertEquals(true, $chan->toChannelObject() instanceof PEAR2_Pyrus_Channel, 'toChannelObject');
     $test->assertEquals('pear.php.net', $chan->server, 'getChannel');
     $test->assertEquals('PHP Extension and Application Repository', $chan->summary, 'getSummary');
     $test->assertEquals('pear', $chan->alias, 'getAlias');
@@ -41,6 +42,8 @@ try {
     $test->assertEquals('http://pear.php.net/rest1.2/', $chan->getBaseURL('REST1.2'), 'REST 1.2');
     $test->assertEquals('http://pear.php.net/rest1.3/', $chan->getBaseURL('REST1.3'), 'REST 1.3');
     $test->assertEquals($exp_rest, $chan->getFunctions('rest'), 'getFunctions');
+    
+    $test->assertEquals(false, $chan->getBaseURL('REST99.9'), 'Invalid resouceType, when baseURLs are set');
     
     $chan->resetREST();
     $test->assertEquals(false, $chan->getRest(), 'resetREST');

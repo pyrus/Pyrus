@@ -21,6 +21,8 @@ $channel_array['servers'] = array('primary'=>array('rest'=>array('baseurl'=>arra
 
 $channel = new PEAR2_Pyrus_Channel($channel_array);
 
+$test->assertEquals($channel_array, $channel->getArray(), 'getArray');
+
 $channel->name = 'pear.example.com';
 $test->assertEquals('pear.example.com', $channel->server, 'getChannel');
 
@@ -100,6 +102,9 @@ $test->assertEquals(true, $channel->mirrors['pear.mirror.com'] instanceof PEAR2_
 $channel->addMirror('pear.mirror2.com');
 $test->assertEquals(true, $channel->mirrors['pear.mirror2.com'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror #2 was set');
 $test->assertEquals(true, $channel->mirrors['pear.mirror.com'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror #1 still exists');
+
+$channel->addMirror('pear.mirror3.com', 999);
+$test->assertEquals(999, $channel->mirrors['pear.mirror3.com']->port, 'Mirror #3 added with specific port number');
 
 try {
     $channel->getFunctions('llama');
