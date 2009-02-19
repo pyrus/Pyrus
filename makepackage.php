@@ -33,6 +33,7 @@ $rp = __DIR__ . '/../HTTP_Request/src/HTTP';
 $a->render($b, array(
     'src/PEAR2/HTTP/Request.php' => $rp . '/Request.php',
     'src/PEAR2/HTTP/Request/Adapter.php' => $rp . '/Request/Adapter.php',
+    'src/PEAR2/HTTP/Request/Adapter/Curl.php' => $rp . '/Request/Adapter/Curl.php',
     'src/PEAR2/HTTP/Request/Adapter/Phpsocket.php' => $rp . '/Request/Adapter/Phpsocket.php',
     'src/PEAR2/HTTP/Request/Adapter/Phpstream.php' => $rp . '/Request/Adapter/Phpstream.php',
     'src/PEAR2/HTTP/Request/Exception.php' => $rp . '/Request/Exception.php',
