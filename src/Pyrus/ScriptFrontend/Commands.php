@@ -347,6 +347,7 @@ previous:
         $cascade = array($creg);
         while ($c = $creg->getParent()) {
             $cascade[] = $c;
+            $creg = $c;
         }
         array_reverse($cascade);
         foreach ($cascade as $c) {

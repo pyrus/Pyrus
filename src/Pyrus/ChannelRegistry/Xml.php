@@ -185,8 +185,8 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     {
         $ret = array();
         foreach (new RegexIterator(new DirectoryIterator($this->_path),
-                                '/channel-(.+?)\.xml/', RegexIterator::MATCH) as $file) {
-            $ret[] = $this->get($this->_unmung($file));
+                                '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
+            $ret[] = $this->get($this->_unmung($file[1]));
         }
 
         return $ret;

@@ -26,6 +26,8 @@
 abstract class PEAR2_Pyrus_ChannelRegistry_Base
     implements PEAR2_Pyrus_IChannelRegistry, Iterator
 {
+    protected $channelList = array();
+    
     /**
      * Parse a package name, or validate a parsed package name array
      * @param string|array pass in an array of format
@@ -252,6 +254,9 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 
     function current()
     {
+        if (!isset($this->channelList)) {
+            $this->rewind();
+        }
         return $this->get(current($this->channelList));
     }
 
@@ -262,6 +267,9 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 
     function valid()
     {
+        if (!isset($this->channelList)) {
+            $this->rewind();
+        }
         return current($this->channelList);
     }
 

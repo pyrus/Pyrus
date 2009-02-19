@@ -366,29 +366,31 @@ class PEAR2_Pyrus_Config
         foreach ($paths as $path) {
             try {
                 if ($path === '.') continue;
-                $a = PEAR2_Pyrus_Registry::$className;
-                $reg = new $a($path, array('Sqlite3', 'Xml'), !$start);
-
+                
+                $registry_class        = PEAR2_Pyrus_Registry::$className;
+                $channelregistry_class = PEAR2_Pyrus_ChannelRegistry::$className;
+                
+                $registry         = new $registry_class($path, array('Sqlite3', 'Xml'), !$start);
+                $channel_registry = new $channelregistry_class($path, array('Sqlite3', 'Xml'), !$start);
+                
                 if ($start) {
-                    $this->myregistry = $reg;
-                }
-
-                $reg->setParent(); // clear any previous parent
-                $b = PEAR2_Pyrus_ChannelRegistry::$className;
-                $regc = new $b($path, array('Sqlite3', 'Xml'), !$start);
-                if ($start) {
-                    $this->mychannelRegistry = $regc;
+                    $this->myregistry        = $registry;
+                    $this->mychannelRegistry = $channel_registry;
                 }
 
                 $start = false;
-                $regc->setParent(); // clear any previous parent
+                
+                $registry->setParent(); // clear any previous parent
+                $channel_registry->setParent(); // clear any previous parent
+                
                 if (isset($last)) {
-                    $last->setParent($reg);
-                    $lastc->setParent($regc);
+                    $last->setParent($registry);
+                    $lastc->setParent($channel_registry);
                 }
 
-                $last = $reg;
-                $lastc = $regc;
+                $last  = $registry;
+                $lastc = $channel_registry;
+                
             } catch (Exception $e) {
                 if ($start) {
                     throw new PEAR2_Pyrus_Config_Exception(
