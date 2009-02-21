@@ -1,0 +1,67 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Release', $reg->release, 'right class');
+
+try {
+    $reg->release[] = 5;
+    throw new Exception('setting to non-object succeeded');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot set 0 to non-PEAR2_Pyrus_PackageFile_v2_Release', $e->getMessage(), '[] = 5');
+}
+
+try {
+    $reg->release['foo'] = 5;
+    throw new Exception('setting to non-object succeeded');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot set foo', $e->getMessage(), '[foo] = 5');
+}
+
+$a = new PEAR2_Pyrus_PackageFile_v2_Release($reg, array(), array());
+$reg->release[] = $a;
+$a = $reg->release[0];
+
+$test->assertEquals(false, $a->getInstallCondition(), 'installcondition');
+$test->assertEquals(false, $a->getInstallAs(), 'installas');
+$test->assertEquals(false, $a->getIgnore(), 'ignore');
+$a->installconditions['php'] = '5.2.0';
+
+try {
+    $reg->release->ignore('oops');
+    throw new Exception('ignore without index succeeded');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot ignore ' .
+                            'file oops without specifying which release section to ignore it in', $e->getMessage(), 'ignore without index');
+}
+
+try {
+    $reg->release->installAs('oops', 'ie');
+    throw new Exception('installas without index succeeded');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot install ' .
+                            'file oops to ie' .
+                            ' without specifying which release section to install it in', $e->getMessage(), 'installas without index');
+}
+
+$reg->release[0]->ignore('src/SimpleChannelServer.php');
+$test->assertEquals(array('attribs' => array('name' => 'src/SimpleChannelServer.php')), $reg->release[0]->getIgnore(), 'ignore 1');
+$reg->release[0]->ignore('src/SimpleChannelServer/Get.php');
+$test->assertEquals(array(array('attribs' => array('name' => 'src/SimpleChannelServer.php')),
+                        array('attribs' => array('name' => 'src/SimpleChannelServer/Get.php'))), $reg->release[0]->getIgnore(), 'ignore 2');
+
+$reg->release[0]->installAs('src/SimpleChannelServer.php', 'foo');
+$test->assertEquals(array('attribs' => array('name' => 'src/SimpleChannelServer.php', 'as' => 'foo')), $reg->release[0]->getInstallAs(), 'install-as 1');
+$reg->release[0]->installAs('src/SimpleChannelServer/Get.php', 'foo1');
+$test->assertEquals(array(array('attribs' => array('name' => 'src/SimpleChannelServer.php', 'as' => 'foo')),
+                        array('attribs' => array('name' => 'src/SimpleChannelServer/Get.php', 'as' => 'foo1'))), $reg->release[0]->getInstallAs(), 'install-as 2');
+
+$reg->release[0]->installconditions['extension'][0]->name(null);
+$reg->release[0]->installAs('src/SimpleChannelServer.php', 'boo');
+$test->assertEquals(array (
+  'php' => 
+  array (
+    'min' => '5.2.0',
+  ),
+), $reg->release[0]->getInstallCondition(), 'after extension unset');
+$reg->release[0]->installconditions['php']->min(null);
+$test->assertEquals(false, $reg->release[0]->getInstallCondition(), 'after php unset');
