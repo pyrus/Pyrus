@@ -84,6 +84,37 @@ class PEAR2_Pyrus_PackageFile_v2
     private $_dirtree = array();
 
     /**
+     * Mapping of __get variables to method handlers
+     * @var array
+     */
+    protected $getMap = array(
+            'bundledpackage' => 'getBundledPackage',
+            'packagefile' => 'getPackageFile',
+            'filepath' => 'getFilePath',
+            'contents' => 'getContents',
+            'installcontents' => 'getInstallContents',
+            'packagingcontents' => 'getPackagingContents',
+            'installGroup' => 'getInstallGroup',
+            'channel' => 'getChannel',
+            'state' => 'getState',
+            'api-version' => 'getApiVersion',
+            'release-version' => 'getReleaseVersion',
+            'api-state' => 'getApiState',
+            'allmaintainers' => 'getAllMaintainers',
+            'releases' => 'getReleases',
+            'sourcepackage' => 'getSourcePackage',
+            'license' => 'getLicense',
+            'files' => 'getFiles',
+            'maintainer' => 'getMaintainer',
+            'rawdeps' => 'getRawDeps',
+            'dependencies' => 'getDependencies',
+            'release' => 'getRelease',
+            'compatible' => 'getCompatible',
+            'schemaOK' => 'getSchemaOK',
+        
+    );
+
+    /**
      * path to package.xml or false if this is an abstract parsed-from-string xml
      * @var string|false
      * @access private
@@ -116,9 +147,223 @@ class PEAR2_Pyrus_PackageFile_v2
         $this->_archiveFile = $archive ? $archive : $file;
     }
 
+    function getBundledPackage()
+    {
+        if ($this->getPackageType() !== 'bundle') {
+            return false;
+        }
+        if (!isset($this->packageInfo['contents'])) {
+            $this->packageInfo['contents'] = array();
+        }
+        if (!isset($this->packageInfo['contents']['bundledpackage'])) {
+            $this->packageInfo['contents']['bundledpackage'] = array();
+        }
+        return new ArrayObject($this->packageInfo['contents']['bundledpackage'],
+            ArrayObject::ARRAY_AS_PROPS);
+    }
+
+    function getContents()
+    {
+        // allows stuff like:
+        // foreach ($pf->contents as $file) {
+        //     echo $file->name;
+        //     $file->installed_as = 'hi';
+        // }
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
+                new PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter(
+                new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
+                    $this->packageInfo['contents'], 'contents', $this)),
+                    RecursiveIteratorIterator::LEAVES_ONLY);
+    }
+
+    function getInstallContents()
+    {
+        PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
+                new ArrayIterator(
+                    $this->filelist));
+    }
+
+    function getPackagingContents()
+    {
+        PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
+                    $this->filelist);
+    }
+
     function getPackageFile()
     {
         return $this->_packageFile;
+    }
+
+    function getFilePath()
+    {
+        return dirname($this->_packageFile);
+    }
+
+    function getInstallGroup()
+    {
+        $rel = $this->getPackageType();
+        if ($rel != 'bundle') $rel .= 'release';
+        $ret = $this->packageInfo[$rel];
+        if (!isset($ret[0])) {
+            return array($ret);
+        }
+        return $ret;
+    }
+
+    function getChannel()
+    {
+        if (isset($this->packageInfo['uri'])) {
+            return '__uri';
+        }
+        return $this->tag('channel');
+    }
+
+    function getState()
+    {
+        if (!isset($this->packageInfo['stability']) ||
+              !isset($this->packageInfo['stability']['release'])) {
+            return false;
+        }
+        return $this->packageInfo['stability']['release'];
+    }
+
+    function getApiVersion()
+    {
+        if (!isset($this->packageInfo['version']) ||
+              !isset($this->packageInfo['version']['api'])) {
+            return false;
+        }
+        return $this->packageInfo['version']['api'];
+    }
+
+    function getReleaseVersion()
+    {
+        if (!isset($this->packageInfo['version']) ||
+              !isset($this->packageInfo['version']['release'])) {
+            return false;
+        }
+        return $this->packageInfo['version']['release'];
+    }
+
+    function getApiState()
+    {
+        if (!isset($this->packageInfo['stability']) ||
+              !isset($this->packageInfo['stability']['api'])) {
+            return false;
+        }
+        return $this->packageInfo['stability']['api'];
+    }
+
+    function getAllMaintainers()
+    {
+        $leads = (array) $this->tag('lead');
+        if ($leads && !isset($leads[0])) {
+            $leads = array($leads);
+        }
+        $developers = (array) $this->tag('developer');
+        if ($developers && !isset($developers[0])) {
+            $developers = array($developers);
+        }
+        $helpers = (array) $this->tag('helper');
+        if ($helpers && !isset($helpers[0])) {
+            $helpers = array($helpers);
+        }
+        $contributors = (array) $this->tag('contributor');
+        if ($contributors && !isset($contributors[0])) {
+            $contributors = array($contributors);
+        }
+        return array(
+            'lead' => $leads,
+            'developer' => $developers,
+            'helper' => $helpers,
+            'contributor' => $contributors
+        );
+    }
+
+    function getReleases()
+    {
+        $type = $this->getPackageType();
+        if ($type != 'bundle') {
+            $type .= 'release';
+        }
+        if ($type && isset($this->packageInfo[$type])) {
+            return $this->packageInfo[$type];
+        }
+        return false;
+    }
+
+    function getSourcePackage()
+    {
+        if (isset($this->packageInfo['extbinrelease']) ||
+              isset($this->packageInfo['zendextbinrelease'])) {
+            return array('channel' => $this->packageInfo['srcchannel'],
+                         'package' => $this->packageInfo['srcpackage']);
+        }
+        return false;
+    }
+
+    function getLicense()
+    {
+        if (!isset($this->packageInfo['license'])) {
+            $this->packageInfo['license'] = array();
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_License($this->packageInfo['license']);
+    }
+
+    function getFiles()
+    {
+        return new PEAR2_Pyrus_PackageFile_v2_Files($this->filelist);
+    }
+
+    function getMaintainer()
+    {
+        return new PEAR2_Pyrus_PackageFile_v2_Developer($this->packageInfo);
+    }
+
+    function getRawDeps()
+    {
+        return isset($this->packageInfo['dependencies']) ?
+            $this->packageInfo['dependencies'] : false;
+    }
+
+    function getDependencies()
+    {
+        if (!isset($this->packageInfo['dependencies'])) {
+            $this->packageInfo['dependencies'] = array();
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+            $this->packageInfo['dependencies'],
+            $this->packageInfo['dependencies']);
+    }
+
+    function getRelease()
+    {
+        $t = $this->getPackageType();
+        if (!$t) {
+            $this->type = 'php';
+            $t = 'phprelease';
+        } else {
+            if ($t != 'bundle') {
+                $t .= 'release';
+            }
+        }
+        if (!isset($this->packageInfo[$t]) || !is_array($this->packageInfo[$t])) {
+            $this->packageInfo[$t] = array();
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_Release(
+            $this, $this->packageInfo[$t], $this->filelist);
+    }
+
+    function getCompatible()
+    {
+        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this->packageInfo);
+    }
+
+    function getSchemaOK()
+    {
+        return $this->_schemaValidated;
     }
 
     function getArchiveFile()
@@ -531,157 +776,8 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function __get($var)
     {
-        switch ($var) {
-            case 'bundledpackage' :
-                if ($this->getPackageType() !== 'bundle') {
-                    return false;
-                }
-                if (!isset($this->packageInfo['contents'])) {
-                    $this->packageInfo['contents'] = array();
-                }
-                if (!isset($this->packageInfo['contents']['bundledpackage'])) {
-                    $this->packageInfo['contents']['bundledpackage'] = array();
-                }
-                return new ArrayObject($this->packageInfo['contents']['bundledpackage'],
-                    ArrayObject::ARRAY_AS_PROPS);
-            case 'packagefile' :
-                return $this->_packageFile;
-            case 'filepath' :
-                return dirname($this->_packageFile);
-            case 'contents' :
-                // allows stuff like:
-                // foreach ($pf->contents as $file) {
-                //     echo $file->name;
-                //     $file->installed_as = 'hi';
-                // }
-                return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
-                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter(
-                        new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
-                            $this->packageInfo['contents'], 'contents', $this)),
-                            RecursiveIteratorIterator::LEAVES_ONLY);
-            case 'installcontents' :
-                PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
-                return new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
-                        new ArrayIterator(
-                            $this->filelist));
-            case 'packagingcontents' :
-                PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
-                return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
-                            $this->filelist);
-            case 'installGroup' :
-                $rel = $this->getPackageType();
-                if ($rel != 'bundle') $rel .= 'release';
-                $ret = $this->packageInfo[$rel];
-                if (!isset($ret[0])) {
-                    return array($ret);
-                }
-                return $ret;
-            case 'channel' :
-                if (isset($this->packageInfo['uri'])) {
-                    return '__uri';
-                }
-                break;
-            case 'state' :
-                if (!isset($this->packageInfo['stability']) ||
-                      !isset($this->packageInfo['stability']['release'])) {
-                    return false;
-                }
-                return $this->packageInfo['stability']['release'];
-            case 'api-version' :
-                if (!isset($this->packageInfo['version']) ||
-                      !isset($this->packageInfo['version']['api'])) {
-                    return false;
-                }
-                return $this->packageInfo['version']['api'];
-            case 'release-version' :
-                if (!isset($this->packageInfo['version']) ||
-                      !isset($this->packageInfo['version']['release'])) {
-                    return false;
-                }
-                return $this->packageInfo['version']['release'];
-            case 'api-state' :
-                if (!isset($this->packageInfo['stability']) ||
-                      !isset($this->packageInfo['stability']['api'])) {
-                    return false;
-                }
-                return $this->packageInfo['stability']['api'];
-            case 'allmaintainers' :
-                $leads = (array) $this->tag('lead');
-                if ($leads && !isset($leads[0])) {
-                    $leads = array($leads);
-                }
-                $developers = (array) $this->tag('developer');
-                if ($developers && !isset($developers[0])) {
-                    $developers = array($developers);
-                }
-                $helpers = (array) $this->tag('helper');
-                if ($helpers && !isset($helpers[0])) {
-                    $helpers = array($helpers);
-                }
-                $contributors = (array) $this->tag('contributor');
-                if ($contributors && !isset($contributors[0])) {
-                    $contributors = array($contributors);
-                }
-                return array(
-                    'lead' => $leads,
-                    'developer' => $developers,
-                    'helper' => $helpers,
-                    'contributor' => $contributors
-                );
-            case 'releases' :
-                $type = $this->getPackageType();
-                if ($type != 'bundle') {
-                    $type .= 'release';
-                }
-                if ($type && isset($this->packageInfo[$type])) {
-                    return $this->packageInfo[$type];
-                }
-                return false;
-            case 'sourcepackage' :
-                if (isset($this->packageInfo['extbinrelease']) ||
-                      isset($this->packageInfo['zendextbinrelease'])) {
-                    return array('channel' => $this->packageInfo['srcchannel'],
-                                 'package' => $this->packageInfo['srcpackage']);
-                }
-                return false;
-            case 'license' :
-                if (!isset($this->packageInfo['license'])) {
-                    $this->packageInfo['license'] = array();
-                }
-                return new PEAR2_Pyrus_PackageFile_v2_License($this->packageInfo['license']);
-            case 'files' :
-                return new PEAR2_Pyrus_PackageFile_v2_Files($this->filelist);
-            case 'maintainer' :
-                return new PEAR2_Pyrus_PackageFile_v2_Developer($this->packageInfo);
-            case 'rawdeps' :
-                return isset($this->packageInfo['dependencies']) ?
-                    $this->packageInfo['dependencies'] : false;
-            case 'dependencies' :
-                if (!isset($this->packageInfo['dependencies'])) {
-                    $this->packageInfo['dependencies'] = array();
-                }
-                return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-                    $this->packageInfo['dependencies'],
-                    $this->packageInfo['dependencies']);
-            case 'release' :
-                $t = $this->getPackageType();
-                if (!$t) {
-                    $this->type = 'php';
-                    $t = 'phprelease';
-                } else {
-                    if ($t != 'bundle') {
-                        $t .= 'release';
-                    }
-                }
-                if (!isset($this->packageInfo[$t]) || !is_array($this->packageInfo[$t])) {
-                    $this->packageInfo[$t] = array();
-                }
-                return new PEAR2_Pyrus_PackageFile_v2_Release(
-                    $this, $this->packageInfo[$t], $this->filelist);
-            case 'compatible' :
-                return new PEAR2_Pyrus_PackageFile_v2_Compatible($this->packageInfo);
-            case 'schemaOK' :
-                return $this->_schemaValidated;
+        if (isset($this->getMap[$var])) {
+            return $this->{$this->getMap[$var]}($var);
         }
         return $this->tag($var);
     }
