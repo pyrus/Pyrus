@@ -60,6 +60,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
         return $this->internal->$var;
     }
 
+    function __set($var, $value)
+    {
+        return $this->internal->__set($var, $value);
+    }
+
     function __call($func, $args)
     {
         // delegate to the internal object

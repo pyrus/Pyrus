@@ -13,6 +13,9 @@ require __DIR__ . '/../setupFiles/setupPackageFile.php.inc';
 $reg = $package; // simulate registry package using packagefile
 require __DIR__ . '/../../Registry/AllRegistries/info/release.template';
 
+$a = new PEAR2_Pyrus_PackageFile_v2_Release($package, array(), array());
+$test->assertEquals(null, $a->installconditions, 'no index set');
+
 ?>
 ===DONE===
 --CLEAN--

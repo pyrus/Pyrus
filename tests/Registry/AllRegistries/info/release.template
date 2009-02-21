@@ -2,9 +2,10 @@
 // all registry tests must pass this (as must PackageFile objects)
 
 $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Release', $reg->release, 'right class');
-
+$test->assertEquals(false, $reg->release[0]->getInstallCondition(), 'release 0, no conditions yet');
 $reg->release[0]->installconditions['php']->min('5.2.0');
 $test->assertEquals('5.2.0', $reg->release[0]->installconditions['php']->min, '5.2.0');
+$test->assertEquals(array('php' => array('min' => '5.2.0')), $reg->release[0]->getInstallCondition(), 'release 0, php condition');
 // defaults to "min"
 $reg->release[0]->installconditions['php'] = '5.2.1';
 $test->assertEquals('5.2.1', $reg->release[0]->installconditions['php']->min, '5.2.1');
@@ -55,11 +56,20 @@ $reg->release[$i]->ignore('src/SimpleChannelServer/Get.php');
 $test->assertTrue(isset($reg->release[1]), 'isset 2');
 $reg->release[$i]->installAs('src/SimpleChannelServer.php', 'new/name.php');
 
+try {
+    $a = $reg->release[0]->notfound;
+    throw new Exception('notfound succeeded');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Unknown variable notfound' .
+        ', installconditions is the only supported variable', $e->getMessage(), 'notfound message');
+}
+$test->assertEquals(1, count($reg->release[0]), 'count of release with index');
 $test->assertTrue($reg->release[0]->ignores('src/SimpleChannelServer.php'), 'double check ignoring 4');
 $test->assertFalse($reg->release[1]->ignores('src/SimpleChannelServer.php'), 'double check ignoring 5');
 $test->assertEquals('new/name.php', $reg->release[0]->installsAs('src/SimpleChannelServer/Get.php'), 'double check installing as 3');
 $test->assertEquals('new/name.php', $reg->release[1]->installsAs('src/SimpleChannelServer.php'), 'double check installing as 4');
 // remove release
+$test->assertEquals('foo.php', $reg->release[1]->installsAs('foo.php'), 'install-as with non-existing file');
 unset($reg->release[1]);
 $test->assertFalse(isset($reg->release[1]), 'isset 3');
 $test->assertTrue(isset($reg->release[0]), 'isset 4');
@@ -67,3 +77,21 @@ $test->assertTrue(isset($reg->release[0]), 'isset 4');
 $reg->release = null;
 $test->assertFalse(isset($reg->release[1]), 'isset 5');
 $test->assertFalse(isset($reg->release[0]), 'isset 6');
+$test->assertEquals(null, $reg->release->getInstallAs(), 'install-as no index');
+$test->assertEquals(null, $reg->release->getIgnore(), 'ignore no index');
+$test->assertEquals(null, $reg->release->getInstallCondition(), 'installcondition, no index');
+
+try {
+    $a = $reg->release[24];
+    throw new Exception('24 succeeded');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Can only set the next highest release index 0, not 24', $e->getMessage(), '24 1');
+}
+$a = $reg->release[0]->ignore('src/SimpleChannelServer.php');
+
+try {
+    $a = $reg->release[24];
+    throw new Exception('24 succeeded 2');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Can only set the next highest release index 1, not 24', $e->getMessage(), '24 2');
+}

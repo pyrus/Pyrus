@@ -117,9 +117,9 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                 return new PEAR2_Pyrus_PackageFile_v2_Release($this,
                            $this->info[$var], $this->_filelist, $var);
             } else {
-                if ($var != count($this)) {
+                if ($var !== 0) {
                     throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Can only set the ' .
-                        'next highest release index ' . count($this) . ', not ' . $var);
+                        'next highest release index 0, not ' . $var);
                 }
                 $this->info[$var] = array();
                 return new PEAR2_Pyrus_PackageFile_v2_Release($this,
@@ -129,17 +129,17 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
     }
 
     /**
-     * @return PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition
+     * @return array
      */
     function getInstallCondition()
     {
         if (!isset($this->index)) {
             return null;
         }
-        if (!isset($this->info[$this->index]['installcondition'])) {
+        if (!isset($this->info['installcondition'])) {
             return false;
         }
-        return $this->info[$this->index]['installcondition'];
+        return $this->info['installcondition'];
     }
 
     function getInstallAs()

@@ -773,17 +773,6 @@ class PEAR2_Pyrus_PackageFile_v2
             return;
         }
         if ($var === 'release' && $value === null) {
-            $type = $this->getPackageType();
-            if ($type != 'bundle') {
-                $type .= 'release';
-            }
-            $this->packageInfo[$type] = array();
-            return;
-        }
-        if ($value instanceof ArrayObject) {
-            $value = $value->getArrayCopy();
-        }
-        if ($var === 'release' && $value === null) {
             $rel = $this->getPackageType();
             if ($rel) {
                 if (isset($this->packageInfo[$rel . 'release'])) {
@@ -791,6 +780,10 @@ class PEAR2_Pyrus_PackageFile_v2
                 }
                 $this->packageInfo[$rel] = array();
             }
+            return;
+        }
+        if ($value instanceof ArrayObject) {
+            $value = $value->getArrayCopy();
         }
         if (in_array($var, array('attribs', 'lead',
                 'developer', 'contributor', 'helper', 'version',
