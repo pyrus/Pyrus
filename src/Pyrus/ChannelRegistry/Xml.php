@@ -64,6 +64,13 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         return str_replace(array('##', '###'), array('/', '\\'), $name);
     }
 
+    /**
+     * Get the filename to store a channel
+     *
+     * @param PEAR2_Pyrus_IChannel|string $channel Channel to save
+     *
+     * @return string
+     */
     protected function getChannelFile($channel)
     {
         if ($channel instanceof PEAR2_Pyrus_IChannel) {
@@ -74,12 +81,27 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
             $this->_mung($channel) . '.xml';
     }
 
+    /**
+     * Get the filename for a channel alias.
+     *
+     * @param string $alias Alias to save
+     *
+     * @return string
+     */
     protected function getAliasFile($alias)
     {
         return $this->_path . DIRECTORY_SEPARATOR . 'channelalias-' .
             $this->_mung($alias) . '.txt';
     }
 
+    /**
+     * Check if the channel has been discovered.
+     *
+     * @param string $channel Name of the channel
+     * @param bool   $strict  Allow aliases or not
+     *
+     * @return bool
+     */
     function exists($channel, $strict = true)
     {
         if (file_exists($this->getChannelFile($channel))) {
@@ -181,6 +203,11 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         }
     }
 
+    /**
+     * List all discovered channels
+     *
+     * @return array
+     */
     function listChannels()
     {
         $ret = array();
