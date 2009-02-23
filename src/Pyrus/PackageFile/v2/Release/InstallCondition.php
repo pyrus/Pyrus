@@ -38,12 +38,6 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
         }
         if ($index !== null) {
             $this->index = $index;
-        } elseif ($condition !== null) {
-            if ($condition === 'extension') {
-                if (!isset($info[0])) {
-                    $this->info = array($info);
-                }
-            }
         }
     }
 
@@ -87,25 +81,22 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
     function offsetGet($var)
     {
         if (isset($this->installcondition) && !isset($this->index) && $this->installcondition == 'extension') {
-            if (!is_int($var)) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Choose which extension condition to access');
+            if (!is_string($var)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Access extension installconditions by name, not number');
             }
-            if (!isset($this->info[$var])) {
-                if ($var != count($this)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
-                        'Can only set the ' .
-                        'next highest release index ' . count($this) . ', not ' . $var);
-                }
-                $this->info[$var] = array();
+            if (false === ($i = $this->locateExtension($var))) {
+                $i = count($this->info);
+                $this->info[$i] =
+                    array('name' => $var, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null);
             } else {
                 foreach (array('name' => null, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null) as $key => $val) {
-                    if (!array_key_exists($key, $this->info[$var])) {
-                        $this->info[$var][$key] = null;
+                    if (!array_key_exists($key, $this->info[$i])) {
+                        $this->info[$i][$key] = null;
                     }
                 }
             }
             return new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition($this,
-                       $this->info[$var], 'extension', $var);
+                       $this->info[$i], 'extension', $i);
         }
         if (!is_string($var)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot access numeric index');
@@ -148,7 +139,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
                 break;
             case 'extension' :
                 if (!isset($this->info[$var])) {
-                    $this->info[$var] = array(array('name' => null, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null));
+                    $this->info[$var] = array();
                 } else {
                     if (!isset($this->info['extension'][0])) {
                         $this->info['extension'] = array($this->info['extension']);
@@ -171,10 +162,10 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
 
     protected function locateExtension($ext)
     {
-        if (!isset($this->info['extension'])) {
-            return false;
-        }
-        foreach ($this->info['extension'] as $i => $test) {
+        foreach ($this->info as $i => $test) {
+            if (!isset($test['name'])) {
+                continue;
+            }
             if ($test['name'] === $ext) {
                 return $i;
             }
@@ -185,49 +176,77 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
     function offsetSet($var, $value)
     {
         $info = array();
-        switch ($var) {
-            case 'php' :
-                if (is_string($value)) {
-                    $info['min'] = $value;
-                }
-                break;
-            case 'arch' :
-                if (is_string($value)) {
-                    $info['pattern'] = $value;
-                }
-                break;
-            case 'os' :
-                if (is_string($value)) {
-                    $info['name'] = $value;
-                }
-                break;
-            case 'extension' :
-                if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set extension to anything but a' .
-                                ' PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition object');
-                }
-                break;
-            default :
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown installcondition ' .
-                    $var);
+        if (isset($this->installcondition) && $this->installcondition == 'extension') {
+            if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set extension to anything but a' .
+                            ' PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition object');
+            }
+        } else {
+            switch ($var) {
+                case 'php' :
+                    if (is_string($value)) {
+                        $info['min'] = $value;
+                    }
+                    break;
+                case 'arch' :
+                    if (is_string($value)) {
+                        $info['pattern'] = $value;
+                    }
+                    break;
+                case 'os' :
+                    if (is_string($value)) {
+                        $info['name'] = $value;
+                    }
+                    break;
+                case 'extension' :
+                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Set extension install condition by name');
+                default :
+                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown install condition ' .
+                        $var);
+            }
         }
         if ($value instanceof PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition && $value->installcondition) {
-            if ($value->installcondition != $var) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set ' . $var .
-                            ' to another install condition (' . $value->installcondition . ')');
-            }
-            if ($var != 'extension') {
+            if (!isset($this->installcondition) || $this->installcondition != 'extension') {
+                if ($value->installcondition != $var) {
+                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set ' . $var .
+                                ' to another install condition (' . $value->installcondition . ')');
+                }
+                if (!isset($this->info[$var])) {
+                    switch ($var) {
+                        case 'php' :
+                            $this->info[$var] = array('min' => null, 'max' => null, 'exclude' => null);
+                            break;
+                        case 'os' :
+                            $this->info[$var] = array('name' => null, 'conflicts' => null);
+                            break;
+                        case 'arch' :
+                            $this->info[$var] = array('pattern' => null, 'conflicts' => null);
+                            break;
+                    }
+                }
                 foreach ($this->info[$var] as $n => $unused) {
                     $this->info[$var][$n] = $value->$n;
                 }
             } else {
-                $ext = $this->locateExtension($value->name);
-                if (!$ext) {
-                    $ext = count($this->info['extension']);
-                    $this->info['extension'][$ext] = array('name' => null, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null);
+                if ($value->installcondition != 'extension') {
+                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set extension ' . $var .
+                                ' to another install condition (' . $value->installcondition . ')');
                 }
-                foreach ($this->info['extension'][$ext] as $n => $unused) {
-                    $this->info[$var][$n] = $value->$n;
+                $ext = $this->locateExtension($var);
+                if (!$ext) {
+                    $ext = count($this->info);
+                    $this->info[$ext] = array('name' => $var, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null);
+                }
+                foreach (array('min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null) as $n => $unused) {
+                    if ($n == 'conflicts') {
+                        if ($value->conflicts) {
+                            $this->info[$ext]['conflicts'] = '';
+                        } else {
+                            $this->info[$ext]['conflicts'] = null;
+                        }
+                        continue;
+                    }
+                    $this->info[$ext][$n] = $value->$n;
                 }
             }
         } else {
@@ -240,16 +259,29 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
 
     function offsetExists($var)
     {
+        if ($this->installcondition == 'extension' && !isset($this->index)) {
+            return ($this->locateExtension($var) !== false);
+        }
         return isset($this->info[$var]);
     }
 
     function offsetUnset($var)
     {
+        if ($this->installcondition == 'extension' && !isset($this->index)) {
+            if (($i = $this->locateExtension($var)) !== false) {
+                unset($this->info[$i]);
+            }
+            return;
+        }
         unset($this->info[$var]);
+        $this->save();
     }
 
     function setInstallCondition($obj, $type, $index = null)
     {
+        if (!$this->parent) {
+            return;
+        }
         if ($index !== null) {
             $this->info[$index] = $obj->getInfo();
             return $this->parent->setInstallCondition($this, $type);
@@ -267,6 +299,9 @@ class PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition implements ArrayAccess
 
     function save()
     {
+        if (!$this->parent) {
+            return;
+        }
         if (isset($this->installcondition)) {
             $this->parent->setInstallCondition($this, $this->installcondition, $this->index);
         } else {

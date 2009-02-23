@@ -20,12 +20,12 @@ $test->assertTrue($reg->release[0]->installconditions['arch']->conflicts, 'i486 
 $reg->release[0]->installconditions['os'] = 'windows';
 $test->assertEquals('windows', $reg->release[0]->installconditions['os']->name, 'windows');
 // defaults to existing
-$reg->release[0]->installconditions['extension'][0]->name('PDO');
-$test->assertEquals('PDO', $reg->release[0]->installconditions['extension'][0]->name, 'PDO');
-$test->assertEquals(null, $reg->release[0]->installconditions['extension'][0]->min, 'PDO min 1');
-$reg->release[0]->installconditions['extension'][0]->name('PDO')->min('1.0');
-$test->assertEquals('PDO', $reg->release[0]->installconditions['extension'][0]->name, 'PDO');
-$test->assertEquals('1.0', $reg->release[0]->installconditions['extension'][0]->min, 'PDO min 2');
+$reg->release[0]->installconditions['extension']['PDO']->save();
+$test->assertEquals('PDO', $reg->release[0]->installconditions['extension']['PDO']->name, 'PDO');
+$test->assertEquals(null, $reg->release[0]->installconditions['extension']['PDO']->min, 'PDO min 1');
+$reg->release[0]->installconditions['extension']['PDO']->name('PDO')->min('1.0');
+$test->assertEquals('PDO', $reg->release[0]->installconditions['extension']['PDO']->name, 'PDO');
+$test->assertEquals('1.0', $reg->release[0]->installconditions['extension']['PDO']->min, 'PDO min 2');
 try {
     $reg->release[0]->ignore('path/to/file.ext');
     throw new Exception('did not fail path/to/file.ext');

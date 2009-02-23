@@ -111,6 +111,23 @@ class PEAR2_Pyrus_PackageFile_v2
             'release' => 'getRelease',
             'compatible' => 'getCompatible',
             'schemaOK' => 'getSchemaOK',
+            'version' => 'tag',
+            'stability' => 'tag',
+            'providesextension' => 'tag',
+            'usesrole' => 'tag',
+            'usestask' => 'tag',
+            'srcpackage' => 'tag',
+            'srcuri' => 'tag',
+            'name' => 'tag',
+            'summary' => 'tag',
+            'description' => 'tag',
+            'date' => 'tag',
+            'time' => 'tag',
+            'notes' => 'tag',
+            'sourceuri' => 'tag',
+    );
+
+    protected $setMap = array(
         
     );
 

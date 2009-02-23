@@ -34,7 +34,7 @@ $test->assertEquals(null, $newguy->license['path'], 'newguy path');
 unset($newguy->license['uri']);
 $newguy->license['name'] = 'foobar'; // test name without path
 $test->assertEquals('foobar', $newguy->license['name'], 'newguy name');
-$test->assertEquals(array('foobar'), $newguy->license->getArray(), 'array test');
+$test->assertEquals('foobar', $newguy->license->getArray(), 'array test');
 
 $newguy->license['uri'] = 'hello';
 $test->assertEquals('hello', $newguy->license['uri'], 'newguy uri');
@@ -57,3 +57,10 @@ try {
 } catch (PEAR2_Pyrus_PackageFile_v2_License_Exception $e) {
     $test->assertEquals('Can only set license to string', $e->getMessage(), 'message');
 }
+
+$p = new PEAR2_Pyrus_PackageFile_v2;
+$p->fromArray(array('package' => array('license' => 'PHP License')));
+$test->assertEquals('PHP License', $p->license['name'], 'name 1');
+unset($p->license['name']);
+$test->assertEquals(null, $p->license['name'], 'name 2');
+$test->assertEquals(false, isset($p->license['foo']), 'foo isset');

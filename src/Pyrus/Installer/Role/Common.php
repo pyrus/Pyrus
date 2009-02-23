@@ -84,6 +84,9 @@ class PEAR2_Pyrus_Installer_Role_Common
         }
 
         if ($newpath) {
+            if ($newpath[0] == '/') {
+                $newpath = substr($newpath, 1);
+            }
             $file = $newpath;
         }
 

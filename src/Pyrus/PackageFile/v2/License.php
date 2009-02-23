@@ -31,25 +31,19 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
         $this->array = &$array;
     }
 
-    function link(&$array)
-    {
-        $null = 1;
-        $this->array = &$null;
-        $this->array = &$array;
-    }
-
     function getArray()
     {
         $arr = $this->array;
         return $arr;
     }
+
     function offsetUnset($var)
     {
         if ($var == 'name') {
-            if (isset($this->array['_content'])) {
+            if (is_array($this->array) && isset($this->array['_content'])) {
                 unset($this->array['_content']);
-            } elseif (isset($this->array[0])) {
-                unset($this->array[0]);
+            } elseif (is_string($this->array)) {
+                $this->array = array();
             }
             return;
         }
@@ -58,8 +52,7 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
             if (!count($this->array['attribs'])) {
                 unset($this->array['attribs']);
                 if (isset($this->array['_content'])) {
-                    $this->array[0] = $this->array['_content'];
-                    unset($this->array['_content']);
+                    $this->array = $this->array['_content'];
                 }
             }
             return;
@@ -69,8 +62,7 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
             if (!count($this->array['attribs'])) {
                 unset($this->array['attribs']);
                 if (isset($this->array['_content'])) {
-                    $this->array[0] = $this->array['_content'];
-                    unset($this->array['_content']);
+                    $this->array = $this->array['_content'];
                 }
             }
             return;
@@ -80,23 +72,23 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
     function offsetGet($var)
     {
         if ($var == 'uri') {
-            if (isset($this->array['attribs']) && isset($this->array['attribs']['uri'])) {
+            if (is_array($this->array) && isset($this->array['attribs']) && isset($this->array['attribs']['uri'])) {
                 return $this->array['attribs']['uri'];
             }
             return null;
         }
         if ($var == 'path') {
-            if (isset($this->array['attribs']) && isset($this->array['attribs']['path'])) {
+            if (is_array($this->array) && isset($this->array['attribs']) && isset($this->array['attribs']['path'])) {
                 return $this->array['attribs']['path'];
             }
             return null;
         }
         if ($var == 'name') {
-            if (isset($this->array['_content'])) {
+            if (is_array($this->array) && isset($this->array['_content'])) {
                 return $this->array['_content']; 
             }
-            if (isset($this->array[0])) {
-                return $this->array[0];
+            if (!is_array($this->array)) {
+                return $this->array;
             }
         }
         return null;
@@ -109,17 +101,16 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
         }
 
         if ($var == 'path' || $var == 'uri') {
-            if (!isset($this->array['attribs'])) {
-                if (isset($this->array[0])) {
-                    $this->array['_content'] = $this->array[0];
-                    unset($this->array[0]);
+            if (!is_array($this->array) || !isset($this->array['attribs'])) {
+                if (!is_array($this->array)) {
+                    $this->array = array('_content' => $this->array);
                 }
                 $this->array['attribs'] = array();
             }
         } else {
             if ($var == 'name') {
-                if (!isset($this->array['attribs'])) {
-                    $this->array[0] = $value;
+                if (!is_array($this->array)) {
+                    $this->array = $value;
                     return;
                 }
                 $this->array['_content'] = $value;
@@ -139,8 +130,10 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
             return isset($this->array['attribs']) && isset($this->array['attribs']['path']);
         }
         if ($var == 'name') {
-            return (isset($this->array['attribs']) && isset($this->array['_content'])) ||
-                    isset($this->array[0]);
+            if (!is_array($this->array)) {
+                return sizeof($this->array);
+            }
+            return isset($this->array['_content']);
         }
         return false;
     }

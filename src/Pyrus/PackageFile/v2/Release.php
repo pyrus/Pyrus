@@ -60,6 +60,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
     private $_filelist;
     protected $index;
     protected $info = array();
+
     function __construct($parent, $packageInfo, array $filelist, $index = null)
     {
         $this->_parent = $parent;
@@ -353,8 +354,10 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                     }
                     if (count($newXml[$index]['installcondition']['extension']) == 1) {
                         $newXml[$index]['installcondition']['extension'] =
+                            array_values($newXml[$index]['installcondition']['extension']);
+                        $newXml[$index]['installcondition']['extension'] =
                             $newXml[$index]['installcondition']['extension'][0];
-                    } elseif (count($newXml[$index]['installcondition']['extension'] == 0)) {
+                    } elseif (count($newXml[$index]['installcondition']['extension']) == 0) {
                         unset($newXml[$index]['installcondition']['extension']);
                     }
                 }
