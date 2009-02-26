@@ -1,0 +1,10 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for PECL extension deps (optional or required same as packages)
+$test->assertEquals(null, $reg->dependencies['required']->package['channel/PackageName']->providesextension, 'before providesextension');
+$reg->dependencies['required']->package['channel/PackageName']->providesextension('packagename');
+$test->assertEquals('packagename', $reg->dependencies['required']->package['channel/PackageName']->providesextension, 'after providesextension');

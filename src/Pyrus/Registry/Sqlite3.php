@@ -263,10 +263,12 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $first = true;
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
-                foreach ($info->dependencies->$required->$package as $d) {
-                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
-                    $dmin     = isset($d['min']) ? $d['min'] : null;
-                    $dmax     = isset($d['max']) ? $d['max'] : null;
+                foreach ($info->dependencies[$required]->$package as $d) {
+                    // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                    $dchannel = $d->channel;
+                    $dmin     = $d->min;
+                    $dmax     = $d->max;
+                    $dname    = $d->name;
 
                     if (!$first) {
                         $stmt->clear();
@@ -276,9 +278,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $stmt->bindParam(':required', $req, SQLITE3_INTEGER);
                     $stmt->bindParam(':name', $n);
                     $stmt->bindParam(':channel', $c);
-                    $stmt->bindParam(':dep_package', $d['name']);
+                    $stmt->bindParam(':dep_package', $dname);
                     $stmt->bindParam(':dep_channel', $dchannel);
-                    $con = isset($d['conflicts']);
+                    $con = $d->conflicts;
                     $stmt->bindParam(':conflicts', $con, SQLITE3_INTEGER);
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
@@ -289,10 +291,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                             $info->channel . '/' . $info->name . ' could not be installed in registry');
                     }
 
-                    if (isset($d['exclude'])) {
-                        if (!is_array($d['exclude'])) {
-                            $d['exclude'] = array($d['exclude']);
-                        }
+                    if (isset($d->exclude)) {
 
                         $sql = '
                             INSERT INTO package_dependencies_exclude
@@ -302,16 +301,16 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                                 :dep_channel, :exclude, :conflicts)';
 
                         $stmt1 = static::$databases[$this->_path]->prepare($sql);
-                        foreach ($d['exclude'] as $exclude) {
+                        foreach ($d->exclude as $exclude) {
                             $stmt1->clear();
                             $req = ($required == 'required' ? 1 : 0);
                             $stmt1->bindParam(':required', $req, SQLITE3_INTEGER);
                             $stmt1->bindParam(':name', $n);
                             $stmt1->bindParam(':channel', $c);
-                            $stmt1->bindParam(':dep_package', $d['name']);
+                            $stmt1->bindParam(':dep_package', $dname);
                             $stmt1->bindParam(':dep_channel', $dchannel);
                             $stmt1->bindParam(':exclude', $exclude);
-                            $con = isset($d['conflicts']);
+                            $con = $d->conflicts;
                             $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
                             if (!$stmt1->execute()) {
@@ -335,19 +334,21 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        foreach ($info->dependencies->group as $group) {
+        foreach ($info->dependencies['group'] as $group) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
-                    $dchannel = isset($d['channel']) ? $d['channel'] :  '__uri';
-                    $dmin     = isset($d['min']) ? $d['min'] : null;
-                    $dmax     = isset($d['max']) ? $d['max'] : null;
+                    // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                    $dchannel = $d->channel;
+                    $dmin     = $d->min;
+                    $dmax     = $d->max;
+                    $dname    = $d->name;
 
                     $stmt->clear();
                     $stmt->bindParam(':name', $n);
                     $stmt->bindParam(':channel', $c);
-                    $stmt->bindParam(':dep_package', $d['name']);
+                    $stmt->bindParam(':dep_package', $dname);
                     $stmt->bindParam(':dep_channel', $dchannel);
-                    $con = isset($d['conflicts']);
+                    $con = $d->conflicts;
                     $stmt->bindParam(':conflicts', $con, SQLITE3_INTEGER);
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
@@ -358,10 +359,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                             $info->channel . '/' . $info->name . ' could not be installed in registry');
                     }
 
-                    if (isset($d['exclude'])) {
-                        if (!is_array($d['exclude'])) {
-                            $d['exclude'] = array($d['exclude']);
-                        }
+                    if (isset($d->exclude)) {
 
                         $sql = '
                             INSERT INTO package_dependencies_exclude
@@ -371,16 +369,16 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                                 :dep_channel, :exclude, :conflicts)';
 
                         $stmt1 = static::$databases[$this->_path]->prepare($sql);
-                        foreach ($d['exclude'] as $exclude) {
+                        foreach ($d->exclude as $exclude) {
                             $stmt1->clear();
                             $req = 0;
                             $stmt1->bindParam(':required', $req, SQLITE3_INTEGER);
                             $stmt1->bindParam(':name',        $n);
                             $stmt1->bindParam(':channel',     $c);
-                            $stmt1->bindParam(':dep_package', $d['name']);
+                            $stmt1->bindParam(':dep_package', $dname);
                             $stmt1->bindParam(':dep_channel', $dchannel);
                             $stmt1->bindParam(':exclude',     $exclude);
-                            $con = isset($d['conflicts']);
+                            $con = $d->conflicts;
                             $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
                             if (!$stmt1->execute()) {

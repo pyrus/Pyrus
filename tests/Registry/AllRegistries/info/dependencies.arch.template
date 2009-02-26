@@ -1,0 +1,14 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for regular arch deps
+$test->assertEquals(false, isset($reg->dependencies['required']->arch), 'before arch isset');
+$test->assertEquals(false, isset($reg->dependencies['required']->arch['i386']), 'before arch isset 2');
+$test->assertEquals(null, $reg->dependencies['required']->arch['i386'], 'before arch');
+$reg->dependencies['required']->arch['i386'] = true; // only works on i386
+$test->assertEquals(true, $reg->dependencies['required']->arch['i386'], 'after arch');
+$test->assertEquals(true, isset($reg->dependencies['required']->arch), 'after arch isset');
+$test->assertEquals(true, isset($reg->dependencies['required']->arch['i386']), 'after arch isset 2');

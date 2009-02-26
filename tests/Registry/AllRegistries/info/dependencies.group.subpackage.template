@@ -1,0 +1,18 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// dependency group setup
+$group = $reg->dependencies['group']->groupname;
+
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->subpackage['channel/PackageName2']), 'before group package min isset');
+$test->assertEquals(false, isset($group->subpackage['channel/PackageName2']), 'before group package min isset 2');
+$test->assertEquals(null, $reg->dependencies['group']->groupname->subpackage['channel/PackageName2']->min, 'before group package min');
+$test->assertEquals(null, $group->subpackage['channel/PackageName2']->min, 'before group package min 2');
+$group->subpackage['channel/PackageName2']->min('1.2.0');
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname->subpackage['channel/PackageName2']), 'after group package min isset');
+$test->assertEquals(true, isset($group->subpackage['channel/PackageName2']), 'after group package min isset 2');
+$test->assertEquals('1.2.0', $reg->dependencies['group']->groupname->subpackage['channel/PackageName2']->min, 'after group package min');
+$test->assertEquals('1.2.0', $group->subpackage['channel/PackageName2']->min, 'after group package min 2');

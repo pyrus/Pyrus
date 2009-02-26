@@ -27,11 +27,12 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
 {
     protected $subpackage;
     protected $required;
-    function __construct(array $dependency, PEAR2_Pyrus_Package $parent, $subpackage = false,
+    function __construct(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $info, PEAR2_Pyrus_Package $parent, $subpackage = false,
                          $required = false)
     {
         $this->subpackage = $subpackage;
         $this->required = $required;
+        $dependency = $info->getInfo();
         $dependency['package'] = $dependency['name'];
         parent::__construct($dependency, $parent);
     }

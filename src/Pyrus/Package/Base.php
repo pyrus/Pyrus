@@ -102,29 +102,27 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         $graph->add($this->getFrom());
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
-                foreach ($this->dependencies->$required->$package as $d) {
-                    if (isset($d['conflicts'])) {
+                foreach ($this->dependencies[$required]->$package as $d) {
+                    if ($d->conflicts) {
                         continue;
                     }
 
-                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
-                    if (isset($packages[$dchannel . '/' . $d['name']])) {
-                        $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    if (isset($packages[$d->channel . '/' . $d->name])) {
+                        $graph->connect($this, $packages[$d->channel . '/' . $d->name]);
                     }
                 }
             }
         }
 
-        foreach ($this->dependencies->group as $group) {
+        foreach ($this->dependencies['group'] as $group) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
-                    if (isset($d['conflicts'])) {
+                    if ($d->conflicts) {
                         continue;
                     }
 
-                    $dchannel = isset($d['channel']) ? $d['channel'] : '__uri';
-                    if (isset($packages[$dchannel . '/' . $d['name']])) {
-                        $graph->connect($this, $packages[$dchannel . '/' . $d['name']]);
+                    if (isset($packages[$d->channel . '/' . $d->name])) {
+                        $graph->connect($this, $packages[$d->channel . '/' . $d->name]);
                     }
                 }
             }

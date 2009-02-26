@@ -181,33 +181,33 @@ class PEAR2_Pyrus_Installer
      */
     static function prepareDependencies(PEAR2_Pyrus_Package $package)
     {
-        foreach ($package->dependencies->required->package as $dep) {
-            if (isset($dep['conflicts'])) {
+        foreach ($package->dependencies['required']->package as $dep) {
+            if ($dep->conflicts) {
                 continue;
             }
             self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, false, true));
         }
-        foreach ($package->dependencies->required->subpackage as $dep) {
-            if (isset($dep['conflicts'])) {
+        foreach ($package->dependencies['required']->subpackage as $dep) {
+            if ($dep->conflicts) {
                 continue;
             }
             self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true, true));
         }
         if ($package->requestedGroup) {
-            foreach ($package->dependencies->group[$package->requestedGroup]->package as $dep) {
+            foreach ($package->dependencies['group']->{$package->requestedGroup}->package as $dep) {
                 self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
             }
-            foreach ($package->dependencies->group[$package->requestedGroup]->subpackage as $dep) {
+            foreach ($package->dependencies['group']->{$package->requestedGroup}->subpackage as $dep) {
                 self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
             }
         }
         if (!isset(self::$options['optionaldeps'])) {
             return;
         }
-        foreach ($package->dependencies->optional->package as $dep) {
+        foreach ($package->dependencies['optional']->package as $dep) {
             self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
         }
-        foreach ($package->dependencies->optional->subpackage as $dep) {
+        foreach ($package->dependencies['optional']->subpackage as $dep) {
             self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
         }
     }

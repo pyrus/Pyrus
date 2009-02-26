@@ -1,0 +1,14 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+// for PHP dep
+
+$test->assertEquals(null, $reg->dependencies['required']->php->max, 'before php max set');
+$test->assertEquals(null, $reg->dependencies['required']->php->min, 'before php min set');
+$test->assertEquals(null, $reg->dependencies['required']->php->exclude, 'before php exclude set');
+$reg->dependencies['required']->php->min('5.3.1')->max('7.0.0')->exclude('6.1.2');
+$test->assertEquals('7.0.0', $reg->dependencies['required']->php->max, 'after php max set');
+$test->assertEquals('5.3.1', $reg->dependencies['required']->php->min, 'after php min set');
+$test->assertEquals(array('6.1.2'), $reg->dependencies['required']->php->exclude, 'after php exclude set');

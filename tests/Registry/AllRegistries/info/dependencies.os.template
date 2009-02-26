@@ -1,0 +1,14 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for regular OS deps
+$test->assertEquals(false, isset($reg->dependencies['required']->os), 'before os isset');
+$test->assertEquals(false, isset($reg->dependencies['required']->os['windows']), 'before os isset 2');
+$test->assertEquals(null, $reg->dependencies['required']->os['windows'], 'before os');
+$reg->dependencies['required']->os['windows'] = true; // only works on windows
+$test->assertEquals(true, $reg->dependencies['required']->os['windows'], 'after os');
+$test->assertEquals(true, isset($reg->dependencies['required']->os), 'after os isset');
+$test->assertEquals(true, isset($reg->dependencies['required']->os['windows']), 'after os isset 2');

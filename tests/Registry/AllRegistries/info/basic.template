@@ -112,8 +112,8 @@ $test->assertEquals(array (
   array (
     'attribs' => 
     array (
-      'name' => 'name',
       'hint' => 'Install optional stuff as a group',
+      'name' => 'name',
     ),
     'package' => 
     array (

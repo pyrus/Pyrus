@@ -351,7 +351,7 @@ class PEAR2_Pyrus_PackageFile_v2
             $this->packageInfo['dependencies'] = array();
         }
         return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
-            $this->packageInfo['dependencies'],
+            $this,
             $this->packageInfo['dependencies']);
     }
 
@@ -708,23 +708,23 @@ class PEAR2_Pyrus_PackageFile_v2
     {
         $dep = new PEAR2_Pyrus_Dependency_Validator($this->packageInfo['name'],
             PEAR2_Pyrus_Validate::DOWNLOADING, $errs);
-        $dep->validatePhpDependency($this->dependencies->required->php);
-        $dep->validatePearinstallerDependency($this->dependencies->required->pearinstaller);
+        $dep->validatePhpDependency($this->dependencies['required']->php);
+        $dep->validatePearinstallerDependency($this->dependencies['required']->pearinstaller);
         foreach (array('required', 'optional') as $required) {
-            foreach ($this->dependencies->$required->package as $d) {
-                $dep->validatePackageDependency($d, $required == 'required', $toInstall);
+            foreach ($this->dependencies[$required]->package as $d) {
+                $dep->validatePackageDependency($d->getInfo(), $required == 'required', $toInstall);
             }
-            foreach ($this->dependencies->$required->subpackage as $d) {
-                $dep->validateSubpackageDependency($d, $required == 'required', $toInstall);
+            foreach ($this->dependencies[$required]->subpackage as $d) {
+                $dep->validateSubpackageDependency($d->getInfo(), $required == 'required', $toInstall);
             }
-            foreach ($this->dependencies->$required->extension as $d) {
-                $dep->validateExtensionDependency($d, $required == 'required');
+            foreach ($this->dependencies[$required]->extension as $d) {
+                $dep->validateExtensionDependency($d->getInfo(), $required == 'required');
             }
         }
-        foreach ($this->dependencies->required->arch as $d) {
+        foreach ($this->dependencies['required']->arch as $d) {
             $dep->validateArchDependency($d);
         }
-        foreach ($this->dependencies->required->os as $d) {
+        foreach ($this->dependencies['required']->os as $d) {
             $dep->validateOsDependency($d);
         }
     }

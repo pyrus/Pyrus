@@ -1,0 +1,15 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// dependency group setup
+$test->assertEquals(false, isset($reg->dependencies['group']), 'before group isset');
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname), 'before group isset 2');
+$group = $reg->dependencies['group']->groupname;
+$group->hint = 'Install optional stuff as a group';
+$test->assertEquals('Install optional stuff as a group', $reg->dependencies['group']->groupname->hint, 'hint 1');
+$test->assertEquals('Install optional stuff as a group', $group->hint, 'hint 2');
+$test->assertEquals(true, isset($reg->dependencies['group']), 'after group isset');
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname), 'after group isset 2');
