@@ -86,9 +86,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                                         $var);
                 }
             } else {
-                if (!is_array($this->info[$var])) {
-                    $this->info[$var] = array($this->info[$var]);
-                }
                 switch ($var) {
                     case 'package' :
                     case 'subpackage' :
@@ -115,7 +112,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
             if ($group == 'hint') {
                 if ($value === null) {
                     if (!isset($this->info['attribs']) || !isset($this->info['attribs']['hint'])) {
-                        return null;
+                        return;
                     }
                     unset($this->info['attribs']['hint']);
                     $this->save();
@@ -162,7 +159,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
     {
         if (isset($this->index)) {
             if ($group == 'hint') {
-                return isset($this->info['attribs'][$group]);
+                return isset($this->info['attribs']['hint']);
             }
             return isset($this->info[$group]) && !empty($this->info[$group]);
         }
@@ -177,7 +174,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                 $this->save();
                 return;
             }
-            unset($this->info[$var]);
+            unset($this->info[$group]);
+            $this->save();
             return;
         }
         $i = $this->locateGroup($group);

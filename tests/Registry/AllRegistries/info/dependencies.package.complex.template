@@ -19,3 +19,7 @@ $test->assertEquals('1.1.1', $reg->dependencies['required']->package['channel/Pa
 $test->assertEquals(array('1.1.0a1', '1.1.0a2'), $reg->dependencies['required']->package['channel/PackageName']->exclude, 'after package required exclude set');
 $test->assertEquals(true, isset($reg->dependencies['required']->package), 'after package isset 1');
 $test->assertEquals(true, isset($reg->dependencies['required']->package['channel/PackageName']), 'after package isset 2');
+
+foreach ($reg->dependencies['required']->package as $name => $obj) {
+    $test->assertEquals('channel/PackageName', $name, 'iteration key test');
+}

@@ -21,3 +21,10 @@ $group->subpackage = null;
 
 $test->assertEquals(false, isset($group->subpackage), 'isset 1');
 $test->assertEquals(false, isset($reg->dependencies['group']->groupname->subpackage), 'isset 2');
+
+$group->subpackage['channel/PackageName2']->min('1.2.0');
+
+$test->assertEquals(true, isset($group->subpackage), 'isset subpackage');
+unset($group->subpackage);
+$test->assertEquals(false, isset($group->subpackage), 'isset subpackage after');
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->subpackage), 'isset subpackage after');

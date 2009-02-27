@@ -278,6 +278,102 @@ try {
                                     'extension dependencies are supported in dependency groups, asked for foo',
                         $e->getMessage(), 'group->foo = null');
 }
+
+try {
+    $package->dependencies['group']->groupname->hint = 1;
+    throw new Exception('group->hint = 1 worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('hint must be a string, was integer',
+                        $e->getMessage(), 'group->hint = 1');
+}
+
+try {
+    $a = $package->dependencies['required']->package['channel/package']['min'];
+    throw new Exception('[min] worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Use -> operator to access dependency properties',
+                        $e->getMessage(), '[min]');
+}
+
+try {
+    $package->dependencies['required']->package['channel/package']['min'];
+    throw new Exception('[min] worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Use -> operator to access dependency properties',
+                        $e->getMessage(), '[min]');
+}
+
+try {
+    $package->dependencies['required']->package['channel/package']['min'];
+    throw new Exception('[min] worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Use -> operator to access dependency properties',
+                        $e->getMessage(), '[min]');
+}
+
+try {
+    $package->dependencies['required']->package['channel/package']['min'] = 1;
+    throw new Exception('[min] = 1 worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Use -> operator to access dependency properties',
+                        $e->getMessage(), '[min] = 1');
+}
+
+try {
+    $package->dependencies['required']->package['channel/package'] = 1;
+    throw new Exception('[channel/package] = 1 worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Can only set $pf->dependencies[\'required\']->package[\'channel/package' .
+                '\'] to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object',
+                        $e->getMessage(), '[channel/package] = 1');
+}
+
+try {
+    $package->dependencies['required']->package['channel/package'] = 1;
+    throw new Exception('[channel/package] = 1 worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Can only set $pf->dependencies[\'required\']->package[\'channel/package' .
+                '\'] to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object',
+                        $e->getMessage(), '[channel/package] = 1');
+}
+
+$fake = new PEAR2_Pyrus_PackageFile_v2;
+
+try {
+    $package->dependencies['required']->package['channel/package'] = $fake->dependencies['required']->package['oops/notsame']->min('1.0.0');
+    throw new Exception('[channel/package] = oops/notsame worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Cannot set channel/package' .
+                ' to oops/notsame, use $pf->dependencies[\'required\']->package[] to set a new value',
+                        $e->getMessage(), '[channel/package] = oops/notsame');
+}
+
+try {
+    $package->dependencies['required']->subpackage['channel/subpackage'] = $fake->dependencies['required']->subpackage['oops/notsame']->min('1.0.0');
+    throw new Exception('[channel/subpackage] = oops/notsame worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Cannot set channel/subpackage' .
+                ' to oops/notsame, use $pf->dependencies[\'required\']->subpackage[] to set a new value',
+                        $e->getMessage(), '[channel/subpackage] = oops/notsame');
+}
+
+try {
+    $package->dependencies['required']->extension['extension'] = $fake->dependencies['required']->extension['notsame']->min('1.0.0');
+    throw new Exception('[extension] = notsame worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Cannot set extension' .
+                ' to notsame, use $pf->dependencies[\'required\']->extension[] to set a new value',
+                        $e->getMessage(), '[extension] = notsame');
+}
+
+try {
+    $package->dependencies['required']->extension['extension'] = $fake->dependencies['required']->package['oops/notsame']->min('1.0.0');
+    throw new Exception('[extension] = [package] worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Cannot set extension dependency to package dependency',
+                        $e->getMessage(), '[extension] = [package]');
+}
+
 ?>
 ===DONE===
 --CLEAN--

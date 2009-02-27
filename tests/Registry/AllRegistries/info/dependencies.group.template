@@ -22,7 +22,18 @@ $test->assertEquals(null, $group->hint, 'hint unset 2');
 
 $group->hint = 'Install optional stuff as a group';
 
+$test->assertEquals(true, isset($group->hint), 'group hint isset');
 $group->hint = null;
+$test->assertEquals(false, isset($group->hint), 'group hint isset after');
 $test->assertEquals(null, $reg->dependencies['group']->groupname->hint, 'hint unset 3');
 $test->assertEquals(null, $group->hint, 'hint unset 4');
+$group->hint = null;
+$test->assertEquals(null, $reg->dependencies['group']->groupname->hint, 'hint unset 5');
+$test->assertEquals(null, $group->hint, 'hint unset 6');
 
+$g = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Group(null, array(), 'foo');
+$test->assertEquals(null, $g->name, 'null name');
+
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname), 'groupname isset');
+unset($reg->dependencies['group']->groupname);
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname), 'groupname isset after');

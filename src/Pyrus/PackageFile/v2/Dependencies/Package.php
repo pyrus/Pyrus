@@ -92,6 +92,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             switch ($this->type) {
                 case 'package' :
                 case 'subpackage' :
+                    if (!strpos($var, '/')) {
+                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $var .
+                            ', must use "channel/package" to specify a package dependency to set');
+                    }
                     $stuff = explode('/', $var);
                     $name = array_pop($stuff);
                     $channel = implode('/', $stuff);
@@ -145,6 +149,54 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         if (isset($this->index)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Use -> operator to access dependency properties');
         }
+        if (!($value instanceof self)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Can only set $pf->dependencies[\'' .
+                $this->deptype . '\']->' . $this->type . '[\'' . $var .
+                '\'] to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object');
+        }
+        if ($this->type !== $value->type) {
+            if (!(($this->type === 'package' && $value->type === 'subpackage') ||
+                ($this->type === 'subpackage' && $value->type === 'package'))) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $this->type .
+                    ' dependency to ' . $value->type . ' dependency');
+            }
+        }
+        if ($var === null) {
+            if ($this->type === 'extension') {
+                $var = $value->name;
+            } else {
+                $var = $value->channel . '/' . $value->name;
+            }
+        }
+        if ($this->type !== 'extension' && !strpos($var, '/')) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $var .
+                ', must use "channel/package" to specify a package dependency to set');
+        }
+        if ($this->type === 'extension') {
+            if ($value->name != $var) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' .
+                    $var . ' to ' .
+                    $value->name .
+                    ', use $pf->dependencies[\'' .
+                    $this->deptype . '\']->extension[] to set a new value');
+            }
+        } else {
+            $stuff = explode('/', $var);
+            $name = array_pop($stuff);
+            $channel = implode('/', $stuff);
+            if ($value->name != $name || $value->channel != $channel) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' .
+                    $channel . '/' . $name . ' to ' .
+                    $value->channel . '/' . $value->name .
+                    ', use $pf->dependencies[\'' .
+                    $this->deptype . '\']->' . $this->type . '[] to set a new value');
+            }
+        }
+        if (false === ($i = $this->locateDep($var))) {
+            $i = count($this->info);
+        }
+        $this->info[$i] = $value->getInfo();
+        $this->save();
     }
 
     function offsetExists($var)
@@ -178,6 +230,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         }
         if ($var == 'conflicts') {
             return isset($this->info[$var]);
+        }
+        if ($var === 'deptype') {
+            return $this->deptype;
         }
         if (!isset($this->info[$var])) {
             return null;
