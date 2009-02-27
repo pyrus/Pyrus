@@ -26,6 +26,9 @@
 class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 {
     private $_info;
+    protected $_parsedname;
+    protected $_explicitState;
+    protected $_explicitGroup;
     protected $downloadInfo;
     /**
      * @param string $package path to package file
