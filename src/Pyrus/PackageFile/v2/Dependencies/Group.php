@@ -89,7 +89,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                 if (!is_array($this->info[$var])) {
                     $this->info[$var] = array($this->info[$var]);
                 }
-                $keys = array();
                 switch ($var) {
                     case 'package' :
                     case 'subpackage' :
@@ -98,11 +97,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                             $this->info[$var] = array($this->info[$var]);
                         }
                         break;
-                }
-                foreach ($keys as $key => $null) {
-                    if (!array_key_exists($key, $this->info[$var])) {
-                        $this->info[$var][$key] = $null;
-                    }
                 }
             }
             return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package('group', $var, $this, $this->info[$var]);
