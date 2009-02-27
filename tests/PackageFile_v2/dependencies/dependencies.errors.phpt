@@ -269,6 +269,15 @@ try {
     $test->assertEquals('Unknown method foo2 called',
                         $e->getMessage(), 'foo2 = 1');
 }
+
+try {
+    $package->dependencies['group']->groupname->foo = null;
+    throw new Exception('group->foo = null worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
+    $test->assertEquals('Only package, subpackage, and ' .
+                                    'extension dependencies are supported in dependency groups, asked for foo',
+                        $e->getMessage(), 'group->foo = null');
+}
 ?>
 ===DONE===
 --CLEAN--
