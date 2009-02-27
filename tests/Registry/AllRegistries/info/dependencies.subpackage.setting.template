@@ -1,0 +1,42 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for regular arch deps
+$fake = new PEAR2_Pyrus_PackageFile_v2;
+$package = $fake->dependencies['required']->subpackage;
+$package['channel/Package1']->save();
+$package['channel/Package2']->min('1.0.0');
+$package['channel/Package3']->conflicts();
+
+$test->assertEquals(false, isset($reg->dependencies['required']->subpackage['channel/Package1']), 'Package1 required before');
+$test->assertEquals(false, isset($reg->dependencies['optional']->subpackage['channel/Package1']), 'Package1 optional before');
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->subpackage['channel/Package1']), 'Package1 group before');
+
+$test->assertEquals(null, $reg->dependencies['required']->subpackage['channel/Package2']->min, 'Package2 required before');
+$test->assertEquals(null, $reg->dependencies['optional']->subpackage['channel/Package2']->min, 'Package2 optional before');
+$test->assertEquals(null, $reg->dependencies['group']->groupname->subpackage['channel/Package2']->min, 'Package2 group before');
+
+$test->assertEquals(false, $reg->dependencies['required']->subpackage['channel/Package3']->conflicts, 'Package3 required before');
+$test->assertEquals(null, $reg->dependencies['optional']->subpackage['channel/Package3']->max, 'Package3 optional before');
+$test->assertEquals(null, $reg->dependencies['group']->groupname->subpackage['channel/Package3']->max, 'Package3 group before');
+
+$reg->dependencies['required']->subpackage = $package;
+unset($package['channel/Package3']);
+$package['channel/Package3']->max('2.0.0');
+$reg->dependencies['optional']->subpackage = $package;
+$reg->dependencies['group']->groupname->subpackage = $package;
+
+$test->assertEquals(true, isset($reg->dependencies['required']->subpackage['channel/Package1']), 'Package1 required after');
+$test->assertEquals(true, isset($reg->dependencies['optional']->subpackage['channel/Package1']), 'Package1 optional after');
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname->subpackage['channel/Package1']), 'Package1 group after');
+
+$test->assertEquals('1.0.0', $reg->dependencies['required']->subpackage['channel/Package2']->min, 'Package2 required after');
+$test->assertEquals('1.0.0', $reg->dependencies['optional']->subpackage['channel/Package2']->min, 'Package2 optional after');
+$test->assertEquals('1.0.0', $reg->dependencies['group']->groupname->subpackage['channel/Package2']->min, 'Package2 group after');
+
+$test->assertEquals(true, $reg->dependencies['required']->subpackage['channel/Package3']->conflicts, 'Package3 required after');
+$test->assertEquals('2.0.0', $reg->dependencies['optional']->subpackage['channel/Package3']->max, 'Package3 optional after');
+$test->assertEquals('2.0.0', $reg->dependencies['group']->groupname->subpackage['channel/Package3']->max, 'Package3 group after');

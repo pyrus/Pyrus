@@ -8,8 +8,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
     protected $index = null;
     protected $parent;
     protected $type;
+    protected $deptype;
 
-    function __construct($type, $parent, array $info, $index = null)
+    function __construct($deptype, $type, $parent, array $info, $index = null)
     {
         $this->parent = $parent;
         if (!is_array($info)) {
@@ -20,12 +21,13 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         $this->info = $info;
         $this->index = $index;
         $this->type = $type;
+        $this->deptype = $deptype;
     }
 
     function current()
     {
         $i = key($this->info);
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->type, $this, $this->info[$i], $i);
+        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
     function rewind()
@@ -97,10 +99,16 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                                                 'min' => null, 'max' => null,
                                                 'recommended' => null, 'exclude' => null,
                                                 'providesextension' => null, 'conflicts' => null);
+                    if ($this->deptype != 'required') {
+                        unset($this->info[$i]['conflicts']);
+                    }
                     break;
                 case 'extension' :
                     $this->info[$i] = array('name' => $var, 'min' => null, 'max' => null,
                                                 'recommended' => null, 'exclude' => null, 'conflicts' => null);
+                    if ($this->deptype != 'required') {
+                        unset($this->info[$i]['conflicts']);
+                    }
                     break;
             }
         } else {
@@ -111,10 +119,16 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                                                 'min' => null, 'max' => null,
                                                 'recommended' => null, 'exclude' => null,
                                                 'providesextension' => null, 'conflicts' => null);
+                    if ($this->deptype != 'required') {
+                        unset($keys['conflicts']);
+                    }
                     break;
                 case 'extension' :
                     $keys = array('name' => $var, 'min' => null, 'max' => null,
                                                 'recommended' => null, 'exclude' => null, 'conflicts' => null);
+                    if ($this->deptype != 'required') {
+                        unset($keys['conflicts']);
+                    }
                     break;
             }
             foreach ($keys as $key => $null) {
@@ -123,7 +137,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                 }
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->type, $this, $this->info[$i], $i);
+        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
     function offsetSet($var, $value)
@@ -183,6 +197,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Use [] operator to access ' . $this->type .
                                                                         's');
         }
+        if (!array_key_exists($var, $this->info)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
+            );
+        }
         if ($var == 'conflicts') {
             if (count($args)) {
                 if ($args[0]) {
@@ -196,7 +215,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             $this->save();
             return $this;
         }
-        if ($args[0] === null) {
+        if (!count($args) || $args[0] === null) {
             unset($this->info[$var]);
             $this->save();
             return $this;

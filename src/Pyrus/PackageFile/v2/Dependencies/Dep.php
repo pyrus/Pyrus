@@ -38,25 +38,17 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
     {
         return current($this->info);
     }
-
-    function __get($var)
-    {
-        if (!isset($this->info[$var])) {
-            return null;
-        }
-        if ($var == 'exclude') {
-            $ret = $this->info['exclude'];
-            if (!is_array($ret)) {
-                return $ret;
-            }
-        }
-        return $this->info[$var];
-    }
-
     function __call($var, $args)
     {
+        if ($this->type == 'os' || $this->type == 'arch') {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown method ' . $var . ' called');
+        }
+        if (!array_key_exists($var, $this->info)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown variable ' . $var . '(), must be one of ' .
+                            implode(', ', array_keys($this->info)));
+        }
         if ($args[0] === null) {
-            unset($this->info[$var]);
+            $this->info[$var] = null;
             $this->save();
             return $this;
         }
@@ -71,6 +63,20 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
         }
         $this->save();
         return $this;
+    }
+
+    function __get($var)
+    {
+        if (!isset($this->info[$var])) {
+            return null;
+        }
+        if ($var == 'exclude') {
+            $ret = $this->info['exclude'];
+            if (!is_array($ret)) {
+                return $ret;
+            }
+        }
+        return $this->info[$var];
     }
 
     function locateDep($name)
@@ -129,6 +135,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
         unset($this->info[$i]);
         $this->info = array_values($this->info);
         $this->save();
+    }
+
+    function getInfo()
+    {
+        return $this->info;
     }
 
     function save()

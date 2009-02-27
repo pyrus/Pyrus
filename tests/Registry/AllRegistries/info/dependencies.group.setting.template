@@ -1,0 +1,16 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for regular arch deps
+$fake = new PEAR2_Pyrus_PackageFile_v2;
+$group = $fake->dependencies['group']->groupname;
+$group->extension['foo']->save();
+
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->extension['foo']), 'foo before');
+
+$reg->dependencies['group'] = $group;
+
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname->extension['foo']), 'foo after');

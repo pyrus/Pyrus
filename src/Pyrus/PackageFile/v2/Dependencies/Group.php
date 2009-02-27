@@ -71,8 +71,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                         $this->info[$var] = array();
                         break;
                     default :
-                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Only package, subpackage, and ' .
-                                            'extension dependencies are supported in dependency groups');
+                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                                        'Only package, subpackage, and ' .
+                                        'extension dependencies are supported in dependency groups, asked for ' .
+                                        $var);
                 }
             } else {
                 if (!is_array($this->info[$var])) {
@@ -88,8 +90,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                         }
                         break;
                     default :
-                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Only package, subpackage, and ' .
-                                            'extension dependencies are supported in dependency groups');
+                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                                        'Only package, subpackage, and ' .
+                                        'extension dependencies are supported in dependency groups, asked for ' .
+                                        $var);
                 }
                 foreach ($keys as $key => $null) {
                     if (!array_key_exists($key, $this->info[$var])) {
@@ -97,7 +101,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                     }
                 }
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($var, $this, $this->info[$var]);
+            return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package('group', $var, $this, $this->info[$var]);
         }
         $i = $this->locateGroup($group);
         if (false === $i) {
@@ -133,23 +137,26 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                 return;
             }
             $info = array();
-            switch ($var) {
+            switch ($group) {
                 case 'package' :
                 case 'subpackage' :
                 case 'extension' :
                     if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Package)) {
                         throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                            'Can only set package to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object'
+                            'Can only set ' . $group . ' to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object'
                         );
                     }
-                    $this->info[$var] = $value->getInfo();
+                    $this->info[$group] = $value->getInfo();
                     $this->save();
                     return;
                     break;
                 default :
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('unknown dependency type ' . $var);
+                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                                    'Only package, subpackage, and ' .
+                                    'extension dependencies are supported in dependency groups, asked for ' .
+                                    $group);
             }
-            $this->info[$var] = $info;
+            $this->info[$group] = $info;
             $this->save();
         }
     }
@@ -181,6 +188,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
             unset($this->info[$i]);
             $this->save();
         }
+    }
+
+    function getInfo()
+    {
+        return $this->info;
     }
 
     function setInfo($index, $info)

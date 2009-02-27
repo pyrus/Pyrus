@@ -110,6 +110,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
             switch ($var) {
                 case 'arch' :
                 case 'os' :
+                    if ($this->deptype === 'optional' || $this->deptype === 'group') {
+                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                                $var . ' dependency is not supported as an optional dependency');
+                    }
                     if (!isset($this->info[$var])) {
                         $this->info[$var] = array();
                     }
@@ -124,9 +128,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 case 'subpackage' :
                 case 'extension' :
                     $this->info[$var] = array();
-                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($var, $this, $this->info[$var]);
-                case 'group' :
-                    break;
+                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $this->info[$var]);
+                default :
+                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown dependency type: '.
+                        $var);
             }
         } else {
             if (!is_array($this->info[$var])) {
@@ -146,9 +151,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                     if (count($this->info[$var]) && !isset($this->info[$var][0])) {
                         $this->info[$var] = array($this->info[$var]);
                     }
-                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($var, $this, $this->info[$var]);
-                case 'group' :
-                    break;
+                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $this->info[$var]);
             }
             foreach ($keys as $key => $null) {
                 if (!array_key_exists($key, $this->info[$var])) {
@@ -184,29 +187,32 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 }
                 break;
             case 'arch' :
-                if (is_string($value)) {
-                    $info['pattern'] = $value;
-                }
-                break;
             case 'os' :
-                if (is_string($value)) {
-                    $info['name'] = $value;
-                }
-                break;
-            case 'package' :
-            case 'subpackage' :
-            case 'extension' :
-                if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Package)) {
+                if ($this->deptype === 'optional' || $this->deptype === 'group') {
                     throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                        'Can only set package to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object'
+                            $var . ' dependency is not supported as an optional dependency');
+                }
+                if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep)) {
+                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                        'Can only set ' . $var . ' to PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep object'
                     );
                 }
                 $this->info[$var] = $value->getInfo();
                 $this->save();
                 return;
-                break;
+            case 'package' :
+            case 'subpackage' :
+            case 'extension' :
+                if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Package)) {
+                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                        'Can only set ' . $var . ' to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object'
+                    );
+                }
+                $this->info[$var] = $value->getInfo();
+                $this->save();
+                return;
             default :
-                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('unknown dependency type ' . $var);
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown dependency type: ' . $var);
         }
         $this->info[$var] = $info;
         $this->save();
@@ -222,6 +228,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
 
     function offsetGet($var)
     {
+        if ($this->deptype !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot access ' .
+                                    '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
+        }
         if ($var === 'required' || $var === 'optional') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
@@ -238,7 +248,30 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
 
     function offsetSet($var, $value)
     {
-        
+        if ($this->deptype !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' .
+                                    '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
+        }
+        if ($var === 'group') {
+            if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Group)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set group to anything' .
+                            ' but a PEAR2_Pyrus_PackageFile_v2_Dependencies_Group object');
+            }
+            $this->info['group'] = $value->getInfo();
+            $this->save();
+            return;
+        }
+        if ($var === 'required' || $var === 'optional') {
+            if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies)) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $var . ' to anything' .
+                            ' but a PEAR2_Pyrus_PackageFile_v2_Dependencies object');
+            }
+            $this->info[$var] = $value->getInfo();
+            $this->save();
+            return;
+        }
+        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Only required, optional, or group indices' .
+                        ' are supported, was passed ' . $var);
     }
 
     function offsetExists($var)
@@ -249,6 +282,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
     function offsetUnset($var)
     {
         unset($this->info[$var]);
+        $this->save();
     }
 
     function setInfo($deptype, $info)
@@ -263,6 +297,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
             return;
         }
         $this->info[$deptype] = $info;
+    }
+
+    function getInfo()
+    {
+        return $this->info;
     }
 
     function save()
