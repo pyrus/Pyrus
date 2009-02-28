@@ -511,7 +511,7 @@ class PEAR2_Pyrus_PackageFile_v2
         $me = $pf->version['release'];
         $found = false;
         foreach ($this->compatible as $info) {
-            if (strtolower($info->name) == strtolower($pf->package)) {
+            if (strtolower($info->name) == strtolower($pf->name)) {
                 if ($info->channel == $pf->channel) {
                     $found = true;
                     break;
@@ -551,7 +551,7 @@ class PEAR2_Pyrus_PackageFile_v2
             if ($type === 'group') {
                 foreach ($this->dependencies['group'] as $group) {
                     foreach ($group->subpackage as $dep) {
-                        if (strtolower($dep->name) == strtolower($p->package)) {
+                        if (strtolower($dep->name) == strtolower($p->name)) {
                             if (isset($dep->channel)) {
                                 if (strtolower($dep->channel) == strtolower($p->channel)) {
                                     return true;
@@ -566,7 +566,7 @@ class PEAR2_Pyrus_PackageFile_v2
                 }
             }
             foreach ($this->dependencies[$type]->subpackage as $dep) {
-                if (strtolower($dep->name) == strtolower($p->package)) {
+                if (strtolower($dep->name) == strtolower($p->name)) {
                     if (isset($dep->channel)) {
                         if (strtolower($dep->channel) == strtolower($p->channel)) {
                             return true;
@@ -828,8 +828,12 @@ class PEAR2_Pyrus_PackageFile_v2
             $this->packageInfo['compatible'] = $value;
             return;
         }
-        if ($var === 'rawstability' && is_string($value)) {
-            $this->packageInfo['stability'] = array('release' => $value, 'api' => $value);
+        if ($var === 'rawstability' && is_array($value)) {
+            $this->packageInfo['stability'] = $value;
+            return;
+        }
+        if ($var === 'rawversion' && is_array($value)) {
+            $this->packageInfo['version'] = $value;
             return;
         }
         if ($var === 'packagerversion' && is_string($value)) {
@@ -888,20 +892,29 @@ class PEAR2_Pyrus_PackageFile_v2
     protected function tag($name)
     {
         if (!isset($this->packageInfo[$name]) && in_array($name, array('version',
-                'stability', 'license', 'compatible',
+                'stability',
                 'providesextension', 'usesrole', 'usestask', 'srcpackage', 'srcuri',
                 ), true)) {
             $this->packageInfo[$name] = array();
         }
+        switch ($name) {
+            case 'stability' :
+            case 'version' :
+                if (!isset($this->packageInfo[$name])) {
+                    $this->packageInfo[$name] = array();
+                }
+                $info = $this->packageInfo[$name];
+                if (!isset($info['release'])) {
+                    $info['release'] = null;
+                }
+                if (!isset($info['api'])) {
+                    $info['api'] = null;
+                }
+                return new PEAR2_Pyrus_PackageFile_v2_SimpleProperty(
+                                $this, $info, $name);
+        }
         if (!isset($this->packageInfo[$name])) {
             return false;
-        }
-        if (is_array($this->packageInfo[$name])) {
-            // FIXME: this code is stupid.  The intent was to have packageInfo[$name] be
-            // modifiable, but ArrayObject doesn't work this way any more, so the
-            // only solution is a custom subclass that catches modifications and passes
-            // them back to the parent packagefile.
-            return new ArrayObject($this->packageInfo[$name], ArrayObject::ARRAY_AS_PROPS);
         }
         return $this->packageInfo[$name];
     }
