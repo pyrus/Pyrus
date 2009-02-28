@@ -23,7 +23,7 @@ $test->assertEquals(false, $reg->bundledpackage, 'bundledpackage');
 $test->assertEquals(false, $reg->releases, 'releases');
 
 $reg->fromArray(array('package' => array('uri' => 'test', 'bundle' => '')));
-$test->assertEquals(array(), (array) $reg->bundledpackage, 'bundledpackage 2');
+$test->assertEquals(array(), $reg->bundledpackage->getInfo(), 'bundledpackage 2');
 $test->assertEquals('__uri', $reg->channel, 'uri channel');
 
 $test->assertEquals('2.0', $reg->getPackagexmlVersion(), '2.0 bundle');

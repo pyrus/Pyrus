@@ -88,47 +88,78 @@ class PEAR2_Pyrus_PackageFile_v2
      * @var array
      */
     protected $getMap = array(
-            'bundledpackage' => 'getBundledPackage',
-            'packagefile' => 'getPackageFile',
-            'filepath' => 'getFilePath',
-            'contents' => 'getContents',
-            'installcontents' => 'getInstallContents',
-            'packagingcontents' => 'getPackagingContents',
-            'installGroup' => 'getInstallGroup',
-            'channel' => 'getChannel',
-            'state' => 'getState',
-            'api-version' => 'getApiVersion',
-            'release-version' => 'getReleaseVersion',
-            'api-state' => 'getApiState',
-            'allmaintainers' => 'getAllMaintainers',
-            'releases' => 'getReleases',
-            'sourcepackage' => 'getSourcePackage',
-            'license' => 'getLicense',
-            'files' => 'getFiles',
-            'maintainer' => 'getMaintainer',
-            'rawdeps' => 'getRawDeps',
-            'dependencies' => 'getDependencies',
-            'release' => 'getRelease',
-            'compatible' => 'getCompatible',
-            'schemaOK' => 'getSchemaOK',
-            'version' => 'tag',
-            'stability' => 'tag',
-            'providesextension' => 'tag',
-            'usesrole' => 'tag',
-            'usestask' => 'tag',
-            'srcpackage' => 'tag',
-            'srcuri' => 'tag',
-            'name' => 'tag',
-            'summary' => 'tag',
-            'description' => 'tag',
-            'date' => 'tag',
-            'time' => 'tag',
-            'notes' => 'tag',
-            'sourceuri' => 'tag',
+        'bundledpackage' => 'getBundledPackage',
+        'packagefile' => 'getPackageFile',
+        'filepath' => 'getFilePath',
+        'contents' => 'getContents',
+        'installcontents' => 'getInstallContents',
+        'packagingcontents' => 'getPackagingContents',
+        'installGroup' => 'getInstallGroup',
+        'channel' => 'getChannel',
+        'state' => 'getState',
+        'api-version' => 'getApiVersion',
+        'release-version' => 'getReleaseVersion',
+        'api-state' => 'getApiState',
+        'allmaintainers' => 'getAllMaintainers',
+        'releases' => 'getReleases',
+        'sourcepackage' => 'getSourcePackage',
+        'license' => 'getLicense',
+        'files' => 'getFiles',
+        'maintainer' => 'getMaintainer',
+        'rawdeps' => 'getRawDeps',
+        'dependencies' => 'getDependencies',
+        'release' => 'getRelease',
+        'compatible' => 'getCompatible',
+        'schemaOK' => 'getSchemaOK',
+        'version' => 'tag',
+        'stability' => 'tag',
+        'providesextension' => 'tag',
+        'usesrole' => 'getUsesRole',
+        'usestask' => 'getUsesTask',
+        'srcpackage' => 'tag',
+        'srcchannel' => 'tag',
+        'srcuri' => 'tag',
+        'name' => 'tag',
+        'summary' => 'tag',
+        'description' => 'tag',
+        'date' => 'tag',
+        'time' => 'tag',
+        'notes' => 'tag',
     );
 
     protected $setMap = array(
-        
+        'packagefile' => 'setPackageFile',
+        'filepath' => 'setFilePath',
+        'contents' => 'setContents',
+        'channel' => 'setTag',
+        'uri' => 'setTag',
+        'state' => 'setState',
+        'sourcepackage' => 'setSourcePackage',
+        'license' => 'setLicense',
+        'version' => 'setVersion',
+        'stability' => 'setStability',
+        'providesextension' => 'setTag',
+        'srcpackage' => 'setTag',
+        'srcuri' => 'setTag',
+        'name' => 'setTag',
+        'summary' => 'setTag',
+        'description' => 'setTag',
+        'date' => 'setTag',
+        'time' => 'setTag',
+        'notes' => 'setTag',
+        'type' => 'setType',
+    );
+
+    protected $rawMap = array(
+        'rawdependencies' => 'dependencies',
+        'rawlicense' => 'license',
+        'rawcontents' => 'contents',
+        'rawrelease' => array('setRawRelease'), // array says call this function
+        'rawcompatible' => 'compatible',
+        'rawstability' => 'stability',
+        'rawversion' => 'version',
+        'rawusesrole' => 'usesrole',
+        'rawusestask' => 'usestask',
     );
 
     /**
@@ -175,8 +206,7 @@ class PEAR2_Pyrus_PackageFile_v2
         if (!isset($this->packageInfo['contents']['bundledpackage'])) {
             $this->packageInfo['contents']['bundledpackage'] = array();
         }
-        return new ArrayObject($this->packageInfo['contents']['bundledpackage'],
-            ArrayObject::ARRAY_AS_PROPS);
+        return new PEAR2_Pyrus_PackageFile_v2_BundledPackage($this, $this->packageInfo['contents']['bundledpackage']);
     }
 
     function getContents()
@@ -767,95 +797,99 @@ class PEAR2_Pyrus_PackageFile_v2
         return $this->tag($var);
     }
 
+    function setTag($var, $value)
+    {
+        if ($var === 'uri') {
+            if (isset($this->packageInfo['channel'])) {
+                unset($this->packageInfo['channel']);
+            }
+        }
+        if ($var === 'channel') {
+            if (isset($this->packageInfo['uri'])) {
+                unset($this->packageInfo['uri']);
+            }
+        }
+        $this->packageInfo[$var] = $value;
+    }
+
+    function setLicense($var, $value)
+    {
+        if (!is_array($value)) {
+            $licensemap =
+                array(
+                    'php' => 'http://www.php.net/license',
+                    'php license' => 'http://www.php.net/license',
+                    'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
+                    'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
+                    'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
+                    'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
+                    'mit' => 'http://www.opensource.org/licenses/mit-license.php',
+                    'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
+                    'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
+                );
+            if (isset($licensemap[strtolower($value)])) {
+                $this->packageInfo['license'] = array(
+                    'attribs' => array('uri' =>
+                        $licensemap[strtolower($value)]),
+                    '_content' => $value
+                    );
+            } else {
+                // don't use bogus uri
+                $arr['license'] = (string) $value;
+            }
+        } else {
+            $this->packageInfo['license'] = $value;
+        }
+    }
+
+    function setType($var, $value)
+    {
+        if (!is_array($value)) {
+            $licensemap =
+                array(
+                    'php' => 'http://www.php.net/license',
+                    'php license' => 'http://www.php.net/license',
+                    'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
+                    'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
+                    'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
+                    'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
+                    'mit' => 'http://www.opensource.org/licenses/mit-license.php',
+                    'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
+                    'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
+                );
+            if (isset($licensemap[strtolower($value)])) {
+                $this->packageInfo['license'] = array(
+                    'attribs' => array('uri' =>
+                        $licensemap[strtolower($value)]),
+                    '_content' => $value
+                    );
+            } else {
+                // don't use bogus uri
+                $arr['license'] = (string) $value;
+            }
+        } else {
+            $this->packageInfo['license'] = $value;
+        }
+    }
+
+    function setRawRelease($var, $value)
+    {
+        $t = $this->getPackageType();
+        if ($t != 'bundle') {
+            $t .= 'release';
+        }
+        $this->packageInfo[$t] = $value;
+    }
+
+    function setPackagerVersion($var, $value)
+    {
+        $this->packageInfo['attribs']['packagerversion'] = $value;
+    }
+
     function __set($var, $value)
     {
-        if ($var === 'rawlicense') {
-            $this->packageInfo['license'] = $value;
-            return;
-        }
-        if ($var === 'license') {
-            if (!is_array($value)) {
-                $licensemap =
-                    array(
-                        'php' => 'http://www.php.net/license',
-                        'php license' => 'http://www.php.net/license',
-                        'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
-                        'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
-                        'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
-                        'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
-                        'mit' => 'http://www.opensource.org/licenses/mit-license.php',
-                        'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
-                        'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
-                    );
-                if (isset($licensemap[strtolower($value)])) {
-                    $this->packageInfo['license'] = array(
-                        'attribs' => array('uri' =>
-                            $licensemap[strtolower($value)]),
-                        '_content' => $value
-                        );
-                } else {
-                    // don't use bogus uri
-                    $arr['license'] = (string) $value;
-                }
-            } else {
-                $this->packageInfo['license'] = $value;
-            }
-            return;
-        }
-        if ($var === 'type') {
-            if (!is_string($value)) {
-                throw new PEAR2_Pyrus_PackageFile_Exception('package.xml type must be a ' .
-                'string, was a ' . gettype($value));
-            }
-            if ($value != 'bundle') {
-                $value .= 'release';
-            }
-            if (in_array($value, $a = array('phprelease', 'extsrcrelease', 'extbinrelease',
-                  'zendextsrcrelease', 'zendextbinrelease', 'bundle'))) {
-                foreach ($a as $type) {
-                    if ($value == $type) {
-                        if (!isset($this->packageInfo[$type])) {
-                            $this->packageInfo[$type] = array();
-                        }
-                        continue;
-                    }
-                    if (isset($this->packageInfo[$type])) {
-                        unset($this->packageInfo[$type]);
-                    }
-                }
-            }
-            return;
-        }
         if ($var === 'dependencies' && $value === null) {
             $this->packageInfo['dependencies'] = array();
-            return;
-        }
-        if ($var === 'rawdependencies' && is_array($value)) {
-            $this->packageInfo['dependencies'] = $value;
-            return;
-        }
-        if ($var === 'rawrelease' && is_array($value)) {
-            $t = $this->getPackageType();
-            if ($t != 'bundle') {
-                $t .= 'release';
-            }
-            $this->packageInfo[$t] = $value;
-            return;
-        }
-        if ($var === 'rawcompatible' && is_array($value)) {
-            $this->packageInfo['compatible'] = $value;
-            return;
-        }
-        if ($var === 'rawstability' && is_array($value)) {
-            $this->packageInfo['stability'] = $value;
-            return;
-        }
-        if ($var === 'rawversion' && is_array($value)) {
-            $this->packageInfo['version'] = $value;
-            return;
-        }
-        if ($var === 'packagerversion' && is_string($value)) {
-            $this->packageInfo['attribs']['packagerversion'] = $value;
             return;
         }
         if ($var === 'release' && $value === null) {
@@ -868,39 +902,19 @@ class PEAR2_Pyrus_PackageFile_v2
             }
             return;
         }
-        if ($value instanceof ArrayObject) {
-            $value = $value->getArrayCopy();
+        if (isset($this->setMap[$var])) {
+            return $this->{$this->setMap[$var]}($var, $value);
         }
-        if (in_array($var, array('attribs', 'lead',
-                'developer', 'contributor', 'helper', 'version',
-                'stability', 'license', 'contents', 'compatible',
-                'dependencies', 'providesextension', 'usesrole', 'usestask', 'srcpackage', 'srcuri',
-                'phprelease', 'extsrcrelease', 'zendextsrcrelease', 'zendextbinrelease',
-                'extbinrelease', 'bundle', 'changelog'), true)) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' directly');
-        }
-        if (!in_array($var, array('name', 'channel', 'uri', 'extends', 'summary',
-                'description', 'date', 'time','notes'), true)) {
+        if (isset($this->rawMap[$var])) {
+            $actual = $this->rawMap[$var];
+            if (is_array($actual)) {
+                $actual = $actual[0];
+                return $this->$actual($var, $value);
+            }
+            $this->packageInfo[$actual] = $value;
             return;
         }
-        if ($var === 'uri') {
-            if (isset($this->packageInfo['channel'])) {
-                unset($this->packageInfo['channel']);
-            }
-        }
-        if ($var === 'channel') {
-            if (isset($this->packageInfo['uri'])) {
-                unset($this->packageInfo['uri']);
-            }
-        }
-        if ($var == 'api-version') {
-            $this->packageInfo['version']['api'] = $value;
-            return;
-        }
-        if ($var == 'release-version') {
-            $this->packageInfo['version']['release'] = $value;
-        }
-        $this->packageInfo[$var] = $value;
+        throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' directly');
     }
 
     /**
@@ -976,11 +990,6 @@ class PEAR2_Pyrus_PackageFile_v2
         $this->packageInfo['time'] = date('H:i:s');
         $arr = $this->toArray();
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
-    }
-
-    public static function sortInstallAs($a, $b)
-    {
-        return strnatcasecmp($a['attribs']['name'], $b['attribs']['name']);
     }
 
     function toArray($forpackaging = false)
@@ -1082,26 +1091,26 @@ class PEAR2_Pyrus_PackageFile_v2
         $reltag = $this->getPackageType();
         if ($reltag != 'bundle') {
             $reltag .= 'release';
+            $sortInstallAs = function ($a, $b)
+                {
+                    return strnatcasecmp($a['attribs']['name'], $b['attribs']['name']);
+                };
             if (!is_array($arr[$reltag])) {
                 // do nothing
             } elseif (!isset($arr[$reltag][0])) {
                 if (isset($arr[$reltag]['install']) && isset($arr[$reltag]['install'][0])) {
-                    usort($arr[$reltag]['install'], array('PEAR2_Pyrus_PackageFile_v2',
-                        'sortInstallAs'));
+                    usort($arr[$reltag]['install'], $sortInstallAs);
                 }
                 if (isset($arr[$reltag]['ignore']) && isset($arr[$reltag]['ignore'][0])) {
-                    usort($arr[$reltag]['ignore'], array('PEAR2_Pyrus_PackageFile_v2',
-                        'sortInstallAs'));
+                    usort($arr[$reltag]['ignore'], $sortInstallAs);
                 }
             } else {
                 foreach ($arr[$reltag] as $i => &$contents) {
                     if (isset($contents['install']) && isset($contents['install'][0])) {
-                        usort($contents['install'], array('PEAR2_Pyrus_PackageFile_v2',
-                            'sortInstallAs'));
+                        usort($contents['install'], $sortInstallAs);
                     }
                     if (isset($contents['ignore']) && isset($contents['ignore'][0])) {
-                        usort($contents['ignore'], array('PEAR2_Pyrus_PackageFile_v2',
-                            'sortInstallAs'));
+                        usort($contents['ignore'], $sortInstallAs);
                     }
                 }
             }
