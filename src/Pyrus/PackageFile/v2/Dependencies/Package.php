@@ -33,6 +33,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
     function key()
     {
         $i = key($this->info);
+        if ($this->type == 'extension') {
+            return $this->info[$i]['name'];
+        }
         return $this->info[$i]['channel'] . '/' . $this->info[$i]['name'];
     }
 

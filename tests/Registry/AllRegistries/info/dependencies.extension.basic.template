@@ -16,3 +16,7 @@ $test->assertEquals('1.2.0', $reg->dependencies['required']->extension['extname'
 $test->assertEquals('1.1.1', $reg->dependencies['required']->extension['extname']->recommended, 'after extension recommended set');
 $test->assertEquals(true, isset($reg->dependencies['required']->extension), 'after extension isset');
 $test->assertEquals(true, isset($reg->dependencies['required']->extension['extname']), 'after extension isset 2');
+
+foreach ($reg->dependencies['required']->extension as $name => $obj) {
+    $test->assertEquals('extname', $name, 'iteration key test');
+}
