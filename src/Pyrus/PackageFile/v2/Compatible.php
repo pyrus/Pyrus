@@ -179,6 +179,17 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
         $this->save();
     }
 
+    function __isset($var)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use [] operator to access compatible packages');
+        }
+        if (!isset($this->info[$var])) {
+            return null;
+        }
+        return isset($this->info[$var]);
+    }
+
     function __get($var)
     {
         if (!isset($this->index)) {

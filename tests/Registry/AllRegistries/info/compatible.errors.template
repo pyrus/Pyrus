@@ -106,3 +106,11 @@ try {
 ,
                         $e->getMessage(), '->channel()');
 }
+
+try {
+    isset($package->compatible->oops);
+    throw new Exception('isset(->oops) worked and should not');
+} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+    $test->assertEquals('Use [] operator to access compatible packages',
+                        $e->getMessage(), 'isset(->oops)');
+}

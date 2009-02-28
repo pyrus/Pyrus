@@ -25,6 +25,31 @@ $pf2->channel = 'pear2.php.net';
 
 $test->assertEquals(true, $pf2->isCompatible($pf1), 'success');
 
+$pf2->compatible['pear2.php.net/P1']->exclude('1.0.0');
+
+$test->assertEquals(false, $pf2->isCompatible($pf1), 'fail exclude');
+
+$pf2->compatible['pear2.php.net/P1']->exclude(null);
+$pf2->compatible['pear2.php.net/P1']->min('1.1.0');
+
+$test->assertEquals(false, $pf2->isCompatible($pf1), 'fail min');
+
+$pf2->compatible['pear2.php.net/P1']->min('1.0.0');
+
+$test->assertEquals(true, $pf2->isCompatible($pf1), 'success min bounds');
+
+$pf2->compatible['pear2.php.net/P1']->min('0.9.0');
+$pf2->compatible['pear2.php.net/P1']->max('0.9.9');
+
+$test->assertEquals(false, $pf2->isCompatible($pf1), 'fail max');
+$pf2->compatible['pear2.php.net/P1']->max('1.0.0');
+
+$test->assertEquals(true, $pf2->isCompatible($pf1), 'success max bounds');
+
+$pf1->name = 'notfound';
+
+$test->assertEquals(false, $pf2->isCompatible($pf1), 'fail not found');
+
 ?>
 ===DONE===
 --EXPECT--

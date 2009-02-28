@@ -62,7 +62,7 @@ class PEAR2_Pyrus_PackageFile_v2_SimpleProperty implements ArrayAccess
             throw new PEAR2_Pyrus_PackageFile_Exception('Unknown ' . $this->name . ' property ' . $var);
         }
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_License_Exception('Can only set ' . $this->name . ' to string');
+            throw new PEAR2_Pyrus_PackageFile_Exception('Can only set ' . $this->name . ' to string');
         }
         $this->info[$var] = $value;
         $this->save();
