@@ -22,6 +22,30 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
     function current()
     {
         $i = key($this->info);
+        switch ($this->type) {
+            case 'package' :
+            case 'subpackage' :
+                $keys = array('name' => null, 'channel' => null, 'uri' => null,
+                                            'min' => null, 'max' => null,
+                                            'recommended' => null, 'exclude' => null,
+                                            'providesextension' => null, 'conflicts' => null);
+                if ($this->deptype != 'required') {
+                    unset($keys['conflicts']);
+                }
+                break;
+            case 'extension' :
+                $keys = array('name' => null, 'min' => null, 'max' => null,
+                                            'recommended' => null, 'exclude' => null, 'conflicts' => null);
+                if ($this->deptype != 'required') {
+                    unset($keys['conflicts']);
+                }
+                break;
+        }
+        foreach ($keys as $key => $null) {
+            if (!array_key_exists($key, $this->info[$i])) {
+                $this->info[$i][$key] = null;
+            }
+        }
         return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
@@ -254,6 +278,34 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             }
         }
         return $this->info[$var];
+    }
+
+    function __isset($var)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Use [] operator to access ' . $this->type .
+                                                                        's');
+        }
+        if (!array_key_exists($var, $this->info)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
+            );
+        }
+        return isset($this->info[$var]);
+    }
+
+    function __unset($var)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Use [] operator to access ' . $this->type .
+                                                                        's');
+        }
+        if (!array_key_exists($var, $this->info)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
+            );
+        }
+        $this->info[$var] = null;
     }
 
     function __set($var, $value)
