@@ -1,0 +1,7 @@
+<?php
+$test->assertEquals('pear.php.net', $channel->name,    'Channel name');
+$test->assertEquals(80,             $channel->port,    'Channel port');
+$test->assertEquals(false,          $channel->ssl,     'Channel SSL');
+$test->assertEquals('pear',         $channel->alias,   'Channel alias');
+$test->assertEquals('PHP Extension and Application Repository',
+                                    $channel->summary, 'Channel summary');
