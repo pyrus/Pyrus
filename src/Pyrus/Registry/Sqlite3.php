@@ -637,8 +637,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->close();
 
         // these two are dummy values not based on anything
-        $ret->dependencies->required->php = array('min' => phpversion());
-        $ret->dependencies->required->pearinstaller = array('min' => '2.0.0');
+        $ret->dependencies['required']->php = array('min' => phpversion());
+        $ret->dependencies['required']->pearinstaller = array('min' => '2.0.0');
 
         $sql = 'SELECT * FROM package_dependencies
                 WHERE
@@ -659,7 +659,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         //FIXME see about refactoring these two into a function or such
         $odeps = $rdeps = array();
-        foreach ($a as $dep) {
+
+        while ($dep = $a->fetchArray()) {
+            
             $deps = $dep['required'] ? 'rdeps' : 'odeps';
             if (isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
                 $d = ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']];
@@ -675,16 +677,10 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             if ($dep['conflicts']) {
                 $d['conflicts'] = '';
             }
-            if ($dep['exclude']) {
-                if (!isset($d['exclude'])) {
-                    $d['exclude'] = array();
-                }
-                $d['exclude'][] = $dep['exclude'];
-            }
-            ${$deps}[$dep['depchannel'] . '/' . $deps[$dep['deppackage']]] = $d;
+            ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
         }
 
-        foreach ($b as $dep) {
+        while ($dep = $b->fetchArray()) {
             $deps = $dep['required'] ? 'rdeps' : 'odeps';
             if (!isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
                 continue;
@@ -703,16 +699,26 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 }
                 $d['exclude'][] = $dep['exclude'];
             }
-            ${$deps}[$dep['depchannel'] . '/' . $deps[$dep['deppackage']]] = $d;
+            ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
         }
 
         foreach ($rdeps as $dep => $info) {
-            $ret->dependencies->required->package[$dep] = $info;
+            foreach (array('min','max','recommend','conflicts') as $dtype) {
+                if (isset($info[$dtype])) {
+                    $ret->dependencies['required']->package[$dep]->$dtype($info[$dtype]);
+                }
+            }
         }
 
         foreach ($odeps as $dep => $info) {
-            $ret->dependencies->optional->package[$dep] = $info;
+            foreach (array('min','max','exclude','conflicts') as $dtype) {
+                if (isset($info[$dtype])) {
+                    $ret->dependencies['optional']->package[$dep]->$dtype($info[$dtype]);
+                }
+            }
         }
+        
+        $ret->releases = '';
 
         return $ret;
     }
