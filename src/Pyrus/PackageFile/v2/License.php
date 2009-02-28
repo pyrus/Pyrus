@@ -25,46 +25,51 @@
  */
 class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
 {
-    protected $array;
-    function __construct(&$array)
+    protected $parent;
+    protected $info;
+
+    function __construct($parent, $info)
     {
-        $this->array = &$array;
+        $this->parent = $parent;
+        $this->info = $info;
     }
 
-    function getArray()
+    function getInfo()
     {
-        $arr = $this->array;
-        return $arr;
+        return $this->info;
     }
 
     function offsetUnset($var)
     {
         if ($var == 'name') {
-            if (is_array($this->array) && isset($this->array['_content'])) {
-                unset($this->array['_content']);
-            } elseif (is_string($this->array)) {
-                $this->array = array();
+            if (is_array($this->info) && isset($this->info['_content'])) {
+                unset($this->info['_content']);
+            } elseif (is_string($this->info)) {
+                $this->info = array();
             }
+            $this->save();
             return;
         }
         if ($var == 'uri') {
-            unset($this->array['attribs']['uri']);
-            if (!count($this->array['attribs'])) {
-                unset($this->array['attribs']);
-                if (isset($this->array['_content'])) {
-                    $this->array = $this->array['_content'];
+            unset($this->info['attribs']['uri']);
+            if (!count($this->info['attribs'])) {
+                unset($this->info['attribs']);
+                if (isset($this->info['_content'])) {
+                    $this->info = $this->info['_content'];
                 }
             }
+            $this->save();
             return;
         }
         if ($var == 'path') {
-            unset($this->array['attribs']['path']);
-            if (!count($this->array['attribs'])) {
-                unset($this->array['attribs']);
-                if (isset($this->array['_content'])) {
-                    $this->array = $this->array['_content'];
+            unset($this->info['attribs']['path']);
+            if (!count($this->info['attribs'])) {
+                unset($this->info['attribs']);
+                if (isset($this->info['_content'])) {
+                    $this->info = $this->info['_content'];
                 }
             }
+            $this->save();
             return;
         }
     }
@@ -72,23 +77,23 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
     function offsetGet($var)
     {
         if ($var == 'uri') {
-            if (is_array($this->array) && isset($this->array['attribs']) && isset($this->array['attribs']['uri'])) {
-                return $this->array['attribs']['uri'];
+            if (is_array($this->info) && isset($this->info['attribs']) && isset($this->info['attribs']['uri'])) {
+                return $this->info['attribs']['uri'];
             }
             return null;
         }
         if ($var == 'path') {
-            if (is_array($this->array) && isset($this->array['attribs']) && isset($this->array['attribs']['path'])) {
-                return $this->array['attribs']['path'];
+            if (is_array($this->info) && isset($this->info['attribs']) && isset($this->info['attribs']['path'])) {
+                return $this->info['attribs']['path'];
             }
             return null;
         }
         if ($var == 'name') {
-            if (is_array($this->array) && isset($this->array['_content'])) {
-                return $this->array['_content']; 
+            if (is_array($this->info) && isset($this->info['_content'])) {
+                return $this->info['_content']; 
             }
-            if (!is_array($this->array)) {
-                return $this->array;
+            if (!is_array($this->info)) {
+                return $this->info;
             }
         }
         return null;
@@ -101,40 +106,48 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
         }
 
         if ($var == 'path' || $var == 'uri') {
-            if (!is_array($this->array) || !isset($this->array['attribs'])) {
-                if (!is_array($this->array)) {
-                    $this->array = array('_content' => $this->array);
+            if (!is_array($this->info) || !isset($this->info['attribs'])) {
+                if (!is_array($this->info)) {
+                    $this->info = array('_content' => $this->info);
                 }
-                $this->array['attribs'] = array();
+                $this->info['attribs'] = array();
             }
         } else {
             if ($var == 'name') {
-                if (!is_array($this->array)) {
-                    $this->array = $value;
+                if (!is_array($this->info)) {
+                    $this->info = $value;
+                    $this->save();
                     return;
                 }
-                $this->array['_content'] = $value;
+                $this->info['_content'] = $value;
+                $this->save();
                 return;
             }
             throw new PEAR2_Pyrus_PackageFile_v2_License_Exception('Unknown license trait ' . $var . ', cannot set value');
         }
-        $this->array['attribs'][$var] = $value;
+        $this->info['attribs'][$var] = $value;
+        $this->save();
     }
 
     function offsetExists($var)
     {
         if ($var == 'uri') {
-            return isset($this->array['attribs']) && isset($this->array['attribs']['uri']);
+            return isset($this->info['attribs']) && isset($this->info['attribs']['uri']);
         }
         if ($var == 'path') {
-            return isset($this->array['attribs']) && isset($this->array['attribs']['path']);
+            return isset($this->info['attribs']) && isset($this->info['attribs']['path']);
         }
         if ($var == 'name') {
-            if (!is_array($this->array)) {
-                return sizeof($this->array);
+            if (!is_array($this->info)) {
+                return sizeof($this->info);
             }
-            return isset($this->array['_content']);
+            return isset($this->info['_content']);
         }
         return false;
+    }
+
+    function save()
+    {
+        $this->parent->rawlicense = $this->info;
     }
 }

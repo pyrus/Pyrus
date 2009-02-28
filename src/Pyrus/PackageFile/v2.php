@@ -326,7 +326,7 @@ class PEAR2_Pyrus_PackageFile_v2
         if (!isset($this->packageInfo['license'])) {
             $this->packageInfo['license'] = array();
         }
-        return new PEAR2_Pyrus_PackageFile_v2_License($this->packageInfo['license']);
+        return new PEAR2_Pyrus_PackageFile_v2_License($this, $this->packageInfo['license']);
     }
 
     function getFiles()
@@ -752,11 +752,12 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function __set($var, $value)
     {
+        if ($var === 'rawlicense') {
+            $this->packageInfo['license'] = $value;
+            return;
+        }
         if ($var === 'license') {
-            if ($value instanceof PEAR2_Pyrus_PackageFile_v2_License) {
-                $this->packageInfo['license'] = $value->getArray();
-                $value->link($this->packageInfo['license']);
-            } elseif (!is_array($value)) {
+            if (!is_array($value)) {
                 $licensemap =
                     array(
                         'php' => 'http://www.php.net/license',
@@ -777,7 +778,7 @@ class PEAR2_Pyrus_PackageFile_v2
                         );
                 } else {
                     // don't use bogus uri
-                    $arr['license'] = $value;
+                    $arr['license'] = (string) $value;
                 }
             } else {
                 $this->packageInfo['license'] = $value;

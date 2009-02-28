@@ -34,15 +34,15 @@ $test->assertEquals(null, $newguy->license['path'], 'newguy path');
 unset($newguy->license['uri']);
 $newguy->license['name'] = 'foobar'; // test name without path
 $test->assertEquals('foobar', $newguy->license['name'], 'newguy name');
-$test->assertEquals('foobar', $newguy->license->getArray(), 'array test');
+$test->assertEquals('foobar', $newguy->license->getInfo(), 'array test');
 
 $newguy->license['uri'] = 'hello';
 $test->assertEquals('hello', $newguy->license['uri'], 'newguy uri');
-$test->assertEquals(array( '_content' => 'foobar', 'attribs' => array('uri' => 'hello'),), $newguy->license->getArray(), 'array test 2');
+$test->assertEquals(array( '_content' => 'foobar', 'attribs' => array('uri' => 'hello'),), $newguy->license->getInfo(), 'array test 2');
 
 $newguy->license['path'] = 'hello2';
 $test->assertEquals('hello2', $newguy->license['path'], 'newguy path');
-$test->assertEquals(array('_content' => 'foobar', 'attribs' => array('uri' => 'hello', 'path' => 'hello2')), $newguy->license->getArray(), 'array test 3');
+$test->assertEquals(array('_content' => 'foobar', 'attribs' => array('uri' => 'hello', 'path' => 'hello2')), $newguy->license->getInfo(), 'array test 3');
 
 try {
     $newguy->license['oops'] = 'hi';
