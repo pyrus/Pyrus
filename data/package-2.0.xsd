@@ -30,7 +30,10 @@
     <xs:element ref="usesrole" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="usestask" minOccurs="0" maxOccurs="unbounded"/>
     <xs:choice minOccurs="0">
-     <xs:element ref="srcpackage"/>
+     <xs:sequence>
+      <xs:element ref="srcpackage"/>
+      <xs:element ref="srcchannel"/>
+     </xs:sequence>
      <xs:element name="srcuri" type="xs:anyURI">
       <xs:annotation>
        <xs:documentation>uri of the package that contains the source of this extension</xs:documentation>
