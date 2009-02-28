@@ -375,7 +375,12 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function getCompatible()
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this->packageInfo);
+        if (!isset($this->packageInfo['compatible'])) {
+            $this->packageInfo['compatible'] = array();
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_Compatible(
+            $this,
+            $this->packageInfo['compatible']);
     }
 
     function getSchemaOK()

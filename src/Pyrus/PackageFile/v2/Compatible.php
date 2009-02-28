@@ -1,19 +1,5 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_Release_Exception
- *
- * PHP version 5
- *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
- * @author    Greg Beaver <cellog@php.net>
- * @copyright 2008 The PEAR Group
- * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
- */
-
-/**
  * Manage compatible packages with this one
  *
  * To be used like:
@@ -30,10 +16,10 @@
  * // display info:
  * echo $pf->compatible['pear.php.net/Archive_Tar']->min;
  * foreach ($pf->compatible as $package => $info) {
- *     echo $info['min'];
- *     echo $info['max'];
- *     if (isset($info['exclude'])) {
- *         foreach ($info['exclude'] as $version) {
+ *     echo $info->min;
+ *     echo $info->max;
+ *     if (isset($info->exclude)) {
+ *         foreach ($info->exclude as $version) {
  *             echo $version;
  *         }
  *     }
@@ -49,235 +35,232 @@
  */
 class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Countable
 {
-    private $_packageInfo;
-    private $_package = false;
-    private $_pos = 0;
-    private $_count = 0;
-    private $_info = array('name' => '', 'channel' => '', 'min' => '', 'max' => '');
-    function __construct(array &$parent, $package = false)
+    protected $info;
+    protected $index = null;
+    protected $parent;
+
+    function __construct($parent, array $info, $index = null)
     {
-        $this->_packageInfo = &$parent;
-        if ($package) {
-            $channel = explode('/', $package);
-            $package = array_pop($channel);
-            $channel = implode('/', $channel);
-            $this->_info['name'] = $package;
-            $this->_info['channel'] = $channel;
-            $this->_package = true;
-        } else {
-            if (isset($this->_packageInfo['compatible'])) {
-                if (isset($this->_packageInfo['compatible'][0])) {
-                    $this->_count = count($this->_packageInfo['compatible']);
-                } else {
-                    $this->_count = 1;
-                }
-            }
+        $this->parent = $parent;
+        if (!($parent instanceof self) && !isset($info[0]) && count($info)) {
+            $info = array($info);
         }
+        $this->info = $info;
+        $this->index = $index;
     }
 
     function count()
     {
-        return $this->_count;
+        return count($this->info);
     }
 
-    function __get($var)
+    function current()
     {
-        if (!$this->_package) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                'Cannnot access compatibility info for unknown package');
-        }
-        if (isset($this->_info[$var])) {
-            return $this->_info[$var];
-        }
+        $i = key($this->info);
+        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this, $this->info[$i], $i);
     }
 
-    function __call($var, $args)
+    function rewind()
     {
-        if (!$this->_package) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                'Cannnot access developer info for unknown developer');
-        }
-        if ($var == 'min') {
-            if (count($args) != 1 || !is_string($args[0])) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                    'Invalid value for min');
-            }
-            $this->_info['min'] = $args[0];
-        } elseif ($var == 'max') {
-            if (count($args) != 1 || !is_string($args[0])) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                    'Invalid value for max');
-            }
-            $this->_info['max'] = $args[0];
-        } elseif ($var == 'exclude') {
-            foreach ($args as $arg) {
-                if (!is_string($arg)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                        'Invalid value for exclude');
-                }
-            }
-            $this->_info['exclude'] = (count($args) == 1) ? $args[0] : $args[1];
-        } else {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                        'Unknown value to set: ' . $var);
-        }
-        return $this;
+        reset($this->info);
     }
 
-    function offsetGet($var)
+    function key()
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this->_packageInfo, $var);
+        $i = key($this->info);
+        return $this->info[$i]['channel'] . '/' . $this->info[$i]['name'];
     }
 
-    function offsetSet($var, $value)
+    function next()
     {
-        if ($this->_package) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                'Use -> to access compatibility information for a package, not []');
-        }
-        $this->_package = $var;
-        $channel = explode('/', $var);
-        $this->_info['name'] = array_pop($channel);
-        $this->_info['channel'] = implode('/', $channel);
-        if ($var instanceof PEAR2_Pyrus_PackageFile_v2_Compatible) {
-            $this->_info['min'] = $value->min;
-            $this->_info['max'] = $value->max;
-            $exclude = $value->exclude;
-            if ($exclude) {
-                $this->_info['exclude'] = $exclude;
-            }
-        }
-        if (is_array($value) || $value instanceof ArrayObject) {
-            if (!isset($value['min']) || !isset($value['max'])) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
-                    'Invalid array used to set ' . $var . ' compatibility');
-            }
-            $this->_info['min'] = $value['min'];
-            $this->_info['max'] = $value['max'];
-            if (isset($value['exclude'])) {
-                $this->_info['exclude'] = $value['exclude'];
-            }
-        }
-        $this->_save();
+        return next($this->info);
     }
 
-    /**
-     * Remove a compatible package from package.xml (by channel/package)
-     * @param string $var
-     */
-    function offsetUnset($var)
+    function valid()
     {
-        if (!isset($this->_packageInfo['compatible'])) {
-            return;
-        }
-        $channel = explode('/', $var);
-        $package = array_pop($channel);
-        $channel = implode('/', $channel);
-        if (isset($this->_packageInfo['compatible'][0])) {
-            foreach ($this->_packageInfo['compatible'] as $i => $stuff) {
-                if ($stuff['name'] == $package && $stuff['channel'] == $channel) {
-                    unset($this->_packageInfo['compatible'][$i]);
-                    if (!count($this->_packageInfo['compatible'])) {
-                        unset($this->_packageInfo['compatible']);
-                    }
-                    if (count($this->_packageInfo)) {
-                        if (isset($this->_packageInfo[0])) {
-                            $this->_count = count($this->_packageInfo);
-                        } else {
-                            $this->_count = 1;
-                        }
-                    }
-                    return;
-                }
-            }
-        } else {
-            if ($this->_packageInfo['compatible']['name'] == $package &&
-                  $this->_packageInfo['compatible']['channel'] == $channel) {
-                unset($this->_packageInfo['compatible']);
-                $this->_count = 0;
-            }
-        }
+        return current($this->info);
     }
 
-    /**
-     * Test whether compatible package exists in package.xml (by channel/package)
-     * @param string $var
-     * @return bool
-     */
-    function offsetExists($var)
+    function locateCompatible($name)
     {
-        if (!isset($this->_packageInfo['compatible'])) return false;
-        $channel = explode('/', $var);
-        $package = array_pop($channel);
-        $channel = implode('/', $channel);
-        $stuff = $this->_packageInfo['compatible'];
-        if (!isset($stuff[0])) {
-            $stuff = array($stuff);
-        }
-        foreach ($stuff as $compat) {
-            if ($compat['name'] == $package && $compat['channel'] == $channel) {
-                return true;
+        $stuff = explode('/', $name);
+        $name = array_pop($stuff);
+        $channel = implode('/', $stuff);
+        foreach ($this->info as $i => $compat)
+        {
+            if (isset($compat['name']) && $compat['name'] == $name
+                && isset($compat['channel']) && $compat['channel'] == $channel) {
+                return $i;
             }
         }
         return false;
     }
 
-    /**
-     * Save changes
-     */
-    private function _save()
+    function offsetGet($var)
     {
-        if (!isset($this->_packageInfo['compatible'])) {
-            $this->_packageInfo['compatible'] = $this->_info;
-            $this->_count = 1;
-            return;
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
         }
-        foreach ($this->_packageInfo['compatible'] as $i => $compat) {
-            if ($compat['name'] == $package && $compat['channel'] == $channel) {
-                // replace declaration
-                $this->_packageInfo['compatible'][$i] = $this->_info;
-                return;
+        $i = $this->locateCompatible($var);
+        if (false === $i) {
+            $i = count($this->info);
+            if (!strpos($var, '/')) {
+                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Cannot access "' . $var .
+                    '", must use "channel/package" to specify a compatible package to access');
+            }
+            $stuff = explode('/', $var);
+            $name = array_pop($stuff);
+            $channel = implode('/', $stuff);
+            $this->info[$i] = array('name' => $name, 'channel' => $channel,
+                                        'min' => null, 'max' => null,
+                                        'exclude' => null);
+        } else {
+            foreach (array('name', 'channel', 'min', 'max', 'exclude') as $key) {
+                if (!array_key_exists($key, $this->info[$i])) {
+                    $this->info[$i][$key] = null;
+                }
             }
         }
-        $this->_packageInfo['compatible'][] = $this->_info;
-        $this->_count = count($this->_packageInfo);
+        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this, $this->info[$i], $i);
     }
 
-    function current()
+    function offsetSet($var, $value)
     {
-        if (!$this->valid()) return null;
-        if (!isset($this->_packageInfo['compatible'][0])) {
-            return $this->_packageInfo['compatible'];
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
         }
-        return $this->_packageInfo['compatible'][$this->_pos];
-    }
-
-    function next()
-    {
-        $this->_pos++;
-    }
-
-    function key()
-    {
-        if (!$this->valid()) return null;
-        if (!isset($this->_packageInfo['compatible'][0])) {
-            return $this->_packageInfo['compatible']['channel'] . '/' .
-                   $this->_packageInfo['compatible']['package'];
+        if (!($value instanceof self)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Can only set $pf->compatible[\'' .
+                $var . '\'] to PEAR2_Pyrus_PackageFile_v2_Compatible object');
         }
-        return $this->_packageInfo['compatible'][$this->_pos]['channel'] . '/' .
-               $this->_packageInfo['compatible'][$this->_pos]['package'];
-    }
-
-    function valid()
-    {
-        if (!$this->_count) {
-            return false;
+        if ($var === null) {
+            $var = $value->channel . '/' . $value->name;
         }
-        return $this->_pos < $this->_count;
+        if (!strpos($var, '/')) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Cannot set "' . $var .
+                '", must use "channel/package" to specify a compatible package to set');
+        }
+        $stuff = explode('/', $var);
+        $name = array_pop($stuff);
+        $channel = implode('/', $stuff);
+        if ($value->name != $name || $value->channel != $channel) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Cannot set ' .
+                $channel . '/' . $name . ' to ' .
+                $value->channel . '/' . $value->name .
+                ', use $pf->compatible[] to set a new value');
+        }
+        if (false === ($i = $this->locateCompatible($var))) {
+            $i = count($this->info);
+        }
+        $this->info[$i] = $value->getInfo();
+        $this->save();
     }
 
-    function rewind()
+    function offsetExists($var)
     {
-        $this->_pos = 0;
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
+        }
+        $i = $this->locateCompatible($var);
+        return $i !== false;
+    }
+
+    function offsetUnset($var)
+    {
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
+        }
+        $i = $this->locateCompatible($var);
+        if ($i === false) {
+            return;
+        }
+        unset($this->info[$i]);
+        $this->info = array_values($this->info);
+        $this->save();
+    }
+
+    function __get($var)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use [] operator to access compatible packages');
+        }
+        if (!isset($this->info[$var])) {
+            return null;
+        }
+        if ($var === 'exclude') {
+            $ret = $this->info['exclude'];
+            if (!is_array($ret)) {
+                return array($ret);
+            }
+        }
+        return $this->info[$var];
+    }
+
+    function __set($var, $value)
+    {
+        return $this->__call($var, array($value));
+    }
+
+    function __call($var, $args)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use [] operator to access compatible packages');
+        }
+        if (!array_key_exists($var, $this->info)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
+            );
+        }
+        if ($var === 'name' || $var === 'channel') {
+            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
+                'Cannot change compatible package name, use unset() to remove the old compatible package'
+            );
+        }
+        if (!count($args) || $args[0] === null) {
+            unset($this->info[$var]);
+            $this->save();
+            return $this;
+        }
+        if ($var == 'exclude') {
+            if (!isset($this->info[$var])) {
+                $this->info[$var] = $args;
+            } else {
+                $this->info[$var] = array_merge($this->info[$var], $args);
+            }
+        } else {
+            $this->info[$var] = $args[0];
+        }
+        $this->save();
+        return $this;
+    }
+
+    function getInfo()
+    {
+        return $this->info;
+    }
+
+    function setInfo($index, $info)
+    {
+        foreach ($info as $key => $null) {
+            if ($null === null) {
+                unset($info[$key]);
+            }
+        }
+        $this->info[$index] = $info;
+    }
+
+    function save()
+    {
+        if ($this->parent instanceof self) {
+            $this->parent->setInfo($this->index, $this->info);
+            $this->parent->save();
+        } else {
+            $info = $this->info;
+            if (count($info) == 1) {
+                $info = $info[0];
+            }
+            $this->parent->rawcompatible = $info;
+        }
     }
 }
+?>
