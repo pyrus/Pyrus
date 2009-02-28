@@ -492,6 +492,11 @@ class PEAR2_Pyrus_PackageFile_v2
     /**
      * Determines whether this package claims it is compatible with the version of
      * the package that has a recommended version dependency
+     *
+     * This function should only be called when the package has a recommended
+     * version tag in a package or subpackage dependency on the package
+     * represented by $pf, as no check is done to see whether $this
+     * depends on $pf
      * @param PEAR2_Pyrus_Package_Base|PEAR2_Pyrus_PackageFile_v2
      * @return boolean
      */
