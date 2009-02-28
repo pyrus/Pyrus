@@ -279,6 +279,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            conflicts BOOL NOT NULL,
            min TEXT(20),
            max TEXT(20),
+           recommended TEXT(20),
            PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
           );';
         $worked = @$database->exec($query);

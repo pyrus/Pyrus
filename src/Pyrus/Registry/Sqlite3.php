@@ -254,10 +254,10 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $sql = '
             INSERT INTO package_dependencies
                 (required, packages_name, packages_channel, deppackage,
-                 depchannel, conflicts, min, max)
+                 depchannel, conflicts, min, max, recommended)
             VALUES
                 (:required, :name, :channel, :dep_package, :dep_channel,
-                 :conflicts, :min, :max)';
+                 :conflicts, :min, :max, :recommended)';
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
         $first = true;
@@ -265,10 +265,11 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($info->dependencies[$required]->$package as $d) {
                     // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
-                    $dchannel = $d->channel;
-                    $dmin     = $d->min;
-                    $dmax     = $d->max;
-                    $dname    = $d->name;
+                    $dchannel     = $d->channel;
+                    $dmin         = $d->min;
+                    $dmax         = $d->max;
+                    $drecommended = $d->recommended;
+                    $dname        = $d->name;
 
                     if (!$first) {
                         $stmt->clear();
@@ -284,6 +285,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $stmt->bindParam(':conflicts', $con, SQLITE3_INTEGER);
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
+                    $stmt->bindParam(':recommended', $drecommended);
 
                     if (!$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
@@ -329,19 +331,20 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $sql = '
             INSERT INTO package_dependencies
               (required, packages_name, packages_channel, deppackage,
-               depchannel, conflicts, min, max)
+               depchannel, conflicts, min, max, recommended)
             VALUES
-                (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max)';
+                (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max, :recommended)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
         foreach ($info->dependencies['group'] as $group) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
                     // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
-                    $dchannel = $d->channel;
-                    $dmin     = $d->min;
-                    $dmax     = $d->max;
-                    $dname    = $d->name;
+                    $dchannel     = $d->channel;
+                    $dmin         = $d->min;
+                    $dmax         = $d->max;
+                    $dname        = $d->name;
+                    $drecommended = $d->recommended;
 
                     $stmt->clear();
                     $stmt->bindParam(':name', $n);
@@ -352,6 +355,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $stmt->bindParam(':conflicts', $con, SQLITE3_INTEGER);
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
+                    $stmt->bindParam(':recommended', $drecommended);
 
                     if (!$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
@@ -636,22 +640,22 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $stmt->close();
 
-        // these two are dummy values not based on anything
-        $ret->dependencies['required']->php = array('min' => phpversion());
-        $ret->dependencies['required']->pearinstaller = array('min' => '2.0.0');
+        //FIXME these two are dummy values not based on anything
+        $ret->dependencies['required']->php->min(phpversion());
+        $ret->dependencies['required']->pearinstaller->min('2.0.0');
 
         $sql = 'SELECT * FROM package_dependencies
                 WHERE
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"
-                ORDER BY required, deppackage, depchannel, conflicts';
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+                //ORDER BY required, deppackage, depchannel, conflicts';
         $a = static::$databases[$this->_path]->query($sql);
 
         $sql = 'SELECT * FROM package_dependencies_exclude
                 WHERE
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"
-                ORDER BY required, deppackage, depchannel, conflicts, exclude';
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+                //ORDER BY required, deppackage, depchannel, conflicts, exclude';
         $b = static::$databases[$this->_path]->query($sql);
         if (!$a) {
             return $ret;
@@ -676,6 +680,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
             if ($dep['conflicts']) {
                 $d['conflicts'] = '';
+            }
+            if ($dep['recommended']) {
+                $d['recommended'] = $dep['recommended'];
             }
             ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
         }
@@ -703,7 +710,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         foreach ($rdeps as $dep => $info) {
-            foreach (array('min','max','recommend','conflicts') as $dtype) {
+            foreach (array('min','max','recommended','conflicts') as $dtype) {
                 if (isset($info[$dtype])) {
                     $ret->dependencies['required']->package[$dep]->$dtype($info[$dtype]);
                 }
