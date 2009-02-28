@@ -36,7 +36,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         if ($this->type == 'extension') {
             return $this->info[$i]['name'];
         }
-        return $this->info[$i]['channel'] . '/' . $this->info[$i]['name'];
+        $channel = isset($this->info[$i]['channel']) ? $this->info[$i]['channel'] : '__uri';
+        return $channel . '/' . $this->info[$i]['name'];
     }
 
     function next()
@@ -65,6 +66,12 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         $channel = implode('/', $stuff);
         foreach ($this->info as $i => $dep)
         {
+            if ($channel == '__uri') {
+                if (isset($dep['name']) && $dep['name'] == $name && isset($dep['uri'])) {
+                    return $i;
+                }
+                continue;
+            }
             if (isset($dep['name']) && $dep['name'] == $name
                 && isset($dep['channel']) && $dep['channel'] == $channel) {
                 return $i;
@@ -91,10 +98,18 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                     $stuff = explode('/', $var);
                     $name = array_pop($stuff);
                     $channel = implode('/', $stuff);
-                    $this->info[$i] = array('name' => $name, 'channel' => $channel, 'uri' => null,
-                                                'min' => null, 'max' => null,
-                                                'recommended' => null, 'exclude' => null,
-                                                'providesextension' => null, 'conflicts' => null);
+                    if ($channel === '__uri') {
+                        // use fake uri, user must set it
+                        $this->info[$i] = array('name' => $name, 'channel' => null, 'uri' => '__uri',
+                                                    'min' => null, 'max' => null,
+                                                    'recommended' => null, 'exclude' => null,
+                                                    'providesextension' => null, 'conflicts' => null);
+                    } else {
+                        $this->info[$i] = array('name' => $name, 'channel' => $channel, 'uri' => null,
+                                                    'min' => null, 'max' => null,
+                                                    'recommended' => null, 'exclude' => null,
+                                                    'providesextension' => null, 'conflicts' => null);
+                    }
                     if ($this->deptype != 'required') {
                         unset($this->info[$i]['conflicts']);
                     }
@@ -226,16 +241,24 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         if ($var === 'deptype') {
             return $this->deptype;
         }
+        if ($var === 'channel' && isset($this->info['uri'])) {
+            return '__uri';
+        }
         if (!isset($this->info[$var])) {
             return null;
         }
-        if ($var == 'exclude') {
+        if ($var === 'exclude') {
             $ret = $this->info['exclude'];
             if (!is_array($ret)) {
                 return array($ret);
             }
         }
         return $this->info[$var];
+    }
+
+    function __set($var, $value)
+    {
+        return $this->__call($var, array($value));
     }
 
     function __call($var, $args)
@@ -249,7 +272,19 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
             );
         }
-        if ($var == 'name' || $var == 'channel') {
+        if (count($args) && $args[0] !== null && $var === 'channel' && isset($this->info['uri'])) {
+            $this->info['uri'] = null;
+            $this->info['channel'] = $args[0];
+            $this->save();
+            return;
+        }
+        if (count($args) && $args[0] !== null && $var === 'uri' && isset($this->info['channel'])) {
+            $this->info['channel'] = null;
+            $this->info['uri'] = $args[0];
+            $this->save();
+            return;
+        }
+        if ($var === 'name' || $var === 'channel') {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                 'Cannot change dependency name, use unset() to remove the old dependency'
             );

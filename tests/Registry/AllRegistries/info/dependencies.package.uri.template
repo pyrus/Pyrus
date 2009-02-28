@@ -1,0 +1,37 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for required/optional package deps or subpackage deps
+
+$test->assertEquals(false, isset($reg->dependencies['required']->package['__uri/test']), 'isset before');
+$test->assertEquals(null, $reg->dependencies['required']->package['__uri/test']->min, 'min before');
+
+$reg->dependencies['required']->package['__uri/test']->min('1.0.0');
+
+$test->assertEquals(true, isset($reg->dependencies['required']->package['__uri/test']), 'isset after');
+$test->assertEquals('1.0.0', $reg->dependencies['required']->package['__uri/test']->min, 'min after');
+$test->assertEquals('__uri', $reg->dependencies['required']->package['__uri/test']->uri, 'uri after');
+
+foreach ($reg->dependencies['required']->package as $name => $obj) {
+    $test->assertEquals('__uri/test', $name, 'key test');
+}
+
+$reg->dependencies['required']->package['__uri/test']->uri = 'http://localhost';
+$test->assertEquals('http://localhost', $reg->dependencies['required']->package['__uri/test']->uri, 'uri after set');
+$test->assertEquals('__uri', $reg->dependencies['required']->package['__uri/test']->channel, 'channel after set');
+
+$reg->dependencies['required']->package['__uri/test']->channel = 'pear2.php.net';
+$test->assertEquals(false, isset($reg->dependencies['required']->package['__uri/test']), 'isset after channel');
+$test->assertEquals(true, isset($reg->dependencies['required']->package['pear2.php.net/test']), 'isset 2 after channel');
+$test->assertEquals(null, $reg->dependencies['required']->package['pear2.php.net/test']->uri, 'uri after set 2');
+$test->assertEquals('pear2.php.net', $reg->dependencies['required']->package['pear2.php.net/test']->channel, 'channel after set 2');
+
+$reg->dependencies['required']->package['pear2.php.net/test']->uri = 'http://example.com';
+
+$test->assertEquals(true, isset($reg->dependencies['required']->package['__uri/test']), 'isset after uri');
+$test->assertEquals(false, isset($reg->dependencies['required']->package['pear2.php.net/test']), 'isset 2 after uri');
+$test->assertEquals('http://example.com', $reg->dependencies['required']->package['__uri/test']->uri, 'uri after set 3');
+$test->assertEquals('__uri', $reg->dependencies['required']->package['__uri/test']->channel, 'channel after set 3');
