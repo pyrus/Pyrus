@@ -499,7 +499,7 @@ class PEAR2_Pyrus_PackageFile_v2
      * depends on $pf
      * @param PEAR2_Pyrus_Package_Base|PEAR2_Pyrus_PackageFile_v2
      * @return boolean
-     */var$poo;
+     */
     function isCompatible($pf)
     {
         if (!isset($this->packageInfo['compatible'])) {
@@ -521,7 +521,6 @@ class PEAR2_Pyrus_PackageFile_v2
         if (!$found) {
             return false;
         }
-        $this->poo = $info;
         if (isset($info->exclude)) {
             foreach ($info->exclude as $exclude) {
                 if (version_compare($me, $exclude, '==')) {
