@@ -866,6 +866,11 @@ class PEAR2_Pyrus_PackageFile_v2
                 unset($this->packageInfo['channel']);
             }
         }
+        if ($var === 'channel') {
+            if (isset($this->packageInfo['uri'])) {
+                unset($this->packageInfo['uri']);
+            }
+        }
         if ($var == 'api-version') {
             $this->packageInfo['version']['api'] = $value;
             return;
