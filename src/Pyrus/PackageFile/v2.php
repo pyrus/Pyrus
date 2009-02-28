@@ -553,7 +553,7 @@ class PEAR2_Pyrus_PackageFile_v2
                     foreach ($group->subpackage as $dep) {
                         if (strtolower($dep->name) == strtolower($p->name)) {
                             if (isset($dep->channel)) {
-                                if (strtolower($dep->channel) == strtolower($p->channel)) {
+                                if ($dep->channel == $p->channel) {
                                     return true;
                                 }
                             } else {
@@ -568,7 +568,7 @@ class PEAR2_Pyrus_PackageFile_v2
             foreach ($this->dependencies[$type]->subpackage as $dep) {
                 if (strtolower($dep->name) == strtolower($p->name)) {
                     if (isset($dep->channel)) {
-                        if (strtolower($dep->channel) == strtolower($p->channel)) {
+                        if ($dep->channel == $p->channel) {
                             return true;
                         }
                     } else {
@@ -582,23 +582,40 @@ class PEAR2_Pyrus_PackageFile_v2
         return false;
     }
 
-    function dependsOn($package, $channel)
+    /**
+     * Returns true if any dependency, optional or required, exists on the package specified
+     */
+    function dependsOn($package, $channel, $uri = false)
     {
         $deps = $this->dependencies;
         foreach (array('package', 'subpackage') as $type) {
             foreach (array('required', 'optional') as $needed) {
                 foreach ($deps[$needed]->$type as $dep) {
-                    if (strtolower($dep->name) == strtolower($package) &&
-                          $dep->channel == $channel) {
-                        return true;
+                    if (strtolower($dep->name) == strtolower($package)) {
+                        if (isset($dep->channel)) {
+                            if ($dep->channel == strtolower($channel)) {
+                                return true;
+                            }
+                        } else {
+                            if ($dep->uri === $uri) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
             foreach ($deps['group'] as $group) {
                 foreach ($group->$type as $dep) {
-                    if (strtolower($dep->name) == strtolower($package) &&
-                          $dep->channel == $channel) {
-                        return true;
+                    if (strtolower($dep->name) == strtolower($package)) {
+                        if (isset($dep->channel)) {
+                            if (strtolower($dep->channel) == strtolower($channel)) {
+                                return true;
+                            }
+                        } else {
+                            if ($dep->uri === $uri) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
