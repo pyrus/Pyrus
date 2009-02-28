@@ -82,8 +82,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                 case 'package' :
                 case 'subpackage' :
                     if (!strpos($var, '/')) {
-                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $var .
-                            ', must use "channel/package" to specify a package dependency to set');
+                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot access "' . $var .
+                            '", must use "channel/package" to specify a package dependency to access');
                     }
                     $stuff = explode('/', $var);
                     $name = array_pop($stuff);
@@ -158,8 +158,8 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             }
         }
         if ($this->type !== 'extension' && !strpos($var, '/')) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $var .
-                ', must use "channel/package" to specify a package dependency to set');
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set "' . $var .
+                '", must use "channel/package" to specify a package dependency to set');
         }
         if ($this->type === 'extension') {
             if ($value->name != $var) {
@@ -229,7 +229,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         if ($var == 'exclude') {
             $ret = $this->info['exclude'];
             if (!is_array($ret)) {
-                return $ret;
+                return array($ret);
             }
         }
         return $this->info[$var];
@@ -244,6 +244,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         if (!array_key_exists($var, $this->info)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
+            );
+        }
+        if ($var == 'name' || $var == 'channel') {
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                'Cannot change dependency name, use unset() to remove the old dependency'
             );
         }
         if ($var == 'conflicts') {
@@ -288,15 +293,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             if ($null === null) {
                 unset($info[$key]);
             }
-        }
-        if (!count($info)) {
-            unset($this->info[$index]);
-            $this->info = array_values($this->info);
-            return;
-        }
-        if (count($this->info) == 0) {
-            $this->info = $info;
-            return;
         }
         $this->info[$index] = $info;
     }
