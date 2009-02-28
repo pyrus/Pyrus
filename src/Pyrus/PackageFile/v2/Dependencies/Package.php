@@ -13,11 +13,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
     function __construct($deptype, $type, $parent, array $info, $index = null)
     {
         $this->parent = $parent;
-        if (!is_array($info)) {
-            $info = array();
-        } elseif ($index === null && count($info) && !isset($info[0])) {
-            $info = array($info);
-        }
         $this->info = $info;
         $this->index = $index;
         $this->type = $type;
@@ -32,9 +27,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
 
     function rewind()
     {
-        if (count($this->info) && !isset($this->info[0])) {
-            $this->info = array($this->info);
-        }
         reset($this->info);
     }
 
@@ -56,9 +48,6 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
 
     function locateDep($name)
     {
-        if (count($this->info) && !isset($this->info[0])) {
-            $this->info = array($this->info);
-        }
         if ($this->type == 'extension') {
             foreach ($this->info as $i => $dep)
             {
