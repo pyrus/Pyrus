@@ -492,7 +492,7 @@ class PEAR2_Pyrus_PackageFile_v2
     /**
      * Determines whether this package claims it is compatible with the version of
      * the package that has a recommended version dependency
-     * @param PEAR_PackageFile_v2|PEAR_PackageFile_v1|PEAR_Downloader_Package
+     * @param PEAR2_Pyrus_Package_Base|PEAR2_Pyrus_PackageFile_v2
      * @return boolean
      */
     function isCompatible($pf)
@@ -504,14 +504,10 @@ class PEAR2_Pyrus_PackageFile_v2
             return false;
         }
         $me = $pf->version['release'];
-        $compatible = $this->packageInfo['compatible'];
-        if (!isset($compatible[0])) {
-            $compatible = array($compatible);
-        }
         $found = false;
-        foreach ($compatible as $info) {
-            if (strtolower($info['name']) == strtolower($pf->package)) {
-                if (strtolower($info['channel']) == strtolower($pf->channel)) {
+        foreach ($this->compatible as $info) {
+            if (strtolower($info->name) == strtolower($pf->package)) {
+                if (strtolower($info->channel) == strtolower($pf->channel)) {
                     $found = true;
                     break;
                 }
@@ -520,17 +516,14 @@ class PEAR2_Pyrus_PackageFile_v2
         if (!$found) {
             return false;
         }
-        if (isset($info['exclude'])) {
-            if (!isset($info['exclude'][0])) {
-                $info['exclude'] = array($info['exclude']);
-            }
-            foreach ($info['exclude'] as $exclude) {
+        if (isset($info->exclude)) {
+            foreach ($info->exclude as $exclude) {
                 if (version_compare($me, $exclude, '==')) {
                     return false;
                 }
             }
         }
-        if (version_compare($me, $info['min'], '>=') && version_compare($me, $info['max'], '<=')) {
+        if (version_compare($me, $info->min, '>=') && version_compare($me, $info->max, '<=')) {
             return true;
         }
         return false;
@@ -549,44 +542,34 @@ class PEAR2_Pyrus_PackageFile_v2
      */
     function isSubpackage(PEAR2_Pyrus_PackageFile_v2 $p)
     {
-        $sub = array();
-        if (isset($this->packageInfo['dependencies']['required']['subpackage'])) {
-            $sub = $this->packageInfo['dependencies']['required']['subpackage'];
-            if (!isset($sub[0])) {
-                $sub = array($sub);
-            }
-        }
-        if (isset($this->packageInfo['dependencies']['optional']['subpackage'])) {
-            $sub1 = $this->packageInfo['dependencies']['optional']['subpackage'];
-            if (!isset($sub1[0])) {
-                $sub1 = array($sub1);
-            }
-            $sub = array_merge($sub, $sub1);
-        }
-        if (isset($this->packageInfo['dependencies']['group'])) {
-            $group = $this->packageInfo['dependencies']['group'];
-            if (!isset($group[0])) {
-                $group = array($group);
-            }
-            foreach ($group as $deps) {
-                if (isset($deps['subpackage'])) {
-                    $sub2 = $deps['subpackage'];
-                    if (!isset($sub2[0])) {
-                        $sub2 = array($sub2);
+        foreach (array('required', 'optional', 'group') as $type) {
+            if ($type === 'group') {
+                foreach ($this->dependencies['group'] as $group) {
+                    foreach ($group->subpackage as $dep) {
+                        if (strtolower($dep->name) == strtolower($p->package)) {
+                            if (isset($dep->channel)) {
+                                if (strtolower($dep->channel) == strtolower($p->channel)) {
+                                    return true;
+                                }
+                            } else {
+                                if ($dep->uri == $p->uri) {
+                                    return true;
+                                }
+                            }
+                        }
                     }
-                    $sub = array_merge($sub, $sub2);
                 }
             }
-        }
-        foreach ($sub as $dep) {
-            if (strtolower($dep['name']) == strtolower($p->package)) {
-                if (isset($dep['channel'])) {
-                    if (strtolower($dep['channel']) == strtolower($p->channel)) {
-                        return true;
-                    }
-                } else {
-                    if ($dep['uri'] == $p->uri) {
-                        return true;
+            foreach ($this->dependencies[$type]->subpackage as $dep) {
+                if (strtolower($dep->name) == strtolower($p->package)) {
+                    if (isset($dep->channel)) {
+                        if (strtolower($dep->channel) == strtolower($p->channel)) {
+                            return true;
+                        }
+                    } else {
+                        if ($dep->uri == $p->uri) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -596,65 +579,23 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function dependsOn($package, $channel)
     {
-        if (!($deps = $this->dependencies)) {
-            return false;
-        }
+        $deps = $this->dependencies;
         foreach (array('package', 'subpackage') as $type) {
             foreach (array('required', 'optional') as $needed) {
-                if (isset($deps[$needed][$type])) {
-                    if (!isset($deps[$needed][$type][0])) {
-                        $deps[$needed][$type] = array($deps[$needed][$type]);
-                    }
-                    foreach ($deps[$needed][$type] as $dep) {
-                        $depchannel = isset($dep['channel']) ? $dep['channel'] : '__uri';
-                        if (strtolower($dep['name']) == strtolower($package) &&
-                              $depchannel == $channel) {
-                            return true;
-                        }
+                foreach ($deps[$needed]->$type as $dep) {
+                    if (strtolower($dep->name) == strtolower($package) &&
+                          $dep->channel == $channel) {
+                        return true;
                     }
                 }
             }
-            if (isset($deps['group'])) {
-                if (!isset($deps['group'][0])) {
-                    $dep['group'] = array($deps['group']);
-                }
-                foreach ($deps['group'] as $group) {
-                    if (isset($group[$type])) {
-                        if (!is_array($group[$type])) {
-                            $group[$type] = array($group[$type]);
-                        }
-                        foreach ($group[$type] as $dep) {
-                            $depchannel = isset($dep['channel']) ? $dep['channel'] : '__uri';
-                            if (strtolower($dep['name']) == strtolower($package) &&
-                                  $depchannel == $channel) {
-                                return true;
-                            }
-                        }
+            foreach ($deps['group'] as $group) {
+                foreach ($group->$type as $dep) {
+                    if (strtolower($dep->name) == strtolower($package) &&
+                          $dep->channel == $channel) {
+                        return true;
                     }
                 }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get the contents of a dependency group
-     * @param string
-     * @return array|false
-     */
-    function getDependencyGroup($name)
-    {
-        $name = strtolower($name);
-        if (!isset($this->packageInfo['dependencies']['group'])) {
-            return false;
-        }
-        $groups = $this->packageInfo['dependencies']['group'];
-        if (!isset($groups[0])) {
-            $groups = array($groups);
-        }
-        foreach ($groups as $group) {
-            if (strtolower($group['attribs']['name']) == $name) {
-                return $group;
             }
         }
         return false;
