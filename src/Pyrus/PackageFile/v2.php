@@ -512,7 +512,7 @@ class PEAR2_Pyrus_PackageFile_v2
         $found = false;
         foreach ($this->compatible as $info) {
             if (strtolower($info->name) == strtolower($pf->package)) {
-                if (strtolower($info->channel) == strtolower($pf->channel)) {
+                if ($info->channel == $pf->channel) {
                     $found = true;
                     break;
                 }
@@ -897,6 +897,10 @@ class PEAR2_Pyrus_PackageFile_v2
             return false;
         }
         if (is_array($this->packageInfo[$name])) {
+            // FIXME: this code is stupid.  The intent was to have packageInfo[$name] be
+            // modifiable, but ArrayObject doesn't work this way any more, so the
+            // only solution is a custom subclass that catches modifications and passes
+            // them back to the parent packagefile.
             return new ArrayObject($this->packageInfo[$name], ArrayObject::ARRAY_AS_PROPS);
         }
         return $this->packageInfo[$name];
