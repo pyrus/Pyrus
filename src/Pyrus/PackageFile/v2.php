@@ -844,31 +844,26 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function setType($var, $value)
     {
-        if (!is_array($value)) {
-            $licensemap =
-                array(
-                    'php' => 'http://www.php.net/license',
-                    'php license' => 'http://www.php.net/license',
-                    'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
-                    'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
-                    'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
-                    'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
-                    'mit' => 'http://www.opensource.org/licenses/mit-license.php',
-                    'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
-                    'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
-                );
-            if (isset($licensemap[strtolower($value)])) {
-                $this->packageInfo['license'] = array(
-                    'attribs' => array('uri' =>
-                        $licensemap[strtolower($value)]),
-                    '_content' => $value
-                    );
-            } else {
-                // don't use bogus uri
-                $arr['license'] = (string) $value;
+        if (!is_string($value)) {
+            throw new PEAR2_Pyrus_PackageFile_Exception('package.xml type must be a ' .
+            'string, was a ' . gettype($value));
+        }
+        if ($value != 'bundle') {
+            $value .= 'release';
+        }
+        if (in_array($value, $a = array('phprelease', 'extsrcrelease', 'extbinrelease',
+                                        'zendextsrcrelease', 'zendextbinrelease', 'bundle'))) {
+            foreach ($a as $type) {
+                if ($value == $type) {
+                    if (!isset($this->packageInfo[$type])) {
+                        $this->packageInfo[$type] = array();
+                    }
+                    continue;
+                }
+                if (isset($this->packageInfo[$type])) {
+                    unset($this->packageInfo[$type]);
+                }
             }
-        } else {
-            $this->packageInfo['license'] = $value;
         }
     }
 
