@@ -34,8 +34,8 @@ class PEAR2_Pyrus_PackageFile_v2_BundledPackage implements ArrayAccess, Countabl
     function __construct($parent, $info)
     {
         $this->parent = $parent;
-        if (is_string($this->info)) {
-            $info = array($this->info);
+        if (is_string($info)) {
+            $info = array($info);
         }
         $this->info = $info;
     }
@@ -115,7 +115,7 @@ class PEAR2_Pyrus_PackageFile_v2_BundledPackage implements ArrayAccess, Countabl
 
     function offsetExists($var)
     {
-        $i = $this->locatePackage($value);
+        $i = $this->locatePackage($var);
         return $i !== false;
     }
 
