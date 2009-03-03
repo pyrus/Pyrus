@@ -840,31 +840,30 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function setLicense($var, $value)
     {
-        if (!is_array($value)) {
-            $licensemap =
-                array(
-                    'php' => 'http://www.php.net/license',
-                    'php license' => 'http://www.php.net/license',
-                    'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
-                    'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
-                    'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
-                    'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
-                    'mit' => 'http://www.opensource.org/licenses/mit-license.php',
-                    'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
-                    'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
+        if ($value instanceof PEAR2_Pyrus_PackageFile_v2_License) {
+            return $this->rawlicense = $value->getInfo();
+        }
+        $licensemap =
+            array(
+                'php' => 'http://www.php.net/license',
+                'php license' => 'http://www.php.net/license',
+                'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
+                'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
+                'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
+                'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
+                'mit' => 'http://www.opensource.org/licenses/mit-license.php',
+                'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
+                'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
+            );
+        if (isset($licensemap[strtolower($value)])) {
+            $this->rawlicense = array(
+                'attribs' => array('uri' =>
+                    $licensemap[strtolower($value)]),
+                '_content' => $value
                 );
-            if (isset($licensemap[strtolower($value)])) {
-                $this->packageInfo['license'] = array(
-                    'attribs' => array('uri' =>
-                        $licensemap[strtolower($value)]),
-                    '_content' => $value
-                    );
-            } else {
-                // don't use bogus uri
-                $arr['license'] = (string) $value;
-            }
         } else {
-            $this->packageInfo['license'] = $value;
+            // don't use bogus uri
+            $this->rawlicense = (string) $value;
         }
     }
 
