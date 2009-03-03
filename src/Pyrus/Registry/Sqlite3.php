@@ -193,22 +193,19 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $n = $info->name;
         $c = $info->channel;
         foreach ($info->allmaintainers as $role => $maintainers) {
-            if (!is_array($maintainers) && !($maintainers instanceof \ArrayObject)) {
-                continue;
-            }
-
             foreach ($maintainers as $maintainer) {
-                if (!$maintainer) {
-                    continue;
-                }
                 $stmt->clear();
                 $stmt->bindParam(':name',     $n);
                 $stmt->bindParam(':channel',  $c);
                 $stmt->bindParam(':role',     $role);
-                $stmt->bindParam(':m_name',   $maintainer['name']);
-                $stmt->bindParam(':m_user',   $maintainer['user']);
-                $stmt->bindParam(':m_email',  $maintainer['email']);
-                $stmt->bindParam(':m_active', $maintainer['active']);
+                $mn = $maintainer->name;
+                $stmt->bindParam(':m_name',   $mn);
+                $mu = $maintainer->user;
+                $stmt->bindParam(':m_user',   $mu);
+                $me = $maintainer->email;
+                $stmt->bindParam(':m_email',  $me);
+                $ma = $maintainer->active;
+                $stmt->bindParam(':m_active', $ma);
 
                 if (!$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');

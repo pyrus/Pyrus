@@ -160,6 +160,10 @@ class PEAR2_Pyrus_PackageFile_v2
         'rawversion' => 'version',
         'rawusesrole' => 'usesrole',
         'rawusestask' => 'usestask',
+        'rawlead' => 'lead',
+        'rawdeveloper' => 'developer',
+        'rawcontributor' => 'contributor',
+        'rawhelper' => 'helper',
     );
 
     /**
@@ -305,28 +309,11 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function getAllMaintainers()
     {
-        $leads = (array) $this->tag('lead');
-        if ($leads && !isset($leads[0])) {
-            $leads = array($leads);
+        $ret = array('lead' => array(), 'developer' => array(), 'helper' => array(), 'contributor' => array());
+        foreach ($this->maintainer as $maintainer) {
+            $ret[$maintainer->role][] = $maintainer;
         }
-        $developers = (array) $this->tag('developer');
-        if ($developers && !isset($developers[0])) {
-            $developers = array($developers);
-        }
-        $helpers = (array) $this->tag('helper');
-        if ($helpers && !isset($helpers[0])) {
-            $helpers = array($helpers);
-        }
-        $contributors = (array) $this->tag('contributor');
-        if ($contributors && !isset($contributors[0])) {
-            $contributors = array($contributors);
-        }
-        return array(
-            'lead' => $leads,
-            'developer' => $developers,
-            'helper' => $helpers,
-            'contributor' => $contributors
-        );
+        return $ret;
     }
 
     function getReleases()
@@ -361,12 +348,47 @@ class PEAR2_Pyrus_PackageFile_v2
 
     function getFiles()
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Files($this->filelist);
+        return new PEAR2_Pyrus_PackageFile_v2_Files($this, $this->filelist);
+    }
+
+    function getUsesRole()
+    {
+        if (!isset($this->packageInfo['usesrole'])) {
+            return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, array(), 'usesrole');
+        }
+        $info = $this->packageInfo['usesrole'];
+        if (!isset($info[0])) {
+            $info = array($info);
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, 'usesrole');
+    }
+
+    function getUsesTask()
+    {
+        if (!isset($this->packageInfo['usestask'])) {
+            return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, array(), 'usestask');
+        }
+        $info = $this->packageInfo['usestask'];
+        if (!isset($info[0])) {
+            $info = array($info);
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, 'usestask');
     }
 
     function getMaintainer()
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Developer($this->packageInfo);
+        $info = array();
+        foreach (array('lead', 'developer', 'contributor', 'helper') as $type) {
+            if (isset($this->packageInfo[$type])) {
+                $info[$type] = $this->packageInfo[$type];
+                if (!isset($info[$type][0])) {
+                    $info[$type] = array($info[$type]);
+                }
+            } else {
+                $info[$type] = array();
+            }
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_Developer($this, $info);
     }
 
     function getRawDeps()
@@ -449,6 +471,17 @@ class PEAR2_Pyrus_PackageFile_v2
     function setFilelist(array $list)
     {
         $this->filelist = $list;
+    }
+
+    function setFilelistFile($file, $info)
+    {
+        if ($info === null) {
+            if (array_key_exists($file, $this->filelist)) {
+                unset($this->filelist[$file]);
+            }
+            return;
+        }
+        $this->filelist[$file] = $info;
     }
 
     function setBaseInstallDirs(array $list)
@@ -809,6 +842,10 @@ class PEAR2_Pyrus_PackageFile_v2
                 unset($this->packageInfo['uri']);
             }
         }
+        if ($value === null && isset($this->packageInfo[$var])) {
+            unset($this->packageInfo[$var]);
+            return;
+        }
         $this->packageInfo[$var] = $value;
     }
 
@@ -906,7 +943,13 @@ class PEAR2_Pyrus_PackageFile_v2
                 $actual = $actual[0];
                 return $this->$actual($var, $value);
             }
-            $this->packageInfo[$actual] = $value;
+            if ($value === null) {
+                if (isset($this->packageInfo[$actual])) {
+                    unset($this->packageInfo[$actual]);
+                }
+            } else {
+                $this->packageInfo[$actual] = $value;
+            }
             return;
         }
         throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' directly');

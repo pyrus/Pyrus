@@ -155,13 +155,12 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         $maintainers = $info->allmaintainers;
         $maint = array();
         foreach (array('lead', 'developer', 'contributor', 'helper') as $role) {
-            if ($maintainers[$role]) {
-                foreach ($maintainers[$role] as $m) {
-                    $m = array_merge(array('role' => $role), $m);
-                    $m['handle'] = $m['user'];
-                    unset($m['handle']);
-                    $maint[] = $m;
-                }
+            foreach ($maintainers[$role] as $maintainer) {
+                $m = $maintainer->toArray();
+                $m = array_merge(array('role' => $role), $m);
+                $m['handle'] = $m['user'];
+                unset($m['handle']);
+                $maint[] = $m;
             }
         }
         $arr['old']['maintainers'] = $maint;

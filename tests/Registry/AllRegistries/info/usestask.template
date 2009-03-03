@@ -1,0 +1,31 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$test->assertEquals(0, count($reg->usestask), 'none yet');
+$test->assertEquals(false, isset($reg->usestask['foo']), 'isset before');
+$test->assertEquals(false, isset($reg->usestask['foo']->package), 'isset package before');
+$test->assertEquals(false, isset($reg->usestask['foo']->channel), 'isset channel before');
+$test->assertEquals(false, isset($reg->usestask['foo']->uri), 'isset uri before');
+
+$reg->usestask['foo']->package('Foo')->channel('pear.example.com');
+
+$test->assertEquals(1, count($reg->usestask), '1 now');
+$test->assertEquals(true, isset($reg->usestask['foo']), 'isset after');
+$test->assertEquals(true, isset($reg->usestask['foo']->package), 'isset package after');
+$test->assertEquals('Foo', $reg->usestask['foo']->package, 'package after');
+$test->assertEquals(true, isset($reg->usestask['foo']->channel), 'isset channel after');
+$test->assertEquals('pear.example.com', $reg->usestask['foo']->channel, 'channel after');
+$test->assertEquals(false, isset($reg->usestask['foo']->uri), 'isset uri after');
+
+$reg->usestask['foo']->uri('http://poo.example.com');
+
+$test->assertEquals(null, $reg->usestask['foo']->channel, 'channel after uri');
+$test->assertEquals(null, $reg->usestask['foo']->package, 'package after uri');
+$test->assertEquals(true, isset($reg->usestask['foo']->uri), 'isset uri after set');
+$test->assertEquals('http://poo.example.com', $reg->usestask['foo']->uri, 'uri');
+
+$reg->usestask['foo']->channel('pear.example.com');
+
+$test->assertEquals('pear.example.com', $reg->usestask['foo']->channel, 'channel after uri');
+$test->assertEquals(false, isset($reg->usestask['foo']->uri), 'isset uri after set');
+$test->assertEquals(null, $reg->usestask['foo']->uri, 'uri');

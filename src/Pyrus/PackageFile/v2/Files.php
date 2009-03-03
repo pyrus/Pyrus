@@ -25,21 +25,25 @@
  */
 class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
 {
-    protected $array;
-    function __construct(&$array)
+    protected $info;
+    protected $parent;
+
+    function __construct($parent, $info)
     {
-        $this->array = &$array;
+        $this->parent = $parent;
+        $this->info = $info;
     }
 
     function offsetUnset($var)
     {
-        unset($this->array[$var]);
+        unset($this->info[$var]);
+        $this->parent->setFilelistFile($var, null);
     }
 
     function offsetGet($var)
     {
-        if (isset($this->array[$var])) {
-            return $this->array[$var];
+        if (isset($this->info[$var])) {
+            return $this->info[$var];
         }
         return null;
     }
@@ -65,11 +69,12 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
                 ' file ' . $var);
         }
 
-        $this->array[$var] = $value;
+        $this->info[$var] = $value;
+        $this->parent->setFilelistFile($var, $value);
     }
 
     function offsetExists($var)
     {
-        return isset($this->array[$var]);
+        return isset($this->info[$var]);
     }
 }

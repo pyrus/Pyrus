@@ -3,7 +3,7 @@
 
 try {
     $foo = array();
-    $oops = new PEAR2_Pyrus_PackageFile_v2_Developer($foo);
+    $oops = new PEAR2_Pyrus_PackageFile_v2_Developer(null, $foo);
     $a = $oops->name;
     throw new Exception('oops did not fail');
 } catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
@@ -18,13 +18,18 @@ try {
 }
 
 $greg = $reg->maintainer['cellog'];
-$test->assertEquals(null, $greg->nonexisting, 'non-existing');
+try {
+    $test->assertEquals(null, $greg->nonexisting, 'non-existing');
+    throw new Exception('nonexisting did not fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
+    $test->assertEquals('Unknown variable nonexisting, should be one of name, email, active', $e->getMessage(), 'nonexisting');
+}
 
 try {
     $a = $reg->maintainer['cellog']['greg'];
     throw new Exception('double did not fail');
 } catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
-    $test->assertEquals('Cannot retrieve two developers simultaneously (as in $pf->maintainer[\'cellog\'][\'greg\']', $e->getMessage(), 'double dev set');
+    $test->assertEquals('Use -> to access properties of a developer', $e->getMessage(), 'double dev set');
 }
 
 try {
@@ -66,235 +71,23 @@ $a = $greg->name('Foo Bar');
 $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Developer', $a, 'right class');
 $test->assertEquals('Foo Bar', $greg->name, 'after setting name');
 
-$foo = $reg->maintainer['foo'];
-$foo->name('Blah Blah');
+$reg->maintainer['foo']->name('Blah Blah');
 // we don't save unless we know the role
 $test->assertEquals(null, $reg->maintainer['foo']->name, 'after name change');
 
-$foo = $reg->maintainer['foo'];
-$foo->role('lead');
+$reg->maintainer['foo']->role('lead');
 $test->assertEquals(null, $reg->maintainer['foo']->name, 'after name change 2');
-$foo->name('Blah Blah');
+$reg->maintainer['foo']->name('Blah Blah');
 $test->assertEquals('Blah Blah', $reg->maintainer['foo']->name, 'after name change 3');
 
-$bar = $reg->maintainer['bar'];
-$bar->role('helper');
+$reg->maintainer['bar']->role('helper');
 $test->assertEquals('helper', $reg->maintainer['bar']->role, 'after role change');
-$bar->name('Blah Blah');
-$foobar = $reg->maintainer['foobar'];
-$foobar->role('lead');
-$greg->role('helper');
+$reg->maintainer['bar']->name('Blah Blah');
+$reg->maintainer['foobar']->role('lead');
+$reg->maintainer['cellog']->role('helper');
 $test->assertEquals('helper', $reg->maintainer['cellog']->role, 'after role change 2');
 $reg->maintainer['saltybeagle']->role('helper');
 $test->assertEquals('helper', $reg->maintainer['saltybeagle']->role, 'after role change 3');
-$foobar->role('helper');
+$reg->maintainer['foobar']->role('helper');
 $test->assertEquals('helper', $reg->maintainer['foobar']->role, 'after role change 4');
 
-$foobar->role('contributor');
-$bar->role('developer');
-
-$test->assertEquals(array (
-  'lead' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'foo',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-  'developer' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'bar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-  'helper' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Foo Bar',
-      'user' => 'cellog',
-      'email' => 'cellog@php.net',
-      'active' => 'yes',
-    ),
-    1 => 
-    array (
-      'name' => 'Brett Bieber',
-      'user' => 'saltybeagle',
-      'email' => 'brett.bieber@gmail.com',
-      'active' => 'yes',
-    ),
-  ),
-  'contributor' => 
-  array (
-    0 => 
-    array (
-      'name' => NULL,
-      'user' => 'foobar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-), $reg->allmaintainers, 'allmaintainers');
-
-$greg->role('lead');
-
-$test->assertEquals(array (
-  'lead' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'foo',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-    1 => 
-    array (
-      'name' => 'Foo Bar',
-      'user' => 'cellog',
-      'email' => 'cellog@php.net',
-      'active' => 'yes',
-    ),
-  ),
-  'developer' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'bar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-  'helper' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Brett Bieber',
-      'user' => 'saltybeagle',
-      'email' => 'brett.bieber@gmail.com',
-      'active' => 'yes',
-    ),
-  ),
-  'contributor' => 
-  array (
-    0 => 
-    array (
-      'name' => NULL,
-      'user' => 'foobar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-), $reg->allmaintainers, 'allmaintainers 1');
-
-$greg->role('developer');
-
-$test->assertEquals(array (
-  'lead' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'foo',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-  'developer' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'bar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-    1 => 
-    array (
-      'name' => 'Foo Bar',
-      'user' => 'cellog',
-      'email' => 'cellog@php.net',
-      'active' => 'yes',
-    ),
-  ),
-  'helper' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Brett Bieber',
-      'user' => 'saltybeagle',
-      'email' => 'brett.bieber@gmail.com',
-      'active' => 'yes',
-    ),
-  ),
-  'contributor' => 
-  array (
-    0 => 
-    array (
-      'name' => NULL,
-      'user' => 'foobar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-), $reg->allmaintainers, 'allmaintainers 2');
-
-$greg->role('contributor');
-
-$test->assertEquals(array (
-  'lead' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'foo',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-  'developer' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Blah Blah',
-      'user' => 'bar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-  ),
-  'helper' => 
-  array (
-    0 => 
-    array (
-      'name' => 'Brett Bieber',
-      'user' => 'saltybeagle',
-      'email' => 'brett.bieber@gmail.com',
-      'active' => 'yes',
-    ),
-  ),
-  'contributor' => 
-  array (
-    0 => 
-    array (
-      'name' => NULL,
-      'user' => 'foobar',
-      'email' => NULL,
-      'active' => NULL,
-    ),
-    1 => 
-    array (
-      'name' => 'Foo Bar',
-      'user' => 'cellog',
-      'email' => 'cellog@php.net',
-      'active' => 'yes',
-    ),
-  ),
-), $reg->allmaintainers, 'allmaintainers 3');

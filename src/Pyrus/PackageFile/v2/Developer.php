@@ -37,31 +37,79 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
+class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
 {
-    private $_packageInfo;
-    private $_developer = null;
-    private $_role = null;
-    private $_info = array('name' => null, 'user' => null, 'email' => null, 'active' => null);
-    function __construct(array &$parent)
+    protected $parent;
+    protected $role;
+    protected $index;
+    protected $info;
+    private $_curRole;
+
+    function __construct($parent, $info, $role = null, $index = null)
     {
-        $this->_packageInfo = &$parent;
+        $this->parent = $parent;
+        $this->info = $info;
+        $this->role = $role;
+        $this->index = $index;
+    }
+
+    function current()
+    {
+        $info = current($this->info[current($this->_curRole)]);
+        foreach(array('name', 'user', 'email', 'active') as $key) {
+            if (!array_key_exists($key, $info)) {
+                $info[$key] = null;
+            }
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_Developer($this, $info, current($this->_curRole),
+                                                        key($this->info[current($this->_curRole)]));
+    }
+
+    function key()
+    {
+        return key($this->info[current($this->_curRole)]);
+    }
+
+    function next()
+    {
+        $a = next($this->info[current($this->_curRole)]);
+        while (!current($this->info[current($this->_curRole)])) {
+            next($this->_curRole);
+            if (!current($this->_curRole)) {
+                return false;
+            }
+            reset($this->info[current($this->_curRole)]);
+            if (count($this->info[current($this->_curRole)])) {
+                return true;
+            }
+        }
+        return $a;
+    }
+
+    function rewind()
+    {
+        $this->_curRole = array_keys($this->info);
+        reset($this->info[current($this->_curRole)]);
+    }
+var $test;
+    function valid()
+    {
+        return current($this->_curRole);
     }
 
     /**
      * Search for a maintainer, find them and return the maintainer role
      *
      * @param string $handle
-     * @return string|false the role (lead, developer, contributor, helper)
+     * @return array|false the role (lead, developer, contributor, helper)/index
      */
     function locateMaintainerRole($handle)
     {
-        foreach (array('lead', 'developer', 'contributor', 'helper') as $role) {
-            if (!isset($this->_packageInfo[$role])) continue;
-            $inf = $this->_packageInfo[$role];
-            if (!isset($inf[0])) $inf = array($inf);
-            foreach ($inf as $i) {
-                if ($i['user'] == $handle) return $role;
+        foreach ($this->info as $role => $devs) {
+            foreach ($devs as $i => $developer) {
+                if ($developer['user'] == $handle) {
+                    return array($role, $i);
+                }
             }
         }
         return false;
@@ -69,31 +117,39 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
 
     function __get($var)
     {
-        if ($this->_developer === null) {
+        if (!isset($this->info['user']) || !is_string($this->info['user'])) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannot access developer info for unknown developer');
         }
         if ($var === 'role') {
-            return $this->_role;
+            return $this->role;
         }
-        if (!isset($this->_info[$var])) {
+        if (!isset($this->info[$var])) {
+            if (!array_key_exists($var, $this->info)) {
+                $keys = $this->info;
+                unset($keys['user']);
+                $keys = array_keys($keys);
+                throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                    'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys));
+            }
             return null;
         }
-        return $this->_info[$var];
+        return $this->info[$var];
     }
 
     function __call($var, $args)
     {
-        if ($this->_developer === null) {
+        if (!isset($this->info['user']) || !is_string($this->info['user'])) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannot set developer info for unknown developer');
         }
         if ($var == 'role') {
-            $this->_role = $args[0];
-            $this->_save();
+            $oldrole = $this->role;
+            $this->role = $args[0];
+            $this->save($oldrole);
             return $this;
         }
-        if (!array_key_exists($var, $this->_info) || $var == 'user') {
+        if (!array_key_exists($var, $this->info) || $var == 'user') {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Cannot set unknown value ' . $var);
         }
@@ -105,67 +161,56 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
                 'Invalid value for ' . $var . ', must be a string');
         }
-        $this->_info[$var] = $args[0];
-        $this->_save();
+        $this->info[$var] = $args[0];
+        $this->save($this->role);
         return $this;
     }
 
     function offsetGet($var)
     {
-        if ($this->_developer !== null) {
+        if (isset($this->info['user']) && is_string($this->info['user'])) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
-                'Cannot retrieve two developers simultaneously (as in $pf->maintainer[\'' . $this->_developer . '\'][\'' .
-                $var . '\']');
+                'Use -> to access properties of a developer');
         }
         if (!is_string($var)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception('Developer handle cannot be numeric');
         }
         $developer = $var;
         if ($role = $this->locateMaintainerRole($developer)) {
-            if (!isset($this->_packageInfo[$role][0])) {
-                $this->_info = $this->_packageInfo[$role];
-            } else {
-                foreach ($this->_packageInfo[$role] as $data) {
-                    if ($data['user'] == $developer) {
-                        $this->_info = $data;
-                        break;
-                    }
+            $info = $this->info[$role[0]][$role[1]];
+            foreach (array('name' => null, 'user' => $var, 'email' => null, 'active' => 'yes') as $key => $null) {
+                if (!isset($info[$key])) {
+                    $info[$key] = null;
                 }
             }
-            $this->_role = $role;
+            return new PEAR2_Pyrus_PackageFile_v2_Developer($this, $info, $role[0], $role[1]);
         }
-        $this->_developer = $developer;
-        $this->_info['user'] = $developer;
-        return $this;
+        return new PEAR2_Pyrus_PackageFile_v2_Developer($this,
+            array('name' => null, 'user' => $var, 'email' => null, 'active' => 'yes'), null, null);
     }
 
     function offsetSet($var, $value)
     {
+        if (isset($this->info['user']) && is_string($this->info['user'])) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                'Use -> to access properties of a developer');
+        }
         if (!is_string($var)) {
             throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception('Developer handle cannot be numeric');
         }
-        $this->_developer = $var;
-        $this->_info['user'] = $var;
-        if ($value instanceof PEAR2_Pyrus_PackageFile_v2_Developer) {
-            $this->_info['name'] = $value->name;
-            $this->_info['email'] = $value->email;
-            $this->_info['active'] = $value->active;
-            $this->_role = $value->role;
-        } elseif (is_array($value) || $value instanceof ArrayObject) {
-            if (!isset($value['name']) || !isset($value['email']) || !isset($value['active'])) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
-                    'Invalid array used to set ' . $this->_developer . ' information');
-            }
-            $this->_info['name'] = $value['name'];
-            $this->_info['email'] = $value['email'];
-            $this->_info['active'] = $value['active'];
-            if (isset($value['role'])) {
-                $this->_role = $value['role'];
-            } else {
-                $this->_role = 'lead';
-            }
+        if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Developer)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                'Can only set a developer to a PEAR2_Pyrus_PackageFile_v2_Developer object'
+            );
         }
-        $this->_save();
+        if (false !== ($i = $this->locateMaintainerRole($var))) {
+            // remove old developer role, set new role
+            unset($this->info[$i[0]][$i[1]]);
+        }
+        $i = count($this->info[$value->role]);
+        $this->info[$value->role][] = $value->getInfo();
+        $this->info[$value->role][$i]['user'] = $var;
+        $this->save();
     }
 
     /**
@@ -174,26 +219,18 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
      */
     function offsetUnset($var)
     {
+        if (isset($this->info['user']) && is_string($this->info['user'])) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                'Use -> to retrieve properties of a developer');
+        }
         // remove developer
         $role = $this->locateMaintainerRole($var);
         if (!$role) {
             // already non-existent
             return;
         }
-        if (!isset($this->_packageInfo[$role][0])) {
-            unset($this->_packageInfo[$role]);
-            return;
-        }
-        foreach ($this->_packageInfo[$role] as $i => $stuff) {
-            if ($stuff['user'] == $var) {
-                unset($this->_packageInfo[$role][$i]);
-                $this->_packageInfo[$role] = array_values($this->_packageInfo[$role]);
-                if (count($this->_packageInfo[$role]) == 1) {
-                    $this->_packageInfo[$role] = $this->_packageInfo[$role][0];
-                }
-                return;
-            }
-        }
+        unset($this->info[$role[0]][$role[1]]);
+        $this->save();
     }
 
     /**
@@ -203,80 +240,92 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess
      */
     function offsetExists($var)
     {
+        if (isset($this->info['user']) && is_string($this->info['user'])) {
+            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                'Use -> to retrieve properties of a developer');
+        }
         return (bool) $this->locateMaintainerRole($var);
+    }
+
+    /**
+     * Retrieve the new index of this developer, newly added to this role
+     * @return int
+     */
+    function getNewIndex($user, $role)
+    {
+        $i = $this->locateMaintainerRole($user);
+        if (false === $i) {
+            return count($this->info[$role]) - 1;
+        }
+        return $i[1];
+    }
+
+    function getInfo()
+    {
+        return $this->info;
+    }
+
+    function toArray()
+    {
+        $info = $this->info;
+        $ret = array('name' => null, 'user' => null, 'email' => null, 'active' => null);
+        foreach ($info as $key => $value) {
+            $ret[$key] = $value;
+        }
+        return $ret;
+    }
+
+    function setInfo($info, $oldrole, $index, $role)
+    {
+        foreach (array_keys($info) as $key) {
+            if ($info[$key] === null) {
+                unset($info[$key]);
+            }
+        }
+        if ($role !== null && $oldrole != $role) {
+            // we just changed the role.
+            if ($oldrole && isset($this->info[$oldrole][$index])) {
+                unset($this->info[$oldrole][$index]);
+                $this->info[$oldrole] = array_values($this->info[$oldrole]);
+            }
+            if (!count($info)) {
+                // essentially remove the old one and wait for data to save the new
+                return;
+            }
+            $this->info[$role][] = $info;
+        } else {
+            $this->info[$role][$index] = $info;
+        }
     }
 
     /**
      * Save changes
      */
-    private function _save()
+    protected function save($oldrole = null)
     {
-        if (!$this->_role || !isset($this->_developer)) {
-            return;
-        }
-
-        $role = $this->locateMaintainerRole($this->_developer);
-        if (!$role) {
-            // create new
-            if (!isset($this->_packageInfo[$this->_role])) {
-                $this->_packageInfo[$this->_role] = $this->_info;
+        if ($this->parent instanceof self) {
+            if ($this->role === null) {
                 return;
             }
-
-            if (!isset($this->_packageInfo[$this->_role][0])) {
-                $this->_packageInfo[$this->_role] = array($this->_packageInfo[$this->_role],
-                    $this->_info);
-            } else {
-                $this->_packageInfo[$this->_role][] = $this->_info;
+            $this->parent->setInfo($this->info, $oldrole, $this->index, $this->role);
+            if ($this->role !== null && $oldrole != $this->role) {
+                $this->index = $this->parent->getNewIndex($this->info['user'], $this->role);
             }
-
-            return;
-        }
-
-        // remove the maintainer from their old role
-        if ($role !== $this->_role) {
-            if (!isset($this->_packageInfo[$role][0])) {
-                unset($this->_packageInfo[$role]);
-            } else {
-                foreach ($this->_packageInfo[$role] as $i => $dev) {
-                    if ($dev['user'] == $this->_developer) {
-                        unset($this->_packageInfo[$role][$i]);
-                        $this->_packageInfo[$role] =
-                            array_values($this->_packageInfo[$role]);
-                        if (count($this->_packageInfo[$role]) == 1) {
-                            $this->_packageInfo[$role] = $this->_packageInfo[$role][0];
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (!isset($this->_packageInfo[$this->_role])) {
-            $this->_packageInfo[$this->_role] = $this->_info;
-            return;
-        }
-
-        if (!isset($this->_packageInfo[$this->_role][0])) {
-            if ($role !== $this->_role) {
-                // We are a new entry into this role, and now there are 2 of us
-                $this->_packageInfo[$this->_role] =
-                    array($this->_packageInfo[$this->_role], $this->_info);
-            } else {
-                // We are replacing ourself
-                $this->_packageInfo[$this->_role] = $this->_info;
-            }
+            $this->parent->save();
         } else {
-            if ($role !== $this->_role) {
-                // We are a new entry into this role, and now there are several of us
-                $this->_packageInfo[$this->_role][] = $this->_info;
-            } else {
-                foreach ($this->_packageInfo[$role] as $i => $maybeme) {
-                    if ($maybeme['user'] == $this->_developer) {
-                        // found our entry
-                        $this->_packageInfo[$role][$i] = $this->_info;
-                        return;
+            foreach ($this->info as $role => $info) {
+                if (is_string($info)) {
+                    $info = array($info);
+                } else {
+                    $info = array_values($info);
+                }
+                if (!count($info)) {
+                    $this->parent->{'raw' . $role} = null;
+                } else {
+                    if (count($info) == 1) {
+                        $info = $info[0];
                     }
+                    $this->parent->{'raw' . $role} = $info;
                 }
             }
         }
