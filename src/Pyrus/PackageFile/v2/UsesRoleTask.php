@@ -31,15 +31,13 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
 
     function rewind()
     {
-        if (count($this->info) && !isset($this->info[0])) {
-            $this->info = array($this->info);
-        }
         reset($this->info);
     }
 
     function key()
     {
-        return key($this->info);
+        $info = current($this->info);
+        return $info[$this->type];
     }
 
     function next()
@@ -52,11 +50,93 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
         return current($this->info);
     }
 
+    function locateRoleTask($name)
+    {
+        foreach ($this->info as $i => $dep)
+        {
+            if (isset($dep[$this->type]) && $dep[$this->type] == $name) {
+                return $i;
+            }
+        }
+        return false;
+    }
+
+    function offsetGet($var)
+    {
+        if ($this->index !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
+                'use -> operator to access properties of a uses' . $this->type);
+        }
+        $i = $this->locateRoleTask($var);
+        if (false === $i) {
+            $i = count($this->info);
+            $info = array($this->type => $var, 'package' => null, 'channel' => null, 'uri' => null);
+        } else {
+            $info = $this->info[$i];
+            foreach (array($this->type, 'package', 'channel', 'uri') as $key) {
+                if (!array_key_exists($key, $this->info[$i])) {
+                    $info[$key] = null;
+                }
+            }
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, $this->type, $i);
+    }
+
+    function offsetSet($var, $value)
+    {
+        if ($this->index !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
+                'use -> operator to access properties of a uses' . $this->type);
+        }
+        if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_UsesRoleTask)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
+                'Can only set uses' . $this->type . ' to a PEAR2_Pyrus_PackageFile_v2_UsesRoleTask object');
+        }
+        if ($value->type != $this->type) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
+                'Cannot set uses' . $this->type . ' to a uses' . $value->type . ' object');
+        }
+        $i = $this->locateRoleTask($var);
+        if (false === $i) {
+            $i = count($this->info);
+        }
+        $this->info[$i] = array($this->type => $var,
+                                'package' => $value->package,
+                                'channel' => $value->channel,
+                                'uri' => $value->uri);
+        $this->save();
+    }
+
+    function offsetExists($var)
+    {
+        if ($this->index !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
+                'use -> operator to access properties of a uses' . $this->type);
+        }
+        $i = $this->locateRoleTask($var);
+        return $i !== false;
+    }
+
+    function offsetUnset($var)
+    {
+        if ($this->index !== null) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
+                'use -> operator to access properties of a uses' . $this->type);
+        }
+        $i = $this->locateRoleTask($var);
+        if ($i === false) {
+            return;
+        }
+        unset($this->info[$i]);
+        $this->info = array_values($this->info);
+        $this->save();
+    }
+
     function __unset($var)
     {
         if ($this->index === null) {
             throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use [] operator to access ' . $this->type . 's');
+                'use [] operator to access uses' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
             throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
@@ -72,7 +152,7 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
     {
         if ($this->index === null) {
             throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use [] operator to access ' . $this->type . 's');
+                'use [] operator to access uses' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
             throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
@@ -92,10 +172,10 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
     {
         if ($this->index === null) {
             throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use [] operator to access ' . $this->type . 's');
+                'use [] operator to access uses' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown variable ' . $var . '(), must be one of ' .
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
         if ($args[0] === null) {
@@ -118,10 +198,14 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
     {
         if ($this->index === null) {
             throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use [] operator to access ' . $this->type . 's');
+                'use [] operator to access uses' . $this->type . 's');
         }
         if ($var === 'type') {
-            return $this->type;
+            return 'uses' . $this->type;
+        }
+        if (!array_key_exists($var, $this->info)) {
+            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception('Unknown variable ' . $var . ', must be one of ' .
+                            implode(', ', array_keys($this->info)));
         }
         if (!isset($this->info[$var])) {
             return null;
@@ -129,114 +213,25 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
         return $this->info[$var];
     }
 
-    function locateRoleTask($name)
-    {
-        if (count($this->info) && !isset($this->info[0])) {
-            $this->info = array($this->info);
-        }
-        foreach ($this->info as $i => $dep)
-        {
-            $pattern = ($this->type == 'usesrole') ? 'role' : 'task';
-            if (isset($dep[$pattern]) && $dep[$pattern] == $name) {
-                return $i;
-            }
-        }
-        return false;
-    }
-
-    function offsetGet($var)
-    {
-        if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use -> operator to access properties of a ' . $this->type);
-        }
-        $i = $this->locateRoleTask($var);
-        if (false === $i) {
-            $i = count($this->info);
-            $info = array(str_replace('uses', '', $this->type) => $var, 'package' => null, 'channel' => null, 'uri' => null);
-        } else {
-            $info = $this->info[$i];
-            foreach (array(str_replace('uses', '', $this->type), 'package', 'channel', 'uri') as $key) {
-                if (!array_key_exists($key, $this->info[$i])) {
-                    $info[$key] = null;
-                }
-            }
-        }
-        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, $this->type, $i);
-    }
-
-    function offsetSet($var, $value)
-    {
-        if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use -> operator to access properties of a ' . $this->type);
-        }
-        if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_UsesRoleTask)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'Can only set ' . $this->type . ' to a PEAR2_Pyrus_PackageFile_v2_UsesRoleTask object');
-        }
-        if ($value->type != $this->type) {
-            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'Cannot set ' . $this->type . ' to a ' . $value->type . ' object');
-        }
-        $i = $this->locateRoleTask($var);
-        if (false === $i) {
-            $i = count($this->info);
-            $this->info[] = array($this->type => '', 'package' => null, 'channel' => null, 'uri' => null);
-        }
-        $this->save();
-    }
-
-    function offsetExists($var)
-    {
-        if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use -> operator to access properties of a ' . $this->type);
-        }
-        $i = $this->locateRoleTask($var);
-        return $i !== false;
-    }
-
-    function offsetUnset($var)
-    {
-        if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask_Exception(
-                'use -> operator to access properties of a ' . $this->type);
-        }
-        $i = $this->locateRoleTask($var);
-        if ($i === false) {
-            return;
-        }
-        unset($this->info[$i]);
-        $this->info = array_values($this->info);
-        $this->save();
-    }
-
     function getInfo()
     {
         return $this->info;
     }
 
-    function setInfo($type, $info, $index)
+    function setInfo($info, $index)
     {
         foreach (array_keys($info) as $key) {
             if ($info[$key] === null) {
                 unset($info[$key]);
             }
         }
-        if (!count($info)) {
-            if (isset($this->info[$index])) {
-                unset($this->info[$index]);
-            }
-        } else {
-            $this->info[$index] = $info;
-        }
+        $this->info[$index] = $info;
     }
 
     function save()
     {
         if ($this->parent instanceof self) {
-            $this->parent->setInfo($this->type, $this->info, $this->index);
+            $this->parent->setInfo($this->info, $this->index);
             $this->parent->save();
             return;
         }
@@ -244,7 +239,7 @@ class PEAR2_Pyrus_PackageFile_v2_UsesRoleTask implements ArrayAccess, Iterator, 
         if (count($info) == 1) {
             $info = $info[0];
         }
-        $this->parent->{'raw' . $this->type} = $info;
+        $this->parent->{'rawuses' . $this->type} = $info;
     }
 }
 ?>

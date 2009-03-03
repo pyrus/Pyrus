@@ -1,6 +1,8 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
+$test->assertEquals('usestask', $reg->usestask['foo']->type, 'type');
+
 $test->assertEquals(0, count($reg->usestask), 'none yet');
 $test->assertEquals(false, isset($reg->usestask['foo']), 'isset before');
 $test->assertEquals(false, isset($reg->usestask['foo']->package), 'isset package before');
@@ -29,3 +31,44 @@ $reg->usestask['foo']->channel('pear.example.com');
 $test->assertEquals('pear.example.com', $reg->usestask['foo']->channel, 'channel after uri');
 $test->assertEquals(false, isset($reg->usestask['foo']->uri), 'isset uri after set');
 $test->assertEquals(null, $reg->usestask['foo']->uri, 'uri');
+
+$reg->usestask['foo']->channel = 'localhost';
+$test->assertEquals('localhost', $reg->usestask['foo']->channel, 'channel after localhost');
+
+$reg->usestask['foo']->channel = null;
+$test->assertEquals(null, $reg->usestask['foo']->channel, 'channel after null');
+
+$reg->usestask['foo']->channel = 'localhost';
+unset($reg->usestask['foo']->channel);
+$test->assertEquals(null, $reg->usestask['foo']->channel, 'channel after unset');
+
+$test->assertEquals(false, isset($reg->usestask['notset']), 'notset before');
+unset($reg->usestask['notset']);
+$test->assertEquals(false, isset($reg->usestask['notset']), 'notset after');
+
+$test->assertEquals(true, isset($reg->usestask['foo']), 'foo before');
+unset($reg->usestask['foo']);
+$test->assertEquals(false, isset($reg->usestask['foo']), 'foo after');
+
+$reg->usestask['one']->channel('pear2.php.net')->package('Hi');
+$reg->usestask['two']->channel('pear2.php.net')->package('Hi2');
+
+$testarr = array();
+foreach ($reg->usestask as $name => $info) {
+    $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_UsesRoleTask', $info, 'check class');
+    $testarr[$name] = $info->getInfo();
+}
+$test->assertEquals(array(
+    'one' => array(
+        'task' => 'one',
+        'package' => 'Hi',
+        'channel' => 'pear2.php.net',
+        'uri' => null,
+    ),
+    'two' => array(
+        'task' => 'two',
+        'package' => 'Hi2',
+        'channel' => 'pear2.php.net',
+        'uri' => null,
+    ),
+), $testarr, 'test iteration');

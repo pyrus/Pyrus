@@ -1,5 +1,5 @@
 --TEST--
-PackageFile v2: test package.xml usesrole property
+PackageFile v2: test package.xml usesrole property (2)
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

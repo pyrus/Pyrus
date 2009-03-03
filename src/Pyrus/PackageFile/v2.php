@@ -114,8 +114,8 @@ class PEAR2_Pyrus_PackageFile_v2
         'version' => 'tag',
         'stability' => 'tag',
         'providesextension' => 'tag',
-        'usesrole' => 'getUsesRole',
-        'usestask' => 'getUsesTask',
+        'usesrole' => 'getUsesRoleTask',
+        'usestask' => 'getUsesRoleTask',
         'srcpackage' => 'tag',
         'srcchannel' => 'tag',
         'srcuri' => 'tag',
@@ -351,28 +351,17 @@ class PEAR2_Pyrus_PackageFile_v2
         return new PEAR2_Pyrus_PackageFile_v2_Files($this, $this->filelist);
     }
 
-    function getUsesRole()
+    function getUsesRoleTask($var)
     {
-        if (!isset($this->packageInfo['usesrole'])) {
-            return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, array(), 'usesrole');
+        if (!isset($this->packageInfo[$var])) {
+            return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, array(),
+                                                               str_replace('uses', '', $var));
         }
-        $info = $this->packageInfo['usesrole'];
-        if (!isset($info[0])) {
+        $info = $this->packageInfo[$var];
+        if (count($info) && !isset($info[0])) {
             $info = array($info);
         }
-        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, 'usesrole');
-    }
-
-    function getUsesTask()
-    {
-        if (!isset($this->packageInfo['usestask'])) {
-            return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, array(), 'usestask');
-        }
-        $info = $this->packageInfo['usestask'];
-        if (!isset($info[0])) {
-            $info = array($info);
-        }
-        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, 'usestask');
+        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, str_replace('uses', '', $var));
     }
 
     function getMaintainer()

@@ -1,6 +1,8 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
+$test->assertEquals('usesrole', $reg->usesrole['foo']->type, 'type');
+
 $test->assertEquals(0, count($reg->usesrole), 'none yet');
 $test->assertEquals(false, isset($reg->usesrole['foo']), 'isset before');
 $test->assertEquals(false, isset($reg->usesrole['foo']->package), 'isset package before');
@@ -29,3 +31,44 @@ $reg->usesrole['foo']->channel('pear.example.com');
 $test->assertEquals('pear.example.com', $reg->usesrole['foo']->channel, 'channel after uri');
 $test->assertEquals(false, isset($reg->usesrole['foo']->uri), 'isset uri after set');
 $test->assertEquals(null, $reg->usesrole['foo']->uri, 'uri');
+
+$reg->usesrole['foo']->channel = 'localhost';
+$test->assertEquals('localhost', $reg->usesrole['foo']->channel, 'channel after localhost');
+
+$reg->usesrole['foo']->channel = null;
+$test->assertEquals(null, $reg->usesrole['foo']->channel, 'channel after null');
+
+$reg->usesrole['foo']->channel = 'localhost';
+unset($reg->usesrole['foo']->channel);
+$test->assertEquals(null, $reg->usesrole['foo']->channel, 'channel after unset');
+
+$test->assertEquals(false, isset($reg->usesrole['notset']), 'notset before');
+unset($reg->usesrole['notset']);
+$test->assertEquals(false, isset($reg->usesrole['notset']), 'notset after');
+
+$test->assertEquals(true, isset($reg->usesrole['foo']), 'foo before');
+unset($reg->usesrole['foo']);
+$test->assertEquals(false, isset($reg->usesrole['foo']), 'foo after');
+
+$reg->usesrole['one']->channel('pear2.php.net')->package('Hi');
+$reg->usesrole['two']->channel('pear2.php.net')->package('Hi2');
+
+$testarr = array();
+foreach ($reg->usesrole as $name => $info) {
+    $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_UsesRoleTask', $info, 'check class');
+    $testarr[$name] = $info->getInfo();
+}
+$test->assertEquals(array(
+    'one' => array(
+        'role' => 'one',
+        'package' => 'Hi',
+        'channel' => 'pear2.php.net',
+        'uri' => null,
+    ),
+    'two' => array(
+        'role' => 'two',
+        'package' => 'Hi2',
+        'channel' => 'pear2.php.net',
+        'uri' => null,
+    ),
+), $testarr, 'test iteration');

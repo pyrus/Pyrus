@@ -1,0 +1,26 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$fake = new PEAR2_Pyrus_PackageFile_v2;
+$task = $fake->usestask['boo']->channel('pear2.php.net')->package('Boo');
+
+$test->assertEquals(false, isset($reg->usestask['boo']), 'isset before');
+$test->assertEquals(0, count($reg->usestask), 'count before');
+
+$reg->usestask['boo'] = $task;
+
+$test->assertEquals(true, isset($reg->usestask['boo']), 'isset after');
+$test->assertEquals(1, count($reg->usestask), 'count after');
+$test->assertEquals('pear2.php.net', $reg->usestask['boo']->channel, 'channel');
+$test->assertEquals('Boo', $reg->usestask['boo']->package, 'package');
+$test->assertEquals(null, $reg->usestask['boo']->uri, 'uri');
+
+$task->uri('http://localhost/Boo.phar');
+
+$reg->usestask['boo'] = $task;
+
+$test->assertEquals(true, isset($reg->usestask['boo']), 'isset after 2');
+$test->assertEquals(1, count($reg->usestask), 'count after 2');
+$test->assertEquals(null, $reg->usestask['boo']->channel, 'channel 2');
+$test->assertEquals(null, $reg->usestask['boo']->package, 'package 2');
+$test->assertEquals('http://localhost/Boo.phar', $reg->usestask['boo']->uri, 'uri 2');
