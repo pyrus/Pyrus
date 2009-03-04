@@ -83,6 +83,28 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         if (!isset($this->index)) {
             return null;
         }
+        if ($var === 'configureoption') {
+            if (!isset($this->info['configureoption'])) {
+                $info = array();
+            } else {
+                $info = $this->info['configureoption'];
+                if (!is_array($info)) {
+                    $info = array($info);
+                }
+            }
+            return new PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption($this, $info);
+        }
+        if ($var === 'binarypackage') {
+            if (!isset($this->info['binarypackage'])) {
+                $info = array();
+            } else {
+                $info = $this->info['binarypackage'];
+                if (!is_array($info)) {
+                    $info = array($info);
+                }
+            }
+            return new PEAR2_Pyrus_PackageFile_v2_Release_BinaryPackage($this, $info);
+        }
         if ($var === 'installconditions') {
             if (!isset($this->info['installcondition'])) {
                 $this->info['installcondition'] = array();
@@ -93,6 +115,16 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         }
         throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown variable ' . $var .
             ', installconditions is the only supported variable');
+    }
+
+    function setBinaryPackage($info)
+    {
+        $this->info['binarypackage'] = $info;
+    }
+
+    function setConfigureOption($info)
+    {
+        $this->info['configureoption'] = $info;
     }
 
     function count()
