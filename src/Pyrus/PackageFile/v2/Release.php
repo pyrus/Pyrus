@@ -148,10 +148,13 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         if (!isset($this->index)) {
             return null;
         }
-        if (!isset($this->info['install'])) {
+        if (!isset($this->info['filelist'])) {
             return false;
         }
-        return $this->info['install'];
+        if (!isset($this->info['filelist']['install'])) {
+            return false;
+        }
+        return $this->info['filelist']['install'];
     }
 
     function getIgnore()
@@ -159,10 +162,13 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         if (!isset($this->index)) {
             return null;
         }
-        if (!isset($this->info['ignore'])) {
+        if (!isset($this->info['filelist'])) {
             return false;
         }
-        return $this->info['ignore'];
+        if (!isset($this->info['filelist']['ignore'])) {
+            return false;
+        }
+        return $this->info['filelist']['ignore'];
     }
 
     function ignores($file)
@@ -243,13 +249,16 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                             'file ' . $file . ' without specifying which release section to ignore it in');
         }
         if (isset($this->_filelist[$file])) {
-            if (!isset($this->info['ignore'])) {
-                $this->info['ignore'] = array(array('attribs' => array('name' => $file)));
+            if (!isset($this->info['filelist'])) {
+                $this->info['filelist'] = array();
+            }
+            if (!isset($this->info['filelist']['ignore'])) {
+                $this->info['filelist']['ignore'] = array(array('attribs' => array('name' => $file)));
             } else {
-                if (!isset($this->info['ignore'][0])) {
-                    $this->info['ignore'] = array($this->info['ignore']);
+                if (!isset($this->info['filelist']['ignore'][0])) {
+                    $this->info['filelist']['ignore'] = array($this->info['filelist']['ignore']);
                 }
-                $this->info['ignore'][] = array('attribs' => array('name' => $file));
+                $this->info['filelist']['ignore'][] = array('attribs' => array('name' => $file));
             }
             $this->save();
             return;
@@ -268,14 +277,17 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         }
 
         if (isset($this->_filelist[$file])) {
-            if (!isset($this->info['install'])) {
-                $this->info['install'] = array(array('attribs' =>
+            if (!isset($this->info['filelist'])) {
+                $this->info['filelist'] = array();
+            }
+            if (!isset($this->info['filelist']['install'])) {
+                $this->info['filelist']['install'] = array(array('attribs' =>
                     array('name' => $file, 'as' => $newname)));
             } else {
-                if (!isset($this->info['install'][0])) {
-                    $this->info['install'] = array($this->info['install']);
+                if (!isset($this->info['filelist']['install'][0])) {
+                    $this->info['filelist']['install'] = array($this->info['filelist']['install']);
                 }
-                $this->info['install'][] = array('attribs' =>
+                $this->info['filelist']['install'][] = array('attribs' =>
                     array('name' => $file, 'as' => $newname));
             }
             $this->save();
@@ -308,17 +320,19 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         }
         $newXml = $this->info;
         foreach ($newXml as $index => $info) {
-            if (isset($info['ignore']) && count($info['ignore']) == 1 && !isset($info['ignore']['attribs'])) {
-                $newXml[$index]['ignore'] = $newXml[$index]['ignore'][0];
-            }
-            if (isset($info['install']) && count($info['install']) == 1 && !isset($info['install']['attribs'])) {
-                $newXml[$index]['install'] = $newXml[$index]['install'][0];
-            }
-            if (array_key_exists('ignore', $info) && !count($info['ignore'])) {
-                unset($newXml[$index]['ignore']);
-            }
-            if (array_key_exists('install', $info) && !count($info['install'])) {
-                unset($newXml[$index]['install']);
+            if (isset($info['filelist'])) {
+                if (isset($info['filelist']['ignore']) && count($info['filelist']['ignore']) == 1 && !isset($info['filelist']['ignore']['attribs'])) {
+                    $newXml[$index]['filelist']['ignore'] = $newXml[$index]['filelist']['ignore'][0];
+                }
+                if (isset($info['filelist']['install']) && count($info['filelist']['install']) == 1 && !isset($info['filelist']['install']['attribs'])) {
+                    $newXml[$index]['filelist']['install'] = $newXml[$index]['filelist']['install'][0];
+                }
+                if (array_key_exists('ignore', $info['filelist']) && !count($info['filelist']['ignore'])) {
+                    unset($newXml[$index]['filelist']['ignore']);
+                }
+                if (array_key_exists('install', $info['filelist']) && !count($info['filelist']['install'])) {
+                    unset($newXml[$index]['filelist']['install']);
+                }
             }
             if (array_key_exists('installcondition', $info) && count($info['installcondition'])) {
                 foreach (array('php', 'os', 'arch') as $key) {

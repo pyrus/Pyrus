@@ -1124,19 +1124,24 @@ class PEAR2_Pyrus_PackageFile_v2
             if (!is_array($arr[$reltag])) {
                 // do nothing
             } elseif (!isset($arr[$reltag][0])) {
-                if (isset($arr[$reltag]['install']) && isset($arr[$reltag]['install'][0])) {
-                    usort($arr[$reltag]['install'], $sortInstallAs);
+                if (isset($arr[$reltag]['filelist']) && isset($arr[$reltag]['filelist']['install'])
+                    && isset($arr[$reltag]['filelist']['install'][0])) {
+                    usort($arr[$reltag]['filelist']['install'], $sortInstallAs);
                 }
-                if (isset($arr[$reltag]['ignore']) && isset($arr[$reltag]['ignore'][0])) {
-                    usort($arr[$reltag]['ignore'], $sortInstallAs);
+                if (isset($arr[$reltag]['filelist']) && isset($arr[$reltag]['filelist']['ignore'])
+                    && isset($arr[$reltag]['filelist']['ignore'][0])) {
+                    usort($arr[$reltag]['filelist']['ignore'], $sortInstallAs);
                 }
             } else {
-                foreach ($arr[$reltag] as $i => &$contents) {
-                    if (isset($contents['install']) && isset($contents['install'][0])) {
-                        usort($contents['install'], $sortInstallAs);
+                foreach ($arr[$reltag] as $i => $contents) {
+                    if (!isset($contents['filelist'])) {
+                        continue;
                     }
-                    if (isset($contents['ignore']) && isset($contents['ignore'][0])) {
-                        usort($contents['ignore'], $sortInstallAs);
+                    if (isset($contents['filelist']['install']) && isset($contents['filelist']['install'][0])) {
+                        usort($arr[$reltag][$i]['filelist']['install'], $sortInstallAs);
+                    }
+                    if (isset($contents['filelist']['ignore']) && isset($contents['filelist']['ignore'][0])) {
+                        usort($arr[$reltag][$i]['filelist']['ignore'], $sortInstallAs);
                     }
                 }
             }
