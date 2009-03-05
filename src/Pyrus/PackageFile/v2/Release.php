@@ -96,7 +96,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                 $info = array();
             } else {
                 $info = $this->info['configureoption'];
-                if (!is_array($info)) {
+                if (!is_array($info) || !isset($info[0])) {
                     $info = array($info);
                 }
             }

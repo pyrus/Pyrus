@@ -1,0 +1,66 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$reg->type = 'extsrc';
+
+$test->assertEquals(false, isset($reg->release[0]->configureoption), 'isset before');
+$test->assertEquals(false, isset($reg->release[0]->configureoption['hi']), 'isset hi before');
+$test->assertEquals(false, isset($reg->release[0]->configureoption['hi']->prompt), 'isset hi->prompt before');
+$test->assertEquals(false, isset($reg->release[0]->configureoption['hi']->default), 'isset hi->default before');
+$test->assertEquals(null, $reg->release[0]->configureoption['hi']->prompt, 'hi->prompt before');
+$test->assertEquals(null, $reg->release[0]->configureoption['hi']->default, 'hi->default before');
+$test->assertEquals(0, count($reg->release[0]->configureoption), 'count 0');
+
+$reg->release[0]->configureoption['hi']->prompt('choose me! choose me!')->default('foo');
+
+$test->assertEquals(true, isset($reg->release[0]->configureoption), 'isset after');
+$test->assertEquals(true, isset($reg->release[0]->configureoption['hi']), 'isset hi after');
+$test->assertEquals(true, isset($reg->release[0]->configureoption['hi']->prompt), 'isset hi->prompt after');
+$test->assertEquals(true, isset($reg->release[0]->configureoption['hi']->default), 'isset hi->default after');
+$test->assertEquals('choose me! choose me!', $reg->release[0]->configureoption['hi']->prompt, 'hi->prompt after');
+$test->assertEquals('foo', $reg->release[0]->configureoption['hi']->default, 'hi->default after');
+$test->assertEquals(1, count($reg->release[0]->configureoption), 'count 1');
+
+unset($reg->release[0]->configureoption['hi']->prompt);
+
+$test->assertEquals(null, $reg->release[0]->configureoption['hi']->prompt, 'hi->prompt after unset');
+
+$reg->release[0]->configureoption['hi']->default(null);
+
+$test->assertEquals(null, $reg->release[0]->configureoption['hi']->default, 'hi->default after = null');
+
+$reg->release[0]->configureoption['hi']->prompt = 'another prompt';
+
+$test->assertEquals('another prompt', $reg->release[0]->configureoption['hi']->prompt, 'hi->prompt another');
+
+$test->assertEquals(false, isset($reg->release[0]->configureoption['notset']), 'notset before');
+
+unset($reg->release[0]->configureoption['notset']);
+
+$test->assertEquals(false, isset($reg->release[0]->configureoption['notset']), 'notset after');
+
+$reg->release[0]->configureoption['hi2']->prompt('choose me! choose me!')->default('foo');
+
+$stuff = array();
+foreach ($reg->release[0]->configureoption as $key => $option) {
+    $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption', $option, 'right class');
+    $stuff[$key] = $option->getInfo();
+}
+$test->assertEquals(array (
+  'hi' => 
+  array (
+    'name' => 'hi',
+    'prompt' => 'another prompt',
+    'default' => NULL,
+  ),
+  'hi2' => 
+  array (
+    'name' => 'hi2',
+    'default' => 'foo',
+    'prompt' => 'choose me! choose me!',
+  ),
+), $stuff, 'info stuff');
+
+unset($reg->release[0]->configureoption['hi']);
+
+$test->assertEquals(false, isset($reg->release[0]->configureoption['hi']), 'after hi unset');
