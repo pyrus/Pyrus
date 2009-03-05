@@ -78,13 +78,13 @@ class PEAR2_Pyrus_PackageFile_v2_Release_BinaryPackage implements ArrayAccess, I
         if (!isset($this->info[$var])) {
             return null;
         }
-        return $this->info[$var];
+        return $var;
     }
 
     function offsetSet($var, $value)
     {
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_PackageFile_Release_Exception('Can only set binarypackage to string');
+            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Can only set binarypackage to string');
         }
         $this->info[$value] = 1;
         $this->save();

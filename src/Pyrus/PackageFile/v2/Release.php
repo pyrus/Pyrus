@@ -78,6 +78,14 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         }
     }
 
+    function __isset($var)
+    {
+        if (!isset($this->index)) {
+            return false;
+        }
+        return isset($this->info[$var]);
+    }
+
     function __get($var)
     {
         if (!isset($this->index)) {
@@ -344,7 +352,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
     /**
      * Saves results to the parent packagefile object
      */
-    protected function save()
+    function save()
     {
         if (isset($this->index)) {
             $this->_parent->setReleaseInfo($this->index, $this->info);
