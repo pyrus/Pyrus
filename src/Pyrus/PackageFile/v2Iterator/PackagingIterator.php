@@ -26,7 +26,7 @@
 class PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator extends ArrayIterator
 {
     static private $_parent;
-    static function setParent(PEAR2_Pyrus_PackageFile_v2 $parent)
+    static function setParent(PEAR2_Pyrus_IPackageFile $parent)
     {
         self::$_parent = $parent;
     }

@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2
+class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
 {
     public $rootAttributes = array(
                                  'version' => '2.1',
@@ -549,10 +549,9 @@ class PEAR2_Pyrus_PackageFile_v2
      * version tag in a package or subpackage dependency on the package
      * represented by $pf, as no check is done to see whether $this
      * depends on $pf
-     * @param PEAR2_Pyrus_Package_Base|PEAR2_Pyrus_PackageFile_v2
      * @return boolean
      */
-    function isCompatible($pf)
+    function isCompatible(PEAR2_Pyrus_IPackageFile $pf)
     {
         if (!isset($this->packageInfo['compatible'])) {
             return false;
@@ -586,7 +585,7 @@ class PEAR2_Pyrus_PackageFile_v2
         return false;
     }
 
-    function isSubpackageOf(PEAR2_Pyrus_PackageFile_v2 $p)
+    function isSubpackageOf(PEAR2_Pyrus_IPackageFile $p)
     {
         return $p->isSubpackage($this);
     }
@@ -597,7 +596,7 @@ class PEAR2_Pyrus_PackageFile_v2
      * No version checking is done, only name verification.
      * @return bool
      */
-    function isSubpackage(PEAR2_Pyrus_PackageFile_v2 $p)
+    function isSubpackage(PEAR2_Pyrus_IPackageFile $p)
     {
         foreach (array('required', 'optional', 'group') as $type) {
             if ($type === 'group') {

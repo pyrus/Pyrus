@@ -85,11 +85,13 @@ class PEAR2_Pyrus_Installer
     static function begin()
     {
         if (!self::$inTransaction) {
-            self::$transact = new PEAR2_Pyrus_FileTransactions;
-            self::$installedas = new PEAR2_Pyrus_FileTransactions_Installedas;
-            self::$transact->registerTransaction('installedas', self::$installedas);
-            self::$transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
-            self::$transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
+            if (!isset(self::$transact)) {
+                self::$transact = new PEAR2_Pyrus_FileTransactions;
+                self::$installedas = new PEAR2_Pyrus_FileTransactions_Installedas;
+                self::$transact->registerTransaction('installedas', self::$installedas);
+                self::$transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
+                self::$transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
+            }
             self::$installPackages = array();
             self::$installedPackages = array();
             self::$removedPackages = array();
@@ -297,6 +299,8 @@ class PEAR2_Pyrus_Installer
             }
             self::$installPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
+            // success
+            self::$inTransaction = false;
         } catch (Exception $e) {
             self::rollback();
             throw $e;

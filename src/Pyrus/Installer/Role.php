@@ -50,7 +50,7 @@ class PEAR2_Pyrus_Installer_Role
     }
 
     /**
-     * @param PEAR2_Pyrus_PackageFile_v2
+     * @param PEAR2_Pyrus_IPackageFile
      * @param string role name
      * @param PEAR2_Pyrus_Config
      * @return PEAR2_Pyrus_Installer_Role_Common

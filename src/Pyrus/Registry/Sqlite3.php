@@ -105,9 +105,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     /**
      * Add an installed package to the registry
      *
-     * @param PEAR2_Pyrus_PackageFile_v2 $info
+     * @param PEAR2_Pyrus_IPackageFile $info
      */
-    function install(PEAR2_Pyrus_PackageFile_v2 $info)
+    function install(PEAR2_Pyrus_IPackageFile $info)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
@@ -174,7 +174,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->bindParam(':lastinstalledv',    $o, SQLITE3_NULL);
         $v = '2.0.0';
         $stmt->bindParam(':lastinstalledp',    $v);
-        $stmt->bindParam(':lastinstalltime',   PEAR2_Pyrus_Config::configSnapshot());
+        $configsnapshot = PEAR2_Pyrus_Config::configSnapshot();
+        $stmt->bindParam(':lastinstalltime',   $configsnapshot);
 
         if (!$stmt->execute()) {
             static::$databases[$this->_path]->exec('ROLLBACK');
@@ -330,6 +331,52 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->close();
 
         $sql = '
+            INSERT INTO php_dependencies
+              (packages_name, packages_channel, min, max)
+            VALUES
+                (:name, :channel, :min, :max)';
+
+        $min = $info->dependencies['required']->php->min;
+        $max = $info->dependencies['required']->php->max;
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+
+        $stmt->bindParam(':name', $n);
+        $stmt->bindParam(':channel', $c);
+        $stmt->bindParam(':min', $min);
+        if ($max === null) {
+            $stmt->bindParam(':max', $max, SQLITE3_NULL);
+        } else {
+            $stmt->bindParam(':max', $max);
+        }
+        if (!$stmt->execute()) {
+            static::$databases[$this->_path]->exec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                $info->channel . '/' . $info->name . ' could not be installed in registry');
+        }
+        $stmt->close();
+
+        $sql = '
+            INSERT INTO php_dependencies_exclude
+              (packages_name, packages_channel, exclude)
+            VALUES
+                (:name, :channel, :exclude)';
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+
+        if ($info->dependencies['required']->php->exclude) {
+            foreach ($info->dependencies['required']->php->exclude as $exclude) {
+                $stmt->bindParam(':name', $n);
+                $stmt->bindParam(':channel', $c);
+                $stmt->bindParam(':exclude', $exclude);
+                if (!$stmt->execute()) {
+                    static::$databases[$this->_path]->exec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
+            }
+        }
+        $stmt->close();
+
+        $sql = '
             INSERT INTO package_dependencies
               (required, packages_name, packages_channel, deppackage,
                depchannel, conflicts, min, max, recommended)
@@ -456,7 +503,17 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
 
-        if ($field == 'date') {
+        if ($field == 'api-state') {
+            $field = 'apistability';
+        } elseif ($field == 'state') {
+            $field = 'stability';
+        } elseif ($field == 'release-version') {
+            $field = 'version';
+        } elseif ($field == 'api-version') {
+            $field = 'apiversion';
+        } elseif ($field == 'notes') {
+            $field = 'releasenotes';
+        } elseif ($field == 'date') {
             $field = 'releasedate';
         } elseif ($field == 'time') {
             $field = 'releasetime';
@@ -641,9 +698,47 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $stmt->close();
 
-        //FIXME these two are dummy values not based on anything
-        $ret->dependencies['required']->php->min(phpversion());
-        $ret->dependencies['required']->pearinstaller->min('2.0.0');
+        $sql = 'SELECT * FROM php_dependencies
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray()) {
+            $ret->dependencies['required']->php->min = $dep['min'];
+            $ret->dependencies['required']->php->max = $dep['max'];
+        }
+
+        $sql = 'SELECT * FROM php_dependencies_exclude
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray()) {
+            $ret->dependencies['required']->php->exclude($dep['exclude']);
+        }
+
+        $sql = 'SELECT * FROM pearinstaller_dependencies
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray()) {
+            $ret->dependencies['required']->pearinstaller->min = $dep['min'];
+            $ret->dependencies['required']->pearinstaller->max = $dep['max'];
+        }
+
+        $sql = 'SELECT * FROM pearinstaller_dependencies_exclude
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray()) {
+            $ret->dependencies['required']->php->exclude($dep['exclude']);
+        }
 
         $sql = 'SELECT * FROM package_dependencies
                 WHERE

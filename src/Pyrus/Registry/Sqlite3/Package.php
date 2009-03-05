@@ -23,49 +23,114 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Sqlite3_Package extends PEAR2_Pyrus_Registry_Sqlite3 implements ArrayAccess
+class PEAR2_Pyrus_Registry_Sqlite3_Package extends PEAR2_Pyrus_PackageFile_v2 implements ArrayAccess, PEAR2_Pyrus_IPackageFile
 {
-    private $_packagename;
+
+    /**
+     * Mapping of __get variables to method handlers
+     * @var array
+     */
+    protected $getMap = array(
+        'bundledpackage' => 'getBundledPackage',
+        'packagefile' => 'getPackageFile',
+        'filepath' => 'getFilePath',
+        'contents' => 'getContents',
+        'installcontents' => 'getInstallContents',
+        'packagingcontents' => 'getPackagingContents',
+        'installGroup' => 'getInstallGroup',
+        'channel' => 'getChannel',
+        'state' => 'getState',
+        'api-version' => 'basicVar',
+        'release-version' => 'basicVar',
+        'api-state' => 'basicVar',
+        'allmaintainers' => 'getAllMaintainers',
+        'releases' => 'getReleases',
+        'sourcepackage' => 'getSourcePackage',
+        'license' => 'getLicense',
+        'files' => 'getFiles',
+        'maintainer' => 'getMaintainer',
+        'rawdeps' => 'getRawDeps',
+        'dependencies' => 'getDependencies',
+        'release' => 'getRelease',
+        'compatible' => 'getCompatible',
+        'schemaOK' => 'getSchemaOK',
+        'version' => 'tag',
+        'stability' => 'tag',
+        'providesextension' => 'tag',
+        'usesrole' => 'getUsesRoleTask',
+        'usestask' => 'getUsesRoleTask',
+        'srcpackage' => 'tag',
+        'srcchannel' => 'tag',
+        'srcuri' => 'tag',
+        'name' => 'basicVar',
+        'summary' => 'basicVar',
+        'description' => 'basicVar',
+        'date' => 'basicVar',
+        'time' => 'basicVar',
+        'notes' => 'basicVar',
+    );
+
+    protected $packagename;
+    protected $package;
+    protected $channel;
+    protected $sqlite3;
+    protected $reg;
+
     function __construct(PEAR2_Pyrus_Registry_Sqlite3 $cloner)
     {
-        parent::__construct($cloner->getDatabase());
+        $this->reg = $cloner;
+        $this->sqlite3 = $cloner->getDatabase();
     }
 
     function offsetExists($offset)
     {
         $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
-        return $this->exists($info['package'], $info['channel']);
+        return $this->reg->exists($info['package'], $info['channel']);
     }
 
     function offsetGet($offset)
     {
-        $this->_packagename = $offset;
+        $this->packagename = $offset;
+        $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($this->packagename);
+        $this->package = $info['package'];
+        $this->channel = $info['channel'];
         $ret = clone $this;
-        unset($this->_packagename);
+        unset($this->packagename);
+        unset($this->package);
+        unset($this->channel);
         return $ret;
     }
 
     function offsetSet($offset, $value)
     {
         if ($offset == 'install') {
-            $this->install($value);
+            $this->reg->install($value);
         }
     }
 
     function offsetUnset($offset)
     {
         $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
-        $this->uninstall($info['package'], $info['channel']);
+        $this->reg->uninstall($info['package'], $info['channel']);
     }
 
     function __get($var)
     {
-        if (!isset($this->_packagename)) {
+        if (!isset($this->packagename)) {
             throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
         }
-
-        $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($this->_packagename);
-        return $this->info($info['package'], $info['channel'], $var);
+        return parent::__get($var);
     }
+
+    function getChannel($var)
+    {
+        return $this->channel;
+    }
+
+    function basicVar($var)
+    {
+        return $this->reg->info($this->package, $this->channel, $var);
+    }
+
 }

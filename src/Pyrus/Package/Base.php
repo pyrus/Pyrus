@@ -189,6 +189,16 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         return $this->packagefile->info->$var;
     }
 
+    function __set($var, $value)
+    {
+        return $this->packagefile->info->$var = $value;
+    }
+
+    function toArray($forpackaging = false)
+    {
+        return $this->packagefile->info->toArray($forpackaging);
+    }
+
     function __toString()
     {
         return $this->packagefile->__toString();

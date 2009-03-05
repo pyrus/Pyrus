@@ -32,7 +32,7 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         $this->_path = $path;
     }
 
-    private function _nameRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
+    private function _nameRegistryPath(PEAR2_Pyrus_IPackageFile $info = null,
                                      $channel = null, $package = null, $version = null)
     {
         $channel = $info !== null ? $info->channel : $channel;
@@ -56,9 +56,9 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
     /**
      * Create the .registry/package.reg or file
      *
-     * @param PEAR2_Pyrus_PackageFile_v2 $pf
+     * @param PEAR2_Pyrus_IPackageFile $pf
      */
-    function install(PEAR2_Pyrus_PackageFile_v2 $info)
+    function install(PEAR2_Pyrus_IPackageFile $info)
     {
         // remove previously installed version for upgrade
         $this->uninstall($info->name, $info->channel);

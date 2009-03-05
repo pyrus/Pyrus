@@ -61,7 +61,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      * @param array $atts
      * @return string
      */
-    function getPackagingLocation(PEAR2_Pyrus_PackageFile_v2 $pkg, $atts)
+    function getPackagingLocation(PEAR2_Pyrus_IPackageFile $pkg, $atts)
     {
         $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));

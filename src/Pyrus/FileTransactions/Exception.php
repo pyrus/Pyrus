@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_IPackage
+ * PEAR2_Pyrus_FileTransactions_Exception
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Interface for packages
+ * Exception class for Packages
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -23,11 +23,4 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_IPackage extends ArrayAccess, Iterator, PEAR2_Pyrus_IPackageFile
-{
-    function getFileContents($file, $asstream = false);
-    function getFilePath($file);
-    function getLocation();
-    function getFrom();
-    function __call($func, $args);
-}
+class PEAR2_Pyrus_FileTransactions_Exception extends PEAR2_Exception {}

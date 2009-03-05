@@ -30,7 +30,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
+class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess, PEAR2_Pyrus_IPackageFile
 {
     /**
      * The actual package representation
@@ -69,6 +69,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess
     {
         // delegate to the internal object
         return call_user_func_array(array($this->internal, $func), $args);
+    }
+
+    function toArray($forpackaging = false)
+    {
+        return $this->internal->toArray($forpackaging);
     }
 
     function getFileContents($file, $asstream = false)

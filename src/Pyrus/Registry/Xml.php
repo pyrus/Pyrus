@@ -35,7 +35,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         $this->readonly = $readonly;
     }
 
-    private function _nameRegistryPath(PEAR2_Pyrus_PackageFile_v2 $info = null,
+    private function _nameRegistryPath(PEAR2_Pyrus_IPackageFile $info = null,
                                      $channel = null, $package = null, $version = null)
     {
         $channel = $info !== null ? $info->channel : $channel;
@@ -56,9 +56,9 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
     /**
      * Create the Channel!PackageName-Version-package.xml file
      *
-     * @param PEAR2_Pyrus_PackageFile_v2 $pf
+     * @param PEAR2_Pyrus_IPackageFile $pf
      */
-    function install(PEAR2_Pyrus_PackageFile_v2 $info)
+    function install(PEAR2_Pyrus_IPackageFile $info)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
