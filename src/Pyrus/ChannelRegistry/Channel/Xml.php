@@ -86,10 +86,10 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Xml extends PEAR2_Pyrus_Channel implem
         $this->_parent->update($this);
     }
 
-    public function setAlias($alias)
+    public function setAlias($alias, $local = false)
     {
         @unlink($this->_parent->getAliasFile($this->getAlias()));
-        parent::setAlias($alias);
+        parent::setAlias($alias, $local);
         file_put_contents($this->getAliasFile($alias), $this->getName());
     }
 }
