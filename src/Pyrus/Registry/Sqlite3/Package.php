@@ -94,6 +94,8 @@ class PEAR2_Pyrus_Registry_Sqlite3_Package extends PEAR2_Pyrus_PackageFile_v2 im
         $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($this->packagename);
         $this->package = $info['package'];
         $this->channel = $info['channel'];
+        $intermediate = $this->reg->toPackageFile($info['package'], $info['channel']);
+        parent::fromArray($intermediate->toArray());
         $ret = clone $this;
         unset($this->packagename);
         unset($this->package);
@@ -123,9 +125,19 @@ class PEAR2_Pyrus_Registry_Sqlite3_Package extends PEAR2_Pyrus_PackageFile_v2 im
         return parent::__get($var);
     }
 
-    function getChannel($var)
+    function getChannel()
     {
         return $this->channel;
+    }
+
+    function getSchemaOK()
+    {
+        return true;
+    }
+
+    function getDependencies()
+    {
+        return parent::getDependencies();
     }
 
     function basicVar($var)

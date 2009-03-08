@@ -94,7 +94,13 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
-        $a->create(static::$databases[$path]);
+        try {
+            $a->create(static::$databases[$path]);
+        } catch (Exception $e) {
+            unset(static::$databases[$path]);
+            $a = get_class($e);
+            throw new $a('Database initialization failed', 0, $e);
+        }
     }
 
     function getDatabase()
@@ -254,12 +260,82 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->close();
 
         $sql = '
+            INSERT INTO extension_dependencies
+                (required, packages_name, packages_channel, extension,
+                 conflicts, min, max, recommended)
+            VALUES
+                (:required, :name, :channel, :extension,
+                 :conflicts, :min, :max, :recommended)';
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $first = true;
+        foreach (array('required', 'optional') as $required) {
+            foreach ($info->dependencies[$required]->extension as $d) {
+                // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                $dmin         = $d->min;
+                $dmax         = $d->max;
+                $drecommended = $d->recommended;
+                $ext          = $d->name;
+
+                if (!$first) {
+                    $stmt->clear();
+                    $first = false;
+                }
+                $req = ($required == 'required' ? 1 : 0);
+                $stmt->bindParam(':required', $req, SQLITE3_INTEGER);
+                $stmt->bindParam(':name', $n);
+                $stmt->bindParam(':channel', $c);
+                $stmt->bindParam(':extension', $ext);
+                $con = $d->conflicts;
+                $stmt->bindParam(':conflicts', $con, SQLITE3_INTEGER);
+                $stmt->bindParam(':min', $dmin);
+                $stmt->bindParam(':max', $dmax);
+                $stmt->bindParam(':recommended', $drecommended);
+
+                if (!$stmt->execute()) {
+                    static::$databases[$this->_path]->exec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
+
+                if (isset($d->exclude)) {
+                    $sql = '
+                        INSERT INTO extension_dependencies_exclude
+                         (required, packages_name, packages_channel,
+                          extension, exclude, conflicts)
+                        VALUES(:required, :name, :channel, :extension,
+                               :exclude, :conflicts)';
+
+                    $stmt1 = static::$databases[$this->_path]->prepare($sql);
+                    foreach ($d->exclude as $exclude) {
+                        $stmt1->clear();
+                        $req = ($required == 'required' ? 1 : 0);
+                        $stmt1->bindParam(':required', $req, SQLITE3_INTEGER);
+                        $stmt1->bindParam(':name', $n);
+                        $stmt1->bindParam(':channel', $c);
+                        $stmt1->bindParam(':extension', $ext);
+                        $stmt1->bindParam(':exclude', $exclude);
+                        $con = $d->conflicts;
+                        $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
+
+                        if (!$stmt1->execute()) {
+                            static::$databases[$this->_path]->exec('ROLLBACK');
+                            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                                $info->channel . '/' . $info->name . ' could not be installed in registry');
+                        }
+                    }
+                    $stmt1->close();
+                }
+            }
+        }
+        $stmt->close();
+
+        $sql = '
             INSERT INTO package_dependencies
                 (required, packages_name, packages_channel, deppackage,
-                 depchannel, conflicts, min, max, recommended)
+                 depchannel, conflicts, min, max, recommended, is_subpackage, providesextension)
             VALUES
                 (:required, :name, :channel, :dep_package, :dep_channel,
-                 :conflicts, :min, :max, :recommended)';
+                 :conflicts, :min, :max, :recommended, :sub, :ext)';
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
         $first = true;
@@ -272,6 +348,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $dmax         = $d->max;
                     $drecommended = $d->recommended;
                     $dname        = $d->name;
+                    $sub          = $package == 'subpackage';
+                    $ext          = $d->providesextension;
 
                     if (!$first) {
                         $stmt->clear();
@@ -288,6 +366,12 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
                     $stmt->bindParam(':recommended', $drecommended);
+                    $stmt->bindParam(':sub', $sub);
+                    if ($ext) {
+                        $stmt->bindParam(':ext', $ext);
+                    } else {
+                        $stmt->bindParam(':ext', $ext, SQLITE3_NULL);
+                    }
 
                     if (!$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
@@ -300,9 +384,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         $sql = '
                             INSERT INTO package_dependencies_exclude
                              (required, packages_name, packages_channel,
-                              deppackage, depchannel, exclude, conflicts)
+                              deppackage, depchannel, exclude, conflicts, is_subpackage)
                             VALUES(:required, :name, :channel, :dep_package,
-                                :dep_channel, :exclude, :conflicts)';
+                                :dep_channel, :exclude, :conflicts, :sub)';
 
                         $stmt1 = static::$databases[$this->_path]->prepare($sql);
                         foreach ($d->exclude as $exclude) {
@@ -314,6 +398,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                             $stmt1->bindParam(':dep_package', $dname);
                             $stmt1->bindParam(':dep_channel', $dchannel);
                             $stmt1->bindParam(':exclude', $exclude);
+                            $stmt1->bindParam(':sub', $sub);
                             $con = $d->conflicts;
                             $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
@@ -379,12 +464,14 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $sql = '
             INSERT INTO package_dependencies
               (required, packages_name, packages_channel, deppackage,
-               depchannel, conflicts, min, max, recommended)
+               depchannel, conflicts, min, max, recommended, is_subpackage, groupname)
             VALUES
-                (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max, :recommended)';
+                (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max, :recommended, :sub,
+                 :group)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
         foreach ($info->dependencies['group'] as $group) {
+            $gn = $group->name;
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
                     // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
@@ -393,6 +480,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $dmax         = $d->max;
                     $dname        = $d->name;
                     $drecommended = $d->recommended;
+                    $sub          = $package == 'subpackage';
 
                     $stmt->clear();
                     $stmt->bindParam(':name', $n);
@@ -404,6 +492,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $stmt->bindParam(':min', $dmin);
                     $stmt->bindParam(':max', $dmax);
                     $stmt->bindParam(':recommended', $drecommended);
+                    $stmt->bindParam(':sub', $sub);
+                    $stmt->bindParam(':group', $gn);
 
                     if (!$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
@@ -416,9 +506,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         $sql = '
                             INSERT INTO package_dependencies_exclude
                              (required, packages_name, packages_channel,
-                              deppackage, depchannel, exclude, conflicts)
+                              deppackage, depchannel, exclude, conflicts, is_subpackage, groupname)
                             VALUES(0, :name, :channel, :dep_package,
-                                :dep_channel, :exclude, :conflicts)';
+                                :dep_channel, :exclude, :conflicts, :sub, :group)';
 
                         $stmt1 = static::$databases[$this->_path]->prepare($sql);
                         foreach ($d->exclude as $exclude) {
@@ -430,6 +520,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                             $stmt1->bindParam(':dep_package', $dname);
                             $stmt1->bindParam(':dep_channel', $dchannel);
                             $stmt1->bindParam(':exclude',     $exclude);
+                            $stmt1->bindParam(':sub', $sub);
+                            $stmt1->bindParam(':group', $gn);
                             $con = $d->conflicts;
                             $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
@@ -649,7 +741,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 ' for package ' . $channel . '/' . $package . ', no maintainers registered');
         }
 
-        foreach ($result->fetchArray(SQLITE3_ASSOC) as $maintainer) {
+        while ($maintainer = $result->fetchArray(SQLITE3_ASSOC)) {
             $ret->maintainer[$maintainer['user']]
                 ->name($maintainer['name'])
                 ->role($maintainer['role'])
@@ -664,17 +756,17 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $ret->time = $this->info($package, $channel, 'time');
         }
 
-        $ret->{'release-version'}  = $this->info($package, $channel, 'version');
-        $ret->{'api-version'}      = $this->info($package, $channel, 'apiversion');
+        $ret->version['release']   = $this->info($package, $channel, 'version');
+        $ret->version['api']       = $this->info($package, $channel, 'apiversion');
         $ret->stability['release'] = $this->info($package, $channel, 'stability');
         $ret->stability['api']     = $this->info($package, $channel, 'apistability');
         $uri     = $this->info($package, $channel, 'licenseuri');
         $path    = $this->info($package, $channel, 'licensepath');
         $license = $this->info($package, $channel, 'license');
         if ($uri) {
-            $ret->license = array('attribs' => array('uri' => $uri), '_content' => $license);
+            $ret->rawlicense = array('attribs' => array('uri' => $uri), '_content' => $license);
         } elseif ($path) {
-            $ret->license = array('attribs' => array('path' => $path), '_content' => $license);
+            $ret->rawlicense = array('attribs' => array('path' => $path), '_content' => $license);
         } else {
             $ret->license = $license;
         }
@@ -697,7 +789,15 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $ret->files[$file['packagepath']] = array('attribs' => array('role' => $file['role']));
         }
         $stmt->close();
+        $this->fetchDeps($ret);
+        $ret->release = null;
+        return $ret;
+    }
 
+    function fetchDeps(PEAR2_Pyrus_IPackageFile $ret)
+    {
+        $package = $ret->name;
+        $channel = $ret->channel;
         $sql = 'SELECT * FROM php_dependencies
                 WHERE
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
@@ -745,22 +845,21 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
                 //ORDER BY required, deppackage, depchannel, conflicts';
-        $a = static::$databases[$this->_path]->query($sql);
+        $package_deps = static::$databases[$this->_path]->query($sql);
 
         $sql = 'SELECT * FROM package_dependencies_exclude
                 WHERE
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
                 //ORDER BY required, deppackage, depchannel, conflicts, exclude';
-        $b = static::$databases[$this->_path]->query($sql);
-        if (!$a) {
+        $excludes = static::$databases[$this->_path]->query($sql);
+        if (!$package_deps) {
             return $ret;
         }
 
-        //FIXME see about refactoring these two into a function or such
-        $odeps = $rdeps = array();
+        $odeps = $rdeps = array('package' => array(), 'subpackage' => array());
 
-        while ($dep = $a->fetchArray()) {
+        while ($dep = $package_deps->fetchArray(SQLITE3_ASSOC)) {
             
             $deps = $dep['required'] ? 'rdeps' : 'odeps';
             if (isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
@@ -780,16 +879,122 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             if ($dep['recommended']) {
                 $d['recommended'] = $dep['recommended'];
             }
-            ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
+            if ($dep['providesextension']) {
+                $d['providesextension'] = $dep['providesextension'];
+            }
+            $package = $dep['is_subpackage'] ? 'subpackage' : 'package';
+            ${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
         }
 
-        while ($dep = $b->fetchArray()) {
+        while ($dep = $excludes->fetchArray(SQLITE3_ASSOC)) {
             $deps = $dep['required'] ? 'rdeps' : 'odeps';
-            if (!isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
+            $package = $dep['is_subpackage'] ? 'subpackage' : 'package';
+            if (!isset(${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']])) {
                 continue;
             }
 
-            $d = ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']];
+            $d = ${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']];
+            if (isset($d['conflicts']) && !$dep['conflicts']) {
+                continue;
+            } elseif (!isset($d['conflicts']) && $dep['conflicts']) {
+                continue;
+            }
+            $d['subpackage'] = $dep['is_subpackage'];
+
+            if ($dep['exclude']) {
+                if (!isset($d['exclude'])) {
+                    $d['exclude'] = array();
+                }
+                $d['exclude'][] = $dep['exclude'];
+            }
+            ${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
+        }
+
+        foreach ($rdeps as $package => $stuff) {
+            foreach ($stuff as $dep => $info) {
+                foreach (array('min','max','recommended','conflicts') as $dtype) {
+                    if (isset($info[$dtype])) {
+                        $ret->dependencies['required']->{$package}[$dep]->$dtype($info[$dtype]);
+                    }
+                }
+                if (isset($info['exclude'])) {
+                    foreach ($info['exclude'] as $version) {
+                        $ret->dependencies['required']->{$package}[$dep]->exclude($version);
+                    }
+                }
+                if (isset($info['providesextension'])) {
+                    $ret->dependencies['required']->{$package}[$dep]->providesextension($info['providesextension']);
+                }
+            }
+        }
+
+        foreach ($odeps as $package => $stuff) {
+            foreach ($stuff as $dep => $info) {
+                foreach (array('min','max','exclude','conflicts','providesextension') as $dtype) {
+                    if (isset($info[$dtype])) {
+                        $ret->dependencies['optional']->{$package}[$dep]->$dtype($info[$dtype]);
+                    }
+                }
+                if (isset($info['exclude'])) {
+                    foreach ($info['exclude'] as $version) {
+                        $ret->dependencies['optional']->{$package}[$dep]->exclude($version);
+                    }
+                }
+            }
+        }
+        return $this->fetchExtensionDeps($ret);
+    }
+
+    function fetchExtensionDeps(PEAR2_Pyrus_IPackageFile $ret)
+    {
+        $package = $ret->name;
+        $channel = $ret->channel;
+        $sql = 'SELECT * FROM extension_dependencies
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $extension_deps = static::$databases[$this->_path]->query($sql);
+
+        $sql = 'SELECT * FROM extension_dependencies_exclude
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $excludes = static::$databases[$this->_path]->query($sql);
+        if (!$extension_deps) {
+            return $ret;
+        }
+        $odeps = $rdeps = array();
+
+        while ($dep = $extension_deps->fetchArray(SQLITE3_ASSOC)) {
+
+            $deps = $dep['required'] ? 'rdeps' : 'odeps';
+            if (isset(${$deps}[$dep['extension']])) {
+                $d = ${$deps}[$dep['extension']];
+            } else {
+                $d = array();
+            }
+            if ($dep['min']) {
+                $d['min'] = $dep['min'];
+            }
+            if ($dep['max']) {
+                $d['max'] = $dep['max'];
+            }
+            if ($dep['conflicts']) {
+                $d['conflicts'] = '';
+            }
+            if ($dep['recommended']) {
+                $d['recommended'] = $dep['recommended'];
+            }
+            ${$deps}[$dep['extension']] = $d;
+        }
+
+        while ($dep = $excludes->fetchArray()) {
+            $deps = $dep['required'] ? 'rdeps' : 'odeps';
+            if (!isset(${$deps}[$dep['extension']])) {
+                continue;
+            }
+
+            $d = ${$deps}[$dep['extension']];
             if (isset($d['conflicts']) && !$dep['conflicts']) {
                 continue;
             } elseif (!isset($d['conflicts']) && $dep['conflicts']) {
@@ -802,13 +1007,18 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 }
                 $d['exclude'][] = $dep['exclude'];
             }
-            ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
+            ${$deps}[$dep['extension']] = $d;
         }
 
         foreach ($rdeps as $dep => $info) {
             foreach (array('min','max','recommended','conflicts') as $dtype) {
                 if (isset($info[$dtype])) {
-                    $ret->dependencies['required']->package[$dep]->$dtype($info[$dtype]);
+                    $ret->dependencies['required']->extension[$dep]->$dtype($info[$dtype]);
+                }
+            }
+            if (isset($info['exclude'])) {
+                foreach ($info['exclude'] as $version) {
+                    $ret->dependencies['required']->extension[$dep]->exclude($version);
                 }
             }
         }
@@ -816,12 +1026,15 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         foreach ($odeps as $dep => $info) {
             foreach (array('min','max','exclude','conflicts') as $dtype) {
                 if (isset($info[$dtype])) {
-                    $ret->dependencies['optional']->package[$dep]->$dtype($info[$dtype]);
+                    $ret->dependencies['optional']->extension[$dep]->$dtype($info[$dtype]);
+                }
+            }
+            if (isset($info['exclude'])) {
+                foreach ($info['exclude'] as $version) {
+                    $ret->dependencies['optional']->extension[$dep]->exclude($version);
                 }
             }
         }
-        
-        $ret->releases = '';
 
         return $ret;
     }
@@ -840,10 +1053,11 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     deppackage = :name AND depchannel = :name
                 ORDER BY packages_channel, packages_name';
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $stmt->bindParam(':name', $package->name, SQLITE3_TEXT);
+        $pn = $package->name;
+        $stmt->bindParam(':name', $pn, SQLITE3_TEXT);
         $result = $stmt->execute();
 
-        foreach ($result->fetchArray(SQLITE_ASSOC) as $res) {
+        while ($res = $result->fetchArray()) {
             try {
                 $ret[] = $this->get($res[0] . '/' . $res[1]);
             } catch (Exception $e) {

@@ -109,6 +109,32 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  PRIMARY KEY (packages_name, packages_channel, exclude)
      * );
      *
+     * CREATE TABLE extension_dependencies (
+     *  required BOOL NOT NULL,
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  extension TEXT(80) NOT NULL,
+     *  conflicts BOOL NOT NULL,
+     *  min TEXT(20),
+     *  max TEXT(20),
+     *  recommended TEXT(20),
+     *  groupname TEXT(80),
+     *  PRIMARY KEY (required, packages_name, packages_channel, extension,
+     *       required, groupname)
+     * );
+     *
+     * CREATE TABLE extension_dependencies_exclude (
+     *  required BOOL NOT NULL,
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  extension TEXT(80) NOT NULL,
+     *  conflicts BOOL NOT NULL,
+     *  exclude TEXT(20) NOT NULL,
+     *  groupname TEXT(80),
+     *  PRIMARY KEY (required, packages_name, packages_channel, extension, exclude,
+     *  required, groupname)
+     * );
+     * 
      * CREATE TABLE package_dependencies (
      *  required BOOL NOT NULL,
      *  packages_name TEXT(80) NOT NULL,
@@ -118,7 +144,11 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  conflicts BOOL NOT NULL,
      *  min TEXT(20),
      *  max TEXT(20),
-     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
+     *  is_subpackage BOOL NOT NULL,
+     *  groupname TEXT(80),
+     *  providesextension TEXT(80),
+     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, required,
+     *  is_subpackage, groupname)
      * );
      *
      * CREATE TABLE package_dependencies_exclude (
@@ -129,7 +159,10 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  depchannel TEXT(255) NOT NULL,
      *  conflicts BOOL NOT NULL,
      *  exclude TEXT(20) NOT NULL,
-     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, exclude)
+     *  is_subpackage BOOL NOT NULL,
+     *  groupname TEXT(80),
+     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, exclude,
+     *  required, is_subpackage, groupname)
      * );
      *
      * CREATE TABLE channels (
@@ -300,6 +333,46 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         }
 
         $query = '
+          CREATE TABLE extension_dependencies (
+           required BOOL NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           extension TEXT(80) NOT NULL,
+           conflicts BOOL NOT NULL,
+           min TEXT(20),
+           max TEXT(20),
+           recommended TEXT(20),
+           groupname TEXT(80),
+           PRIMARY KEY (required, packages_name, packages_channel, extension,
+                required, groupname)
+          );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
+          CREATE TABLE extension_dependencies_exclude (
+           required BOOL NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           extension TEXT(80) NOT NULL,
+           conflicts BOOL NOT NULL,
+           exclude TEXT(20) NOT NULL,
+           groupname TEXT(80),
+           PRIMARY KEY (required, packages_name, packages_channel, extension,
+                exclude, required, groupname)
+          );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
           CREATE TABLE package_dependencies (
            required BOOL NOT NULL,
            packages_name TEXT(80) NOT NULL,
@@ -310,7 +383,11 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            min TEXT(20),
            max TEXT(20),
            recommended TEXT(20),
-           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel)
+           is_subpackage BOOL NOT NULL,
+           groupname TEXT(80),
+           providesextension TEXT(80),
+           PRIMARY KEY (required, packages_name, packages_channel, deppackage,
+                depchannel, required, is_subpackage, groupname)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
@@ -339,7 +416,8 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
               packages_name TEXT(80) NOT NULL,
               packages_channel TEXT(255) NOT NULL,
               exclude TEXT(20) NOT NULL,
-              PRIMARY KEY (packages_name, packages_channel, exclude)
+              is_subpackage BOOL NOT NULL,
+              PRIMARY KEY (packages_name, packages_channel, exclude, is_subpackage)
              )';
         $worked = @$database->exec($query);
         if (!$worked) {
@@ -386,7 +464,10 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            depchannel TEXT(255) NOT NULL,
            conflicts BOOL NOT NULL,
            exclude TEXT(20) NOT NULL,
-           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, exclude)
+           is_subpackage BOOL NOT NULL,
+           groupname TEXT(80),
+           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel,
+                exclude, required, is_subpackage, groupname)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
