@@ -120,7 +120,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  recommended TEXT(20),
      *  groupname TEXT(80),
      *  PRIMARY KEY (required, packages_name, packages_channel, extension,
-     *       required, groupname)
+     *       groupname)
      * );
      *
      * CREATE TABLE extension_dependencies_exclude (
@@ -132,7 +132,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  exclude TEXT(20) NOT NULL,
      *  groupname TEXT(80),
      *  PRIMARY KEY (required, packages_name, packages_channel, extension, exclude,
-     *  required, groupname)
+     *      groupname)
      * );
      * 
      * CREATE TABLE package_dependencies (
@@ -147,8 +147,8 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  is_subpackage BOOL NOT NULL,
      *  groupname TEXT(80),
      *  providesextension TEXT(80),
-     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, required,
-     *  is_subpackage, groupname)
+     *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel,
+     *      is_subpackage, groupname)
      * );
      *
      * CREATE TABLE package_dependencies_exclude (
@@ -162,7 +162,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  is_subpackage BOOL NOT NULL,
      *  groupname TEXT(80),
      *  PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel, exclude,
-     *  required, is_subpackage, groupname)
+     *      is_subpackage, groupname)
      * );
      *
      * CREATE TABLE channels (
@@ -343,8 +343,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            max TEXT(20),
            recommended TEXT(20),
            groupname TEXT(80),
-           PRIMARY KEY (required, packages_name, packages_channel, extension,
-                required, groupname)
+           PRIMARY KEY (required, packages_name, packages_channel, extension, groupname)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
@@ -363,7 +362,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            exclude TEXT(20) NOT NULL,
            groupname TEXT(80),
            PRIMARY KEY (required, packages_name, packages_channel, extension,
-                exclude, required, groupname)
+                exclude, groupname)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
@@ -387,7 +386,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            groupname TEXT(80),
            providesextension TEXT(80),
            PRIMARY KEY (required, packages_name, packages_channel, deppackage,
-                depchannel, required, is_subpackage, groupname)
+                depchannel, is_subpackage, groupname)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
@@ -467,7 +466,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            is_subpackage BOOL NOT NULL,
            groupname TEXT(80),
            PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel,
-                exclude, required, is_subpackage, groupname)
+                exclude, is_subpackage, groupname)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
