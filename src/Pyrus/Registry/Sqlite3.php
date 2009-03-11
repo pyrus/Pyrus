@@ -464,10 +464,10 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $sql = '
             INSERT INTO package_dependencies
               (required, packages_name, packages_channel, deppackage,
-               depchannel, conflicts, min, max, recommended, is_subpackage, groupname)
+               depchannel, conflicts, min, max, recommended, is_subpackage, groupname, providesextension)
             VALUES
                 (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max, :recommended, :sub,
-                 :group)';
+                 :group, :ext)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
         foreach ($info->dependencies['group'] as $group) {
@@ -481,6 +481,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $dname        = $d->name;
                     $drecommended = $d->recommended;
                     $sub          = $package == 'subpackage';
+                    $ext          = $d->providesextension;
 
                     $stmt->clear();
                     $stmt->bindParam(':name', $n);
@@ -494,6 +495,11 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     $stmt->bindParam(':recommended', $drecommended);
                     $stmt->bindParam(':sub', $sub);
                     $stmt->bindParam(':group', $gn);
+                    if ($ext) {
+                        $stmt->bindParam(':ext', $ext);
+                    } else {
+                        $stmt->bindParam(':ext', $ext, SQLITE3_NULL);
+                    }
 
                     if (!$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
@@ -859,89 +865,49 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $odeps = $rdeps = array('package' => array(), 'subpackage' => array());
 
+        $provides = array();
         while ($dep = $package_deps->fetchArray(SQLITE3_ASSOC)) {
-            
-            $deps = $dep['required'] ? 'rdeps' : 'odeps';
-            if (isset(${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']])) {
-                $d = ${$deps}[$dep['depchannel'] . '/' . $dep['deppackage']];
-            } else {
-                $d = array();
-            }
-            if ($dep['min']) {
-                $d['min'] = $dep['min'];
-            }
-            if ($dep['max']) {
-                $d['max'] = $dep['max'];
-            }
-            if ($dep['conflicts']) {
-                $d['conflicts'] = '';
-            }
-            if ($dep['recommended']) {
-                $d['recommended'] = $dep['recommended'];
-            }
-            if ($dep['providesextension']) {
-                $d['providesextension'] = $dep['providesextension'];
-            }
+            $required = $dep['required'] ? 'required' : 'optional';
             $package = $dep['is_subpackage'] ? 'subpackage' : 'package';
-            ${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
+            if ($dep['groupname']) {
+                $group = $dep['groupname'];
+                $d = $ret->dependencies['group']->$group->{$package}[$dep['depchannel'] . '/' . $dep['deppackage']];
+            } else {
+                $d = $ret->dependencies[$required]->{$package}[$dep['depchannel'] . '/' . $dep['deppackage']];
+            }
+            $d->min($dep['min']);
+            $d->max($dep['max']);
+            if ($dep['conflicts']) {
+                $d->conflicts();
+            }
+            $d->recommended($dep['recommended']);
+            $provides[] = $dep;
         }
 
         while ($dep = $excludes->fetchArray(SQLITE3_ASSOC)) {
-            $deps = $dep['required'] ? 'rdeps' : 'odeps';
+            $required = $dep['required'] ? 'required' : 'optional';
             $package = $dep['is_subpackage'] ? 'subpackage' : 'package';
-            if (!isset(${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']])) {
-                continue;
+
+            if ($dep['groupname']) {
+                $group = $dep['groupname'];
+                $d = $ret->dependencies['group']->$group->{$package}[$dep['depchannel'] . '/' . $dep['deppackage']];
+            } else {
+                $d = $ret->dependencies[$required]->{$package}[$dep['depchannel'] . '/' . $dep['deppackage']];
             }
 
-            $d = ${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']];
-            if (isset($d['conflicts']) && !$dep['conflicts']) {
-                continue;
-            } elseif (!isset($d['conflicts']) && $dep['conflicts']) {
-                continue;
-            }
-            $d['subpackage'] = $dep['is_subpackage'];
-
-            if ($dep['exclude']) {
-                if (!isset($d['exclude'])) {
-                    $d['exclude'] = array();
-                }
-                $d['exclude'][] = $dep['exclude'];
-            }
-            ${$deps}[$package][$dep['depchannel'] . '/' . $dep['deppackage']] = $d;
+            $d->exclude($dep['exclude']);
         }
-
-        foreach ($rdeps as $package => $stuff) {
-            foreach ($stuff as $dep => $info) {
-                foreach (array('min','max','recommended','conflicts') as $dtype) {
-                    if (isset($info[$dtype])) {
-                        $ret->dependencies['required']->{$package}[$dep]->$dtype($info[$dtype]);
-                    }
-                }
-                if (isset($info['exclude'])) {
-                    foreach ($info['exclude'] as $version) {
-                        $ret->dependencies['required']->{$package}[$dep]->exclude($version);
-                    }
-                }
-                if (isset($info['providesextension'])) {
-                    $ret->dependencies['required']->{$package}[$dep]->providesextension($info['providesextension']);
-                }
+        foreach ($provides as $dep){
+            $required = $dep['required'] ? 'required' : 'optional';
+            $package = $dep['is_subpackage'] ? 'subpackage' : 'package';
+            if ($dep['groupname']) {
+                $group = $dep['groupname'];
+                $ret->dependencies['group']->$group->{$package}[$dep['depchannel'] . '/' . $dep['deppackage']]->providesextension($dep['providesextension']);
+            } else {
+                $ret->dependencies[$required]->{$package}[$dep['depchannel'] . '/' . $dep['deppackage']]->providesextension($dep['providesextension']);
             }
         }
 
-        foreach ($odeps as $package => $stuff) {
-            foreach ($stuff as $dep => $info) {
-                foreach (array('min','max','exclude','conflicts','providesextension') as $dtype) {
-                    if (isset($info[$dtype])) {
-                        $ret->dependencies['optional']->{$package}[$dep]->$dtype($info[$dtype]);
-                    }
-                }
-                if (isset($info['exclude'])) {
-                    foreach ($info['exclude'] as $version) {
-                        $ret->dependencies['optional']->{$package}[$dep]->exclude($version);
-                    }
-                }
-            }
-        }
         return $this->fetchExtensionDeps($ret);
     }
 
