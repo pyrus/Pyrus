@@ -461,6 +461,56 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $stmt->close();
 
+        if (isset($info->dependencies['required']->os)) {
+            $sql = '
+                INSERT INTO os_dependencies
+                  (packages_name, packages_channel, osname, conflicts)
+                VALUES
+                    (:name, :channel, :os, :conflicts)';
+            $stmt = static::$databases[$this->_path]->prepare($sql);
+
+            foreach ($info->dependencies['required']->os as $dep) {
+
+                $stmt->clear();
+                $stmt->bindParam(':name', $n);
+                $stmt->bindParam(':channel', $c);
+                $stmt->bindParam(':os', $dep['name']);
+                $conflicts = isset($dep['conflicts']);
+                $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
+                if (!$stmt->execute()) {
+                    static::$databases[$this->_path]->exec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
+            }
+            $stmt->close();
+        }
+
+        if (isset($info->dependencies['required']->arch)) {
+            $sql = '
+                INSERT INTO arch_dependencies
+                  (packages_name, packages_channel, pattern, conflicts)
+                VALUES
+                    (:name, :channel, :arch, :conflicts)';
+
+            $stmt = static::$databases[$this->_path]->prepare($sql);
+            foreach ($info->dependencies['required']->arch as $dep) {
+
+                $stmt->clear();
+                $stmt->bindParam(':name', $n);
+                $stmt->bindParam(':channel', $c);
+                $stmt->bindParam(':arch', $dep['pattern']);
+                $conflicts = isset($dep['conflicts']);
+                $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
+                if (!$stmt->execute()) {
+                    static::$databases[$this->_path]->exec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
+            }
+            $stmt->close();
+        }
+
         foreach ($info->dependencies['group'] as $group) {
             $gn = $group->name;
 
@@ -908,6 +958,26 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         while ($dep = $a->fetchArray()) {
             $ret->dependencies['required']->php->exclude($dep['exclude']);
+        }
+
+        $sql = 'SELECT * FROM os_dependencies
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray()) {
+            $ret->dependencies['required']->os[$dep['osname']] = (bool) $dep['conflicts'];
+        }
+
+        $sql = 'SELECT * FROM arch_dependencies
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray()) {
+            $ret->dependencies['required']->arch[$dep['pattern']] = (bool) $dep['conflicts'];
         }
 
         $sql = 'SELECT * FROM package_dependencies

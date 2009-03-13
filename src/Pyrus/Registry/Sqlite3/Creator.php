@@ -396,6 +396,57 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         }
 
         $query = '
+          CREATE TABLE package_dependencies_exclude (
+           required BOOL NOT NULL,
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           deppackage TEXT(80) NOT NULL,
+           depchannel TEXT(255) NOT NULL,
+           conflicts BOOL NOT NULL,
+           exclude TEXT(20) NOT NULL,
+           is_subpackage BOOL NOT NULL,
+           groupname TEXT(80),
+           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel,
+                exclude, is_subpackage, groupname)
+          );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
+            CREATE TABLE os_dependencies (
+             packages_name TEXT(80) NOT NULL,
+             packages_channel TEXT(255) NOT NULL,
+             osname TEXT(80),
+             conflicts BOOL,
+             PRIMARY KEY (packages_name, packages_channel, osname)
+            )';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
+            CREATE TABLE arch_dependencies (
+             packages_name TEXT(80) NOT NULL,
+             packages_channel TEXT(255) NOT NULL,
+             pattern TEXT(80),
+             conflicts BOOL,
+             PRIMARY KEY (packages_name, packages_channel, pattern)
+            )';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
             CREATE TABLE php_dependencies (
              packages_name TEXT(80) NOT NULL,
              packages_channel TEXT(255) NOT NULL,
@@ -447,27 +498,6 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
               exclude TEXT(20) NOT NULL,
               PRIMARY KEY (packages_name, packages_channel, exclude)
              )';
-        $worked = @$database->exec($query);
-        if (!$worked) {
-            @$database->exec('ROLLBACK');
-            $error = $database->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
-        }
-
-        $query = '
-          CREATE TABLE package_dependencies_exclude (
-           required BOOL NOT NULL,
-           packages_name TEXT(80) NOT NULL,
-           packages_channel TEXT(255) NOT NULL,
-           deppackage TEXT(80) NOT NULL,
-           depchannel TEXT(255) NOT NULL,
-           conflicts BOOL NOT NULL,
-           exclude TEXT(20) NOT NULL,
-           is_subpackage BOOL NOT NULL,
-           groupname TEXT(80),
-           PRIMARY KEY (required, packages_name, packages_channel, deppackage, depchannel,
-                exclude, is_subpackage, groupname)
-          );';
         $worked = @$database->exec($query);
         if (!$worked) {
             @$database->exec('ROLLBACK');
