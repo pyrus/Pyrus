@@ -18,6 +18,10 @@ $test->assertEquals('0.1.0', $reg->{'release-version'}, 'release-version');
 $test->assertEquals('0.1.0', $reg->{'api-version'}, 'api-version');
 $test->assertEquals(false, $reg->sourcepackage, 'sourcepackage');
 $test->assertEquals('', $reg->releases, 'releases');
+
+$rawdeps = $reg->rawdeps;
+
+usort($rawdeps['required']['os'], function($a, $b){return strnatcasecmp($b['name'], $a['name']);});
 $test->assertEquals(array (
   'required' => 
   array (
@@ -154,5 +158,5 @@ $test->assertEquals(array (
       'name' => 'extension',
     ),
   ),
-), $reg->rawdeps, 'rawdeps');
+), $rawdeps, 'rawdeps');
 $test->assertEquals(true, $reg->schemaOK, 'schemaOK');

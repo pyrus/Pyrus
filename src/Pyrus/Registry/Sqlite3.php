@@ -474,7 +474,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->clear();
                 $stmt->bindParam(':name', $n);
                 $stmt->bindParam(':channel', $c);
-                $stmt->bindParam(':os', $dep['name']);
+                $name = $dep['name'];
+                $stmt->bindParam(':os', $name);
                 $conflicts = isset($dep['conflicts']);
                 $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
                 if (!$stmt->execute()) {
@@ -499,7 +500,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->clear();
                 $stmt->bindParam(':name', $n);
                 $stmt->bindParam(':channel', $c);
-                $stmt->bindParam(':arch', $dep['pattern']);
+                $name = $dep['pattern'];
+                $stmt->bindParam(':arch', $name);
                 $conflicts = isset($dep['conflicts']);
                 $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
                 if (!$stmt->execute()) {
@@ -966,8 +968,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
         $a = static::$databases[$this->_path]->query($sql);
 
-        while ($dep = $a->fetchArray()) {
-            $ret->dependencies['required']->os[$dep['osname']] = (bool) $dep['conflicts'];
+        while ($dep = $a->fetchArray(SQLITE3_ASSOC)) {
+            $ret->dependencies['required']->os[$dep['osname']] = !$dep['conflicts'];
+            $rawdeps = $ret->rawdeps;
         }
 
         $sql = 'SELECT * FROM arch_dependencies
@@ -977,7 +980,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $a = static::$databases[$this->_path]->query($sql);
 
         while ($dep = $a->fetchArray()) {
-            $ret->dependencies['required']->arch[$dep['pattern']] = (bool) $dep['conflicts'];
+            $ret->dependencies['required']->arch[$dep['pattern']] = !$dep['conflicts'];
         }
 
         $sql = 'SELECT * FROM package_dependencies
