@@ -75,7 +75,7 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         $arr['old']['release_license'] = $license;
         $arr['old']['release_notes'] = $info->notes;
         $deps = array();
-        $deps[] = array_merge(array('type' => 'php'), (array) $info->dependencies->php);
+        $deps[] = array_merge(array('type' => 'php'), $info->dependencies['required']->php->getInfo());
         $map = array(
             'php' => 'php',
             'package' => 'pkg',
@@ -87,65 +87,65 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         foreach (array('package', 'subpackage', 'extension') as $dtype) {
             foreach (array('required', 'optional') as $optorrequired) {
                 $optional = ($optorrequired == 'optional');
-                foreach ($info->dependencies->required->package as $dep) {
+                foreach ($info->dependencies['required']->package as $dep) {
                     $s = array('type' => $map[$dtype]);
-                    if (isset($dep['channel'])) {
-                        $s['channel'] = $dep['channel'];
+                    if (isset($dep->channel)) {
+                        $s['channel'] = $dep->channel;
                     }
-                    if (isset($dep['uri'])) {
-                        $s['uri'] = $dep['uri'];
+                    if (isset($dep->uri)) {
+                        $s['uri'] = $dep->uri;
                     }
-                    if (isset($dep['name'])) {
-                        $s['name'] = $dep['name'];
+                    if (isset($dep->name)) {
+                        $s['name'] = $dep->name;
                     }
-                    if (isset($dep['conflicts'])) {
+                    if ($dep->conflicts) {
                         $s['rel'] = 'not';
                     } else {
-                        if (!isset($dep['min']) &&
-                              !isset($dep['max'])) {
+                        if (!isset($dep->min) &&
+                              !isset($dep->max)) {
                             $s['rel'] = 'has';
                             $s['optional'] = $optional;
-                        } elseif (isset($dep['min']) &&
-                              isset($dep['max'])) {
+                        } elseif (isset($dep->min) &&
+                              isset($dep->max)) {
                             $s['rel'] = 'ge';
                             $s1 = $s;
                             $s1['rel'] = 'le';
-                            $s['version'] = $dep['min'];
-                            $s1['version'] = $dep['max'];
-                            if (isset($dep['channel'])) {
-                                $s1['channel'] = $dep['channel'];
+                            $s['version'] = $dep->min;
+                            $s1['version'] = $dep->max;
+                            if (isset($dep->channel)) {
+                                $s1['channel'] = $dep->channel;
                             }
-                            if ($dtype != 'php') {
-                                $s['name'] = $dep['name'];
-                                $s1['name'] = $dep['name'];
-                            }
+                            $s['name'] = $dep->name;
+                            $s1['name'] = $dep->name;
                             $s['optional'] = $optional;
                             $s1['optional'] = $optional;
                             $deps[] = $s1;
-                        } elseif (isset($dep['min'])) {
-                            if (isset($dep['exclude']) &&
-                                  $dep['exclude'] == $dep['min']) {
-                                $s['rel'] = 'gt';
-                            } else {
-                                $s['rel'] = 'ge';
+                        } elseif (isset($dep->min)) {
+                            $s['rel'] = 'ge';
+                            if (isset($dep->exclude)) {
+                                foreach ($dep->exclude as $exclude) {
+                                    if ($exclude == $dep->min) {
+                                        $s['rel'] = 'gt';
+                                        break;
+                                    }
+                                }
                             }
-                            $s['version'] = $dep['min'];
+                            $s['version'] = $dep->min;
                             $s['optional'] = $optional;
-                            if ($dtype != 'php') {
-                                $s['name'] = $dep['name'];
+                            $s['name'] = $dep->name;
+                        } elseif (isset($dep->max)) {
+                            $s['rel'] = 'le';
+                            if (isset($dep->exclude)) {
+                                foreach ($dep->exclude as $exclude) {
+                                    if ($exclude == $dep->max) {
+                                        $s['rel'] = 'lt';
+                                        break;
+                                    }
+                                }
                             }
-                        } elseif (isset($dep['max'])) {
-                            if (isset($dep['exclude']) &&
-                                  $dep['exclude'] == $dep['max']) {
-                                $s['rel'] = 'lt';
-                            } else {
-                                $s['rel'] = 'le';
-                            }
-                            $s['version'] = $dep['max'];
+                            $s['version'] = $dep->max;
                             $s['optional'] = $optional;
-                            if ($dtype != 'php') {
-                                $s['name'] = $dep['name'];
-                            }
+                            $s['name'] = $dep->name;
                         }
                     }
                 }
@@ -156,7 +156,7 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
         $maint = array();
         foreach (array('lead', 'developer', 'contributor', 'helper') as $role) {
             foreach ($maintainers[$role] as $maintainer) {
-                $m = $maintainer->toArray();
+                $m = $maintainer->getInfo();
                 $m = array_merge(array('role' => $role), $m);
                 $m['handle'] = $m['user'];
                 unset($m['handle']);
