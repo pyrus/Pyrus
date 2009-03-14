@@ -79,6 +79,14 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      *  UNIQUE (packages_name, packages_channel, packagepath)
      * );
      *
+     * CREATE TABLE dep_groups (
+     *  packages_name TEXT(80) NOT NULL,
+     *  packages_channel TEXT(255) NOT NULL,
+     *  groupname TEXT(80) NOT NULL,
+     *  grouphint TEXT(255) NOT NULL,
+     *  PRIMARY KEY (packages_name, packages_channel, groupname)
+     * );
+     *
      * CREATE TABLE php_dependencies (
      *  packages_name TEXT(80) NOT NULL,
      *  packages_channel TEXT(255) NOT NULL,
@@ -325,6 +333,21 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            PRIMARY KEY (packagepath, role, rolepath),
            UNIQUE (packages_name, packages_channel, packagepath)
           );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
+            CREATE TABLE dep_groups (
+             packages_name TEXT(80) NOT NULL,
+             packages_channel TEXT(255) NOT NULL,
+             groupname TEXT(80) NOT NULL,
+             grouphint TEXT(255) NOT NULL,
+             PRIMARY KEY (packages_name, packages_channel, groupname)
+            );';
         $worked = @$database->exec($query);
         if (!$worked) {
             @$database->exec('ROLLBACK');

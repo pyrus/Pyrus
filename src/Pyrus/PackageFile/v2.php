@@ -917,7 +917,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                 if (isset($this->packageInfo[$rel . 'release'])) {
                     $rel .= 'release';
                 }
-                $this->packageInfo[$rel] = array();
+                $this->packageInfo[$rel] = '';
             }
             return;
         }

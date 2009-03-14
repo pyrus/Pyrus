@@ -515,6 +515,25 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         foreach ($info->dependencies['group'] as $group) {
             $gn = $group->name;
+            $gh = $group->hint;
+
+            $sql = '
+                INSERT INTO dep_groups
+                    (packages_name, packages_channel, groupname, grouphint)
+                VALUES
+                    (:name, :channel, :groupname, :grouphint)';
+            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt->bindParam(':name', $n);
+            $stmt->bindParam(':channel', $c);
+            $stmt->bindParam(':groupname', $gn);
+            $stmt->bindParam(':grouphint', $gh);
+
+            if (!$stmt->execute()) {
+                static::$databases[$this->_path]->exec('ROLLBACK');
+                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                    $info->channel . '/' . $info->name . ' could not be installed in registry');
+            }
+            $stmt->close();
 
             $sql = '
                 INSERT INTO extension_dependencies
@@ -997,6 +1016,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 //ORDER BY required, deppackage, depchannel, conflicts, exclude';
         $excludes = static::$databases[$this->_path]->query($sql);
         if (!$package_deps) {
+            $ret = $this->fetchDepGroups($ret);
             return $ret;
         }
 
@@ -1043,7 +1063,27 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
         }
 
-        return $this->fetchExtensionDeps($ret);
+        $ret = $this->fetchExtensionDeps($ret);
+        $ret = $this->fetchDepGroups($ret);
+        return $ret;
+    }
+
+    function fetchDepGroups(PEAR2_Pyrus_IPackageFile $ret)
+    {
+        $package = $ret->name;
+        $channel = $ret->channel;
+
+        $sql = 'SELECT * FROM dep_groups
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $groups = static::$databases[$this->_path]->query($sql);
+        if ($groups) {
+            while ($group = $groups->fetchArray(SQLITE3_ASSOC)) {
+                $ret->dependencies['group']->{$group['groupname']}->hint = $group['grouphint'];
+            }
+        }
+        return $ret;
     }
 
     function fetchExtensionDeps(PEAR2_Pyrus_IPackageFile $ret)
