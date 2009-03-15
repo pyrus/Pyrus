@@ -91,7 +91,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
         $this->_curRole = array_keys($this->info);
         reset($this->info[current($this->_curRole)]);
     }
-var $test;
+
     function valid()
     {
         return current($this->_curRole);
