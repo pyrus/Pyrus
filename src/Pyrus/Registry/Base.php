@@ -27,6 +27,32 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
 {
     protected $packagename;
     protected $packageList = array();
+
+    /**
+     * Used by the registry package classes to update info in an installed package
+     */
+    public function replace(PEAR2_Pyrus_IPackageFile $info)
+    {
+        return $this->install($info, true);
+    }
+
+    function cloneRegistry(PEAR2_Pyrus_Registry_Base $registry)
+    {
+        $saveChan = PEAR2_Pyrus_Config::current()->default_channel;
+        try {
+            foreach (PEAR2_Pyrus_Config::current()->channelregistry->listChannels() as $channel) {
+                $registry->default_channel = $channel;
+                foreach ($registry as $package) {
+                    $this->install($package);
+                }
+            }
+        } catch (Exception $e) {
+            PEAR2_Pyrus_Config::current()->default_channel = $saveChan;
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot clone registry', $e);
+        }
+        PEAR2_Pyrus_Config::current()->default_channel = $saveChan;
+    }
+
     function offsetExists($offset)
     {
         $info = PEAR2_Pyrus_Config::parsePackageName($offset);
@@ -68,16 +94,6 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
             return;
         }
         $this->uninstall($info['package'], $info['channel']);
-    }
-
-    function __get($var)
-    {
-        if (!isset($this->packagename)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
-            ' from unknown package');
-        }
-        $info = PEAR2_Pyrus_Config::parsePackageName($this->_packagename);
-        return $this->info($info['package'], $info['channel'], $var);
     }
 
     function current()

@@ -25,7 +25,11 @@
  */
 interface PEAR2_Pyrus_IRegistry
 {
-    public function install(PEAR2_Pyrus_IPackageFile $info);
+    public function install(PEAR2_Pyrus_IPackageFile $info, $replace = false);
+    /**
+     * Used by the registry package classes to update info in an installed package
+     */
+    public function replace(PEAR2_Pyrus_IPackageFile $info);
     public function uninstall($name, $channel);
     public function exists($package, $channel);
     public function info($package, $channel, $field);

@@ -24,7 +24,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
+class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
 {
     protected $readonly;
     private $_path;
@@ -58,7 +58,7 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
      *
      * @param PEAR2_Pyrus_IPackageFile $pf
      */
-    function install(PEAR2_Pyrus_IPackageFile $info)
+    function install(PEAR2_Pyrus_IPackageFile $info, $replace = false)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
@@ -69,7 +69,13 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0777, true);
         }
-        file_put_contents($packagefile, (string) $info);
+
+        if (!$replace) {
+            $info->date = date('Y-m-d');
+            $info->time = date('H:i:s');
+        }
+        $arr = $info->toArray();
+        file_put_contents($packagefile, (string) new PEAR2_Pyrus_XMLWriter($arr));
     }
 
     function uninstall($package, $channel)
@@ -183,9 +189,6 @@ class PEAR2_Pyrus_Registry_Xml implements PEAR2_Pyrus_IRegistry
     {
         if ($var == 'package') {
             return new PEAR2_Pyrus_Registry_Xml_Package($this);
-        }
-        if ($var == 'channel') {
-            return new PEAR2_Pyrus_Registry_Xml_Channel($this);
         }
     }
 

@@ -113,7 +113,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
      *
      * @param PEAR2_Pyrus_IPackageFile $info
      */
-    function install(PEAR2_Pyrus_IPackageFile $info)
+    function install(PEAR2_Pyrus_IPackageFile $info, $replace = false)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
@@ -128,6 +128,11 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $this->uninstall($info->name, $info->channel);
         } catch (Exception $e) {
             // ignore errors
+        }
+
+        if (!$replace) {
+            $info->date = date('Y-m-d');
+            $info->time = date('H:i:s');
         }
 
         static::$databases[$this->_path]->exec('BEGIN');

@@ -6,65 +6,27 @@
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
- * @author    Helgi Þormar Þorbjörnsson <dufuz@php.net>
+ * @author    Greg Beaver <cellog@php.net>
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/PEAR2/Pyrus
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 
 /**
- * Package within the PEAR1 registry
+ * Package within the PEAR 1.x registry
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
- * @author    Helgi Þormar Þorbjörnsson <dufuz@php.net>
+ * @author    Greg Beaver <cellog@php.net>
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/wsvnPyrus/
+ * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Pear1_Package extends PEAR2_Pyrus_Registry_Pear1 implements ArrayAccess
+class PEAR2_Pyrus_Registry_Pear1_Package extends PEAR2_Pyrus_Registry_Package_Base
 {
-    private $_packagename;
-    function __construct($path)
+    function __construct(PEAR2_Pyrus_Registry_Pear1 $cloner)
     {
-        parent::__construct($path);
-    }
-
-    function offsetExists($offset)
-    {
-        $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
-        return $this->exists($info['package'], $info['channel']);
-    }
-
-    function offsetGet($offset)
-    {
-        $this->_packagename = $offset;
-        $ret = clone $this;
-        unset($this->_packagename);
-        return $ret;
-    }
-
-    function offsetSet($offset, $value)
-    {
-        if ($offset == 'install') {
-            $this->install($value);
-        }
-    }
-
-    function offsetUnset($offset)
-    {
-        $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
-        $this->uninstall($info['package'], $info['channel']);
-    }
-
-    function __get($var)
-    {
-        if (!isset($this->_packagename)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
-                ' from unknown package');
-        }
-        $info =  PEAR2_Pyrus_Config::current()->channelregistry->parseName($this->_packagename);
-        return $this->info($info['package'], $info['channel'], $var);
+        $this->reg = $cloner;
     }
 }

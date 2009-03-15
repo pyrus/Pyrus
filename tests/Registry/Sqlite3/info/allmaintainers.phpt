@@ -1,5 +1,5 @@
 --TEST--
-Sqlite3 PackageFile v2: test basic package.xml properties
+Sqlite3 PackageFile v2: test package.xml allmaintainers property
 --FILE--
 <?php
 require __DIR__ . '/../../setup.php.inc';
@@ -14,7 +14,7 @@ $reg = new PEAR2_Pyrus_Registry_Sqlite3(__DIR__.'/testit');
 $reg->replace($info); // use replace to preserve date/time
 $reg = $reg->package[$package->channel . '/' . $package->name];
 
-require __DIR__ . '/../../AllRegistries/info/basic.template';
+require __DIR__ . '/../../AllRegistries/info/allmaintainers.template';
 
 ?>
 ===DONE===

@@ -24,7 +24,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus
  */
-class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
+class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 {
     private $_path;
     function __construct($path)
@@ -58,16 +58,20 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
      *
      * @param PEAR2_Pyrus_IPackageFile $pf
      */
-    function install(PEAR2_Pyrus_IPackageFile $info)
+    function install(PEAR2_Pyrus_IPackageFile $info, $replace = false)
     {
-        // remove previously installed version for upgrade
-        $this->uninstall($info->name, $info->channel);
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0777, true);
         }
 
+        if (!$replace) {
+            $info->date = date('Y-m-d');
+            $info->time = date('H:i:s');
+        }
+
         $arr = $info->toArray();
+        $arr = $arr['package'];
         $arr['old']['version'] = $info->version['release'];
         $arr['old']['release_date'] = $info->date;
         $arr['old']['release_state'] = $info->state;
@@ -178,8 +182,8 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
 
     public function exists($package, $channel)
     {
-        $packagefile = $this->_namePath($package, $channel);
-        return @file_exists($packagefile) && @is_dir($packagefile);
+        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
+        return @file_exists($packagefile) && @!is_dir($packagefile);
     }
 
     public function info($package, $channel, $field)
@@ -260,13 +264,19 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
                 'for package ' . $package . '/' . $channel . ', it is not installed');
         }
 
-        $packagefile = $this->_namePath($package, $channel) . '.reg';
-        if (!$packagefile || !isset($packagefile[0])) {
+        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
+        if (!$packagefile) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
                 $channel . '/' . $package);
         }
 
-        $data = @unserialize($packagefile);
+        $contents = file_get_contents($packagefile);
+        if (!$contents) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
+                $channel . '/' . $package);
+        }
+
+        $data = @unserialize($contents);
         if ($data === false) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
                 'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
@@ -286,7 +296,7 @@ class PEAR2_Pyrus_Registry_Pear1 implements PEAR2_Pyrus_IRegistry
                 $pf->maintainers[$maintainer['handle']]->name($maintainer['name'])
                    ->active('yes')->role($maintainer['role'])->email($maintainer['email']);
             }
-            // we don't care what the piece of crap depends on, really, so make it valid
+            // we don't care what the ancient package depends on, really, so make it valid
             // and forget about it
             $pf->dependencies->php['min'] = phpversion();
             $pf->dependencies->pearinstaller['min'] = '1.4.0';

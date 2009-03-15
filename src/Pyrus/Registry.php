@@ -110,14 +110,25 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
             $registries, $readonly);
     }
 
-    public function install(PEAR2_Pyrus_IPackageFile $info)
+    public function replace(PEAR2_Pyrus_IPackageFile $info)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install packages, registry is read-only');
         }
 
         foreach ($this->registries as $reg) {
-            $reg->install($info);
+            $reg->replace($info);
+        }
+    }
+
+    public function install(PEAR2_Pyrus_IPackageFile $info, $replace = false)
+    {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot install packages, registry is read-only');
+        }
+
+        foreach ($this->registries as $reg) {
+            $reg->install($info, $replace);
         }
     }
 

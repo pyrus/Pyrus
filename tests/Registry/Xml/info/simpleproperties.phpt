@@ -11,11 +11,8 @@ restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/../../../PackageFile_v2/setupFiles/setupPackageFile.php.inc';
 $reg = new PEAR2_Pyrus_Registry_Xml(__DIR__.'/testit');
-$reg->install($info);
+$reg->replace($info); // use replace to preserve date/time
 $reg = $reg->package[$package->channel . '/' . $package->name];
-// these are reset at install time
-$reg->date = '2008-12-15';
-$reg->time = '11:51:01';
 require __DIR__ . '/../../AllRegistries/info/basic.template';
 
 ?>
