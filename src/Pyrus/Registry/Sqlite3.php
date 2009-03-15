@@ -125,6 +125,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         try {
             // this ensures upgrade will work
+            static::$databases[$this->_path]->exec('BEGIN');
             $this->uninstall($info->name, $info->channel);
         } catch (Exception $e) {
             // ignore errors
@@ -135,7 +136,6 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $info->time = date('H:i:s');
         }
 
-        static::$databases[$this->_path]->exec('BEGIN');
         $licloc = $info->license;
         $licuri = $info->license['uri'];
         $licpath = $info->license['path'];
@@ -188,7 +188,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $configsnapshot = PEAR2_Pyrus_Config::configSnapshot();
         $stmt->bindParam(':lastinstalltime',   $configsnapshot);
 
-        if (!$stmt->execute()) {
+        if (!@$stmt->execute()) {
             static::$databases[$this->_path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                 $info->channel . '/' . $info->name . ' could not be installed in registry: ' . static::$databases[$this->_path]->lastErrorMsg());
@@ -219,7 +219,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $ma = $maintainer->active;
                 $stmt->bindParam(':m_active', $ma);
 
-                if (!$stmt->execute()) {
+                if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -256,7 +256,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                        '', $curconfig->{$roles[$file->role]});
             $stmt->bindParam(':role',     $r);
 
-            if (!$stmt->execute()) {
+            if (!@$stmt->execute()) {
                 static::$databases[$this->_path]->exec('ROLLBACK');
                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                     $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -296,7 +296,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->bindParam(':max', $dmax);
                 $stmt->bindParam(':recommended', $drecommended);
 
-                if (!$stmt->execute()) {
+                if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -322,7 +322,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         $con = $d->conflicts;
                         $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
-                        if (!$stmt1->execute()) {
+                        if (!@$stmt1->execute()) {
                             static::$databases[$this->_path]->exec('ROLLBACK');
                             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                 $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -378,7 +378,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         $stmt->bindParam(':ext', $ext, SQLITE3_NULL);
                     }
 
-                    if (!$stmt->execute()) {
+                    if (!@$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
                         throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                             $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -407,7 +407,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                             $con = $d->conflicts;
                             $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
-                            if (!$stmt1->execute()) {
+                            if (!@$stmt1->execute()) {
                                 static::$databases[$this->_path]->exec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -438,7 +438,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         } else {
             $stmt->bindParam(':max', $max);
         }
-        if (!$stmt->execute()) {
+        if (!@$stmt->execute()) {
             static::$databases[$this->_path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                 $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -457,7 +457,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->bindParam(':name', $n);
                 $stmt->bindParam(':channel', $c);
                 $stmt->bindParam(':exclude', $exclude);
-                if (!$stmt->execute()) {
+                if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -483,7 +483,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->bindParam(':os', $name);
                 $conflicts = isset($dep['conflicts']);
                 $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
-                if (!$stmt->execute()) {
+                if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -509,7 +509,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->bindParam(':arch', $name);
                 $conflicts = isset($dep['conflicts']);
                 $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
-                if (!$stmt->execute()) {
+                if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -533,7 +533,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $stmt->bindParam(':groupname', $gn);
             $stmt->bindParam(':grouphint', $gh);
 
-            if (!$stmt->execute()) {
+            if (!@$stmt->execute()) {
                 static::$databases[$this->_path]->exec('ROLLBACK');
                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                     $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -567,7 +567,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->bindParam(':recommended', $drecommended);
                 $stmt->bindParam(':groupname', $gn);
 
-                if (!$stmt->execute()) {
+                if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -592,7 +592,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
                         $stmt1->bindParam(':groupname', $gn);
 
-                        if (!$stmt1->execute()) {
+                        if (!@$stmt1->execute()) {
                             static::$databases[$this->_path]->exec('ROLLBACK');
                             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                 $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -641,7 +641,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                         $stmt->bindParam(':ext', $ext, SQLITE3_NULL);
                     }
 
-                    if (!$stmt->execute()) {
+                    if (!@$stmt->execute()) {
                         static::$databases[$this->_path]->exec('ROLLBACK');
                         throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                             $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -671,7 +671,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                             $con = $d->conflicts;
                             $stmt1->bindParam(':conflicts', $con, SQLITE3_INTEGER);
 
-                            if (!$stmt1->execute()) {
+                            if (!@$stmt1->execute()) {
                                 static::$databases[$this->_path]->exec('ROLLBACK');
                                 throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                                     $info->channel . '/' . $info->name . ' could not be installed in registry');
@@ -724,7 +724,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':name',    $package);
         $stmt->bindParam(':channel', $channel);
-        $result = $stmt->execute();
+        $result = @$stmt->execute();
 
         if (!$result) {
             $error = static::$databases[$this->_path]->lastErrorMsg();
@@ -766,7 +766,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $stmt = static::$databases[$this->_path]->prepare($sql);
             $stmt->bindParam(':name',    $package);
             $stmt->bindParam(':channel', $channel);
-            $result = $stmt->execute();
+            $result = @$stmt->execute();
 
             if (!$result) {
                 $error = static::$databases[$this->_path]->lastErrorMsg();
@@ -791,7 +791,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $stmt = static::$databases[$this->_path]->prepare($sql);
             $stmt->bindParam(':name',    $package);
             $stmt->bindParam(':channel', $channe);
-            $result = $stmt->execute();
+            $result = @$stmt->execute();
 
             if (!$result) {
                 $error = static::$databases[$this->_path]->lastErrorMsg();
@@ -839,7 +839,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $sql = 'SELECT name FROM packages WHERE channel = :channel ORDER BY name';
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':channel', $channel);
-        $result = $stmt->execute();
+        $result = @$stmt->execute();
 
         foreach ($result->fetchArray(SQLITE3_NUM) as $res) {
             $ret[] = $res[0];
@@ -880,7 +880,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':name',    $package);
         $stmt->bindParam(':channel', $channel);
-        $result = $stmt->execute();
+        $result = @$stmt->execute();
 
         if (!$result) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
@@ -924,7 +924,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $stmt->bindParam(':name',    $package);
         $stmt->bindParam(':channel', $channel);
-        $result = $stmt->execute();
+        $result = @$stmt->execute();
 
         if (!$result) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
@@ -1158,7 +1158,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $pn = $package->name;
         $stmt->bindParam(':name', $pn, SQLITE3_TEXT);
-        $result = $stmt->execute();
+        $result = @$stmt->execute();
 
         while ($res = $result->fetchArray()) {
             try {
