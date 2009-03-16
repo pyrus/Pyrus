@@ -61,7 +61,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
     
     );
 
-    function __construct($data)
+    function __construct($data = null)
     {
         if (is_array($data)) {
             $this->fromArray($data);
