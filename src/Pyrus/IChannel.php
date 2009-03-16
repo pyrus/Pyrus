@@ -25,24 +25,9 @@
  */
 interface PEAR2_Pyrus_IChannel
 {
-    public function getAlias();
-    public function getName();
-    public function getPort();
-    public function getSSL();
-    public function getSummary();
-    public function getREST();
-    public function getFunctions($protocol);
-    public function getBaseURL($resourceType);
-    public function toChannelObject();
-    public function __toString();
-    public function __get($var);
-    public function __set($var, $value);
-    public function supportsREST();
-    public function resetREST();
-    public function setName($name);
-    public function setPort($port);
-    public function setSSL($ssl = true);
-    public function setBaseUrl($resourceType, $url);
+    function __get($var);
+    function __toString();
+    function __call($func, $args);
     public function getValidationObject($package = false);
     public function getValidationPackage();
 }

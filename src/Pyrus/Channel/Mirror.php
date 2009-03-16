@@ -32,7 +32,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
      * @var PEAR2_Pyrus_Channel
      */
     protected $parentChannel;
-    function __construct(&$mirrorarray, PEAR2_Pyrus_IChannel $parent)
+    function __construct(&$mirrorarray, PEAR2_Pyrus_ChannelFile $parent)
     {
         if ($parent->getName() == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri channel cannot have mirrors');
