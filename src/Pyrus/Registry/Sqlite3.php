@@ -252,9 +252,29 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $stmt->bindParam(':rolepath', $rolepath);
             $p = $file->name;
             $stmt->bindParam(':path',     $p);
-            $r = str_replace($this->_path . DIRECTORY_SEPARATOR,
-                       '', $curconfig->{$roles[$file->role]});
+            $r = $file->role;
             $stmt->bindParam(':role',     $r);
+
+            if (!@$stmt->execute()) {
+                static::$databases[$this->_path]->exec('ROLLBACK');
+                throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                    $info->channel . '/' . $info->name . ' could not be installed in registry');
+            }
+        }
+        $stmt->close();
+
+        $sql = '
+            INSERT INTO baseinstalldirs
+              (packages_name, packages_channel, dirname, baseinstall)
+            VALUES(:name, :channel, :dirname, :baseinstall)';
+
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+
+        foreach ($info->getBaseInstallDirs() as $dir => $base) {
+            $stmt->bindParam(':name',        $n);
+            $stmt->bindParam(':channel',     $c);
+            $stmt->bindParam(':dirname',     $dir);
+            $stmt->bindParam(':baseinstall', $base);
 
             if (!@$stmt->execute()) {
                 static::$databases[$this->_path]->exec('ROLLBACK');
@@ -918,7 +938,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $ret->notes = $this->info($package, $channel, 'releasenotes');
 
-        $sql = 'SELECT packagepath, role FROM files
+        $sql = 'SELECT * FROM files
                 WHERE packages_name = :name AND packages_channel = :channel';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
@@ -931,12 +951,33 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 ' for package ' . $channel . '/' . $package . ', no files registered');
         }
 
-        foreach ($result->fetchArray(SQLITE3_ASSOC) as $file) {
+        while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
             $ret->files[$file['packagepath']] = array('attribs' => array('role' => $file['role']));
         }
         $stmt->close();
+
+        $sql = 'SELECT dirname, baseinstall FROM baseinstalldirs
+                WHERE packages_name = :name AND packages_channel = :channel';
+
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt->bindParam(':name',    $package);
+        $stmt->bindParam(':channel', $channel);
+        $result = @$stmt->execute();
+
+        if (!$result) {
+            throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
+                ' for package ' . $channel . '/' . $package . ', no files registered');
+        }
+
+        $dirs = array();
+        while ($dir = $result->fetchArray(SQLITE3_ASSOC)) {
+            $dirs[$dir['dirname']] = $dir['baseinstall'];
+        }
+        $ret->setBaseInstallDirs($dirs);
+        $stmt->close();
         $this->fetchDeps($ret);
         $ret->release = null;
+        $ret->fromArray($ret->toArray());
         return $ret;
     }
 

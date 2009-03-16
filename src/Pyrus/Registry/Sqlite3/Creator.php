@@ -105,6 +105,21 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         }
 
         $query = '
+          CREATE TABLE baseinstalldirs (
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           dirname TEXT(255) NOT NULL,
+           baseinstall TEXT(255) NOT NULL,
+           PRIMARY KEY (packages_name, packages_channel, dirname)
+          );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
             CREATE TABLE dep_groups (
              packages_name TEXT(80) NOT NULL,
              packages_channel TEXT(255) NOT NULL,
@@ -366,6 +381,10 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
                 WHERE
                   files.packages_name = old.name AND
                   files.packages_channel = old.channel;
+                DELETE FROM baseinstalldirs
+                WHERE
+                  baseinstalldirs.packages_name = old.name AND
+                  baseinstalldirs.packages_channel = old.channel;
                 DELETE FROM package_dependencies
                 WHERE
                   package_dependencies.packages_name = old.name AND

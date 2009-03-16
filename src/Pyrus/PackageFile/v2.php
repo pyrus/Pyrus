@@ -478,6 +478,11 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $this->baseinstalldirs = $list;
     }
 
+    function getBaseInstallDirs()
+    {
+        return $this->baseinstalldirs;
+    }
+
     /**
      * @param string full path to file
      * @param string attribute name

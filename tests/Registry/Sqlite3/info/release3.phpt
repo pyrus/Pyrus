@@ -1,9 +1,9 @@
 --TEST--
-Pear1 PackageFile v2: test basic package.xml properties
+Sqlite3 PackageFile v2: test package.xml release properties (3)
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-require __DIR__ . '/../../AllRegistries/info/basic.template';
+require __DIR__ . '/../../AllRegistries/info/release3.template';
 
 ?>
 ===DONE===
