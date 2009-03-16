@@ -410,9 +410,13 @@ http://pear.php.net/dtd/channel-1.0.xsd">
         $pear2 = $this->getPear2Channel();
         $pecl = $this->getPeclChannel();
         $__uri = $this->getUriChannel();
-        $this->add($pear);
-        $this->add($pear2);
-        $this->add($pecl);
-        $this->add($__uri);
+        try {
+            $this->add($pear);
+            $this->add($pear2);
+            $this->add($pecl);
+            $this->add($__uri);
+        } catch(Exception $e) {
+            //@TODO fix this later, but silently fail for now
+        }
     }
 }
