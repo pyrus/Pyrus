@@ -148,8 +148,9 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
      *
      * @param string $package
      * @param string $channel
-     * @param bool $onlyMain if true, only check the primary registry
-     * @return unknown
+     * @param bool   $onlyMain if true, only check the primary registry
+     * 
+     * @return bool
      */
     public function exists($package, $channel, $onlyMain = false)
     {
