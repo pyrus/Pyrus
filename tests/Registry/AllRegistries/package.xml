@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>PEAR2_SimpleChannelServer</name>
  <channel>pear2.php.net</channel>
  <summary>A Simple Channel Server for PEAR2 compatible channels
@@ -39,32 +39,20 @@ bin_dir setting within Pyrus.
 </notes>
  <contents>
   <dir name="/">
-   <dir name="examples">
-    <file role="doc" name="update_channel.php"/>
-   </dir>
-   <dir name="scripts" baseinstalldir="/">
-    <file role="script" name="pearscs"/>
-   </dir>
-   <dir name="src" baseinstalldir="PEAR2">
-    <dir name="SimpleChannelServer">
-     <dir name="Categories">
-      <file role="php" name="Exception.php"/>
-     </dir>
-     <dir name="REST">
-      <file role="php" name="Category.php"/>
-      <file role="php" name="Maintainer.php"/>
-      <file role="php" name="Manager.php"/>
-      <file role="php" name="Package.php"/>
-      <file role="php" name="Release.php"/>
-     </dir>
-     <file role="php" name="Categories.php"/>
-     <file role="php" name="Channel.php"/>
-     <file role="php" name="CLI.php"/>
-     <file role="php" name="Exception.php"/>
-     <file role="php" name="Get.php"/>
-    </dir>
-    <file role="php" name="SimpleChannelServer.php"/>
-   </dir>
+   <file role="php" name="src/SimpleChannelServer/REST/Release.php"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Package.php"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Manager.php"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Maintainer.php"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Category.php"/>
+   <file role="php" name="src/SimpleChannelServer/Get.php"/>
+   <file role="php" name="src/SimpleChannelServer/Exception.php"/>
+   <file role="php" name="src/SimpleChannelServer/CLI.php"/>
+   <file role="php" name="src/SimpleChannelServer/Channel.php"/>
+   <file role="php" name="src/SimpleChannelServer/Categories/Exception.php"/>
+   <file role="php" name="src/SimpleChannelServer/Categories.php"/>
+   <file role="php" name="src/SimpleChannelServer.php"/>
+   <file role="script" name="scripts/pearscs"/>
+   <file role="doc" name="examples/update_channel.php"/>
   </dir>
  </contents>
  <dependencies>

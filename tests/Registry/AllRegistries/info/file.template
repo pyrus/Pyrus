@@ -1,18 +1,21 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
-
 $testit = array();
 foreach ($reg->contents as $file) {
     $testit[] = (array) $file;
+    if ($file->name == 'src/SimpleChannelServer.php') {
+        $testthis = $file;
+    }
 }
-
+$file = $testthis;
+usort($testit, function($a,$b) {return strnatcasecmp($a['attribs']['name'],$b['attribs']['name']);});
 $test->assertEquals(array (
   0 => 
   array (
     'attribs' => 
     array (
       'role' => 'doc',
-      'name' => 'update_channel.php',
+      'name' => 'examples/update_channel.php',
     ),
   ),
   1 => 
@@ -20,7 +23,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'script',
-      'name' => 'pearscs',
+      'name' => 'scripts/pearscs',
     ),
   ),
   2 => 
@@ -28,7 +31,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Exception.php',
+      'name' => 'src/SimpleChannelServer.php',
     ),
   ),
   3 => 
@@ -36,7 +39,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Category.php',
+      'name' => 'src/SimpleChannelServer/Categories.php',
     ),
   ),
   4 => 
@@ -44,7 +47,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Maintainer.php',
+      'name' => 'src/SimpleChannelServer/Categories/Exception.php',
     ),
   ),
   5 => 
@@ -52,7 +55,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Manager.php',
+      'name' => 'src/SimpleChannelServer/Channel.php',
     ),
   ),
   6 => 
@@ -60,7 +63,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Package.php',
+      'name' => 'src/SimpleChannelServer/CLI.php',
     ),
   ),
   7 => 
@@ -68,7 +71,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Release.php',
+      'name' => 'src/SimpleChannelServer/Exception.php',
     ),
   ),
   8 => 
@@ -76,7 +79,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Categories.php',
+      'name' => 'src/SimpleChannelServer/Get.php',
     ),
   ),
   9 => 
@@ -84,7 +87,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Channel.php',
+      'name' => 'src/SimpleChannelServer/REST/Category.php',
     ),
   ),
   10 => 
@@ -92,7 +95,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'CLI.php',
+      'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
     ),
   ),
   11 => 
@@ -100,7 +103,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Exception.php',
+      'name' => 'src/SimpleChannelServer/REST/Manager.php',
     ),
   ),
   12 => 
@@ -108,7 +111,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'Get.php',
+      'name' => 'src/SimpleChannelServer/REST/Package.php',
     ),
   ),
   13 => 
@@ -116,7 +119,7 @@ $test->assertEquals(array (
     'attribs' => 
     array (
       'role' => 'php',
-      'name' => 'SimpleChannelServer.php',
+      'name' => 'src/SimpleChannelServer/REST/Release.php',
     ),
   ),
 ), $testit, 'output');

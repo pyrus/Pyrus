@@ -169,15 +169,14 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                     $this->_lastDepth--;
                 }
                 $path = $this->_path . $attr['name'];
-                if (isset($arr[$name][0])) {
-                    $arr['file'][count($arr['file']) - 1]['attribs']['name'] =
-                        basename($arr['file'][count($arr['file']) - 1]['attribs']['name']);
-                    $this->_files[$path] =
-                        $arr['file'][count($arr['file']) - 1];
+                if (isset($arr['file'][0])) {
+                    $newarr = $arr['file'][count($arr['file']) - 1];
                 } else {
-                    $arr['file']['attribs']['name'] = basename($arr['file']['attribs']['name']);
-                    $this->_files[$path] = $arr['file'];
+                    $newarr = $arr['file'];
                 }
+                $newarr['attribs']['name'] =
+                    basename($newarr['attribs']['name']);
+                $this->_files[$path] = $newarr;
                 $this->_curFile = $path;
                 $this->_inFile = $depth;
             } elseif ($this->_inFile) {
