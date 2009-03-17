@@ -285,120 +285,22 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 
     public function getPearChannel()
     {
-        return new PEAR2_Pyrus_Channel('<?xml version="1.0" encoding="ISO-8859-1"?>
-<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
-http://pear.php.net/dtd/channel-1.0.xsd">
- <name>pear.php.net</name>
- <suggestedalias>pear</suggestedalias>
- <summary>PHP Extension and Application Repository</summary>
- <servers>
-  <primary>
-   <rest>
-
-    <baseurl type="REST1.0">http://pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.1">http://pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.2">http://pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.3">http://pear.php.net/rest/</baseurl>
-   </rest>
-  </primary>
-  <mirror host="us.pear.php.net">
-
-   <rest>
-    <baseurl type="REST1.0">http://us.pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.1">http://us.pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.2">http://us.pear.php.net/rest/</baseurl>
-    <baseurl type="REST1.3">http://us.pear.php.net/rest/</baseurl>
-   </rest>
-  </mirror>
-
-  <mirror host="de.pear.php.net" ssl="yes" port="3452">
-   <rest>
-    <baseurl type="REST1.0">https://de.pear.php.net:3452/rest/</baseurl>
-    <baseurl type="REST1.1">https://de.pear.php.net:3452/rest/</baseurl>
-    <baseurl type="REST1.2">https://de.pear.php.net:3452/rest/</baseurl>
-    <baseurl type="REST1.3">https://de.pear.php.net:3452/rest/</baseurl>
-   </rest>
-
-  </mirror>
- </servers>
-</channel>
-');
+        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
     }
 
     public function getPear2Channel()
     {
-        return new PEAR2_Pyrus_Channel('<?xml version="1.0" encoding="ISO-8859-1"?>
-<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
-http://pear.php.net/dtd/channel-1.0.xsd">
- <name>pear2.php.net</name>
- <suggestedalias>pear2</suggestedalias>
- <summary>PEAR packages for PHP 5.3+ installed by Pyrus</summary>
- <servers>
-  <primary>
-   <rest>
-
-    <baseurl type="REST1.0">http://pear2.php.net/rest/</baseurl>
-    <baseurl type="REST1.1">http://pear2.php.net/rest/</baseurl>
-    <baseurl type="REST1.2">http://pear2.php.net/rest/</baseurl>
-    <baseurl type="REST1.3">http://pear2.php.net/rest/</baseurl>
-   </rest>
-  </primary>
- </servers>
-</channel>
-');
+        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
     }
 
     public function getPeclChannel()
     {
-        return new PEAR2_Pyrus_Channel('<?xml version="1.0" encoding="ISO-8859-1"?>
-<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
-http://pear.php.net/dtd/channel-1.0.xsd">
- <name>pecl.php.net</name>
- <suggestedalias>pecl</suggestedalias>
- <summary>PHP Extension Community Library</summary>
- <validatepackage version="1.0">PEAR_Validator_PECL</validatepackage>
- <servers>
-  <primary>
-
-   <xmlrpc>
-    <function version="1.0">logintest</function>
-    <function version="1.0">package.listLatestReleases</function>
-    <function version="1.0">package.listAll</function>
-    <function version="1.0">package.info</function>
-    <function version="1.0">package.getDownloadURL</function>
-
-    <function version="1.0">package.getDepDownloadURL</function>
-    <function version="1.0">package.search</function>
-    <function version="1.0">channel.listAll</function>
-   </xmlrpc>
-   <rest>
-    <baseurl type="REST1.0">http://pecl.php.net/rest/</baseurl>
-    <baseurl type="REST1.1">http://pecl.php.net/rest/</baseurl>
-
-   </rest>
-  </primary>
- </servers>
-</channel>
-');
+        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
     }
 
     public function getUriChannel()
     {
-        return new PEAR2_Pyrus_Channel('<?xml version="1.0" encoding="ISO-8859-1"?>
-<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
-http://pear.php.net/dtd/channel-1.0.xsd">
- <name>__uri</name>
- <suggestedalias>__uri</suggestedalias>
- <summary>Pseudo-channel for static packages</summary>
- <servers>
-  <primary>
-   <xmlrpc>
-    <function version="1.0">****</function>
-   </xmlrpc>
-  </primary>
- </servers>
-</channel>
-');
+        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
     }
 
     /**

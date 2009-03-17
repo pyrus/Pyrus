@@ -37,7 +37,7 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
      */
     function __construct($channeldescription, $forceremote = false)
     {
-        $this->channeldescription = $channeldescription; 
+        $this->channeldescription = $channeldescription;
         $class = $this->_parseChannelDescription($this->channeldescription);
         $this->internal = new $class($this->channeldescription, $this);
     }

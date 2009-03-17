@@ -24,7 +24,7 @@ $channel = new PEAR2_Pyrus_Channel($channel_array);
 $test->assertEquals($channel_array, $channel->getArray(), 'getArray');
 
 $channel->name = 'pear.example.com';
-$test->assertEquals('pear.example.com', $channel->server, 'getChannel');
+$test->assertEquals('pear.example.com', $channel->name, 'getName');
 
 $channel->summary = 'Test channel summary';
 $test->assertEquals('Test channel summary', $channel->summary, 'getSummary');

@@ -5,7 +5,7 @@ PEAR2_Pyrus_Channel::__construct() test basics for ssl channels
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 try {
-    $chan = new PEAR2_Pyrus_Channel(file_get_contents(dirname(__DIR__).'/ChannelRegistry/sample_ssl_channel.xml'));
+    $chan = new PEAR2_Pyrus_Channel(dirname(__DIR__).'/ChannelRegistry/sample_ssl_channel.xml');
     try {
         $chan->validate();
     } catch (Exception $e) {

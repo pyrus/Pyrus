@@ -5,15 +5,14 @@ PEAR2_Pyrus_Channel::__construct() basic test
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 try {
-    $channel = new PEAR2_Pyrus_Channel(file_get_contents(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml'));
+    $channel = new PEAR2_Pyrus_Channel(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
     try {
         $channel->validate();
     } catch (Exception $e) {
         $thrown = true;
         $test->assertEquals(false, $thrown, 'validate channel file '.$e->getMessage());
     }
-    $test->assertEquals(true, $channel->toChannelObject() instanceof PEAR2_Pyrus_Channel, 'toChannelObject');
-    $test->assertEquals('pear.php.net', $channel->server, 'getChannel');
+    $test->assertEquals('pear.php.net', $channel->name, 'getChannel');
     $test->assertEquals('PHP Extension and Application Repository', $channel->summary, 'getSummary');
     $test->assertEquals('pear', $channel->alias, 'getAlias');
     $test->assertEquals(false, $channel->ssl, 'getSSL');

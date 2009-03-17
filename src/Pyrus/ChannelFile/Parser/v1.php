@@ -2,10 +2,11 @@
 
 class PEAR2_Pyrus_ChannelFile_Parser_v1 extends PEAR2_Pyrus_XMLParser
 {
+    
     /**
      * @param string
      * @param string file name of the channel.xml
-     * 
+     *
      * @return PEAR2_Pyrus_ChannelFile_v1
      */
     function parse($data, $file = false)

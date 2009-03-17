@@ -60,6 +60,10 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
         'alias'=>'getAlias'
     
     );
+    
+    protected $setMap = array(
+        'port'=>'setPort',
+    );
 
     function __construct($data = null)
     {
@@ -76,7 +80,11 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
      */
     function fromArray($data)
     {
-        $this->channelInfo = $data['channel'];
+        if (isset($data['channel'])) {
+            $this->channelInfo = $data['channel'];
+        } else {
+            $this->channelInfo = $data;
+        }
         // Reset root attributes.
         $this->channelInfo['attribs'] = $this->rootAttributes;
         $this->validate();
@@ -276,6 +284,9 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
 
     function __set($var, $value)
     {
+        if (isset($this->setMap[$var])) {
+            return $this->{$this->setMap[$var]}($value);
+        }
         if (method_exists($this, "set$var")) {
             $sv = "set$var";
             $this->$sv($value);

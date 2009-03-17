@@ -27,7 +27,6 @@ interface PEAR2_Pyrus_IChannel
 {
     function __get($var);
     function __toString();
-    function __call($func, $args);
     public function getValidationObject($package = false);
     public function getValidationPackage();
 }
