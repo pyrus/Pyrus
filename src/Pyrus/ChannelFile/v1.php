@@ -196,23 +196,29 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
     
     /**
      * Returns the protocols supported by the primary server for this channel
-     * 
+     *
      * @return PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
      */
     function getProtocols()
     {
+        if ($this->channelInfo['name'] == '__uri') {
+            return false; // the __uri channel has no protocols
+        }
         return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->channelInfo['servers']['primary'], $this);
     }
     
     function getServers()
     {
+        if ($this->channelInfo['name'] == '__uri') {
+            return false; // the __uri channel has no servers
+        }
         return new PEAR2_Pyrus_ChannelFile_v1_Servers($this->channelInfo['servers'], $this);
     }
     
     /**
      * Determines whether a channel supports Representational State Transfer (REST) protocols
      * for retrieving channel information
-     * 
+     *
      * @return bool
      */
     function supportsREST()
@@ -222,7 +228,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
     
     /**
      * Returns a mirror, if any
-     * 
+     *
      * @param string $name Name of the mirror
      * @return unknown_type
      */
