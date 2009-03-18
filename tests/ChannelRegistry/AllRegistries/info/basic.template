@@ -13,3 +13,13 @@ $test->assertEquals('http://pear.php.net/rest1.3/',
                                                               'Get rest 1.3');
 
 $test->assertTrue(isset($channel->mirror['us.pear.php.net']), 'Mirrors are set');
+$test->assertFalse(isset($channel->mirror['foo']), 'Fake mirror is not set');
+
+
+$test->assertEquals('http://us.pear.php.net/rest1.0/',
+                                    $channel->mirror['us.pear.php.net']->protocols->rest['REST1.0']->baseURL,
+                                                              'Get Mirror rest 1.0');
+$test->assertEquals('http://us.pear.php.net/rest1.3/',
+                                    $channel->mirror['us.pear.php.net']->protocols->rest['REST1.3']->baseURL,
+                                                              'Get Mirror rest 1.3');
+
