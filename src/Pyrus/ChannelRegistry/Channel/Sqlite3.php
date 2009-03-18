@@ -123,7 +123,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_IChanne
         $res = $this->database->query($sql);
 
         $ret = array();
-        foreach ($res->arrayFetch(SQLITE_ASSOC) as $url) {
+        foreach ($res->fetchArray(SQLITE_ASSOC) as $url) {
             $ret[] = array('attribs' => array('type' => $url['type']), '_content' => $url['baseurl']);
         }
     }
