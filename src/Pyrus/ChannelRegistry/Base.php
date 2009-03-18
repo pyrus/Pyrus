@@ -300,7 +300,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 
     public function getUriChannel()
     {
-        return new PEAR2_Pyrus_Channel('__uri');
+        return $this->getDefaultChannel('__uri');
     }
     
     protected function getDefaultChannel($channel)
