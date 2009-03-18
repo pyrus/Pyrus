@@ -145,7 +145,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_IChanne
                       AND server != \'' . $this->database->escapeString($this->channelname) . '\'';
                 $res = $this->database->query($sql);
 
-                foreach ($res->arrayFetch(SQLITE_ASSOC) as $mirror) {
+                foreach ($res->fetchArray(SQLITE_ASSOC) as $mirror) {
                     $ret[$mirror['server']] = new PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite3($this->database, $mirror['server'], $this);
                 }
             return $ret;
@@ -187,7 +187,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_IChanne
             '\' AND server <> channel';
 
         $res = $this->database->query($sql);
-        return $res->arrayFetch(SQLITE_ASSOC);
+        return $res->fetchArray(SQLITE_ASSOC);
     }
 
     public function supportsREST()
