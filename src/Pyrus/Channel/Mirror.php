@@ -23,15 +23,17 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Pyrus_Channel_IMirror
+class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements PEAR2_Pyrus_Channel_IMirror
 {
     private $_info;
+    
     /**
      * Parent channel object
      *
      * @var PEAR2_Pyrus_Channel
      */
     protected $parentChannel;
+    
     function __construct(&$mirrorarray, PEAR2_Pyrus_ChannelFile $parent)
     {
         if ($parent->getName() == '__uri') {
@@ -103,14 +105,15 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_Channel implements PEAR2_Py
 
         return $this->getREST();
     }
-
-    function getREST()
+    
+    /**
+     * Returns the protocols supported by the primary server for this channel
+     * 
+     * @return PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
+     */
+    function getProtocols()
     {
-        if (isset($this->_info['rest'])) {
-            return $this->_info['rest']['baseurl'];
-        }
-
-        return false;
+        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->_info, $this->parentChannel);
     }
 
     /**

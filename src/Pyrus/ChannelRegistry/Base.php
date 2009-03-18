@@ -285,22 +285,31 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 
     public function getPearChannel()
     {
-        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
+        return $this->getDefaultChannel('pear.php.net');
     }
 
     public function getPear2Channel()
     {
-        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
+        return $this->getDefaultChannel('pear2.php.net');
     }
 
     public function getPeclChannel()
     {
-        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
+        return $this->getDefaultChannel('pecl.php.net');
     }
 
     public function getUriChannel()
     {
-        return new PEAR2_Pyrus_Channel(dirname(dirname(dirname(__DIR__))).'/data/default_channels/pear.php.net.xml');
+        return new PEAR2_Pyrus_Channel('__uri');
+    }
+    
+    protected function getDefaultChannel($channel)
+    {
+        $xml = PEAR2_Pyrus::getDataPath() . '/default_channels/' . $channel . '.xml';
+        if (!file_exists($xml)) {
+            $xml = dirname(dirname(dirname(__DIR__))).'/data/default_channels/' . $channel . '.xml';
+        }
+        return new PEAR2_Pyrus_Channel($xml);
     }
 
     /**
@@ -317,8 +326,6 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             $this->add($pear2);
             $this->add($pecl);
             $this->add($__uri);
-        } catch(Exception $e) {
-            //@TODO fix this later, but silently fail for now
-        }
+        } catch (Exception $e) {}
     }
 }

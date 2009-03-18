@@ -78,12 +78,17 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         if (is_array($channel)) {
             return 'PEAR2_Pyrus_ChannelFile_v1';
         }
-        if (strpos($channel, 'http://') === 0) {
-            return 'PEAR2_Pyrus_Channel_Remote';
-        }
-        if (substr($channel, 0, 5) == '<?xml') {
+        
+        if (strpos($channel, 'http://') === 0
+            || strpos($channel, 'https://') === 0) {
+            $this->channeldescription = $this->_fromURL($channel);
             return 'PEAR2_Pyrus_ChannelFile_v1';
         }
+        
+        if (strpos($channel, '<?xml') === 0) {
+            return 'PEAR2_Pyrus_ChannelFile_v1';
+        }
+        
         try {
             if (@file_exists($channel) && @is_file($channel)) {
                 $info = pathinfo($channel);
@@ -104,18 +109,16 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
                     }
                 }
             }
-            $xml_url = 'http://' . $channel . '/channel.xml';
-            $http = new PEAR2_HTTP_Request($xml_url);
+            
+            // Try grabbing the XML from the channel server
             try {
-                $response = $http->sendRequest();
-                $this->channeldescription = $response->body;
+                $xml_url = 'http://' . $channel . '/channel.xml';
+                $this->channeldescription = $this->_fromURL($xml_url);
             } catch (Exception $e) {
                 // try secure
                 try {
                     $xml_url = 'https://' . $channel . '/channel.xml';
-                    $http = new PEAR2_HTTP_Request($xml_url);
-                    $response = $http->sendRequest();
-                    $this->channeldescription = $response->body;
+                    $this->channeldescription = $this->_fromURL($xml_url);
                 } catch (Exception $u) {
                     // failed, re-throw original error
                     throw $e;
@@ -125,5 +128,19 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('channel "' . $channel . '" is unknown', $e);
         }
+    }
+    
+    /**
+     * Attempts to get the xml from the URL specified.
+     * 
+     * @param string $xml_url URL to the channel xml http://pear.php.net/channel.xml
+     * 
+     * @return string Channel XML
+     */
+    protected function _fromURL($xml_url)
+    {
+        $http = new PEAR2_HTTP_Request($xml_url);
+        $response = $http->sendRequest();
+        return $response->body;
     }
 }
