@@ -321,7 +321,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         $ret = array();
         $sql = 'SELECT channel FROM channels ORDER BY channel';
         $res = self::$databases[$this->_path]->query($sql);
-        foreach ($res->arrayFetch(SQLITE_NUM) as $res) {
+        foreach ($res->fetchArray(SQLITE_NUM) as $res) {
             $ret[] = $res['channel'];
         }
 
