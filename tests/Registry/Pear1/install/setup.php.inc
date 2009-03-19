@@ -7,4 +7,4 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 include __DIR__ . '/../../AllRegistries/setupPackageFile.php.inc';
-$reg = new PEAR2_Pyrus_Registry_Sqlite3(__DIR__.'/testit');
+$reg = new PEAR2_Pyrus_Registry_Pear1(__DIR__.'/testit');

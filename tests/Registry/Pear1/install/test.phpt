@@ -1,5 +1,5 @@
 --TEST--
-Sqlite3: install 1
+Pear1 registry: install 1
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';

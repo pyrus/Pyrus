@@ -7,3 +7,4 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 include __DIR__ . '/../../AllRegistries/setupPackageFile.php.inc';
+$reg = new PEAR2_Pyrus_Registry_Xml(__DIR__.'/testit');

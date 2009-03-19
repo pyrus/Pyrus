@@ -1,11 +1,8 @@
 --TEST--
-XML: install 1
+Xml registry: install 1
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-
-$reg = new PEAR2_Pyrus_Registry_Xml(__DIR__.'/testit');
-
 include __DIR__ . '/../../AllRegistries/install/test.template';
 ?>
 ===DONE===
