@@ -238,8 +238,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $sql = '
             INSERT INTO files
-              (packages_name, packages_channel, packagepath, role, rolepath)
-            VALUES(:name, :channel, :path, :role, :rolepath)';
+              (packages_name, packages_channel, packagepath, role, rolepath, baseinstalldir)
+            VALUES(:name, :channel, :path, :role, :rolepath, :baseinstall)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
@@ -249,11 +249,13 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         foreach ($info->installcontents as $file) {
             $rolepath = str_replace($this->_path . DIRECTORY_SEPARATOR,
                    '', $curconfig->{$roles[$file->role]});
-            $stmt->bindParam(':rolepath', $rolepath);
+            $stmt->bindParam(':rolepath',    $rolepath);
             $p = $file->name;
-            $stmt->bindParam(':path',     $p);
+            $stmt->bindParam(':path',        $p);
             $r = $file->role;
-            $stmt->bindParam(':role',     $r);
+            $stmt->bindParam(':role',        $r);
+            $bi = $file->baseinstalldir;
+            $stmt->bindParam(':baseinstall', $bi);
 
             if (!@$stmt->execute()) {
                 static::$databases[$this->_path]->exec('ROLLBACK');
@@ -953,6 +955,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
             $ret->files[$file['packagepath']] = array('attribs' => array('role' => $file['role']));
+            if ($file['baseinstalldir']) {
+                $ret->setFileAttribute($file['packagepath'], 'baseinstalldir', $file['baseinstalldir']);
+            }
         }
         $stmt->close();
 
@@ -977,7 +982,6 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->close();
         $this->fetchDeps($ret);
         $ret->release = null;
-        $ret->fromArray($ret->toArray());
         return $ret;
     }
 

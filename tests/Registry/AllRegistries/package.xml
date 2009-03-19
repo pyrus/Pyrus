@@ -39,18 +39,18 @@ bin_dir setting within Pyrus.
 </notes>
  <contents>
   <dir name="/">
-   <file role="php" name="src/SimpleChannelServer/REST/Release.php"/>
-   <file role="php" name="src/SimpleChannelServer/REST/Package.php"/>
-   <file role="php" name="src/SimpleChannelServer/REST/Manager.php"/>
-   <file role="php" name="src/SimpleChannelServer/REST/Maintainer.php"/>
-   <file role="php" name="src/SimpleChannelServer/REST/Category.php"/>
-   <file role="php" name="src/SimpleChannelServer/Get.php"/>
-   <file role="php" name="src/SimpleChannelServer/Exception.php"/>
-   <file role="php" name="src/SimpleChannelServer/CLI.php"/>
-   <file role="php" name="src/SimpleChannelServer/Channel.php"/>
-   <file role="php" name="src/SimpleChannelServer/Categories/Exception.php"/>
-   <file role="php" name="src/SimpleChannelServer/Categories.php"/>
-   <file role="php" name="src/SimpleChannelServer.php"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Release.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Package.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Manager.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Maintainer.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/REST/Category.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/Get.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/Exception.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/CLI.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/Channel.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/Categories/Exception.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer/Categories.php" baseinstalldir="PEAR2"/>
+   <file role="php" name="src/SimpleChannelServer.php" baseinstalldir="PEAR2"/>
    <file role="script" name="scripts/pearscs"/>
    <file role="doc" name="examples/update_channel.php"/>
   </dir>

@@ -84,6 +84,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
             $attribs = parent::offsetGet('attribs');
             return $attribs['install-as'];
         }
+        if (!isset($this['attribs'][$var])) {
+            return null;
+        }
         return $this['attribs'][$var];
     }
 

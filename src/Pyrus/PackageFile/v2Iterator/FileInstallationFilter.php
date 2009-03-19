@@ -95,7 +95,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
             $curfile['attribs']['baseinstalldir'] = $b;
         }
         return new PEAR2_Pyrus_PackageFile_v2Iterator_FileTag($curfile,
-            dirname($file), self::$_parent);
+            '', self::$_parent);
     }
 
     function accept()

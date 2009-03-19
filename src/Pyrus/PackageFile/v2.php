@@ -447,6 +447,13 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $this->packageInfo = $pinfo['package'];
     }
 
+    function fromV2(PEAR2_Pyrus_PackageFile_v2 $package)
+    {
+        $this->fromArray($package->toArray());
+        $this->setFilelist($package->getFileList());
+        $this->setBaseInstallDirs($package->getBaseInstallDirs());
+    }
+
     function hasFile($file)
     {
         return isset($this->filelist[$file]);
@@ -460,6 +467,11 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     function setFilelist(array $list)
     {
         $this->filelist = $list;
+    }
+
+    function getFileList()
+    {
+        return $this->filelist;
     }
 
     function setFilelistFile($file, $info)

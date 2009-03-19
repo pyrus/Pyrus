@@ -94,6 +94,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
            packagepath TEXT(255) NOT NULL,
            role TEXT(30) NOT NULL,
            rolepath TEXT(255) NOT NULL,
+           baseinstalldir TEXT(255),
            PRIMARY KEY (packagepath, role, rolepath),
            UNIQUE (packages_name, packages_channel, packagepath)
           );';

@@ -12,7 +12,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Guess.php',
+        'name' => 'OS/Guess.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -29,7 +29,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Parser.php',
+        'name' => 'PEAR/ChannelFile/Parser.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -46,7 +46,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Auth.xml',
+        'name' => 'PEAR/Command/Auth.xml',
         'role' => 'php',
       ),
     ),
@@ -54,7 +54,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Auth.php',
+        'name' => 'PEAR/Command/Auth.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -71,7 +71,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Build.xml',
+        'name' => 'PEAR/Command/Build.xml',
         'role' => 'php',
       ),
     ),
@@ -79,7 +79,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Build.php',
+        'name' => 'PEAR/Command/Build.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -96,7 +96,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Channels.xml',
+        'name' => 'PEAR/Command/Channels.xml',
         'role' => 'php',
       ),
     ),
@@ -104,7 +104,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Channels.php',
+        'name' => 'PEAR/Command/Channels.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -121,7 +121,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Common.php',
+        'name' => 'PEAR/Command/Common.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -138,7 +138,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Config.xml',
+        'name' => 'PEAR/Command/Config.xml',
         'role' => 'php',
       ),
     ),
@@ -146,7 +146,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Config.php',
+        'name' => 'PEAR/Command/Config.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -163,7 +163,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Install.xml',
+        'name' => 'PEAR/Command/Install.xml',
         'role' => 'php',
       ),
     ),
@@ -171,7 +171,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Install.php',
+        'name' => 'PEAR/Command/Install.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -188,7 +188,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Mirror.xml',
+        'name' => 'PEAR/Command/Mirror.xml',
         'role' => 'php',
       ),
     ),
@@ -196,7 +196,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Mirror.php',
+        'name' => 'PEAR/Command/Mirror.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -213,7 +213,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Package.xml',
+        'name' => 'PEAR/Command/Package.xml',
         'role' => 'php',
       ),
     ),
@@ -221,7 +221,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Package.php',
+        'name' => 'PEAR/Command/Package.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -250,7 +250,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Pickle.xml',
+        'name' => 'PEAR/Command/Pickle.xml',
         'role' => 'php',
       ),
     ),
@@ -258,7 +258,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Pickle.php',
+        'name' => 'PEAR/Command/Pickle.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -275,7 +275,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Registry.xml',
+        'name' => 'PEAR/Command/Registry.xml',
         'role' => 'php',
       ),
     ),
@@ -283,7 +283,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Registry.php',
+        'name' => 'PEAR/Command/Registry.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -300,7 +300,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Remote.xml',
+        'name' => 'PEAR/Command/Remote.xml',
         'role' => 'php',
       ),
     ),
@@ -308,7 +308,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Remote.php',
+        'name' => 'PEAR/Command/Remote.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -325,7 +325,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Test.xml',
+        'name' => 'PEAR/Command/Test.xml',
         'role' => 'php',
       ),
     ),
@@ -333,7 +333,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Test.php',
+        'name' => 'PEAR/Command/Test.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -350,7 +350,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Package.php',
+        'name' => 'PEAR/Downloader/Package.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -367,7 +367,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'CLI.php',
+        'name' => 'PEAR/Frontend/CLI.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -384,7 +384,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Common.php',
+        'name' => 'PEAR/Installer/Role/Common.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -401,7 +401,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Data.xml',
+        'name' => 'PEAR/Installer/Role/Data.xml',
         'role' => 'php',
       ),
     ),
@@ -409,7 +409,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Data.php',
+        'name' => 'PEAR/Installer/Role/Data.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -426,7 +426,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Doc.xml',
+        'name' => 'PEAR/Installer/Role/Doc.xml',
         'role' => 'php',
       ),
     ),
@@ -434,7 +434,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Doc.php',
+        'name' => 'PEAR/Installer/Role/Doc.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -451,7 +451,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Ext.xml',
+        'name' => 'PEAR/Installer/Role/Ext.xml',
         'role' => 'php',
       ),
     ),
@@ -459,7 +459,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Ext.php',
+        'name' => 'PEAR/Installer/Role/Ext.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -476,7 +476,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Php.xml',
+        'name' => 'PEAR/Installer/Role/Php.xml',
         'role' => 'php',
       ),
     ),
@@ -484,7 +484,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Php.php',
+        'name' => 'PEAR/Installer/Role/Php.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -501,7 +501,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Script.xml',
+        'name' => 'PEAR/Installer/Role/Script.xml',
         'role' => 'php',
       ),
     ),
@@ -509,7 +509,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Script.php',
+        'name' => 'PEAR/Installer/Role/Script.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -526,7 +526,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Src.xml',
+        'name' => 'PEAR/Installer/Role/Src.xml',
         'role' => 'php',
       ),
     ),
@@ -534,7 +534,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Src.php',
+        'name' => 'PEAR/Installer/Role/Src.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -551,7 +551,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Test.xml',
+        'name' => 'PEAR/Installer/Role/Test.xml',
         'role' => 'php',
       ),
     ),
@@ -559,7 +559,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Test.php',
+        'name' => 'PEAR/Installer/Role/Test.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -576,7 +576,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Www.xml',
+        'name' => 'PEAR/Installer/Role/Www.xml',
         'role' => 'php',
       ),
     ),
@@ -584,7 +584,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Www.php',
+        'name' => 'PEAR/Installer/Role/Www.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -601,7 +601,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Role.php',
+        'name' => 'PEAR/Installer/Role.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -618,7 +618,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'v1.php',
+        'name' => 'PEAR/PackageFile/Generator/v1.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -635,7 +635,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'v2.php',
+        'name' => 'PEAR/PackageFile/Generator/v2.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -652,7 +652,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'v1.php',
+        'name' => 'PEAR/PackageFile/Parser/v1.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -669,7 +669,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'v2.php',
+        'name' => 'PEAR/PackageFile/Parser/v2.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -687,7 +687,7 @@ $test->assertEquals(array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'rw.php',
+        'name' => 'PEAR/PackageFile/v2/rw.php',
       ),
       'tasks:replace' => 
       array (
@@ -704,7 +704,7 @@ $test->assertEquals(array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'Validator.php',
+        'name' => 'PEAR/PackageFile/v2/Validator.php',
       ),
       'tasks:replace' => 
       array (
@@ -720,7 +720,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'v1.php',
+        'name' => 'PEAR/PackageFile/v1.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -737,7 +737,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'v2.php',
+        'name' => 'PEAR/PackageFile/v2.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -754,7 +754,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => '10.php',
+        'name' => 'PEAR/REST/10.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -771,7 +771,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => '11.php',
+        'name' => 'PEAR/REST/11.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -788,7 +788,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => '13.php',
+        'name' => 'PEAR/REST/13.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -805,7 +805,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'rw.php',
+        'name' => 'PEAR/Task/Postinstallscript/rw.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -822,7 +822,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'rw.php',
+        'name' => 'PEAR/Task/Replace/rw.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -839,7 +839,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'rw.php',
+        'name' => 'PEAR/Task/Unixeol/rw.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -856,7 +856,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'rw.php',
+        'name' => 'PEAR/Task/Windowseol/rw.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -873,7 +873,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Common.php',
+        'name' => 'PEAR/Task/Common.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -890,7 +890,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Postinstallscript.php',
+        'name' => 'PEAR/Task/Postinstallscript.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -907,7 +907,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Replace.php',
+        'name' => 'PEAR/Task/Replace.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -924,7 +924,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Unixeol.php',
+        'name' => 'PEAR/Task/Unixeol.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -941,7 +941,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Windowseol.php',
+        'name' => 'PEAR/Task/Windowseol.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -958,7 +958,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'PECL.php',
+        'name' => 'PEAR/Validator/PECL.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -975,7 +975,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Autoloader.php',
+        'name' => 'PEAR/Autoloader.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -992,7 +992,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Builder.php',
+        'name' => 'PEAR/Builder.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1009,7 +1009,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'ChannelFile.php',
+        'name' => 'PEAR/ChannelFile.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1026,7 +1026,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Command.php',
+        'name' => 'PEAR/Command.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1043,7 +1043,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Common.php',
+        'name' => 'PEAR/Common.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1060,7 +1060,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Config.php',
+        'name' => 'PEAR/Config.php',
          'role' => 'php',
        ),
        'tasks:replace' => 
@@ -1081,7 +1081,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Dependency.php',
+        'name' => 'PEAR/Dependency.php',
         'role' => 'php',
       ),
     ),
@@ -1089,7 +1089,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'DependencyDB.php',
+        'name' => 'PEAR/DependencyDB.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1106,7 +1106,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Dependency2.php',
+        'name' => 'PEAR/Dependency2.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1123,7 +1123,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Downloader.php',
+        'name' => 'PEAR/Downloader.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1140,7 +1140,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'ErrorStack.php',
+        'name' => 'PEAR/ErrorStack.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1157,7 +1157,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Exception.php',
+        'name' => 'PEAR/Exception.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1174,7 +1174,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Frontend.php',
+        'name' => 'PEAR/Frontend.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1191,7 +1191,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Installer.php',
+        'name' => 'PEAR/Installer.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1208,7 +1208,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'PackageFile.php',
+        'name' => 'PEAR/PackageFile.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1225,7 +1225,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Packager.php',
+        'name' => 'PEAR/Packager.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1242,7 +1242,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Registry.php',
+        'name' => 'PEAR/Registry.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1259,7 +1259,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Remote.php',
+        'name' => 'PEAR/Remote.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1276,7 +1276,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'REST.php',
+        'name' => 'PEAR/REST.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1293,7 +1293,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'RunTest.php',
+        'name' => 'PEAR/RunTest.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1310,7 +1310,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'Validate.php',
+        'name' => 'PEAR/Validate.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1327,7 +1327,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'XMLParser.php',
+        'name' => 'PEAR/XMLParser.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1344,7 +1344,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'pear.bat',
+        'name' => 'scripts/pear.bat',
         'role' => 'script',
       ),
       'tasks:replace' => 
@@ -1383,7 +1383,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'peardev.bat',
+        'name' => 'scripts/peardev.bat',
         'role' => 'script',
       ),
       'tasks:replace' => 
@@ -1422,7 +1422,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'pecl.bat',
+        'name' => 'scripts/pecl.bat',
         'role' => 'script',
       ),
       'tasks:replace' => 
@@ -1461,7 +1461,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'pear.sh',
+        'name' => 'scripts/pear.sh',
         'role' => 'script',
       ),
       'tasks:replace' => 
@@ -1509,7 +1509,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'peardev.sh',
+        'name' => 'scripts/peardev.sh',
         'role' => 'script',
       ),
       'tasks:replace' => 
@@ -1557,7 +1557,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'pecl.sh',
+        'name' => 'scripts/pecl.sh',
         'role' => 'script',
       ),
       'tasks:replace' => 
@@ -1605,7 +1605,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'pearcmd.php',
+        'name' => 'scripts/pearcmd.php',
         'role' => 'php',
       ),
       'tasks:replace' => 
@@ -1652,7 +1652,7 @@ $test->assertEquals(array (
     array (
       'attribs' => 
       array (
-        'name' => 'peclcmd.php',
+        'name' => 'scripts/peclcmd.php',
         'role' => 'php',
       ),
       'tasks:replace' => 

@@ -32,6 +32,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   3 => 
@@ -40,6 +41,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/Categories.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   4 => 
@@ -48,6 +50,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/Categories/Exception.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   5 => 
@@ -56,6 +59,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/Channel.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   6 => 
@@ -64,6 +68,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/CLI.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   7 => 
@@ -72,6 +77,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/Exception.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   8 => 
@@ -80,6 +86,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/Get.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   9 => 
@@ -88,6 +95,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/REST/Category.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   10 => 
@@ -96,6 +104,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   11 => 
@@ -104,6 +113,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/REST/Manager.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   12 => 
@@ -112,6 +122,7 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/REST/Package.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
   13 => 
@@ -120,12 +131,14 @@ $test->assertEquals(array (
     array (
       'role' => 'php',
       'name' => 'src/SimpleChannelServer/REST/Release.php',
+      'baseinstalldir' => 'PEAR2',
     ),
   ),
 ), $testit, 'output');
 
 $test->assertEquals('php', $file->role, 'php 1');
-$test->assertEquals(basename($file->name), $reg->files['src/SimpleChannelServer.php']['attribs']['name'], 'verify we have the same thing');
+$test->assertEquals('src/SimpleChannelServer.php', $file->name, 'verify name is as expected');
+$test->assertEquals($file->name, $reg->files['src/SimpleChannelServer.php']['attribs']['name'], 'verify we have the same thing');
 $test->assertEquals('php', $reg->files['src/SimpleChannelServer.php']['attribs']['role'], 'again verify');
 $file->role = 'oog';
 $test->assertEquals('oog', $file->role, 'php 2');

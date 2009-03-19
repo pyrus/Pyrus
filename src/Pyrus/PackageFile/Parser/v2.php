@@ -175,7 +175,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                     $newarr = $arr['file'];
                 }
                 $newarr['attribs']['name'] =
-                    basename($newarr['attribs']['name']);
+                    $path;
                 $this->_files[$path] = $newarr;
                 $this->_curFile = $path;
                 $this->_inFile = $depth;

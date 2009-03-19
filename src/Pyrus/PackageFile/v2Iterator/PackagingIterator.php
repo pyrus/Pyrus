@@ -46,11 +46,6 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator extends ArrayIterator
         $curfile['attribs']['name'] = parent::key();
         if ($base = self::$_parent->getBaseInstallDir($curfile['attribs']['name'])) {
             $curfile['attribs']['baseinstalldir'] = $base;
-        } elseif (!isset($curfile['attribs']['baseinstalldir'])) {
-            $curfile['attribs']['baseinstalldir'] =
-                (dirname($curfile['attribs']['name']) === '.' ?
-                    '/' :
-                    dirname($curfile['attribs']['name']));
         }
         if (isset($curfile['attribs']['md5sum'])) {
             unset($curfile['attribs']['md5sum']);

@@ -5,7 +5,7 @@ $test->assertEquals(array (
   'attribs' => 
   array (
     'role' => 'doc',
-    'name' => 'update_channel.php',
+    'name' => 'examples/update_channel.php',
   ),
 ), $reg->files['examples/update_channel.php'], 'first');
 unset($reg->files['examples/update_channel.php']);

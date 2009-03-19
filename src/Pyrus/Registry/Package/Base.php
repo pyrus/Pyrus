@@ -49,7 +49,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
         $this->package = $info['package'];
         $this->channel = $info['channel'];
         $intermediate = $this->reg->toPackageFile($info['package'], $info['channel']);
-        parent::fromArray($intermediate->toArray());
+        parent::fromv2($intermediate);
         $ret = clone $this;
         unset($this->packagename);
         unset($this->package);

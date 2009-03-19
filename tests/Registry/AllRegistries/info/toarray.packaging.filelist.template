@@ -9,11 +9,11 @@ $test->assertEquals(array (
   array (
     'attribs' => 
     array (
-      'xmlns' => 'http://pear.php.net/dtd/package-2.1',
+      'xmlns' => 'http://pear.php.net/dtd/package-2.0',
       'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
       'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-      'version' => '2.1',
-      'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd',
+      'version' => '2.0',
+      'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd',
     ),
     'name' => 'PEAR2_SimpleChannelServer',
     'channel' => 'pear2.php.net',
@@ -190,7 +190,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'script',
               'name' => 'script/pearscs',
-              'baseinstalldir' => '/',
             ),
           ),
           13 => 
@@ -199,7 +198,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'doc',
               'name' => 'doc/pear2.php.net/PEAR2_SimpleChannelServer/examples/examples/update_channel.php',
-              'baseinstalldir' => 'examples',
             ),
           ),
         ),
