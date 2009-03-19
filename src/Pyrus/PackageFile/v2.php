@@ -447,7 +447,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $this->packageInfo = $pinfo['package'];
     }
 
-    function fromV2(PEAR2_Pyrus_PackageFile_v2 $package)
+    function fromPackageFile(PEAR2_Pyrus_IPackageFile $package)
     {
         $this->fromArray($package->toArray());
         $this->setFilelist($package->getFileList());

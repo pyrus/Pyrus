@@ -43,4 +43,9 @@ class PEAR2_Pyrus_PackageFile
     {
         return $this->info->__toString();
     }
+
+    function getPackageFileObject()
+    {
+        return $this->info;
+    }
 }

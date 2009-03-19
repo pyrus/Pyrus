@@ -108,10 +108,9 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         }
         
         $package = new PEAR2_Pyrus_Package($packagefile[0]);
-        
-        // create packagefile v2 here
+
         if ($field === null) {
-            return $package;
+            return $package->getInternalPackage()->getPackageFile()->getPackageFileObject();
         }
 
         if ($field == 'version') {
@@ -182,7 +181,7 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         }
         $packagefile = $this->info($package, $channel, null);
         
-        return $packagefile->getInternalPackage();
+        return $packagefile;
     }
 
     public function __get($var)

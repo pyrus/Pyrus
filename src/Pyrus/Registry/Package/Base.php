@@ -36,6 +36,22 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
         $this->reg = $cloner;
     }
 
+    function fromPackageFile(PEAR2_Pyrus_IPackageFile $package)
+    {
+        parent::fromPackageFile($package);
+        // reconstruct filelist/baseinstalldirs
+        // this assumes that the filelist has been flattened, which is
+        // always true for registries
+        // it also assumes we are not a bundle, which is also always true for
+        // registries as bundles are not installable
+        foreach ($this->packageInfo['contents']['dir']['file'] as $file) {
+            $this->filelist[$file['attribs']['name']] = $file;
+        }
+        if (isset($this->packageInfo['contents']['dir']['attribs']['baseinstalldir'])) {
+            $this->baseinstalldirs = array('/' => $this->packageInfo['contents']['dir']['attribs']['baseinstalldir']);
+        }
+    }
+
     function offsetExists($offset)
     {
         $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
@@ -49,7 +65,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
         $this->package = $info['package'];
         $this->channel = $info['channel'];
         $intermediate = $this->reg->toPackageFile($info['package'], $info['channel']);
-        parent::fromv2($intermediate);
+        parent::fromPackageFile($intermediate);
         $ret = clone $this;
         unset($this->packagename);
         unset($this->package);
