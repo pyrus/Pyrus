@@ -9,151 +9,33 @@ $arr = array();
 foreach ($reg->packagingcontents as $name => $file) {
     $arr[] = array('name' => $name, 'file' => $file);
 }
+usort($arr, function($a,$b) {return strnatcasecmp($a['name'], $b['name']);});
 $test->assertEquals(array (
   0 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Release.php',
+    'name' => 'doc/pear2.php.net/PEAR2_SimpleChannelServer/examples/examples/update_channel.php',
     'file' => 
     array (
       'attribs' => 
       array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/REST/Release.php',
-        'baseinstalldir' => 'PEAR2',
+        'role' => 'doc',
+        'name' => 'examples/update_channel.php',
       ),
     ),
   ),
   1 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Package.php',
+    'name' => 'script/pearscs',
     'file' => 
     array (
       'attribs' => 
       array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/REST/Package.php',
-        'baseinstalldir' => 'PEAR2',
+        'role' => 'script',
+        'name' => 'scripts/pearscs',
       ),
     ),
   ),
   2 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Manager.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/REST/Manager.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  3 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Maintainer.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  4 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Category.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/REST/Category.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  5 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Get.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/Get.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  6 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Exception.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/Exception.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  7 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/CLI.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/CLI.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  8 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Channel.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/Channel.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  9 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Categories/Exception.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/Categories/Exception.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  10 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Categories.php',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'php',
-        'name' => 'src/SimpleChannelServer/Categories.php',
-        'baseinstalldir' => 'PEAR2',
-      ),
-    ),
-  ),
-  11 => 
   array (
     'name' => 'src/PEAR2/SimpleChannelServer.php',
     'file' => 
@@ -166,27 +48,146 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  12 => 
+  3 => 
   array (
-    'name' => 'script/pearscs',
+    'name' => 'src/PEAR2/SimpleChannelServer/Categories.php',
     'file' => 
     array (
       'attribs' => 
       array (
-        'role' => 'script',
-        'name' => 'scripts/pearscs',
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/Categories.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  4 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/Categories/Exception.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/Categories/Exception.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  5 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/Channel.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/Channel.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  6 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/CLI.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/CLI.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  7 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/Exception.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/Exception.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  8 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/Get.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/Get.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  9 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/REST/Category.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/REST/Category.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  10 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/REST/Maintainer.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  11 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/REST/Manager.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/REST/Manager.php',
+        'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  12 => 
+  array (
+    'name' => 'src/PEAR2/SimpleChannelServer/REST/Package.php',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/REST/Package.php',
+        'baseinstalldir' => 'PEAR2',
       ),
     ),
   ),
   13 => 
   array (
-    'name' => 'doc/pear2.php.net/PEAR2_SimpleChannelServer/examples/examples/update_channel.php',
+    'name' => 'src/PEAR2/SimpleChannelServer/REST/Release.php',
     'file' => 
     array (
       'attribs' => 
       array (
-        'role' => 'doc',
-        'name' => 'examples/update_channel.php',
+        'role' => 'php',
+        'name' => 'src/SimpleChannelServer/REST/Release.php',
+        'baseinstalldir' => 'PEAR2',
       ),
     ),
   ),
