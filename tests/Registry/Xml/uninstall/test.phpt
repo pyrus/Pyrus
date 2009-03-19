@@ -1,9 +1,9 @@
 --TEST--
-Sqlite3 registry: install 1
+Sqlite3 registry: uninstall 1
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-include __DIR__ . '/../../AllRegistries/install/test.template';
+include __DIR__ . '/../../AllRegistries/uninstall/test.template';
 ?>
 ===DONE===
 --CLEAN--

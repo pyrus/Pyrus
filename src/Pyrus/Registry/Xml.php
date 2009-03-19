@@ -83,9 +83,17 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
         }
-        $packagefile = $this->_nameRegistryPath(null, $channel, $package);
-        @unlink($packagefile);
-        @rmdir(dirname($packagefile));
+        if (!$this->exists($package, $channel)) {
+            return;
+        }
+        $packagefile = glob($this->_namePath($channel, $package) .
+            DIRECTORY_SEPARATOR . '*.xml');
+        if (!$packagefile || !isset($packagefile[0])) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
+                $channel . '/' . $package);
+        }
+        unlink($packagefile[0]);
+        rmdir(dirname($packagefile[0]));
     }
 
     public function exists($package, $channel)
@@ -177,7 +185,7 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
     {
         if (!$this->exists($package, $channel)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', it is not installed');
+                'for package ' . $channel . '/' . $package . ', it is not installed');
         }
         $packagefile = $this->info($package, $channel, null);
         

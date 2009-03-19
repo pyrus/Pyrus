@@ -1,0 +1,15 @@
+<?php
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'package does not exist');
+$reg->install($info);
+$test->assertEquals(true, (bool)$reg->exists($info->name, $info->channel), 'package was installed');
+
+$reg->uninstall($info->name, $info->channel);
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'post-uninstall');
+try {
+    $a = $reg->package[$info->channel . '/' . $info->name];
+    throw new Exception('package acquisition should have failed');
+} catch (PEAR2_Pyrus_Registry_Exception $e) {
+    $test->assertEquals('Cannot retrieve package file object ' .
+                'for package pear2.php.net/PEAR2_SimpleChannelServer, it is not installed', $e->getMessage(), 'message');
+}
+?>

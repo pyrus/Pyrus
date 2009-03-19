@@ -212,7 +212,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             $data = @unserialize($packagefile);
             if ($data === false) {
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                    'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
+                    'for package ' . $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
             }
 
             $ret = array();
@@ -261,7 +261,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
     {
         if (!$this->exists($package, $channel)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', it is not installed');
+                'for package ' . $channel . '/' . $package . ', it is not installed');
         }
 
         $packagefile = $this->_nameRegistryPath(null, $channel, $package);
@@ -279,7 +279,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         $data = @unserialize($contents);
         if ($data === false) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
-                'for package ' . $package . '/' . $channel . ', PEAR 1.x registry file might be corrupt!');
+                'for package ' . $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
         }
 
         if (isset($data['xsdversion']) && $data['xsdversion'] == '1.0'
