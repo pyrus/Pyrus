@@ -94,6 +94,16 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
 
     function valid()
     {
+        while (current($this->_curRole) && !current($this->info[current($this->_curRole)])) {
+            next($this->_curRole);
+            if (!current($this->_curRole)) {
+                return false;
+            }
+            reset($this->info[current($this->_curRole)]);
+            if (count($this->info[current($this->_curRole)])) {
+                return true;
+            }
+        }
         return current($this->_curRole);
     }
 
