@@ -29,4 +29,12 @@ class PEAR2_Pyrus_Registry_Pear1_Package extends PEAR2_Pyrus_Registry_Package_Ba
     {
         $this->reg = $cloner;
     }
+
+    function fromPackageFile(PEAR2_Pyrus_IPackageFile $package)
+    {
+        PEAR2_Pyrus_PackageFile_v2::fromPackageFile($package);
+        if (isset($this->packageInfo['contents']['dir']['attribs']['baseinstalldir'])) {
+            $this->baseinstalldirs = array('/' => $this->packageInfo['contents']['dir']['attribs']['baseinstalldir']);
+        }
+    }
 }

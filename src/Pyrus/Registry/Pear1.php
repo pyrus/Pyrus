@@ -310,6 +310,9 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             // create packagefile v2 here
             $pf = new PEAR2_Pyrus_PackageFile_v2;
             $pf->fromArray(array('package' => $data));
+            foreach ($data['contents']['dir']['file'] as $file) {
+                $pf->files[$file['attribs']['name']] = $file;
+            }
         }
         return $pf;
     }
