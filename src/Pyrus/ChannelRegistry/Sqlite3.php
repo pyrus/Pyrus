@@ -159,13 +159,17 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
         $stmt = @self::$databases[$this->_path]->prepare($sql);
 
-        $stmt->bindParam(':name',           $channel->getName());
-        $stmt->bindParam(':summary',        $channel->getSummary());
-        $stmt->bindParam(':suggestedalias', $channel->getAlias());
-        $stmt->bindParam(':alias',          $channel->getAlias());
+        $cn = $channel->name;
+        $stmt->bindParam(':name',           $cn);
+        $cs = $channel->summary;
+        $stmt->bindParam(':summary',        $cs);
+        $ca = $channel->alias;
+        $stmt->bindParam(':suggestedalias', $ca);
+        $stmt->bindParam(':alias',          $ca);
         $stmt->bindParam(':version',        $validate['attribs']['version']);
         $stmt->bindParam(':package',        $validate['_content']);
-        $stmt->bindParam(':lastmodified',   serialize($channel->lastModified()));
+        $mod = serialize($channel->lastModified());
+        $stmt->bindParam(':lastmodified',   $mod);
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
@@ -185,10 +189,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             $ssl = 1;
         }
         $stmt = @self::$databases[$this->_path]->prepare($sql);
-        $stmt->bindParam(':channel', $channel->getName());
-        $stmt->bindParam(':server',  $channel->getName());
+        $stmt->bindParam(':channel', $cn);
+        $stmt->bindParam(':server',  $cn);
         $stmt->bindParam(':ssl',     $ssl, SQLITE3_INTEGER);
-        $stmt->bindParam(':port',    $channel->getPort(), SQLITE3_INTEGER);
+        $cp = $channel->port;
+        $stmt->bindParam(':port',    $cp, SQLITE3_INTEGER);
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
@@ -209,9 +214,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     
                 $stmt = @self::$databases[$this->_path]->prepare($sql);
     
-                $stmt->bindParam(':channel', $channel->getName());
-                $stmt->bindParam(':server',  $channel->getName());
-                $stmt->bindParam(':func',    $rest->baseurl);
+                $stmt->bindParam(':channel', $cn);
+                $stmt->bindParam(':server',  $cn);
+                $u = $rest->baseurl;
+                $stmt->bindParam(':func',    $u);
                 $stmt->bindParam(':attrib',  $protocol);
     
                 if (!$stmt->execute()) {
@@ -236,10 +242,12 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 }
                 $stmt = @self::$databases[$this->_path]->prepare($sql);
     
-                $stmt->bindParam(':channel', $channel->getName());
-                $stmt->bindParam(':server',  $mirror->getName());
+                $stmt->bindParam(':channel', $cn);
+                $mn = $mirror->getName();
+                $stmt->bindParam(':server',  $mn);
                 $stmt->bindParam(':ssl',     $ssl, SQLITE3_INTEGER);
-                $stmt->bindParam(':port',    $mirror->getPort(), SQLITE3_INTEGER);
+                $mp = $mirror->getPort();
+                $stmt->bindParam(':port',    $mp, SQLITE3_INTEGER);
     
                 if (!$stmt->execute()) {
                     self::$databases[$this->_path]->exec('ROLLBACK');
@@ -248,7 +256,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 }
                 $stmt->close();
     
-                foreach ($mirror->protocols->rest as $protocol=>$rest) {
+                foreach ($mirror->protocols->rest as $protocol => $rest) {
                     $sql = '
                         INSERT INTO channel_server_rest
                         (channel, server, baseurl, type)
@@ -258,9 +266,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     
                     $stmt = @self::$databases[$this->_path]->prepare($sql);
     
-                    $stmt->bindParam(':channel', $channel->getName());
-                    $stmt->bindParam(':server',  $mirror->getName());
-                    $stmt->bindParam(':func',    $rest->baseurl);
+                    $stmt->bindParam(':channel', $cn);
+                    $stmt->bindParam(':server',  $mn);
+                    $u = $rest->baseurl;
+                    $stmt->bindParam(':func',    $u);
                     $stmt->bindParam(':attrib',  $protocol);
     
                     if (!$stmt->execute()) {
