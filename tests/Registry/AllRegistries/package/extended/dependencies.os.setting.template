@@ -1,0 +1,22 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// for regular arch deps
+$fake = new PEAR2_Pyrus_PackageFile_v2;
+$os = $fake->dependencies['required']->os;
+$os['windows'] = false;
+$os['OS/2'] = false;
+$os['linux'] = true;
+
+$test->assertEquals(null, $reg->dependencies['required']->os['windows'], 'windows before');
+$test->assertEquals(null, $reg->dependencies['required']->os['OS/2'], 'OS/2 before');
+$test->assertEquals(null, $reg->dependencies['required']->os['linux'], 'linux before');
+
+$reg->dependencies['required']->os = $os;
+
+$test->assertEquals(false, $reg->dependencies['required']->os['windows'], 'windows after');
+$test->assertEquals(false, $reg->dependencies['required']->os['OS/2'], 'OS/2 after');
+$test->assertEquals(true, $reg->dependencies['required']->os['linux'], 'linux after');

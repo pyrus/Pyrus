@@ -1,0 +1,227 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// for code coverage
+unset($reg->dependencies['group']->name->extension);
+
+$reg->setFilelist(array(
+    'onefile.php' => array('attribs' => array('name' => 'onefile.php', 'role' => 'php'))
+));
+
+$test->assertEquals(array (
+  'package' => 
+  array (
+    'attribs' => 
+    array (
+      'xmlns' => 'http://pear.php.net/dtd/package-2.0',
+      'xmlns:tasks' => 'http://pear.php.net/dtd/tasks-1.0',
+      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+      'version' => '2.0',
+      'xsi:schemaLocation' => 'http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd',
+    ),
+    'name' => 'PEAR2_SimpleChannelServer',
+    'channel' => 'pear2.php.net',
+    'summary' => 'A Simple Channel Server for PEAR2 compatible channels
+',
+    'description' => '
+This package contains a set of scripts to create a simple PEAR compatible
+channel server. Included with the package is the pearscs command which you
+can use for the command line to manage a pear channel.
+
+The pearscs utility will be installed in the directory configured by the
+bin_dir setting within Pyrus.
+',
+    'lead' => 
+    array (
+      0 => 
+      array (
+        'name' => 'Gregory Beaver',
+        'user' => 'cellog',
+        'email' => 'cellog@php.net',
+        'active' => 'yes',
+      ),
+      1 => 
+      array (
+        'name' => 'Brett Bieber',
+        'user' => 'saltybeagle',
+        'email' => 'brett.bieber@gmail.com',
+        'active' => 'yes',
+      ),
+    ),
+    'date' => '2008-12-15',
+    'time' => '11:51:01',
+    'version' => 
+    array (
+      'release' => '0.1.0',
+      'api' => '0.1.0',
+    ),
+    'stability' => 
+    array (
+      'release' => 'devel',
+      'api' => 'alpha',
+    ),
+    'license' => 
+    array (
+      'attribs' => 
+      array (
+        'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
+      ),
+      '_content' => 'New BSD License',
+    ),
+    'notes' => 'First attempt.
+',
+    'contents' => 
+    array (
+      'dir' => 
+      array (
+        'attribs' => 
+        array (
+          'name' => '/',
+        ),
+        'file' => 
+        array (
+          'attribs' => 
+          array (
+            'name' => 'onefile.php',
+            'role' => 'php',
+          ),
+        ),
+      ),
+    ),
+    'dependencies' => 
+    array (
+      'required' => 
+      array (
+        'php' => 
+        array (
+          'min' => '5.2.0',
+        ),
+        'pearinstaller' => 
+        array (
+          'min' => '2.0.0a1',
+        ),
+        'package' => 
+        array (
+          0 => 
+          array (
+            'name' => 'File',
+            'channel' => 'pear.php.net',
+            'min' => '1.2.0',
+          ),
+          1 => 
+          array (
+            'name' => 'Other',
+            'channel' => 'pear.php.net',
+            'conflicts' => '',
+          ),
+          2 => 
+          array (
+            'name' => 'PackageName',
+            'channel' => 'pecl.php.net',
+            'min' => '1.1.0',
+            'max' => '1.2.0',
+            'recommended' => '1.1.1',
+            'exclude' => 
+            array (
+              0 => '1.1.0a1',
+              1 => '1.1.0a2',
+            ),
+            'providesextension' => 'packagename',
+          ),
+        ),
+        'subpackage' => 
+        array (
+          'name' => 'Foo',
+          'channel' => 'pear2.php.net',
+          'min' => '1.0.0',
+          'max' => '2.0.0',
+          'recommended' => '1.2.0',
+          'exclude' => 
+          array (
+            0 => '1.1.0',
+            1 => '1.1.1',
+          ),
+        ),
+        'extension' => 
+        array (
+          'name' => 'phar',
+          'min' => '2.0.0',
+        ),
+        'os' => 
+        array (
+          0 => 
+          array (
+            'name' => 'windows',
+          ),
+          1 => 
+          array (
+            'name' => 'vista',
+            'conflicts' => '',
+          ),
+        ),
+        'arch' => 
+        array (
+          'pattern' => 'i386',
+        ),
+      ),
+      'optional' => 
+      array (
+        'package' => 
+        array (
+          'name' => 'PEAR',
+          'channel' => 'pear.php.net',
+          'min' => '1.7.0',
+        ),
+        'subpackage' => 
+        array (
+          'name' => 'Bar',
+          'channel' => 'pear2.php.net',
+          'min' => '1.5.0',
+        ),
+      ),
+      'group' => 
+      array (
+        'attribs' => 
+        array (
+          'hint' => 'Install optional stuff as a group',
+          'name' => 'name',
+        ),
+        'package' => 
+        array (
+          0 => 
+          array (
+            'name' => 'PackageName1',
+            'channel' => 'pear2.php.net',
+          ),
+          1 => 
+          array (
+            'name' => 'PackageName2',
+            'channel' => 'pear2.php.net',
+            'min' => '1.2.0',
+          ),
+          2 => 
+          array (
+            'name' => 'PackageName',
+            'channel' => 'pecl.php.net',
+            'min' => '1.1.0',
+            'max' => '1.2.0',
+            'recommended' => '1.1.1',
+            'exclude' => 
+            array (
+              0 => '1.1.0a1',
+              1 => '1.1.0a2',
+            ),
+            'providesextension' => 'packagename',
+          ),
+        ),
+        'subpackage' => 
+        array (
+          'name' => 'PackageName3',
+          'channel' => 'pear2.php.net',
+          'recommended' => '1.2.1',
+        ),
+      ),
+    ),
+    'phprelease' => '',
+  ),
+), $reg->toArray(), 'toArray');

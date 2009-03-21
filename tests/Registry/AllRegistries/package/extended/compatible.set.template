@@ -1,0 +1,44 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake->compatible['test/test']->min('1.2.3')->max('1.4.5');
+$fake->compatible['test/test2']->min('1.2.4')->max('1.4.3');
+
+$test->assertEquals(false, isset($reg->compatible['test/test']), 'isset before');
+
+$test->assertEquals(0, count($reg->compatible), 'count 0');
+
+$test->assertEquals(false, isset($reg->compatible['test/test']), 'isset before');
+$test->assertEquals(false, isset($reg->compatible['test/test2']), 'isset before 2');
+
+$reg->compatible['test/test'] = $fake->compatible['test/test'];
+
+$test->assertEquals(true, isset($reg->compatible['test/test']), 'isset after');
+$test->assertEquals('1.2.3', $reg->compatible['test/test']->min, 'min test/test');
+$test->assertEquals('1.4.5', $reg->compatible['test/test']->max, 'max test/test');
+
+$test->assertEquals(1, count($reg->compatible), 'count 1');
+
+$reg->compatible[] = $fake->compatible['test/test2'];
+
+$test->assertEquals(true, isset($reg->compatible['test/test2']), 'isset after 2');
+$test->assertEquals(2, count($reg->compatible), 'count 2');
+$test->assertEquals('1.2.3', $reg->compatible['test/test']->min, 'min test/test 2');
+$test->assertEquals('1.4.5', $reg->compatible['test/test']->max, 'max test/test 2');
+$test->assertEquals('1.2.4', $reg->compatible['test/test2']->min, 'min test/test2');
+$test->assertEquals('1.4.3', $reg->compatible['test/test2']->max, 'max test/test2');
+
+$reg->compatible[] = $fake->compatible['test/test2'];
+
+$test->assertEquals(2, count($reg->compatible), 'count 3');
+$test->assertEquals('1.2.3', $reg->compatible['test/test']->min, 'min test/test 2.1');
+$test->assertEquals('1.4.5', $reg->compatible['test/test']->max, 'max test/test 2.1');
+$test->assertEquals('1.2.4', $reg->compatible['test/test2']->min, 'min test/test2 2');
+$test->assertEquals('1.4.3', $reg->compatible['test/test2']->max, 'max test/test2 2');
+
+$names = array();
+foreach ($reg->compatible as $name => $obj) {
+    $names[] = $name;
+}
+$test->assertEquals(array('test/test', 'test/test2'), $names, 'names');

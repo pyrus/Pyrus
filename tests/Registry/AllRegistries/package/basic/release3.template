@@ -1,0 +1,84 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+$test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Release', $reg->release, 'right class');
+
+$foo = new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition(false, array(), 'extension');
+$foo = $foo['PDO'];
+$foo->min('1.0')->conflicts();
+
+$reg->release[0]->installconditions['extension']['PDO'] = $foo;
+$test->assertEquals('PDO', $reg->release[0]->installconditions['extension']['PDO']->name, 'PDO 1');
+$test->assertEquals('1.0', $reg->release[0]->installconditions['extension']['PDO']->min, 'PDO min');
+
+$foo->min('2.0.0');
+$test->assertEquals(false, isset($reg->release[0]->installconditions['extension']['phar']), 'phar isset 1');
+$reg->release[0]->installconditions['extension']['phar'] = $foo;
+$test->assertEquals(true, isset($reg->release[0]->installconditions['extension']['phar']), 'phar isset 2');
+$test->assertEquals('PDO', $reg->release[0]->installconditions['extension']['PDO']->name, 'PDO 2');
+$test->assertEquals('1.0', $reg->release[0]->installconditions['extension']['PDO']->min, 'PDO min 2');
+$test->assertEquals('phar', $reg->release[0]->installconditions['extension']['phar']->name, 'phar');
+$test->assertEquals('2.0.0', $reg->release[0]->installconditions['extension']['phar']->min, 'phar min');
+
+try {
+    $reg->release[0]->installconditions['extension']['phar'] = 2;
+    throw new Exception('phar 2 didn\'t fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot set extension to anything but a' .
+                        ' PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition object', $e->getMessage(), 'phar 2 message');
+}
+
+try {
+    $reg->release[0]->installconditions['foo'] = 2;
+    throw new Exception('foo didn\'t fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Unknown install condition foo', $e->getMessage(), 'foo message');
+}
+
+try {
+    $reg->release[0]->installconditions['extension'] = 2;
+    throw new Exception('extension 2 didn\'t fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Set extension install condition by name', $e->getMessage(), 'extension 2 message');
+}
+
+$foo = new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition(false, array('min' => null), 'php');
+
+try {
+    $reg->release[0]->installconditions['extension']['phar'] = $foo;
+    throw new Exception('phar php didn\'t fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot set extension phar to another install condition (php)', $e->getMessage(), 'phar php message');
+}
+
+try {
+    $reg->release[0]->installconditions['arch'] = $foo;
+    throw new Exception('arch php didn\'t fail');
+} catch (PEAR2_Pyrus_PackageFile_v2_Release_Exception $e) {
+    $test->assertEquals('Cannot set arch to another install condition (php)', $e->getMessage(), 'arch php message');
+}
+
+$test->assertEquals(false, isset($reg->release[0]->installconditions['php']), 'php isset 1');
+$test->assertEquals(false, isset($reg->release[0]->installconditions['arch']), 'arch isset 1');
+$test->assertEquals(false, isset($reg->release[0]->installconditions['os']), 'os isset 1');
+
+$foo->min('5.1.0');
+$reg->release[0]->installconditions['php'] = $foo;
+$test->assertEquals('5.1.0', $reg->release[0]->installconditions['php']->min, 'php min');
+
+$foo = new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition(false, array('pattern' => null), 'arch');
+$foo->pattern('hi');
+$reg->release[0]->installconditions['arch'] = $foo;
+$test->assertEquals('hi', $reg->release[0]->installconditions['arch']->pattern, 'arch pattern');
+
+$foo = new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition(false, array('name' => null), 'os');
+$foo->name('boo');
+$reg->release[0]->installconditions['os'] = $foo;
+$test->assertEquals('boo', $reg->release[0]->installconditions['os']->name, 'os name');
+
+$test->assertEquals(true, isset($reg->release[0]->installconditions['php']), 'php isset 2');
+$test->assertEquals(true, isset($reg->release[0]->installconditions['arch']), 'arch isset 2');
+$test->assertEquals(true, isset($reg->release[0]->installconditions['os']), 'os isset 2');
+
+unset($reg->release[0]->installconditions['os']);
+$test->assertEquals(false, isset($reg->release[0]->installconditions['os']), 'os isset 3');

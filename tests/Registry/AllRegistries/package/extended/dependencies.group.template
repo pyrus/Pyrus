@@ -1,0 +1,39 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// dependency group setup
+$test->assertEquals(false, isset($reg->dependencies['group']), 'before group isset');
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname), 'before group isset 2');
+$group = $reg->dependencies['group']->groupname;
+$group->hint = 'Install optional stuff as a group';
+$test->assertEquals('Install optional stuff as a group', $reg->dependencies['group']->groupname->hint, 'hint 1');
+$test->assertEquals('Install optional stuff as a group', $group->hint, 'hint 2');
+$test->assertEquals(true, isset($reg->dependencies['group']), 'after group isset');
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname), 'after group isset 2');
+foreach ($reg->dependencies['group'] as $name => $g) {
+    $test->assertEquals($name, $g->name, 'group name');
+}
+unset($group->hint);
+$test->assertEquals(null, $reg->dependencies['group']->groupname->hint, 'hint unset 1');
+$test->assertEquals(null, $group->hint, 'hint unset 2');
+
+$group->hint = 'Install optional stuff as a group';
+
+$test->assertEquals(true, isset($group->hint), 'group hint isset');
+$group->hint = null;
+$test->assertEquals(false, isset($group->hint), 'group hint isset after');
+$test->assertEquals(null, $reg->dependencies['group']->groupname->hint, 'hint unset 3');
+$test->assertEquals(null, $group->hint, 'hint unset 4');
+$group->hint = null;
+$test->assertEquals(null, $reg->dependencies['group']->groupname->hint, 'hint unset 5');
+$test->assertEquals(null, $group->hint, 'hint unset 6');
+
+$g = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Group(null, array(), 'foo');
+$test->assertEquals(null, $g->name, 'null name');
+
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname), 'groupname isset');
+unset($reg->dependencies['group']->groupname);
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname), 'groupname isset after');

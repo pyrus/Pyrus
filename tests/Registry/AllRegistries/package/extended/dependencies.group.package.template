@@ -1,0 +1,23 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+
+// reset deps
+$reg->dependencies = null;
+
+// dependency group setup
+$group = $reg->dependencies['group']->groupname;
+
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->package['channel/PackageName1']), 'before group package isset 1');
+$test->assertEquals(false, isset($group->package['channel/PackageName1']), 'before group package isset 2');
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->package), 'before group package isset 3');
+$test->assertEquals(false, isset($group->package), 'before group package isset 4');
+$group->package['channel/PackageName1']->save();
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname->package['channel/PackageName1']), 'after group package isset 1');
+$test->assertEquals(true, isset($group->package['channel/PackageName1']), 'after group package isset 2');
+$test->assertEquals(true, isset($reg->dependencies['group']->groupname->package), 'after group package isset 3');
+$test->assertEquals(true, isset($group->package), 'after group package isset 4');
+
+$group->package = null;
+
+$test->assertEquals(false, isset($group->package), 'isset 1');
+$test->assertEquals(false, isset($reg->dependencies['group']->groupname->package), 'isset 2');

@@ -1,0 +1,180 @@
+<?php
+// all registry tests must pass this (as must PackageFile objects)
+$testit = array();
+foreach ($reg->contents as $file) {
+    $testit[] = (array) $file;
+    if ($file->name == 'src/SimpleChannelServer.php') {
+        $testthis = $file;
+    }
+}
+$file = $testthis;
+usort($testit, function($a,$b) {return strnatcasecmp($a['attribs']['name'],$b['attribs']['name']);});
+$test->assertEquals(array (
+  0 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'doc',
+      'name' => 'examples/update_channel.php',
+    ),
+  ),
+  1 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'script',
+      'name' => 'scripts/pearscs',
+    ),
+  ),
+  2 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  3 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/Categories.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  4 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/Categories/Exception.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  5 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/Channel.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  6 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/CLI.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  7 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/Exception.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  8 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/Get.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  9 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/REST/Category.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  10 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  11 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/REST/Manager.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  12 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/REST/Package.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+  13 => 
+  array (
+    'attribs' => 
+    array (
+      'role' => 'php',
+      'name' => 'src/SimpleChannelServer/REST/Release.php',
+      'baseinstalldir' => 'PEAR2',
+    ),
+  ),
+), $testit, 'output');
+
+$test->assertEquals('php', $file->role, 'php 1');
+$test->assertEquals('src/SimpleChannelServer.php', $file->name, 'verify name is as expected');
+$test->assertEquals($file->name, $reg->files['src/SimpleChannelServer.php']['attribs']['name'], 'verify we have the same thing');
+$test->assertEquals('php', $reg->files['src/SimpleChannelServer.php']['attribs']['role'], 'again verify');
+$file->role = 'oog';
+$test->assertEquals('oog', $file->role, 'php 2');
+$test->assertEquals('oog', $reg->files['src/SimpleChannelServer.php']['attribs']['role'], 'again verify 2');
+
+$temp = new PEAR2_Pyrus_PackageFile_v2Iterator_FileTag(array('attribs' => array('name' => 'SimpleChannelServer.php',
+                                                   'role' => 'php',
+                                                   'install-as' => 'poop')), 'src', $reg);
+$test->assertEquals(array('name' => 'SimpleChannelServer.php', 'role' => 'php'), $temp['attribs'], 'attribs with install-as');
+$test->assertEquals('poop', $temp['install-as'], 'install-as');
+$test->assertEquals('poop', $temp->{'install-as'}, 'install-as __get');
+$test->assertEquals('poop', $temp->name, 'magic name install-as returned instead of name');
+
+$replace = new PEAR2_Pyrus_Task_Replace(PEAR2_Pyrus_Config::current(), PEAR2_PYRUS_TASK_PACKAGE);
+$replace->init(array('attribs' => array('from' => '@' . 'PACKAGE_VERSION@',
+                          'to' => 'version',
+                          'type' => 'package-info')), array('from' => '@' . 'PACKAGE_VERSION@',
+                          'to' => 'version',
+                          'type' => 'package-info'), '2.0.0');
+
+$temp->{'tasks:replace'} = $replace;
+try {
+    $temp->{'tasks:replace'} = 1;
+    throw new Exception('invalid task setting succeeded');
+} catch (PEAR2_Pyrus_PackageFile_Exception $e) {
+    $test->assertEquals('Cannot set tasks:replace to non-' .
+                'PEAR2_Pyrus_Task_Common object in file src/SimpleChannelServer.php', $e->getMessage(), 'invalid tasks setting');
+}
+try {
+    $temp->{'tasks:replace'} = $replace;
+} catch (PEAR2_Pyrus_PackageFile_Exception $e) {
+    throw $e;
+}
+try {
+    $temp->grooplebooble = 1;
+    throw new Exception('invalid attribute setting succeeded');
+} catch (PEAR2_Pyrus_PackageFile_Exception $e) {
+    $test->assertEquals('Cannot set invalid attribute grooplebooble for file src/SimpleChannelServer.php', $e->getMessage(), 'invalid attribute setting');
+}
