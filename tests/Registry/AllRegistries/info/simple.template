@@ -20,7 +20,7 @@ can use for the command line to manage a pear channel.
 The pearscs utility will be installed in the directory configured by the
 bin_dir setting within Pyrus.', $reg->info($info->name, $info->channel, 'description'), 'description');
 $test->assertEquals('beta', $reg->info($info->name, $info->channel, 'api-state'), 'api-state');
-$test->assertEquals('devel', $reg->info($info->name, $info->channel, 'state'), 'state');
+$test->assertEquals('stable', $reg->info($info->name, $info->channel, 'state'), 'state');
 $test->assertEquals('0.1.0', $reg->info($info->name, $info->channel, 'release-version'), 'release-version');
 $test->assertEquals('1.2.3', $reg->info($info->name, $info->channel, 'api-version'), 'api-version');
 $test->assertEquals('First attempt.', $reg->info($info->name, $info->channel, 'notes'), 'notes');

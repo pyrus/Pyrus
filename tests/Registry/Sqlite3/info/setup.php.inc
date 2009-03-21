@@ -8,5 +8,3 @@ restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/../../../PackageFile_v2/setupFiles/setupPackageFile.php.inc';
 $reg = new PEAR2_Pyrus_Registry_Sqlite3(__DIR__.'/testit');
-$reg->replace($info); // use replace to preserve date/time
-$reg = $reg->package[$package->channel . '/' . $package->name];
