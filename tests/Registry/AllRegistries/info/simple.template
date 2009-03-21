@@ -1,0 +1,29 @@
+<?php
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'package does not exist');
+// set up some values so we can verify things were actually retrieved correctly
+$info->stability['api'] = 'beta';
+$info->stability['release'] = 'stable';
+$info->version['api'] = '1.2.3';
+// use replace so date/time is not modified
+$reg->replace($info);
+$test->assertEquals(true, (bool)$reg->exists($info->name, $info->channel), 'package was installed');
+
+// info stuff here
+$test->assertEquals('PEAR2_SimpleChannelServer', $reg->info($info->name, $info->channel, 'name'), 'name');
+$test->assertEquals('pear2.php.net', $reg->info($info->name, $info->channel, 'channel'), 'channel');
+$test->assertEquals('A Simple Channel Server for PEAR2 compatible channels',
+                    $reg->info($info->name, $info->channel, 'summary'), 'summary');
+$test->assertEquals('This package contains a set of scripts to create a simple PEAR compatible
+channel server. Included with the package is the pearscs command which you
+can use for the command line to manage a pear channel.
+
+The pearscs utility will be installed in the directory configured by the
+bin_dir setting within Pyrus.', $reg->info($info->name, $info->channel, 'description'), 'description');
+$test->assertEquals('beta', $reg->info($info->name, $info->channel, 'api-state'), 'api-state');
+$test->assertEquals('devel', $reg->info($info->name, $info->channel, 'state'), 'state');
+$test->assertEquals('0.1.0', $reg->info($info->name, $info->channel, 'release-version'), 'release-version');
+$test->assertEquals('1.2.3', $reg->info($info->name, $info->channel, 'api-version'), 'api-version');
+$test->assertEquals('First attempt.', $reg->info($info->name, $info->channel, 'notes'), 'notes');
+$test->assertEquals('2008-12-15', $reg->info($info->name, $info->channel, 'date'), 'date');
+$test->assertEquals('11:51:01', $reg->info($info->name, $info->channel, 'time'), 'time');
+?>
