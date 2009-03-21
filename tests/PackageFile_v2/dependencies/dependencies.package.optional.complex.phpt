@@ -5,7 +5,7 @@ PackageFile v2: test package.xml dependencies property, complex optional package
 require __DIR__ . '/../setup.php.inc';
 
 $reg = new PEAR2_Pyrus_PackageFile_v2; // simulate registry package using packagefile
-require __DIR__ . '/../../Registry/AllRegistries/info/dependencies.package.optional.complex.template';
+require __DIR__ . '/../../Registry/AllRegistries/package/extended/dependencies.package.optional.complex.template';
 
 ?>
 ===DONE===

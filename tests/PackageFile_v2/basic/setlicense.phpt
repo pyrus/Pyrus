@@ -4,7 +4,7 @@ PackageFile v2: test package.xml license property, direct set
 <?php
 require __DIR__ . '/../setup.php.inc';
 $reg = new PEAR2_Pyrus_PackageFile_v2;
-require __DIR__ . '/../../Registry/AllRegistries/info/setlicense.template';
+require __DIR__ . '/../../Registry/AllRegistries/package/extended/setlicense.template';
 
 ?>
 ===DONE===

@@ -11,7 +11,7 @@ restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/../setupFiles/setupPackageFile.php.inc';
 $reg = $package; // simulate registry package using packagefile
-require __DIR__ . '/../../Registry/AllRegistries/info/basic.template';
+require __DIR__ . '/../../Registry/AllRegistries/package/basic/basic.template';
 
 // don't try this at home!
 $reg->fromArray(array('package' => array()));

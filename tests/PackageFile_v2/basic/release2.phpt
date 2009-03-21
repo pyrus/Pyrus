@@ -3,7 +3,7 @@ PackageFile v2: test package.xml release properties (2)
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-require __DIR__ . '/../../Registry/AllRegistries/info/release2.template';
+require __DIR__ . '/../../Registry/AllRegistries/package/basic/release2.template';
 
 $a = new PEAR2_Pyrus_PackageFile_v2;
 $a->fromArray(array('package' => array('contents' => array('dir' => array('attribs' => array('name' => '/'),

@@ -3,7 +3,7 @@ PackageFile v2: test basic package.xml properties
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-require __DIR__ . '/../../Registry/AllRegistries/info/license.template';
+require __DIR__ . '/../../Registry/AllRegistries/package/basic/license.template';
 
 // don't try this at home!
 $newguy->fromArray(array('package' => array()));

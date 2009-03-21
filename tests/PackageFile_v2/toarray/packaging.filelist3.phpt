@@ -11,7 +11,7 @@ restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/../setupFiles/setupPackageFile.php.inc';
 $reg = $package; // simulate registry package using packagefile
-require __DIR__ . '/../../Registry/AllRegistries/info/toarray.packaging.filelist3.template';
+require __DIR__ . '/../../Registry/AllRegistries/package/extended/toarray.packaging.filelist3.template';
 
 ?>
 ===DONE===
