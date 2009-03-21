@@ -3,7 +3,7 @@ Sqlite3 PackageFile v2: test package.xml allmaintainers property
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-require __DIR__ . '/../../AllRegistries/info/allmaintainers.template';
+require __DIR__ . '/../../AllRegistries/package/basic/allmaintainers.template';
 
 ?>
 ===DONE===
