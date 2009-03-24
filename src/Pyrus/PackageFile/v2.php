@@ -558,6 +558,11 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         return $this->_dirtree;
     }
 
+    function isNewPackage()
+    {
+        return true;
+    }
+
     /**
      * Determines whether this package claims it is compatible with the version of
      * the package that has a recommended version dependency

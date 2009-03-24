@@ -230,32 +230,41 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $curconfig = PEAR2_Pyrus_Config::current();
         $roles     = array();
-        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($info->getPackageType()) as $role) {
-            // set up a list of file role => configuration variable
-            // for storing in the registry
-            $roles[$role] = PEAR2_Pyrus_Installer_Role::factory($info, $role)->getLocationConfig();
-        }
 
         $sql = '
             INSERT INTO files
-              (packages_name, packages_channel, packagepath, role, rolepath, baseinstalldir)
-            VALUES(:name, :channel, :path, :role, :rolepath, :baseinstall)';
+              (packages_name, packages_channel, packagepath, role, relativepath, baseinstalldir)
+            VALUES(:name, :channel, :path, :role, :relativepath, :baseinstall)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
         $stmt->bindParam(':name',     $n);
         $stmt->bindParam(':channel',  $c);
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($info->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory($info->getPackageType(), $role);
+        }
 
         foreach ($info->installcontents as $file) {
-            $rolepath = str_replace($this->_path . DIRECTORY_SEPARATOR,
-                   '', $curconfig->{$roles[$file->role]});
-            $stmt->bindParam(':rolepath',    $rolepath);
-            $p = $file->name;
-            $stmt->bindParam(':path',        $p);
+            $relativepath = $roles[$file->role]->getRelativeLocation($info, $file);
+            if (!$relativepath) {
+                continue;
+            }
+
+            $stmt->bindParam(':relativepath', $relativepath);
+            if ($file['install-as']) {
+                $p = $file['install-as'];
+            } else {
+                $p = $curconfig->{$roles[$file->role]->getLocationConfig()} .
+                    DIRECTORY_SEPARATOR . $relativepath;
+            }
+            $stmt->bindParam(':path',         $p);
             $r = $file->role;
-            $stmt->bindParam(':role',        $r);
+            $stmt->bindParam(':role',         $r);
             $bi = $file->baseinstalldir;
-            $stmt->bindParam(':baseinstall', $bi);
+            $stmt->bindParam(':baseinstall',  $bi);
 
             if (!@$stmt->execute()) {
                 static::$databases[$this->_path]->exec('ROLLBACK');
@@ -780,7 +789,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         } elseif ($field == 'installedfiles') {
             $ret = array();
             $sql = 'SELECT
-                        rolepath, packagepath
+                        packagepath
                     FROM files
                     WHERE
                         packages_name = :name AND packages_channel = :channel';
@@ -796,8 +805,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     ': ' . $error);
             }
 
-            foreach ($result->fetchArray(SQLITE3_ASSOC) as $file) {
-                $ret[] = $file['rolepath'] . DIRECTORY_SEPARATOR . $file['packagepath'];
+            while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
+                $ret[] = $file['packagepath'];
             }
             $stmt->close();
 

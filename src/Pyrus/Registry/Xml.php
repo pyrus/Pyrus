@@ -74,6 +74,9 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
             $info->date = date('Y-m-d');
             $info->time = date('H:i:s');
         }
+        foreach ($info->files as $name => $file) {
+            unset($file->{'install-as'});
+        }
         $arr = $info->toArray();
         file_put_contents($packagefile, (string) new PEAR2_Pyrus_XMLWriter($arr));
     }
@@ -136,11 +139,16 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
                 // set up a list of file role => configuration variable
                 // for storing in the registry
                 $roles[$role] =
-                    PEAR2_Pyrus_Installer_Role::factory($package, $role)->getLocationConfig();
+                    PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
             }
             $ret = array();
-            foreach ($package->files as $path => $info) {
-                $ret[] = $config->{$roles[$info['role']]} . DIRECTORY_SEPARATOR . $path;
+            foreach ($package->installcontents as $file) {
+                $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
+                if (!$relativepath) {
+                    continue;
+                }
+                $ret[] = $config->{$roles[$file->role]->getLocationConfig()} .
+                    DIRECTORY_SEPARATOR . $relativepath;
             }
             return $ret;
         } elseif ($field == 'dirtree') {

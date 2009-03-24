@@ -585,11 +585,18 @@ class PEAR2_Pyrus_Config
                 ', assuming defaults');
             return;
         }
-
         PEAR2_Pyrus_Log::log(5, 'Loading configuration for ' . $pearDirectory);
+        $this->helperLoadConfigFile($pearDirectory, $pearDirectory . DIRECTORY_SEPARATOR . '.config');
+    }
+
+    protected function helperLoadConfigFile($pearDirectory, $file, $extrainfo = '')
+    {
+        if ($extrainfo) {
+            $extrainfo .= ' ';
+        }
         libxml_use_internal_errors(true);
         libxml_clear_errors();
-        $x = simplexml_load_file($pearDirectory . DIRECTORY_SEPARATOR . '.config');
+        $x = simplexml_load_file($file);
         if (!$x) {
             $errors = libxml_get_errors();
             $e = new PEAR2_MultiErrors;
@@ -598,7 +605,7 @@ class PEAR2_Pyrus_Config
             }
             libxml_clear_errors();
             throw new PEAR2_Pyrus_Config_Exception(
-                'Unable to parse invalid PEAR configuration at "' . $pearDirectory . '"',
+                'Unable to parse invalid PEAR configuration ' . $extrainfo . 'at "' . $pearDirectory . '"',
                 $e);
         }
 
@@ -612,7 +619,7 @@ class PEAR2_Pyrus_Config
                 continue;
             }
 
-            PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
+            PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration ' . $extrainfo . 'value ' .
                 $value);
             unset($x->$value);
         }

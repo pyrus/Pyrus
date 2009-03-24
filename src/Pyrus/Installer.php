@@ -347,10 +347,11 @@ class PEAR2_Pyrus_Installer
             if (!$role->isInstallable()) {
                 continue;
             }
-            $info = $role->processInstallation($package, $file['attribs'],
-                $file->name, $tmp_path);
+
+            $info = $role->processInstallation($package, $file, $tmp_path);
             list($save_destdir, $dest_dir, $dest_file, $orig_file) = $info;
             $final_dest_file = $installed_as = $dest_file;
+
             if (isset($this->_options['packagingroot'])) {
                 $final_dest_file = $this->_prependPath($final_dest_file,
                     $this->_options['packagingroot']);

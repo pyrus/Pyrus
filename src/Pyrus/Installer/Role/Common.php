@@ -124,19 +124,8 @@ class PEAR2_Pyrus_Installer_Role_Common
         return $dest_dir . $file;
     }
 
-    /**
-     * This is called for each file to set up the directories and files
-     * @param PEAR2_Pyrus_Package
-     * @param array attributes from the <file> tag
-     * @param string file name
-     * @return array an array consisting of:
-     *
-     *    1 the original, pre-baseinstalldir installation directory
-     *    2 the final installation directory
-     *    3 the full path to the final location of the file
-     *    4 the location of the pre-installation file
-     */
-    function processInstallation(PEAR2_Pyrus_Package $pkg, $atts, $file, $tmp_path, $layer = null)
+    function getRelativeLocation(PEAR2_Pyrus_IPackageFile $pkg, PEAR2_Pyrus_PackageFile_v2Iterator_FileTag $file,
+                                 $retDir = false)
     {
         $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
             ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
@@ -144,25 +133,24 @@ class PEAR2_Pyrus_Installer_Role_Common
             return false;
         }
 
-        $where = $this->config->{$roleInfo['locationconfig']};
         if ($roleInfo['honorsbaseinstall']) {
-            $dest_dir = $save_destdir = $where;
-            if (!empty($atts['baseinstalldir'])) {
-                $dest_dir .= DIRECTORY_SEPARATOR . $atts['baseinstalldir'];
+            $dest_dir = $save_destdir = '';
+            if ($file->baseinstalldir) {
+                $dest_dir .= $file->baseinstalldir;
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
-            $dest_dir = $save_destdir = $where .
-                DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
-            if (!empty($atts['baseinstalldir'])) {
-                $dest_dir .= DIRECTORY_SEPARATOR . $atts['baseinstalldir'];
+            $dest_dir = $save_destdir =
+                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+            if ($file->baseinstalldir) {
+                $dest_dir .= DIRECTORY_SEPARATOR . $file->baseinstalldir;
             }
         } else {
-            $dest_dir = $save_destdir = $where .
-                DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+            $dest_dir = $save_destdir =
+                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
 
-        if (dirname($file) != '.' && empty($atts['install-as'])) {
-            $newpath = dirname($file);
+        if (dirname($file->name) != '.' && empty($file['install-as'])) {
+            $newpath = dirname($file->name);
             if ($pkg->isNewPackage()) {
                 // strip role from file path
                 // so php/Path/To/File.php becomes Path/To/File.php,
@@ -180,25 +168,82 @@ class PEAR2_Pyrus_Installer_Role_Common
                     }
                 }
             }
-            $dest_dir .= DIRECTORY_SEPARATOR . $newpath;
+            if ($dest_dir && $newpath) {
+                $dest_dir .= DIRECTORY_SEPARATOR;
+            }
+            $dest_dir .= $newpath;
         }
 
-        $dest_file = $dest_dir . DIRECTORY_SEPARATOR;
-        if (empty($atts['install-as'])) {
-            $dest_file .= basename($file);
+        if ($dest_dir) {
+            $dest_dir .= DIRECTORY_SEPARATOR;
+        }
+        $dest_file = $dest_dir;
+        if (empty($file['install-as'])) {
+            $dest_file .= basename($file->name);
         } else {
-            $dest_file .= $atts['install-as'];
+            $dest_file .= $file['install-as'];
+        }
+        if ($retDir) {
+            // Clean up the DIRECTORY_SEPARATOR mess
+            $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
+
+            list($dest_dir, $dest_file) = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
+                                                        array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
+                                                              DIRECTORY_SEPARATOR),
+                                                        array($dest_dir, $dest_file));
+            return array($dest_dir, $dest_file);
+        }
+        return $dest_file;
+    }
+
+    /**
+     * This is called for each file to set up the directories and files
+     * @param PEAR2_Pyrus_Package
+     * @param array attributes from the <file> tag
+     * @param string file name
+     * @return array an array consisting of:
+     *
+     *    1 the original, pre-baseinstalldir installation directory
+     *    2 the final installation directory
+     *    3 the full path to the final location of the file
+     *    4 the location of the pre-installation file
+     */
+    function processInstallation(PEAR2_Pyrus_Package $pkg, PEAR2_Pyrus_PackageFile_v2Iterator_FileTag $file,
+                                 $tmp_path)
+    {
+        $relpath = $this->getRelativeLocation($pkg, $file, true);
+        if (!$relpath) {
+            return false;
+        }
+        list($dest_dir, $dest_file) = $relpath;
+
+        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
+            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
+        $where = $this->config->{$roleInfo['locationconfig']};
+
+        // Clean up the DIRECTORY_SEPARATOR mess
+        $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
+
+        $where = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
+                                                    array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
+                                                          DIRECTORY_SEPARATOR),
+                                                    $where);
+
+        if ($roleInfo['honorsbaseinstall']) {
+            $save_destdir = $where;
+        } else {
+            $save_destdir = $where .
+                DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
 
         $orig_file = $pkg->getFilePath($file);
 
         // Clean up the DIRECTORY_SEPARATOR mess
-        $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
 
-        list($dest_dir, $dest_file, $orig_file) = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
+        $orig_file = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
                                                     array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
                                                           DIRECTORY_SEPARATOR),
-                                                    array($dest_dir, $dest_file, $orig_file));
+                                                    $orig_file);
         return array($save_destdir, $dest_dir, $dest_file, $orig_file);
     }
 

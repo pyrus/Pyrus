@@ -26,6 +26,11 @@
 class PEAR2_Pyrus_Installer_Role
 {
     static private $_roles;
+
+    public static function getRelativeInstallLocation(PEAR2_Pyrus_PackageFile_v2Iterator_FileTag $file)
+    {
+        
+    }
     /**
      * Set up any additional configuration variables that file roles require
      *
@@ -50,19 +55,17 @@ class PEAR2_Pyrus_Installer_Role
     }
 
     /**
-     * @param PEAR2_Pyrus_IPackageFile
+     * @param string package type
      * @param string role name
-     * @param PEAR2_Pyrus_Config
-     * @return PEAR2_Pyrus_Installer_Role_Common
      * @static
      */
-    static function factory($pkg, $role)
+    static function factory($packagetype, $role)
     {
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
 
-        if (!in_array($role, self::getValidRoles($pkg->getPackageType()))) {
+        if (!in_array($role, self::getValidRoles($packagetype))) {
             return $a;
         }
 

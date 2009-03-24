@@ -62,6 +62,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
         }
         if ($offset == 'install-as') {
             $ret = parent::offsetGet('attribs');
+            if (!isset($ret['install-as'])) {
+                return null;
+            }
             return $ret['install-as'];
         }
     }
@@ -112,5 +115,27 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
         $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'],
             $var, $value);
         parent::__construct($this->_packagefile->files[$this->dir . $this['attribs']['name']]);
+    }
+
+    function __unset($var)
+    {
+        if (isset($this['attribs'][$var])) {
+            unset($this['attribs'][$var]);
+        }
+    }
+
+    function getInstallLocation()
+    {
+        $role = PEAR2_Pyrus_Installer_Role::factory($this->_packagefile, $this['attribs']['role'],
+            PEAR2_Pyrus_Config::current());
+        $role->setup(new PEAR2_Pyrus_Installer, $this->_packagefile, $this['attribs'], $this['attribs']['name']);
+        if (!$role->isInstallable()) {
+            return false;
+        }
+        return $role->getRelativeLocation($this->_packagefile, $this);
+        $info = $role->processInstallation($this->_packagefile, $this['attribs'],
+            $this['attribs']['name'], $tmp_path);
+        list($save_destdir, $dest_dir, $dest_file, $orig_file) = $info;
+        $final_dest_file = $installed_as = $dest_file;
     }
 }

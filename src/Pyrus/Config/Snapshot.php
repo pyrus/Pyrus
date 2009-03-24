@@ -55,8 +55,8 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
         if (!$config) {
             $config = PEAR2_Pyrus_Config::current();
         }
-        $this->loadConfigFile($config, $snapshot);
-        $this->pearDir = $pearDirectory;
+        $this->loadConfigFile($config->path, $snapshot);
+        $this->pearDir = $config->path;
     }
 
     /**
@@ -80,11 +80,10 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
      */
     protected function loadConfigFile($pearDirectory, $snapshot)
     {
-        if (isset(self::$configs[$pearDirectory]) ||
-              !file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
-            throw new PEAR2_Pyrus_Config_Exception('Cannot retrieve config snapshot ' .
-                                                   $snapshot . ' from non-existent ' .
-                                                   'configuration ' . $pearDirectory);
+        if (!file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.configsnapshots')) {
+            // no configurations - this may be an extracted-from-disk install.
+            // in this case, we use the defaults, as this is intended
+            return;
         }
         $snapshotdir = $pearDirectory . DIRECTORY_SEPARATOR . '.configsnapshots';
         $snapshot = $snapshotdir . DIRECTORY_SEPARATOR . $snapshot;
@@ -140,37 +139,12 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
 
         PEAR2_Pyrus_Log::log(5, 'Loading configuration snapshot ' .
                              $snapshot . ' for ' . $pearDirectory);
-
-        libxml_use_internal_errors(true);
-        libxml_clear_errors();
-        $x = simplexml_load_file($snapshot);
-        if (!$x) {
-            $errors = libxml_get_errors();
-            $e = new PEAR2_MultiErrors;
-            foreach ($errors as $err) {
-                $e->E_ERROR[] = new PEAR2_Pyrus_Config_Exception(trim($err->message));
-            }
-            libxml_clear_errors();
-            throw new PEAR2_Pyrus_Config_Exception(
-                'Unable to parse invalid PEAR configuration snapshot at "' .
-                $pearDirectory . '"', $e);
+        try {
+            $this->helperLoadConfigFile($pearDirectory, $snapshot, 'snapshot');
+        } catch (Exception $e) {
+            // no config snapshots found, so simply load the existing config
+            return parent::loadConfigFile($pearDirectory);
         }
-        $unsetvalues = array_diff(array_keys((array) $x),
-                array_merge(self::$pearConfigNames, self::$customPearConfigNames));
-        // remove values that are not recognized system config variables
-        foreach ($unsetvalues as $value)
-        {
-            if ($value == '@attributes') {
-                continue;
-            }
-            if ($value === 'php_dir' || $value === 'data_dir') {
-                unset($x->$value); // both of these are abstract
-            }
-            PEAR2_Pyrus_Log::log(5, 'Removing unrecognized configuration value ' .
-                $value);
-            unset($x->$value);
-        }
-        $this->values = (array) $x;
     }
 
     function datediff($a, $b)

@@ -1,0 +1,30 @@
+<?php
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'package does not exist');
+$reg->install($info);
+$test->assertEquals(true, (bool)$reg->exists($info->name, $info->channel), 'package was installed');
+
+// info stuff here
+$result = $reg->info($info->name, $info->channel, 'installedfiles');
+sort($result);
+
+if (substr(PHP_OS, 0, 3) == 'WIN') {
+    
+} else {
+    // $dir must be set to __DIR__ . '/testit' in the test itself
+    $test->assertEquals(array (
+      0 => $dir . 'bin/pearscs',
+      1 => $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
+      2 => $dir . 'src/PEAR2/SimpleChannelServer.php',
+      3 => $dir . 'src/PEAR2/SimpleChannelServer/CLI.php',
+      4 => $dir . 'src/PEAR2/SimpleChannelServer/Categories.php',
+      5 => $dir . 'src/PEAR2/SimpleChannelServer/Categories/Exception.php',
+      6 => $dir . 'src/PEAR2/SimpleChannelServer/Channel.php',
+      7 => $dir . 'src/PEAR2/SimpleChannelServer/Exception.php',
+      8 => $dir . 'src/PEAR2/SimpleChannelServer/Get.php',
+      9 => $dir . 'src/PEAR2/SimpleChannelServer/REST/Category.php',
+      10 => $dir . 'src/PEAR2/SimpleChannelServer/REST/Maintainer.php',
+      11 => $dir . 'src/PEAR2/SimpleChannelServer/REST/Manager.php',
+      12 => $dir . 'src/PEAR2/SimpleChannelServer/REST/Package.php',
+      13 => $dir . 'src/PEAR2/SimpleChannelServer/REST/Release.php',
+    ), $result, 'installedfiles');
+}

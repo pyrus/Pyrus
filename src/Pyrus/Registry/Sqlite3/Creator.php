@@ -87,16 +87,20 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
             throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
         }
 
+        // packagepath is absolute path
+        // relativepath is relative to role directory
+        // this makes moving the database simple, just reconstruct packagepath from
+        // the file role + the relative path
         $query = '
           CREATE TABLE files (
            packages_name TEXT(80) NOT NULL,
            packages_channel TEXT(255) NOT NULL,
            packagepath TEXT(255) NOT NULL,
            role TEXT(30) NOT NULL,
-           rolepath TEXT(255) NOT NULL,
+           relativepath TEXT(255) NOT NULL,
            baseinstalldir TEXT(255),
-           PRIMARY KEY (packagepath, role, rolepath),
-           UNIQUE (packages_name, packages_channel, packagepath)
+           PRIMARY KEY (packagepath, role),
+           UNIQUE (packages_name, packages_channel, relativepath)
           );';
         $worked = @$database->exec($query);
         if (!$worked) {
