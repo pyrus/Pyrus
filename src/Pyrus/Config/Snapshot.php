@@ -78,7 +78,7 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
      * @param string $pearDirectory
      * @param string|false $userfile
      */
-    protected function loadConfigFile($pearDirectory, $snapshot)
+    protected function loadConfigFile($pearDirectory, $snapshot = null)
     {
         if (!file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.configsnapshots')) {
             // no configurations - this may be an extracted-from-disk install.
@@ -86,21 +86,23 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
             return;
         }
         $snapshotdir = $pearDirectory . DIRECTORY_SEPARATOR . '.configsnapshots';
-        $snapshot = $snapshotdir . DIRECTORY_SEPARATOR . $snapshot;
-        if (!file_exists($snapshot)) {
+        $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . $snapshot;
+        if (!file_exists($snapshotfile)) {
             if (preg_match('/^\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}:\\d{2}:\\d{2}$/', $snapshot)) {
                 // passed a date, locate a matching snapshot
                 $us = new DateTime($snapshot);
                 $dir = new RegexIterator(
-                    new RecursiveDirectoryIterator($snapshotdir), '/\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}:\\d{2}:\\d{2}/',
+                    new RecursiveDirectoryIterator($snapshotdir), '/configsnapshot\\-\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}:\\d{2}:\\d{2}.xml/',
                     RegexIterator::MATCH,
                     RegexIterator::USE_KEY);
                 foreach ($dir as $match) {
                     $matches[] = $match;
                 }
-                usort($matches, array(self, 'datediff'));
+                usort($matches, array($this, 'datediff'));
                 unset($match);
                 foreach ($matches as $match) {
+                    $match = substr($match->getFileName(), strlen('configsnapshot-'));
+                    $match = str_replace('.xml', '', $match);
                     $diff = $us->diff(new DateTime($match))->format("%r%s");
                     if (!$diff) {
                         // found a snapshot match
@@ -128,19 +130,19 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
                     // no config snapshots
                     return parent::loadConfigFile($pearDirectory);
                 }
-                $snapshot = $snapshotdir . DIRECTORY_SEPARATOR . 'configsnapshot-' .
+                $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . 'configsnapshot-' .
                     $match . '.xml';
             }
-            if (!file_exists($snapshot)) {
+            if (!file_exists($snapshotfile)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot retrieve non-existent config ' .
                                                    'snapshot ' . $snapshot);
             }
         }
 
         PEAR2_Pyrus_Log::log(5, 'Loading configuration snapshot ' .
-                             $snapshot . ' for ' . $pearDirectory);
+                             $snapshotfile . ' for ' . $pearDirectory);
         try {
-            $this->helperLoadConfigFile($pearDirectory, $snapshot, 'snapshot');
+            $this->helperLoadConfigFile($pearDirectory, $snapshotfile, 'snapshot');
         } catch (Exception $e) {
             // no config snapshots found, so simply load the existing config
             return parent::loadConfigFile($pearDirectory);
