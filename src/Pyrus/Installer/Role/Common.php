@@ -229,6 +229,8 @@ class PEAR2_Pyrus_Installer_Role_Common
                                                           DIRECTORY_SEPARATOR),
                                                     $where);
 
+        $dest_dir = $where . DIRECTORY_SEPARATOR . $dest_dir;
+        $dest_file = $where . DIRECTORY_SEPARATOR . $dest_file;
         if ($roleInfo['honorsbaseinstall']) {
             $save_destdir = $where;
         } else {
@@ -236,7 +238,7 @@ class PEAR2_Pyrus_Installer_Role_Common
                 DIRECTORY_SEPARATOR . $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
 
-        $orig_file = $pkg->getFilePath($file);
+        $orig_file = realpath($pkg->getFilePath($file->name));
 
         // Clean up the DIRECTORY_SEPARATOR mess
 

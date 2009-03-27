@@ -66,7 +66,8 @@ class PEAR2_Pyrus_Installer_Role
         }
 
         if (!in_array($role, self::getValidRoles($packagetype))) {
-            return $a;
+            throw new PEAR2_Pyrus_Installer_Exception('Invalid role ' . $role .
+                                                      'requested for package type ' . $packagetype);
         }
 
         $a = 'PEAR2_Pyrus_Installer_Role_' . ucfirst($role);

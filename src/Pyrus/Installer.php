@@ -341,8 +341,7 @@ class PEAR2_Pyrus_Installer
                         $file->role .
                         "' for file " . $file->name);
             }
-            $role = PEAR2_Pyrus_Installer_Role::factory($package, $file->role,
-                PEAR2_Pyrus_Config::current());
+            $role = PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $file->role);
             $role->setup($this, $package, $file['attribs'], $file->name);
             if (!$role->isInstallable()) {
                 continue;
