@@ -233,8 +233,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $sql = '
             INSERT INTO files
-              (packages_name, packages_channel, packagepath, role, relativepath, baseinstalldir)
-            VALUES(:name, :channel, :path, :role, :relativepath, :baseinstall)';
+              (packages_name, packages_channel, packagepath, role, relativepath, origpath, baseinstalldir)
+            VALUES(:name, :channel, :path, :role, :relativepath, :origpath, :baseinstall)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
@@ -261,6 +261,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     DIRECTORY_SEPARATOR . $relativepath;
             }
             $stmt->bindParam(':path',         $p);
+            $o = $file['attribs']['name'];
+            $stmt->bindParam(':origpath',     $o);
             $r = $file->role;
             $stmt->bindParam(':role',         $r);
             $bi = $file->baseinstalldir;
@@ -963,9 +965,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
-            $ret->files[$file['packagepath']] = array('attribs' => array('role' => $file['role']));
+            $ret->files[$file['origpath']] = array('attribs' => array('role' => $file['role']));
             if ($file['baseinstalldir']) {
-                $ret->setFileAttribute($file['packagepath'], 'baseinstalldir', $file['baseinstalldir']);
+                $ret->setFileAttribute($file['origpath'], 'baseinstalldir', $file['baseinstalldir']);
             }
         }
         $stmt->close();
