@@ -118,10 +118,10 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
                 $channel . '/' . $package);
         }
         
-        $package = new PEAR2_Pyrus_Package($packagefile[0]);
+        $packageobject = new PEAR2_Pyrus_Package($packagefile[0]);
 
         if ($field === null) {
-            return $package->getInternalPackage()->getPackageFile()->getPackageFileObject();
+            return $packageobject->getInternalPackage()->getPackageFile()->getPackageFileObject();
         }
 
         if ($field == 'version') {
@@ -129,21 +129,21 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         } elseif ($field == 'installedfiles') {
             $ret = array();
             try {
-                $config = new PEAR2_Pyrus_Config_Snapshot($package->date . ' ' . $package->time);
+                $config = new PEAR2_Pyrus_Config_Snapshot($packageobject->date . ' ' . $packageobject->time);
             } catch (Exception $e) {
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve files, config ' .
                                         'snapshot could not be processed', $e);
             }
             $roles = array();
-            foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+            foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($packageobject->getPackageType()) as $role) {
                 // set up a list of file role => configuration variable
                 // for storing in the registry
                 $roles[$role] =
-                    PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+                    PEAR2_Pyrus_Installer_Role::factory($packageobject->getPackageType(), $role);
             }
             $ret = array();
-            foreach ($package->installcontents as $file) {
-                $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
+            foreach ($packageobject->installcontents as $file) {
+                $relativepath = $roles[$file->role]->getRelativeLocation($packageobject, $file);
                 if (!$relativepath) {
                     continue;
                 }
@@ -152,15 +152,21 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
             }
             return $ret;
         } elseif ($field == 'dirtree') {
-            $files = $this->installedfiles;
-            $ret = array();
+            $files = $this->info($package, $channel, 'installedfiles');
             foreach ($files as $file) {
-                $ret[dirname($file)] = true;
+                do {
+                    $file = dirname($file);
+                    if (strlen($file) > strlen($this->_path)) {
+                        $ret[$file] = 1;
+                    }
+                } while (strlen($file) > strlen($this->_path));
             }
-            return $ret;
+            $ret = array_keys($ret);
+            usort($ret, 'strnatcasecmp');
+            return array_reverse($ret);
         }
 
-        return $package->$field;
+        return $packageobject->$field;
     }
 
     public function listPackages($channel)
