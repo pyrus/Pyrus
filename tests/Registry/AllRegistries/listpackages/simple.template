@@ -1,0 +1,7 @@
+<?php
+$test->assertEquals(array(), $reg->listPackages($info->channel), 'before');
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'package does not exist');
+$reg->install($info);
+$test->assertEquals(true, (bool)$reg->exists($info->name, $info->channel), 'package was installed');
+$test->assertEquals(array($info->name), $reg->listPackages($info->channel), 'after');
+?>

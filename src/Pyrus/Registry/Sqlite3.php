@@ -868,7 +868,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->bindParam(':channel', $channel);
         $result = @$stmt->execute();
 
-        foreach ($result->fetchArray(SQLITE3_NUM) as $res) {
+        while ($res = $result->fetchArray(SQLITE3_NUM)) {
             $ret[] = $res[0];
         }
 

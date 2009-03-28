@@ -179,10 +179,17 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         try {
             $parser = new PEAR2_Pyrus_XMLParser;
             foreach (new DirectoryIterator($dir) as $file) {
-                if ($file->isDot()) continue;
+                if ($file->isDot()) {
+                    continue;
+                }
                 try {
-                    $a = $parser->parse($file->getPathName());
-                    $ret[] = $a['package']['name'];
+                    foreach (new DirectoryIterator($file->getPathName()) as $registries) {
+                        if ($registries->isDir()) {
+                            continue;
+                        }
+                        $a = $parser->parse($registries->getPathName());
+                        $ret[] = $a['package']['name'];
+                    }
                 } catch (Exception $e) {
                     PEAR2_Pyrus_Log::log(0, 'Warning: corrupted XML registry entry: ' .
                         $file->getPathName() . ': ' . $e);
