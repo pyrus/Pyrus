@@ -814,31 +814,25 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
             return $ret;
         } elseif ($field == 'dirtree') {
-            $ret = array();
-            $sql = 'SELECT
-                        rolepath, packagepath
-                    FROM files
-                    WHERE
-                        packages_name = :name AND packages_channel = :channel';
-
-            $stmt = static::$databases[$this->_path]->prepare($sql);
-            $stmt->bindParam(':name',    $package);
-            $stmt->bindParam(':channel', $channe);
-            $result = @$stmt->execute();
-
-            if (!$result) {
-                $error = static::$databases[$this->_path]->lastErrorMsg();
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
-                    ': ' . $error);
+            // if we are :memory: this can't work
+            if ($this->_path === ':memory:') {
+                return array();
             }
 
-            foreach ($result->fetchArray(SQLITE3_ASSOC) as $file) {
-                $path = dirname($file['rolepath'] . DIRECTORY_SEPARATOR . $file['packagepath']);
-                $ret[$path] = 1;
-            }
-            $stmt->close();
+            $actual = dirname($this->_path);
 
-            return $ret;
+            $files = $this->info($package, $channel, 'installedfiles');
+            foreach ($files as $file) {
+                do {
+                    $file = dirname($file);
+                    if (strlen($file) > strlen($actual)) {
+                        $ret[$file] = 1;
+                    }
+                } while (strlen($file) > strlen($actual));
+            }
+            $ret = array_keys($ret);
+            usort($ret, 'strnatcasecmp');
+            return array_reverse($ret);
         }
 
         $sql = ' SELECT ' . $field . ' FROM packages WHERE
