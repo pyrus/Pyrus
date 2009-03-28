@@ -791,7 +791,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         } elseif ($field == 'installedfiles') {
             $ret = array();
             $sql = 'SELECT
-                        packagepath
+                        packagepath, role, origpath, baseinstalldir
                     FROM files
                     WHERE
                         packages_name = :name AND packages_channel = :channel';
@@ -808,7 +808,18 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
 
             while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
-                $ret[] = $file['packagepath'];
+                if ($file['baseinstalldir']) {
+                    $ret[$file['packagepath']] = array('role' => $file['role'],
+                                                       'name' => $file['origpath'],
+                                                       'baseinstalldir' => $file['baseinstalldir'],
+                                                       'installed_as' => $file['packagepath'],
+                                                      );
+                } else {
+                    $ret[$file['packagepath']] = array('role' => $file['role'],
+                                                       'name' => $file['origpath'],
+                                                       'installed_as' => $file['packagepath'],
+                                                      );
+                }
             }
             $stmt->close();
 
@@ -1203,11 +1214,13 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                     packages_channel, packages_name
                 FROM package_dependencies
                 WHERE
-                    deppackage = :name AND depchannel = :name
+                    deppackage = :name AND depchannel = :channel
                 ORDER BY packages_channel, packages_name';
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $pn = $package->name;
         $stmt->bindParam(':name', $pn, SQLITE3_TEXT);
+        $pp = $package->channel;
+        $stmt->bindParam(':channel', $pp, SQLITE3_TEXT);
         $result = @$stmt->execute();
 
         while ($res = $result->fetchArray()) {
@@ -1219,6 +1232,50 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
         }
 
+        return $ret;
+    }
+
+    /**
+     * Detect any files already installed that would be overwritten by
+     * files inside the package represented by $package
+     */
+    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
+    {
+        if (!isset(static::$databases[$this->_path])) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
+        }
+
+        $ret = array();
+        $sql = 'SELECT
+                    packages_channel, packages_name
+                FROM files
+                WHERE
+                    packagepath = :path
+                ORDER BY packages_channel, packages_name';
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+        // now iterate over each file in the package, and note all the conflicts
+        $roles = array();
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+        }
+        $ret = array();
+        foreach ($package->installcontents as $file) {
+            $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
+            if (!$relativepath) {
+                continue;
+            }
+            $testpath = $config->{$roles[$file->role]->getLocationConfig()} .
+                    DIRECTORY_SEPARATOR . $relativepath;
+            $stmt->bindParam(':path', $testpath, SQLITE3_TEXT);
+            $result = @$stmt->execute();
+
+            while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
+                $ret[] = $res['packages_channel'] . '/' . $res['packages_name'];
+            }
+        }
         return $ret;
     }
 }

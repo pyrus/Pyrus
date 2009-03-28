@@ -17,6 +17,19 @@
  * This is the central registry, that is used for all installer options,
  * stored in xml files
  *
+ * By default this registry does not support:
+ *  - file conflict detection
+ *  - dependency resolution on uninstall
+ *
+ * It is designed for providing redundancy to the Sqlite3 registry and for
+ * managing simple installation situations such as bundling a few packages
+ * inside another application, or for distributing a registry with an
+ * unzip-and-go application that can be used to construct an Sqlite3 registry.
+ *
+ * File conflict resolution can be done manually, via detectFileConflicts()
+ * and is extremely slow, as each installed package must be processed in order
+ * to determine the list of installed files.
+ * 
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -147,13 +160,16 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
                 if (!$relativepath) {
                     continue;
                 }
-                $ret[] = $config->{$roles[$file->role]->getLocationConfig()} .
+                $filepath = $config->{$roles[$file->role]->getLocationConfig()} .
                     DIRECTORY_SEPARATOR . $relativepath;
+                $attrs = $file->getArrayCopy();
+                $ret[$filepath] = $attrs['attribs'];
+                $ret[$filepath]['installed_as'] = $filepath;
             }
             return $ret;
         } elseif ($field == 'dirtree') {
             $files = $this->info($package, $channel, 'installedfiles');
-            foreach ($files as $file) {
+            foreach ($files as $file => $unused) {
                 do {
                     $file = dirname($file);
                     if (strlen($file) > strlen($this->_path)) {
@@ -220,11 +236,55 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         }
     }
 
-    /**
-     * Don't even try - sqlite is the only one that can reliably implement this
-     */
     public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
     {
         return array();
+    }
+
+    /**
+     * Detect any files already installed that would be overwritten by
+     * files inside the package represented by $package
+     */
+    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
+    {
+        // construct list of all installed files
+        $allfiles = array();
+        $filesByPackage = array();
+        $config = PEAR2_Pyrus_Config::current();
+        foreach ($config->channelregistry as $channel) {
+            foreach ($this->listPackages($channel->name) as $packagename) {
+                $files = $this->info($packagename, $channel->name, 'installedfiles');
+                $allfiles = array_merge($allfiles, $files);
+                $filesByPackage[$channel->name . '/' . $packagename] = array_flip($files);
+            }
+        }
+        $allfiles = array_flip($allfiles);
+
+        // now iterate over each file in the package, and note all the conflicts
+        $roles = array();
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+        }
+        $ret = array();
+        foreach ($package->installcontents as $file) {
+            $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
+            if (!$relativepath) {
+                continue;
+            }
+            $testpath = $config->{$roles[$file->role]->getLocationConfig()} .
+                    DIRECTORY_SEPARATOR . $relativepath;
+            if (isset($allfiles[$testpath])) {
+                foreach ($filesByPackage as $pname => $files) {
+                    if (isset($files[$testpath])) {
+                        $ret = array($testpath => $pname);
+                        break;
+                    }
+                }
+            }
+        }
+        return $ret;
     }
 }

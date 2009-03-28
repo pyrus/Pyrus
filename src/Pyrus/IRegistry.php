@@ -43,4 +43,9 @@ interface PEAR2_Pyrus_IRegistry
      * Retrieve a list of package objects that depend on this package
      */
     public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package);
+    /**
+     * Detect any files already installed that would be overwritten by
+     * files inside the package represented by $package
+     */
+    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package);
 }

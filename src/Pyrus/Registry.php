@@ -273,4 +273,9 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
     {
         return $this->_registries[0]->getDependentPackages($package);
     }
+
+    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
+    {
+        return $this->_registries[0]->detectFileConflicts($package);
+    }
 }

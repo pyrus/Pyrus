@@ -26,10 +26,91 @@
  */
 class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 {
-    private $_path;
+    protected $_path;
+    protected $filemap;
+
     function __construct($path)
     {
         $this->_path = $path;
+        $this->filemap = $path . DIRECTORY_SEPARATOR . '.filemap';
+    }
+
+    protected function rebuildFileMap()
+    {
+        $config = PEAR2_Pyrus_Config::current();
+        $channels = array();
+        foreach ($config->channelregistry as $channel) {
+            $channels[$channel->name] = $this->listPackages($channel->name);
+        }
+        $files = array();
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles('php') as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory('php', $role)->getLocationConfig();
+        }
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles('extsrc') as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            if (isset($roles[$role])) {
+                continue;
+            }
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory('extsrc', $role)->getLocationConfig();
+        }
+        foreach ($channels as $channel => $packages) {
+            foreach ($packages as $package) {
+                foreach ($this->info($package, $channel, 'installedfiles') as $name => $attrs) {
+
+                    $name = str_replace($config->{$roles[$attrs['role']]}, '', $name);
+                    $file = str_replace('\\', '/', $name);
+
+                    $file = preg_replace(',^/+,', '', $file);
+                    if (!isset($files[$attrs['role']])) {
+                        $files[$attrs['role']] = array();
+                    }
+                    if ($channel != 'pear.php.net') {
+                        $files[$attrs['role']][$file] = array($channel,
+                            strtolower($package));
+                    } else {
+                        $files[$attrs['role']][$file] = strtolower($package);
+                    }
+                }
+            }
+        }
+
+        $fp = @fopen($this->filemap, 'wb');
+        if (!$fp) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot write out Pear1 filemap');
+        }
+
+        fwrite($fp, serialize($files));
+        fclose($fp);
+    }
+
+    protected function readFileMap()
+    {
+        if (!file_exists($this->filemap)) {
+            return array();
+        }
+
+        $fp = @fopen($this->filemap, 'r');
+        if (!$fp) {
+            throw new PEAR2_Pyrus_Registry_Exception('Could not open Pear1 registry filemap "' . $this->filemap . '"');
+        }
+
+        clearstatcache();
+        $rt = get_magic_quotes_runtime();
+        set_magic_quotes_runtime(0);
+        $fsize = filesize($this->filemap);
+        $data = stream_get_contents($fp);
+        fclose($fp);
+        set_magic_quotes_runtime($rt);
+        $tmp = unserialize($data);
+        if (!$tmp && $fsize > 7) {
+            throw new PEAR2_Pyrus_Registry_Exception('Invalid Pear1 registry filemap data');
+        }
+        return $tmp;
     }
 
     private function _nameRegistryPath(PEAR2_Pyrus_IPackageFile $info = null,
@@ -175,20 +256,31 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
                 PEAR2_Pyrus_Installer_Role::factory($info->getPackageType(), $role);
         }
         $config = PEAR2_Pyrus_Config::current();
+        $dirtree = array();
         foreach ($info->installcontents as $file) {
             $relativepath = $roles[$file->role]->getRelativeLocation($info, $file);
             if (!$relativepath) {
                 continue;
             }
             $arr['filelist'][$file['attribs']['name']] = $arr['filelist'][$file['attribs']['name']]['attribs'];
-            $arr['filelist'][$file['attribs']['name']]['installed_as'] = $config->{$roles[$file->role]->getLocationConfig()} .
+            $installedas = $config->{$roles[$file->role]->getLocationConfig()} .
                 DIRECTORY_SEPARATOR . $relativepath;
+            $arr['filelist'][$file['attribs']['name']]['installed_as'] = $installedas;
+            $len = strlen($installedas) - strlen($relativepath) - 2;
+            do {
+                $installedas = dirname($installedas);
+                if (strlen($installedas) > $len) {
+                    $dirtree[$installedas] = 1;
+                }
+            } while (strlen($installedas) > $len);
         }
+        $arr['filelist']['dirtree'] = array_keys($dirtree);
         $arr['old']['maintainers'] = $maint;
         $arr['xsdversion'] = '2.0';
         $arr['_lastmodified'] = time();
 
         file_put_contents($packagefile, serialize($arr));
+        $this->rebuildFileMap();
     }
 
     function uninstall($package, $channel)
@@ -232,25 +324,18 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
                     'for package ' . $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
             }
+            if ($field == 'dirtree') {
+                $ret = $data['filelist']['dirtree'];
+                usort($ret, 'strnatcasecmp');
+                return array_reverse($ret);
+            }
 
             $ret = array();
             foreach ($data['filelist'] as $file) {
-                if ($field == 'installedfiles') {
-                    $ret[] = $file['installed_as'];
-                } else {
-                    $inst = $file['installed_as'];
-                    do {
-                        $inst = dirname($inst);
-                        if (strlen($inst) > strlen($this->_path)) {
-                            $ret[$inst] = 1;
-                        }
-                    } while (strlen($inst) > strlen($this->_path));
+                if (!isset($file['installed_as'])) {
+                    continue;
                 }
-            }
-            if ($field == 'dirtree') {
-                $ret = array_keys($ret);
-                usort($ret, 'strnatcasecmp');
-                return array_reverse($ret);
+                $ret[$file['installed_as']] = $file;
             }
             return $ret;
         }
@@ -329,6 +414,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             // and forget about it
             $pf->dependencies->php['min'] = phpversion();
             $pf->dependencies->pearinstaller['min'] = '1.4.0';
+            unset($data['filelist']['dirtree']);
             if (!isset($data['filelist'][0])) {
                 $data['filelist'] = array($data['filelist']);
             }
@@ -339,7 +425,11 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             // create packagefile v2 here
             $pf = new PEAR2_Pyrus_PackageFile_v2;
             $pf->fromArray(array('package' => $data));
-            foreach ($data['contents']['dir']['file'] as $file) {
+            $contents = $data['contents']['dir']['file'];
+            if (!isset($contents[0])) {
+                $contents = array($contents);
+            }
+            foreach ($contents as $file) {
                 $pf->files[$file['attribs']['name']] = $file;
             }
         }
@@ -353,11 +443,45 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         }
     }
 
-    /**
-     * Don't even try - sqlite is the only one that can reliably implement this
-     */
     public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
     {
         return array();
+    }
+
+    /**
+     * Detect any files already installed that would be overwritten by
+     * files inside the package represented by $package
+     */
+    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
+    {
+        $filemap = $this->readFileMap();
+        if (!$filemap) {
+            return array();
+        }
+
+        // now iterate over each file in the package, and note all the conflicts
+        $roles = array();
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+        }
+        $ret = array();
+        foreach ($package->installcontents as $file) {
+            $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
+            if (!$relativepath) {
+                continue;
+            }
+            if (isset($filemap[$relativepath])) {
+                if (is_array($filemap[$relativepath])) {
+                    $ret[] = $filemap[$relativepath][0] . '/' .
+                        $this->info($filemap[$relativepath][1], $filemap[$relativepath][0], 'name');
+                } else {
+                    $ret[] = 'pear.php.net/' . $this->info($filemap[$relativepath], 'pear.php.net', 'name');
+                }
+            }
+        }
+        return $ret;
     }
 }
