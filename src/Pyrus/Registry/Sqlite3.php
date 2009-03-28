@@ -833,7 +833,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $actual = dirname($this->_path);
 
             $files = $this->info($package, $channel, 'installedfiles');
-            foreach ($files as $file) {
+            foreach ($files as $file => $unused) {
                 do {
                     $file = dirname($file);
                     if (strlen($file) > strlen($actual)) {
