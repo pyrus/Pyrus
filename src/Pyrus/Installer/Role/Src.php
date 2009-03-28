@@ -25,7 +25,7 @@
  */
 class PEAR2_Pyrus_Installer_Role_Src extends PEAR2_Pyrus_Installer_Role_Common
 {
-    function setup(&$installer, $pkg, $atts, $file)
+    function setup($installer, $pkg, $atts, $file)
     {
         $installer->source_files++;
     }
