@@ -167,6 +167,23 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
                 $maint[] = $m;
             }
         }
+        $arr['filelist'] = $info->getFilelist();
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($info->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] =
+                PEAR2_Pyrus_Installer_Role::factory($info->getPackageType(), $role);
+        }
+        $config = PEAR2_Pyrus_Config::current();
+        foreach ($info->installcontents as $file) {
+            $relativepath = $roles[$file->role]->getRelativeLocation($info, $file);
+            if (!$relativepath) {
+                continue;
+            }
+            $arr['filelist'][$file['attribs']['name']] = $arr['filelist'][$file['attribs']['name']]['attribs'];
+            $arr['filelist'][$file['attribs']['name']]['installed_as'] = $config->{$roles[$file->role]->getLocationConfig()} .
+                DIRECTORY_SEPARATOR . $relativepath;
+        }
         $arr['old']['maintainers'] = $maint;
         $arr['xsdversion'] = '2.0';
         $arr['_lastmodified'] = time();
@@ -203,13 +220,14 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             $field = 'release-version';
         }
         if ($field == 'installedfiles' || $field == 'dirtree') {
-            $packagefile = $this->_namePath($package, $channel) . '.reg';
+            $packagefile = $this->_namePath($channel, $package) . '.reg';
             if (!$packagefile || !isset($packagefile[0])) {
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot find registry for package ' .
                     $channel . '/' . $package);
             }
 
-            $data = @unserialize($packagefile);
+            $packagecontents = file_get_contents($packagefile);
+            $data = @unserialize($packagecontents);
             if ($data === false) {
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
                     'for package ' . $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
