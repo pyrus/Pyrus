@@ -22,6 +22,7 @@ bin_dir setting within Pyrus.', $reg->info($info->name, $info->channel, 'descrip
 $test->assertEquals('beta', $reg->info($info->name, $info->channel, 'api-state'), 'api-state');
 $test->assertEquals('stable', $reg->info($info->name, $info->channel, 'state'), 'state');
 $test->assertEquals('0.1.0', $reg->info($info->name, $info->channel, 'release-version'), 'release-version');
+$test->assertEquals('0.1.0', $reg->info($info->name, $info->channel, 'release-version'), 'version');
 $test->assertEquals('1.2.3', $reg->info($info->name, $info->channel, 'api-version'), 'api-version');
 $test->assertEquals('First attempt.', $reg->info($info->name, $info->channel, 'notes'), 'notes');
 $test->assertEquals('2008-12-15', $reg->info($info->name, $info->channel, 'date'), 'date');
