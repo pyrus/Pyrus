@@ -1,0 +1,11 @@
+<?php
+$test->assertEquals(array(), $reg->listPackages($info->channel), 'before');
+$reg->install($info);
+$info->name = 'HooHa';
+$reg->install($info);
+$info->name = 'HooHa2';
+$reg->install($info);
+$packages = $reg->listPackages($info->channel);
+sort($packages);
+$test->assertEquals(array('HooHa', 'HooHa2', 'PEAR2_SimpleChannelServer'), $packages, 'after');
+?>
