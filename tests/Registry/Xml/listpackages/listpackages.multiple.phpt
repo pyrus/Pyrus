@@ -4,7 +4,7 @@ Xml registry: test listPackages, multiple packages
 <?php
 require __DIR__ . '/setup.php.inc';
 $dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
-require __DIR__ . '/../../AllRegistries/listpackages/simple.template';
+require __DIR__ . '/../../AllRegistries/listpackages/multiple.template';
 
 ?>
 ===DONE===

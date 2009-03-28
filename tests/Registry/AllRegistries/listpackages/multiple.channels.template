@@ -1,0 +1,26 @@
+<?php
+$test->assertEquals(array(), $reg->listPackages('pear2.php.net'), 'before pear2');
+$test->assertEquals(array(), $reg->listPackages('pear.php.net'), 'before pear');
+$reg->install($info);
+$info = new PEAR2_Pyrus_PackageFile_v2;
+$info->name = 'HooHa';
+$info->channel = 'pear2.php.net';
+$info->files['one'] = array('role' => 'php');
+$reg->install($info);
+$info = new PEAR2_Pyrus_PackageFile_v2;
+$info->name = 'HooHa2';
+$info->channel = 'pear2.php.net';
+$info->files['two'] = array('role' => 'php');
+$reg->install($info);
+$info = new PEAR2_Pyrus_PackageFile_v2;
+$info->name = 'HooHa2';
+$info->channel = 'pear.php.net';
+$info->files['three'] = array('role' => 'php');
+$reg->install($info);
+$packages = $reg->listPackages('pear2.php.net');
+sort($packages);
+$test->assertEquals(array('HooHa', 'HooHa2', 'PEAR2_SimpleChannelServer'), $packages, 'after pear2');
+$packages = $reg->listPackages('pear.php.net');
+sort($packages);
+$test->assertEquals(array('HooHa2'), $packages, 'after pear');
+?>
