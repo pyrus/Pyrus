@@ -238,8 +238,19 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
                 if ($field == 'installedfiles') {
                     $ret[] = $file['installed_as'];
                 } else {
-                    $ret[dirname($file['installed_as'])] = 1;
+                    $inst = $file['installed_as'];
+                    do {
+                        $inst = dirname($inst);
+                        if (strlen($inst) > strlen($this->_path)) {
+                            $ret[$inst] = 1;
+                        }
+                    } while (strlen($inst) > strlen($this->_path));
                 }
+            }
+            if ($field == 'dirtree') {
+                $ret = array_keys($ret);
+                usort($ret, 'strnatcasecmp');
+                return array_reverse($ret);
             }
             return $ret;
         }

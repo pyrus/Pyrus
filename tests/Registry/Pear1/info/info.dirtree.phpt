@@ -1,10 +1,10 @@
 --TEST--
-Pear1 registry: test installedfiles info property
+Pear1 registry: test dirtree info property
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 $dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
-require __DIR__ . '/../../AllRegistries/info/installedfiles.template';
+require __DIR__ . '/../../AllRegistries/info/dirtree.template';
 
 ?>
 ===DONE===

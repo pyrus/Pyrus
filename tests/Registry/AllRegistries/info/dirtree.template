@@ -1,0 +1,25 @@
+<?php
+$test->assertEquals(false, (bool)$reg->exists($info->name, $info->channel), 'package does not exist');
+$reg->install($info);
+$test->assertEquals(true, (bool)$reg->exists($info->name, $info->channel), 'package was installed');
+
+// info stuff here
+$result = $reg->info($info->name, $info->channel, 'dirtree');
+
+if (substr(PHP_OS, 0, 3) == 'WIN') {
+    
+} else {
+    // $dir must be set to __DIR__ . '/testit' in the test itself
+    $test->assertEquals(array (
+      $dir . 'src/PEAR2/SimpleChannelServer/REST',
+      $dir . 'src/PEAR2/SimpleChannelServer/Categories',
+      $dir . 'src/PEAR2/SimpleChannelServer',
+      $dir . 'src/PEAR2',
+      $dir . 'src',
+      $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer/examples',
+      $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer',
+      $dir . 'docs/pear2.php.net',
+      $dir . 'docs',
+      $dir . 'bin',
+    ), $result, 'dirtree');
+}
