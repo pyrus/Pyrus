@@ -236,9 +236,32 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         }
     }
 
+    /**
+     * This is EXTREMELY inefficient, and should only be used
+     * if an Sqlite3 registry is unavailable
+     */
     public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
-        return array();
+        // first construct a list of all installed packages
+        $all = array();
+        $config = PEAR2_Pyrus_Config::current();
+        foreach ($config->channelregistry as $channel) {
+            foreach ($this->listPackages($channel->name) as $packagename) {
+                $all[] = $this->package[$channel->name . '/' . $packagename];
+            }
+        }
+
+        $ret = array();
+        // now scan them to see which packages depend on this one
+        foreach ($all as $test) {
+            if ($test->isEqual($package)) {
+                continue;
+            }
+            if ($test->dependsOn($package)) {
+                $ret[] = $test;
+            }
+        }
+        return $ret;
     }
 
     /**

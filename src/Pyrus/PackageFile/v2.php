@@ -655,11 +655,24 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         return false;
     }
 
+    function isEqual(PEAR2_Pyrus_IPackageFile $pkg)
+    {
+        if ($this->channel === '__uri') {
+            return $pkg->name === $this->name && $pkg->uri === $this->uri;
+        }
+
+        return $pkg->name === $this->name && $pkg->channel === $this->channel;
+    }
+
     /**
      * Returns true if any dependency, optional or required, exists on the package specified
      */
-    function dependsOn($package, $channel, $uri = false)
+    function dependsOn(PEAR2_Pyrus_IPackageFile $pkg)
     {
+        $uri = $pkg->uri;
+        $package = $pkg->name;
+        $channel = $pkg->channel;
+
         $deps = $this->dependencies;
         foreach (array('package', 'subpackage') as $type) {
             foreach (array('required', 'optional') as $needed) {
