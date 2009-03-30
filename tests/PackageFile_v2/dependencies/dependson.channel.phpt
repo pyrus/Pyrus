@@ -8,21 +8,25 @@ $pf1 = new PEAR2_Pyrus_PackageFile_v2;
 $pf1->name = 'P1';
 $pf1->channel = 'pear2.php.net';
 
-$test->assertEquals(false, $pf1->dependsOn('P2', 'pear.example.com'), 'no relation');
+$pf2 = new PEAR2_Pyrus_PackageFile_v2;
+$pf2->name = 'P2';
+$pf2->channel = 'pear.example.com';
+
+$test->assertEquals(false, $pf1->dependsOn($pf2), 'no relation');
 $pf1->dependencies['group']->group1->package['pear.example.com/P2']->save();
-$test->assertEquals(true, $pf1->dependsOn('P2', 'pear.example.com'), 'group relation');
+$test->assertEquals(true, $pf1->dependsOn($pf2), 'group relation');
 
 unset($pf1->dependencies['group']);
 
-$test->assertEquals(false, $pf1->dependsOn('P2', 'pear.example.com'), 'no relation');
+$test->assertEquals(false, $pf1->dependsOn($pf2), 'no relation');
 $pf1->dependencies['optional']->package['pear.example.com/P2']->save();
-$test->assertEquals(true, $pf1->dependsOn('P2', 'pear.example.com'), 'optional relation');
+$test->assertEquals(true, $pf1->dependsOn($pf2), 'optional relation');
 
 unset($pf1->dependencies['optional']);
 
-$test->assertEquals(false, $pf1->dependsOn('P2', 'pear.example.com'), 'no relation');
+$test->assertEquals(false, $pf1->dependsOn($pf2), 'no relation');
 $pf1->dependencies['required']->package['pear.example.com/P2']->save();
-$test->assertEquals(true, $pf1->dependsOn('P2', 'pear.example.com'), 'required relation');
+$test->assertEquals(true, $pf1->dependsOn($pf2), 'required relation');
 
 ?>
 ===DONE===
