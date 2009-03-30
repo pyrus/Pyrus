@@ -26,6 +26,7 @@
  */
 class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 {
+    static public $dependencyDBClass = 'PEAR2_Pyrus_Registry_Pear1_DependencyDB';
     protected $_path;
     protected $filemap;
 
@@ -281,12 +282,19 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 
         file_put_contents($packagefile, serialize($arr));
         $this->rebuildFileMap();
+        $classname = self::$dependencyDBClass;
+        $dep = new $classname;
+        $dep->installPackage($info);
     }
 
     function uninstall($package, $channel)
     {
         $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         @unlink($packagefile);
+        $classname = self::$dependencyDBClass;
+        $dep = new $classname;
+        $dep->uninstallPackage($channel, $package);
+        $this->rebuildFileMap();
     }
 
     public function exists($package, $channel)
