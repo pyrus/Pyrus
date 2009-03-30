@@ -86,8 +86,8 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
     {
         $data = $this->_getDepDB();
 
-        if (isset($data['packages'][$pkg->channel][$pkg->name])) {
-            return $data['packages'][$pkg->channel][$pkg->name];
+        if (isset($data['packages']) && isset($data['packages'][$pkg->channel][strtolower($pkg->name)])) {
+            return $data['packages'][$pkg->channel][strtolower($pkg->name)];
         }
         return array();
     }
@@ -533,12 +533,9 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
             'group' => $group
         );
 
-        $dep  = array_map(function($a) {
-            if (is_array($a)) {
-                return array_map('strtolower', $a);
-            }
-            return strtolower($a);
-        }, $dep);
+        if (isset($dep['name'])) {
+            $dep['name'] = strtolower($dep['name']);
+        }
         $depchannel = isset($dep['channel']) ? $dep['channel'] : '__uri';
         if (!isset($data['dependencies'])) {
             $data['dependencies'] = array();

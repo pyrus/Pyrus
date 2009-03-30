@@ -236,7 +236,7 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         }
     }
 
-    public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
+    public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
         return array();
     }

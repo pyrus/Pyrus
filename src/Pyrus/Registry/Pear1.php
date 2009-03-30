@@ -451,9 +451,15 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         }
     }
 
-    public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
+    public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
-        return array();
+        $class = self::$dependencyDBClass;
+        $dep = new $class;
+        $ret = $dep->getDependentPackages($package);
+        foreach ($ret as $i => $package) {
+            $ret[$i] = $this->package[$package['channel'] . '/' . $package['package']];
+        }
+        return $ret;
     }
 
     /**

@@ -1203,7 +1203,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         return $ret;
     }
 
-    public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
+    public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
         if (!isset(static::$databases[$this->_path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
@@ -1225,7 +1225,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         while ($res = $result->fetchArray()) {
             try {
-                $ret[] = $this->get($res[0] . '/' . $res[1]);
+                $ret[] = $this->package[$res[0] . '/' . $res[1]];
             } catch (Exception $e) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Could not retrieve ' .
                     'dependent package ' . $res[0] . '/' . $res[1], $e);

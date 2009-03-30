@@ -269,7 +269,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         return $this->path;
     }
 
-    public function getDependentPackages(PEAR2_Pyrus_Registry_Base $package)
+    public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
         return $this->_registries[0]->getDependentPackages($package);
     }
