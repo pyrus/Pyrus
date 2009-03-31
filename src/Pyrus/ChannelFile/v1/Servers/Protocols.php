@@ -25,7 +25,12 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
 
     function getREST()
     {
-        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST($this->_info['rest'], $this->parent);
+        if (isset($this->_info['rest'])) {
+            $info = $this->_info['rest'];
+        } else {
+            $info = array();
+        }
+        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST($info, $this->parent);
     }
 }
 

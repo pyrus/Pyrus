@@ -38,6 +38,7 @@ try {
     $test->assertEquals(true, $channel->validChannelServer('pear.php.net'), 'validChannelServer(pear.php.net)');
     
 } catch(Exception $e) {
+    echo $e;
     $thrown = true;
 }
 $test->assertEquals(false, $thrown, 'parsed channel.xml file fine, no exceptions thrown');

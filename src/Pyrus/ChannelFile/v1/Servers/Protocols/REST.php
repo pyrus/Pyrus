@@ -1,38 +1,51 @@
 <?php
-class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess
+class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, Countable
 {
     protected $_info;
-    
     protected $parent;
+    protected $index;
     
-    protected $baseurl;
-    
-    function __construct($info, $parent)
+    function __construct($info, $parent, $index = null)
     {
         $this->_info = $info;
         $this->parent = $parent;
+        $this->index = $index;
+    }
+
+    function count()
+    {
+        return count($this->_info);
     }
     
     function __get($var)
     {
-        switch (strtolower($var)) {
-            case 'baseurl':
-                return $this->baseurl;
-            default:
-                throw new Exception($var);
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use -> to access'
+                    . 'REST protocols, use []');
         }
-    }
+        if ($var === 'baseurl') {
+            return $this->_info['_content'];
+        }
+        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown variable ' . $var);
+}
     
     function offsetGet($protocol)
     {
-        $this->baseurl = false;
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+                    . 'baseurl, use ->');
+        }
         foreach ($this->_info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
-                $this->baseurl = $baseurl['_content'];
-                return $this;
+                $ret = new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST(
+                    $baseurl, $this, $protocol
+                );
+                return $ret;
             }
         }
-        return false;
+        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST(
+            array('attribs' => array('type' => $protocol), '_content' => null),
+            $this, count($this->_info));
     }
     
     function offsetSet($protocol, $value)
@@ -42,7 +55,16 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess
     
     function offsetExists($protocol)
     {
-        throw new Exception('not there yet for offsetExists'.$protocol);
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+                    . 'baseurl, use ->');
+        }
+        foreach ($this->_info['baseurl'] as $baseurl) {
+            if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     function offsetUnset($protocol)

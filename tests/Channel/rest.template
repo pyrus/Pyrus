@@ -16,16 +16,16 @@ $exp_rest[] = array (
         'attribs'  => array ('type' => 'REST1.3'),
         '_content' => $restbase.'rest1.3/');
 
-$rest = $channel->getREST();
-$test->assertEquals(true, is_array($rest), 'array of REST dirs returned');
-$test->assertEquals($exp_rest, $rest, 'Rest servers returned');
-$test->assertEquals($restbase.'rest1.0/', $channel->getBaseURL('REST1.0'), 'REST 1.0');
-$test->assertEquals($restbase.'rest1.1/', $channel->getBaseURL('REST1.1'), 'REST 1.1');
-$test->assertEquals($restbase.'rest1.2/', $channel->getBaseURL('REST1.2'), 'REST 1.2');
-$test->assertEquals($restbase.'rest1.3/', $channel->getBaseURL('REST1.3'), 'REST 1.3');
-$test->assertEquals($exp_rest, $channel->getFunctions('rest'), 'getFunctions');
+$rest = $channel->protocols->rest;
+$test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST',
+                 $rest, 'correct REST object returned');
+$test->assertEquals($restbase . 'rest1.0/', $rest['REST1.0']->baseurl, 'REST 1.0');
+$test->assertEquals($restbase . 'rest1.1/', $rest['REST1.1']->baseurl, 'REST 1.1');
+$test->assertEquals($restbase . 'rest1.2/', $rest['REST1.2']->baseurl, 'REST 1.2');
+$test->assertEquals($restbase . 'rest1.3/', $rest['REST1.3']->baseurl, 'REST 1.3');
 
-$test->assertEquals(false, $channel->getBaseURL('REST99.9'), 'Invalid resouceType, when baseURLs are set');
+$test->assertEquals(false, isset($channel->protocols->rest['REST99.9']),
+                    'Invalid resourceType, when baseURLs are set');
 
 $channel->resetREST();
-$test->assertEquals(false, $channel->getRest(), 'resetREST');
+$test->assertEquals(0, count($channel->protocols->rest), 'resetREST');

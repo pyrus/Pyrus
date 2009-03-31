@@ -9,9 +9,9 @@ class PEAR2_Pyrus_ChannelFile_Parser_v1 extends PEAR2_Pyrus_XMLParser
      *
      * @return PEAR2_Pyrus_ChannelFile_v1
      */
-    function parse($data, $file = false)
+    function parse($data, $file = false, $class = 'PEAR2_Pyrus_ChannelFile_v1')
     {
-        $ret = new PEAR2_Pyrus_ChannelFile_v1();
+        $ret = new $class();
         if (!$ret instanceof PEAR2_Pyrus_ChannelFile_v1) {
             throw new PEAR2_Pyrus_ChannelFile_Exception('Class ' . $class .
                 ' passed to parse() must be a child class of PEAR2_Pyrus_ChannelFile_v1');
