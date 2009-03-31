@@ -1,5 +1,5 @@
 <?php
-class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess
+class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
 {
     /**
      * 
@@ -15,6 +15,11 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess
     {
         $this->info = $info;
         $this->parent = $parent;
+    }
+
+    function count()
+    {
+        return count($this->info);
     }
 
     /**
