@@ -31,6 +31,19 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
         }
         throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown variable ' . $var);
     }
+
+    function __set($var, $value)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use -> to access'
+                    . 'REST protocols, use []');
+        }
+        if ($var === 'baseurl') {
+            $this->_info['_content'] = $value;
+            $this->save();
+        }
+        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown variable ' . $var);
+    }
     
     function offsetGet($protocol)
     {
@@ -53,7 +66,20 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     
     function offsetSet($protocol, $value)
     {
-        throw new Exception('not there yet for offsetSet'.$protocol);
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+                    . 'baseurl, use ->');
+        }
+        if (!($value instanceof PEAR2_Pyrus_ChannelFile_v1_Servers_Protocol_REST)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Can only set REST protocol ' .
+                        ' to a PEAR2_Pyrus_ChannelFile_v1_Servers_Protocol_REST object');
+        }
+        foreach ($this->_info['baseurl'] as $i => $baseurl) {
+            if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
+                $this->_info['baseurl'][$i] = $value->getInfo();
+                $this->save();
+            }
+        }
     }
     
     function offsetExists($protocol)
@@ -72,7 +98,36 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     
     function offsetUnset($protocol)
     {
-        throw new Exception('not there yet for offsetunset'.$protocol);
+        if (isset($this->index)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+                    . 'baseurl, use ->');
+        }
+        foreach ($this->_info['baseurl'] as $baseurl) {
+            if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
+                unset($this->_info['baseurl']);
+                $this->_info['baseurl'] = array_values($this->_info['baseurl']);
+                $this->save();
+            }
+        }
+    }
+
+    function getInfo()
+    {
+        return $this->_info;
+    }
+
+    function save()
+    {
+        if ($this->parent instanceof self) {
+            $this->parent[$this->_info['attribs']['type']] = $this;
+            return $this->parent->save();
+        }
+        $info = $this->_info;
+        if (isset($info['baseurl']) && count($info['baseurl']) == 1) {
+            $info['baseurl'] = $info['baseurl'][0];
+        }
+        $this->parent->rawrest = $info;
+        $this->parent->save();
     }
 }
 ?>

@@ -9,7 +9,7 @@ $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit');
 restore_include_path();
 $c->saveConfig();
 $test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'channel should not exist');
-$chan = new PEAR2_Pyrus_Channel(dirname(__DIR__).'/../sample_channel.xml');
+$chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 $c->channelregistry->add($chan);
 $test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu'), 'successfully added the channel');
 ?>

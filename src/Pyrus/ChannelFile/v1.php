@@ -65,7 +65,8 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     );
     
     protected $setMap = array(
-        'port'=>'setPort',
+        'port' => 'setPort',
+        'rawrest' => 'setREST',
     );
 
     function __construct(array $data = null)
@@ -426,6 +427,11 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
             }
         }
         $this->channelInfo['servers']['primary']['rest']['baseurl'][] = $set;
+    }
+
+    function setREST($rest)
+    {
+        $this->channelInfo['servers']['primary']['rest'] = $rest;
     }
 
     /**
