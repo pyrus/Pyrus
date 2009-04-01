@@ -13,6 +13,7 @@ $channelinfo->fromArray($channel_array);
 
 try {
     $channel = new PEAR2_Pyrus_Channel($channelinfo);
+    $channel->validate();
     throw new Exception('Was able to create channel with no server details.');
 } catch (Exception $e) {
     $test->assertEquals('Invalid channel.xml', $e->getMessage(), 'Invalid channel array');
@@ -54,7 +55,7 @@ $test->assertEquals(80, $channel->port, 'Port defaults to 80');
 $channel->port = 1337;
 $test->assertEquals(1337, $channel->port, 'set/getPort');
 
-$test->assertEquals(true, is_array($channel->mirrors), 'Empty mirrors array');
+$test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers', $channel->mirrors, 'Wrong mirrors class');
 $test->assertEquals(0, count($channel->mirrors), 'Empty mirrors array');
 
 try {

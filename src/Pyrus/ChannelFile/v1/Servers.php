@@ -13,13 +13,16 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
     
     function __construct($info, PEAR2_Pyrus_ChannelFile_v1 $parent, $type = 'primary')
     {
+        if (isset($info['mirror']) && !isset($info['mirror'][0])) {
+            $info['mirror'] = array($info['mirror']);
+        }
         $this->info = $info;
         $this->parent = $parent;
     }
 
     function count()
     {
-        return count($this->info);
+        return count($this->info) - 1;
     }
 
     /**

@@ -19,7 +19,9 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
             case 'soap':
             case 'xmlrpc':
                 $method = 'get' . $var;
-            return $this->{$method}();
+                return $this->{$method}();
+            default:
+                throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown protocol: ' . $var);
         }
     }
 

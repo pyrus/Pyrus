@@ -7,6 +7,9 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     
     function __construct($info, $parent, $index = null)
     {
+        if (isset($info['baseurl']) && !isset($info['baseurl'][0])) {
+            $info['baseurl'] = array($info['baseurl']);
+        }
         $this->_info = $info;
         $this->parent = $parent;
         $this->index = $index;
@@ -27,7 +30,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
             return $this->_info['_content'];
         }
         throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown variable ' . $var);
-}
+    }
     
     function offsetGet($protocol)
     {
