@@ -528,4 +528,31 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
 
         return time();
     }
+
+    function setMirror($info)
+    {
+        if (!isset($this->channelInfo['servers'])) {
+            $this->channelInfo['servers'] = array('mirror' => $info);
+            return;
+        }
+        if (!isset($this->channelInfo['servers']['mirror'])) {
+            $this->channelInfo['servers']['mirror'] = $info;
+        }
+        if (!isset($this->channelInfo['servers']['mirror'][0])) {
+            if ($this->channelInfo['servers']['mirror']['attribs']['host'] != $info['attribs']['host']) {
+                $this->channelInfo['servers']['mirror'] = array($this->channelInfo['servers']['mirror']);
+                $this->channelInfo['servers']['mirror'][] = $info;
+                return;
+            }
+            $this->channelInfo['servers']['mirror'] = $info;
+            return;
+        }
+        foreach ($this->channelInfo['servers']['mirror'] as $i => $mirror) {
+            if ($mirror['attribs']['host'] == $info['attribs']['host']) {
+                $this->channelInfo['servers']['mirror'][$i] = $info;
+                return;
+            }
+        }
+        $this->channelInfo['servers']['mirror'][] = $info;
+    }
 }

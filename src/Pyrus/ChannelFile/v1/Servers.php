@@ -91,7 +91,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
     function offsetGet($mirror)
     {
         if (!isset($this->info['mirror'])) {
-            return false;
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown mirror: ' . $mirror);
         }
         
         foreach ($this->info['mirror'] as $details) {
@@ -100,7 +100,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
             }
         }
         
-        return false;
+        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown mirror: ' . $mirror);
     }
     
     function offsetSet($type, $value)

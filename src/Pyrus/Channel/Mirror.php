@@ -25,6 +25,23 @@
  */
 class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements PEAR2_Pyrus_Channel_IMirror
 {
+    
+    /**
+     * Mapping of __get variables to method handlers
+     * @var array
+     */
+    protected $getMap = array(
+        'ssl' => 'getSSL',
+        'port' => 'getPort',
+        'server' => 'getChannel',
+        'alias' => 'getAlias',
+        'name' => 'getName',
+        'channel' => 'getChannel',
+        'mirror' => 'getServers',
+        'mirrors' => 'getServers',
+        'protocols' => 'getProtocols'
+    );
+
     private $_info;
     
     /**
@@ -34,12 +51,12 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
      */
     protected $parentChannel;
     
-    function __construct(&$mirrorarray, PEAR2_Pyrus_ChannelFile $parent)
+    function __construct($mirrorarray, PEAR2_Pyrus_IChannelFile $parent)
     {
-        if ($parent->getName() == '__uri') {
+        if ($parent->name == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri channel cannot have mirrors');
         }
-        $this->_info = &$mirrorarray;
+        $this->_info = $mirrorarray;
         $this->parentChannel = $parent;
     }
 
@@ -87,24 +104,6 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
 
         return false;
     }
-
-    /**
-     * @param string protocol type (xmlrpc, soap)
-     * @return array|false
-     */
-    function getFunctions($protocol)
-    {
-        if (!in_array($protocol, array('rest'), true)) {
-            throw new PEAR2_Pyrus_Channel_Exception('Unknown protocol: ' .
-                $protocol);
-        }
-
-        if ($this->parentChannel->getName() == '__uri') {
-            return false;
-        }
-
-        return $this->getREST();
-    }
     
     /**
      * Returns the protocols supported by the primary server for this channel
@@ -126,17 +125,6 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
         return isset($this->_info['rest']);
     }
 
-    /**
-     * Empty all protocol definitions
-     * @param string protocol type (xmlrpc, soap)
-     */
-    function resetFunctions($type)
-    {
-        if (isset($this->_info[$type])) {
-            unset($this->_info[$type]);
-        }
-    }
-
     function setName($name)
     {
         if (empty($name)) {
@@ -147,11 +135,13 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
                 '" for channel "' . $this->getChannel() . '" is not a valid channel server');
         }
         $this->_info['attribs']['host'] = $name;
+        $this->save();
     }
 
     function setPort($port)
     {
         $this->_info['attribs']['port'] = $port;
+        $this->save();
     }
 
     function setSSL($ssl = true)
@@ -163,6 +153,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
         } else {
             $this->_info['attribs']['ssl'] = 'yes';
         }
+        $this->save();
     }
 
     /**
@@ -173,6 +164,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
         if (isset($this->_info['rest'])) {
             unset($this->_info['rest']);
         }
+        $this->save();
     }
 
     /**
@@ -200,5 +192,11 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
             }
         }
         $this->_info['rest']['baseurl'][] = $set;
+        $this->save();
+    }
+
+    function save()
+    {
+        $this->parentChannel->setMirror($this->_info);
     }
 }
