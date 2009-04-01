@@ -11,7 +11,9 @@ $channel_array = array(
 $channel_array['servers'] = array('primary'=>array('rest'=>array('baseurl'=>array('attribs'=>array('type'=>'REST1.0'),
                                                                                   'http://foo.example.com/rest/'))));
 
-$channel = new PEAR2_Pyrus_Channel($channel_array);
+$channelobject = new PEAR2_Pyrus_ChannelFile_v1;
+$channelobject->fromArray($channel_array);
+$channel = new PEAR2_Pyrus_Channel($channelobject);
 $test->assertEquals(array('attribs' => array('version' => 'default'),
                           '_content' => 'PEAR2_Pyrus_Validate'), $channel->getValidationPackage(), 'Get default validation package');
 
