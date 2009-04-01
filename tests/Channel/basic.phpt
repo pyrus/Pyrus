@@ -23,7 +23,7 @@ try {
     
     $mirrors = $channel->mirrors;
     $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers', $mirrors, 'Mirrors returns object');
-    $test->assertEquals(2, count($mirrors), 'Two mirrors returned');
+    $test->assertEquals(3, count($mirrors), 'Two mirrors returned + primary server');
     $test->assertEquals(true, $mirrors['us.pear.php.net'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror returned is PEAR2_Pyrus_Channel_Mirror object');
     $test->assertEquals(true, $mirrors['de.pear.php.net'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror returned is PEAR2_Pyrus_Channel_Mirror object');
     

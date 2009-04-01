@@ -56,7 +56,7 @@ $channel->port = 1337;
 $test->assertEquals(1337, $channel->port, 'set/getPort');
 
 $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers', $channel->mirrors, 'Wrong mirrors class');
-$test->assertEquals(0, count($channel->mirrors), 'Empty mirrors array');
+$test->assertEquals(1, count($channel->mirrors), 'only primary server');
 
 try {
     $channel->name = '';
