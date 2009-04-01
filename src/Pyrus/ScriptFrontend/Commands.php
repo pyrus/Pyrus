@@ -382,7 +382,7 @@ previous:
             }
         }
 
-        $chan = new PEAR2_Pyrus_Channel($response->body);
+        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($response->body, true));
         PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
         echo "Discovery of channel ", $chan->name, " successful\n";
     }
@@ -400,7 +400,7 @@ previous:
             echo "Retrieving channel.xml contents failed\n";
             exit -1;
         }
-        $chan = new PEAR2_Pyrus_Channel($chan);
+        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($chan));
         PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
         echo "Adding channel ", $chan->name, " successful\n";
     }

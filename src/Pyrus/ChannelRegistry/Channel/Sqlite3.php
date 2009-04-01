@@ -167,12 +167,13 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_IChanne
 
     public function toChannelObject()
     {
-        $a = new PEAR2_Pyrus_Channel;
+        $a = new PEAR2_Pyrus_ChannelFile;
         $a->setName($this->getName());
         $a->setSummary($this->getSummary());
         $a->setPort($this->getPort());
         $a->setSSL($this->getSSL());
         $a->setValidationPackage();
+        return new PEAR2_Pyrus_Channel($a);
     }
 
     public function __toString()

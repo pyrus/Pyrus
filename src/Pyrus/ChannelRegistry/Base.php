@@ -309,7 +309,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         if (!file_exists($xml)) {
             $xml = dirname(dirname(dirname(__DIR__))).'/data/default_channels/' . $channel . '.xml';
         }
-        return new PEAR2_Pyrus_Channel($xml);
+        return new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($xml));
     }
 
     /**

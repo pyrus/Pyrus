@@ -34,7 +34,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel_Pear1 extends PEAR2_Pyrus_Channel impl
 
     public function toChannelObject()
     {
-        $chan = new PEAR2_Pyrus_Channel((string) $this);
+        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile((string) $this->parentChannel, true));
         return $chan;
     }
 

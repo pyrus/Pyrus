@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
+class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
 {
     /**
      * Supported channel.xml versions, for parsing
@@ -68,9 +68,9 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
         'port'=>'setPort',
     );
 
-    function __construct($data = null)
+    function __construct(array $data = null)
     {
-        if (is_array($data)) {
+        if (null !== $data) {
             $this->fromArray($data);
         }
     }
@@ -90,7 +90,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
         }
         // Reset root attributes.
         $this->channelInfo['attribs'] = $this->rootAttributes;
-        $this->validate();
     }
 
     /**
@@ -202,7 +201,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
     function getProtocols()
     {
         if ($this->channelInfo['name'] == '__uri') {
-            return false; // the __uri channel has no protocols
+            throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel has no protocols');
         }
         return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->channelInfo['servers']['primary'], $this);
     }
@@ -210,7 +209,12 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile
     function getServers()
     {
         if ($this->channelInfo['name'] == '__uri') {
-            return false; // the __uri channel has no servers
+            throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel has no mirrors');
+        }
+        if (isset($this->channelInfo['servers'])) {
+            $servers = $this->channelInfo['servers'];
+        } else {
+            $servers = array();
         }
         return new PEAR2_Pyrus_ChannelFile_v1_Servers($this->channelInfo['servers'], $this);
     }

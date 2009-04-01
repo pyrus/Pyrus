@@ -8,9 +8,11 @@ $channel_array = array(
                     'attribs' => array('version'=>'1.0', 'xmlns'=>'http://pear.php.net/channel-1.0'),
                     'name'    => 'foo.example.com',
                     'summary' => 'bar');
+$channelinfo = new PEAR2_Pyrus_ChannelFile_v1;
+$channelinfo->fromArray($channel_array);
 
 try {
-    $channel = new PEAR2_Pyrus_Channel($channel_array);
+    $channel = new PEAR2_Pyrus_Channel($channelinfo);
     throw new Exception('Was able to create channel with no server details.');
 } catch (Exception $e) {
     $test->assertEquals('Invalid channel.xml', $e->getMessage(), 'Invalid channel array');
@@ -19,7 +21,9 @@ try {
 $channel_array['servers'] = array('primary'=>array('rest'=>array('baseurl'=>array('attribs'=>array('type'=>'REST1.0'),
                                                                                   'http://foo.example.com/rest/'))));
 
-$channel = new PEAR2_Pyrus_Channel($channel_array);
+$channelinfo = new PEAR2_Pyrus_ChannelFile_v1;
+$channelinfo->fromArray($channel_array);
+$channel = new PEAR2_Pyrus_Channel($channelinfo);
 
 $test->assertEquals($channel_array, $channel->getArray(), 'getArray');
 

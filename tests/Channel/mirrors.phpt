@@ -5,7 +5,7 @@ PEAR2_Pyrus_Channel_Mirror basic tests
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 
-$channel = new PEAR2_Pyrus_Channel(file_get_contents(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml'));
+$channel = new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 
 $test->assertEquals('pear.php.net', $channel->mirrors['us.pear.php.net']->channel, 'getChannel');
 $test->assertEquals('us.pear.php.net', $channel->mirrors['us.pear.php.net']->name, 'getName');

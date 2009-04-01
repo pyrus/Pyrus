@@ -25,21 +25,15 @@
  */
 class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 {
-    
     protected $internal;
-
-    protected $channeldescription;
     
     /**
      * Construct a PEAR2_Pyrus_Channel object
      *
-     * @param string $data Raw channel xml
      */
-    function __construct($channeldescription, $forceremote = false)
+    function __construct(PEAR2_Pyrus_IChannelFile $info)
     {
-        $this->channeldescription = $channeldescription;
-        $class = $this->_parseChannelDescription($this->channeldescription);
-        $this->internal = new $class($this->channeldescription, $this);
+        $this->internal = $info;
     }
     
     function __get($var)
@@ -71,76 +65,5 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
     public function getValidationPackage()
     {
         return $this->internal->getValidationPackage();
-    }
-
-    function _parseChannelDescription($channel)
-    {
-        if (is_array($channel)) {
-            return 'PEAR2_Pyrus_ChannelFile_v1';
-        }
-        
-        if (strpos($channel, 'http://') === 0
-            || strpos($channel, 'https://') === 0) {
-            $this->channeldescription = $this->_fromURL($channel);
-            return 'PEAR2_Pyrus_ChannelFile_v1';
-        }
-        
-        if (strpos($channel, '<?xml') === 0) {
-            return 'PEAR2_Pyrus_ChannelFile_v1';
-        }
-        
-        try {
-            if (@file_exists($channel) && @is_file($channel)) {
-                $info = pathinfo($channel);
-                if (!isset($info['extension']) || !strlen($info['extension'])) {
-                    // guess based on first 4 characters
-                    $f = @fopen($channel, 'r');
-                    if ($f) {
-                        $first4 = fread($f, 4);
-                        fclose($f);
-                        if ($first4 == '<?xml') {
-                            return 'PEAR2_Pyrus_ChannelFile';
-                        }
-                    }
-                } else {
-                    switch (strtolower($info['extension'])) {
-                        case 'xml' :
-                            return 'PEAR2_Pyrus_ChannelFile';
-                    }
-                }
-            }
-            
-            // Try grabbing the XML from the channel server
-            try {
-                $xml_url = 'http://' . $channel . '/channel.xml';
-                $this->channeldescription = $this->_fromURL($xml_url);
-            } catch (Exception $e) {
-                // try secure
-                try {
-                    $xml_url = 'https://' . $channel . '/channel.xml';
-                    $this->channeldescription = $this->_fromURL($xml_url);
-                } catch (Exception $u) {
-                    // failed, re-throw original error
-                    throw $e;
-                }
-            }
-            return 'PEAR2_Pyrus_ChannelFile_v1';
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Channel_Exception('channel "' . $channel . '" is unknown', $e);
-        }
-    }
-    
-    /**
-     * Attempts to get the xml from the URL specified.
-     * 
-     * @param string $xml_url URL to the channel xml http://pear.php.net/channel.xml
-     * 
-     * @return string Channel XML
-     */
-    protected function _fromURL($xml_url)
-    {
-        $http = new PEAR2_HTTP_Request($xml_url);
-        $response = $http->sendRequest();
-        return $response->body;
     }
 }

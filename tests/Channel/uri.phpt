@@ -11,13 +11,16 @@ $channel_array = array(
 $channel_array['servers'] = array('primary'=>array('rest'=>array('baseurl'=>array('attribs'=>array('type'=>'REST1.0'),
                                                                                   'http://foo.example.com/rest/'))));
 
-$channel = new PEAR2_Pyrus_Channel($channel_array);
+$channelinfo = new PEAR2_Pyrus_ChannelFile_v1;
+$channelinfo->fromArray($channel_array);
+$channel = new PEAR2_Pyrus_Channel($channelinfo);
 
 $test->assertEquals(false, $channel->addMirror('foo.example.com'), 'URI channel cannot have mirrors');
-$test->assertEquals(false, $channel->getFunctions('rest'), 'getFunctions returns false for __uri');
-$channel->resetREST();
-$test->assertEquals(false, $channel->getBaseURL('REST1.0'), 'BaseURL does not exists for __uri');
-
+try {
+    $test->assertEquals(false, $channel->protocols, 'getFunctions returns false for __uri');
+} catch (PEAR2_Pyrus_Channel_Exception $e) {
+    $test->assertEquals('__uri pseudo-channel has no protocols', $e->getMessage(), 'rest message');
+}
 
 ?>
 ===DONE===

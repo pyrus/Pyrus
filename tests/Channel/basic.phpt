@@ -5,7 +5,7 @@ PEAR2_Pyrus_Channel::__construct() basic test
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 try {
-    $channel = new PEAR2_Pyrus_Channel(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
+    $channel = new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
     try {
         $channel->validate();
     } catch (Exception $e) {
