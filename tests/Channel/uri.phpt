@@ -15,7 +15,12 @@ $channelinfo = new PEAR2_Pyrus_ChannelFile_v1;
 $channelinfo->fromArray($channel_array);
 $channel = new PEAR2_Pyrus_Channel($channelinfo);
 
-$test->assertEquals(false, $channel->addMirror('foo.example.com'), 'URI channel cannot have mirrors');
+try {
+    $channel->mirrors['foo.example.com'];
+    throw new Exception('should not have worked');
+} catch (PEAR2_Pyrus_Channel_Exception $e) {
+    $test->assertEquals('__uri pseudo-channel cannot have mirrors', $e->getMessage(), 'rest message');
+}
 try {
     $test->assertEquals(false, $channel->protocols, 'getFunctions returns false for __uri');
 } catch (PEAR2_Pyrus_Channel_Exception $e) {

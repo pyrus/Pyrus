@@ -23,9 +23,9 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
     function count()
     {
         if (!isset($this->info['mirror'])) {
-            return 1;
+            return 0;
         }
-        return count($this->info['mirror']) + 1;
+        return count($this->info['mirror']);
     }
 
     /**
@@ -91,20 +91,37 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
     function offsetGet($mirror)
     {
         if (!isset($this->info['mirror'])) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown mirror: ' . $mirror);
+            return new PEAR2_Pyrus_ChannelFile_v1_Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, 0);
         }
-        
-        foreach ($this->info['mirror'] as $details) {
-            if ($details['attribs']['host'] == $mirror) {
-                return new PEAR2_Pyrus_Channel_Mirror($details, $this->parent);
+        foreach ($this->info['mirror'] as $i => $details) {
+            if (isset($details['attribs']) && isset($details['attribs']['host']) &&
+                $details['attribs']['host'] == $mirror) {
+                return new PEAR2_Pyrus_ChannelFile_v1_Mirror($details, $this, $this->parent, $i);
             }
         }
         
-        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown mirror: ' . $mirror);
+        return new PEAR2_Pyrus_ChannelFile_v1_Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, count($this->info['mirror']));
     }
     
     function offsetSet($type, $value)
     {
         throw new Exception('not there yet');
+    }
+
+    function setMirror($index, $info)
+    {
+        $this->info['mirror'][$index] = $info;
+    }
+
+    function save()
+    {
+        $info = $this->info;
+        if (!$info) {
+            return $this->parent->rawmirrors = null;
+        }
+        if (count($info['mirror']) === 1) {
+            return $this->parent->rawmirrors = $info['mirror'][0];
+        }
+        $this->parent->rawmirrors = $info['mirror'];
     }
 }

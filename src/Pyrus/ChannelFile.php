@@ -80,6 +80,10 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
     function __call($func, $args)
     {
         // delegate to the internal object
+        if (!is_callable(array($this->info, $func))) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('unknown method: ' . get_class($this->info) . '::' .
+                                                        $func);
+        }
         return call_user_func_array(array($this->info, $func), $args);
     }
     

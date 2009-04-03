@@ -1,22 +1,13 @@
 <?php
 $channel->resetREST();
 
-$channel->setBaseURL('REST1.0', 'http://pear.example.com/rest1.0/');
-$exp_rest = array (
-            'attribs'  => array ('type' => 'REST1.0'),
-            '_content' => 'http://pear.example.com/rest1.0/');
+$channel->protocols->rest['REST1.0']->baseurl = 'http://pear.example.com/rest1.0/';
 $test->assertEquals('http://pear.example.com/rest1.0/', $channel->protocols->rest['REST1.0']->baseurl, 'setBaseURL');
 
-$channel->setBaseURL('REST1.1', 'http://pear.example.com/rest1.1/');
-
-$exp_rest = array($exp_rest);
-$exp_rest[] = array (
-            'attribs'  => array ('type' => 'REST1.1'),
-            '_content' => 'http://pear.example.com/rest1.1/');
+$channel->protocols->rest['REST1.1']->baseurl = 'http://pear.example.com/rest1.1/';
 $test->assertEquals('http://pear.example.com/rest1.1/', $channel->protocols->rest['REST1.1']->baseurl, 'setBaseURL #2 adding second baseurl');
 
-$channel->setBaseURL('REST1.0', 'http://pear.example.com/rest1.00/');
-$exp_rest[0]['_content'] = 'http://pear.example.com/rest1.00/';
+$channel->protocols->rest['REST1.0']->baseurl = 'http://pear.example.com/rest1.00/';
 $test->assertEquals('http://pear.example.com/rest1.00/', $channel->protocols->rest['REST1.0']->baseurl, 'setBaseURL #3 Update URL of existing baseurl');
 
 try {

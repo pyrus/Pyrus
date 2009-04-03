@@ -56,7 +56,7 @@ $channel->port = 1337;
 $test->assertEquals(1337, $channel->port, 'set/getPort');
 
 $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers', $channel->mirrors, 'Wrong mirrors class');
-$test->assertEquals(1, count($channel->mirrors), 'only primary server');
+$test->assertEquals(0, count($channel->mirrors), 'only primary server');
 
 try {
     $channel->name = '';
@@ -83,14 +83,11 @@ $test->assertEquals(true, ($channel->lastModified()>=time()), 'Last modified dat
 
 require __DIR__ . '/rest_creation.template';
 
-$channel->addMirror('pear.mirror.com');
-$test->assertEquals(true, $channel->mirrors['pear.mirror.com'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror was set');
+$test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Mirror', $channel->mirrors['pear.mirror.com'], 'Mirror was set');
+$test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Mirror', $channel->mirrors['pear.mirror2.com'], 'Mirror #2 was set');
+$test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Mirror', $channel->mirrors['pear.mirror.com'], 'Mirror #1 still exists');
 
-$channel->addMirror('pear.mirror2.com');
-$test->assertEquals(true, $channel->mirrors['pear.mirror2.com'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror #2 was set');
-$test->assertEquals(true, $channel->mirrors['pear.mirror.com'] instanceof PEAR2_Pyrus_Channel_Mirror, 'Mirror #1 still exists');
-
-$channel->addMirror('pear.mirror3.com', 999);
+$channel->mirrors['pear.mirror3.com']->port = 999;
 $test->assertEquals(999, $channel->mirrors['pear.mirror3.com']->port, 'Mirror #3 added with specific port number');
 
 

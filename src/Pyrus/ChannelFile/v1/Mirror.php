@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel_Mirror
+ * PEAR2_Pyrus_ChannelFile_v1_Mirror
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements PEAR2_Pyrus_Channel_IMirror
+class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements PEAR2_Pyrus_Channel_IMirror
 {
     
     /**
@@ -50,14 +50,15 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
      * @var PEAR2_Pyrus_Channel
      */
     protected $parentChannel;
-    
-    function __construct($mirrorarray, PEAR2_Pyrus_IChannelFile $parent)
+    protected $parent;
+    protected $index;
+
+    function __construct($mirrorarray, $parent, $parentchannel, $index)
     {
-        if ($parent->name == '__uri') {
-            throw new PEAR2_Pyrus_Channel_Exception('__uri channel cannot have mirrors');
-        }
         $this->_info = $mirrorarray;
-        $this->parentChannel = $parent;
+        $this->parent = $parent;
+        $this->parentChannel = $parentchannel;
+        $this->index = $index;
     }
 
     function getChannel()
@@ -112,7 +113,7 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
      */
     function getProtocols()
     {
-        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->_info, $this->parentChannel);
+        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->_info, $this);
     }
 
     /**
@@ -123,6 +124,18 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
     function supportsREST()
     {
         return isset($this->_info['rest']);
+    }
+
+    function setREST($rest)
+    {
+        if ($rest === null) {
+            if (isset($this->_info['rest'])) {
+                unset($this->_info['rest']);
+            }
+            return;
+        }
+        $this->_info['rest'] = $rest;
+        $this->save();
     }
 
     function setName($name)
@@ -167,36 +180,9 @@ class PEAR2_Pyrus_Channel_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements P
         $this->save();
     }
 
-    /**
-     * @param string Resource Type this url links to
-     * @param string URL
-     */
-    function setBaseURL($resourceType, $url)
-    {
-        $set = array('attribs' => array('type' => $resourceType), '_content' => $url);
-        if (!isset($this->_info['rest'])) {
-            $this->_info['rest'] = array();
-        }
-
-        if (!isset($this->_info['rest']['baseurl'])) {
-            $this->_info['rest']['baseurl'] = $set;
-            return;
-        } elseif (!isset($this->_info['rest']['baseurl'][0])) {
-            $this->_info['rest']['baseurl'] = array($this->_info['rest']['baseurl']);
-        }
-
-        foreach ($this->_info['rest']['baseurl'] as $i => $url) {
-            if ($url['attribs']['type'] == $resourceType) {
-                $this->_info['rest']['baseurl'][$i] = $set;
-                return;
-            }
-        }
-        $this->_info['rest']['baseurl'][] = $set;
-        $this->save();
-    }
-
     function save()
     {
-        $this->parentChannel->setMirror($this->_info);
+        $this->parent->setMirror($this->index, $this->_info);
+        $this->parent->save();
     }
 }

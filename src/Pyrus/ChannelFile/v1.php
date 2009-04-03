@@ -67,6 +67,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     protected $setMap = array(
         'port' => 'setPort',
         'rawrest' => 'setREST',
+        'rawmirrors' => 'setMirrors',
     );
 
     function __construct(array $data = null)
@@ -210,7 +211,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     function getServers()
     {
         if ($this->channelInfo['name'] == '__uri') {
-            throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel has no mirrors');
+            throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel cannot have mirrors');
         }
         if (isset($this->channelInfo['servers'])) {
             $servers = $this->channelInfo['servers'];
@@ -229,32 +230,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     function supportsREST()
     {
         return isset($this->channelInfo['servers']['primary']['rest']);
-    }
-    
-    /**
-     * Returns a mirror, if any
-     *
-     * @param string $name Name of the mirror
-     * @return unknown_type
-     */
-    function getMirror($name = null)
-    {
-        if (!isset($this->channelInfo['servers']['mirror'])) {
-            return array();
-        }
-        if (!isset($this->channelInfo['servers']['mirror'][0])) {
-            return array(
-              $this->channelInfo['servers']['mirror']['attribs']['host'] =>
-              new PEAR2_Pyrus_Channel_Mirror(
-                  $this->channelInfo['servers']['mirror'], $this));
-        }
-        $ret = array();
-
-        foreach ($this->channelInfo['servers']['mirror'] as $i => $mir) {
-            $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
-                  $this->channelInfo['servers']['mirror'][$i], $this);
-        }
-        return $ret;
     }
 
     function __set($var, $value)
@@ -404,64 +379,26 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         $this->channelInfo['validatepackage']['attribs'] = array('version' => $version);
     }
 
-    /**
-     * @param string Resource Type this url links to
-     * @param string URL
-     */
-    function setBaseURL($resourceType, $url)
-    {
-        $set = array('attribs' => array('type' => $resourceType), '_content' => $url);
-        if (!isset($this->channelInfo['servers']['primary']['rest'])) {
-            $this->channelInfo['servers']['primary']['rest'] = array();
-        }
-        if (!isset($this->channelInfo['servers']['primary']['rest']['baseurl'])) {
-            $this->channelInfo['servers']['primary']['rest']['baseurl'] = $set;
-            return;
-        } elseif (!isset($this->channelInfo['servers']['primary']['rest']['baseurl'][0])) {
-            $this->channelInfo['servers']['primary']['rest']['baseurl'] = array($this->channelInfo['servers']['primary']['rest']['baseurl']);
-        }
-        foreach ($this->channelInfo['servers']['primary']['rest']['baseurl'] as $i => $url) {
-            if ($url['attribs']['type'] == $resourceType) {
-                $this->channelInfo['servers']['primary']['rest']['baseurl'][$i] = $set;
-                return;
-            }
-        }
-        $this->channelInfo['servers']['primary']['rest']['baseurl'][] = $set;
-    }
-
     function setREST($rest)
     {
+        if ($rest === null) {
+            if (isset($this->channelInfo['servers']['primary']['rest'])) {
+                unset($this->channelInfo['servers']['primary']['rest']);
+            }
+            return;
+        }
         $this->channelInfo['servers']['primary']['rest'] = $rest;
     }
 
-    /**
-     * @param string mirror server
-     * @param int mirror http port
-     * @return boolean
-     */
-    function addMirror($server, $port = null)
+    function setMirrors($mirrors)
     {
-        if ($this->channelInfo['name'] == '__uri') {
-            return false; // the __uri channel cannot have mirrors by definition
+        if ($mirrors === null) {
+            if (isset($this->channelInfo['servers']['mirror'])) {
+                unset($this->channelInfo['servers']['mirror']);
+            }
+            return;
         }
-
-        $set = array('attribs' => array('host' => $server));
-        if (is_numeric($port)) {
-            $set['attribs']['port'] = $port;
-        }
-
-        if (!isset($this->channelInfo['servers']['mirror'])) {
-            $this->channelInfo['servers']['mirror'] = $set;
-            return true;
-        }
-
-        if (!isset($this->channelInfo['servers']['mirror'][0])) {
-            $this->channelInfo['servers']['mirror'] =
-                array($this->channelInfo['servers']['mirror']);
-        }
-
-        $this->channelInfo['servers']['mirror'][] = $set;
-        return true;
+        $this->channelInfo['servers']['mirror'] = $mirrors;
     }
 
     /**
@@ -533,32 +470,5 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         }
 
         return time();
-    }
-
-    function setMirror($info)
-    {
-        if (!isset($this->channelInfo['servers'])) {
-            $this->channelInfo['servers'] = array('mirror' => $info);
-            return;
-        }
-        if (!isset($this->channelInfo['servers']['mirror'])) {
-            $this->channelInfo['servers']['mirror'] = $info;
-        }
-        if (!isset($this->channelInfo['servers']['mirror'][0])) {
-            if ($this->channelInfo['servers']['mirror']['attribs']['host'] != $info['attribs']['host']) {
-                $this->channelInfo['servers']['mirror'] = array($this->channelInfo['servers']['mirror']);
-                $this->channelInfo['servers']['mirror'][] = $info;
-                return;
-            }
-            $this->channelInfo['servers']['mirror'] = $info;
-            return;
-        }
-        foreach ($this->channelInfo['servers']['mirror'] as $i => $mirror) {
-            if ($mirror['attribs']['host'] == $info['attribs']['host']) {
-                $this->channelInfo['servers']['mirror'][$i] = $info;
-                return;
-            }
-        }
-        $this->channelInfo['servers']['mirror'][] = $info;
     }
 }
