@@ -364,7 +364,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
                 $this->info[$var] = $args;
             } else {
                 if (!is_array($this->info[$var])) {
-                    $this->info[$var] = array($this->info[$var]);//hi
+                    $this->info[$var] = array($this->info[$var]);
                 }
                 $this->info[$var] = array_merge($this->info[$var], $args);
             }
