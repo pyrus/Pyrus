@@ -263,6 +263,7 @@ bin_dir setting within Pyrus.
         array (
           'name' => 'phar',
           'min' => '2.0.0',
+          'exclude' => '2.0.1',
         ),
         'os' => 
         array (

@@ -363,6 +363,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             if (!isset($this->info[$var])) {
                 $this->info[$var] = $args;
             } else {
+                if (!is_array($this->info[$var])) {
+                    $this->info[$var] = array($this->info[$var]);
+                }
                 $this->info[$var] = array_merge($this->info[$var], $args);
             }
         } else {
@@ -382,6 +385,10 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         foreach ($info as $key => $null) {
             if ($null === null) {
                 unset($info[$key]);
+                continue;
+            }
+            if (is_array($null) && count($null) == 1) {
+                $info[$key] = $null[0];
             }
         }
         $this->info[$index] = $info;

@@ -79,6 +79,7 @@ $test->assertEquals(array (
     array (
       'name' => 'phar',
       'min' => '2.0.0',
+      'exclude' => '2.0.1',
     ),
     'os' => 
     array (

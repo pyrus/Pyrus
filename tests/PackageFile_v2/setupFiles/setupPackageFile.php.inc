@@ -15,7 +15,7 @@ $deps['optional']->subpackage['pear2.php.net/Bar']->min('1.5.0');
 $deps['required']->package['pecl.php.net/PackageName']->min('1.1.0')->max('1.2.0')->recommended('1.1.1')
             ->exclude('1.1.0a1')->exclude('1.1.0a2')->providesextension('packagename');
 
-$deps['required']->extension['phar']->min('2.0.0');
+$deps['required']->extension['phar']->min('2.0.0')->exclude('2.0.1');
 $deps['required']->os['windows'] = true;
 $deps['required']->os['vista'] = false;
 $deps['required']->arch['i386'] = true;
