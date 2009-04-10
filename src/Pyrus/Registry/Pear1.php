@@ -487,12 +487,16 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             if (!$relativepath) {
                 continue;
             }
-            if (isset($filemap[$relativepath])) {
-                if (is_array($filemap[$relativepath])) {
-                    $ret[] = $filemap[$relativepath][0] . '/' .
-                        $this->info($filemap[$relativepath][1], $filemap[$relativepath][0], 'name');
+            if (isset($filemap[$file->role][$relativepath])) {
+                if (is_array($filemap[$file->role][$relativepath])) {
+                    $ret[] = array($relativepath => $filemap[$file->role][$relativepath][0] . '/' .
+                        $this->info($filemap[$file->role][$relativepath][1],
+                                    $filemap[$file->role][$relativepath][0], 'name'));
                 } else {
-                    $ret[] = 'pear.php.net/' . $this->info($filemap[$relativepath], 'pear.php.net', 'name');
+                    $ret[] = array($relativepath =>
+                                   'pear.php.net/' . $this->info($filemap[$file->role][$relativepath],
+                                                                 'pear.php.net',
+                                                                 'name'));
                 }
             }
         }

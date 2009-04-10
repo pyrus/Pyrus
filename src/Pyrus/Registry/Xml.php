@@ -277,11 +277,14 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         foreach ($config->channelregistry as $channel) {
             foreach ($this->listPackages($channel->name) as $packagename) {
                 $files = $this->info($packagename, $channel->name, 'installedfiles');
-                $allfiles = array_merge($allfiles, $files);
-                $filesByPackage[$channel->name . '/' . $packagename] = array_flip($files);
+                $newfiles = array();
+                foreach ($files as $file) {
+                    $newfiles[$file['installed_as']] = $file;
+                }
+                $filesByPackage[$channel->name . '/' . $packagename] = $newfiles;
+                $allfiles = array_merge($allfiles, $newfiles);
             }
         }
-        $allfiles = array_flip($allfiles);
 
         // now iterate over each file in the package, and note all the conflicts
         $roles = array();
@@ -302,7 +305,7 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
             if (isset($allfiles[$testpath])) {
                 foreach ($filesByPackage as $pname => $files) {
                     if (isset($files[$testpath])) {
-                        $ret = array($testpath => $pname);
+                        $ret[] = array($relativepath => $pname);
                         break;
                     }
                 }

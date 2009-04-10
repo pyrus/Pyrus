@@ -1262,7 +1262,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
         }
         $ret = array();
+        $config = PEAR2_Pyrus_Config::current();
         foreach ($package->installcontents as $file) {
+            $stmt->reset();
             $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
             if (!$relativepath) {
                 continue;
@@ -1270,10 +1272,10 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $testpath = $config->{$roles[$file->role]->getLocationConfig()} .
                     DIRECTORY_SEPARATOR . $relativepath;
             $stmt->bindParam(':path', $testpath, SQLITE3_TEXT);
-            $result = @$stmt->execute();
+            $result = $stmt->execute();
 
             while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
-                $ret[] = $res['packages_channel'] . '/' . $res['packages_name'];
+                $ret[] = array($relativepath => $res['packages_channel'] . '/' . $res['packages_name']);
             }
         }
         return $ret;

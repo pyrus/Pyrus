@@ -1,0 +1,52 @@
+<?php
+$reg->install($info);
+$template = new PEAR2_Pyrus_PackageFile_v2;
+$template->summary = 'hi';
+$template->description = 'hi';
+$template->maintainer['cellog']->role('lead')->name('Greg')->active('yes')->email('cellog@php.net');
+$template->date = '2009-03-29';
+$template->notes = 'hi';
+$info = clone $template;
+$info->name = 'HooHa';
+$info->channel = 'pear2.php.net';
+$info->files['one'] = array('role' => 'php');
+$info->dependencies['required']->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
+$reg->install($info);
+$info = clone $template;
+$info->name = 'HooHa2';
+$info->channel = 'pear2.php.net';
+$info->files['two'] = array('role' => 'php');
+$info->dependencies['optional']->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
+$reg->install($info);
+$info = clone $template;
+$info->name = 'HooHa2';
+$info->channel = 'pear.php.net';
+$info->files['three'] = array('role' => 'php');
+$info->dependencies['group']->groupone->hint = 'hi';
+$info->dependencies['group']->groupone->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
+$reg->install($info);
+
+$info->uri = 'http://blah.example.com';
+$info->name = 'PEAR2_SimpleChannelServer';
+$test->assertEquals(array (
+  0 => 
+  array (
+    'three' => 'pear.php.net/HooHa2',
+  ),
+), $reg->detectFileConflicts($info), 'test 1');
+
+$info->files['two'] = array('role' => 'php');
+$info->files['ok'] = array('role' => 'php');
+$info->files['one'] = array('role' => 'data');
+
+$test->assertEquals(array (
+  0 => 
+  array (
+    'three' => 'pear.php.net/HooHa2',
+  ),
+  1 => 
+  array (
+    'two' => 'pear2.php.net/HooHa2',
+  ),
+), $reg->detectFileConflicts($info), 'test 2');
+?>
