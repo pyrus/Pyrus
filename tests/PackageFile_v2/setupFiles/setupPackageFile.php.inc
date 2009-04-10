@@ -19,12 +19,13 @@ $deps['required']->extension['phar']->min('2.0.0')->exclude('2.0.1');
 $deps['required']->os['windows'] = true;
 $deps['required']->os['vista'] = false;
 $deps['required']->arch['i386'] = true;
+$deps['required']->php->exclude('5.2.8');
 
 $group = $deps['group']->name;
 $group->hint = 'Install optional stuff as a group';
 $group->package['pear2.php.net/PackageName1']->save();
 $group->package['pear2.php.net/PackageName2']->min('1.2.0');
 $group->subpackage['pear2.php.net/PackageName3']->recommended('1.2.1');
-$group->extension['extension']->save();
+$group->extension['extension']->exclude('5.2.8')->exclude('5.2.9');
 $group->package['pecl.php.net/PackageName']->min('1.1.0')->max('1.2.0')->recommended('1.1.1')
             ->exclude('1.1.0a1')->exclude('1.1.0a2')->providesextension('packagename');

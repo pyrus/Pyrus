@@ -28,6 +28,7 @@ $test->assertEquals(array (
     'php' => 
     array (
       'min' => '5.2.0',
+      'exclude' => '5.2.8',
     ),
     'pearinstaller' => 
     array (
@@ -157,6 +158,7 @@ $test->assertEquals(array (
     'extension' => 
     array (
       'name' => 'extension',
+      'exclude' => array('5.2.8','5.2.9'),
     ),
   ),
 ), $rawdeps, 'rawdeps');

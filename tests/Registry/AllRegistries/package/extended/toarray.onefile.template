@@ -95,6 +95,7 @@ bin_dir setting within Pyrus.
         'php' => 
         array (
           'min' => '5.2.0',
+          'exclude' => '5.2.8',
         ),
         'pearinstaller' => 
         array (

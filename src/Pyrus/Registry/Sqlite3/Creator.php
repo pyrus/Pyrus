@@ -274,8 +274,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
               packages_name TEXT(80) NOT NULL,
               packages_channel TEXT(255) NOT NULL,
               exclude TEXT(20) NOT NULL,
-              is_subpackage BOOL NOT NULL,
-              PRIMARY KEY (packages_name, packages_channel, exclude, is_subpackage)
+              PRIMARY KEY (packages_name, packages_channel, exclude)
              )';
         $worked = @$database->exec($query);
         if (!$worked) {

@@ -210,6 +210,7 @@ bin_dir setting within Pyrus.
         'php' => 
         array (
           'min' => '5.2.0',
+          'exclude' => '5.2.8',
         ),
         'pearinstaller' => 
         array (
@@ -341,6 +342,7 @@ bin_dir setting within Pyrus.
           'extension' => 
           array (
             'name' => 'extension',
+            'exclude' => array('5.2.8','5.2.9'),
           ),
         ),
         1 => 

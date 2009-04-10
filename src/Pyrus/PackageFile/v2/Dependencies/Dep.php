@@ -56,6 +56,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
             if (!isset($this->info[$var])) {
                 $this->info[$var] = $args;
             } else {
+                if (!is_array($this->info[$var])) {
+                    $this->info[$var] = array($this->info[$var]);
+                }
                 $this->info[$var] = array_merge($this->info[$var], $args);
             }
         } else {
@@ -73,7 +76,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
         if ($var == 'exclude') {
             $ret = $this->info['exclude'];
             if (!is_array($ret)) {
-                return $ret;
+                return array($ret);
             }
         }
         return $this->info[$var];
@@ -145,8 +148,16 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
     function save()
     {
         $info = $this->info;
-        if (count($info) == 1) {
-            $info = $info[0];
+        if ($this->type === 'php') {
+            foreach ($info as $key => $val) {
+                if ($key === 'exclude' && is_array($val) && count($val) == 1) {
+                    $info[$key] = $val[0];
+                }
+            }
+        } else {
+            if (count($info) == 1) {
+                $info = $info[0];
+            }
         }
         $this->parent->setInfo($this->type, $info);
         $this->parent->save();

@@ -490,7 +490,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->bindParam(':name', $n);
                 $stmt->bindParam(':channel', $c);
                 $stmt->bindParam(':exclude', $exclude);
-                if (!@$stmt->execute()) {
+                if (!$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                         $info->channel . '/' . $info->name . ' could not be installed in registry');
