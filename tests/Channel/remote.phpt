@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Channel::__construct() basic test
+PEAR2_Pyrus_Channel Remote channel retrieval
 --SKIPIF--
 <?php
 $connection = @fsockopen('pear.php.net', 80);
