@@ -1,0 +1,8 @@
+<?php
+$test->assertEquals('http://pear.php.net/rest1.0/',
+                                    $channel->protocols->rest['REST1.0']->baseurl,
+                                                              'Get rest 1.0');
+$test->assertEquals('http://pear.php.net/rest1.3/',
+                                    $channel->protocols->rest['REST1.3']->baseurl,
+                                                              'Get rest 1.3');
+

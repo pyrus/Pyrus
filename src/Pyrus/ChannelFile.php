@@ -44,12 +44,12 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
                 $data = $this->_fromURL($file);
             } else {
                 try {
-                    $xml_url = 'https://' . $channel . '/channel.xml';
+                    $xml_url = 'https://' . $file . '/channel.xml';
                     $data = $this->_fromURL($xml_url);
                 } catch (\Exception $e) {
                     // try insecure
                     try {
-                        $xml_url = 'http://' . $channel . '/channel.xml';
+                        $xml_url = 'http://' . $file . '/channel.xml';
                         $data = $this->_fromURL($xml_url);
                     } catch (\Exception $e2) {
                         // failed, re-throw original error
