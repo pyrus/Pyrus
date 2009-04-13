@@ -29,3 +29,9 @@ $test->assertEquals(false, isset($channel->protocols->rest['REST99.9']),
 
 $channel->resetREST();
 $test->assertEquals(0, count($channel->protocols->rest), 'resetREST');
+
+$channel->protocols->rest['REST1.0']->baseurl = $restbase . 'rest1.0/';
+$test->assertEquals($restbase . 'rest1.0/', $channel->protocols->rest['REST1.0']->baseurl, 'REST 1.0');
+
+$channel->protocols->rest = null;
+$test->assertEquals(0, count($channel->protocols->rest), 'resetREST');

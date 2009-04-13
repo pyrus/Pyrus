@@ -28,48 +28,6 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
         return count($this->info['mirror']);
     }
 
-    /**
-     * Determines whether a channel supports Representational State Transfer (REST) protocols
-     * for retrieving channel information
-     * @return bool
-     */
-    function supportsREST()
-    {
-        return isset($this->info['servers']['primary']['rest']);
-    }
-
-    function getREST()
-    {
-        if (isset($this->channelInfo['servers']['primary']['rest'])) {
-            return $this->channelInfo['servers']['primary']['rest']['baseurl'];
-        }
-
-        return false;
-    }
-
-    /**
-     * Get the URL to access a base resource.
-     *
-     * Hyperlinks in the returned xml will be used to retrieve the proper information
-     * needed.  This allows extreme extensibility and flexibility in implementation
-     * @param string Resource Type to retrieve
-     */
-    function getBaseURL($resourceType)
-    {
-        $rest = $this->getREST();
-        if (!isset($rest[0])) {
-            $rest = array($rest);
-        }
-
-        foreach ($rest as $baseurl) {
-            if (strtolower($baseurl['attribs']['type']) == strtolower($resourceType)) {
-                return $baseurl['_content'];
-            }
-        }
-
-        return false;
-    }
-    
     function offsetExists($mirror)
     {
         foreach ($this->info as $type=>$details) {
