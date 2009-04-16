@@ -2,7 +2,7 @@
 PEAR2_Pyrus_Channel Remote channel retrieval
 --SKIPIF--
 <?php
-$connection = @fsockopen('pear.php.net', 80);
+$connection = @file_get_contents('http://pear.php.net/channel.xml');
 if (!$connection) {
 	echo 'Must have Internet access to test remote channel info retrieval.';
 	fclose($connection);
