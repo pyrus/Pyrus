@@ -54,17 +54,24 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      * @var array
      */
     protected $getMap = array(
-        'ssl'=>'getSSL',
-        'port'=>'getPort',
-        'server'=>'getChannel',
-        'alias'=>'getAlias',
-        'name'=>'getName',
-        'mirror'=>'getServers',
-        'mirrors'=>'getServers',
-        'protocols'=>'getProtocols'
+        'ssl' => 'getSSL',
+        'port' => 'getPort',
+        'summary' => 'getSummary',
+        'server' => 'getChannel',
+        'suggestedalias' => 'getSuggestedAlias',
+        'alias' => 'getAlias',
+        'name' => 'getName',
+        'mirror' => 'getServers',
+        'mirrors' => 'getServers',
+        'protocols' => 'getProtocols'
     );
     
     protected $setMap = array(
+        'name' => 'setName',
+        'ssl' => 'setSSL',
+        'summary' => 'setSummary',
+        'alias' => 'setAlias',
+        'localalias' => 'setLocalAlias',
         'port' => 'setPort',
         'rawrest' => 'setREST',
         'rawmirrors' => 'setMirrors',
@@ -337,6 +344,11 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         return true;
     }
 
+    function setLocalAlias($alias)
+    {
+        return $this->setAlias($alias, true);
+    }
+
     /**
      * @param string
      * @param boolean determines whether the alias is in channel.xml or local
@@ -351,6 +363,15 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         $a = $local ? 'localalias' : 'suggestedalias';
         $this->channelInfo[$a] = $alias;
         return true;
+    }
+
+    function getSuggestedAlias()
+    {
+        if (isset($this->channelInfo['suggestedalias'])) {
+            return $this->channelInfo['suggestedalias'];
+        }
+
+        return '';
     }
 
     /**

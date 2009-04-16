@@ -15,6 +15,7 @@ try {
     $test->assertEquals('pear.php.net', $channel->name, 'getChannel');
     $test->assertEquals('PHP Extension and Application Repository', $channel->summary, 'getSummary');
     $test->assertEquals('pear', $channel->alias, 'getAlias');
+    $test->assertEquals('pear', $channel->suggestedalias, 'getSuggestedAlias');
     $test->assertEquals(false, $channel->ssl, 'getSSL');
     $test->assertEquals(80, $channel->port, 'getSSL');
     
