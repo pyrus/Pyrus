@@ -56,8 +56,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     protected $getMap = array(
         'ssl' => 'getSSL',
         'port' => 'getPort',
-        'summary' => 'getSummary',
-        'server' => 'getChannel',
         'suggestedalias' => 'getSuggestedAlias',
         'alias' => 'getAlias',
         'name' => 'getName',
@@ -155,18 +153,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     }
 
     /**
-     * @return string|false
-     */
-    function getSummary()
-    {
-        if (isset($this->channelInfo['summary'])) {
-            return $this->channelInfo['summary'];
-        }
-
-        return false;
-    }
-
-    /**
      * @return int|80 port number to connect to
      */
     function getPort()
@@ -198,6 +184,9 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     {
         if (isset($this->getMap[$var])) {
             return $this->{$this->getMap[$var]}($var);
+        }
+        if (!isset($this->channelInfo[$var])) {
+            return null;
         }
         return $this->channelInfo[$var];
     }
