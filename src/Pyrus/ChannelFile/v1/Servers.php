@@ -102,7 +102,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
     function save()
     {
         $info = $this->info;
-        if (!$info) {
+        if (!$info['mirror']) {
             return $this->parent->rawmirrors = null;
         }
         if (count($info['mirror']) === 1) {

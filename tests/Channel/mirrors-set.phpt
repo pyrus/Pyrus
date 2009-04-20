@@ -24,8 +24,19 @@ try {
 }
 
 $channel->mirror['us.pear.php.net'] = $fake->mirror['ugly.pear.php.net'];
-
 $test->assertEquals(5, $channel->mirror['us.pear.php.net']->port, 'verify setting worked');
+
+// test setting existing mirror
+
+$fake->mirror['ugly.pear.php.net']->port = 82;
+
+$channel->mirror['us.pear.php.net'] = $fake->mirror['ugly.pear.php.net'];
+$test->assertEquals(82, $channel->mirror['us.pear.php.net']->port, 'verify 2');
+
+unset($channel->mirror['us.pear.php.net']);
+unset($channel->mirror['de.pear.php.net']);
+unset($channel->mirror['us.pear.php.net']);
+$test->assertEquals(0, count($channel->mirrors), 'after all removed');
 ?>
 ===DONE===
 --EXPECT--
