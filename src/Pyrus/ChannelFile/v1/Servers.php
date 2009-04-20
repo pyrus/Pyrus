@@ -40,10 +40,19 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
         return false;
     }
     
-    function offsetUnset($type)
+    function offsetUnset($mirror)
     {
-                        throw new Exception('not there yet');
-        
+        if (!isset($this->info['mirror'])) {
+            return;
+        }
+        foreach ($this->info['mirror'] as $i => $details) {
+            if (isset($details['attribs']) && isset($details['attribs']['host']) &&
+                    $details['attribs']['host'] == $mirror) {
+                unset($this->info['mirror'][$i]);
+                $this->info['mirror'] = array_values($this->info['mirror']);
+                return $this->save();
+            }
+        }
     }
     
     function offsetGet($mirror)
