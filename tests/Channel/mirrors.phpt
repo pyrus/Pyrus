@@ -7,6 +7,10 @@ require dirname(__FILE__) . '/setup.php.inc';
 
 $channel = new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 
+$test->assertEquals(false, isset($channel->mirror['ugly.pear.php.net']), 'test offsetExists false');
+$test->assertEquals('pear.php.net', $channel->mirrors['ugly.pear.php.net']->channel, 'getChannel ugly');
+
+$test->assertEquals(true, isset($channel->mirror['us.pear.php.net']), 'test offsetExists');
 $test->assertEquals('pear.php.net', $channel->mirrors['us.pear.php.net']->channel, 'getChannel');
 $test->assertEquals('us.pear.php.net', $channel->mirrors['us.pear.php.net']->name, 'getName');
 $test->assertEquals(80, $channel->mirrors['us.pear.php.net']->port, 'getPort (default)');
