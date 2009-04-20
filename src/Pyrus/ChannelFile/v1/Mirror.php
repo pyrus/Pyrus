@@ -180,6 +180,11 @@ class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 imple
         $this->save();
     }
 
+    function getInfo()
+    {
+        return $this->_info;
+    }
+
     function save()
     {
         $this->parent->setMirror($this->index, $this->_info);

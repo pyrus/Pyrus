@@ -70,9 +70,28 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
         return new PEAR2_Pyrus_ChannelFile_v1_Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, count($this->info['mirror']));
     }
     
-    function offsetSet($type, $value)
+    function offsetSet($mirror, $value)
     {
-        throw new Exception('not there yet');
+        if ($value === null) {
+            return $this->offsetUnset($mirror);
+        }
+        if (!($value instanceof PEAR2_Pyrus_ChannelFile_v1_Mirror)) {
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Can only set mirror to a ' .
+                        'PEAR2_Pyrus_ChannelFile_v1_Mirror object');
+        }
+        $info = $value->getInfo();
+        if ($mirror != $value->server) {
+            $info['attribs']['host'] = $mirror;
+        }
+        foreach ($this->info['mirror'] as $i => $details) {
+            if (isset($details['attribs']) && isset($details['attribs']['host']) &&
+                $details['attribs']['host'] == $mirror) {
+                $this->setMirror($i, $info);
+                return $this->save();
+            }
+        }
+        $this->setMirror(count($this->info['mirror']), $info);
+        $this->save();
     }
 
     function setMirror($index, $info)
