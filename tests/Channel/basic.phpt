@@ -17,7 +17,7 @@ try {
     $test->assertEquals('pear', $channel->alias, 'getAlias');
     $test->assertEquals('pear', $channel->suggestedalias, 'getSuggestedAlias');
     $test->assertEquals(false, $channel->ssl, 'getSSL');
-    $test->assertEquals(80, $channel->port, 'getSSL');
+    $test->assertEquals(80, $channel->port, 'getPort');
     
     $restbase = 'http://pear.php.net/';
     require __DIR__ . '/rest.template';
