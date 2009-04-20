@@ -248,16 +248,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
             unset($this->channelInfo['servers']['primary']['rest']);
         }
     }
-    
-    /**
-     * Empty all mirror definitions
-     */
-    function resetMirrors()
-    {
-        if (isset($this->channelInfo['servers']['mirror'])) {
-            unset($this->channelInfo['servers']['mirror']);
-        }
-    }
 
     /**
      * @param string
@@ -411,7 +401,9 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     function setMirrors($mirrors)
     {
         if ($mirrors === null) {
-            $this->resetMirrors();
+            if (isset($this->channelInfo['servers']['mirror'])) {
+                unset($this->channelInfo['servers']['mirror']);
+            }
             return;
         }
         $this->channelInfo['servers']['mirror'] = $mirrors;
