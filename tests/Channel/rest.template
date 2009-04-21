@@ -33,5 +33,22 @@ $test->assertEquals(0, count($channel->protocols->rest), 'resetREST');
 $channel->protocols->rest['REST1.0']->baseurl = $restbase . 'rest1.0/';
 $test->assertEquals($restbase . 'rest1.0/', $channel->protocols->rest['REST1.0']->baseurl, 'REST 1.0');
 
+$fake = new PEAR2_Pyrus_ChannelFile_v1;
+$test->assertEquals(0, count($fake->protocols->rest), 'before');
+$fake->protocols->rest = $channel->protocols->rest;
+$test->assertEquals(1, count($fake->protocols->rest), 'after');
+$test->assertEquals($restbase . 'rest1.0/', $fake->protocols->rest['REST1.0']->baseurl, 'REST 1.0');
+
 $channel->protocols->rest = null;
 $test->assertEquals(0, count($channel->protocols->rest), 'resetREST');
+
+$fake->protocols->rest = $channel->protocols->rest;
+$test->assertEquals(0, count($fake->protocols->rest), 'after 0');
+
+try {
+    $channel->protocols->rest = 'hi';
+    throw new Exception('set to hi should not work and did');
+} catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+    $test->assertEquals('Can only set REST to ' .
+                        'PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST object', $e->getMessage(), 'error');
+}

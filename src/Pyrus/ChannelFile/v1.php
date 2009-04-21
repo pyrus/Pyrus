@@ -190,7 +190,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         }
         return $this->channelInfo[$var];
     }
-    
+
     /**
      * Returns the protocols supported by the primary server for this channel
      *
@@ -198,8 +198,11 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      */
     function getProtocols()
     {
-        if ($this->channelInfo['name'] == '__uri') {
+        if (isset($this->channelInfo['name']) && $this->channelInfo['name'] == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel has no protocols');
+        }
+        if (!isset($this->channelInfo['servers']) || !isset($this->channelInfo['servers']['primary'])) {
+            return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols(array(), $this);
         }
         return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->channelInfo['servers']['primary'], $this);
     }

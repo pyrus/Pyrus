@@ -21,6 +21,20 @@ try {
     
     $restbase = 'http://pear.php.net/';
     require __DIR__ . '/rest.template';
+
+    try {
+        $a = $channel->protocols->poop['oops'];
+        throw new Exception('poop protocol should not work and did');
+    } catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+        $test->assertEquals('Unknown protocol: poop', $e->getMessage(), 'error');
+    }
+
+    try {
+        $channel->protocols->poop = 'oops';
+        throw new Exception('poop protocol set should not work and did');
+    } catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+        $test->assertEquals('Unknown protocol: poop', $e->getMessage(), 'error set');
+    }
     
     $mirrors = $channel->mirrors;
     $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers', $mirrors, 'Mirrors returns object');
