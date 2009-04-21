@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRegistry, Iterator
+abstract class PEAR2_Pyrus_Registry_Base implements PEAR2_Pyrus_IRegistry
 {
     protected $packagename;
     protected $packageList = array();
@@ -51,75 +51,6 @@ abstract class PEAR2_Pyrus_Registry_Base implements ArrayAccess, PEAR2_Pyrus_IRe
             throw new PEAR2_Pyrus_Registry_Exception('Cannot clone registry', $e);
         }
         PEAR2_Pyrus_Config::current()->default_channel = $saveChan;
-    }
-
-    function offsetExists($offset)
-    {
-        $info = PEAR2_Pyrus_Config::parsePackageName($offset);
-        if (is_string($info)) {
-            return false;
-        }
-        return $this->exists($info['package'], $info['channel']);
-    }
-
-    function offsetGet($offset)
-    {
-        $info = PEAR2_Pyrus_Config::parsePackageName($offset, true);
-        $this->packagename = $offset;
-        $ret = clone $this;
-        unset($this->packagename);
-        return $ret;
-    }
-
-    function offsetSet($offset, $value)
-    {
-        if ($this->readonly) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot install or upgrade packages, registry is read-only');
-        }
-        if ($offset == 'upgrade') {
-            $this->upgrade($value);
-        }
-        if ($offset == 'install') {
-            $this->install($value);
-        }
-    }
-
-    function offsetUnset($offset)
-    {
-        if ($this->readonly) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall packages, registry is read-only');
-        }
-        $info = PEAR2_Pyrus_Config::parsePackageName($offset);
-        if (is_string($info)) {
-            return;
-        }
-        $this->uninstall($info['package'], $info['channel']);
-    }
-
-    function current()
-    {
-        $packagename = current($this->packageList);
-        return $this->package[PEAR2_Pyrus_Config::current()->default_channel . '/' . $packagename];
-    }
-
-    function key()
-    {
-        return key($this->packageList);
-    }
-
-    function valid()
-    {
-        return current($this->packageList);
-    }
-
-    function next()
-    {
-        return next($this->packageList);
-    }
-
-    function rewind()
-    {
-        $this->packageList = $this->listPackages(PEAR2_Pyrus_Config::current()->default_channel);
     }
 
     /**
