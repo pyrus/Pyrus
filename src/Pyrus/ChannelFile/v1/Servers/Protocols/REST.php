@@ -23,7 +23,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use -> to access'
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use -> to access '
                     . 'REST protocols, use []');
         }
         if ($var === 'baseurl') {
@@ -35,7 +35,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function __set($var, $value)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use -> to access'
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use -> to access '
                     . 'REST protocols, use []');
         }
         if ($var === 'baseurl') {
@@ -48,7 +48,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function offsetGet($protocol)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
         if (!isset($this->_info['baseurl'])) {
@@ -72,7 +72,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function offsetSet($protocol, $value)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
         if (!($value instanceof self)) {
@@ -86,7 +86,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
         foreach ($this->_info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 $this->_info['baseurl'][$i] = $value->getInfo();
-                $this->save();
+                return $this->save();
             }
         }
         $this->_info['baseurl'][] = $value->getInfo();
@@ -96,7 +96,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function offsetExists($protocol)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
         foreach ($this->_info['baseurl'] as $baseurl) {
@@ -110,14 +110,14 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function offsetUnset($protocol)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access'
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
-        foreach ($this->_info['baseurl'] as $baseurl) {
+        foreach ($this->_info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
-                unset($this->_info['baseurl']);
+                unset($this->_info['baseurl'][$i]);
                 $this->_info['baseurl'] = array_values($this->_info['baseurl']);
-                $this->save();
+                return $this->save();
             }
         }
     }

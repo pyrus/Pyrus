@@ -16,3 +16,6 @@ try {
 } catch(Exception $e) {
     $test->assertEquals('Unknown protocol: llama', $e->getMessage(), 'Get invalid protocol functions');
 }
+
+unset($channel->protocols->rest['REST1.0']);
+$test->assertEquals(null, $channel->protocols->rest['REST1.0']->baseurl, 'after unset');

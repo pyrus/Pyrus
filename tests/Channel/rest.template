@@ -38,6 +38,7 @@ $test->assertEquals(0, count($fake->protocols->rest), 'before');
 $fake->protocols->rest = $channel->protocols->rest;
 $test->assertEquals(1, count($fake->protocols->rest), 'after');
 $test->assertEquals($restbase . 'rest1.0/', $fake->protocols->rest['REST1.0']->baseurl, 'REST 1.0');
+$test->assertEquals(true, isset($fake->protocols->rest['REST1.0']), 'REST 1.0 isset');
 
 $channel->protocols->rest = null;
 $test->assertEquals(0, count($channel->protocols->rest), 'resetREST');
