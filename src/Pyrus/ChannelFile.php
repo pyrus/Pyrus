@@ -58,7 +58,7 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
                 }
             }
         } else {
-            $data = file_get_contents($file);
+            $data = @file_get_contents($file);
         }
         if ($data === false || empty($data)) {
             throw new PEAR2_Pyrus_ChannelFile_Exception('Unable to open channel xml file '
