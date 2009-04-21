@@ -15,10 +15,20 @@ try {
 }
 
 try {
-    $c = new PEAR2_Pyrus_ChannelFile('http://greg.chiaraquartet.net/poop/channel.xml', false, true);
+    $c = new PEAR2_Pyrus_ChannelFile('greg.chiaraquartet.net/poop', false, true);
     $test->assertEquals(false, true, 'succeeded where it should fail');
 } catch (Exception $e) {
 }
+
+$c->name = 'test';
+$test->assertEquals('test', $c->name, '__set');
+
+try {
+    $c->foo();
+} catch (Exception $e) {
+    $test->assertEquals('unknown method: ::foo', $e->getMessage(), 'error 2');
+}
+
 ?>
 ===DONE===
 --EXPECT--
