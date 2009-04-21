@@ -136,8 +136,18 @@ class PEAR2_Pyrus_XMLParser
 
     private function _parse($file, $schema, $isfile)
     {
+        libxml_use_internal_errors(true);
+        libxml_clear_errors();
         $arr = $this->_recursiveParse();
         $this->reader->close();
+        $causes = array();
+        foreach (libxml_get_errors() as $error) {
+            $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .
+                 $error->line . ': ' . $error->message);
+        }
+        if (count($causes)) {
+            throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
+        }
         if ($schema) {
             $a = new DOMDocument();
             if ($isfile) {
@@ -170,7 +180,7 @@ class PEAR2_Pyrus_XMLParser
 
     private function _recursiveParse($arr = array())
     {
-        while ($this->reader->read()) {
+        while (@$this->reader->read()) {
             $depth = $this->reader->depth;
             if ($this->reader->nodeType == XMLReader::ELEMENT) {
                 $tag = $this->reader->name;
