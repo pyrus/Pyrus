@@ -124,7 +124,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         return false;
     }
 
-    function add(PEAR2_Pyrus_IChannel $channel, $update = false)
+    function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, SQLite3 registry is read-only');
@@ -160,16 +160,16 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         $stmt = @self::$databases[$this->_path]->prepare($sql);
 
         $cn = $channel->name;
-        $stmt->bindParam(':name',           $cn);
+        $stmt->bindValue(':name',           $cn);
         $cs = $channel->summary;
-        $stmt->bindParam(':summary',        $cs);
+        $stmt->bindValue(':summary',        $cs);
         $ca = $channel->alias;
-        $stmt->bindParam(':suggestedalias', $ca);
-        $stmt->bindParam(':alias',          $ca);
-        $stmt->bindParam(':version',        $validate['attribs']['version']);
-        $stmt->bindParam(':package',        $validate['_content']);
+        $stmt->bindValue(':suggestedalias', $ca);
+        $stmt->bindValue(':alias',          $ca);
+        $stmt->bindValue(':version',        $validate['attribs']['version']);
+        $stmt->bindValue(':package',        $validate['_content']);
         $mod = serialize($channel->lastModified());
-        $stmt->bindParam(':lastmodified',   $mod);
+        $stmt->bindValue(':lastmodified',   $mod);
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
@@ -189,11 +189,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             $ssl = 1;
         }
         $stmt = @self::$databases[$this->_path]->prepare($sql);
-        $stmt->bindParam(':channel', $cn);
-        $stmt->bindParam(':server',  $cn);
-        $stmt->bindParam(':ssl',     $ssl, SQLITE3_INTEGER);
+        $stmt->bindValue(':channel', $cn);
+        $stmt->bindValue(':server',  $cn);
+        $stmt->bindValue(':ssl',     $ssl, SQLITE3_INTEGER);
         $cp = $channel->port;
-        $stmt->bindParam(':port',    $cp, SQLITE3_INTEGER);
+        $stmt->bindValue(':port',    $cp, SQLITE3_INTEGER);
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
@@ -214,11 +214,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     
                 $stmt = @self::$databases[$this->_path]->prepare($sql);
     
-                $stmt->bindParam(':channel', $cn);
-                $stmt->bindParam(':server',  $cn);
+                $stmt->bindValue(':channel', $cn);
+                $stmt->bindValue(':server',  $cn);
                 $u = $rest->baseurl;
-                $stmt->bindParam(':func',    $u);
-                $stmt->bindParam(':attrib',  $protocol);
+                $stmt->bindValue(':func',    $u);
+                $stmt->bindValue(':attrib',  $protocol);
     
                 if (!$stmt->execute()) {
                     self::$databases[$this->_path]->exec('ROLLBACK');
@@ -242,12 +242,12 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 }
                 $stmt = @self::$databases[$this->_path]->prepare($sql);
     
-                $stmt->bindParam(':channel', $cn);
+                $stmt->bindValue(':channel', $cn);
                 $mn = $mirror->getName();
-                $stmt->bindParam(':server',  $mn);
-                $stmt->bindParam(':ssl',     $ssl, SQLITE3_INTEGER);
+                $stmt->bindValue(':server',  $mn);
+                $stmt->bindValue(':ssl',     $ssl, SQLITE3_INTEGER);
                 $mp = $mirror->getPort();
-                $stmt->bindParam(':port',    $mp, SQLITE3_INTEGER);
+                $stmt->bindValue(':port',    $mp, SQLITE3_INTEGER);
     
                 if (!$stmt->execute()) {
                     self::$databases[$this->_path]->exec('ROLLBACK');
@@ -266,11 +266,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     
                     $stmt = @self::$databases[$this->_path]->prepare($sql);
     
-                    $stmt->bindParam(':channel', $cn);
-                    $stmt->bindParam(':server',  $mn);
+                    $stmt->bindValue(':channel', $cn);
+                    $stmt->bindValue(':server',  $mn);
                     $u = $rest->baseurl;
-                    $stmt->bindParam(':func',    $u);
-                    $stmt->bindParam(':attrib',  $protocol);
+                    $stmt->bindValue(':func',    $u);
+                    $stmt->bindValue(':attrib',  $protocol);
     
                     if (!$stmt->execute()) {
                         self::$databases[$this->_path]->exec('ROLLBACK');

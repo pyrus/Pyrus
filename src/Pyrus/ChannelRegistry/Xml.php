@@ -115,7 +115,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         return file_exists($this->getAliasFile($channel));
     }
 
-    function add(PEAR2_Pyrus_IChannel $channel)
+    function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');

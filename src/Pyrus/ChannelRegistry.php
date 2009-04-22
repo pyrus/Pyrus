@@ -79,13 +79,13 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      *
      * @param PEAR2_Pyrus_IChannel $channel Channel to add.
      */
-    public function add(PEAR2_Pyrus_IChannel $channel)
+    public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
         }
         foreach ($this->_registries as $reg) {
-            $reg->add($channel);
+            $reg->add($channel, $update, $lastmodified);
         }
     }
 

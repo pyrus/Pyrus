@@ -82,11 +82,11 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
               DIRECTORY_SEPARATOR . str_replace('/', '_', strtolower($alias)) . '.txt';
     }
 
-    public function add(PEAR2_Pyrus_IChannel $channel, $update = false)
+    public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
-        if (!is_writeable($path . DIRECTORY_SEPARATOR . '.channels')) {
+        if (!is_writeable($this->_channelPath)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel ' .
-                $channel->name . ', channel already exists, use update to change');
+                $channel->name . ', channel registry path is not writeable');
         }
         $channel->validate();
         if ($this->exists($channel->name)) {

@@ -25,7 +25,7 @@
  */
 interface PEAR2_Pyrus_IChannelRegistry
 {
-    public function add(PEAR2_Pyrus_IChannel $channel);
+    public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false);
     public function update(PEAR2_Pyrus_IChannel $channel);
     public function delete(PEAR2_Pyrus_IChannel $channel);
     public function get($channel, $strict = true);
