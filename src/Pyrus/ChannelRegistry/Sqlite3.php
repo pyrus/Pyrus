@@ -157,19 +157,15 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 :alias, :version, :package, :lastmodified
             )';
 
-        $stmt = @self::$databases[$this->_path]->prepare($sql);
+        $stmt = self::$databases[$this->_path]->prepare($sql);
 
-        $cn = $channel->name;
-        $stmt->bindValue(':name',           $cn);
-        $cs = $channel->summary;
-        $stmt->bindValue(':summary',        $cs);
-        $ca = $channel->alias;
-        $stmt->bindValue(':suggestedalias', $ca);
-        $stmt->bindValue(':alias',          $ca);
+        $stmt->bindValue(':name',           $cn = $channel->name);
+        $stmt->bindValue(':summary',        $channel->summary);
+        $stmt->bindValue(':suggestedalias', $channel->suggestedalias);
+        $stmt->bindValue(':alias',          $channel->alias);
         $stmt->bindValue(':version',        $validate['attribs']['version']);
         $stmt->bindValue(':package',        $validate['_content']);
-        $mod = serialize($channel->lastModified());
-        $stmt->bindValue(':lastmodified',   $mod);
+        $stmt->bindValue(':lastmodified',   $channel->lastModified());
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
@@ -184,16 +180,12 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             VALUES(
                 :channel, :server, :ssl, :port
             )';
-        $ssl = 0;
-        if ($channel->getSSL()) {
-            $ssl = 1;
-        }
-        $stmt = @self::$databases[$this->_path]->prepare($sql);
+        $stmt = self::$databases[$this->_path]->prepare($sql);
+
         $stmt->bindValue(':channel', $cn);
         $stmt->bindValue(':server',  $cn);
-        $stmt->bindValue(':ssl',     $ssl, SQLITE3_INTEGER);
-        $cp = $channel->port;
-        $stmt->bindValue(':port',    $cp, SQLITE3_INTEGER);
+        $stmt->bindValue(':ssl',     $channel->ssl, SQLITE3_INTEGER);
+        $stmt->bindValue(':port',    $channel->port, SQLITE3_INTEGER);
 
         if (!$stmt->execute()) {
             self::$databases[$this->_path]->exec('ROLLBACK');
@@ -201,83 +193,80 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 ' could not be added to the SQLite3 registry');
         }
         $stmt->close();
-        
-        if ($channel->supportsREST()) {
 
-            foreach ($channel->protocols->rest as $protocol=>$rest) {
-                $sql = '
-                    INSERT INTO channel_server_rest
-                    (channel, server, baseurl, type)
-                    VALUES(
-                        :channel, :server, :func, :attrib
-                    )';
-    
-                $stmt = @self::$databases[$this->_path]->prepare($sql);
-    
-                $stmt->bindValue(':channel', $cn);
-                $stmt->bindValue(':server',  $cn);
-                $u = $rest->baseurl;
-                $stmt->bindValue(':func',    $u);
-                $stmt->bindValue(':attrib',  $protocol);
-    
-                if (!$stmt->execute()) {
+        if ($channel->name == '__uri') {
+            // __uri pseudo-channel has no protocols or mirrors
+            self::$databases[$this->_path]->exec('COMMIT');
+            return;
+        }
+
+        foreach ($channel->protocols->rest as $type => $baseurl) {
+            $sql = '
+                INSERT INTO channel_server_rest
+                (channel, server, baseurl, type)
+                VALUES(
+                    :channel, :server, :func, :attrib
+                )';
+
+            $stmt = self::$databases[$this->_path]->prepare($sql);
+
+            $stmt->bindValue(':channel', $cn);
+            $stmt->bindValue(':server',  $cn);
+            $stmt->bindValue(':func',    $baseurl);
+            $stmt->bindValue(':attrib',  $type);
+
+            if (!$stmt->execute()) {
+                self::$databases[$this->_path]->exec('ROLLBACK');
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
+                    ' could not be added to the SQLite3 registry');
+            }
+            $stmt->close();
+        }
+
+        $sql = '
+            INSERT INTO channel_servers
+            (channel, server, ssl, port)
+            VALUES(
+                :channel, :server, :ssl, :port
+            )';
+        $stmt = self::$databases[$this->_path]->prepare($sql);
+        foreach ($channel->mirrors as $mirror) {
+
+            $ssl = 0;
+            if ($mirror->getSSL()) {
+                $ssl = 1;
+            }
+
+            $stmt->bindValue(':channel', $cn);
+            $stmt->bindValue(':server',  $mn = $mirror->name);
+            $stmt->bindValue(':ssl',     $ssl, SQLITE3_INTEGER);
+            $stmt->bindValue(':port',    $mirror->port, SQLITE3_INTEGER);
+
+            if (!$stmt->execute()) {
+                self::$databases[$this->_path]->exec('ROLLBACK');
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
+                    ' could not be added to the registry');
+            }
+
+            $sql = '
+                INSERT INTO channel_server_rest
+                (channel, server, baseurl, type)
+                VALUES(
+                    :channel, :server, :func, :attrib
+                )';
+
+            $stmt1 = self::$databases[$this->_path]->prepare($sql);
+            foreach ($mirror->protocols->rest as $type => $baseurl) {
+
+                $stmt1->bindValue(':channel', $cn);
+                $stmt1->bindValue(':server',  $mn);
+                $stmt1->bindValue(':func',    $baseurl);
+                $stmt1->bindValue(':attrib',  $type);
+
+                if (!$stmt1->execute()) {
                     self::$databases[$this->_path]->exec('ROLLBACK');
                     throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
                         ' could not be added to the SQLite3 registry');
-                }
-                $stmt->close();
-            }
-    
-            foreach ($channel->mirrors as $mirror) {
-                $sql = '
-                    INSERT INTO channel_servers
-                    (channel, server, ssl, port)
-                    VALUES(
-                        :channel, :server, :ssl, :port
-                    )';
-    
-                $ssl = 0;
-                if ($mirror->getSSL()) {
-                    $ssl = 1;
-                }
-                $stmt = @self::$databases[$this->_path]->prepare($sql);
-    
-                $stmt->bindValue(':channel', $cn);
-                $mn = $mirror->getName();
-                $stmt->bindValue(':server',  $mn);
-                $stmt->bindValue(':ssl',     $ssl, SQLITE3_INTEGER);
-                $mp = $mirror->getPort();
-                $stmt->bindValue(':port',    $mp, SQLITE3_INTEGER);
-    
-                if (!$stmt->execute()) {
-                    self::$databases[$this->_path]->exec('ROLLBACK');
-                    throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                        ' could not be added to the registry');
-                }
-                $stmt->close();
-    
-                foreach ($mirror->protocols->rest as $protocol => $rest) {
-                    $sql = '
-                        INSERT INTO channel_server_rest
-                        (channel, server, baseurl, type)
-                        VALUES(
-                            :channel, :server, :func, :attrib
-                        )';
-    
-                    $stmt = @self::$databases[$this->_path]->prepare($sql);
-    
-                    $stmt->bindValue(':channel', $cn);
-                    $stmt->bindValue(':server',  $mn);
-                    $u = $rest->baseurl;
-                    $stmt->bindValue(':func',    $u);
-                    $stmt->bindValue(':attrib',  $protocol);
-    
-                    if (!$stmt->execute()) {
-                        self::$databases[$this->_path]->exec('ROLLBACK');
-                        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->getName() .
-                            ' could not be added to the SQLite3 registry');
-                    }
-                    $stmt->close();
                 }
             }
         }
@@ -316,17 +305,19 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
 
-        $sql = 'DELETE FROM channels WHERE channel = "' . self::$databases[$this->_path]->escapeString($channel->getName()) . '"';
+        $sql = 'DELETE FROM channels WHERE channel = "' .
+            self::$databases[$this->_path]->escapeString($channel->name) . '"';
         if (!@self::$databases[$this->_path]->exec($sql)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot delete channel ' .
-                $channel->getName() . ': ' . self::$databases[$this->_path]->lastErrorMsg());
+                $channel->name . ': ' . self::$databases[$this->_path]->lastErrorMsg());
         }
     }
 
     public function listChannels()
     {
         if (!isset(self::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception(
+                'Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
 
         $ret = array();

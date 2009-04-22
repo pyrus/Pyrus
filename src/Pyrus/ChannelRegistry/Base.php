@@ -321,11 +321,9 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $pear2 = $this->getPear2Channel();
         $pecl = $this->getPeclChannel();
         $__uri = $this->getUriChannel();
-        try {
-            $this->add($pear);
-            $this->add($pear2);
-            $this->add($pecl);
-            $this->add($__uri);
-        } catch (Exception $e) {}
+        $this->add($pear);
+        $this->add($pear2);
+        $this->add($pecl);
+        $this->add($__uri);
     }
 }

@@ -1,8 +1,7 @@
 <?php
-class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
+class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable, Iterator
 {
     /**
-     * 
      * @var PEAR2_Pyrus_ChannelFile_v1
      */
     protected $parent;
@@ -11,7 +10,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
     
     protected $type = 'primary';
     
-    function __construct($info, PEAR2_Pyrus_ChannelFile_v1 $parent, $type = 'primary')
+    function __construct($info, PEAR2_Pyrus_ChannelFile_v1 $parent)
     {
         if (isset($info['mirror']) && !isset($info['mirror'][0])) {
             $info['mirror'] = array($info['mirror']);
@@ -19,6 +18,39 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable
         $this->info = $info;
         $this->parent = $parent;
     }
+
+    function current()
+    {
+        $info = current($this->info['mirror']);
+        return new PEAR2_Pyrus_ChannelFile_v1_Mirror($info, $this, $this->parent, key($this->info['mirror']));
+    }
+
+    function rewind()
+    {
+        if (!isset($this->info['mirror'])) {
+            return;
+        }
+        reset($this->info['mirror']);
+    }
+
+    function key()
+    {
+        return key($this->info['mirror']);
+    }
+
+    function next()
+    {
+        return next($this->info['mirror']);
+    }
+
+    function valid()
+    {
+        if (!isset($this->info['mirror'])) {
+            return false;
+        }
+        return current($this->info['mirror']);
+    }
+        
 
     function count()
     {

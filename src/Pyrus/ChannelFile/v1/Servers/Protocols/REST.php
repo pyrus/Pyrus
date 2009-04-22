@@ -1,7 +1,7 @@
 <?php
-class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, Countable
+class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, Countable, Iterator
 {
-    protected $_info;
+    protected $info;
     protected $parent;
     protected $index;
     
@@ -10,14 +10,46 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
         if (isset($info['baseurl']) && !isset($info['baseurl'][0])) {
             $info['baseurl'] = array($info['baseurl']);
         }
-        $this->_info = $info;
+        $this->info = $info;
         $this->parent = $parent;
         $this->index = $index;
     }
 
+    function current()
+    {
+        $info = current($this->info['baseurl']);
+        return $info['_content'];
+    }
+
+    function rewind()
+    {
+        reset($this->info['baseurl']);
+    }
+
+    function key()
+    {
+        return $this->info['baseurl'][key($this->info['baseurl'])]['attribs']['type'];
+    }
+
+    function next()
+    {
+        return next($this->info['baseurl']);
+    }
+
+    function valid()
+    {
+        if (!isset($this->info['baseurl'])) {
+            return false;
+        }
+        return current($this->info['baseurl']);
+    }
+
     function count()
     {
-        return count($this->_info);
+        if (!isset($this->info['baseurl'])) {
+            return 0;
+        }
+        return count($this->info['baseurl']);
     }
     
     function __get($var)
@@ -27,7 +59,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
                     . 'REST protocols, use []');
         }
         if ($var === 'baseurl') {
-            return $this->_info['_content'];
+            return $this->info['_content'];
         }
         throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown variable ' . $var);
     }
@@ -39,7 +71,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
                     . 'REST protocols, use []');
         }
         if ($var === 'baseurl') {
-            $this->_info['_content'] = $value;
+            $this->info['_content'] = $value;
             return $this->save();
         }
         throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown variable ' . $var);
@@ -51,12 +83,12 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
             throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
-        if (!isset($this->_info['baseurl'])) {
+        if (!isset($this->info['baseurl'])) {
             return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST(
                 array('attribs' => array('type' => $protocol), '_content' => null),
                 $this, 0);
         }
-        foreach ($this->_info['baseurl'] as $baseurl) {
+        foreach ($this->info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 $ret = new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST(
                     $baseurl, $this, $protocol
@@ -66,7 +98,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
         }
         return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST(
             array('attribs' => array('type' => $protocol), '_content' => null),
-            $this, count($this->_info['baseurl']));
+            $this, count($this->info['baseurl']));
     }
     
     function offsetSet($protocol, $value)
@@ -79,17 +111,17 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
             throw new PEAR2_Pyrus_ChannelFile_Exception('Can only set REST protocol ' .
                         ' to a PEAR2_Pyrus_ChannelFile_v1_Servers_Protocol_REST object');
         }
-        if (!isset($this->_info['baseurl'])) {
-            $this->_info['baseurl'] = $value->getInfo();
+        if (!isset($this->info['baseurl'])) {
+            $this->info['baseurl'] = $value->getInfo();
             return $this->save();
         }
-        foreach ($this->_info['baseurl'] as $i => $baseurl) {
+        foreach ($this->info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
-                $this->_info['baseurl'][$i] = $value->getInfo();
+                $this->info['baseurl'][$i] = $value->getInfo();
                 return $this->save();
             }
         }
-        $this->_info['baseurl'][] = $value->getInfo();
+        $this->info['baseurl'][] = $value->getInfo();
         return $this->save();
     }
     
@@ -99,7 +131,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
             throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
-        foreach ($this->_info['baseurl'] as $baseurl) {
+        foreach ($this->info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 return true;
             }
@@ -113,10 +145,10 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
             throw new PEAR2_Pyrus_ChannelFile_Exception('Cannot use [] to access '
                     . 'baseurl, use ->');
         }
-        foreach ($this->_info['baseurl'] as $i => $baseurl) {
+        foreach ($this->info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
-                unset($this->_info['baseurl'][$i]);
-                $this->_info['baseurl'] = array_values($this->_info['baseurl']);
+                unset($this->info['baseurl'][$i]);
+                $this->info['baseurl'] = array_values($this->info['baseurl']);
                 return $this->save();
             }
         }
@@ -124,16 +156,16 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
 
     function getInfo()
     {
-        return $this->_info;
+        return $this->info;
     }
 
     function save()
     {
         if ($this->parent instanceof self) {
-            $this->parent[$this->_info['attribs']['type']] = $this;
+            $this->parent[$this->info['attribs']['type']] = $this;
             return $this->parent->save();
         }
-        $info = $this->_info;
+        $info = $this->info;
         if (isset($info['baseurl']) && count($info['baseurl']) == 1) {
             $info['baseurl'] = $info['baseurl'][0];
         }
