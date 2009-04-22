@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry_Sqlite3::add() basic test
+PEAR2_Pyrus_ChannelRegistry_Xml::add() basic test
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

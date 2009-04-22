@@ -82,6 +82,15 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
               DIRECTORY_SEPARATOR . str_replace('/', '_', strtolower($alias)) . '.txt';
     }
 
+    private function _channelFromAlias($alias)
+    {
+        $file = $this->_channelAliasFileName($alias);
+        if (file_exists($file)) {
+            return file_get_contents($file);
+        }
+        return $alias;
+    }
+
     public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
         if (!is_writeable($this->_channelPath)) {
