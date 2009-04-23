@@ -16,6 +16,9 @@ foreach (array('pear'=>'pear.php.net',
 }
 $test->assertEquals(true, $c->channelregistry->exists('__uri', false), '__uri channel');
 $test->assertEquals(false, $c->channelregistry->exists('cookiemonster', false), 'fake channel does not exist, 1');
+
+$test->assertEquals(true, isset($c->channelregistry['__uri']), '__uri channel 2');
+$test->assertEquals(false, isset($c->channelregistry['cookiemonster']), 'fake channel does not exist, 2');
 ?>
 ===DONE===
 --CLEAN--
