@@ -45,104 +45,87 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
     public function parseName($param, $defaultchannel = 'pear.php.net')
     {
         $saveparam = $param;
-        if (is_array($param)) {
-            // convert to string for error messages
-            $saveparam = self::parsedNameToString($param);
-            // process the array
-            if (!isset($param['package'])) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): array $param ' .
-                    'must contain a valid package name in index "param"', 'package');
+        $components = @parse_url((string) $param);
+        if (isset($components['scheme'])) {
+            if ($components['scheme'] == 'http') {
+                // uri package
+                $param = array('uri' => $param, 'channel' => '__uri');
+            } elseif($components['scheme'] != 'channel') {
+                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only channel:// uris may ' .
+                    'be downloaded, not "' . $param . '"', 'scheme');
             }
-            if (!isset($param['uri'])) {
-                if (!isset($param['channel'])) {
-                    $param['channel'] = $defaultchannel;
+        }
+        if (!isset($components['path'])) {
+            throw new PEAR2_Registry_Exception('parsePackageName(): array $param ' .
+                'must contain a valid package name in "' . $param . '"');
+        }
+        if (isset($components['host'])) {
+            // remove the leading "/"
+            $components['path'] = substr($components['path'], 1);
+        }
+        if (!isset($components['scheme'])) {
+            if (strpos($components['path'], '/') !== false) {
+                if ($components['path']{0} == '/') {
+                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): this is not ' .
+                        'a package name, it begins with "/" in "' . $param . '"', 'invalid');
                 }
-            } else {
-                $param['channel'] = '__uri';
-            }
-        } else {
-            $components = @parse_url((string) $param);
-            if (isset($components['scheme'])) {
-                if ($components['scheme'] == 'http') {
-                    // uri package
-                    $param = array('uri' => $param, 'channel' => '__uri');
-                } elseif($components['scheme'] != 'channel') {
-                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only channel:// uris may ' .
-                        'be downloaded, not "' . $param . '"', 'scheme');
-                }
-            }
-            if (!isset($components['path'])) {
-                throw new PEAR2_Registry_Exception('parsePackageName(): array $param ' .
-                    'must contain a valid package name in "' . $param . '"');
-            }
-            if (isset($components['host'])) {
-                // remove the leading "/"
-                $components['path'] = substr($components['path'], 1);
-            }
-            if (!isset($components['scheme'])) {
-                if (strpos($components['path'], '/') !== false) {
-                    if ($components['path']{0} == '/') {
-                        throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): this is not ' .
-                            'a package name, it begins with "/" in "' . $param . '"', 'invalid');
-                    }
-                    $parts = explode('/', $components['path']);
-                    $components['host'] = array_shift($parts);
-                    if (count($parts) > 1) {
-                        $components['path'] = array_pop($parts);
-                        $components['host'] .= '/' . implode('/', $parts);
-                    } else {
-                        $components['path'] = implode('/', $parts);
-                    }
-                } else {
-                    $components['host'] = $defaultchannel;
-                }
-            } else {
-                if (strpos($components['path'], '/')) {
-                    $parts = explode('/', $components['path']);
+                $parts = explode('/', $components['path']);
+                $components['host'] = array_shift($parts);
+                if (count($parts) > 1) {
                     $components['path'] = array_pop($parts);
                     $components['host'] .= '/' . implode('/', $parts);
+                } else {
+                    $components['path'] = implode('/', $parts);
                 }
-            }
-
-            if (is_array($param)) {
-                $param['package'] = $components['path'];
             } else {
-                $param = array(
-                    'package' => $components['path']
-                    );
-                if (isset($components['host'])) {
-                    $param['channel'] = $components['host'];
-                }
+                $components['host'] = $defaultchannel;
             }
-            if (isset($components['fragment'])) {
-                $param['group'] = $components['fragment'];
+        } else {
+            if (strpos($components['path'], '/')) {
+                $parts = explode('/', $components['path']);
+                $components['path'] = array_pop($parts);
+                $components['host'] .= '/' . implode('/', $parts);
             }
-            if (isset($components['user'])) {
-                $param['user'] = $components['user'];
+        }
+
+        if (is_array($param)) {
+            $param['package'] = $components['path'];
+        } else {
+            $param = array(
+                'package' => $components['path']
+                );
+            if (isset($components['host'])) {
+                $param['channel'] = $components['host'];
             }
-            if (isset($components['pass'])) {
-                $param['pass'] = $components['pass'];
+        }
+        if (isset($components['fragment'])) {
+            $param['group'] = $components['fragment'];
+        }
+        if (isset($components['user'])) {
+            $param['user'] = $components['user'];
+        }
+        if (isset($components['pass'])) {
+            $param['pass'] = $components['pass'];
+        }
+        if (isset($components['query'])) {
+            parse_str($components['query'], $param['opts']);
+        }
+        // check for extension
+        $pathinfo = pathinfo($param['package']);
+        if (isset($pathinfo['extension']) &&
+              in_array(strtolower($pathinfo['extension']), array('tgz', 'tar'))) {
+            $param['extension'] = $pathinfo['extension'];
+            $param['package'] = substr($pathinfo['basename'], 0,
+                strlen($pathinfo['basename']) - 4);
+        }
+        // check for version
+        if (strpos($param['package'], '-')) {
+            $test = explode('-', $param['package']);
+            if (count($test) != 2) {
+                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only one version/state ' .
+                    'delimiter "-" is allowed in "' . $saveparam . '"', 'invalid');
             }
-            if (isset($components['query'])) {
-                parse_str($components['query'], $param['opts']);
-            }
-            // check for extension
-            $pathinfo = pathinfo($param['package']);
-            if (isset($pathinfo['extension']) &&
-                  in_array(strtolower($pathinfo['extension']), array('tgz', 'tar'))) {
-                $param['extension'] = $pathinfo['extension'];
-                $param['package'] = substr($pathinfo['basename'], 0,
-                    strlen($pathinfo['basename']) - 4);
-            }
-            // check for version
-            if (strpos($param['package'], '-')) {
-                $test = explode('-', $param['package']);
-                if (count($test) != 2) {
-                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only one version/state ' .
-                        'delimiter "-" is allowed in "' . $saveparam . '"', 'invalid');
-                }
-                list($param['package'], $param['version']) = $test;
-            }
+            list($param['package'], $param['version']) = $test;
         }
         // validation
         $info = $this->exists($param['channel'], false);
