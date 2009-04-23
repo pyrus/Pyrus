@@ -44,12 +44,12 @@ $test->assertEquals('pear.example.com', $channel->alias, 'Alias defaults to chan
 $channel->alias = 'myalias';
 $test->assertEquals('myalias', $channel->alias, 'setAlias');
 
-$test->assertEquals(false, $channel->getSSL(), 'SSL defaults to false');
+$test->assertEquals(false, $channel->ssl, 'SSL defaults to false');
 $channel->ssl = true;
-$test->assertEquals(true, $channel->getSSL(), 'setSSL(true)');
+$test->assertEquals(true, $channel->ssl, 'setSSL(true)');
 $test->assertEquals(443, $channel->port, 'When SSL is set, port defaults to 443');
 $channel->ssl = false;
-$test->assertEquals(false, $channel->getSSL(), 'setSSL(false)');
+$test->assertEquals(false, $channel->ssl, 'setSSL(false)');
 
 $test->assertEquals(80, $channel->port, 'Port defaults to 80');
 $channel->port = 1337;

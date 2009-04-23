@@ -730,7 +730,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
 
-        $channel = PEAR2_Pyrus_Config::current()->channelregistry[$channel]->getName();
+        $channel = PEAR2_Pyrus_Config::current()->channelregistry[$channel]->name;
         if (!$this->exists($package, $channel)) {
             throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel . '/' .
                 $package);

@@ -237,9 +237,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
                 'Unknown channel ' . $this->_pf->channel);
             $this->_errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
-                'package "' . $chan->getName() . '/' . $this->_pf->name .
+                'package "' . $chan->name . '/' . $this->_pf->name .
                 '" cannot be properly validated without validation package "' .
-                $chan->getName() . '/' . $valpack['name'] . '-' . $valpack['version'] . '"');
+                $chan->name . '/' . $valpack['name'] . '-' . $valpack['version'] . '"');
         }
         if (count($this->_errors->E_ERROR)) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml',

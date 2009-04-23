@@ -156,7 +156,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             throw new PEAR2_Pyrus_ChannelRegistry_ParseException("Exception: corrupt registry, could not " .
                 "retrieve channel " . $param['channel'] . " information", 'other', $e);
         }
-        $param['channel'] = $chan->getName();
+        $param['channel'] = $chan->name;
         $validate = $chan->getValidationObject(false);
         $vpackage = $chan->getValidationPackage(false);
         // validate package name

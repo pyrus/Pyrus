@@ -123,12 +123,12 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
             fwrite($fp, $channel->name);
             fclose($fp);
         }
-        $fp = @fopen($this->_channelFileName($channel->getName()), 'wb');
+        $fp = @fopen($this->_channelFileName($channel->name), 'wb');
         if (!$fp) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add/update channel ' .
                 $channel->name . ', unable to open PEAR1 channel registry file');
         }
-        $info = (string) $channel->toChannelObject();
+        $info = (string) $channel;
         $parser = new PEAR2_Pyrus_XMLParser;
         $info = $parser->parseString($info);
         $info = $info['channel'];
@@ -149,18 +149,21 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     public function delete(PEAR2_Pyrus_IChannel $channel)
     {
-        if (in_array($channel->name,
-                     array('pear.php.net', 'pear2.php.net', 'pecl.php.net', '__uri'))){
+        $name = $channel->name;
+        if ($name == 'pear.php.net' || $name == 'pear2.php.net' || $name == 'pecl.php.net' || $name == '__uri') {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
                 $channel->name);
         }
-        if (!$this->exists($channel->name)) {
+        if (!$this->exists($name)) {
             return true;
         }
-        if (count($this->get($channel->name))) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
-                $channel->name . ', packages are installed');
+        // add tests for installed packages here
+        if (0) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
+                $name . ', packages are installed');
         }
+        @unlink($this->_channelFileName($name));
+        @unlink($this->_channelAliasFileName($channel->alias));
     }
 
     public function get($channel, $strict = true)
@@ -176,7 +179,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
                 ' PEAR1 registry file is corrupt');
         }
         try {
-            $chan = new PEAR2_Pyrus_ChannelFile_Channel_Pear1($a);
+            $chan = new PEAR2_Pyrus_ChannelRegistry_Channel($this, $a);
             return $chan;
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Channel ' . $channel .

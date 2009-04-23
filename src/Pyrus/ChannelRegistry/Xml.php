@@ -74,7 +74,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     protected function getChannelFile($channel)
     {
         if ($channel instanceof PEAR2_Pyrus_IChannel) {
-            $channel = $channel->getName();
+            $channel = $channel->name;
         }
 
         return $this->_path . DIRECTORY_SEPARATOR . 'channel-' .
@@ -124,12 +124,12 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         $file = $this->getChannelFile($channel);
         if (@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
-                $channel->getName() . ' has already been discovered');
+                $channel->alias . ' has already been discovered');
         }
 
         file_put_contents($file, (string) $channel);
-        $alias = $channel->getAlias();
-        file_put_contents($this->getAliasFile($alias), $channel->getName());
+        $alias = $channel->alias;
+        file_put_contents($this->getAliasFile($alias), $channel->name);
     }
 
     function update(PEAR2_Pyrus_IChannel $channel)
@@ -141,12 +141,12 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         $file = $this->getChannelFile($channel);
         if (!@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
-                $channel->getName() . ' is unknown');
+                $channel->name . ' is unknown');
         }
 
         file_put_contents($file, (string) $channel);
-        $alias = $channel->getAlias();
-        file_put_contents($this->getAliasFile($alias), $channel->getName());
+        $alias = $channel->alias;
+        file_put_contents($this->getAliasFile($alias), $channel->name);
     }
 
     function delete(PEAR2_Pyrus_IChannel $channel)
@@ -155,15 +155,27 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
         }
 
+        $name = $channel->name;
+        if ($name == 'pear.php.net' || $name == 'pear2.php.net' || $name == 'pecl.php.net' || $name == '__uri') {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
+                $channel->name);
+        }
+
+        // add test for installed packages here
+        if (0) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
+                $name . ', packages are installed');
+        }
+
         @unlink($this->getChannelFile($channel));
-        @unlink($this->getAliasFile($channel->getAlias()));
+        @unlink($this->getAliasFile($channel->alias));
     }
 
     function get($channel, $strict = true)
     {
         if ($this->exists($channel, $strict)) {
-            $data = @file_get_contents($this->getChannelFile($channel));
-            return new PEAR2_Pyrus_ChannelRegistry_Channel_Xml($this, $data);
+            $chan = new PEAR2_Pyrus_ChannelFile($this->getChannelFile($channel));
+            return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $chan->getArray());
         }
 
         throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);

@@ -8,18 +8,19 @@ set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit');
 restore_include_path();
 $c->saveConfig();
-foreach (array('pear'=>'pear.php.net',
-               'pear2'=>'pear2.php.net',
-               'pecl'=>'pecl.php.net') as $alias=>$name) {
+foreach (array('pear.php.net',
+               'pear2.php.net',
+               'pecl.php.net',
+               '__uri') as $name) {
     $chan = $c->channelregistry->get($name);
     $thrown = false;
     try {
         $c->channelregistry->delete($chan);
-    } catch(Exception $e) {
-        $thrown = true;
+        throw new Exception('delete succeeded and should have failed');
+    } catch(PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+        $test->assertEquals('Cannot delete default channel ' . $name, $e->getMessage(), $name . ' message');
     }
     $test->assertEquals(true, $c->channelregistry->exists($name), $name.' channel still exists');
-    $test->assertEquals(true, $thrown, 'exception was thrown when trying to delete '.$name);
 }
 
 ?>

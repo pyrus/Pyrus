@@ -63,7 +63,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 imple
 
     function getChannel()
     {
-        return $this->parentChannel->getName();
+        return $this->parentChannel->name;
     }
 
     /**

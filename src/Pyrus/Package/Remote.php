@@ -239,7 +239,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
               !(($base2 = $mirror->getBaseURL('REST1.3')) ||
               ($base = $mirror->getBaseURL('REST1.0')))) {
             throw new PEAR2_Pyrus_Package_Exception('Cannot retrieve remote information, ' .
-                'channel ' . $chan->getName() . ' does not support REST');
+                'channel ' . $chan->name . ' does not support REST');
         }
 
         if ($base2) {

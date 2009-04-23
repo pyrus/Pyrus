@@ -5,7 +5,7 @@ foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), Rec
     if (isset($exceptions) && in_array($file->getPathName(), $exceptions, 1)) {
         continue;
     }
-    if ($file->isDir()) {
+    if ($file->isDir() && $file->getFileName() != '.' && $file->getFileName() != '..') {
         rmdir($file->getPathName());
         continue;
     }

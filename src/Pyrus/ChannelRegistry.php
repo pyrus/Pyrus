@@ -109,7 +109,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
             case 'pear2.php.net' :
             case 'pecl.php.net' :
             case '__uri' :
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
                     $channel->name);
         }
         foreach ($this->_registries as $reg) {

@@ -119,7 +119,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
             PEAR2_Pyrus_Config::current()->default_channel = $curchannel;
             throw new PEAR2_Pyrus_Package_Exception('Cannot process dependency ' .
                 'information remotely, ' .
-                'channel ' . $chan->getName() . ' does not support REST');
+                'channel ' . $chan->name . ' does not support REST');
         }
 
         if ($base2) {

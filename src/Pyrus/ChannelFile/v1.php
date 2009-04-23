@@ -135,15 +135,10 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         return $this->_xml;
     }
 
-    function toChannelObject()
-    {
-        return $this;
-    }
-
     /**
      * @return string|false
      */
-    function getName()
+    protected function getName()
     {
         if (isset($this->channelInfo['name'])) {
             return $this->channelInfo['name'];
@@ -155,7 +150,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     /**
      * @return int|80 port number to connect to
      */
-    function getPort()
+    protected function getPort()
     {
         if (isset($this->channelInfo['servers']['primary']['attribs']['port'])) {
             return (int)$this->channelInfo['servers']['primary']['attribs']['port'];
@@ -171,7 +166,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     /**
      * @return bool Determines whether secure sockets layer (SSL) is used to connect to this channel
      */
-    function getSSL()
+    protected function getSSL()
     {
         if (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
             return true;
@@ -196,7 +191,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      *
      * @return PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
      */
-    function getProtocols()
+    protected function getProtocols()
     {
         if (isset($this->channelInfo['name']) && $this->channelInfo['name'] == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel has no protocols');
@@ -207,7 +202,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->channelInfo['servers']['primary'], $this);
     }
     
-    function getServers()
+    protected function getServers()
     {
         if ($this->channelInfo['name'] == '__uri') {
             throw new PEAR2_Pyrus_Channel_Exception('__uri pseudo-channel cannot have mirrors');
@@ -217,7 +212,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         } else {
             $servers = array();
         }
-        return new PEAR2_Pyrus_ChannelFile_v1_Servers($this->channelInfo['servers'], $this);
+        return new PEAR2_Pyrus_ChannelFile_v1_Servers($servers, $this);
     }
     
     /**
@@ -258,7 +253,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      * @error PEAR_CHANNELFILE_ERROR_NO_NAME
      * @error PEAR_CHANNELFILE_ERROR_INVALID_NAME
      */
-    function setName($name)
+    protected function setName($name)
     {
         if (empty($name)) {
             throw new PEAR2_Pyrus_Channel_Exception('Primary server must be non-empty');
@@ -289,7 +284,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      * Set the socket number (port) that is used to connect to this channel
      * @param integer
      */
-    function setPort($port)
+    protected function setPort($port)
     {
         $this->channelInfo['servers']['primary']['attribs']['port'] = $port;
     }
@@ -298,7 +293,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      * Set the socket number (port) that is used to connect to this channel
      * @param bool Determines whether to turn on SSL support or turn it off
      */
-    function setSSL($ssl = true)
+    protected function setSSL($ssl = true)
     {
         if ($ssl) {
             $this->channelInfo['servers']['primary']['attribs']['ssl'] = 'yes';
@@ -313,7 +308,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      * @error PEAR_CHANNELFILE_ERROR_NO_SUMMARY
      * @warning PEAR_CHANNELFILE_ERROR_MULTILINE_SUMMARY
      */
-    function setSummary($summary)
+    protected function setSummary($summary)
     {
         if (empty($summary)) {
             throw new PEAR2_Pyrus_Channel_Exception('Channel summary cannot be empty');
@@ -326,7 +321,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         return true;
     }
 
-    function setLocalAlias($alias)
+    protected function setLocalAlias($alias)
     {
         return $this->setAlias($alias, true);
     }
@@ -336,7 +331,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      * @param boolean determines whether the alias is in channel.xml or local
      * @return boolean success
      */
-    function setAlias($alias, $local = false)
+    protected function setAlias($alias, $local = false)
     {
         if (!$this->validChannelServer($alias)) {
             throw new PEAR2_Pyrus_Channel_Exception('Alias "' . $alias . '" is not a valid channel alias');
@@ -347,7 +342,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         return true;
     }
 
-    function getSuggestedAlias()
+    protected function getSuggestedAlias()
     {
         if (isset($this->channelInfo['suggestedalias'])) {
             return $this->channelInfo['suggestedalias'];
@@ -359,7 +354,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     /**
      * @return string
      */
-    function getAlias()
+    protected function getAlias()
     {
         if (isset($this->channelInfo['localalias'])) {
             return $this->channelInfo['localalias'];
@@ -392,7 +387,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         $this->channelInfo['validatepackage']['attribs'] = array('version' => $version);
     }
 
-    function setREST($rest)
+    protected function setREST($rest)
     {
         if ($rest === null) {
             $this->resetREST();
@@ -401,7 +396,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         $this->channelInfo['servers']['primary']['rest'] = $rest;
     }
 
-    function setMirrors($mirrors)
+    protected function setMirrors($mirrors)
     {
         if ($mirrors === null) {
             if (isset($this->channelInfo['servers']['mirror'])) {

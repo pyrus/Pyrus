@@ -34,7 +34,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
     {
         $a = new ReflectionClass($this);
         foreach ($a->getMethods() as $method) {
-            $name = $method->getName();
+            $name = $method->name;
             if ($name[0] == '_' || $name === 'run') {
                 continue;
             }
@@ -353,7 +353,7 @@ previous:
         foreach ($cascade as $c) {
             echo "Listing channels [", $c->getPath(), "]:\n";
             foreach ($c as $channel) {
-                echo $channel->getName() . ' (' . $channel->getAlias() . ")\n";
+                echo $channel->name . ' (' . $channel->alias . ")\n";
             }
         }
     }
