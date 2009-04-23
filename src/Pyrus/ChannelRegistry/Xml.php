@@ -181,40 +181,6 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
     }
 
-    function __get($value)
-    {
-         switch ($value) {
-             case 'mirrors' :
-                 if (!isset($this->_channelInfo['servers']['mirror'][0])) {
-                     return array(new PEAR2_Pyrus_Channel_Mirror(
-                                   $this->_channelInfo['servers']['mirror'], $this,
-                                  $this->_parent));
-                 }
-
-                 $ret = array();
-                 foreach ($this->_channelInfo['servers']['mirror'] as $i => $mir) {
-                     $ret[$mir['attribs']['host']] = new PEAR2_Pyrus_Channel_Mirror(
-                           $this->_channelInfo['servers']['mirror'][$i], $this,
-                           $this->_parent);
-                }
-
-                return $ret;
-        }
-
-        if (method_exists($this, "get$value")) {
-            $gv = "get$value";
-            return $this->$gv();
-        }
-    }
-
-    function __set($var, $value)
-    {
-        if (method_exists($this, "set$var")) {
-            $sv = "set$var";
-            $this->$sv($value);
-        }
-    }
-
     /**
      * List all discovered channels
      *
