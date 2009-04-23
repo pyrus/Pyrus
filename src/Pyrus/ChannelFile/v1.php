@@ -129,10 +129,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      */
     function __toString()
     {
-        if (!isset($this->_xml)) {
-            $this->_xml = (string) new PEAR2_Pyrus_XMLWriter(array('channel'=>$this->channelInfo));
-        }
-        return $this->_xml;
+        return $this->_xml = (string) new PEAR2_Pyrus_XMLWriter(array('channel'=>$this->channelInfo));
     }
 
     /**
@@ -286,7 +283,15 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      */
     protected function setPort($port)
     {
-        $this->channelInfo['servers']['primary']['attribs']['port'] = $port;
+        if (isset($this->channelInfo['servers']) &&
+              isset($this->channelInfo['servers']['primary']) &&
+              !isset($this->channelInfo['servers']['primary']['attribs'])) {
+            $this->channelInfo['servers']['primary'] =
+                array_merge(array('attribs' => array('port' => $port)),
+                            $this->channelInfo['servers']['primary']);
+        } else {
+            $this->channelInfo['servers']['primary']['attribs']['port'] = $port;
+        }
     }
 
     /**
@@ -296,7 +301,15 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     protected function setSSL($ssl = true)
     {
         if ($ssl) {
-            $this->channelInfo['servers']['primary']['attribs']['ssl'] = 'yes';
+        if (isset($this->channelInfo['servers']) &&
+              isset($this->channelInfo['servers']['primary']) &&
+              !isset($this->channelInfo['servers']['primary']['attribs'])) {
+                $this->channelInfo['servers']['primary'] =
+                    array_merge(array('attribs' => array('ssl' => 'yes')),
+                                $this->channelInfo['servers']['primary']);
+            } else {
+                $this->channelInfo['servers']['primary']['attribs']['ssl'] = 'yes';
+            }
         } elseif (isset($this->channelInfo['servers']['primary']['attribs']['ssl'])) {
             unset($this->channelInfo['servers']['primary']['attribs']['ssl']);
         }

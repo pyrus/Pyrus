@@ -134,20 +134,23 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
 
+        self::$databases[$this->_path]->exec('BEGIN');
         $sql = 'SELECT channel FROM channels WHERE channel = "' . self::$databases[$this->_path]->escapeString($channel->name) . '"';
         if (self::$databases[$this->_path]->querySingle($sql)) {
             if (!$update) {
+                self::$databases[$this->_path]->exec('ROLLBACK');
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                     $channel->name . ' has already been discovered');
             }
+            $this->delete($channel);
         } elseif ($update) {
+            self::$databases[$this->_path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                 $channel->name . ' is unknown');
         }
 
         $validate = $channel->getValidationPackage();
 
-        self::$databases[$this->_path]->exec('BEGIN');
         $sql = '
             INSERT INTO channels
             (channel, summary, suggestedalias, alias, validatepackageversion,

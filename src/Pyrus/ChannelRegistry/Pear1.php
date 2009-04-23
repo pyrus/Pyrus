@@ -109,6 +109,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
                     @unlink($this->_channelAliasFileName($checker->alias));
                 }
             }
+        } elseif ($update) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
+                $channel->name . ' is unknown');
         }
         if ($channel->alias != $channel->name) {
             if (file_exists($this->_channelAliasFileName($channel->alias)) &&
