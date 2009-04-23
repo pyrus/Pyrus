@@ -72,7 +72,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
                 $channel = implode('', file($c));
             }
         }
-        return $this->_path . DIRECTORY_SEPARATOR . str_replace('/', '_',
+        return $this->_channelPath . DIRECTORY_SEPARATOR . str_replace('/', '_',
             strtolower($channel)) . '.reg';
     }
 
@@ -200,8 +200,8 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
     {
         $ret = array();
         foreach (new RegexIterator(new DirectoryIterator($this->_channelPath),
-                                '/^(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
-            $ret[] = $this->get(str_replace('_', '/', $file));
+                                '/^(.+?)\.reg/', RegexIterator::GET_MATCH) as $file) {
+            $ret[] = $this->get(str_replace('_', '/', $file[1]))->name;
         }
         return $ret;
     }
