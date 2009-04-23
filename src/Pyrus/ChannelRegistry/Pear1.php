@@ -150,6 +150,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     public function update(PEAR2_Pyrus_IChannel $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot update channel, registry is read-only');
+        }
         return $this->add($channel, true);
     }
 
