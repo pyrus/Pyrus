@@ -155,6 +155,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     public function delete(PEAR2_Pyrus_IChannel $channel)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
+        }
         $name = $channel->name;
         if ($name == 'pear.php.net' || $name == 'pear2.php.net' || $name == 'pecl.php.net' || $name == '__uri') {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
