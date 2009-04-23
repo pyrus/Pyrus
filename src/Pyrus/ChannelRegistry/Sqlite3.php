@@ -127,7 +127,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, SQLite3 registry is read-only');
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
         }
 
         if (!isset(self::$databases[$this->_path])) {

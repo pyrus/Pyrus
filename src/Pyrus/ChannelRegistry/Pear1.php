@@ -93,6 +93,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
     {
+        if ($this->readonly) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
+        }
         if (!is_writeable($this->_channelPath)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel ' .
                 $channel->name . ', channel registry path is not writeable');
