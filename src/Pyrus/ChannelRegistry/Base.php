@@ -311,6 +311,11 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $this->add($__uri);
     }
 
+    public function getPath()
+    {
+        return $this->path;
+    }
+
     /**
      * @param string
      * @return int

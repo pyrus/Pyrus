@@ -41,11 +41,6 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         }
     }
 
-    public function getPath()
-    {
-        return $this->path;
-    }
-
     /**
      * Convert a name into a path-friendly name
      *

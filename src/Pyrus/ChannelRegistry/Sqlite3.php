@@ -49,11 +49,6 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         $this->_init($path, $readonly);
     }
 
-    public function getPath()
-    {
-        return $this->path;
-    }
-
     private function _init($path, $readonly)
     {
         if (isset(self::$databases[$path]) && self::$databases[$path]) {
