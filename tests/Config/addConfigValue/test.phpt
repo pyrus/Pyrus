@@ -13,8 +13,6 @@ $a->foo = 'hi';
 $a->foo2 = 'hi2';
 $test->assertEquals('hi', $a->foo, 'foo');
 $test->assertEquals('hi2', $a->foo2, 'foo2');
-$d = DIRECTORY_SEPARATOR;
-$test->assertEquals('configsnapshot-' . date('Y-m-d H:i:s') . '.xml', $a->configSnapshot(), 1);
 
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
@@ -29,7 +27,7 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini><foo>' .
     $a->foo . '</foo></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.xml'), 'contents 1');
+', file_get_contents($cdir . '/' . $a->configSnapshot()), 'contents 1');
 ?>
 ===DONE===
 --CLEAN--
