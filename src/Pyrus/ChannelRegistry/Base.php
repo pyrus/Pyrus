@@ -26,7 +26,8 @@
 abstract class PEAR2_Pyrus_ChannelRegistry_Base
     implements PEAR2_Pyrus_IChannelRegistry, Iterator
 {
-    protected $channelList = array();
+    protected $path;
+    protected $readonly;
     
     /**
      * Parse a package name, or validate a parsed package name array
@@ -308,5 +309,24 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $this->add($pear2);
         $this->add($pecl);
         $this->add($__uri);
+    }
+
+    /**
+     * @param string
+     * @return int
+     */
+    function packageCount($channel)
+    {
+        return count($this->getRegistry()->listPackages($channel));
+    }
+
+    /**
+     * @return PEAR2_Pyrus_IRegistry
+     */
+    function getRegistry()
+    {
+        $class = str_replace('Channel', '', get_class($this));
+        $ret = new $class($this->path, $this->readonly);
+        return $ret;
     }
 }

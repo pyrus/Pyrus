@@ -26,14 +26,12 @@
  */
 class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 {
-    private $_path;
     private $_channelPath;
     private $_aliasPath;
-    protected $readonly;
     function __construct($path, $readonly = false)
     {
         $this->readonly = $readonly;
-        $this->_path = $path;
+        $this->path = $path;
         $this->_channelPath = $path . DIRECTORY_SEPARATOR . '.channels';
         $this->_aliasPath = $path . DIRECTORY_SEPARATOR . '.alias';
         if (!file_exists($this->_channelPath) || !is_dir($this->_channelPath)) {
@@ -78,7 +76,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     private function _channelAliasFileName($alias)
     {
-        return $this->_path . DIRECTORY_SEPARATOR . '.alias' .
+        return $this->path . DIRECTORY_SEPARATOR . '.alias' .
               DIRECTORY_SEPARATOR . str_replace('/', '_', strtolower($alias)) . '.txt';
     }
 
@@ -169,8 +167,8 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
         if (!$this->exists($name)) {
             return true;
         }
-        // add tests for installed packages here
-        if (0) {
+
+        if ($this->packageCount($name)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
                 $name . ', packages are installed');
         }
