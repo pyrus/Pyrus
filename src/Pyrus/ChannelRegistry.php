@@ -168,17 +168,17 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         return true;
     }
 
-    public function parseName($name)
+    public function parseName($name, $defaultChannel = 'pear2.php.net')
     {
         foreach ($this->_registries as $reg) {
             try {
-                return $reg->parseName($name);
+                return $reg->parseName($name, $defaultChannel);
             } catch (Exception $e) {
                 continue;
             }
         }
         if ($this->parent) {
-            return $this->parent->parseName($name);
+            return $this->parent->parseName($name, $defaultChannel);
         }
         // recycle last exception
         throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unable to process package name', $e);

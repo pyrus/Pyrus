@@ -86,6 +86,14 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
             $this->_mung($alias) . '.txt';
     }
 
+    function channelFromAlias($alias)
+    {
+        if (file_exists($this->getAliasFile($alias))) {
+            return file_get_contents($this->getAliasFile($alias));
+        }
+        return $alias;
+    }
+
     /**
      * Check if the channel has been discovered.
      *
@@ -165,6 +173,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     function get($channel, $strict = true)
     {
         if ($this->exists($channel, $strict)) {
+            $channel = $this->channelFromAlias($channel);
             $chan = new PEAR2_Pyrus_ChannelFile($this->getChannelFile($channel));
             return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $chan->getArray());
         }

@@ -31,26 +31,21 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
     
     /**
      * Parse a package name, or validate a parsed package name array
-     * @param string|array pass in an array of format
-     *                     array(
-     *                      'package' => 'pname',
-     *                     ['channel' => 'channame',]
-     *                     ['version' => 'version',]
-     *                     ['state' => 'state',]
-     *                     ['group' => 'groupname'])
-     *                     or a string of format
-     *                     [channel://][channame/]pname[-version|-state][/group=groupname]
+     * @param string string of format
+     *               [channel://][channame/]pname[-version|-state][/group=groupname]
+     *               [http|https]://uri
      *
      * @return array
      */
-    public function parseName($param, $defaultchannel = 'pear.php.net')
+    public function parseName($param, $defaultchannel = 'pear2.php.net')
     {
         $saveparam = $param;
         $components = @parse_url((string) $param);
         if (isset($components['scheme'])) {
-            if ($components['scheme'] == 'http') {
+            if ($components['scheme'] == 'http' || $components['scheme'] == 'https') {
                 // uri package
                 $param = array('uri' => $param, 'channel' => '__uri');
+                return $param;
             } elseif($components['scheme'] != 'channel') {
                 throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only channel:// uris may ' .
                     'be downloaded, not "' . $param . '"', 'scheme');
@@ -89,15 +84,11 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             }
         }
 
-        if (is_array($param)) {
-            $param['package'] = $components['path'];
-        } else {
-            $param = array(
-                'package' => $components['path']
-                );
-            if (isset($components['host'])) {
-                $param['channel'] = $components['host'];
-            }
+        $param = array(
+            'package' => $components['path']
+            );
+        if (isset($components['host'])) {
+            $param['channel'] = $components['host'];
         }
         if (isset($components['fragment'])) {
             $param['group'] = $components['fragment'];
@@ -114,16 +105,16 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         // check for extension
         $pathinfo = pathinfo($param['package']);
         if (isset($pathinfo['extension']) &&
-              in_array(strtolower($pathinfo['extension']), array('tgz', 'tar'))) {
+              in_array(strtolower($pathinfo['extension']), array('tgz', 'tar', 'zip', 'tbz', 'phar'))) {
             $param['extension'] = $pathinfo['extension'];
             $param['package'] = substr($pathinfo['basename'], 0,
-                strlen($pathinfo['basename']) - 4);
+                strlen($pathinfo['basename']) - strlen($pathinfo['extension']) - 1);
         }
         // check for version
         if (strpos($param['package'], '-')) {
             $test = explode('-', $param['package']);
             if (count($test) != 2) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only one version/state ' .
+                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): only one version/state ' .
                     'delimiter "-" is allowed in "' . $saveparam . '"', 'invalid');
             }
             list($param['package'], $param['version']) = $test;
@@ -145,34 +136,23 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $vpackage = $chan->getValidationPackage(false);
         // validate package name
         if (!$validate->validPackageName($param['package'], $vpackage['_content'])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): invalid package name "' .
+            throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): invalid package name "' .
                 $param['package'] . '" in "' . $saveparam . '"', 'package');
         }
         if (isset($param['group'])) {
             if (!PEAR2_Pyrus_Validate::validGroupName($param['group'])) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): dependency group "' . $param['group'] .
+                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): dependency group "' . $param['group'] .
                     '" is not a valid group name in "' . $saveparam . '"', 'group');
             }
         }
-        if (isset($param['state'])) {
-            if (!in_array(strtolower($param['state']), $validate->getValidStates())) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): state "' . $param['state']
-                    . '" is not a valid state in "' . $saveparam . '"', 'version/state');
-            }
-        }
         if (isset($param['version'])) {
-            if (isset($param['state'])) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): cannot contain both ' .
-                    'a version and a stability (state) in "' . $saveparam . '"',
-                    'version/state');
-            }
             // check whether version is actually a state
             if (in_array(strtolower($param['version']), $validate->getValidStates())) {
                 $param['state'] = strtolower($param['version']);
                 unset($param['version']);
             } else {
                 if (!$validate->validVersion($param['version'])) {
-                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): "' . $param['version'] .
+                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"', 'version/state');
                 }

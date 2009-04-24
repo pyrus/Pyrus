@@ -25,7 +25,12 @@ $test->assertEquals(true, $channel->getValidationObject() instanceof PEAR2_Pyrus
 $test->assertEquals(true, $channel->getValidationObject('PEAR2_Pyrus_Validator_PECL') instanceof PEAR2_Pyrus_Validate, 'getValidationObject Channel validation packages are all checked by PEAR2_Pyrus_Validate');
 
 $channel->setValidationPackage('PEAR2_Bogus_Validation', '6.0');
-$test->assertEquals(false, $channel->getValidationObject(), 'getValidationObject returns false for validtion packages that cannot be loaded');
+try {
+    $channel->getValidationObject();
+    throw new Exception('succeeded and should fail');
+} catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+    $test->assertEquals($e->getMessage(), 'Validation object PEAR2_Bogus_Validation cannot be instantiated', 'bogus');
+}
 
 $channel->setValidationPackage(null, '1.0');
 $test->assertEquals(true, $channel->getValidationObject() instanceof PEAR2_Pyrus_Validate, 'setValidationPackage resets to default');

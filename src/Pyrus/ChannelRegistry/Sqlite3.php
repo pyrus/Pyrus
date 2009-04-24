@@ -288,7 +288,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
         }
 
-        $chan = $this->getChannelObject($channel);
+        $chan = $this->getChannelObject($this->channelFromAlias($channel));
         return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $chan->getArray());
     }
 

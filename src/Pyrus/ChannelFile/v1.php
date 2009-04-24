@@ -453,7 +453,7 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
     function getValidationObject($package = false)
     {
         if (!$this->validate()) {
-            return false;
+            throw new PEAR2_Pyrus_ChannelFile_Exception('Channel is invalid, cannot retrieve validation object');
         }
 
         if (isset($this->channelInfo['validatepackage'])) {
@@ -463,13 +463,15 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
                 return $val;
             }
 
+            $vclass = str_replace('.', '_', $this->channelInfo['validatepackage']['_content']);
+            $vclass = str_replace('PEAR_', 'PEAR2_Pyrus_', $vclass);
             if (!class_exists(str_replace('.', '_',
-                  $this->channelInfo['validatepackage']['_content']), true)) {
-                return false;
+                  $vclass), true)) {
+                throw new PEAR2_Pyrus_ChannelFile_Exception(
+                    'Validation object ' . $this->channelInfo['validatepackage']['_content'] .
+                    ' cannot be instantiated');
             }
 
-            $vclass = str_replace('.', '_',
-                $this->channelInfo['validatepackage']['_content']);
             $val = new $vclass;
         } else {
             $val = new PEAR2_Pyrus_Validate;
