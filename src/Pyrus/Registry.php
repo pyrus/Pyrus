@@ -250,11 +250,7 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
             return $this->registries[0]->package;
         }
 
-        if ($var == 'channel') {
-            return $this->channelRegistry;
-        }
-
-        if ($var == 'registries') {
+        if ($var == 'allregistries') {
             return $this->registries;
         }
     }
@@ -271,11 +267,11 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 
     public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
-        return $this->_registries[0]->getDependentPackages($package);
+        return $this->registries[0]->getDependentPackages($package);
     }
 
     public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
     {
-        return $this->_registries[0]->detectFileConflicts($package);
+        return $this->registries[0]->detectFileConflicts($package);
     }
 }
