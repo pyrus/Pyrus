@@ -20,7 +20,7 @@ $test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu'), 'successf
 unset($c->channelregistry[$chan->name]);
 $test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'successfully deleted 2');
 
-$c->channelregistry->add($chan);
+$c->channelregistry[$chan->name] = $chan;
 $test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu'), 'successfully added the channel 3');
 unset($c->channelregistry[$chan->alias]);
 $test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'successfully deleted 3');

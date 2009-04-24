@@ -216,7 +216,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
         }
         foreach ($this->_registries as $reg) {
-            $reg->add($offset, $value);
+            $reg->add($value);
         }
     }
 
