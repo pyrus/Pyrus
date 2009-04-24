@@ -4,7 +4,7 @@ Registry: test listPackages, cascading registries
 <?php
 require __DIR__ . '/../setup.cascade.php.inc';
 $dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
-$reg2->install($info);
+$reg2->replace($info);
 $packages = $reg->listPackages('pear2.php.net', false);
 sort($packages);
 $test->assertEquals(array('PEAR2_SimpleChannelServer'), $packages, 'test cascade');
