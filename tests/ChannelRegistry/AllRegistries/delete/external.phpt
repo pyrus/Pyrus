@@ -15,6 +15,15 @@ $chan = $c->channelregistry->get('pear.unl.edu');
 $c->channelregistry->delete($chan);
 $test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'successfully deleted');
 
+$c->channelregistry->add($chan);
+$test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu'), 'successfully added the channel 2');
+unset($c->channelregistry[$chan->name]);
+$test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'successfully deleted 2');
+
+$c->channelregistry->add($chan);
+$test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu'), 'successfully added the channel 3');
+unset($c->channelregistry[$chan->alias]);
+$test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'successfully deleted 3');
 ?>
 ===DONE===
 --CLEAN--
