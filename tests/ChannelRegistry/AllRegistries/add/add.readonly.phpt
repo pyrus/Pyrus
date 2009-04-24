@@ -14,6 +14,12 @@ try {
 } catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
     $test->assertEquals('Cannot add channel, registry is read-only', $e->getMessage(), 'message');
 }
+try {
+    $creg[$chan->name] = $chan;
+    throw new Exception('passed and shouldn\'t 2');
+} catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+    $test->assertEquals('Cannot add channel, registry is read-only', $e->getMessage(), 'message 2');
+}
 ?>
 ===DONE===
 --CLEAN--

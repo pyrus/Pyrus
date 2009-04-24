@@ -14,6 +14,13 @@ try {
 } catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
     $test->assertEquals('Cannot delete channel, registry is read-only', $e->getMessage(), 'message');
 }
+
+try {
+    unset($creg[$chan->name]);
+    throw new Exception('passed and shouldn\'t');
+} catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+    $test->assertEquals('Cannot delete channel, registry is read-only', $e->getMessage(), 'message');
+}
 ?>
 ===DONE===
 --CLEAN--
