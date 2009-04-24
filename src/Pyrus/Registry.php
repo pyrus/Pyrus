@@ -222,25 +222,19 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                         return $reg->toPackageFile($package, $channel);
                     } catch (Exception $e) {
                         // failed, cascade to using default registry instead
+                        break;
                     }
                 }
             }
 
             return $this->registries[0]->toPackageFile($package, $channel);
+        } elseif ($onlyMain || !$this->exists($package, $channel, false)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+                'for package ' . $channel . '/' . $package . ', it is not installed');
         }
 
-        if ($onlyMain) {
-            return null;
-        }
-
-        if ($this->exists($package, $channel, false)) {
-            if (!$this->parent) {
-                return null;
-            }
-            // installed in parent registry
-
-            return $this->parent->toPackageFile($package, $channel);
-        }
+        // installed in parent registry
+        return $this->parent->toPackageFile($package, $channel);
     }
 
     function __get($var)

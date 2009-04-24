@@ -293,7 +293,11 @@ class PEAR2_Pyrus_Installer
             self::$transact->commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (self::$installedPackages as $package) {
-                $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                try {
+                    $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                } catch (\Exception $e) {
+                    $previous = null;
+                }
                 self::$registeredPackages[] = array($package, $previous);
                 $reg->install($package->getPackageFile()->info);
             }
