@@ -25,8 +25,4 @@
  */
 class PEAR2_Pyrus_Registry_Xml_Package extends PEAR2_Pyrus_Registry_Package_Base
 {
-    function __construct(PEAR2_Pyrus_Registry_Xml $cloner)
-    {
-        $this->reg = $cloner;
-    }
 }

@@ -1052,6 +1052,11 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         return (string) new PEAR2_Pyrus_XMLWriter($arr);
     }
 
+    function toRaw()
+    {
+        return $this;
+    }
+
     function toArray($forpackaging = false)
     {
         $this->packageInfo['contents'] = array(

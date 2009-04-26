@@ -112,7 +112,7 @@ class PEAR2_Pyrus_Uninstaller
             return;
         }
         self::$uninstallPackages[$package->channel . '/' . $package->name] = $package;
-        return $package->toPackageFile($package->name, $package->channel);
+        return $package;
     }
 
     /**
@@ -120,7 +120,7 @@ class PEAR2_Pyrus_Uninstaller
      *
      * @param PEAR2_Pyrus_Package $package
      */
-    static function prepareDependencies(PEAR2_Pyrus_Package $package)
+    static function prepareDependencies(PEAR2_Pyrus_IPackageFile $package)
     {
         foreach ($package->dependencies->required->package as $dep) {
             if (isset($dep['conflicts'])) {

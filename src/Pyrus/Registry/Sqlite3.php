@@ -132,6 +132,10 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         if (!$replace) {
+            $info = $info->toRaw();
+            // this avoids potential exception on setting date/time
+            // which can happen if $info is a registry package that
+            // has been uninstalled
             $info->date = date('Y-m-d');
             $info->time = date('H:i:s');
         }

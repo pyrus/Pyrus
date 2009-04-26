@@ -26,10 +26,6 @@
 class PEAR2_Pyrus_Registry_Sqlite3_Package extends PEAR2_Pyrus_Registry_Package_Base
 {
     public $dirty = false;
-    function __construct(PEAR2_Pyrus_Registry_Sqlite3 $cloner)
-    {
-        $this->reg = $cloner;
-    }
 
     function __set($var, $value)
     {
