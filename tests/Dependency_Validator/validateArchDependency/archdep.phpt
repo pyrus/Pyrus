@@ -14,7 +14,7 @@ $arch->conflicts = true;
 $test->assertEquals(false, $validator->validateArchDependency($arch), 'foobar conflicts fail');
 $test->assertEquals(1, count($errs), 'foobar conflicts fail count');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test Architecture dependency failed, required ' .
+    $test->assertEquals('pear2.php.net/test Architecture dependency failed, cannot match ' .
                         '"foobar"', $error->getMessage(),
                         'foobar conflicts fail message');
 }
@@ -60,11 +60,11 @@ $arch->conflicts = true;
 $arch->pattern = 'barfoo';
 $test->assertEquals(true, $validator->validateArchDependency($arch), 'barfoo conflicts pass nodeps');
 
-$arch->conflicts = false;
+$validator->patterns['barfoo'] = true;
 $test->assertEquals(true, $validator->validateArchDependency($arch), 'barfoo fail nodeps');
 $test->assertEquals(1, count($errs), 'barfoo conflicts fail count');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test Architecture dependency failed, does not match ' .
+    $test->assertEquals('warning: pear2.php.net/test Architecture dependency failed, cannot match ' .
                         '"barfoo"', $error->getMessage(),
                         'barfoo fail message nodeps');
 }

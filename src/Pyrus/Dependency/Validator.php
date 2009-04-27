@@ -230,11 +230,11 @@ class PEAR2_Pyrus_Dependency_Validator
         if ($this->matchSignature($dep->pattern)) {
             if ($dep->conflicts) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
-                    return $this->raiseError('%s Architecture dependency failed, required "' .
+                    return $this->raiseError('%s Architecture dependency failed, cannot match "' .
                         $dep->pattern . '"');
                 }
                 return $this->warning('warning: %s Architecture dependency failed, ' .
-                    'required "' . $dep->pattern . '"');
+                    'cannot match "' . $dep->pattern . '"');
             }
             return true;
         } else {
