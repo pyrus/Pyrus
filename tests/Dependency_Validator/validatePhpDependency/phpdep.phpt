@@ -89,6 +89,14 @@ foreach ($errs->E_WARNING as $error) {
                         '5.3.1 fail message');
 }
 
+// reset multierrors
+$errs = new PEAR2_MultiErrors;
+$validator = new test_Validator($package, PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
+
+$validator->phpversion = '5.3.1';
+$test->assertEquals(true, $validator->validatePhpDependency($php), 'UNINSTALLING should not fail on conflict');
+$test->assertEquals(0, count($errs), 'UNINSTALLING fail count');
+
 ?>
 ===DONE===
 --EXPECT--
