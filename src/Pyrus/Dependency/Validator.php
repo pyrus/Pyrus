@@ -60,30 +60,30 @@ class PEAR2_Pyrus_Dependency_Validator
     function _getExtraString($dep)
     {
         $extra = ' (';
-        if (isset($dep['uri'])) {
+        if (isset($dep->uri)) {
             return '';
         }
-        if (isset($dep['recommended'])) {
-            $extra .= 'recommended version ' . $dep['recommended'];
+        if (isset($dep->recommended)) {
+            $extra .= 'recommended version ' . $dep->recommended;
         } else {
-            if (isset($dep['min'])) {
-                $extra .= 'version >= ' . $dep['min'];
+            if (isset($dep->min)) {
+                $extra .= 'version >= ' . $dep->min;
             }
-            if (isset($dep['max'])) {
+            if (isset($dep->max)) {
                 if ($extra != ' (') {
                     $extra .= ', ';
                 }
-                $extra .= 'version <= ' . $dep['max'];
+                $extra .= 'version <= ' . $dep->max;
             }
-            if (isset($dep['exclude'])) {
-                if (!is_array($dep['exclude'])) {
-                    $dep['exclude'] = array($dep['exclude']);
+            if (isset($dep->exclude)) {
+                if (!is_array($dep->exclude)) {
+                    $dep->exclude = array($dep->exclude);
                 }
                 if ($extra != ' (') {
                     $extra .= ', ';
                 }
                 $extra .= 'excluded versions: ';
-                foreach ($dep['exclude'] as $i => $exclude) {
+                foreach ($dep->exclude as $i => $exclude) {
                     if ($i) {
                         $extra .= ', ';
                     }
@@ -128,7 +128,7 @@ class PEAR2_Pyrus_Dependency_Validator
             return true;
         }
         if ($dep->name == '*') {
-            return !$dep->conflicts;
+            return true; // no one will do conflicts with *, so assume no conflicts
         }
         switch (strtolower($dep->name)) {
             case 'windows' :
@@ -271,145 +271,140 @@ class PEAR2_Pyrus_Dependency_Validator
         }
     }
 
-    function validateExtensionDependency($dep, $required = true)
+    function validateExtensionDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $dep, $required = true)
     {
         if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
               $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
-        $loaded = $this->extension_loaded($dep['name']);
+        $loaded = $this->extension_loaded($dep->name);
         $extra = $this->_getExtraString($dep);
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-        }
-        if (!isset($dep['min']) && !isset($dep['max']) &&
-              !isset($dep['recommended']) && !isset($dep['exclude'])) {
+        if (!isset($dep->min) && !isset($dep->max) &&
+              !isset($dep->recommended) && !isset($dep->exclude)) {
             if ($loaded) {
-                if (isset($dep['conflicts'])) {
+                if ($dep->conflicts) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s conflicts with PHP extension "' .
-                            $dep['name'] . '"' . $extra);
+                            $dep->name . '"' . $extra);
                     } else {
                         return $this->warning('warning: %s conflicts with PHP extension "' .
-                            $dep['name'] . '"' . $extra);
+                            $dep->name . '"' . $extra);
                     }
                 }
                 return true;
             } else {
-                if (isset($dep['conflicts'])) {
+                if ($dep->conflicts) {
                     return true;
                 }
                 if ($required) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s requires PHP extension "' .
-                            $dep['name'] . '"' . $extra);
+                            $dep->name . '"' . $extra);
                     } else {
                         return $this->warning('warning: %s requires PHP extension "' .
-                            $dep['name'] . '"' . $extra);
+                            $dep->name . '"' . $extra);
                     }
                 } else {
                     return $this->warning('%s can optionally use PHP extension "' .
-                        $dep['name'] . '"' . $extra);
+                        $dep->name . '"' . $extra);
                 }
             }
         }
         if (!$loaded) {
-            if (isset($dep['conflicts'])) {
+            if ($dep->conflicts) {
                 return true;
             }
             if (!$required) {
                 return $this->warning('%s can optionally use PHP extension "' .
-                    $dep['name'] . '"' . $extra);
+                    $dep->name . '"' . $extra);
             } else {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
-                    return $this->raiseError('%s requires PHP extension "' . $dep['name'] .
+                    return $this->raiseError('%s requires PHP extension "' . $dep->name .
                         '"' . $extra);
                 }
-                    return $this->warning('warning: %s requires PHP extension "' . $dep['name'] .
+                    return $this->warning('warning: %s requires PHP extension "' . $dep->name .
                         '"' . $extra);
             }
         }
-        $version = (string) $this->phpversion($dep['name']);
+        $version = (string) $this->phpversion($dep->name);
         if (empty($version)) {
             $version = '0';
         }
         $fail = false;
-        if (isset($dep['min'])) {
-            if (!version_compare($version, $dep['min'], '>=')) {
+        if (isset($dep->min)) {
+            if (!version_compare($version, $dep->min, '>=')) {
                 $fail = true;
             }
         }
-        if (isset($dep['max'])) {
-            if (!version_compare($version, $dep['max'], '<=')) {
+        if (isset($dep->max)) {
+            if (!version_compare($version, $dep->max, '<=')) {
                 $fail = true;
             }
         }
-        if ($fail && !isset($dep['conflicts'])) {
+        if ($fail && !$dep->conflicts) {
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
-                return $this->raiseError('%s requires PHP extension "' . $dep['name'] .
+                return $this->raiseError('%s requires PHP extension "' . $dep->name .
                     '"' . $extra . ', installed version is ' . $version);
             } else {
-                return $this->warning('warning: %s requires PHP extension "' . $dep['name'] .
+                return $this->warning('warning: %s requires PHP extension "' . $dep->name .
                     '"' . $extra . ', installed version is ' . $version);
             }
-        } elseif ((isset($dep['min']) || isset($dep['max'])) && !$fail && isset($dep['conflicts'])) {
+        } elseif ((isset($dep->min) || isset($dep->max)) && !$fail && $dep->conflicts) {
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                 return $this->raiseError('%s conflicts with PHP extension "' .
-                    $dep['name'] . '"' . $extra . ', installed version is ' . $version);
+                    $dep->name . '"' . $extra . ', installed version is ' . $version);
             } else {
                 return $this->warning('warning: %s conflicts with PHP extension "' .
-                    $dep['name'] . '"' . $extra . ', installed version is ' . $version);
+                    $dep->name . '"' . $extra . ', installed version is ' . $version);
             }
         }
-        if (isset($dep['exclude'])) {
-            foreach ($dep['exclude'] as $exclude) {
+        if (isset($dep->exclude)) {
+            foreach ($dep->exclude as $exclude) {
                 if (version_compare($version, $exclude, '==')) {
-                    if (isset($dep['conflicts'])) {
+                    if ($dep->conflicts) {
                         continue;
                     }
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                           !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s is not compatible with PHP extension "' .
-                            $dep['name'] . '" version ' .
+                            $dep->name . '" version ' .
                             $exclude);
                     } else {
                         return $this->warning('warning: %s is not compatible with PHP extension "' .
-                            $dep['name'] . '" version ' .
+                            $dep->name . '" version ' .
                             $exclude);
                     }
-                } elseif (version_compare($version, $exclude, '!=') && isset($dep['conflicts'])) {
+                } elseif (version_compare($version, $exclude, '!=') && $dep->conflicts) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s conflicts with PHP extension "' .
-                            $dep['name'] . '"' . $extra . ', installed version is ' . $version);
+                            $dep->name . '"' . $extra . ', installed version is ' . $version);
                     } else {
                         return $this->warning('warning: %s conflicts with PHP extension "' .
-                            $dep['name'] . '"' . $extra . ', installed version is ' . $version);
+                            $dep->name . '"' . $extra . ', installed version is ' . $version);
                     }
                 }
             }
         }
-        if (isset($dep['recommended'])) {
-            if (version_compare($version, $dep['recommended'], '==')) {
+        if (isset($dep->recommended)) {
+            if (version_compare($version, $dep->recommended, '==')) {
                 return true;
             } else {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
-                    return $this->raiseError('%s dependency: PHP extension ' . $dep['name'] .
+                    return $this->raiseError('%s dependency: PHP extension ' . $dep->name .
                         ' version "' . $version . '"' .
-                        ' is not the recommended version "' . $dep['recommended'] .
+                        ' is not the recommended version "' . $dep->recommended .
                         '", but may be compatible, use --force to install');
                 } else {
                     return $this->warning('warning: %s dependency: PHP extension ' .
-                        $dep['name'] . ' version "' . $version . '"' .
-                        ' is not the recommended version "' . $dep['recommended'].'"');
+                        $dep->name . ' version "' . $version . '"' .
+                        ' is not the recommended version "' . $dep->recommended . '"');
                 }
             }
         }
         return true;
     }
 
-    function validatePhpDependency($dep)
+    function validatePhpDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep $dep)
     {
         if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
               $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
@@ -417,13 +412,8 @@ class PEAR2_Pyrus_Dependency_Validator
         }
         $version = $this->phpversion();
         $extra = $this->_getExtraString($dep);
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-        }
-        if (isset($dep['min'])) {
-            if (!version_compare($version, $dep['min'], '>=')) {
+        if (isset($dep->min)) {
+            if (!version_compare($version, $dep->min, '>=')) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError('%s requires PHP' .
                         $extra . ', installed version is ' . $version);
@@ -433,8 +423,8 @@ class PEAR2_Pyrus_Dependency_Validator
                 }
             }
         }
-        if (isset($dep['max'])) {
-            if (!version_compare($version, $dep['max'], '<=')) {
+        if (isset($dep->max)) {
+            if (!version_compare($version, $dep->max, '<=')) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError('%s requires PHP' .
                         $extra . ', installed version is ' . $version);
@@ -444,8 +434,8 @@ class PEAR2_Pyrus_Dependency_Validator
                 }
             }
         }
-        if (isset($dep['exclude'])) {
-            foreach ($dep['exclude'] as $exclude) {
+        if (isset($dep->exclude)) {
+            foreach ($dep->exclude as $exclude) {
                 if (version_compare($version, $exclude, '==')) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                           !isset(PEAR2_Pyrus_Installer::$options['force'])) {
@@ -470,16 +460,11 @@ class PEAR2_Pyrus_Dependency_Validator
         return '@PACKAGE_VERSION@' === '@'.'PACKAGE_VERSION@' ? '2.0.0' : '@PACKAGE_VERSION@';
     }
 
-    function validatePearinstallerDependency($dep)
+    function validatePearinstallerDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep $dep)
     {
         $pearversion = $this->getPEARVersion();
         $extra = $this->_getExtraString($dep);
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-        }
-        if (version_compare($pearversion, $dep['min'], '<')) {
+        if (version_compare($pearversion, $dep->min, '<')) {
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                 return $this->raiseError('%s requires PEAR Installer' . $extra .
                     ', installed version is ' . $pearversion);
@@ -488,8 +473,8 @@ class PEAR2_Pyrus_Dependency_Validator
                     ', installed version is ' . $pearversion);
             }
         }
-        if (isset($dep['max'])) {
-            if (version_compare($pearversion, $dep['max'], '>')) {
+        if (isset($dep->max)) {
+            if (version_compare($pearversion, $dep->max, '>')) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError('%s requires PEAR Installer' . $extra .
                         ', installed version is ' . $pearversion);
@@ -499,11 +484,8 @@ class PEAR2_Pyrus_Dependency_Validator
                 }
             }
         }
-        if (isset($dep['exclude'])) {
-            if (!isset($dep['exclude'][0])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-            foreach ($dep['exclude'] as $exclude) {
+        if (isset($dep->exclude)) {
+            foreach ($dep->exclude as $exclude) {
                 if (version_compare($exclude, $pearversion, '==')) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s is not compatible with PEAR Installer ' .
@@ -518,7 +500,7 @@ class PEAR2_Pyrus_Dependency_Validator
         return true;
     }
 
-    function validateSubpackageDependency($dep, $required, $params)
+    function validateSubpackageDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $dep, $required, $params)
     {
         return $this->validatePackageDependency($dep, $required, $params);
     }
@@ -528,17 +510,19 @@ class PEAR2_Pyrus_Dependency_Validator
      * @param boolean whether this is a required dependency
      * @param array a list of downloaded packages to be installed, if any
      */
-    function validatePackageDependency($dep, $required, $params)
+    function validatePackageDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $dep, $required, $params)
     {
         if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
               $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
-        if (isset($dep['providesextension'])) {
-            if ($this->extension_loaded($dep['providesextension'])) {
-                $save = $dep;
-                $subdep = $dep;
-                $subdep['name'] = $subdep['providesextension'];
+        if (isset($dep->providesextension)) {
+            if ($this->extension_loaded($dep->providesextension)) {
+                $req = $required ? 'required' : 'optional';
+                $info = $dep->getInfo();
+                $info['name'] = $info['providesextension'];
+                $subdep = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package(
+                    $req, 'extension', null, $info, 0);
                 $ret = $this->validateExtensionDependency($subdep, $required);
                 if ($ret === true) {
                     return true;
@@ -553,23 +537,20 @@ class PEAR2_Pyrus_Dependency_Validator
         }
     }
 
-    function _validatePackageDownload($dep, $required, $params)
+    function _validatePackageDownload(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package$dep, $required, $params)
     {
-        $dep['package'] = $dep['name'];
-        if (isset($dep['uri'])) {
-            $dep['channel'] = '__uri';
-        }
-        $depname = PEAR2_Pyrus_Config::parsedPackageNameToString($dep, true);
+        $depname = PEAR2_Pyrus_Config::parsedPackageNameToString(array('package' => $dep->name,
+                                                                       'channel' => $dep->channel), true);
         $found = false;
         foreach ($params as $param) {
-            if ($param->name == $dep['name'] && $param->channel == $dep['channel']) {
+            if ($param->name == $dep->name && $param->channel == $dep->channel) {
                 $found = true;
                 break;
             }
         }
-        if (!$found && isset($dep['providesextension'])) {
+        if (!$found && isset($dep->providesextension)) {
             foreach ($params as $param) {
-                if ($param->isExtension($dep['providesextension'])) {
+                if ($param->isExtension($dep->providesextension)) {
                     $found = true;
                     break;
                 }
@@ -580,11 +561,11 @@ class PEAR2_Pyrus_Dependency_Validator
             $installed = false;
             $downloaded = true;
         } else {
-            if (PEAR2_Pyrus_Config::current()->registry->exists($dep['name'], $dep['channel'])) {
+            if (PEAR2_Pyrus_Config::current()->registry->exists($dep->name, $dep->channel)) {
                 $installed = true;
                 $downloaded = false;
-                $version = PEAR2_Pyrus_Config::current()->registry->info($dep['name'],
-                    $dep['channel'], 'version');
+                $version = PEAR2_Pyrus_Config::current()->registry->info($dep->name,
+                    $dep->channel, 'version');
             } else {
                 $version = 'not installed or downloaded';
                 $installed = false;
@@ -592,16 +573,11 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         $extra = $this->_getExtraString($dep);
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
-            }
-        }
-        if (!isset($dep['min']) && !isset($dep['max']) &&
-              !isset($dep['recommended']) && !isset($dep['exclude'])) {
+        if (!isset($dep->min) && !isset($dep->max) &&
+              !isset($dep->recommended) && !isset($dep->exclude)) {
             if ($installed || $downloaded) {
                 $installed = $installed ? 'installed' : 'downloaded';
-                if (isset($dep['conflicts'])) {
+                if ($dep->conflicts) {
                     if ($version) {
                         $rest = ", $installed version is " . $version;
                     } else {
@@ -617,7 +593,7 @@ class PEAR2_Pyrus_Dependency_Validator
                 }
                 return true;
             } else {
-                if (isset($dep['conflicts'])) {
+                if ($dep->conflicts) {
                     return true;
                 }
                 if ($required) {
@@ -635,7 +611,7 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         if (!$installed && !$downloaded) {
-            if (isset($dep['conflicts'])) {
+            if ($dep->conflicts) {
                 return true;
             }
             if ($required) {
@@ -652,20 +628,20 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         $fail = false;
-        if (isset($dep['min'])) {
-            if (version_compare($version, $dep['min'], '<')) {
+        if (isset($dep->min)) {
+            if (version_compare($version, $dep->min, '<')) {
                 $fail = true;
             }
         }
-        if (isset($dep['max'])) {
-            if (version_compare($version, $dep['max'], '>')) {
+        if (isset($dep->max)) {
+            if (version_compare($version, $dep->max, '>')) {
                 $fail = true;
             }
         }
-        if ($fail && !isset($dep['conflicts'])) {
+        if ($fail && !$dep->conflicts) {
             $installed = $installed ? 'installed' : 'downloaded';
-            $dep['package'] = $dep['name'];
-            $dep = PEAR2_Pyrus_Config::parsedPackageNameToString($dep, true);
+            $dep = PEAR2_Pyrus_Config::parsedPackageNameToString(array('package' => $dep->name,
+                                                                       'channel' => $dep->channel), true);
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                 return $this->raiseError('%s requires package "' . $depname . '"' .
                     $extra . ", $installed version is " . $version);
@@ -673,8 +649,8 @@ class PEAR2_Pyrus_Dependency_Validator
                 return $this->warning('warning: %s requires package "' . $depname . '"' .
                     $extra . ", $installed version is " . $version);
             }
-        } elseif ((isset($dep['min']) || isset($dep['max'])) && !$fail &&
-              isset($dep['conflicts']) && !isset($dep['exclude'])) {
+        } elseif ((isset($dep->min) || isset($dep->max)) && !$fail &&
+              $dep->conflicts && !isset($dep->exclude)) {
             $installed = $installed ? 'installed' : 'downloaded';
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                 return $this->raiseError('%s conflicts with package "' . $depname . '"' . $extra .
@@ -684,10 +660,10 @@ class PEAR2_Pyrus_Dependency_Validator
                     $extra . ", $installed version is " . $version);
             }
         }
-        if (isset($dep['exclude'])) {
+        if (isset($dep->exclude)) {
             $installed = $installed ? 'installed' : 'downloaded';
-            foreach ($dep['exclude'] as $exclude) {
-                if (version_compare($version, $exclude, '==') && !isset($dep['conflicts'])) {
+            foreach ($dep->exclude as $exclude) {
+                if (version_compare($version, $exclude, '==') && !$dep->conflicts) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                           !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s is not compatible with ' .
@@ -700,7 +676,7 @@ class PEAR2_Pyrus_Dependency_Validator
                             $depname . '" version ' .
                             $exclude);
                     }
-                } elseif (version_compare($version, $exclude, '!=') && isset($dep['conflicts'])) {
+                } elseif (version_compare($version, $exclude, '!=') && $dep->conflicts) {
                     $installed = $installed ? 'installed' : 'downloaded';
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s conflicts with package "' . $depname . '"' .
@@ -712,13 +688,13 @@ class PEAR2_Pyrus_Dependency_Validator
                 }
             }
         }
-        if (isset($dep['recommended'])) {
+        if (isset($dep->recommended)) {
             $installed = $installed ? 'installed' : 'downloaded';
-            if (version_compare($version, $dep['recommended'], '==')) {
+            if (version_compare($version, $dep->recommended, '==')) {
                 return true;
             } else {
                 if (!$found && $installed) {
-                    $param = PEAR2_Pyrus_Config::current()->registry->package[$dep['channel'] . '/' . $dep['name']];
+                    $param = PEAR2_Pyrus_Config::current()->registry->package[$dep->channel . '/' . $dep->name];
                 }
                 if ($param) {
                     $found = false;
@@ -748,12 +724,12 @@ class PEAR2_Pyrus_Dependency_Validator
                       !isset(PEAR2_Pyrus_Installer::$options['loose'])) {
                     return $this->raiseError('%s dependency package "' . $depname .
                         '" ' . $installed . ' version ' . $version .
-                        ' is not the recommended version ' . $dep['recommended'] .
+                        ' is not the recommended version ' . $dep->recommended .
                         ', but may be compatible, use --force to install');
                 } else {
                     return $this->warning('warning: %s dependency package "' . $depname .
                         '" ' . $installed . ' version ' . $version .
-                        ' is not the recommended version ' . $dep['recommended']);
+                        ' is not the recommended version ' . $dep->recommended);
                 }
             }
         }
@@ -767,19 +743,19 @@ class PEAR2_Pyrus_Dependency_Validator
 
     function validatePackageUninstall($dep, $required, $param, $params)
     {
-        $dep['package'] = $dep['name'];
-        $depname = PEAR2_Pyrus_Config::parsedPackageNameToString($dep, true);
+        $depname = PEAR2_Pyrus_Config::parsedPackageNameToString(array('package' => $dep->name,
+                                                                       'channel' => $dep->channel), true);
         $version = $package->version;
         $extra = $this->_getExtraString($dep);
-        if (isset($dep['exclude'])) {
-            if (!is_array($dep['exclude'])) {
-                $dep['exclude'] = array($dep['exclude']);
+        if (isset($dep->exclude)) {
+            if (!is_array($dep->exclude)) {
+                $dep->exclude = array($dep->exclude);
             }
         }
-        if (isset($dep['conflicts'])) {
+        if ($dep->conflicts) {
             return true; // uninstall OK - these packages conflict (probably installed with --force)
         }
-        if (!isset($dep['min']) && !isset($dep['max'])) {
+        if (!isset($dep->min) && !isset($dep->max)) {
             if ($required) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError('"' . $depname . '" is required by ' .
@@ -794,13 +770,13 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         $fail = false;
-        if (isset($dep['min'])) {
-            if (version_compare($version, $dep['min'], '>=')) {
+        if (isset($dep->min)) {
+            if (version_compare($version, $dep->min, '>=')) {
                 $fail = true;
             }
         }
-        if (isset($dep['max'])) {
-            if (version_compare($version, $dep['max'], '<=')) {
+        if (isset($dep->max)) {
+            if (version_compare($version, $dep->max, '<=')) {
                 $fail = true;
             }
         }
@@ -834,13 +810,9 @@ class PEAR2_Pyrus_Dependency_Validator
      * @param array $params full list of packages to install
      * @return true|PEAR_Error
      */
-    function validatePackage($pkg, &$dl, $params = array())
+    function validatePackage($pkg, $dl, $params = array())
     {
-        if (is_array($pkg) && isset($pkg['info'])) {
-            $deps = PEAR2_Pyrus_Config::current()->registry->getDependentPackageDependencies($pkg['info']);
-        } else {
-            $deps = PEAR2_Pyrus_Config::current()->registry->getDependentPackageDependencies($pkg);
-        }
+        $deps = PEAR2_Pyrus_Config::current()->registry->getDependentPackageDependencies($pkg);
         $fail = false;
         if ($deps) {
             $dp = new PEAR_Downloader_Package($dl);

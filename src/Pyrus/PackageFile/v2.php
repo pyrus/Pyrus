@@ -766,13 +766,13 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $dep->validatePearinstallerDependency($this->dependencies['required']->pearinstaller);
         foreach (array('required', 'optional') as $required) {
             foreach ($this->dependencies[$required]->package as $d) {
-                $dep->validatePackageDependency($d->getInfo(), $required == 'required', $toInstall);
+                $dep->validatePackageDependency($d, $required == 'required', $toInstall);
             }
             foreach ($this->dependencies[$required]->subpackage as $d) {
-                $dep->validateSubpackageDependency($d->getInfo(), $required == 'required', $toInstall);
+                $dep->validateSubpackageDependency($d, $required == 'required', $toInstall);
             }
             foreach ($this->dependencies[$required]->extension as $d) {
-                $dep->validateExtensionDependency($d->getInfo(), $required == 'required');
+                $dep->validateExtensionDependency($d, $required == 'required');
             }
         }
         foreach ($this->dependencies['required']->arch as $d) {
