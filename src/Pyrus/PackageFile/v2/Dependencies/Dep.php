@@ -82,6 +82,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
         return $this->info[$var];
     }
 
+    function __isset($var)
+    {
+        return isset($this->info[$var]);
+    }
+
     function locateDep($name)
     {
         if (count($this->info) && !isset($this->info[0])) {
