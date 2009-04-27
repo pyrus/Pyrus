@@ -127,17 +127,12 @@ class PEAR2_Pyrus_Dependency_Validator
               $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
-        if ($dep->conflicts) {
-            $not = true;
-        } else {
-            $not = false;
-        }
         if ($dep->name == '*') {
-            return true;
+            return !$dep->conflicts;
         }
         switch (strtolower($dep->name)) {
             case 'windows' :
-                if ($not) {
+                if ($dep->conflicts) {
                     if (strtolower(substr($this->getPHP_OS(), 0, 3)) == 'win') {
                         if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                               !isset(PEAR2_Pyrus_Installer::$options['force'])) {
@@ -159,7 +154,7 @@ class PEAR2_Pyrus_Dependency_Validator
             break;
             case 'unix' :
                 $unices = array('linux', 'freebsd', 'darwin', 'sunos', 'irix', 'hpux', 'aix');
-                if ($not) {
+                if ($dep->conflicts) {
                     if (in_array(strtolower($this->getSysname()), $unices)) {
                         if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                               !isset(PEAR2_Pyrus_Installer::$options['force'])) {
@@ -182,7 +177,7 @@ class PEAR2_Pyrus_Dependency_Validator
                 }
             break;
             default :
-                if ($not) {
+                if ($dep->conflicts) {
                     if (strtolower($dep->name) == strtolower($this->getSysname())) {
                         if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                               !isset(PEAR2_Pyrus_Installer::$options['force'])) {
@@ -232,33 +227,27 @@ class PEAR2_Pyrus_Dependency_Validator
         if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING) {
             return true;
         }
-        if (isset($dep['conflicts'])) {
-            $not = true;
-        } else {
-            $not = false;
-        }
-        if (!$this->matchSignature($dep['pattern'])) {
-            if (!$not) {
-                if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
-                    return $this->raiseError('%s Architecture dependency failed, does not ' .
-                        'match "' . $dep['pattern'] . '"');
-                } else {
-                    return $this->warning('warning: %s Architecture dependency failed, does ' .
-                        'not match "' . $dep['pattern'] . '"');
-                }
-            }
-            return true;
-        } else {
-            if ($not) {
+        if ($this->matchSignature($dep->pattern)) {
+            if ($dep->conflicts) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError('%s Architecture dependency failed, required "' .
-                        $dep['pattern'] . '"');
-                } else {
-                    return $this->warning('warning: %s Architecture dependency failed, ' .
-                        'required "' . $dep['pattern'] . '"');
+                        $dep->pattern . '"');
                 }
+                return $this->warning('warning: %s Architecture dependency failed, ' .
+                    'required "' . $dep->pattern . '"');
             }
             return true;
+        } else {
+            if ($dep->conflicts) {
+                return true;
+            }
+            if (!isset(PEAR2_Pyrus_Installer::$options['nodeps'])
+                && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
+                return $this->raiseError('%s Architecture dependency failed, does not ' .
+                    'match "' . $dep->pattern . '"');
+            }
+            return $this->warning('warning: %s Architecture dependency failed, does ' .
+                'not match "' . $dep->pattern . '"');
         }
     }
 
