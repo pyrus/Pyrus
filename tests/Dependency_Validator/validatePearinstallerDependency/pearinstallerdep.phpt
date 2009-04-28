@@ -9,7 +9,6 @@ $pear = $fake->dependencies['required']->pearinstaller;
 $pear->min('5.3.0')->max('5.4.0')->exclude('5.3.1');
 $validator->pearversion = '5.3.0';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.3.0');
-echo $errs->E_ERROR[0];
 
 $validator->pearversion = '5.4.0';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.4.0');
