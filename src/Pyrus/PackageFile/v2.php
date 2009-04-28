@@ -772,7 +772,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                 $dep->validateSubpackageDependency($d, $required == 'required', $toInstall);
             }
             foreach ($this->dependencies[$required]->extension as $d) {
-                $dep->validateExtensionDependency($d, $required == 'required');
+                $dep->validateExtensionDependency($d);
             }
         }
         foreach ($this->dependencies['required']->arch as $d) {

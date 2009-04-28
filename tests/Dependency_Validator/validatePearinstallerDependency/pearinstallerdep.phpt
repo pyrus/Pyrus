@@ -15,7 +15,8 @@ $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5
 
 $validator->pearversion = '5.2.9';
 $test->assertEquals(false, $validator->validatePearinstallerDependency($pear), '5.2.9 fail');
-$test->assertEquals(1, count($errs), '5.2.9 fail count');
+$test->assertEquals(1, count($errs->E_ERROR), '5.2.9 fail count');
+$test->assertEquals(1, count($errs), '5.2.9 fail count 2');
 foreach ($errs->E_ERROR as $error) {
     $test->assertEquals('pear2.php.net/test requires PEAR Installer ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
@@ -29,7 +30,8 @@ $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.4.1';
 $test->assertEquals(false, $validator->validatePearinstallerDependency($pear), '5.4.1 fail');
-$test->assertEquals(1, count($errs), '5.4.1 fail count');
+$test->assertEquals(1, count($errs->E_ERROR), '5.4.1 fail count');
+$test->assertEquals(1, count($errs), '5.4.1 fail count 2');
 foreach ($errs->E_ERROR as $error) {
     $test->assertEquals('pear2.php.net/test requires PEAR Installer ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
@@ -43,7 +45,8 @@ $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.3.1';
 $test->assertEquals(false, $validator->validatePearinstallerDependency($pear), '5.3.1 fail');
-$test->assertEquals(1, count($errs), '5.3.1 fail count');
+$test->assertEquals(1, count($errs->E_ERROR), '5.3.1 fail count');
+$test->assertEquals(1, count($errs), '5.3.1 fail count 2');
 foreach ($errs->E_ERROR as $error) {
     $test->assertEquals('pear2.php.net/test is not compatible with PEAR Installer version 5.3.1', $error->getMessage(),
                         '5.3.1 fail message');
@@ -56,7 +59,8 @@ $errs = new PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->pearversion = '5.2.9';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.2.9 fail');
-$test->assertEquals(1, count($errs), '5.2.9 fail count');
+$test->assertEquals(1, count($errs->E_WARNING), '5.2.9 fail count');
+$test->assertEquals(1, count($errs), '5.2.9 fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: pear2.php.net/test requires PEAR Installer ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
@@ -70,7 +74,8 @@ $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.4.1';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.4.1 fail');
-$test->assertEquals(1, count($errs), '5.4.1 fail count');
+$test->assertEquals(1, count($errs->E_WARNING), '5.4.1 fail count');
+$test->assertEquals(1, count($errs), '5.4.1 fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: pear2.php.net/test requires PEAR Installer ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
@@ -84,7 +89,8 @@ $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.3.1';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.3.1 fail');
-$test->assertEquals(1, count($errs), '5.3.1 fail count');
+$test->assertEquals(1, count($errs->E_WARNING), '5.3.1 fail count');
+$test->assertEquals(1, count($errs), '5.3.1 fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: pear2.php.net/test is not compatible with PEAR Installer version 5.3.1', $error->getMessage(),
                         '5.3.1 fail message');

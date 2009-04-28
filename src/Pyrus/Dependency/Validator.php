@@ -60,7 +60,7 @@ class PEAR2_Pyrus_Dependency_Validator
     function _getExtraString($dep)
     {
         $extra = ' (';
-        if (isset($dep->uri)) {
+        if ($dep->type != 'extension' && isset($dep->uri)) {
             return '';
         }
         if (isset($dep->recommended)) {
@@ -271,12 +271,13 @@ class PEAR2_Pyrus_Dependency_Validator
         }
     }
 
-    function validateExtensionDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $dep, $required = true)
+    function validateExtensionDependency(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $dep)
     {
         if ($this->_state != PEAR2_Pyrus_Validate::INSTALLING &&
               $this->_state != PEAR2_Pyrus_Validate::DOWNLOADING) {
             return true;
         }
+        $required = $dep->deptype == 'required';
         $loaded = $this->extension_loaded($dep->name);
         $extra = $this->_getExtraString($dep);
         if (!isset($dep->min) && !isset($dep->max) &&
@@ -359,9 +360,10 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         if (isset($dep->exclude)) {
+            $conflicts = $dep->conflicts;
             foreach ($dep->exclude as $exclude) {
                 if (version_compare($version, $exclude, '==')) {
-                    if ($dep->conflicts) {
+                    if ($conflicts) {
                         continue;
                     }
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
@@ -374,7 +376,7 @@ class PEAR2_Pyrus_Dependency_Validator
                             $dep->name . '" version ' .
                             $exclude);
                     }
-                } elseif (version_compare($version, $exclude, '!=') && $dep->conflicts) {
+                } elseif ($conflicts && version_compare($version, $exclude, '!=')) {
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s conflicts with PHP extension "' .
                             $dep->name . '"' . $extra . ', installed version is ' . $version);
@@ -523,7 +525,7 @@ class PEAR2_Pyrus_Dependency_Validator
                 $info['name'] = $info['providesextension'];
                 $subdep = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package(
                     $req, 'extension', null, $info, 0);
-                $ret = $this->validateExtensionDependency($subdep, $required);
+                $ret = $this->validateExtensionDependency($subdep);
                 if ($ret === true) {
                     return true;
                 }

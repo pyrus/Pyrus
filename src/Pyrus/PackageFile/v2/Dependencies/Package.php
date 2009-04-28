@@ -265,6 +265,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
         if ($var === 'deptype') {
             return $this->deptype;
         }
+        if ($var === 'type') {
+            return $this->type;
+        }
         if ($var === 'channel' && isset($this->info['uri'])) {
             return '__uri';
         }

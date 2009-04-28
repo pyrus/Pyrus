@@ -12,7 +12,8 @@ $test->assertEquals(true, $validator->validateArchDependency($arch), 'foobar pas
 
 $arch->conflicts = true;
 $test->assertEquals(false, $validator->validateArchDependency($arch), 'foobar conflicts fail');
-$test->assertEquals(1, count($errs), 'foobar conflicts fail count');
+$test->assertEquals(1, count($errs->E_ERROR), 'foobar conflicts fail count');
+$test->assertEquals(1, count($errs), 'foobar conflicts fail count 2');
 foreach ($errs->E_ERROR as $error) {
     $test->assertEquals('pear2.php.net/test Architecture dependency failed, cannot match ' .
                         '"foobar"', $error->getMessage(),
@@ -28,7 +29,8 @@ $test->assertEquals(true, $validator->validateArchDependency($arch), 'foobar pas
 
 $arch->conflicts = true;
 $test->assertEquals(true, $validator->validateArchDependency($arch), 'foobar conflicts fail force');
-$test->assertEquals(1, count($errs), 'foobar conflicts fail count');
+$test->assertEquals(1, count($errs->E_WARNING), 'foobar conflicts fail count');
+$test->assertEquals(1, count($errs), 'foobar conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: pear2.php.net/test Architecture dependency failed, does not ' .
                         'match "foobar"', $error->getMessage(),
@@ -45,7 +47,8 @@ $test->assertEquals(true, $validator->validateArchDependency($arch), 'barfoo con
 
 $arch->conflicts = false;
 $test->assertEquals(false, $validator->validateArchDependency($arch), 'barfoo fail');
-$test->assertEquals(1, count($errs), 'barfoo conflicts fail count');
+$test->assertEquals(1, count($errs->E_ERROR), 'barfoo conflicts fail count');
+$test->assertEquals(1, count($errs), 'barfoo conflicts fail count 2');
 foreach ($errs->E_ERROR as $error) {
     $test->assertEquals('pear2.php.net/test Architecture dependency failed, does not match ' .
                         '"barfoo"', $error->getMessage(),
@@ -62,7 +65,8 @@ $test->assertEquals(true, $validator->validateArchDependency($arch), 'barfoo con
 
 $validator->patterns['barfoo'] = true;
 $test->assertEquals(true, $validator->validateArchDependency($arch), 'barfoo fail nodeps');
-$test->assertEquals(1, count($errs), 'barfoo conflicts fail count');
+$test->assertEquals(1, count($errs->E_WARNING), 'barfoo conflicts fail count');
+$test->assertEquals(1, count($errs), 'barfoo conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: pear2.php.net/test Architecture dependency failed, cannot match ' .
                         '"barfoo"', $error->getMessage(),

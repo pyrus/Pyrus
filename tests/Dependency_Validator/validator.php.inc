@@ -50,6 +50,9 @@ class test_Validator extends PEAR2_Pyrus_Dependency_Validator
     function phpversion($name = null)
     {
         if ($name !== null) {
+            if (!isset($this->versions[$name])) {
+                return null;
+            }
             return $this->versions[$name];
         } else {
             return $this->phpversion;

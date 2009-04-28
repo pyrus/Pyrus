@@ -13,7 +13,8 @@ $test->assertEquals(true, $validator->validateOSDependency($os), 'unix pass');
 
 $os->conflicts = true;
 $test->assertEquals(true, $validator->validateOSDependency($os), 'unix conflicts fail');
-$test->assertEquals(1, count($errs), 'unix conflicts fail count');
+$test->assertEquals(1, count($errs->E_WARNING), 'unix conflicts fail count');
+$test->assertEquals(1, count($errs), 'unix conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: Cannot install pear2.php.net/test on any Unix system', $error->getMessage(),
                         'unix conflicts fail message');
@@ -29,7 +30,8 @@ $test->assertEquals(true, $validator->validateOSDependency($os), 'linux pass');
 
 $os->conflicts = true;
 $test->assertEquals(true, $validator->validateOSDependency($os), 'linux conflicts fail');
-$test->assertEquals(1, count($errs), 'linux conflicts fail count');
+$test->assertEquals(1, count($errs->E_WARNING), 'linux conflicts fail count');
+$test->assertEquals(1, count($errs), 'linux conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: Cannot install pear2.php.net/test on linux operating system', $error->getMessage(),
                         'linux conflicts fail message');
@@ -45,7 +47,8 @@ $test->assertEquals(true, $validator->validateOSDependency($os), 'unix conflicts
 
 $os->conflicts = null;
 $test->assertEquals(true, $validator->validateOSDependency($os), 'unix fail');
-$test->assertEquals(1, count($errs), 'unix fail count');
+$test->assertEquals(1, count($errs->E_WARNING), 'unix fail count');
+$test->assertEquals(1, count($errs), 'unix fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: Can only install pear2.php.net/test on a Unix system', $error->getMessage(),
                         'unix fail message');
@@ -61,7 +64,8 @@ $test->assertEquals(true, $validator->validateOSDependency($os), 'linux conflict
 
 $os->conflicts = null;
 $test->assertEquals(true, $validator->validateOSDependency($os), 'linux fail');
-$test->assertEquals(1, count($errs), 'linux fail count');
+$test->assertEquals(1, count($errs->E_WARNING), 'linux fail count');
+$test->assertEquals(1, count($errs), 'linux fail count 2');
 foreach ($errs->E_WARNING as $error) {
     $test->assertEquals('warning: Cannot install pear2.php.net/test on Windows XP operating system, can only install on linux', $error->getMessage(),
                         'linux fail message');
