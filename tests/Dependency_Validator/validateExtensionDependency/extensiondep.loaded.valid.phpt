@@ -26,6 +26,12 @@ $foo->exclude('1.2.0');
 
 $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo exclude');
 $test->assertEquals(0, count($errs), 'foo count exclude');
+
+$foo->exclude = null;
+$foo->exclude('1.0.0')->exclude('1.4.5')->conflicts(true);
+
+$test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo conflicts with exclude');
+$test->assertEquals(0, count($errs), 'foo count exclude');
 ?>
 ===DONE===
 --EXPECT--

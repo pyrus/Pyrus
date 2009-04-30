@@ -350,7 +350,8 @@ class PEAR2_Pyrus_Dependency_Validator
                 return $this->warning('warning: %s requires PHP extension "' . $dep->name .
                     '"' . $extra . ', installed version is ' . $version);
             }
-        } elseif ((isset($dep->min) || isset($dep->max)) && !$fail && $dep->conflicts) {
+        } elseif (!isset($dep->exclude) && (isset($dep->min) || isset($dep->max)) && !$fail && $dep->conflicts) {
+conflicting:
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                 return $this->raiseError('%s conflicts with PHP extension "' .
                     $dep->name . '"' . $extra . ', installed version is ' . $version);
@@ -360,11 +361,14 @@ class PEAR2_Pyrus_Dependency_Validator
             }
         }
         if (isset($dep->exclude)) {
+            // exclude ordinarily tells the installer "install anything but these versions"
+            // when paired with conflicts, it becomes "install only these versions"
             $conflicts = $dep->conflicts;
             foreach ($dep->exclude as $exclude) {
                 if (version_compare($version, $exclude, '==')) {
                     if ($conflicts) {
-                        continue;
+                        $fail = false;
+                        break;
                     }
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) &&
                           !isset(PEAR2_Pyrus_Installer::$options['force'])) {
@@ -376,16 +380,16 @@ class PEAR2_Pyrus_Dependency_Validator
                             $dep->name . '" version ' .
                             $exclude);
                     }
-                } elseif ($conflicts && version_compare($version, $exclude, '!=')) {
-                    if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
-                        return $this->raiseError('%s conflicts with PHP extension "' .
-                            $dep->name . '"' . $extra . ', installed version is ' . $version);
-                    } else {
-                        return $this->warning('warning: %s conflicts with PHP extension "' .
-                            $dep->name . '"' . $extra . ', installed version is ' . $version);
+                } else {
+                    if ($conflicts) {
+                        $fail = true;
                     }
                 }
             }
+        }
+        if ($fail) {
+            // conflicting is 40 lines earlier, and is error handling
+            goto conflicting;
         }
         if (isset($dep->recommended)) {
             if (version_compare($version, $dep->recommended, '==')) {

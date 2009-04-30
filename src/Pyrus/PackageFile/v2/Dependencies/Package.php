@@ -358,7 +358,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Package implements ArrayAccess, It
             return $this;
         }
         if (!count($args) || $args[0] === null) {
-            unset($this->info[$var]);
+            $this->info[$var] = null;
             $this->save();
             return $this;
         }
