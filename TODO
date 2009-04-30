@@ -18,3 +18,5 @@ Greg talks about up to 5 second delay on having it like this on a single package
 
 Sync OSGuess from pear to pyrus
 Rewrite it ?
+
+Add true command line argument parsing for the script frontend
