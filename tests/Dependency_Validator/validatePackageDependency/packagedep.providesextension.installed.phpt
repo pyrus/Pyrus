@@ -44,5 +44,10 @@ $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 
 $test->assertEquals(0, count($errs), 'foo count exclude');
 ?>
 ===DONE===
+--CLEAN--
+<?php
+$dir = dirname(__DIR__) . '/testit';
+include __DIR__ . '/../../clean.php.inc';
+?>
 --EXPECT--
 ===DONE===
