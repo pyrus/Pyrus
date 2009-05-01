@@ -671,6 +671,9 @@ conflict_error:
             }
         }
         if ($fail) {
+            if ($dep->conflicts) {
+                return true;
+            }
 conflict_error:
             $installed = $installed ? 'installed' : 'downloaded';
             if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
