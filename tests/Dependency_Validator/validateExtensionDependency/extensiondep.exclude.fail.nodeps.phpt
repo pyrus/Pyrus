@@ -14,7 +14,7 @@ $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'basic 
 $test->assertEquals(1, count($errs->E_WARNING), 'basic fail count');
 $test->assertEquals(1, count($errs), 'basic fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test is not compatible with version 2.0.0 of PHP extension "foo", installed version is 2.0.0', $error->getMessage(),
+    $test->assertEquals('warning: channel://pear2.php.net/test is not compatible with version 2.0.0 of PHP extension "foo", installed version is 2.0.0', $error->getMessage(),
                         'basic fail message');
 }
 
@@ -30,7 +30,7 @@ $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'confli
 $test->assertEquals(1, count($errs->E_WARNING), 'conflicts fail count');
 $test->assertEquals(1, count($errs), 'conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test is not compatible with version 2.0.1 of PHP extension "foo", installed version is 2.0.1', $error->getMessage(),
+    $test->assertEquals('warning: channel://pear2.php.net/test is not compatible with version 2.0.1 of PHP extension "foo", installed version is 2.0.1', $error->getMessage(),
                         'conflicts fail message');
 }
 ?>

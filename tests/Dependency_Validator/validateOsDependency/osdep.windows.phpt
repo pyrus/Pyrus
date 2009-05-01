@@ -14,7 +14,7 @@ $test->assertEquals(false, $validator->validateOSDependency($os), 'windows confl
 $test->assertEquals(1, count($errs->E_ERROR), 'windows conflicts fail count');
 $test->assertEquals(1, count($errs), 'windows conflicts fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('Cannot install pear2.php.net/test on Windows', $error->getMessage(),
+    $test->assertEquals('Cannot install channel://pear2.php.net/test on Windows', $error->getMessage(),
                         'windows conflicts fail message');
 }
 
@@ -29,7 +29,7 @@ $test->assertEquals(false, $validator->validateOSDependency($os), 'windows fail'
 $test->assertEquals(1, count($errs->E_ERROR), 'windows fail count');
 $test->assertEquals(1, count($errs), 'windows fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('Can only install pear2.php.net/test on Windows', $error->getMessage(),
+    $test->assertEquals('Can only install channel://pear2.php.net/test on Windows', $error->getMessage(),
                         'windows fail message');
 }
 ?>

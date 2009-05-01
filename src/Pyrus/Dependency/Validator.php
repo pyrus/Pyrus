@@ -715,10 +715,12 @@ conflict_error:
                             return true;
                         }
                     } else { // this is for validPackage() calls
-                        $parent = PEAR2_Pyrus_Config::current()->registry->package[
-                            $this->_currentPackage['channel'] . '/' .
-                            $this->_currentPackage['package']];
-                        if ($parent !== null) {
+                        if (isset(PEAR2_Pyrus_Config::current()->registry->package[
+                                $this->_currentPackage['channel'] . '/' .
+                                $this->_currentPackage['package']])) {
+                            $parent = PEAR2_Pyrus_Config::current()->registry->package[
+                                $this->_currentPackage['channel'] . '/' .
+                                $this->_currentPackage['package']];
                             if ($param->isCompatible($parent)) {
                                 return true;
                             }

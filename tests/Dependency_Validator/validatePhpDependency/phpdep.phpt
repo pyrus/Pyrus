@@ -17,7 +17,7 @@ $test->assertEquals(false, $validator->validatePhpDependency($php), '5.2.9 fail'
 $test->assertEquals(1, count($errs->E_ERROR), '5.2.9 fail count');
 $test->assertEquals(1, count($errs), '5.2.9 fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test requires PHP ' .
+    $test->assertEquals('channel://pear2.php.net/test requires PHP ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
                         ', installed version is 5.2.9', $error->getMessage(),
                         '5.2.9 fail message');
@@ -32,7 +32,7 @@ $test->assertEquals(false, $validator->validatePhpDependency($php), '5.4.1 fail'
 $test->assertEquals(1, count($errs->E_ERROR), '5.4.1 fail count');
 $test->assertEquals(1, count($errs), '5.4.1 fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test requires PHP ' .
+    $test->assertEquals('channel://pear2.php.net/test requires PHP ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
                         ', installed version is 5.4.1', $error->getMessage(),
                         '5.4.1 fail message');
@@ -47,7 +47,7 @@ $test->assertEquals(false, $validator->validatePhpDependency($php), '5.3.1 fail'
 $test->assertEquals(1, count($errs->E_ERROR), '5.3.1 fail count');
 $test->assertEquals(1, count($errs), '5.3.1 fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test is not compatible with PHP version 5.3.1', $error->getMessage(),
+    $test->assertEquals('channel://pear2.php.net/test is not compatible with PHP version 5.3.1', $error->getMessage(),
                         '5.3.1 fail message');
 }
 
@@ -61,7 +61,7 @@ $test->assertEquals(true, $validator->validatePhpDependency($php), '5.2.9 fail')
 $test->assertEquals(1, count($errs->E_WARNING), '5.2.9 fail count');
 $test->assertEquals(1, count($errs), '5.2.9 fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test requires PHP ' .
+    $test->assertEquals('warning: channel://pear2.php.net/test requires PHP ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
                         ', installed version is 5.2.9', $error->getMessage(),
                         '5.2.9 fail message');
@@ -76,7 +76,7 @@ $test->assertEquals(true, $validator->validatePhpDependency($php), '5.4.1 fail')
 $test->assertEquals(1, count($errs->E_WARNING), '5.4.1 fail count');
 $test->assertEquals(1, count($errs), '5.4.1 fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test requires PHP ' .
+    $test->assertEquals('warning: channel://pear2.php.net/test requires PHP ' .
                         '(version >= 5.3.0, version <= 5.4.0, excluded versions: 5.3.1)' .
                         ', installed version is 5.4.1', $error->getMessage(),
                         '5.4.1 fail message');
@@ -91,7 +91,7 @@ $test->assertEquals(true, $validator->validatePhpDependency($php), '5.3.1 fail')
 $test->assertEquals(1, count($errs->E_WARNING), '5.3.1 fail count');
 $test->assertEquals(1, count($errs), '5.3.1 fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test is not compatible with PHP version 5.3.1', $error->getMessage(),
+    $test->assertEquals('warning: channel://pear2.php.net/test is not compatible with PHP version 5.3.1', $error->getMessage(),
                         '5.3.1 fail message');
 }
 

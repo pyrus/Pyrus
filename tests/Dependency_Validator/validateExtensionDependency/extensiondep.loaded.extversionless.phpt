@@ -12,7 +12,7 @@ $test->assertEquals(false, $validator->validateExtensionDependency($foo), 'foo f
 $test->assertEquals(1, count($errs->E_ERROR), 'foo fail count');
 $test->assertEquals(1, count($errs), 'foo fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test requires PHP extension "foo" (version >= 1.0), installed version is 0', $error->getMessage(),
+    $test->assertEquals('channel://pear2.php.net/test requires PHP extension "foo" (version >= 1.0), installed version is 0', $error->getMessage(),
                         'foo fail message');
 }
 ?>

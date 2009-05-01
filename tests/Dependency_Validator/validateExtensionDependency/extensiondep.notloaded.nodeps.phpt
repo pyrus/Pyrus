@@ -14,7 +14,7 @@ $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo fa
 $test->assertEquals(1, count($errs->E_WARNING), 'foo fail count');
 $test->assertEquals(1, count($errs), 'foo fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test requires PHP extension "foo" (version >= 1.0)', $error->getMessage(),
+    $test->assertEquals('warning: channel://pear2.php.net/test requires PHP extension "foo" (version >= 1.0)', $error->getMessage(),
                         'foo fail message');
 }
 
@@ -27,7 +27,7 @@ $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo op
 $test->assertEquals(1, count($errs->E_WARNING), 'foo optional fail count');
 $test->assertEquals(1, count($errs), 'foo optional fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('pear2.php.net/test can optionally use PHP extension "foo" (version >= 1.0)', $error->getMessage(),
+    $test->assertEquals('channel://pear2.php.net/test can optionally use PHP extension "foo" (version >= 1.0)', $error->getMessage(),
                         'foo optional fail message');
 }
 ?>

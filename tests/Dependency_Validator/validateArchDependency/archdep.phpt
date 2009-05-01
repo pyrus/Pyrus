@@ -15,7 +15,7 @@ $test->assertEquals(false, $validator->validateArchDependency($arch), 'foobar co
 $test->assertEquals(1, count($errs->E_ERROR), 'foobar conflicts fail count');
 $test->assertEquals(1, count($errs), 'foobar conflicts fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test Architecture dependency failed, cannot match ' .
+    $test->assertEquals('channel://pear2.php.net/test Architecture dependency failed, cannot match ' .
                         '"foobar"', $error->getMessage(),
                         'foobar conflicts fail message');
 }
@@ -32,7 +32,7 @@ $test->assertEquals(true, $validator->validateArchDependency($arch), 'foobar con
 $test->assertEquals(1, count($errs->E_WARNING), 'foobar conflicts fail count');
 $test->assertEquals(1, count($errs), 'foobar conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test Architecture dependency failed, does not ' .
+    $test->assertEquals('warning: channel://pear2.php.net/test Architecture dependency failed, does not ' .
                         'match "foobar"', $error->getMessage(),
                         'foobar conflicts fail message force');
 }
@@ -50,7 +50,7 @@ $test->assertEquals(false, $validator->validateArchDependency($arch), 'barfoo fa
 $test->assertEquals(1, count($errs->E_ERROR), 'barfoo conflicts fail count');
 $test->assertEquals(1, count($errs), 'barfoo conflicts fail count 2');
 foreach ($errs->E_ERROR as $error) {
-    $test->assertEquals('pear2.php.net/test Architecture dependency failed, does not match ' .
+    $test->assertEquals('channel://pear2.php.net/test Architecture dependency failed, does not match ' .
                         '"barfoo"', $error->getMessage(),
                         'barfoo fail message');
 }
@@ -68,7 +68,7 @@ $test->assertEquals(true, $validator->validateArchDependency($arch), 'barfoo fai
 $test->assertEquals(1, count($errs->E_WARNING), 'barfoo conflicts fail count');
 $test->assertEquals(1, count($errs), 'barfoo conflicts fail count 2');
 foreach ($errs->E_WARNING as $error) {
-    $test->assertEquals('warning: pear2.php.net/test Architecture dependency failed, cannot match ' .
+    $test->assertEquals('warning: channel://pear2.php.net/test Architecture dependency failed, cannot match ' .
                         '"barfoo"', $error->getMessage(),
                         'barfoo fail message nodeps');
 }

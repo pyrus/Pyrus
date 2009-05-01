@@ -12,7 +12,7 @@ if (!isset($state)) {
     $state = 'INSTALLING';
 }
 if (!isset($package)) {
-    $package = 'pear2.php.net/test';
+    $package = array('channel' => 'pear2.php.net', 'package' => 'test');
 }
 switch ($state) {
     case 'INSTALLING' :
