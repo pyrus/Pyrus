@@ -574,11 +574,7 @@ conflict_error:
             if ($installed || $downloaded) {
                 $installed = $installed ? 'installed' : 'downloaded';
                 if ($dep->conflicts) {
-                    if ($version) {
-                        $rest = ", $installed version is " . $version;
-                    } else {
-                        $rest = '';
-                    }
+                    $rest = ", $installed version is " . $version;
                     if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                         return $this->raiseError('%s conflicts with package "' . $depname . '"' .
                             $extra . $rest);
