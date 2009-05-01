@@ -18,28 +18,29 @@ $fake->description = 'hi';
 $fake->type = 'extsrc';
 PEAR2_Pyrus_Config::current()->registry->install($fake);
 
-$test->assertEquals(true, $validator->validatePackageDependency($foo, array($fake)), 'foo max');
+$test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo max');
 $test->assertEquals(0, count($errs), 'foo count max');
 
 $fake->version['release'] = '1.0.0';
+PEAR2_Pyrus_Config::current()->registry->replace($fake);
 
-$test->assertEquals(true, $validator->validatePackageDependency($foo, array($fake)), 'foo min');
+$test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo min');
 $test->assertEquals(0, count($errs), 'foo count min');
 
 $foo->recommended('1.0.0');
 
-$test->assertEquals(true, $validator->validatePackageDependency($foo, array($fake)), 'foo recommended');
+$test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo recommended');
 $test->assertEquals(0, count($errs), 'foo count recommended');
 
 $foo->exclude('1.2.0');
 
-$test->assertEquals(true, $validator->validatePackageDependency($foo, array($fake)), 'foo exclude');
+$test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo exclude');
 $test->assertEquals(0, count($errs), 'foo count exclude');
 
 $foo->exclude = null;
 $foo->exclude('1.0.0')->exclude('1.4.5')->conflicts(true);
 
-$test->assertEquals(true, $validator->validatePackageDependency($foo, array($fake)), 'foo conflicts with exclude');
+$test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo conflicts with exclude');
 $test->assertEquals(0, count($errs), 'foo count exclude');
 ?>
 ===DONE===
