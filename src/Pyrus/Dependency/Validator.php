@@ -552,14 +552,6 @@ conflict_error:
                 break;
             }
         }
-        if (!$found && isset($dep->providesextension)) {
-            foreach ($params as $param) {
-                if ($param->isExtension($dep->providesextension)) {
-                    $found = true;
-                    break;
-                }
-            }
-        }
         if ($found) {
             $version = $param->version['release'];
             $installed = false;
