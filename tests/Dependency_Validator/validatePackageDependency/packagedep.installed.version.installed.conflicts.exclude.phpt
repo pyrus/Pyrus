@@ -1,5 +1,5 @@
 --TEST--
-Dependency_Validator: package dependency, conflicts, installed max pass
+Dependency_Validator: package dependency, conflicts, installed exclude pass
 --FILE--
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
