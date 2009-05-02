@@ -141,6 +141,39 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         }
 
         $query = '
+          CREATE TABLE compatible_releases (
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           compat_package TEXT(80) NOT NULL,
+           compat_channel TEXT(255) NOT NULL,
+           min TEXT(20) NOT NULL,
+           max TEXT(20) NOT NULL,
+           PRIMARY KEY (packages_name, packages_channel, compat_package, compat_channel)
+          );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
+          CREATE TABLE compatible_releases_exclude (
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           compat_package TEXT(80) NOT NULL,
+           compat_channel TEXT(255) NOT NULL,
+           exclude TEXT(20) NOT NULL,
+           PRIMARY KEY (packages_name, packages_channel, compat_package, compat_channel, exclude)
+          );';
+        $worked = @$database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
           CREATE TABLE extension_dependencies (
            required BOOL NOT NULL,
            packages_name TEXT(80) NOT NULL,

@@ -1,9 +1,10 @@
 --TEST--
-Dependency_Validator: package dependency, conflicts, installed exclude pass
+Dependency_Validator: package dependency, installed exclude fail --force
 --FILE--
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
+PEAR2_Pyrus_Installer::$options['force'] = true;
 $fake = new PEAR2_Pyrus_PackageFile_v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
@@ -14,11 +15,12 @@ $fake->summary = 'hi';
 $fake->description = 'hi';
 PEAR2_Pyrus_Config::current()->registry->install($fake);
 
-$foo = $fake->dependencies['required']->package['pear2.php.net/foo']->exclude('1.2.0')->exclude('1.2.3')->min('1.2.0')->conflicts(true);
+$foo = $fake->dependencies['required']->package['pear2.php.net/foo']->exclude('1.2.0')->exclude('1.2.3');
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo');
-$test->assertEquals(0, count($errs->E_WARNING), 'foo count');
-$test->assertEquals(0, count($errs), 'foo count 2');
+$test->assertEquals(1, count($errs->E_WARNING), 'foo count');
+$test->assertEquals(1, count($errs), 'foo count 2');
+$test->assertEquals('warning: channel://pear2.php.net/test is not compatible with version 1.2.3 of package "channel://pear2.php.net/foo", installed version is 1.2.3', $errs->E_WARNING[0]->getMessage(), 'foo message');
 ?>
 ===DONE===
 --CLEAN--

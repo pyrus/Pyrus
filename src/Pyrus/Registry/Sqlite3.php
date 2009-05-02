@@ -301,6 +301,53 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $stmt->close();
 
+        if (count($info->compatible)) {
+            $sql = '
+                INSERT INTO compatible_releases
+                    (packages_name, packages_channel,
+                     compat_package, compat_channel, min, max)
+                VALUES
+                    (:name, :channel, :cname, :cchannel, :min, :max)';
+            $stmt = static::$databases[$this->_path]->prepare($sql);
+
+            $stmt->bindValue(':name', $n);
+            $stmt->bindValue(':channel', $c);
+
+            $sql2 = '
+                INSERT INTO compatible_releases_exclude
+                    (packages_name, packages_channel,
+                     compat_package, compat_channel, exclude)
+                VALUES
+                    (:name, :channel, :cname, :cchannel, :exclude)';
+            $stmt2 = static::$databases[$this->_path]->prepare($sql2);
+
+            $stmt2->bindValue(':name', $n);
+            $stmt2->bindValue(':channel', $c);
+            foreach ($info->compatible as $compatible) {
+                $stmt->bindValue(':cname', $compatible->name);
+                $stmt->bindValue(':cchannel', $compatible->channel);
+                $stmt->bindValue(':min', $compatible->min);
+                $stmt->bindValue(':max', $compatible->max);
+                if (!@$stmt->execute()) {
+                    static::$databases[$this->_path]->exec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
+                if (isset($compatible->exclude)) {
+                    $stmt2->bindValue(':cname', $compatible->name);
+                    $stmt2->bindValue(':cchannel', $compatible->channel);
+                    foreach ($compatible->exclude as $exclude) {
+                        $stmt2->bindValue(':exclude', $exclude);
+                        if (!@$stmt2->execute()) {
+                            static::$databases[$this->_path]->exec('ROLLBACK');
+                            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                                $info->channel . '/' . $info->name . ' could not be installed in registry');
+                        }
+                    }
+                }
+            }
+        }
+
         $sql = '
             INSERT INTO extension_dependencies
                 (required, packages_name, packages_channel, extension,
@@ -1000,9 +1047,39 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $ret->setBaseInstallDirs($dirs);
         $stmt->close();
+        $this->fetchCompatible($ret);
         $this->fetchDeps($ret);
         $ret->release = null;
         return $ret;
+    }
+
+    function fetchCompatible(PEAR2_Pyrus_IPackageFile $ret)
+    {
+        $package = $ret->name;
+        $channel = $ret->channel;
+        $sql = 'SELECT * FROM compatible_releases
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray(SQLITE3_ASSOC)) {
+            $ret->compatible[$dep['compat_channel'] . '/' . $dep['compat_package']]->min =
+                $dep['min'];
+            $ret->compatible[$dep['compat_channel'] . '/' . $dep['compat_package']]->max =
+                $dep['max'];
+        }
+
+        $sql = 'SELECT * FROM compatible_releases_exclude
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($dep = $a->fetchArray(SQLITE3_ASSOC)) {
+            $ret->compatible[$dep['compat_channel'] . '/' . $dep['compat_package']]->exclude =
+                $dep['exclude'];
+        }
     }
 
     function fetchDeps(PEAR2_Pyrus_IPackageFile $ret)
