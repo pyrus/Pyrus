@@ -684,7 +684,6 @@ conflict_error:
             }
         }
         if (isset($dep->recommended)) {
-            $installed = $installed ? 'installed' : 'downloaded';
             if (version_compare($version, $dep->recommended, '==')) {
                 return true;
             } else {
@@ -704,19 +703,9 @@ conflict_error:
                         if ($param->isCompatible($parent)) {
                             return true;
                         }
-                    } else { // this is for validPackage() calls
-                        if (isset(PEAR2_Pyrus_Config::current()->registry->package[
-                                $this->_currentPackage['channel'] . '/' .
-                                $this->_currentPackage['package']])) {
-                            $parent = PEAR2_Pyrus_Config::current()->registry->package[
-                                $this->_currentPackage['channel'] . '/' .
-                                $this->_currentPackage['package']];
-                            if ($param->isCompatible($parent)) {
-                                return true;
-                            }
-                        }
                     }
                 }
+                $installed = $installed ? 'installed' : 'downloaded';
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force']) &&
                       !isset(PEAR2_Pyrus_Installer::$options['loose'])) {
                     return $this->raiseError('%s dependency package "' . $depname .
@@ -797,62 +786,49 @@ conflict_error:
     /**
      * validate a downloaded package against installed packages
      *
-     * As of PEAR 1.4.3, this will only validate
-     *
-     * @param array|PEAR_Downloader_Package|PEAR_PackageFile_v1|PEAR_PackageFile_v2
-     *              $pkg package identifier (either
-     *                   array('package' => blah, 'channel' => blah) or an array with
-     *                   index 'info' referencing an object)
-     * @param PEAR_Downloader $dl
+     * @param $pkg downloaded package package.xml object
      * @param array $params full list of packages to install
-     * @return true|PEAR_Error
+     * @return bool
      */
-    function validatePackage($pkg, $dl, $params = array())
+    function validateDownloadedPackage(PEAR2_Pyrus_IPackageFile $pkg, $params = array())
     {
-        $deps = PEAR2_Pyrus_Config::current()->registry->getDependentPackageDependencies($pkg);
+        $me = $pkg->channel . '/' . $pkg->name;
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $deppackages = $reg->getDependentPackages($pkg);
         $fail = false;
-        if ($deps) {
-            $dp = new PEAR_Downloader_Package($dl);
-            if (is_object($pkg)) {
-                $dp->setPackageFile($pkg);
-            } else {
-                $dp->setDownloadURL($pkg);
-            }
-            foreach ($deps as $channel => $info) {
-                foreach ($info as $package => $ds) {
-                    foreach ($params as $packd) {
-                        if (strtolower($packd->getPackage()) == strtolower($package) &&
-                              $packd->getChannel() == $channel) {
-                            $dl->log(3, 'skipping installed package check of "' .
-                                        PEAR2_Pyrus_Config::parsedPackageNameToString(
-                                            array('channel' => $channel, 'package' => $package),
-                                            true) .
-                                        '", version "' . $packd->getVersion() . '" will be ' .
-                                        'downloaded and installed');
-                            continue 2; // jump to next package
-                        }
+        if ($deppackages) {
+            foreach ($deppackages as $packagename) {
+                $info = $reg->parsePackageName($packagename);
+                foreach ($params as $packd) {
+                    if (strtolower($packd->name) == strtolower($info['package']) &&
+                          $packd->channel == $info['channel']) {
+                        $dl->log(3, 'skipping installed package check of "' .
+                                    PEAR2_Pyrus_Config::parsedPackageNameToString(
+                                        array('channel' => $channel, 'package' => $package),
+                                        true) .
+                                    '", version "' . $packd->version['release'] . '" will be ' .
+                                    'downloaded and installed');
+                        continue;
                     }
-                    foreach ($ds as $d) {
+                    $package = $reg->package[$packagename];
+                    $deps = $package->dependencies['required']->package;
+                    if (isset($deps[$me])) {
                         $checker = new PEAR2_Pyrus_Dependency_Validator(
-                            array('channel' => $channel, 'package' => $package), $this->_state,
-                            $this->errs);
-                        $dep = $d['dep'];
-                        $required = $d['type'] == 'required';
-                        try {
-                            $ret = $checker->_validatePackageDownload($dep, $required,
-                                 array(&$dp));
-                            if (is_array($ret)) {
-                                $dl->log(0, $ret[0]);
-                            }
-                        } catch (Exception $e) {
-                            $dl->log(0, $e->getMessage());
-                            $fail = true;
-                        }
+                            array('channel' => $pkg->channel, 'package' => $pkg->name),
+                            $this->_state, $this->errs);
+                        $ret = $checker->_validatePackageDownload($deps[$me], array($pkg, $package));
+                    }
+                    $deps = $package->dependencies['required']->subpackage;
+                    if (isset($deps[$me])) {
+                        $checker = new PEAR2_Pyrus_Dependency_Validator(
+                            array('channel' => $pkg->channel, 'package' => $pkg->name),
+                            $this->_state, $this->errs);
+                        $ret = $checker->_validatePackageDownload($deps[$me], array($pkg));
                     }
                 }
             }
         }
-        if ($fail) {
+        if (count($this->errs->E_ERROR)) {
             return $this->raiseError(
                 '%s cannot be installed, conflicts with installed packages');
         }
