@@ -37,6 +37,7 @@ $test->assertEquals(array(
             'sig_keyid' => '',
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
+            'plugins_dir' => '@default_config_dir@',
         ), tc::getTestDefaults(), 'before init');
 tc::constructDefaults();
 $test->assertEquals(array(
@@ -67,6 +68,7 @@ $test->assertEquals(array(
             'sig_keyid' => '',
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
+            'plugins_dir' => '@default_config_dir@',
         ), tc::getTestDefaults(true), 'after');
 $phpini = tc::getTestDefaults();
 $test->assertRegex('/\.ini/', $phpini['php_ini'], 'php_ini');

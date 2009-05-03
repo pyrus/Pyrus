@@ -134,6 +134,7 @@ class PEAR2_Pyrus_Config
             'sig_keyid' => '',
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
+            'plugins_dir' => '@default_config_dir@',
         );
 
     /**
@@ -197,6 +198,7 @@ class PEAR2_Pyrus_Config
             'sig_keyid',
             'sig_keydir',
             'my_pear_path', // PATH_SEPARATOR-separated list of PEAR repositories to manage
+            'plugins_dir', // full path to location where pyrus plugins are installed
         );
     /**
      * Configuration variable names that are user-specific
@@ -854,13 +856,20 @@ class PEAR2_Pyrus_Config
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
                                          $key .
                         ' default value "' . self::$defaults[$key] . '"');
-                    return str_replace('@php_dir@', $this->pearDir, self::$defaults[$key]);
+                    $ret = str_replace('@php_dir@', $this->pearDir, self::$defaults[$key]);
+                    PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
+                                         $key .
+                        ' default value "' . self::$defaults[$key] . '"');
+                    return str_replace('@default_config_dir@', dirname(self::getDefaultUserConfigFile()), $ret);
                 } else {
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
                                          $key .
                         ' default value "' . self::$customDefaults[$key] . '"');
-                    return str_replace('@php_dir@', $this->pearDir,
-                                       self::$customDefaults[$key]);
+                    $ret = str_replace('@php_dir@', $this->pearDir, self::$customDefaults[$key]);
+                    PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
+                                         $key .
+                        ' default value "' . self::$customDefaults[$key] . '"');
+                    return str_replace('@default_config_dir@', dirname(self::getDefaultUserConfigFile()), $ret);
                 }
             }
 
@@ -868,8 +877,11 @@ class PEAR2_Pyrus_Config
                                              self::$customPearConfigNames))) {
                 PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' . $key .
                     ' value "' . $this->values[$key] . '"');
-                return str_replace('@php_dir@', $this->pearDir,
-                    $this->values[$key]);
+                $ret = str_replace('@php_dir@', $this->pearDir, $this->values[$key]);
+                PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
+                                     $key .
+                    ' default value "' . $this->values[$key] . '"');
+                return str_replace('@default_config_dir@', dirname(self::getDefaultUserConfigFile()), $ret);
             }
 
             return self::$userConfigs[$this->userFile][$key];
