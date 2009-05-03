@@ -807,10 +807,9 @@ nofail:
         $deppackages = $reg->getDependentPackages($pkg);
         $fail = false;
         if ($deppackages) {
+            $actual = array();
+            // first, remove packages that will be installed
             foreach ($deppackages as $package) {
-                $checker = new PEAR2_Pyrus_Dependency_Validator(
-                    array('channel' => $package->channel, 'package' => $package->name),
-                    $this->_state, $this->errs);
                 foreach ($params as $packd) {
                     if (strtolower($packd->name) == strtolower($package->name) &&
                           $packd->channel == $package->channel) {
@@ -820,15 +819,23 @@ nofail:
                                         true) .
                                     '", version "' . $packd->version['release'] . '" will be ' .
                                     'downloaded and installed');
-                        continue;
+                        continue 2;
                     }
+                }
+                $actual[] = $package;
+            }
+            foreach ($actual as $package) {
+                $checker = new PEAR2_Pyrus_Dependency_Validator(
+                    array('channel' => $package->channel, 'package' => $package->name),
+                    $this->_state, $this->errs);
+                foreach ($params as $packd) {
                     $deps = $package->dependencies['required']->package;
                     if (isset($deps[$me])) {
                         $ret = $checker->_validatePackageDownload($deps[$me], array($pkg, $package));
                     }
                     $deps = $package->dependencies['required']->subpackage;
                     if (isset($deps[$me])) {
-                        $ret = $checker->_validateSubpackageDownload($deps[$me], array($pkg));
+                        $ret = $checker->_validatePackageDownload($deps[$me], array($pkg));
                     }
                     $deps = $package->dependencies['optional']->package;
                     if (isset($deps[$me])) {
@@ -836,7 +843,7 @@ nofail:
                     }
                     $deps = $package->dependencies['optional']->subpackage;
                     if (isset($deps[$me])) {
-                        $ret = $checker->_validateSUbpackageDownload($deps[$me], array($pkg));
+                        $ret = $checker->_validatePackageDownload($deps[$me], array($pkg));
                     }
                 }
             }
