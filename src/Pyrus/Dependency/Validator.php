@@ -727,21 +727,16 @@ conflict_error:
         return $this->_validatePackageDownload($dep, array());
     }
 
-    function validatePackageUninstall($dep, $required, $param, $params)
+    function validatePackageUninstall($dep, $param)
     {
-        $depname = PEAR2_Pyrus_Config::parsedPackageNameToString(array('package' => $dep->name,
-                                                                       'channel' => $dep->channel), true);
-        $version = $package->version;
-        $extra = $this->_getExtraString($dep);
-        if (isset($dep->exclude)) {
-            if (!is_array($dep->exclude)) {
-                $dep->exclude = array($dep->exclude);
-            }
-        }
         if ($dep->conflicts) {
             return true; // uninstall OK - these packages conflict (probably installed with --force)
         }
-        if (!isset($dep->min) && !isset($dep->max)) {
+        $required = $dep->deptype == 'required';
+        $depname = PEAR2_Pyrus_Config::parsedPackageNameToString(array('package' => $dep->name,
+                                                                       'channel' => $dep->channel), true);
+        $extra = $this->_getExtraString($dep);
+        if (!isset($dep->min) && !isset($dep->max) && !isset($dep->exclude)) {
             if ($required) {
                 if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError('"' . $depname . '" is required by ' .
@@ -755,10 +750,13 @@ conflict_error:
                         'installed package %s' . $extra);
             }
         }
+        $version = $param->version['release'];
         $fail = false;
         if (isset($dep->min)) {
             if (version_compare($version, $dep->min, '>=')) {
                 $fail = true;
+            } else {
+                goto nofail;
             }
         }
         if (isset($dep->max)) {
@@ -766,9 +764,21 @@ conflict_error:
                 $fail = true;
             }
         }
+nofail:
+        if (isset($dep->exclude)) {
+            $fail = true;
+            foreach ($dep->exclude as $exclude) {
+                if (version_compare($version, $exclude, '==')) {
+                    // rare case - we conflict with the installed package,
+                    // so uninstalling is just fine
+                    $fail = false;
+                    break;
+                }
+            }
+        }
         if ($fail) {
             if ($required) {
-                if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['nodeps']['force'])) {
+                if (!isset(PEAR2_Pyrus_Installer::$options['nodeps']) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
                     return $this->raiseError($depname . $extra . ' is required by installed package' .
                         ' "%s"');
                 } else {

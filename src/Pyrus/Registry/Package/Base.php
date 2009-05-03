@@ -202,29 +202,13 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
                 PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
             foreach ($this->getDependentPackages($package) as $deppackage) {
                 foreach (array('package', 'subpackage') as $packaged) {
-                    foreach ($deppackage->dependencies['required']->$packaged as $d) {
-                        if ($package->package == '__uri') {
-                            if ($d->name != $package->name || $d->uri != $package->uri) {
-                                continue;
-                            }
-                        } else {
-                            if ($d->name != $package->name || $d->channel != $package->channel) {
-                                continue;
-                            }
-                        }
-                        $dep->validatePackageUninstall($d, true, $package, $uninstallPackages);
+                    $deps = $deppackage->dependencies['required']->$packaged;
+                    if (isset($deps[$package->channel . '/' . $package->name])) {
+                        $dep->validatePackageUninstall($d, $package);
                     }
-                    foreach ($deppackage->dependencies['optional']->$packaged as $d) {
-                        if ($package->package == '__uri') {
-                            if ($d->name != $package->name || $d->uri != $package->uri) {
-                                continue;
-                            }
-                        } else {
-                            if ($d->name != $package->name || $d->channel != $package->channel) {
-                                continue;
-                            }
-                        }
-                        $dep->validatePackageUninstall($d, false, $package, $uninstallPackages);
+                    $deps = $deppackage->dependencies['optional']->$packaged;
+                    if (isset($deps[$package->channel . '/' . $package->name])) {
+                        $dep->validatePackageUninstall($d, $package);
                     }
                 }
             }
