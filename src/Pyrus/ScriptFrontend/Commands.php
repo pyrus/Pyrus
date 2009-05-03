@@ -29,6 +29,8 @@
 class PEAR2_Pyrus_ScriptFrontend_Commands
 {
     public $commands = array();
+    // for unit-testing ease
+    public static $configclass = 'PEAR2_Pyrus_Config';
 
     function __construct()
     {
@@ -106,7 +108,7 @@ previous:
             echo '[',$default,']';
         }
         echo ' : ';
-        $answer = trim(fgets(STDIN, 1024));
+        $answer = $this->_readStdin();
 
         if (!strlen($answer)) {
             if ($default !== null) {
@@ -125,6 +127,11 @@ previous:
         return $answer;
     }
 
+    function _readStdin()
+    {
+        return trim(fgets(STDIN, 1024));
+    }
+
     function _findPEAR(&$arr)
     {
         if (isset($arr[0]) && @file_exists($arr[0]) && @is_dir($arr[0])) {
@@ -134,10 +141,11 @@ previous:
             $config = PEAR2_Pyrus_Config::singleton($maybe);
             return;
         }
-        if (!PEAR2_Pyrus_Config::userInitialized()) {
+        $configclass = static::$configclass;
+        if (!$configclass::userInitialized()) {
             echo "Pyrus: No user configuration file detected\n";
             if ('yes' === $this->_ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
-                echo "Great.  We will store your configuration in:\n  ",PEAR2_Pyrus_Config::getDefaultUserConfigFile(),"\n";
+                echo "Great.  We will store your configuration in:\n  ",$configclass::getDefaultUserConfigFile(),"\n";
 previous:
                 $path = $this->_ask("Where would you like to install packages by default?", null, getcwd());
                 echo "You have chosen:\n", $path, "\n";
