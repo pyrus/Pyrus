@@ -197,21 +197,31 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
     public function validateUninstallDependencies(array $uninstallPackages,
                                                   PEAR2_MultiErrors $errs)
     {
+        $ret = true;
         foreach ($uninstallPackages as $package) {
-            $dep = new PEAR2_Pyrus_Dependency_Validator($this->packagename,
-                PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
-            foreach ($this->getDependentPackages($package) as $deppackage) {
+            foreach ($this->reg->getDependentPackages($package) as $deppackage) {
+                $dep = new PEAR2_Pyrus_Dependency_Validator(
+                    array('channel' => $deppackage->channel, 'package' => $deppackage->name),
+                    PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
+                foreach ($uninstallPackages as $test) {
+                    if ($deppackage->isEqual($test)) {
+                        // we are uninstalling both the package that is depended upon
+                        // and the parent package, so all dependencies are nulled
+                        continue 2;
+                    }
+                }
                 foreach (array('package', 'subpackage') as $packaged) {
                     $deps = $deppackage->dependencies['required']->$packaged;
                     if (isset($deps[$package->channel . '/' . $package->name])) {
-                        $dep->validatePackageUninstall($d, $package);
+                        $ret = $ret && $dep->validatePackageUninstall($deps[$package->channel . '/' . $package->name], $package);
                     }
                     $deps = $deppackage->dependencies['optional']->$packaged;
                     if (isset($deps[$package->channel . '/' . $package->name])) {
-                        $dep->validatePackageUninstall($d, $package);
+                        $ret = $ret && $dep->validatePackageUninstall($deps[$package->channel . '/' . $package->name], $package);
                     }
                 }
             }
         }
+        return $ret;
     }
 }
