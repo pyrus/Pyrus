@@ -812,7 +812,7 @@ nofail:
                 foreach ($params as $packd) {
                     if (strtolower($packd->name) == strtolower($info['package']) &&
                           $packd->channel == $info['channel']) {
-                        $dl->log(3, 'skipping installed package check of "' .
+                        PEAR2_Pyrus_Log::log(3, 'skipping installed package check of "' .
                                     PEAR2_Pyrus_Config::parsedPackageNameToString(
                                         array('channel' => $channel, 'package' => $package),
                                         true) .
