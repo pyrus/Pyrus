@@ -177,7 +177,15 @@ previous:
         }
         $include_path = explode(PATH_SEPARATOR, get_include_path());
         foreach ($include_path as $path) {
-            if ($path == '.') continue;
+            if ($path == '.') {
+                continue;
+            }
+            if (basename($path) === 'src') {
+                $path = dirname($path);
+                if ($path === '.') {
+                    continue;
+                }
+            }
             echo "Using PEAR installation found at $path\n";
             $config = PEAR2_Pyrus_Config::singleton($path);
             return;
@@ -223,7 +231,7 @@ previous:
             }
             PEAR2_Pyrus_Installer::commit();
             foreach ($packages as $package) {
-                echo 'Installed ' . $package->channel . '\\' . $package->name . '-' . $package->version['release'] . "\n";
+                echo 'Installed ' . $package->channel . '/' . $package->name . '-' . $package->version['release'] . "\n";
             }
         } catch (Exception $e) {
             echo $e;
@@ -330,7 +338,7 @@ previous:
             $packages = array();
             foreach ($c as $channel) {
                 PEAR2_Pyrus_Config::current()->default_channel = $channel->name;
-                foreach ($p as $package) {
+                foreach ($p->package as $package) {
                     $packages[$channel->name][] = $package->name;
                 }
             }
