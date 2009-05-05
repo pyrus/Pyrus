@@ -2,6 +2,25 @@
 /**
  * PEAR2_Pyrus_AtomicFileTransaction
  *
+ * This class implements a simple, nearly atomic way of handling file installation
+ * transaction similar to the way a database handles a query transaction.
+ *
+ * To use, first call {@link PEAR2_Pyrus_AtomicFileTransaction::begin()} and
+ * then remove old files with {@link PEAR2_Pyrus_AtomicFileTransaction::removePath()}
+ * or install new files with {@link PEAR2_Pyrus_AtomicFileTransaction::createOrOpenPath()}.
+ *
+ * To abort, use {@link PEAR2_Pyrus_AtomicFileTransaction::rollback()}, and to
+ * finish, use {@link PEAR2_Pyrus_AtomicFileTransaction::commit()} followed by
+ * {@link PEAR2_Pyrus_AtomicFileTransaction::removeBackups()}.
+ *
+ * The separation of backup removal from committing allows attempting to modify the
+ * registry in between file installation and removal of backups, so that in the
+ * worst case, it is easy to completely roll back the file installation without
+ * any loss of information, even after the process has terminated.
+ *
+ * To repair a broken commit or rollback, use
+ * {@link PEAR2_Pyrus_AtomicFileTransaction::repair()}.
+ *
  * PHP version 5
  *
  * @category  PEAR2
@@ -27,6 +46,7 @@ class PEAR2_Pyrus_AtomicFileTransaction
 {
     static protected $allTransactObjects = array();
     static protected $intransaction = false;
+    static protected $inrepair = false;
     protected $rolepath;
     protected $journalpath;
     protected $backuppath;
@@ -44,6 +64,49 @@ class PEAR2_Pyrus_AtomicFileTransaction
     }
 
     /**
+     * Repair from a previously failed transaction cut off mid-transaction
+     */
+    static function repair()
+    {
+        if (static::$intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot repair while in a transaction');
+        }
+        static::$inrepair = true;
+        static::$allTransactObjects = array();
+        $config = PEAR2_Pyrus_Config::current();
+        $remove = array();
+        foreach ($config->systemvars as $var) {
+            if (!strpos('_dir', $var)) {
+                continue;
+            }
+
+            $backuppath = dirname($path) . DIRECTORY_SEPARATOR . '.old-' . basename($path);
+            if (file_exists($backuppath) && is_dir($backuppath)) {
+                if (file_exists($path)) {
+                    if (is_dir($path)) {
+                        // this is the new stuff from journal path, so move it out of the way
+                        $journalpath = dirname($path) . DIRECTORY_SEPARATOR . '.journal-' . basename($path);
+                        $remove[] = $journalpath;
+                        rename($path, $journalpath);
+                    } else {
+                        throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                            'Repair failed - ' . $var . ' path ' . $path .
+                            ' is not a directory.  Move this file out of the way and ' .
+                            'try the repair again'
+                        );
+                    }
+                }
+                // restore backup
+                rename($backuppath, $path);
+            }
+        }
+        foreach ($remove as $path) {
+            $this->rmrf($path);
+        }
+        static::$inrepair = false;
+    }
+
+    /**
      * @param string|PEAR2_Pyrus_Installer_Role_Common $rolepath
      * @return PEAR2_Pyrus_AtomicFileTransaction
      */
@@ -57,6 +120,32 @@ class PEAR2_Pyrus_AtomicFileTransaction
         }
         $ret = static::$allTransactObjects[$rolepath] = new PEAR2_Pyrus_AtomicFileTransaction($rolepath);
 
+        if (static::$intransaction) {
+            // start the transaction process for this atomic transaction object
+            $errs =  new PEAR2_MultiErrors;
+            try {
+                $ret->beginTransaction();
+            } catch (\Exception $e) {
+                $errs->E_ERROR = $e;
+                $exit = false;
+                foreach (static::$allTransactObjects as $path2 => $transact) {
+                    if ($exit) {
+                        break;
+                    }
+                    if ($path2 === $path) {
+                        $exit = true;
+                    }
+                    try {
+                        $transact->removeJournalPath();
+                    } catch (\Exception $e2) {
+                        $errs->E_WARNING[] = $e2;
+                    }
+                }
+                throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                    'Unable to begin transaction for ' . $rolepath, $errs
+                );
+            }
+        }
         return $ret;
     }
 
@@ -325,22 +414,33 @@ create_journal:
             foreach (static::$allTransactObjects as $transaction) {
                 $transaction->backupAndCommit();
             }
-            foreach (static::$allTransactObjects as $path => $transaction) {
-                try {
-                    $transaction->removeBackup();
-                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
-                    $errs->E_WARNING[] = $e;
-                }
-            }
         } catch (\Exception $e) {
             $errs->E_ERROR[] = $e;
             static::rollback();
         }
-        static::$intransaction = false;
         if (count($errs->E_ERROR)) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('ERROR: commit failed',
                                                                   $errs);
         } elseif (count($errs->E_WARNING)) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Warning: removal of backups did not succeed',
+                                                                  $errs);
+        }
+    }
+
+    static function removeBackups()
+    {
+        if (!static::$intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
+        }
+        $errs = new PEAR2_MultiErrors;
+        foreach (static::$allTransactObjects as $path => $transaction) {
+            try {
+                $transaction->removeBackup();
+            } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                $errs->E_WARNING[] = $e;
+            }
+        }
+        if (count($errs->E_WARNING)) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Warning: removal of backups did not succeed',
                                                                   $errs);
         }

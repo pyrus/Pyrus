@@ -27,9 +27,9 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file before');
 
-$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+PEAR2_Pyrus_AtomicFileTransaction::begin();
 
-$atomic->begin();
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 $test->assertFileExists(__DIR__ . '/testit/src', __DIR__ . '/testit/src after');
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo after');
@@ -71,6 +71,14 @@ $test->assertFileExists(__DIR__ . '/testit/src/another', __DIR__ . '/testit/src/
 $test->assertFileExists(__DIR__ . '/testit/src/sub/deep/deep/thing', __DIR__ . '/testit/src/sub/deep/deep/thing after commit');
 $test->assertFileExists(__DIR__ . '/testit/src/anothernew/dir', __DIR__ . '/testit/src/another/dir after commit');
 $test->assertFileExists(__DIR__ . '/testit/src/anothernew/dir/file', __DIR__ . '/testit/src/another/dir/file after commit');
+
+$test->assertFileExists(__DIR__ . '/testit/.old-src', __DIR__ . '/testit/.old-src after commit');
+$test->assertFileExists(__DIR__ . '/testit/.old-src/foo', __DIR__ . '/testit/.old-src/foo after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/newfile', __DIR__ . '/testit/.old-src/newfile after commit');
+$test->assertFileExists(__DIR__ . '/testit/.old-src/another', __DIR__ . '/testit/.old-src/another after commit');
+$test->assertFileExists(__DIR__ . '/testit/.old-src/sub/deep/deep/thing', __DIR__ . '/testit/.old-src/sub/deep/deep/thing after commit');
+$test->assertFileExists(__DIR__ . '/testit/.old-src/anothernew/dir', __DIR__ . '/testit/.old-src/another/dir after commit');
+$test->assertFileExists(__DIR__ . '/testit/.old-src/anothernew/dir/file', __DIR__ . '/testit/.old-src/another/dir/file after commit');
 
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src', __DIR__ . '/testit/.journal-src after commit');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/foo', __DIR__ . '/testit/.journal-src/foo after commit');
