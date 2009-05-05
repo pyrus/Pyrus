@@ -5,10 +5,9 @@ PEAR2_Pyrus_AtomicFileTransaction::createOrOpenPath(), path can't be opened, con
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
-$atomic->begin();
+PEAR2_Pyrus_AtomicFileTransaction::begin();
 
 mkdir(__DIR__ . '/testit/.journal-src/foo/bar', 0777, true);
 try {
@@ -19,7 +18,6 @@ try {
                         DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR .
                         '.journal-src', $e->getMessage(), 'error msg');
 }
-$atomic->rollback();
 ?>
 ===DONE===
 --CLEAN--

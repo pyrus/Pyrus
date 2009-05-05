@@ -27,8 +27,7 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file before');
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 $atomic->begin();
 
@@ -65,10 +64,13 @@ $test->assertFileNotExists(__DIR__ . '/testit/src/newfile', __DIR__ . '/testit/.
 
 mkdir(__DIR__ . '/testit/.old-src');
 try {
-    $atomic->commit();
+    PEAR2_Pyrus_AtomicFileTransaction::commit();
     die('should have failed');
 } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
-    $test->assertEquals('CRITICAL - unable to complete transaction, rename of actual to backup path failed', $e->getMessage(), 'error');
+    $cause = array();
+    $e->getCauseMessage($cause);
+    $test->assertEquals('CRITICAL - unable to complete transaction, rename of actual to backup path failed', $cause[1]['message'], 'error');
+    $test->assertEquals('ERROR: commit failed', $e->getMessage(), 'error');
 }
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src', 'verify transaction cancelled');
 $test->assertFileExists(__DIR__ . '/testit/src', 'verify transaction cancelled and source not deleted');

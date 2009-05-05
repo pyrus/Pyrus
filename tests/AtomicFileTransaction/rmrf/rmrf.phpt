@@ -17,8 +17,7 @@ $test->assertFileExists(__DIR__ . '/testit/sub/deep/deep/thing', __DIR__ . '/tes
 $test->assertFileExists(__DIR__ . '/testit/anothernew/dir', __DIR__ . '/testit/another/dir');
 $test->assertFileExists(__DIR__ . '/testit/anothernew/dir/file', __DIR__ . '/testit/another/dir/file');
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 $atomic->rmrf(__DIR__ . '/testit');
 

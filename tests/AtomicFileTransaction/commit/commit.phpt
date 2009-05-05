@@ -27,8 +27,7 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file before');
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 $atomic->begin();
 
@@ -63,7 +62,7 @@ $test->assertFileExists(__DIR__ . '/testit/.journal-src/newfile', __DIR__ . '/te
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/.journal-src/foo after erase 2');
 $test->assertFileNotExists(__DIR__ . '/testit/src/newfile', __DIR__ . '/testit/.journal-src/newfile after create 2');
 
-$atomic->commit();
+PEAR2_Pyrus_AtomicFileTransaction::commit();
 
 $test->assertFileExists(__DIR__ . '/testit/src', __DIR__ . '/testit/src after commit');
 $test->assertFileNotExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo after commit');

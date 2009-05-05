@@ -5,11 +5,10 @@ PEAR2_Pyrus_AtomicFileTransaction::commit() failure, not in transaction
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 try {
-    $atomic->commit();
+    PEAR2_Pyrus_AtomicFileTransaction::commit();
     die('should have failed');
 } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
     $test->assertEquals('Cannot commit - not in a transaction', $e->getMessage(), 'error');

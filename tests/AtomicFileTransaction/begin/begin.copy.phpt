@@ -3,7 +3,7 @@ PEAR2_Pyrus_AtomicFileTransaction::begin() with copy to journal directory
 --FILE--
 <?php
 define('MYDIR', __DIR__);
-require dirname(__DIR__) . '/setup.empty.php.inc';
+require dirname(__DIR__) . '/setup.php.inc';
 mkdir(__DIR__ . '/testit/src');
 touch(__DIR__ . '/testit/src/foo', 1234567);
 touch(__DIR__ . '/testit/src/another');
@@ -28,9 +28,9 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DI
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file before');
 
 $role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject($role);
 
-$atomic->begin();
+PEAR2_Pyrus_AtomicFileTransaction::begin();
 
 $test->assertFileExists(__DIR__ . '/testit/src', __DIR__ . '/testit/src after');
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo after');

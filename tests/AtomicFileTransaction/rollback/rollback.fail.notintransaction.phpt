@@ -5,11 +5,8 @@ PEAR2_Pyrus_AtomicFileTransaction::rollback() failure, not in transaction
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
-
 try {
-    $atomic->rollback();
+    PEAR2_Pyrus_AtomicFileTransaction::rollback();
     die('should have failed');
 } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
     $test->assertEquals('Cannot rollback - not in a transaction', $e->getMessage(), 'error');

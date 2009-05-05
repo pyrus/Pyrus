@@ -25,17 +25,16 @@
  */
 class PEAR2_Pyrus_AtomicFileTransaction
 {
-    protected $role;
-    protected $needsFullBackup;
+    static protected $allTransactObjects = array();
+    static protected $intransaction = false;
     protected $rolepath;
     protected $journalpath;
     protected $backuppath;
-    protected $intransaction = false;
     protected $defaultMode;
+    protected $committed = false;
 
-    function __construct(PEAR2_Pyrus_Installer_Role_Common $role, $rolepath)
+    protected function __construct($rolepath)
     {
-        $this->role = $role;
         $this->rolepath = $rolepath;
         $this->backuppath = dirname($rolepath) . DIRECTORY_SEPARATOR .
             '.old-' . basename($rolepath);
@@ -44,9 +43,26 @@ class PEAR2_Pyrus_AtomicFileTransaction
         $this->defaultMode = PEAR2_Pyrus_Config::current()->umask;
     }
 
+    /**
+     * @param string|PEAR2_Pyrus_Installer_Role_Common $rolepath
+     * @return PEAR2_Pyrus_AtomicFileTransaction
+     */
+    static function getTransactionObject($rolepath)
+    {
+        if ($rolepath instanceof PEAR2_Pyrus_Installer_Role_Common) {
+            $rolepath = PEAR2_Pyrus_Config::current()->{$rolepath->getLocationConfig()};
+        }
+        if (isset(static::$allTransactObjects[$rolepath])) {
+            return static::$allTransactObjects[$rolepath];
+        }
+        $ret = static::$allTransactObjects[$rolepath] = new PEAR2_Pyrus_AtomicFileTransaction($rolepath);
+
+        return $ret;
+    }
+
     function removePath($relativepath, $strict = true)
     {
-        if (!$this->intransaction) {
+        if (!static::$intransaction) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot remove ' . $relativepath .
                                                                   ' - not in a transaction');
         }
@@ -69,7 +85,7 @@ class PEAR2_Pyrus_AtomicFileTransaction
 
     function createOrOpenPath($relativepath, $contents = null, $mode = null)
     {
-        if (!$this->intransaction) {
+        if (!static::$intransaction) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot create ' . $relativepath .
                                                                   ' - not in a transaction');
         }
@@ -192,11 +208,45 @@ class PEAR2_Pyrus_AtomicFileTransaction
         }
     }
 
-    function begin()
+    static function begin()
     {
-        if ($this->intransaction) {
+        if (static::$intransaction) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot begin - already in a transaction');
         }
+        $errs = new PEAR2_MultiErrors;
+        try {
+            foreach (static::$allTransactObjects as $path => $transact) {
+                $transact->beginTransaction();
+            }
+            static::$intransaction = true;
+        } catch (\Exception $e) {
+            static::$intransaction = true;
+            $errs->E_ERROR = $e;
+            $exit = false;
+            foreach (static::$allTransactObjects as $path2 => $transact) {
+                if ($exit) {
+                    break;
+                }
+                if ($path2 === $path) {
+                    $exit = true;
+                }
+                try {
+                    $transact->removeJournalPath();
+                } catch (\Exception $e2) {
+                    $errs->E_WARNING[] = $e2;
+                }
+            }
+        }
+        if (count($errs)) {
+            static::$intransaction = false;
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                'Unable to begin transaction', $errs
+            );
+        }
+    }
+
+    function beginTransaction()
+    {
         if (!file_exists($this->journalpath)) {
 create_journal:
             @mkdir($this->journalpath, 0755, true);
@@ -213,40 +263,112 @@ create_journal:
             $this->rmrf($this->journalpath);
             goto create_journal;
         }
-        $this->intransaction = true;
     }
 
-    function rollback()
+    static function rollback()
     {
-        if (!$this->intransaction) {
+        if (!static::$intransaction) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot rollback - not in a transaction');
         }
-        $this->intransaction = false;
+        foreach (static::$allTransactObjects as $transaction) {
+            // restore the original source as quickly as possible
+            $transaction->restoreBackup();
+        }
+        $failed = array();
+        $errs = new PEAR2_MultiErrors;
+        foreach (static::$allTransactObjects as $path => $transaction) {
+            try {
+                // ... and then delete the transaction
+                $transaction->removeJournalPath();
+            } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                $errs->E_WARNING[] = $e;
+            }
+        }
+        static::$intransaction = false;
+        if (count($errs)) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Warning: rollback did not succeed for all transactions',
+                                                                  $errs);
+        }
+    }
+
+    function restoreBackup()
+    {
+        if (!$this->committed) {
+            return;
+        }
+        if (!file_exists($this->rolepath)) {
+            rename($this->backuppath, $this->rolepath);
+        } elseif (!file_exists($this->journalpath) && file_exists($this->rolepath)) {
+            rename($this->rolepath, $this->journalpath);
+            rename($this->backuppath, $this->rolepath);
+        }
+    }
+
+    function removeJournalPath()
+    {
+        if (!static::$intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
+        }
+        if (!file_exists($this->journalpath) || !is_dir($this->journalpath)) {
+            return;
+        }
         $this->rmrf($this->journalpath);
     }
 
-    function commit()
+    static function commit()
     {
-        if (!$this->intransaction) {
+        if (!static::$intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
+        }
+        $errs = new PEAR2_MultiErrors;
+        try {
+            foreach (static::$allTransactObjects as $transaction) {
+                $transaction->backupAndCommit();
+            }
+            foreach (static::$allTransactObjects as $path => $transaction) {
+                try {
+                    $transaction->removeBackup();
+                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                    $errs->E_WARNING[] = $e;
+                }
+            }
+        } catch (\Exception $e) {
+            $errs->E_ERROR[] = $e;
+            static::rollback();
+        }
+        static::$intransaction = false;
+        if (count($errs->E_ERROR)) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('ERROR: commit failed',
+                                                                  $errs);
+        } elseif (count($errs->E_WARNING)) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Warning: removal of backups did not succeed',
+                                                                  $errs);
+        }
+    }
+
+    function removeBackup()
+    {
+        if ($this->committed) {
+            $this->rmrf($this->backuppath);
+        }
+    }
+
+    function backupAndCommit()
+    {
+        if (!static::$intransaction) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
         }
         if (file_exists($this->backuppath) || !rename($this->rolepath, $this->backuppath)) {
-            $this->rollback();
-            $this->intransaction = false;
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                 'CRITICAL - unable to complete transaction, rename of actual to backup path failed');
         }
+        $this->committed = true;
         // here is the only critical moment - a failure in between these two renames
         // leaves us with no source
         if (!rename($this->journalpath, $this->rolepath)) {
-            $this->intransaction = false;
             rename($this->backuppath, $this->rolepath);
-            $this->rmrf($this->journalpath);
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                 'CRITICAL - unable to complete transaction, rename of journal to actual path failed');
         }
-        // from here we are good to go
-        $this->intransaction = false;
-        $this->rmrf($this->backuppath);
     }
 }

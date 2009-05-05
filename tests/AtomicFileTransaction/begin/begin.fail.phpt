@@ -7,15 +7,17 @@ require dirname(__DIR__) . '/setup.empty.php.inc';
 
 touch(__DIR__ . '/testit/.journal-src');
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 try {
-    $atomic->begin();
+    PEAR2_Pyrus_AtomicFileTransaction::begin();
 } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+    $test->assertEquals('Unable to begin transaction', $e->getMessage(), 'main message');
+    $causes = array();
+    $e->getCauseMessage($causes);
     $test->assertEquals('unrecoverable transaction error: journal path ' .
                         __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR .
-                        '.journal-src exists and is not a directory', $e->getMessage(), 'error message');
+                        '.journal-src exists and is not a directory', $causes[0]['message'], 'error message');
 }
 ?>
 ===DONE===

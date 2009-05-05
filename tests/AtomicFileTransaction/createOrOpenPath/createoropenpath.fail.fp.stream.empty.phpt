@@ -5,10 +5,9 @@ PEAR2_Pyrus_AtomicFileTransaction::createOrOpenPath(), failure, contents is empt
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
-$atomic = new PEAR2_Pyrus_AtomicFileTransaction($role, __DIR__ . '/testit/src');
+$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
-$atomic->begin();
+PEAR2_Pyrus_AtomicFileTransaction::begin();
 
 file_put_contents(__DIR__ . '/testit/blah', 'blah');
 $fp = fopen(__DIR__ . '/testit/blah', 'rb');
@@ -22,7 +21,6 @@ try {
                         'testit' . DIRECTORY_SEPARATOR . '.journal-src', $e->getMessage(), 'error message');
 }
 fclose($fp);
-$atomic->rollback();
 ?>
 ===DONE===
 --CLEAN--
