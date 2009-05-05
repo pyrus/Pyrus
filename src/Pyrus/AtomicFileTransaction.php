@@ -46,6 +46,10 @@ class PEAR2_Pyrus_AtomicFileTransaction
 
     function removePath($relativepath, $strict = true)
     {
+        if (!$this->intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot remove ' . $relativepath .
+                                                                  ' - not in a transaction');
+        }
         $path = $this->journalpath . DIRECTORY_SEPARATOR . $relativepath;
         if (!file_exists($path)) {
             return;
@@ -53,43 +57,61 @@ class PEAR2_Pyrus_AtomicFileTransaction
         if (is_dir($path)) {
             if (!@rmdir($path) && $strict) {
                 throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
-                    'Cannot remove directory ' . $path);
+                    'Cannot remove directory ' . $relativepath . ' in ' . $this->journalpath);
             }
         } else {
             if (!@unlink($path) && $strict) {
                 throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
-                    'Cannot remove file ' . $path);
+                    'Cannot remove file ' . $relativepath . ' in ' . $this->journalpath);
             }
         }
     }
 
     function createOrOpenPath($relativepath, $contents = null, $mode = null)
     {
+        if (!$this->intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot create ' . $relativepath .
+                                                                  ' - not in a transaction');
+        }
         if ($mode === null) {
             $mode = $this->defaultMode;
         }
         $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
         if ($contents) {
             if (is_resource($contents)) {
-                $fp = fopen($path, 'wb');
+                $fp = @fopen($path, 'wb');
                 if (!$fp) {
                     throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Unable to open ' .
                         $relativepath . ' for writing in ' . $this->journalpath);
                 }
-                stream_copy_to_stream($fp, $contents);
+                if (!stream_copy_to_stream($contents, $fp)) {
+                    fclose($fp);
+                    throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Unable to copy to ' .
+                        $relativepath . ' in ' . $this->journalpath);
+                }
                 fclose($fp);
             } else {
-                file_put_contents($path, $contents);
+                if (!@file_put_contents($path, $contents)) {
+                    throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Unable to write to ' .
+                        $relativepath . ' in ' . $this->journalpath);
+                }
             }
             if ($mode) {
-                chmode($path, $mode);
+                $old = umask(0);
+                chmod($path, $mode);
+                umask($old);
             }
             return $path;
         } else {
-            $fp = fopen($path, 'wb');
+            $fp = @fopen($path, 'wb');
             if (!$fp) {
                 throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Unable to open ' .
                     $relativepath . ' for writing in ' . $this->journalpath);
+            }
+            if ($mode) {
+                $old = umask(0);
+                chmod($path, $mode);
+                umask($old);
             }
             return $fp;
         }
@@ -97,10 +119,8 @@ class PEAR2_Pyrus_AtomicFileTransaction
 
     function rmrf($path)
     {
-        $pass = 1;
-kill_dirs:
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->rolepath),
-                                               RecursiveIteratorIterator::LEAVES_ONLY)
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path),
+                                               RecursiveIteratorIterator::CHILD_FIRST)
                  as $file) {
             if ($file->getFilename() == '.' || $file->getFilename() == '..') {
                 continue;
@@ -117,42 +137,68 @@ kill_dirs:
                 }
             }
         }
-        if ($pass++ == 1) {
-            goto kill_dirs;
-        }
         rmdir($path);
     }
 
     function copyToJournal()
     {
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->rolepath),
-                                               RecursiveIteratorIterator::LEAVES_ONLY)
-                 as $file) {
-            if ($file->getFilename() == '.' || $file->getFilename() == '..') {
-                continue;
+        try {
+            $oldumask = umask();
+            umask(000);
+            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->rolepath),
+                                                   RecursiveIteratorIterator::SELF_FIRST)
+                     as $file) {
+                if ($file->getFilename() == '.' || $file->getFilename() == '..') {
+                    continue;
+                }
+                $time = $file->getMTime();
+                $atime = $file->getATime();
+                $perms = $file->getPerms();
+                $src = str_replace($this->rolepath . DIRECTORY_SEPARATOR, '', $file->getPathname());
+                if (is_dir($file->getPathname())) {
+                    if (!mkdir($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms)) {
+                        umask($oldumask);
+                        throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                            'Unable to complete journal creation for transaction');
+                    }
+                    if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
+                        umask($oldumask);
+                        throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                            'Unable to complete journal creation for transaction');
+                    }
+                    continue;
+                }
+                if (!copy($file->getPathName(), $this->journalpath . DIRECTORY_SEPARATOR . $src)) {
+                    umask($oldumask);
+                    throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                        'Unable to complete journal creation for transaction');
+                }
+                if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
+                    umask($oldumask);
+                    throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                        'Unable to complete journal creation for transaction');
+                }
+                if (!chmod($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms)) {
+                    umask($oldumask);
+                    throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                        'Unable to complete journal creation for transaction');
+                }
             }
-            $time = $file->getMTime();
-            $atime = $file->getATime();
-            $perms = $file->getPerms();
-            $src = str_replace($this->rolepath . DIRECTORY_SEPARATOR, '', $file->getPathname());
-            if (!copy($file->getPathName(), $this->journalpath . DIRECTORY_SEPARATOR . $src)) {
-                throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
-                    'Unable to complete journal creation for transaction');
-            }
-            if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
-                throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
-                    'Unable to complete journal creation for transaction');
-            }
-            if (!chmod($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms)) {
-                throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
-                    'Unable to complete journal creation for transaction');
-            }
+            umask($oldumask);
+        } catch (\UnexpectedValueException $e) {
+            // directory does not exist, so we ignore the exception and reset umask
+            umask($oldumask);
+            return;
         }
     }
 
     function begin()
     {
+        if ($this->intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot begin - already in a transaction');
+        }
         if (!file_exists($this->journalpath)) {
+create_journal:
             @mkdir($this->journalpath, 0755, true);
             if (!file_exists($this->journalpath)) {
                 throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
@@ -161,22 +207,31 @@ kill_dirs:
             $this->copyToJournal();
         } elseif (!is_dir($this->journalpath)) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
-                'unrecoverable transaction error: journal path exists');
+                'unrecoverable transaction error: journal path ' . $this->journalpath .
+                ' exists and is not a directory');
         } else {
             $this->rmrf($this->journalpath);
+            goto create_journal;
         }
         $this->intransaction = true;
     }
 
     function rollback()
     {
+        if (!$this->intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot rollback - not in a transaction');
+        }
         $this->intransaction = false;
         $this->rmrf($this->journalpath);
     }
 
     function commit()
     {
-        if (!rename($this->rolepath, $this->backuppath)) {
+        if (!$this->intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
+        }
+        if (file_exists($this->backuppath) || !rename($this->rolepath, $this->backuppath)) {
+            $this->rollback();
             $this->intransaction = false;
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                 'CRITICAL - unable to complete transaction, rename of actual to backup path failed');
@@ -186,6 +241,7 @@ kill_dirs:
         if (!rename($this->journalpath, $this->rolepath)) {
             $this->intransaction = false;
             rename($this->backuppath, $this->rolepath);
+            $this->rmrf($this->journalpath);
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                 'CRITICAL - unable to complete transaction, rename of journal to actual path failed');
         }
