@@ -35,8 +35,6 @@ PEAR2_Pyrus_Installer::begin();
 PEAR2_Pyrus_Installer::prepare($package);
 PEAR2_Pyrus_Installer::commit();
 $test->assertEquals(true, in_array("Skipping installed package {$package->channel}/{$package->name}", $observer->getMessages()), 'package already installed');
-$test->assertEquals(true, in_array("about to commit 0 file operations", $observer->getMessages()), 'prepare 0 file operations');
-$test->assertEquals(true, in_array("successfully committed 0 file operations", $observer->getMessages()), 'commit 0 file operations');
 
 ?>
 ===DONE===

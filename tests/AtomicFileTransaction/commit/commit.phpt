@@ -88,6 +88,16 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir after commit');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file after commit');
 
+PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
+
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src', __DIR__ . '/testit/.old-src after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/foo', __DIR__ . '/testit/.old-src/foo after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/newfile', __DIR__ . '/testit/.old-src/newfile after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/another', __DIR__ . '/testit/.old-src/another after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/sub/deep/deep/thing', __DIR__ . '/testit/.old-src/sub/deep/deep/thing after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/anothernew/dir', __DIR__ . '/testit/.old-src/another/dir after commit');
+$test->assertFileNotExists(__DIR__ . '/testit/.old-src/anothernew/dir/file', __DIR__ . '/testit/.old-src/another/dir/file after commit');
+
 ?>
 ===DONE===
 --CLEAN--

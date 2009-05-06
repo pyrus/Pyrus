@@ -183,15 +183,16 @@ class PEAR2_Pyrus_Installer_Role_Common
         } else {
             $dest_file .= $file['install-as'];
         }
+        $orig_file = realpath($pkg->getFilePath($file->name));
         if ($retDir) {
             // Clean up the DIRECTORY_SEPARATOR mess
             $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
 
-            list($dest_dir, $dest_file) = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
+            list($dest_dir, $dest_file, $orig_file) = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
                                                         array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
                                                               DIRECTORY_SEPARATOR),
-                                                        array($dest_dir, $dest_file));
-            return array($dest_dir, $dest_file);
+                                                        array($dest_dir, $dest_file, $orig_file));
+            return array($dest_dir, $dest_file, $orig_file);
         }
         return $dest_file;
     }

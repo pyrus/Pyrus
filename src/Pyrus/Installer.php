@@ -77,21 +77,12 @@ class PEAR2_Pyrus_Installer
      * @var array
      */
     public static $options = array();
-    static protected $transact;
-    static protected $installedas;
     /**
      * Prepare installation of packages
      */
     static function begin()
     {
         if (!self::$inTransaction) {
-            if (!isset(self::$transact)) {
-                self::$transact = new PEAR2_Pyrus_FileTransactions;
-                self::$installedas = new PEAR2_Pyrus_FileTransactions_Installedas;
-                self::$transact->registerTransaction('installedas', self::$installedas);
-                self::$transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
-                self::$transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
-            }
             self::$installPackages = array();
             self::$installedPackages = array();
             self::$removedPackages = array();
@@ -221,7 +212,7 @@ class PEAR2_Pyrus_Installer
     {
         if (self::$inTransaction) {
             self::$inTransaction = false;
-            self::$transact->rollback();
+            PEAR2_Pyrus_AtomicFileTransaction::rollback();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             $err = new PEAR2_MultiErrors;
             foreach (self::$registeredPackages as $package) {
@@ -285,12 +276,12 @@ class PEAR2_Pyrus_Installer
                 $package->makeConnections($graph, self::$installPackages);
             }
             // topologically sort packages and install them via iterating over the graph
-            self::$transact->begin();
+            PEAR2_Pyrus_AtomicFileTransaction::begin();
             foreach ($graph as $package) {
                 $installer->install($package);
                 self::$installedPackages[] = $package;
             }
-            self::$transact->commit();
+            PEAR2_Pyrus_AtomicFileTransaction::commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (self::$installedPackages as $package) {
                 try {
@@ -304,6 +295,7 @@ class PEAR2_Pyrus_Installer
             self::$installPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
             // success
+            PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             self::$inTransaction = false;
         } catch (Exception $e) {
             self::rollback();
@@ -322,7 +314,6 @@ class PEAR2_Pyrus_Installer
      */
     function install(PEAR2_Pyrus_Package $package)
     {
-        self::$installedas->reset($package);
         $tmp_path = $package->getLocation();
         $this->_options = array();
         try {
@@ -351,39 +342,56 @@ class PEAR2_Pyrus_Installer
                 continue;
             }
 
-            $info = $role->processInstallation($package, $file, $tmp_path);
-            list($save_destdir, $dest_dir, $dest_file, $orig_file) = $info;
-            $final_dest_file = $installed_as = $dest_file;
+            $transact = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject($role);
 
-            if (isset($this->_options['packagingroot'])) {
-                $final_dest_file = $this->_prependPath($final_dest_file,
-                    $this->_options['packagingroot']);
-            }
-            $dest_dir = dirname($final_dest_file);
-            $dest_file = $dest_dir . DIRECTORY_SEPARATOR . '.tmp' .
-                basename($final_dest_file);
+            $info = $role->getRelativeLocation($package, $file, true);
+            $dir = $info[0];
+            $dest_file = $info[1];
+            $orig_file = $info[2];
+
             // }}}
 
-            if (empty($this->_options['register-only'])) {
-                if (!file_exists($dest_dir) || !is_dir($dest_dir)) {
-                    if (!mkdir($dest_dir, 0755, true)) {
-                        throw new PEAR2_Pyrus_Installer_Exception("failed to mkdir $dest_dir");
-                    }
-                    PEAR2_Pyrus_Log::log(3, "+ mkdir $dest_dir");
-                }
-            }
             // pretty much nothing happens if we are only registering the install
             if (empty($this->_options['register-only'])) {
+                try {
+                    $transact->mkdir($dir, 0755);
+                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                    throw new PEAR2_Pyrus_Installer_Exception("failed to mkdir $dir", $e);
+                }
+                PEAR2_Pyrus_Log::log(3, "+ mkdir $dir");
+
                 if (!file_exists($orig_file)) {
                     throw new PEAR2_Pyrus_Installer_Exception("file $orig_file does not exist");
                 }
+
                 $contents = file_get_contents($orig_file);
                 if ($contents === false) {
                     $contents = '';
                 }
                 if (isset($file['md5sum'])) {
                     $md5sum = md5($contents);
+                    if (strtolower($md5sum) == strtolower($file['md5sum'])) {
+                        PEAR2_Pyrus_Log::log(2, "md5sum ok: $dest_file");
+                    } else {
+                        if (empty($options['force'])) {
+                            if (!isset($options['ignore-errors'])) {
+                                throw new PEAR2_Pyrus_Installer_Exception(
+                                    "bad md5sum for file $file");
+                            } else {
+                                if (!isset($options['soft'])) {
+                                    PEAR2_Pyrus_Log::log(0,
+                                        "warning : bad md5sum for file $dest_file");
+                                }
+                            }
+                        } else {
+                            if (!isset($options['soft'])) {
+                                PEAR2_Pyrus_Log::log(0,
+                                    "warning : bad md5sum for file $dest_file");
+                            }
+                        }
+                    }
                 }
+
                 $tasks = $file->tasks;
                 if ($package->isNewPackage()) {
                     if (isset($tasks['tasks:replace'])) {
@@ -407,45 +415,7 @@ class PEAR2_Pyrus_Installer
                         }
                     }
                 }
-                $wp = @fopen($dest_file, "wb");
-                if (!is_resource($wp)) {
-                    throw new PEAR2_Pyrus_Installer_Exception(
-                        "failed to create $dest_file: $php_errormsg");
-                }
-                if (fwrite($wp, $contents) === false) {
-                    throw new PEAR2_Pyrus_Installer_Exception(
-                        "failed writing to $dest_file: $php_errormsg");
-                }
-                fclose($wp);
-                // {{{ check the md5
-                if (isset($md5sum)) {
-                    if (strtolower($md5sum) == strtolower($file['md5sum'])) {
-                        PEAR2_Pyrus_Log::log(2, "md5sum ok: $final_dest_file");
-                    } else {
-                        if (empty($options['force'])) {
-                            // delete the file
-                            if (file_exists($dest_file)) {
-                                unlink($dest_file);
-                            }
-                            if (!isset($options['ignore-errors'])) {
-                                throw new PEAR2_Pyrus_Installer_Exception(
-                                    "bad md5sum for file $final_dest_file");
-                            } else {
-                                if (!isset($options['soft'])) {
-                                    PEAR2_Pyrus_Log::log(0,
-                                        "warning : bad md5sum for file $final_dest_file");
-                                }
-                            }
-                        } else {
-                            if (!isset($options['soft'])) {
-                                PEAR2_Pyrus_Log::log(0,
-                                    "warning : bad md5sum for file $final_dest_file");
-                            }
-                        }
-                    }
-                }
-                // }}}
-                // {{{ set file permissions
+
                 if (strpos(PHP_OS, 'WIN') === false) {
                     if ($role->isExecutable()) {
                         $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0777);
@@ -453,17 +423,18 @@ class PEAR2_Pyrus_Installer
                     } else {
                         $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0666);
                     }
-                    self::$transact->chmod($mode, $dest_file);
-                    if (!@chmod($dest_file, $mode)) {
-                        if (!isset($options['soft'])) {
-                            PEAR2_Pyrus_Log::log(0,
-                                "failed to change mode of $dest_file: $php_errormsg");
-                        }
-                    }
+                } else {
+                    $mode = null;
                 }
-                // }}}
-                self::$transact->rename($dest_file, $final_dest_file, $role->isExtension());
+
+                try {
+                    $transact->createOrOpenPath($dest_file, $contents, $mode);
+                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                    throw new PEAR2_Pyrus_Installer_Exception(
+                        "failed writing to $dest_file", $e);
+                }
             }
+            continue;
             // Store the full path where the file was installed for easy uninstall
             self::$transact->installedas($file->name, $installed_as,
                                 $save_destdir, dirname(substr($dest_file,
