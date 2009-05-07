@@ -76,16 +76,12 @@ class PEAR2_Pyrus_Uninstaller
      * @var array
      */
     public static $options = array();
-    static protected $transact;
     /**
      * Prepare uninstallation of packages
      */
     static function begin()
     {
         if (!self::$inTransaction) {
-            self::$transact = new PEAR2_Pyrus_FileTransactions;
-            self::$transact->registerTransaction('rmdir', new PEAR2_Pyrus_FileTransactions_Rmdir);
-            self::$transact->registerTransaction('rename', new PEAR2_Pyrus_FileTransactions_Rename);
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$restoredPackages = array();
@@ -116,51 +112,13 @@ class PEAR2_Pyrus_Uninstaller
     }
 
     /**
-     * Download and prepare all dependencies
-     *
-     * @param PEAR2_Pyrus_Package $package
-     */
-    static function prepareDependencies(PEAR2_Pyrus_IPackageFile $package)
-    {
-        foreach ($package->dependencies->required->package as $dep) {
-            if (isset($dep['conflicts'])) {
-                continue;
-            }
-            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, false, true));
-        }
-        foreach ($package->dependencies->required->subpackage as $dep) {
-            if (isset($dep['conflicts'])) {
-                continue;
-            }
-            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true, true));
-        }
-        if ($package->requestedGroup) {
-            foreach ($package->dependencies->group[$package->requestedGroup]->package as $dep) {
-                self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
-            }
-            foreach ($package->dependencies->group[$package->requestedGroup]->subpackage as $dep) {
-                self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
-            }
-        }
-        if (!isset(self::$options['optionaldeps'])) {
-            return;
-        }
-        foreach ($package->dependencies->optional->package as $dep) {
-            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package));
-        }
-        foreach ($package->dependencies->optional->subpackage as $dep) {
-            self::prepare(new PEAR2_Pyrus_Package_Dependency($dep, $package, true));
-        }
-    }
-
-    /**
      * Cancel installation
      */
     static function rollback()
     {
         if (self::$inTransaction) {
             self::$inTransaction = false;
-            self::$transact->rollback();
+            PEAR2_Pyrus_AtomicFileTransaction::rollback();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             $err = new PEAR2_MultiErrors;
             foreach (self::$registeredPackages as $package) {
@@ -220,30 +178,28 @@ class PEAR2_Pyrus_Uninstaller
                 $package->makeUninstallConnections($graph, self::$uninstallPackages);
             }
             // topologically sort packages and install them via iterating over the graph
-            self::$transact->begin();
+            PEAR2_Pyrus_AtomicFileTransaction::begin();
             $actual = array();
             foreach ($graph as $package) {
                 $actual[] = $package;
             }
+            $reg = PEAR2_Pyrus_Config::current()->registry;
             // easy reverse topological sort
             array_reverse($actual);
             foreach ($actual as $package) {
-                $installer->uninstall($package);
+                $installer->uninstall($package, $reg);
                 self::$uninstalledPackages[] = $package;
             }
-            self::$transact->commit();
-            self::$transact->begin();
-            foreach ($actual as $package) {
-                // remove empty directories
-                $installer->cleanup($package);
-            }
-            self::$transact->commit();
-            $reg = PEAR2_Pyrus_Config::current()->registry;
+            $dirtrees = array();
             foreach (self::$uninstalledPackages as $package) {
+                $dirtrees[] = $reg->info($package->name, $package->channel, 'dirtree');
                 $previous = $reg->toPackageFile($package->name, $package->channel, true);
                 self::$registeredPackages[] = array($package, $previous);
                 $reg->uninstall($package->name, $package->channel);
             }
+            PEAR2_Pyrus_AtomicFileTransaction::rmEmptyDirs($dirtrees);
+            PEAR2_Pyrus_AtomicFileTransaction::commit();
+            PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             self::$uninstallPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
         } catch (Exception $e) {
@@ -255,33 +211,33 @@ class PEAR2_Pyrus_Uninstaller
     /**
      * Uninstall a package
      *
-     * Using PEAR2_Pyrus_FileTransactions and the woPEAR2_Pyrus_PEAR2_Installer_Role* to
-     * group files in appropriate locations, the install() method then passes
-     * on the registration of installation to PEAR2_Pyrus_Registry.  If necessary,
-     * PEAR2_Pyrus_Config will update the install-time snapshots of configuration
+     * Remove files
      * @param PEAR2_Pyrus_Package $package
      */
-    function uninstall(PEAR2_Pyrus_IRegistry $package)
+    function uninstall(PEAR2_Pyrus_IPackageFile $package, PEAR2_Pyrus_IRegistry $reg)
     {
         if (!empty($this->_options['register-only'])) {
             // pretty much nothing happens if we are only registering the install
             return;
         }
-        foreach ($package->installedfiles as $file) {
-            self::$transact->backup($file);
-            self::$transact->delete($file);
+        try {
+            $config = new PEAR2_Pyrus_Config_Snapshot($package->date . ' ' . $package->time);
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Installer_Exception('Cannot retrieve files, config ' .
+                                    'snapshot could not be processed', $e);
         }
-    }
-
-    function cleanup(PEAR2_Pyrus_IRegistry $package)
-    {
-        if ($dirtree = $package->dirtree) {
-            // attempt to delete empty directories
-            uksort($dirtree, 'strnatcmp');
-            array_reverse($dirtree);
-            foreach($dirtree as $dir => $notused) {
-                self::$transact->rmdir($dir);
-            }
+        $configpaths = array();
+        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roleobj =
+                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+            $configpaths[$role] = $config->{$roleobj->getLocationConfig()};
+        }
+        $ret = array();
+        foreach ($reg->info($package->name, $package->channel, 'installedfiles') as $file) {
+            $transact = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject($file['configpath']);
+            $transact->removePath($file['relativepath']);
         }
     }
 }

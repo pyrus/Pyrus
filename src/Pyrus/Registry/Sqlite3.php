@@ -237,8 +237,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $sql = '
             INSERT INTO files
-              (packages_name, packages_channel, packagepath, role, relativepath, origpath, baseinstalldir)
-            VALUES(:name, :channel, :path, :role, :relativepath, :origpath, :baseinstall)';
+              (packages_name, packages_channel, packagepath, configpath, role, relativepath, origpath, baseinstalldir)
+            VALUES(:name, :channel, :path, :configpath, :role, :relativepath, :origpath, :baseinstall)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
@@ -258,13 +258,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
 
             $stmt->bindParam(':relativepath', $relativepath);
-            if ($file['install-as']) {
-                $p = $file['install-as'];
-            } else {
-                $p = $curconfig->{$roles[$file->role]->getLocationConfig()} .
-                    DIRECTORY_SEPARATOR . $relativepath;
-            }
-            $stmt->bindParam(':path',         $p);
+            $p = $curconfig->{$roles[$file->role]->getLocationConfig()};
+            $stmt->bindParam(':configpath',         $p);
+            $stmt->bindValue(':path', $p . DIRECTORY_SEPARATOR . $relativepath);
             $o = $file['attribs']['name'];
             $stmt->bindParam(':origpath',     $o);
             $r = $file->role;
@@ -842,7 +838,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         } elseif ($field == 'installedfiles') {
             $ret = array();
             $sql = 'SELECT
-                        packagepath, role, origpath, baseinstalldir
+                        configpath, relativepath, role, origpath, baseinstalldir
                     FROM files
                     WHERE
                         packages_name = :name AND packages_channel = :channel';
@@ -860,15 +856,21 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
             while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
                 if ($file['baseinstalldir']) {
-                    $ret[$file['packagepath']] = array('role' => $file['role'],
+                    $ret[$file['configpath'] . DIRECTORY_SEPARATOR . $file['relativepath']] =
+                                                      array('role' => $file['role'],
                                                        'name' => $file['origpath'],
                                                        'baseinstalldir' => $file['baseinstalldir'],
-                                                       'installed_as' => $file['packagepath'],
+                                                       'installed_as' => $file['configpath'] . DIRECTORY_SEPARATOR . $file['relativepath'],
+                                                       'relativepath' => $file['relativepath'],
+                                                       'configpath' => $file['configpath'],
                                                       );
                 } else {
-                    $ret[$file['packagepath']] = array('role' => $file['role'],
+                    $ret[$file['configpath'] . DIRECTORY_SEPARATOR . $file['relativepath']] =
+                                                      array('role' => $file['role'],
                                                        'name' => $file['origpath'],
-                                                       'installed_as' => $file['packagepath'],
+                                                       'installed_as' => $file['configpath'] . DIRECTORY_SEPARATOR . $file['relativepath'],
+                                                       'relativepath' => $file['relativepath'],
+                                                       'configpath' => $file['configpath'],
                                                       );
                 }
             }

@@ -338,10 +338,28 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
                 return array_reverse($ret);
             }
 
+            $roles = array();
+            $configpaths = array();
+            $config = PEAR2_Pyrus_Config::current();
+            foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($pf->getPackageType()) as $role) {
+                // set up a list of file role => configuration variable
+                // for storing in the registry
+                $roles[$role] =
+                    PEAR2_Pyrus_Installer_Role::factory($pf->getPackageType(), $role);
+                $configpaths[$role] = $config->{$roles[$role]->getLocationConfig()};
+            }
             $ret = array();
             foreach ($data['filelist'] as $file) {
                 if (!isset($file['installed_as'])) {
                     continue;
+                }
+                if (0 !== strpos($file['installed_as'], $configpaths[$file['role']])) {
+                    // this was installed with a different configuration, so don't guess
+                    $file['relativepath'] = basename($file['installed_as']);
+                    $file['configpath'] = dirname($file['installed_as']);
+                } else {
+                    $file['relativepath'] = substr($file['installed_as'], strlen($configpaths[$file['role']]) + 1);
+                    $file['configpath'] = $configpaths[$file['role']];
                 }
                 $ret[$file['installed_as']] = $file;
             }

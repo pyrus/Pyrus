@@ -165,6 +165,8 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
                 $attrs = $file->getArrayCopy();
                 $ret[$filepath] = $attrs['attribs'];
                 $ret[$filepath]['installed_as'] = $filepath;
+                $ret[$filepath]['relativepath'] = $relativepath;
+                $ret[$filepath]['configpath'] = $config->{$roles[$file->role]->getLocationConfig()};
             }
             return $ret;
         } elseif ($field == 'dirtree') {

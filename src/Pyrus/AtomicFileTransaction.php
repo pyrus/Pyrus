@@ -245,7 +245,25 @@ class PEAR2_Pyrus_AtomicFileTransaction
         }
     }
 
-    static function rmrf($path)
+    /**
+     * Remove all empty directories on uninstall
+     */
+    static function rmEmptyDirs($dirtrees)
+    {
+        foreach ($dirtrees as $dirtree) {
+            foreach ($dirtree as $dir) {
+                foreach (static::$allTransactObjects as $path => $obj) {
+                    if (0 === strpos($path, $dir)) {
+                        // only remove empty directories, don't throw exception on
+                        // non-empty directories
+                        $obj->rmrf($dir, true, false);
+                    }
+                }
+            }
+        }
+    }
+
+    static function rmrf($path, $onlyEmptyDirs = false, $strict = true)
     {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path),
                                                RecursiveIteratorIterator::CHILD_FIRST)
@@ -255,10 +273,21 @@ class PEAR2_Pyrus_AtomicFileTransaction
             }
             if (is_dir($file->getPathname())) {
                 if (!rmdir($file->getPathname())) {
+                    if (!$strict) {
+                        return;
+                    }
                     throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                         'Unable to fully remove ' . $path);
                 }
             } else {
+                if ($onlyEmptyDirs) {
+                    if (!$strict) {
+                        return;
+                    }
+                    throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
+                        'Unable to fully remove ' . $path . ', directory is not empty');
+                    return;
+                }
                 if (!unlink($file->getPathname())) {
                     throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                         'Unable to fully remove ' . $path);
