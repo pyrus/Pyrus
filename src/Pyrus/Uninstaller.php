@@ -60,14 +60,6 @@ class PEAR2_Pyrus_Uninstaller
      */
     protected static $registeredPackages = array();
 
-    /**
-     * Packages that were restored during uninstallation
-     *
-     * This list is used when {@link rollback()} is called to restore state
-     * the packages to install
-     * @var array
-     */
-    protected static $restoredPackages = array();
 
     /**
      * Installer options.  Valid indices are:
@@ -84,7 +76,6 @@ class PEAR2_Pyrus_Uninstaller
         if (!self::$inTransaction) {
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
-            self::$restoredPackages = array();
             self::$inTransaction = true;
         }
     }
@@ -130,22 +121,9 @@ class PEAR2_Pyrus_Uninstaller
                     $err->E_ERROR[] = $e;
                 }
             }
-            foreach (self::$restoredPackages as $package) {
-                try {
-                    $reg->uninstall($package->name, $package->channel);
-                } catch (Exception $e) {
-                    $err->E_ERROR[] = $e;
-                }
-                try {
-                    $reg->install($package->getPackageFile()->info);
-                } catch (Exception $e) {
-                    $err->E_ERROR[] = $e;
-                }
-            }
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$registeredPackages = array();
-            self::$restoredPackages = array();
             if (count($err)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
