@@ -118,7 +118,6 @@ class PEAR2_Pyrus_Uninstaller
     {
         if (self::$inTransaction) {
             self::$inTransaction = false;
-            PEAR2_Pyrus_AtomicFileTransaction::rollback();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             $err = new PEAR2_MultiErrors;
             foreach (self::$registeredPackages as $package) {
