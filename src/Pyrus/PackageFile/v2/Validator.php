@@ -405,6 +405,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                     '" in package.xml does not exist');
                 continue;
             }
+            $this->analyzeSourceCode($this->_pf->getFilePath($fa->name));
         }
         return !count($this->errors->E_ERROR);
     }
