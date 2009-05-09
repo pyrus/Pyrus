@@ -398,22 +398,15 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Cannot validate files, no path to package file is set (use setPackageFile())');
         }
-        $dir_prefix = $this->_pf->filepath;
-        $info = $this->_pf->getContents();
-        $info = $info['dir']['file'];
-        if (isset($info['attribs'])) {
-            $info = array($info);
-        }
         foreach ($this->_pf->contents as $fa) {
-            $file = $fa->name;
-            if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $file)) {
+            if (!file_exists($this->_pf->getFilePath($fa->name))) {
                 $this->errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
-                    'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $file .
+                    'File "' . $this->_pf->getFilePath($fa->name) .
                     '" in package.xml does not exist');
                 continue;
             }
         }
-        return count($this->errors->E_ERROR);
+        return !count($this->errors->E_ERROR);
     }
 
     /**
@@ -575,6 +568,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                     }
                     continue 2;
                 case T_DOUBLE_COLON:
+                    if ($tokens[$i - 1][0] == T_VARIABLE) {
+                        continue;
+                    }
                     if (!($tokens[$i - 1][0] == T_WHITESPACE || $tokens[$i - 1][0] == T_STRING)) {
                         $this->errors->E_ERROR[] =
                             new PEAR2_Pyrus_PackageFile_Exception(
