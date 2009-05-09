@@ -26,10 +26,13 @@
 class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
 {
     private $_file;
-    function __construct($package, PEAR2_Pyrus_Package $parent)
+    function __construct($package, PEAR2_Pyrus_Package $parent, PEAR2_Pyrus_PackageFile $info = null)
     {
         $this->_file = $package;
-        parent::__construct(new PEAR2_Pyrus_PackageFile($package), $parent);
+        if ($info === null) {
+            $info = new PEAR2_Pyrus_PackageFile($package);
+        }
+        parent::__construct($info, $parent);
     }
 
     function getLocation()

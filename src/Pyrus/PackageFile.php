@@ -29,6 +29,10 @@ class PEAR2_Pyrus_PackageFile
     public $path;
     function __construct($package, $class = 'PEAR2_Pyrus_PackageFile_v2')
     {
+        if ($package instanceof PEAR2_Pyrus_IPackageFile) {
+            $this->path = $package->getFilePath();
+            return $this->info = $package;
+        }
         $this->path = $package;
         $parser = new PEAR2_Pyrus_PackageFile_Parser_v2;
         $data = file_get_contents($package);
@@ -42,6 +46,11 @@ class PEAR2_Pyrus_PackageFile
     function __toString()
     {
         return $this->info->__toString();
+    }
+
+    function getValidator()
+    {
+        return $this->info->getValidator();
     }
 
     function getPackageFileObject()

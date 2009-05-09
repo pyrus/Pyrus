@@ -12,17 +12,6 @@
  * @version   SVN: $Id$
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-/**#@+
- * Error codes for task validation routines
- */
-define('PEAR2_PYRUS_TASK_ERROR_NOATTRIBS', 1);
-define('PEAR2_PYRUS_TASK_ERROR_MISSING_ATTRIB', 2);
-define('PEAR2_PYRUS_TASK_ERROR_WRONG_ATTRIB_VALUE', 3);
-define('PEAR2_PYRUS_TASK_ERROR_INVALID', 4);
-/**#@-*/
-define('PEAR2_PYRUS_TASK_PACKAGE', 1);
-define('PEAR2_PYRUS_TASK_INSTALL', 2);
-define('PEAR2_PYRUS_TASK_PACKAGEANDINSTALL', 3);
 /**
  * A task is an operation that manipulates the contents of a file.
  *
@@ -49,8 +38,11 @@ define('PEAR2_PYRUS_TASK_PACKAGEANDINSTALL', 3);
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Common extends \ArrayObject
+abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
 {
+    const PACKAGE = 1;
+    const INSTALL = 2;
+    const PACKAGEANDINSTALL = 3;
     /**
      * Valid types for this version are 'simple' and 'multiple'
      *
@@ -65,19 +57,7 @@ class PEAR2_Pyrus_Task_Common extends \ArrayObject
     /**
      * Determines which install phase this task is executed under
      */
-    var $phase = PEAR2_PYRUS_TASK_INSTALL;
-    /**
-     * @access protected
-     */
-    var $config;
-    /**
-     * @access protected
-     */
-    var $registry;
-    /**
-     * @access protected
-     */
-    var $logger;
+    var $phase = PEAR2_Pyrus_Task_Common::INSTALL;
     /**
      * @access protected
      */
@@ -89,10 +69,8 @@ class PEAR2_Pyrus_Task_Common extends \ArrayObject
 
     static $multiple = array();
 
-    function __construct($config, $phase)
+    function __construct($phase)
     {
-        $this->config = $config;
-        $this->registry = $config->registry;
         $this->installphase = $phase;
         if ($this->type == 'multiple') {
             self::$multiple[get_class($this)][] = $this;
@@ -101,29 +79,38 @@ class PEAR2_Pyrus_Task_Common extends \ArrayObject
 
     /**
      * Validate the basic contents of a task tag.
-     * @param PEAR_PackageFile_v2
-     * @param array
-     * @param PEAR_Config
-     * @param array the entire parsed <file> tag
-     * @return true|array On error, return an array in format:
-     *    array(PEAR_TASK_ERROR_???[, param1][, param2][, ...])
      *
-     *    For PEAR_TASK_ERROR_MISSING_ATTRIB, pass the attribute name in
-     *    For PEAR_TASK_ERROR_WRONG_ATTRIB_VALUE, pass the attribute name and an array
-     *    of legal values in
-     * @static
-     * @abstract
+     * On error, one of the PEAR2_Pyrus_Task_Exception_* exceptions should be thrown.
+     *
+     *  - {@link PEAR2_Pyrus_Task_Exception_NoAttributes}: use this exception for
+     *    missing attributes that should be present.
+     *  - {@link PEAR2_Pyrus_Task_Exception_MissingAttribute}: use this exception
+     *    for a specific missing attribute.
+     *  - {@link PEAR2_Pyrus_Task_Exception_WrongAttributeValue}: use this
+     *    exception for an incorrect value for an attribute.
+     *  - {@link PEAR2_Pyrus_Task_Exception_InvalidTask}: use this exception for
+     *    general validation errors
+     *
+     * It is also possible to throw multiple validation errors, by using a
+     * {@link PEAR2_MultiErrors} object as a cause parameter to
+     * {@link PEAR2_Pyrus_Task_Exception}.
+     * @param PEAR_Pyrus_IPackageFile
+     * @param array
+     * @param array the entire parsed <file> tag
+     * @param string the filename of the package.xml
+     * @throws PEAR2_Pyrus_Task_Exception
+     * @throws PEAR2_Pyrus_Task_Exception_NoAttributes
+     * @throws PEAR2_Pyrus_Task_Exception_MissingAttribute
+     * @throws PEAR2_Pyrus_Task_Exception_WrongAttributeValue
+     * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
      */
-    static function validateXml($pkg, $xml, $config, $fileXml)
-    {
-    }
+    abstract static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file);
 
     /**
      * Initialize a task instance with the parameters
      * @param array raw, parsed xml
      * @param array attributes from the <file> tag containing this task
      * @param string|null last installed version of this package
-     * @abstract
      */
     function init($xml, $fileAttributes, $lastVersion)
     {
@@ -136,16 +123,14 @@ class PEAR2_Pyrus_Task_Common extends \ArrayObject
      * return any errors using the custom throwError() method to allow forward compatibility
      *
      * This method MUST NOT write out any changes to disk
-     * @param PEAR_PackageFile_v2
+     * @param PEAR_Pyrus_IPackageFile
      * @param string file contents
      * @param string the eventual final file location (informational only)
-     * @return string|false|PEAR_Error false to skip this file, PEAR_Error to fail
-     *         (use $this->throwError), otherwise return the new contents
+     * @return string|false false to skip this file, otherwise return the new contents
+     * @throws PEAR2_Pyrus_Task_Exception on errors, throw this exception
      * @abstract
      */
-    function startSession($pkg, $contents, $dest)
-    {
-    }
+    abstract function startSession(PEAR2_Pyrus_IPackage $pkg, $contents, $dest);
 
     /**
      * This method is used to process each of the tasks for a particular multiple class
@@ -159,33 +144,24 @@ class PEAR2_Pyrus_Task_Common extends \ArrayObject
     {
     }
 
-    /**
-     * @static
-     * @final
-     */
-    function hasPostinstallTasks()
+    final static function hasPostinstallTasks()
     {
         return count(self::$multiple);
     }
 
-    /**
-     * @static
-     * @final
-     */
-     function runPostinstallTasks()
-     {
-         foreach (self::$multiple as $class => $tasks) {
-             call_user_func(array($class, 'run'),
-                  self::$multiple[$class]);
-         }
-         self::$multiple = array();
+    final static function runPostinstallTasks()
+    {
+        foreach (self::$multiple as $class => $tasks) {
+            $class::run(self::$multiple[$class]);
+        }
+        self::$multiple[$class] = array();
     }
 
     /**
      * Determines whether a role is a script
      * @return bool
      */
-    function isScript()
+    final function isScript()
     {
         return $this->type == 'script';
     }

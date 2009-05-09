@@ -147,6 +147,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'date' => 'setTag',
         'time' => 'setTag',
         'notes' => 'setTag',
+        'extends' => 'setTag',
         'type' => 'setType',
     );
 
@@ -783,13 +784,9 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         }
     }
 
-    function validate($state = PEAR2_Pyrus_Validate::NORMAL)
+    function getValidator($state = PEAR2_Pyrus_Validate::NORMAL)
     {
-        if (!isset($this->packageInfo) || !is_array($this->packageInfo)) {
-            return false;
-        }
-        $validator = new PEAR2_Pyrus_PackageFile_v2_Validator;
-        return $validator->validate($this, $state);
+        return new PEAR2_Pyrus_PackageFile_v2_Validator;
     }
 
     function getTasksNs()

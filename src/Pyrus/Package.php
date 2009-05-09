@@ -30,7 +30,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess, PEAR2_Pyrus_IPackageFile
+class PEAR2_Pyrus_Package implements IteratorAggregate, PEAR2_Pyrus_IPackage
 {
     /**
      * The actual package representation
@@ -42,6 +42,9 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess, PEAR2_Pyrus
 
     function __construct($packagedescription, $forceremote = false)
     {
+        if (!$packagedescription) {
+            return;
+        }
         if ($forceremote) {
             $this->internal = new PEAR2_Pyrus_Package_Remote($packagedescription);
         } else {
@@ -69,6 +72,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess, PEAR2_Pyrus
     {
         // delegate to the internal object
         return call_user_func_array(array($this->internal, $func), $args);
+    }
+
+    function getValidator()
+    {
+        return $this->internal->getValidator();
     }
 
     function toArray($forpackaging = false)
@@ -107,6 +115,11 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, ArrayAccess, PEAR2_Pyrus
     function getInternalPackage()
     {
         return $this->internal;
+    }
+
+    function setInternalPackage(PEAR2_Pyrus_IPackage $internal)
+    {
+        $this->internal = $internal;
     }
 
     function __toString()

@@ -58,7 +58,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
         $xml = parent::current();
         $task = 'PEAR2_Pyrus_Task_' .
             ucfirst(str_replace($this->_tasksNs . ':', '', $this->key()));
-        $a = new $task(PEAR2_Pyrus_Config::current(), PEAR2_PYRUS_TASK_PACKAGE);
+        $a = new $task(PEAR2_Pyrus_Config::current(), PEAR2_Pyrus_Task_Common::PACKAGE);
         return array($xml, $a);
     }
 }

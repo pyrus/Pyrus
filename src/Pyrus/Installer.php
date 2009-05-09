@@ -212,7 +212,6 @@ class PEAR2_Pyrus_Installer
     {
         if (self::$inTransaction) {
             self::$inTransaction = false;
-            PEAR2_Pyrus_AtomicFileTransaction::rollback();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             $err = new PEAR2_MultiErrors;
             foreach (self::$registeredPackages as $package) {
@@ -270,18 +269,30 @@ class PEAR2_Pyrus_Installer
             foreach (self::$installPackages as $package) {
                 $package->download();
             }
+
+            // now validate everything to the fine-grained level
+            foreach (self::$installPackages as $package) {
+                $package->validate(PEAR2_Pyrus_Validate::INSTALLING);
+            }
+
             // create dependency connections and load them into the directed graph
             $graph = new PEAR2_Pyrus_DirectedGraph;
             foreach (self::$installPackages as $package) {
                 $package->makeConnections($graph, self::$installPackages);
             }
             // topologically sort packages and install them via iterating over the graph
-            PEAR2_Pyrus_AtomicFileTransaction::begin();
-            foreach ($graph as $package) {
-                $installer->install($package);
-                self::$installedPackages[] = $package;
+            try {
+                PEAR2_Pyrus_AtomicFileTransaction::begin();
+                foreach ($graph as $package) {
+                    $installer->install($package);
+                    self::$installedPackages[] = $package;
+                }
+                PEAR2_Pyrus_AtomicFileTransaction::commit();
+            } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                PEAR2_Pyrus_AtomicFileTransaction::rollback();
+                throw new PEAR2_Pyrus_Installer_Exception('Installation of ' . $package->channel .
+                                                          '/' . $package->name . ' failed', $e);
             }
-            PEAR2_Pyrus_AtomicFileTransaction::commit();
             $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (self::$installedPackages as $package) {
                 try {

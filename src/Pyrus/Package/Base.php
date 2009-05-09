@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
+abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage, Iterator
 {
     protected $packagefile;
     /**
@@ -194,6 +194,11 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         return $this->packagefile->info->$var = $value;
     }
 
+    function getValidator()
+    {
+        return $this->packagefile->info->getValidator();
+    }
+
     function toArray($forpackaging = false)
     {
         return $this->packagefile->info->toArray($forpackaging);
@@ -202,6 +207,14 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
     function __toString()
     {
         return $this->packagefile->__toString();
+    }
+
+    function validate($state = PEAR2_Pyrus_Validate::NORMAL)
+    {
+        $validator = $this->packagefile->getValidator();
+        if (!$validator->validate($this, $state)) {
+            throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $validator->getErrors());
+        }
     }
 
     function valid()

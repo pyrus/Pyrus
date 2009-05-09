@@ -4,7 +4,7 @@ PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), no packages installed
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 ob_start();
-mkdir(__DIR__ . '/testit');
+@mkdir(__DIR__ . '/testit');
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 $cli->run($args = array (__DIR__ . '/testit', 'list-packages'));
 

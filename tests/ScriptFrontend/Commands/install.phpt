@@ -3,7 +3,7 @@ PEAR2_Pyrus_ScriptFrontend_Commands::install(), basic test
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
+@mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit');
 $c->bin_dir = __DIR__ . '/testit/bin';
@@ -31,7 +31,7 @@ $test->assertEquals(file_get_contents(__DIR__.'/../../../../sandbox/SimpleChanne
 --CLEAN--
 <?php
 $dir = __DIR__ . '/testit';
-include __DIR__ . '/../clean.php.inc';
+include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
 ===DONE===

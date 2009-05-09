@@ -38,60 +38,76 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      */
     var $_pkg;
     var $_contents;
-    var $phase = PEAR2_PYRUS_TASK_INSTALL;
+    var $phase = PEAR2_Pyrus_Task_Common::INSTALL;
 
     /**
      * Validate the raw xml at parsing-time.
      *
      * This also attempts to validate the script to make sure it meets the criteria
      * for a post-install script
-     * @param PEAR_PackageFile_v2
-     * @param array The XML contents of the <postinstallscript> tag
-     * @param PEAR_Config
+     * @param PEAR_Pyrus_IPackageFile
+     * @param array
      * @param array the entire parsed <file> tag
-     * @static
+     * @param string the filename of the package.xml
+     * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
      */
-    function validateXml($pkg, $xml, $config, $fileXml)
+    static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
     {
         if ($fileXml['role'] != 'php') {
-            return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-            $fileXml['name'] . '" must be role="php"');
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] . '" must be role="php"');
         }
         try {
             $file = $pkg->getFileContents($fileXml['name']);
         } catch (Exception $e) {
-            return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                $fileXml['name'] . '" is not valid: ' .
-                $e->getMessage());
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] . '" is not valid: ' .
+                                                             $e->getMessage(), $e);
         }
         if ($file === null) {
-            return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                $fileXml['name'] . '" could not be retrieved for processing!');
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] . '" could not be ' .
+                                                             'retrieved for processing!');
         } else {
-            $analysis = $pkg->analyzeSourceCode($file, true);
+            $validator = $pkg->getValidator();
+            $analysis = $validator->analyzeSourceCode($file, true);
             if (!$analysis) {
                 $warnings = '';
-                foreach ($pkg->getValidationWarnings() as $warn) {
-                    $warnings .= $warn['message'] . "\n";
+                // iterate over the problems
+                foreach ($validator->getErrors() as $warn) {
+                    $warnings .= $warn->getMessage() . "\n";
                 }
-                return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Analysis of post-install script "' .
-                    $fileXml['name'] . '" failed: ' . $warnings);
+                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file, 
+                                                                 'Analysis of post-install script "' .
+                                                                 $fileXml['name'] . '" failed: ' . $warnings,
+                                                                 $validator->getErrors());
             }
             if (count($analysis['declared_classes']) != 1) {
-                return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                    $fileXml['name'] . '" must declare exactly 1 class');
+                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                 'Post-install script "' .
+                                                                 $fileXml['name'] .
+                                                                 '" must declare exactly 1 class');
             }
             $class = $analysis['declared_classes'][0];
             if ($class != str_replace(array('/', '.php'), array('_', ''),
                   $fileXml['name']) . '_postinstall') {
-                return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                    $fileXml['name'] . '" class "' . $class . '" must be named "' .
-                    str_replace(array('/', '.php'), array('_', ''),
-                    $fileXml['name']) . '_postinstall"');
+                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                 'Post-install script "' .
+                                                                 $fileXml['name'] . '" class "' .
+                                                                 $class . '" must be named "' .
+                                                                 str_replace(array('/', '.php'),
+                                                                             array('_', ''),
+                                                                             $fileXml['name']) .
+                                                                 '_postinstall"');
             }
             if (!isset($analysis['declared_methods'][$class])) {
-                return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                    $fileXml['name'] . '" must declare methods init() and run()');
+                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                 'Post-install script "' .
+                                                                 $fileXml['name'] .
+                                                                 '" must declare methods init() and run()');
             }
             $methods = array('init' => 0, 'run' => 1);
             foreach ($analysis['declared_methods'][$class] as $method) {
@@ -100,8 +116,10 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                 }
             }
             if (count($methods)) {
-                return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                    $fileXml['name'] . '" must declare methods init() and run()');
+                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                 'Post-install script "' .
+                                                                 $fileXml['name'] .
+                                                                 '" must declare methods init() and run()');
             }
         }
         $definedparams = array();
@@ -118,49 +136,71 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             }
             foreach ($params as $param) {
                 if (!isset($param[$tasksNamespace . 'id'])) {
-                    return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                        $fileXml['name'] . '" <paramgroup> must have ' .
-                        'an ' . $tasksNamespace . 'id> tag');
+                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                 'Post-install script "' .
+                                                                 $fileXml['name'] .
+                                                                 '" <paramgroup> must have ' .
+                                                                 'an ' . $tasksNamespace . 'id> tag');
                 }
                 if (isset($param[$tasksNamespace . 'name'])) {
                     if (!in_array($param[$tasksNamespace . 'name'], $definedparams)) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" ' . $tasksNamespace .
-                            'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" parameter "' . $param[$tasksNamespace . 'name'] .
-                            '" has not been previously defined');
+                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                 'Post-install script "' .
+                                                                 $fileXml['name'] . '" ' . $tasksNamespace .
+                                                                 'paramgroup> id "' .
+                                                                 $param[$tasksNamespace .'id'] .
+                                                                 '" parameter "' .
+                                                                 $param[$tasksNamespace . 'name'] .
+                                                                 '" has not been previously defined');
                     }
                     if (!isset($param[$tasksNamespace . 'conditiontype'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" ' . $tasksNamespace .
-                            'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace .
-                            'conditiontype> tag containing either "=", ' .
-                            '"!=", or "preg_match"');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" ' .
+                                                                         $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" must have a ' . $tasksNamespace .
+                                                                         'conditiontype> tag ' .
+                                                                         'containing either "=", ' .
+                                                                         '"!=", or "preg_match"');
                     }
                     if (!in_array($param[$tasksNamespace . 'conditiontype'],
                           array('=', '!=', 'preg_match'))) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" ' . $tasksNamespace .
-                            'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace .
-                            'conditiontype> tag containing either "=", ' .
-                            '"!=", or "preg_match"');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" ' .
+                                                                         $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" must have a ' . $tasksNamespace .
+                                                                         'conditiontype> tag ' .
+                                                                         'containing either "=", ' .
+                                                                         '"!=", or "preg_match"');
                     }
                     if (!isset($param[$tasksNamespace . 'value'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" ' . $tasksNamespace .
-                            'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace .
-                            'value> tag containing expected parameter value');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" ' .
+                                                                         $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" must have a ' .
+                                                                         $tasksNamespace .
+                                                                         'value> tag containing ' .
+                                                                         'expected parameter value');
                     }
                 }
                 if (isset($param[$tasksNamespace . 'instructions'])) {
                     if (!is_string($param[$tasksNamespace . 'instructions'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" ' . $tasksNamespace .
-                            'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" ' . $tasksNamespace . 'instructions> must be simple text');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" ' .
+                                                                         $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" ' . $tasksNamespace .
+                                                                         'instructions> must be simple text');
                     }
                 }
                 if (!isset($param[$tasksNamespace . 'param'])) {
@@ -172,36 +212,47 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                 }
                 foreach ($subparams as $subparam) {
                     if (!isset($subparam[$tasksNamespace . 'name'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" parameter for ' .
-                            $tasksNamespace . 'paramgroup> id "' .
-                            $param[$tasksNamespace . 'id'] . '" must have ' .
-                            'a ' . $tasksNamespace . 'name> tag');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" parameter for ' .
+                                                                         $tasksNamespace . 'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" must have ' .
+                                                                         'a ' . $tasksNamespace . 'name> tag');
                     }
                     if (!preg_match('/[a-zA-Z0-9]+/',
                           $subparam[$tasksNamespace . 'name'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" parameter "' .
-                            $subparam[$tasksNamespace . 'name'] .
-                            '" for ' . $tasksNamespace . 'paramgroup> id "' .
-                            $param[$tasksNamespace . 'id'] .
-                            '" is not a valid name.  Must contain only alphanumeric characters');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" parameter "' .
+                                                                         $subparam[$tasksNamespace . 'name'] .
+                                                                         '" for ' . $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" is not a valid name.  Must ' .
+                                                                         'contain only alphanumeric characters');
                     }
                     if (!isset($subparam[$tasksNamespace . 'prompt'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" parameter "' .
-                            $subparam[$tasksNamespace . 'name'] .
-                            '" for ' . $tasksNamespace . 'paramgroup> id "' .
-                            $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace . 'prompt> tag');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" parameter "' .
+                                                                         $subparam[$tasksNamespace . 'name'] .
+                                                                         '" for ' . $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" must have a ' . $tasksNamespace .
+                                                                         'prompt> tag');
                     }
                     if (!isset($subparam[$tasksNamespace . 'type'])) {
-                        return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'Post-install script "' .
-                            $fileXml['name'] . '" parameter "' .
-                            $subparam[$tasksNamespace . 'name'] .
-                            '" for ' . $tasksNamespace . 'paramgroup> id "' .
-                            $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace . 'type> tag');
+                        throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                                         'Post-install script "' .
+                                                                         $fileXml['name'] . '" parameter "' .
+                                                                         $subparam[$tasksNamespace . 'name'] .
+                                                                         '" for ' . $tasksNamespace .
+                                                                         'paramgroup> id "' .
+                                                                         $param[$tasksNamespace . 'id'] .
+                                                                         '" must have a ' . $tasksNamespace .
+                                                                         'type> tag');
                     }
                     $definedparams[] = $param[$tasksNamespace . 'id'] . '::' .
                     $subparam[$tasksNamespace . 'name'];
@@ -229,10 +280,8 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
 
     /**
      * Strip the tasks: namespace from internal params
-     *
-     * @access private
      */
-    function _stripNamespace($params = null)
+    protected function stripNamespace($params = null)
     {
         if ($params === null) {
             $params = array();
@@ -241,7 +290,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             }
             foreach ($this->_params as $i => $param) {
                 if (is_array($param)) {
-                    $param = $this->_stripNamespace($param);
+                    $param = $this->stripNamespace($param);
                 }
                 $params[str_replace($this->_pkg->getTasksNs() . ':', '', $i)] = $param;
             }
@@ -250,7 +299,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             $newparams = array();
             foreach ($params as $i => $param) {
                 if (is_array($param)) {
-                    $param = $this->_stripNamespace($param);
+                    $param = $this->stripNamespace($param);
                 }
                 $newparams[str_replace($this->_pkg->getTasksNs() . ':', '', $i)] = $param;
             }
@@ -268,12 +317,12 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      */
     function startSession($pkg, $contents)
     {
-        if ($this->installphase != PEAR2_PYRUS_TASK_INSTALL) {
+        if ($this->installphase != PEAR2_Pyrus_Task_Common::INSTALL) {
             return false;
         }
         // remove the tasks: namespace if present
         $this->_pkg = $pkg;
-        $this->_stripNamespace();
+        $this->stripNamespace();
         PEAR2_Pyrus_Log::log(0, 'Including external post-installation script "' .
             $contents . '" - any errors are in this script');
         include $contents;
@@ -289,7 +338,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             $res = $this->_obj->init($this->config, $pkg, $this->_lastversion);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Task_Exception('init of post-install script "' . $this->_class .
-                '->init()" failed');
+                '->init()" failed', $e);
         }
         PEAR2_Pyrus_Log::log(0, 'init succeeded');
         $this->_contents = $contents;

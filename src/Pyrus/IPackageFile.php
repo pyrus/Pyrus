@@ -8,4 +8,5 @@ interface PEAR2_Pyrus_IPackageFile
     function __set($var, $value);
     function __toString();
     function toArray($forpackaging = false);
+    function getValidator();
 }

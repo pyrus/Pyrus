@@ -26,20 +26,21 @@
 class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
 {
     var $type = 'simple';
-    var $phase = PEAR2_PYRUS_TASK_PACKAGE;
+    var $phase = PEAR2_Pyrus_Task_Common::PACKAGE;
     var $_replacements;
 
     /**
-     * Validate the raw xml at parsing-time.
-     * @param PEAR_PackageFile_v2
-     * @param array raw, parsed xml
-     * @param PEAR_Config
-     * @static
+     * Validate the basic contents of a <qindowseol> tag
+     * @param PEAR_Pyrus_IPackageFile
+     * @param array
+     * @param array the entire parsed <file> tag
+     * @param string the filename of the package.xml
+     * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
      */
-    static function validateXml($pkg, $xml, &$config, $fileXml)
+    static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
     {
         if ($xml != '') {
-            return array(PEAR2_PYRUS_TASK_ERROR_INVALID, 'no attributes allowed');
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('windowseol', $file, 'no attributes allowed');
         }
         return true;
     }
@@ -61,10 +62,9 @@ class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
      * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
      * @param string file contents
      * @param string the eventual final file location (informational only)
-     * @return string|false|PEAR_Error false to skip this file, PEAR_Error to fail
-     *         (use $this->throwError), otherwise return the new contents
+     * @return string
      */
-    function startSession($pkg, $contents, $dest)
+    function startSession(PEAR2_Pyrus_IPackage $pkg, $contents, $dest)
     {
         PEAR2_Pyrus_Log::log(3, "replacing all line endings with \\r\\n in $dest");
         return preg_replace("/\r\n|\n\r|\r|\n/", "\r\n", $contents);
