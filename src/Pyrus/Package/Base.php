@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage, Iterator
+abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
 {
     protected $packagefile;
     /**
@@ -153,26 +153,6 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage, Iterato
         return;
     }
 
-    function current()
-    {
-        return key($this->packagefile->info->_packageInfo['filelist']);
-    }
-
-    function key()
-    {
-        return 1;
-    }
-
-    function next()
-    {
-        next($this->packagefile->info->_packageInfo['filelist']);
-    }
-
-    function rewind()
-    {
-        reset($this->packagefile->info->_packageInfo['filelist']);
-    }
-
     function getPackageFile()
     {
         return $this->packagefile;
@@ -215,11 +195,6 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage, Iterato
         if (!$validator->validate($this, $state)) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $validator->getErrors());
         }
-    }
-
-    function valid()
-    {
-        return key($this->packagefile->info->_packageInfo['filelist']);
     }
 
     function getFileContents($file, $asstream = false)

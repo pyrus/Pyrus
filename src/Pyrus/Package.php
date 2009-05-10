@@ -30,7 +30,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package implements IteratorAggregate, PEAR2_Pyrus_IPackage
+class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
 {
     /**
      * The actual package representation
@@ -127,11 +127,6 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, PEAR2_Pyrus_IPackage
         return $this->internal->__toString();
     }
 
-    function getIterator()
-    {
-        return $this->internal;
-    }
-
     function offsetExists($offset)
     {
         return isset($this->internal[$offset]);
@@ -181,7 +176,7 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, PEAR2_Pyrus_IPackage
                         if ($first4 == '<?xml') {
                             return 'PEAR2_Pyrus_Package_Xml';
                         }
-                        return 'PEAR2_Pyrus_Package_Tar';
+                        return 'PEAR2_Pyrus_Package_Phar';
                     }
                 } else {
                     if (extension_loaded('phar') && strtolower($info['extension']) != 'xml') {
@@ -190,13 +185,8 @@ class PEAR2_Pyrus_Package implements IteratorAggregate, PEAR2_Pyrus_IPackage
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
                             return 'PEAR2_Pyrus_Package_Xml';
-                        case 'zip' :
-                            return 'PEAR2_Pyrus_Package_Zip';
-                        case 'tar' :
-                        case 'tgz' :
-                            return 'PEAR2_Pyrus_Package_Tar';
-                        case 'phar' :
-                            return 'PEAR2_Pyrus_Package_Phar';
+                        default:
+                            throw new PEAR2_Pyrus_Package_Exception('Cannot read archives with phar extension');
                     }
                 }
             }
