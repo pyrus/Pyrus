@@ -10,7 +10,7 @@ require __DIR__ . '/../../../AllRegistries/package/basic/file.template';
 --CLEAN--
 <?php
 $dir = __DIR__ . '/testit';
-include __DIR__ . '/../../../clean.php.inc';
+include __DIR__ . '/../../../../clean.php.inc';
 ?>
 --EXPECT--
 ===DONE===
