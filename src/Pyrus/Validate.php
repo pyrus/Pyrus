@@ -246,6 +246,10 @@ class PEAR2_Pyrus_Validate
      */
     function validateVersion()
     {
+        if ($this->_packagexml->stability['release'] == 'snapshot') {
+            // allow any version
+            return true;
+        }
         if ($this->_state != PEAR2_Pyrus_Validate::PACKAGING) {
             if (!$this->validVersion($this->_packagexml->version['release'])) {
                 $this->_addFailure('version',
@@ -263,8 +267,6 @@ class PEAR2_Pyrus_Validate
         $name = $this->_packagexml->name;
         // version must be based upon state
         switch ($this->_packagexml->stability['release']) {
-            case 'snapshot' :
-                return true;
             case 'devel' :
                 if ($versioncomponents[0] . 'a' == '0a') {
                     return true;
