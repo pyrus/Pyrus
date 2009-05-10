@@ -234,6 +234,8 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
         }
         try {
             $validator->setPackageFile($this->_pf);
+            $validator->setChannel(PEAR2_Pyrus_Config::current()
+                ->channelregistry[$this->_pf->channel]);
             $validator->validate($state);
             // merge in errors from channel-specific validation
             $this->errors[] = $validator->getFailures();

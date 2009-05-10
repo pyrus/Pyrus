@@ -426,10 +426,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      */
     function getValidationPackage()
     {
-        if (!$this->validate()) {
-            return false;
-        }
-
         if (!isset($this->channelInfo['validatepackage'])) {
             return array('attribs' => array('version' => 'default'),
                 '_content' => 'PEAR2_Pyrus_Validate');
@@ -452,10 +448,6 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
      */
     function getValidationObject($package = false)
     {
-        if (!$this->validate()) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Channel is invalid, cannot retrieve validation object');
-        }
-
         if (isset($this->channelInfo['validatepackage'])) {
             if ($package == $this->channelInfo['validatepackage']['_content']) {
                 // channel validation packages are always validated by PEAR2_Pyrus_Validate

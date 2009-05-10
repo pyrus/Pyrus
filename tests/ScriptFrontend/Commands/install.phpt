@@ -2,8 +2,12 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::install(), basic test
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
-@mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
+require dirname(__DIR__) . '/setup.php.inc';
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
+    $dir = __DIR__ . '/testit';
+    include __DIR__ . '/../../clean.php.inc';
+}
+mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit');
 $c->bin_dir = __DIR__ . '/testit/bin';

@@ -4,7 +4,11 @@ PEAR2_Pyrus_ScriptFrontend_Commands::uninstall(), basic test
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 $package = new PEAR2_Pyrus_Package(__DIR__.'/../../../../sandbox/SimpleChannelServer/package.xml');
-@mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
+    $dir = __DIR__ . '/testit';
+    include __DIR__ . '/../../clean.php.inc';
+}
+mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit');
 $c->bin_dir = __DIR__ . '/testit/bin';

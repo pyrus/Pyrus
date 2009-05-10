@@ -41,19 +41,21 @@ class PEAR2_Pyrus_Validate
 /**#@-*/
     var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
     /**
-     * @var PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     * @var PEAR2_Pyrus_IPackageFile
      */
     var $_packagexml;
+    /**
+     * @var PEAR2_Pyrus_IChannelFile
+     */
+    var $channel;
     /**
      * @var int one of the PEAR2_Pyrus_Validate::* constants
      */
     var $_state = PEAR2_Pyrus_Validate::NORMAL;
     /**
-     * Format: ('error' => array('field' => name, 'reason' => reason), 'warning' => same)
-     * @var array
-     * @access private
+     * @var PEAR2_MultiErrors
      */
-    var $_failures = array('error' => array(), 'warning' => array());
+    protected $failures;
 
     /**
      * Override this method to handle validation of normal package names
@@ -130,11 +132,16 @@ class PEAR2_Pyrus_Validate
     }
 
     /**
-     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     * @param PEAR2_Pyrus_IPackageFile
      */
-    function setPackageFile($pf)
+    function setPackageFile(PEAR2_Pyrus_IPackageFile $pf)
     {
         $this->_packagexml = $pf;
+    }
+
+    function setChannel(PEAR2_Pyrus_IChannelFile $chan)
+    {
+        $this->channel = $chan;
     }
 
     /**
@@ -142,7 +149,7 @@ class PEAR2_Pyrus_Validate
      */
     function _addFailure($field, $reason)
     {
-        $this->_failures->E_ERROR[] =
+        $this->failures->E_ERROR[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
@@ -151,13 +158,13 @@ class PEAR2_Pyrus_Validate
      */
     private function _addWarning($field, $reason)
     {
-        $this->_failures->E_WARNING[] =
+        $this->failures->E_WARNING[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
     }
 
     function getFailures()
     {
-        return $this->_failures;
+        return $this->failures;
     }
 
     /**
@@ -171,7 +178,7 @@ class PEAR2_Pyrus_Validate
         if ($state !== null) {
             $this->_state = $state;
         }
-        $this->_failures = new PEAR2_MultiErrors;
+        $this->failures = new PEAR2_MultiErrors;
         $this->validatePackageName();
         $this->validateVersion();
         $this->validateMaintainers();
@@ -187,7 +194,7 @@ class PEAR2_Pyrus_Validate
         $this->validateReleaseFilelist();
         //$this->validateGlobalTasks();
         $this->validateChangelog();
-        return !((bool) count($this->_failures->E_ERROR));
+        return !((bool) count($this->failures->E_ERROR));
     }
 
     /**
@@ -225,11 +232,13 @@ class PEAR2_Pyrus_Validate
                 }
             }
         }
-        if (!$this->validPackageName($this->_packagexml->name)) {
-            $this->_addFailure('name', 'package name "' .
-                $this->_packagexml->name . '" is invalid');
-            return false;
+        $vpackage = $this->channel->getValidationPackage();
+        if ($this->validPackageName($this->_packagexml->name, $vpackage['_content'])) {
+            return true;
         }
+        $this->_addFailure('package', 'package name "' .
+            $this->_packagexml->name . '" is invalid');
+        return false;
     }
 
     /**
@@ -241,8 +250,8 @@ class PEAR2_Pyrus_Validate
             if (!$this->validVersion($this->_packagexml->version['release'])) {
                 $this->_addFailure('version',
                     'Invalid version number "' . $this->_packagexml->version['release'] . '"');
+                return false;
             }
-            return false;
         }
         $version = $this->_packagexml->version['release'];
         $versioncomponents = explode('.', $version);
@@ -291,14 +300,14 @@ class PEAR2_Pyrus_Validate
                                     'version 1.' . $versioncomponents[1] .
                                         '.0 probably should not be alpha or beta');
                                 return true;
-                            } elseif (strlen($versioncomponents[2]) > 1) {
+                            } elseif (strlen($versioncomponents[2]) > 1 && !is_numeric($versioncomponents[2])) {
                                 // version 1.*.0RC1 or 1.*.0beta24 etc.
                                 return true;
                             } else {
-                                // version 1.*.0
+                                // version 1.*.001 or something
                                 $this->_addWarning('version',
                                     'version 1.' . $versioncomponents[1] .
-                                        '.0 probably should not be alpha or beta');
+                                        '.' . $versioncomponents[2] . ' probably should not be alpha or beta');
                                 return true;
                             }
                         } else {
@@ -343,14 +352,13 @@ class PEAR2_Pyrus_Validate
                                     "version $majver." . $versioncomponents[1] .
                                         '.0 probably should not be alpha or beta');
                                 return false;
-                            } elseif (strlen($versioncomponents[2]) > 1) {
-                                // version 2.*.0RC1 or 2.*.0beta24 etc.
+                            } elseif (strlen($versioncomponents[2]) > 1 && !is_numeric($versioncomponents[2])) {
+                                // version 2.*.0RC1 or 1.*.0beta24 etc.
                                 return true;
                             } else {
-                                // version 2.*.0
+                                // version 2.*.001 or something
                                 $this->_addWarning('version',
-                                    "version $majver." . $versioncomponents[1] .
-                                        '.0 cannot be alpha or beta');
+                                    'version ' . $version . ' probably should not be alpha or beta');
                                 return true;
                             }
                         } else {
@@ -359,10 +367,6 @@ class PEAR2_Pyrus_Validate
                                 'not be alpha or beta');
                             return true;
                         }
-                    } elseif ($versioncomponents[0] != '0') {
-                        $this->_addWarning('version',
-                            "only versions 0.x.y and $majver.x.y are allowed for alpha/beta releases");
-                        return true;
                     }
                     if ($versioncomponents[0] . 'a' == '0a') {
                         return true;

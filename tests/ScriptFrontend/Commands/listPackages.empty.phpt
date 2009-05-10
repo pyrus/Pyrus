@@ -3,8 +3,12 @@ PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), no packages installed
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
+    $dir = __DIR__ . '/testit';
+    include __DIR__ . '/../../clean.php.inc';
+}
+mkdir(__DIR__ . '/testit');
 ob_start();
-@mkdir(__DIR__ . '/testit');
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 $cli->run($args = array (__DIR__ . '/testit', 'list-packages'));
 

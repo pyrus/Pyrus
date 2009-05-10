@@ -3,7 +3,11 @@ PEAR2_Pyrus_ScriptFrontend_Commands::_findPEAR test 1: explicit config path
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-@mkdir(__DIR__ . '/testit');
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
+    $dir = __DIR__ . '/testit';
+    include __DIR__ . '/../../clean.php.inc';
+}
+mkdir(__DIR__ . '/testit');
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 $cli->run($args = array (__DIR__ . '/testit', 'help'));

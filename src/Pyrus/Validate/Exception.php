@@ -46,7 +46,7 @@ class PEAR2_Pyrus_Validate_Exception extends PEAR2_Exception
     public function __construct($msg, $field)
     {
         $this->reason = $msg;
-        $msg = 'Channel validator error: field "' . $field . '" - "' .
+        $msg = 'Channel validator error: field "' . $field . '" - ' .
                     $msg;
         parent::__construct($msg);
         $this->field = $field;

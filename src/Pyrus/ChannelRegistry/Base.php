@@ -133,7 +133,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         }
         $param['channel'] = $chan->name;
         $validate = $chan->getValidationObject(false);
-        $vpackage = $chan->getValidationPackage(false);
+        $vpackage = $chan->getValidationPackage();
         // validate package name
         if (!$validate->validPackageName($param['package'], $vpackage['_content'])) {
             throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): invalid package name "' .
