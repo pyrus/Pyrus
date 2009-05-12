@@ -149,6 +149,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'notes' => 'setTag',
         'extends' => 'setTag',
         'type' => 'setType',
+        'packagerversion' => 'setPackagerVersion'
     );
 
     protected $rawMap = array(
