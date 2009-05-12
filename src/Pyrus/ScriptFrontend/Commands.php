@@ -411,22 +411,16 @@ previous:
     function channelAdd($args)
     {
         echo "Adding channel from channel.xml:\n";
-        $chan = file_get_contents($args[0]);
-        if (!$chan) {
-            echo "Retrieving channel.xml contents failed\n";
-            exit -1;
-        }
-        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($chan));
+        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($args[0]));
         PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
         echo "Adding channel ", $chan->name, " successful\n";
     }
 
     function channelDel($args)
     {
-        echo "Adding channel from channel.xml:\n";
         $chan = PEAR2_Pyrus_Config::current()->channelregistry->get($args[0], false);
-        if (count($chan)) {
-            echo "Cannot remove channel ", $chan->name, "packages are installed\n";
+        if (count(PEAR2_Pyrus_Config::current()->registry->listPackages($chan->name))) {
+            echo "Cannot remove channel ", $chan->name, " packages are installed\n";
             exit -1;
         }
         PEAR2_Pyrus_Config::current()->channelregistry->delete($chan);

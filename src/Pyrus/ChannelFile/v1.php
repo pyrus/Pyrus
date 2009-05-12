@@ -431,7 +431,11 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
                 '_content' => 'PEAR2_Pyrus_Validate');
         }
 
-        return $this->channelInfo['validatepackage'];
+        $info = $this->channelInfo['validatepackage'];
+        if (!is_array($info)) {
+            $info = array('attribs' => array('version' => 'default'), '_content' => $info);
+        }
+        return $info;
     }
 
     function getArray()
@@ -483,5 +487,10 @@ class PEAR2_Pyrus_ChannelFile_v1 extends PEAR2_Pyrus_ChannelFile implements PEAR
         }
 
         return time();
+    }
+
+    function toChannelFile()
+    {
+        return $this;
     }
 }
