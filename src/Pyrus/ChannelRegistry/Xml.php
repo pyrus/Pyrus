@@ -25,6 +25,7 @@
  */
 class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 {
+    protected $channelpath;
     /**
      * Initialize the registry
      *
@@ -34,6 +35,8 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     {
         $this->readonly = $readonly;
         $this->path = $path;
+        $this->channelpath = $path . DIRECTORY_SEPARATOR . '.xmlregistry' . DIRECTORY_SEPARATOR .
+            'channels'; 
         if (!$this->readonly) {
             if (!$this->exists('pear.php.net')) {
                 $this->initDefaultChannels();
@@ -69,7 +72,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
             $channel = $channel->name;
         }
 
-        return $this->path . DIRECTORY_SEPARATOR . 'channel-' .
+        return $this->channelpath . DIRECTORY_SEPARATOR . 'channel-' .
             $this->_mung($channel) . '.xml';
     }
 
@@ -82,7 +85,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
      */
     protected function getAliasFile($alias)
     {
-        return $this->path . DIRECTORY_SEPARATOR . 'channelalias-' .
+        return $this->channelpath . DIRECTORY_SEPARATOR . 'channelalias-' .
             $this->_mung($alias) . '.txt';
     }
 
@@ -125,6 +128,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         if (@file_exists($file)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                 $channel->alias . ' has already been discovered');
+        }
+        if (!@is_dir(dirname($file))) {
+            mkdir(dirname($file), 0755, true);
         }
 
         file_put_contents($file, (string) $channel);
@@ -189,7 +195,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     function listChannels()
     {
         $ret = array();
-        foreach (new RegexIterator(new DirectoryIterator($this->path),
+        foreach (new RegexIterator(new DirectoryIterator($this->channelpath),
                                 '/channel-(.+?)\.xml/', RegexIterator::GET_MATCH) as $file) {
             $ret[] = $this->get($this->_unmung($file[1]))->name;
         }

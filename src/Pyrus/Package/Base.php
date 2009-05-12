@@ -52,6 +52,19 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         return true;
     }
 
+    /**
+     * This test tells the installer whether to run any package-info
+     * replacement tasks.
+     *
+     * The XML package has not had any package-info transformations.  Packages
+     * in tar/zip/phar format have had package-info replacements.
+     * @return bool if false, the installer will run all packag-einfo replacements
+     */
+    function isPreProcessed()
+    {
+        return true;
+    }
+
     function setFrom(PEAR2_Pyrus_IPackage $from)
     {
         $this->from = $from;
@@ -197,10 +210,24 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         }
     }
 
+    function getPackageFileObject()
+    {
+        return $this->packagefile;
+    }
+
     function getFileContents($file, $asstream = false)
     {
-        return $asstream ?
-            fopen($this->getFilePath($file), 'rb') :
-            file_get_contents($this->getFilePath($file));
+        if (!isset($this[$file])) {
+            throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in this package');
+        }
+        if ($asstream) {
+            $fp = fopen($this->getFilePath($file), 'rb');
+        } else {
+            $ret = file_get_contents($this->getFilePath($file));
+            if (!$ret) {
+                $ret = '';
+            }
+            return $ret;
+        }
     }
 }

@@ -194,13 +194,17 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
 
     public function listPackages($channel, $onlyMain = false)
     {
-        $ret = $this->registries[0]->listPackages($channel);
+        $ret = array();
+        foreach ($this->registries as $registry) {
+            $packages = $registry->listPackages($channel);
+            $ret = array_merge($ret, $packages);
+        }
+        $ret = array_unique($ret);
         if ($onlyMain) {
             return $ret;
         }
-
         if ($this->parent) {
-            return array_merge($ret, $this->parent->listPackages($channel));
+            return array_unique(array_merge($ret, $this->parent->listPackages($channel)));
         }
 
         return $ret;
@@ -267,5 +271,35 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
     public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
     {
         return $this->registries[0]->detectFileConflicts($package);
+    }
+
+    /**
+     * Returns a list of registries present in the PEAR installation at $path
+     * @param string
+     * @return array
+     * @todo make it possible to extend the registries to add customized future registries
+     */
+    static public function detectRegistries($path)
+    {
+        if (!file_exists($path) || !is_dir($path)) {
+            return array();
+        }
+        return array_merge(PEAR2_Pyrus_Registry_Sqlite3::detectRegistries($path),
+                           PEAR2_Pyrus_Registry_Xml::detectRegistries($path),
+                           PEAR2_Pyrus_Registry_Pear1::detectRegistries($path));
+    }
+
+    /**
+     * Completely remove all traces of a registry
+     */
+    static public function removeRegistry($path, array $registries = array())
+    {
+        if (!count($registries)) {
+            $registries = static::detectRegistries($path);
+        }
+        foreach ($registries as $reg) {
+            $class = 'PEAR2_Pyrus_Registry_' . ucfirst(strtolower($reg));
+            $class::removeRegistry($path);
+        }
     }
 }

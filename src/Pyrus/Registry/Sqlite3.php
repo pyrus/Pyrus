@@ -1363,4 +1363,41 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         return $ret;
     }
+
+    /**
+     * Returns a list of registries present in the PEAR installation at $path
+     * @param string
+     * @return array
+     */
+    static public function detectRegistries($path)
+    {
+        if (file_exists($path . '/.pear2registry') || is_file($path . '/.pear2registry')) {
+            return array('Sqlite3');
+        }
+        return array();
+    }
+
+    /**
+     * Completely remove all traces of an sqlite3 registry
+     */
+    static public function removeRegistry($path)
+    {
+        if ($path === ':memory:') {
+            unset(static::$databases[$path]);
+            return;
+        }
+        if (dirname($path) . DIRECTORY_SEPARATOR . '.pear2registry' != $path) {
+            $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
+        }
+        if (!file_exists($path)) {
+            return;
+        }
+        if (isset(static::$databases[$path])) {
+            static::$databases[$path]->close();
+            unset(static::$databases[$path]);
+        }
+        if (!@unlink($path)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot remove Sqlite3 registry: Unable to remove SQLite database');
+        }
+    }
 }

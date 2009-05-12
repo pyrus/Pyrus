@@ -140,8 +140,9 @@ class PEAR2_Pyrus_Package_Creator
             $creator->init();
         }
 
-        $packagexml = 'package-' . $package->channel . '-' . $package->name . '-' .
-            $package->version['release'] . '.xml';
+        $packagexml = '.xmlregistry/packages/' .
+            str_replace('/', '!', $package->channel) . '/' . $package->name . '/' .
+            $package->version['release'] . '-package.xml';
         if (self::VERSION === '@' . 'PACKAGE_VERSION@') {
             // we're running straight from SVN, so pretend to be 2.0.0
             $package->packagerversion = '2.0.0';

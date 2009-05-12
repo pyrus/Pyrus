@@ -30,4 +30,9 @@ interface PEAR2_Pyrus_IPackage extends ArrayAccess, PEAR2_Pyrus_IPackageFile
     function getLocation();
     function getFrom();
     function __call($func, $args);
+    /**
+     * This allows a package to flexibly access its package.xml and return it
+     * @return PEAR2_Pyrus_IPackageFile
+     */
+    function getPackageFileObject();
 }

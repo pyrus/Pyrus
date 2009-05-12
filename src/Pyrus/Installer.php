@@ -358,7 +358,6 @@ class PEAR2_Pyrus_Installer
             $info = $role->getRelativeLocation($package, $file, true);
             $dir = $info[0];
             $dest_file = $info[1];
-            $orig_file = $info[2];
 
             // }}}
 
@@ -371,16 +370,8 @@ class PEAR2_Pyrus_Installer
                 }
                 PEAR2_Pyrus_Log::log(3, "+ mkdir $dir");
 
-                if (!file_exists($orig_file)) {
-                    throw new PEAR2_Pyrus_Installer_Exception("file $orig_file does not exist");
-                }
-
-                $contents = file_get_contents($orig_file);
-                if ($contents === false) {
-                    $contents = '';
-                }
                 if (isset($file['md5sum'])) {
-                    $md5sum = md5($contents);
+                    $md5sum = md5_file($package->getFilePath($file->packagedname));
                     if (strtolower($md5sum) == strtolower($file['md5sum'])) {
                         PEAR2_Pyrus_Log::log(2, "md5sum ok: $dest_file");
                     } else {
@@ -404,7 +395,8 @@ class PEAR2_Pyrus_Installer
                 }
 
                 $tasks = $file->tasks;
-                if ($package->isNewPackage()) {
+                // only add the global replace task if it is not preprocessed
+                if ($package->isNewPackage() && !$package->isPreProcessed()) {
                     if (isset($tasks['tasks:replace'])) {
                         if (isset($tasks['tasks:replace'][0])) {
                             $tasks['tasks:replace'][] = $globalreplace;
@@ -416,15 +408,21 @@ class PEAR2_Pyrus_Installer
                         $tasks['tasks:replace'] = $globalreplace;
                     }
                 }
-                foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package)
+                foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package, true)
                           as $task) {
                     if (!$task[1]->isScript()) { // scripts are only handled after installation
                         $task[1]->init($task[0], $file['attribs'], null);
+                        $contents = $package->getFileContents($file->packagedname);
                         $newcontents = $task[1]->startSession($package, $contents, $dest_file);
                         if ($newcontents) {
                             $contents = $newcontents; // save changes
                         }
                     }
+                }
+                if (!isset($contents)) {
+                    // this file had no install-time tasks to perform, so we can
+                    // use the more efficient stream-to-stream copy method
+                    $contents = $package->getFileContents($file->packagedname, true);
                 }
 
                 if (strpos(PHP_OS, 'WIN') === false) {
@@ -445,11 +443,6 @@ class PEAR2_Pyrus_Installer
                         "failed writing to $dest_file", $e);
                 }
             }
-            continue;
-            // Store the full path where the file was installed for easy uninstall
-            self::$transact->installedas($file->name, $installed_as,
-                                $save_destdir, dirname(substr($dest_file,
-                                 strlen($save_destdir))));
         }
     }
 

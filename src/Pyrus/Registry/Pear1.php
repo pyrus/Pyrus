@@ -520,4 +520,50 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         }
         return $ret;
     }
+
+    /**
+     * Returns a list of registries present in the PEAR installation at $path
+     * @param string
+     * @return array
+     */
+    static public function detectRegistries($path)
+    {
+        if (file_exists($path . '/.registry') || is_dir($path . '/.registry')) {
+            return array('Pear1');
+        }
+        return array();
+    }
+
+    /**
+     * Completely remove all traces of a PEAR 1.x registry
+     */
+    static public function removeRegistry($path)
+    {
+        if (!file_exists($path . '/.registry')) {
+            return;
+        }
+        try {
+            PEAR2_Pyrus_AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
+        } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
+        }
+        $errs = new PEAR2_MultiErrors;
+        try {
+            if (file_exists($path . '/.channels')) {
+                PEAR2_Pyrus_AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));
+            }
+        } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+            $errs->E_ERROR[] = new PEAR2_Pyrus_Registry_Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
+        }
+        foreach (array('.filemap', '.lock', '.depdb', '.depdblock') as $file) {
+            if (file_exists($path . DIRECTORY_SEPARATOR . $file)
+                && !@unlink(realpath($path . DIRECTORY_SEPARATOR . $file))) {
+                $errs->E_ERROR[] = new PEAR2_Pyrus_Registry_Exception(
+                            'Cannot remove Pear1 registry: Unable to remove ' . $file);
+            }
+        }
+        if (count($errs->E_ERROR)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Unable to remove Pear1 registry', $errs);
+        }
+    }
 }

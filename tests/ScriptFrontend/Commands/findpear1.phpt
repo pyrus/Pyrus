@@ -27,6 +27,7 @@ $help2 =
 'channel-discover [PEARPath]' . "\n" .
 'channel-add [PEARPath]' . "\n" .
 'channel-del [PEARPath]' . "\n" .
+'upgrade-registry [PEARPath]' . "\n" .
 'config-show [PEARPath]' . "\n" .
 'set [PEARPath]' . "\n" .
 'mypear [PEARPath]' . "\n";

@@ -28,10 +28,12 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
     private $_inner;
     private $_parent;
     private $_tasksNs;
-    function __construct(array $arr, PEAR2_Pyrus_Package $parent)
+    private $_installphase;
+    function __construct(array $arr, PEAR2_Pyrus_Package $parent, $install = false)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
+        $this->_installphase = $install;
         parent::__construct($this->_inner = new ArrayIterator($arr));
     }
 
@@ -50,6 +52,16 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
             return false;
         }
 
+        if ($this->_installphase && $this->_parent->isPreProcessed()) {
+            $info = $this->current();
+            if ($info[1] instanceof PEAR2_Pyrus_Task_Replace) {
+                if ($info[0]['attribs']['type'] == 'package-info') {
+                    // for pre-processed packages, package-info replacements are
+                    // done at packaging time, so we don't need to re-do these
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

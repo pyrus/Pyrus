@@ -27,7 +27,7 @@ class PEAR2_Pyrus_PackageFile
 {
     public $info;
     public $path;
-    function __construct($package, $class = 'PEAR2_Pyrus_PackageFile_v2')
+    function __construct($package, $class = 'PEAR2_Pyrus_PackageFile_v2', $isstring = false)
     {
         if ($package instanceof PEAR2_Pyrus_IPackageFile) {
             $this->path = $package->getFilePath();
@@ -35,7 +35,11 @@ class PEAR2_Pyrus_PackageFile
         }
         $this->path = $package;
         $parser = new PEAR2_Pyrus_PackageFile_Parser_v2;
-        $data = file_get_contents($package);
+        if ($isstring) {
+            $data = $package;
+        } else {
+            $data = file_get_contents($package);
+        }
         if ($data === false || empty($data)) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Unable to open package xml file '
                 . $package . ' or file was empty.');

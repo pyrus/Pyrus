@@ -71,6 +71,9 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
 
     function __get($var)
     {
+        if ($var == 'packagedname') {
+            return $this->dir . $this['attribs']['name'];
+        }
         if ($var == 'name') {
             $attribs = parent::offsetGet('attribs');
             if (isset($attribs['install-as'])) {
@@ -133,9 +136,5 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
             return false;
         }
         return $role->getRelativeLocation($this->_packagefile, $this);
-        $info = $role->processInstallation($this->_packagefile, $this['attribs'],
-            $this['attribs']['name'], $tmp_path);
-        list($save_destdir, $dest_dir, $dest_file, $orig_file) = $info;
-        $final_dest_file = $installed_as = $dest_file;
     }
 }

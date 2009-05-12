@@ -48,4 +48,14 @@ interface PEAR2_Pyrus_IRegistry
      * files inside the package represented by $package
      */
     public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package);
+    /**
+     * Returns a list of registries present in the PEAR installation at $path
+     * @param string
+     * @return array
+     */
+    static public function detectRegistries($path);
+    /**
+     * Completely remove all traces of a registry
+     */
+    static public function removeRegistry($path);
 }

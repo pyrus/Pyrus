@@ -50,8 +50,10 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         try {
             if (Phar::isValidPharFilename($package, 1)) {
                 $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+                $pxml = $phar->getMetaData();
             } else {
                 $phar = new PharData($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+                $pxml = false;
             }
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not open Phar archive ' .
@@ -59,79 +61,38 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         }
 
         $package = str_replace('\\', '/', $package);
-        $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
-        $where = str_replace('\\', '/', $where);
-        $where = str_replace('//', '/', $where);
-        $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
-        if (!file_exists($where)) {
-            mkdir($where, 0777, true);
-        }
-
-        $where = realpath($where);
-        if (dirname($where . 'a') == $where) {
-            $where = substr($where, 0, strlen($where) - 1);
-        }
-
-        $this->_tmpdir = $where;
         try {
-            $pxml = $phar->getMetaData();
-            $phar->extractTo($where, null, true);
             if (!$pxml) {
                 foreach (new RecursiveIteratorIterator($phar,
                             RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
                     $filename = $file->getFileName();
-                    if (preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
+                    // default to new package.xml, but search for old one
+                    // also
+                    if (preg_match('@^(.+)\-package.xml$@',
                           $filename)) {
-                        $pxml = str_replace('phar://' . $phar->getPath(), '',
-                                            $file->getPathName());
+                        $pxml = $file->getPathName();
                         break;
                     } elseif ($filename == 'package2.xml') {
                         $this->_BCpackage = true;
-                        $pxml = str_replace('phar://' . $phar->getPath(), '',
-                                            $file->getPathName());
-                        break;
-                    } elseif ($filename == 'package.xml') {
+                        $pxml = $file->getPathName();
+                    } elseif (!$pxml && $filename == 'package.xml') {
                         $this->_BCpackage = true;
-                        $pxml = str_replace('phar://' . $phar->getPath(), '',
-                                            $file->getPathName());
+                        $pxml = $file->getPathName();
                     }
                 }
+            }
+            if (!$pxml) {
+                throw new PEAR2_Pyrus_Package_Phar_Exception('No package.xml in archive');
             }
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Package_Phar_Exception('Could not extract Phar archive ' .
                 $package, $e);
         }
 
-        parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml), $parent);
-    }
-
-    function __destruct()
-    {
-        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
-        foreach (self::$_tempfiles as $fileOrDir) {
-            if (!file_exists($fileOrDir)) {
-                continue;
-            }
-
-            if (is_file($fileOrDir)) {
-                unlink($fileOrDir);
-            } elseif (is_dir($fileOrDir)) {
-                rmdir($fileOrDir);
-            }
-        }
-    }
-
-    private static function _addTempFile($file)
-    {
-        self::$_tempfiles[] = $file;
-    }
-
-    private static function _addTempDirectory($dir)
-    {
-        do {
-            self::$_tempfiles[] = $dir;
-            $dir = dirname($dir);
-        } while (!file_exists($dir));
+        parent::__construct(new PEAR2_Pyrus_PackageFile($this->getFileContents($pxml,
+                                                                               'PEAR2_Pyrus_PackageFile_v2',
+                                                                               true)),
+                            $parent);
     }
 
     function getTarballPath()
@@ -164,18 +125,6 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
 
-        $extract = '';
-        if ($this->_BCpackage) {
-            // old fashioned PEAR 1.x packages put everything in Package-Version/
-            // directory
-            $extract = DIRECTORY_SEPARATOR . $this->packagefile->info->name . '-' .
-                $this->packagefile->info->version['release'];
-        }
-
-        $extract = $this->_tmpdir . $extract . DIRECTORY_SEPARATOR . $file;
-        $extract = str_replace('\\', '/', $extract);
-        $extract = str_replace('//', '/', $extract);
-        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
-        return $extract;
+        return 'phar://' . str_replace('\\', '/', $this->_packagename) . '/' . $file;
     }
 }

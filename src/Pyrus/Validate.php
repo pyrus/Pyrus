@@ -147,7 +147,7 @@ class PEAR2_Pyrus_Validate
     /**
      * @access private
      */
-    function _addFailure($field, $reason)
+    protected function _addFailure($field, $reason)
     {
         $this->failures->E_ERROR[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);
@@ -156,7 +156,7 @@ class PEAR2_Pyrus_Validate
     /**
      * @access private
      */
-    private function _addWarning($field, $reason)
+    protected function _addWarning($field, $reason)
     {
         $this->failures->E_WARNING[] =
             new PEAR2_Pyrus_Validate_Exception($reason, $field);

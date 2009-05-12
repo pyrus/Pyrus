@@ -17,10 +17,6 @@
  * This is the central registry, that is used for all installer options,
  * stored in xml files
  *
- * By default this registry does not support:
- *  - file conflict detection
- *  - dependency resolution on uninstall
- *
  * It is designed for providing redundancy to the Sqlite3 registry and for
  * managing simple installation situations such as bundling a few packages
  * inside another application, or for distributing a registry with an
@@ -60,8 +56,8 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
 
     private function _namePath($channel, $package)
     {
-        return PEAR2_Pyrus_Config::current()->path . DIRECTORY_SEPARATOR .
-            '.registry' . DIRECTORY_SEPARATOR .
+        return $this->_path . DIRECTORY_SEPARATOR .
+            '.xmlregistry' . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR .
             str_replace('/', '!', $channel) .
             DIRECTORY_SEPARATOR . $package;
     }
@@ -80,7 +76,7 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         $this->uninstall($info->name, $info->channel);
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
-            mkdir(dirname($packagefile), 0777, true);
+            mkdir(dirname($packagefile), 0755, true);
         }
 
         if (!$replace) {
@@ -314,5 +310,33 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
             }
         }
         return $ret;
+    }
+
+    /**
+     * Returns a list of registries present in the PEAR installation at $path
+     * @param string
+     * @return array
+     */
+    static public function detectRegistries($path)
+    {
+        if (file_exists($path . '/.xmlregistry') || is_dir($path . '/.xmlregistry')) {
+            return array('Xml');
+        }
+        return array();
+    }
+
+    /**
+     * Completely remove all traces of an xml registry
+     */
+    static public function removeRegistry($path)
+    {
+        if (!file_exists($path . '/.xmlregistry')) {
+            return;
+        }
+        try {
+            PEAR2_Pyrus_AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
+        } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot remove XML registry: ' . $e->getMessage(), $e);
+        }
     }
 }

@@ -35,6 +35,19 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
         parent::__construct($info, $parent);
     }
 
+    /**
+     * This test tells the installer whether to run any package-info
+     * replacement tasks.
+     *
+     * The XML package has not had any package-info transformations.  Packages
+     * in tar/zip/phar format have had package-info replacements.
+     * @return bool if false, the installer will run all packag-einfo replacements
+     */
+    function isPreProcessed()
+    {
+        return false;
+    }
+
     function getLocation()
     {
         return dirname($this->packagefile->path);

@@ -433,6 +433,37 @@ previous:
         echo "Deleting channel ", $chan->name, " successful\n";
     }
 
+    function upgradeRegistry($args)
+    {
+        if (!file_exists($args[0]) || !is_dir($args[0])) {
+            echo "Cannot upgrade registries at ", $args[0], ", path does not exist or is not a directory\n";
+            exit -1;
+        }
+        echo "Upgrading registry at path ", $args[0], "\n";
+        $registries = PEAR2_Pyrus_Registry::detectRegistries($args[0]);
+        if (!count($registries)) {
+            echo "No registries found\n";
+            exit;
+        }
+        if (!in_array('Pear1', $registries)) {
+            echo "Registry already upgraded\n";
+            exit;
+        }
+        $pear1 = new PEAR2_Pyrus_Registry_Pear1($args[0]);
+        if (!in_array('Sqlite3', $registries)) {
+            $sqlite3 = new PEAR2_Pyrus_Registry_Sqlite3($args[0]);
+            $sqlite3->cloneRegistry($pear1);
+        }
+        if (!in_array('Xml', $registries)) {
+            $xml = new PEAR2_Pyrus_Registry_Xml($args[0]);
+            $sqlite3 = new PEAR2_Pyrus_Registry_Sqlite3($args[0]);
+            $xml->cloneRegistry($sqlite3);
+        }
+        if (isset($args[1]) && $args[1] == '--removeold') {
+            PEAR2_Pyrus_Registry_Pear1::removeRegistry($args[0]);
+        }
+    }
+
     /**
      * Display pyrus configuration vars
      *

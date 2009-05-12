@@ -18,7 +18,9 @@
  *
  * Unlike PEAR version 1.x, the new Pyrus configuration manager is tightly bound
  * to include_path, and will search through include_path for system configuration
- * Pyrus installations.
+ * Pyrus installations.  In addition, the configuration is minimal.  If no changes
+ * have been made since instantiation, no attempt is made to write out the configuration
+ * file
  *
  * The User configuration file will be looked for in these locations:
  *
@@ -83,6 +85,14 @@ class PEAR2_Pyrus_Config
      * @var array
      */
     static protected $configs = array();
+
+    /**
+     * mapping of path => flag on modification
+     *
+     * If an index is not set, it has not been modified
+     * @var array
+     */
+    static protected $configDirty = array();
 
     /**
      * The last instantiated configuration
@@ -364,23 +374,32 @@ class PEAR2_Pyrus_Config
         }
 
         $paths = array_unique($paths);
-        $start = true;
+        $readonly = false;
         foreach ($paths as $path) {
             try {
                 if ($path === '.') continue;
                 
                 $registry_class        = PEAR2_Pyrus_Registry::$className;
                 $channelregistry_class = PEAR2_Pyrus_ChannelRegistry::$className;
+
+                $registries = PEAR2_Pyrus_Registry::detectRegistries($path);
+                if (!count($registries)) {
+                    if ($readonly) {
+                        // no installation present
+                        continue;
+                    }
+                    $registries = array('Sqlite3', 'Xml');
+                }
+
+                $registry         = new $registry_class($path, $registries, $readonly);
+                $channel_registry = new $channelregistry_class($path, $registries, $readonly);
                 
-                $registry         = new $registry_class($path, array('Sqlite3', 'Xml'), !$start);
-                $channel_registry = new $channelregistry_class($path, array('Sqlite3', 'Xml'), !$start);
-                
-                if ($start) {
+                if (!$readonly) {
                     $this->myregistry        = $registry;
                     $this->mychannelRegistry = $channel_registry;
                 }
 
-                $start = false;
+                $readonly = true;
                 
                 $registry->setParent(); // clear any previous parent
                 $channel_registry->setParent(); // clear any previous parent
@@ -394,7 +413,7 @@ class PEAR2_Pyrus_Config
                 $lastc = $channel_registry;
                 
             } catch (Exception $e) {
-                if ($start) {
+                if (!$readonly) {
                     throw new PEAR2_Pyrus_Config_Exception(
                         'Cannot initialize primary registry in path ' .
                         $path, $e);
@@ -688,11 +707,15 @@ class PEAR2_Pyrus_Config
         }
         file_put_contents($userfile, $x->asXML());
 
+        if (!isset(static::$configDirty[$this->pearDir])) {
+            // no changes have been made to the config, no need to write it out
+            return;
+        }
+
         $system = $this->pearDir . '.config';
         if (dirname($system) != $this->pearDir) {
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
         }
-
         if (!file_exists(dirname($system)) && !@mkdir(dirname($system), 0777, true)) {
             throw new PEAR2_Pyrus_Config_Exception(
                 'Unable to create directory ' . dirname($system) . ' to save ' .
@@ -706,14 +729,15 @@ class PEAR2_Pyrus_Config
                 continue; // both of these are abstract
             }
             $x->$var = $this->$var;
-            file_put_contents($path . $var . '.txt', $this->$var);
         }
 
         foreach (self::$customPearConfigNames as $var) {
             $x->$var = $this->$var;
-            file_put_contents($path . $var . '.txt', $this->$var);
         }
         file_put_contents($system, $x->asXML());
+        unset(static::$configDirty[$this->pearDir]);
+        // save a snapshot for installation purposes
+        static::configSnapshot();
     }
 
     /**
@@ -944,6 +968,7 @@ class PEAR2_Pyrus_Config
 
         if (isset($this->values[$key])) {
             unset($this->values[$key]);
+            static::$configDirty[$this->pearDir] = 1;
             return;
         }
 
@@ -993,6 +1018,7 @@ class PEAR2_Pyrus_Config
         if (in_array($key, self::$pearConfigNames)
             || in_array($key, self::$customPearConfigNames)) {
             $this->values[$key] = $value;
+            static::$configDirty[$this->pearDir] = 1;
             return;
         }
 

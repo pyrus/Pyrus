@@ -28,7 +28,7 @@ class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
     function validateVersion()
     {
         if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
-            $version = $this->_packagexml->getVersion();
+            $version = $this->_packagexml->version['release'];
             $versioncomponents = explode('.', $version);
             $last = array_pop($versioncomponents);
             if (substr($last, 1, 2) == 'rc') {
@@ -44,8 +44,8 @@ class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
     {
         $ret = parent::validatePackageName();
         if (in_array($this->_packagexml->getPackageType(), array('extsrc', 'zendextsrc'))) {
-            $package  = $this->_packagexml->getPackage();
-            $provides = $this->_packagexml->getProvidesExtension();
+            $package  = $this->_packagexml->name;
+            $provides = $this->_packagexml->providesextension;
             if (strtolower($package) != strtolower($provides)) {
                 $this->_addWarning('providesextension', 'package name "' .
                     $package . '" is different from extension name "' .
