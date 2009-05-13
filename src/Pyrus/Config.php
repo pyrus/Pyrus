@@ -71,6 +71,12 @@ class PEAR2_Pyrus_Config
      * @var PEAR2_Pyrus_Channel_Registry
      */
     protected $mychannelRegistry;
+    /**
+     * registry for plugins, which are kept in the plugin_dir directory
+     *
+     * @var PEAR2_Pyrus_PluginRegistry
+     */
+    protected $mypluginregistry;
 
     /**
      * configuration values for this configuration object
@@ -117,7 +123,7 @@ class PEAR2_Pyrus_Config
     static protected $defaults =
         array(
             'php_dir' => '@php_dir@/src', // pseudo-value in this implementation
-            'ext_dir' => '@php_dir@/ext_dir',
+            'ext_dir' => '@php_dir@/ext',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
             'data_dir' => '@php_dir@/data', // pseudo-value in this implementation
@@ -289,6 +295,29 @@ class PEAR2_Pyrus_Config
             PEAR2_Pyrus_Log::log(5, 'used PHP_BINDIR for bin_dir default');
         }
 
+        // construct php_bin
+        if (substr(PHP_OS, 0, 3) == 'WIN') {
+            if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php.exe')) {
+                self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php.exe';
+            } else {
+                foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
+                    if (file_exists($path . DIRECTORY_SEPARATOR . 'php.exe')) {
+                        self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . 'php.exe';
+                    }
+                }
+            }
+        } else {
+            if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php')) {
+                self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php';
+            } else {
+                foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
+                    if (file_exists($path . DIRECTORY_SEPARATOR . 'php')) {
+                        self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . 'php';
+                    }
+                }
+            }
+        }
+
         foreach (array_merge(self::$pearConfigNames,
                              self::$userConfigNames) as $name) {
             // make sure we've got valid paths for the underlying OS
@@ -320,7 +349,7 @@ class PEAR2_Pyrus_Config
                                          $pearDirectory);
         }
 
-        $this->loadUserSettings($pearDirectory, $userfile);
+        $pearDirectory = $this->loadUserSettings($pearDirectory, $userfile);
         if ($pearDirectory) {
             $this->loadConfigFile($pearDirectory);
             $this->setCascadingRegistries($pearDirectory);
@@ -445,6 +474,12 @@ class PEAR2_Pyrus_Config
     static public function userInitialized()
     {
         $userfile = static::getDefaultUserConfigFile();
+        if (isset(self::$current)) {
+            if (self::$current->userfile != $userfile) {
+                // an explicit userfile was specified, so we assume this was intentional
+                return true;
+            }
+        }
         if (!file_exists($userfile)) {
             // try cwd, this could work
             $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
@@ -501,6 +536,7 @@ class PEAR2_Pyrus_Config
      * Load the user configuration file
      *
      * This loads exclusively the user config
+     * @return string path to the PEAR installation we are using
      */
     protected function loadUserSettings($pearDirectory, $userfile = false)
     {
@@ -525,11 +561,11 @@ class PEAR2_Pyrus_Config
         $this->userFile = $userfile;
         if (!$userfile || !file_exists($userfile)) {
             PEAR2_Pyrus_Log::log(5, 'User configuration file ' . $userfile . ' not found');
-            return;
+            return $pearDirectory;
         }
 
         if (isset(self::$userConfigs[$userfile])) {
-            return;
+            return $pearDirectory;
         }
 
         libxml_use_internal_errors(true);
@@ -884,7 +920,7 @@ class PEAR2_Pyrus_Config
                     PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
                                          $key .
                         ' default value "' . self::$defaults[$key] . '"');
-                    return str_replace('@default_config_dir@', dirname(self::getDefaultUserConfigFile()), $ret);
+                    return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
                 } else {
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
                                          $key .
@@ -893,7 +929,7 @@ class PEAR2_Pyrus_Config
                     PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
                                          $key .
                         ' default value "' . self::$customDefaults[$key] . '"');
-                    return str_replace('@default_config_dir@', dirname(self::getDefaultUserConfigFile()), $ret);
+                    return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
                 }
             }
 
@@ -905,7 +941,7 @@ class PEAR2_Pyrus_Config
                 PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
                                      $key .
                     ' default value "' . $this->values[$key] . '"');
-                return str_replace('@default_config_dir@', dirname(self::getDefaultUserConfigFile()), $ret);
+                return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
             }
 
             return self::$userConfigs[$this->userFile][$key];
@@ -913,6 +949,13 @@ class PEAR2_Pyrus_Config
 
         if ($key == 'registry') {
             return $this->myregistry;
+        }
+
+        if ($key == 'pluginregistry') {
+            if (!isset($this->mypluginregistry)) {
+                $this->mypluginregistry = new PEAR2_Pyrus_Registry($this->__get('plugins_dir', array('Sqlite3', 'Xml')));
+            }
+            return $this->mypluginregistry;
         }
 
         if ($key == 'channelregistry') {

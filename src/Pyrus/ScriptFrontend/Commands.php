@@ -167,7 +167,7 @@ previous:
                 exit;
             }
         }
-        $mypath = PEAR2_Pyrus_Config::singleton()->my_pear_path;
+        $mypath = PEAR2_Pyrus_Config::current()->my_pear_path;
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";
@@ -175,22 +175,6 @@ previous:
                 return;
             }
         }
-        $include_path = explode(PATH_SEPARATOR, get_include_path());
-        foreach ($include_path as $path) {
-            if ($path == '.') {
-                continue;
-            }
-            if (basename($path) === 'src') {
-                $path = dirname($path);
-                if ($path === '.') {
-                    continue;
-                }
-            }
-            echo "Using PEAR installation found at $path\n";
-            $config = PEAR2_Pyrus_Config::singleton($path);
-            return;
-        }
-        echo "Using PEAR installation in current directory\n";
     }
 
     /**

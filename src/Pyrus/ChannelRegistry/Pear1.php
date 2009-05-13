@@ -31,9 +31,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
     function __construct($path, $readonly = false)
     {
         $this->readonly = $readonly;
-        $this->path = $path;
-        $this->_channelPath = $path . DIRECTORY_SEPARATOR . '.channels';
-        $this->_aliasPath = $path . DIRECTORY_SEPARATOR . '.alias';
+        $this->path = $path . DIRECTORY_SEPARATOR . 'php';
+        $this->_channelPath = $this->path . DIRECTORY_SEPARATOR . '.channels';
+        $this->_aliasPath = $this->path . DIRECTORY_SEPARATOR . '.alias';
         if (!file_exists($this->_channelPath) || !is_dir($this->_channelPath)) {
             if ($readonly) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot initialize ' .

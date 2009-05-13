@@ -52,10 +52,9 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
      */
     var $_version = '1.0';
 
-    function __construct()
+    function __construct($path)
     {
-        $this->_depdb = PEAR2_Pyrus_Config::current()->path .
-            DIRECTORY_SEPARATOR . '.depdb';
+        $this->_depdb = $path . DIRECTORY_SEPARATOR . '.depdb';
 
         $this->_lockfile = dirname($this->_depdb) . DIRECTORY_SEPARATOR . '.depdblock';
     }

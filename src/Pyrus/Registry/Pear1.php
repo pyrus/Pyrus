@@ -32,8 +32,8 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 
     function __construct($path)
     {
-        $this->_path = $path;
-        $this->filemap = $path . DIRECTORY_SEPARATOR . '.filemap';
+        $this->_path = $path . DIRECTORY_SEPARATOR . 'php';
+        $this->filemap = $this->_path . DIRECTORY_SEPARATOR . '.filemap';
     }
 
     protected function rebuildFileMap()
@@ -80,7 +80,10 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             }
         }
 
-        $fp = @fopen($this->filemap, 'wb');
+        if (!@is_dir(dirname($this->filemap))) {
+            mkdir(dirname($this->filemap), 0755, true);
+        }
+        $fp = fopen($this->filemap, 'wb');
         if (!$fp) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot write out Pear1 filemap');
         }
@@ -131,7 +134,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             $channel = '.channel.' . strtolower($channel) . DIRECTORY_SEPARATOR;
         }
 
-        return PEAR2_Pyrus_Config::current()->path . DIRECTORY_SEPARATOR .
+        return $this->_path . DIRECTORY_SEPARATOR .
             '.registry' . DIRECTORY_SEPARATOR . $channel . strtolower($package);
     }
 
@@ -144,7 +147,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
     {
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
-            mkdir(dirname($packagefile), 0777, true);
+            mkdir(dirname($packagefile), 0755, true);
         }
 
         if (!$replace) {
@@ -283,7 +286,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         file_put_contents($packagefile, serialize($arr));
         $this->rebuildFileMap();
         $classname = self::$dependencyDBClass;
-        $dep = new $classname;
+        $dep = new $classname($this->_path);
         $dep->installPackage($info);
     }
 
@@ -292,7 +295,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         @unlink($packagefile);
         $classname = self::$dependencyDBClass;
-        $dep = new $classname;
+        $dep = new $classname($this->_path);
         $dep->uninstallPackage($channel, $package);
         $this->rebuildFileMap();
     }
@@ -472,7 +475,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
     public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
         $class = self::$dependencyDBClass;
-        $dep = new $class;
+        $dep = new $class($this->_path);
         $ret = $dep->getDependentPackages($package);
         foreach ($ret as $i => $package) {
             $ret[$i] = $this->package[$package['channel'] . '/' . $package['package']];
@@ -528,6 +531,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
      */
     static public function detectRegistries($path)
     {
+        $path = $path . DIRECTORY_SEPARATOR . 'php';
         if (file_exists($path . '/.registry') || is_dir($path . '/.registry')) {
             return array('Pear1');
         }
@@ -539,6 +543,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
      */
     static public function removeRegistry($path)
     {
+        $path = $path . DIRECTORY_SEPARATOR . 'php';
         if (!file_exists($path . '/.registry')) {
             return;
         }

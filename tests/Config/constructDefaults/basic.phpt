@@ -10,14 +10,14 @@ PHP_PEAR_BIN_DIR=
 require dirname(__FILE__) . '/setup.php.inc';
 $test->assertEquals(array(
             'php_dir' => '@php_dir@/src', // pseudo-value in this implementation
-            'ext_dir' => '@php_dir@/ext_dir',
+            'ext_dir' => '@php_dir@/ext',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
             'data_dir' => '@php_dir@/data', // pseudo-value in this implementation
             'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@/www',
             'test_dir' => '@php_dir@/tests',
-            'php_bin' => '',
+            'php_bin' => '', 
             'php_ini' => '',
             'default_channel' => 'pear2.php.net',
             'preferred_mirror' => 'pear2.php.net',
@@ -49,7 +49,7 @@ $test->assertEquals(array(
             'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'www',
             'test_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'tests',
-            'php_bin' => '',
+            'php_bin' => PEAR2_Pyrus_Config::current()->php_bin, // no way to reliably test this, so a cop-out
             'default_channel' => 'pear2.php.net',
             'preferred_mirror' => 'pear2.php.net',
             'auto_discover' => '0',
