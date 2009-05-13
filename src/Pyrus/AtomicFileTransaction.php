@@ -448,7 +448,7 @@ create_journal:
     function removeJournalPath()
     {
         if (!static::$intransaction) {
-            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot remove journal path - not in a transaction');
         }
         if (!file_exists($this->journalpath) || !is_dir($this->journalpath)) {
             return;
