@@ -34,11 +34,11 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-10-02</date>
- <time>10:15:27</time>
+ <date>2009-05-12</date>
+ <time>22:26:38</time>
  <version>
-  <release>0.1.0</release>
-  <api>0.1.0</api>
+  <release>2.0.0a1</release>
+  <api>2.0.0a1</api>
  </version>
  <stability>
   <release>devel</release>
@@ -49,33 +49,54 @@ try {
  <contents>
   <dir name="/">
    <dir name="data" baseinstalldir="/">
+    <dir name="default_channels">
+     <file role="data" name="pear.php.net.xml"/>
+     <file role="data" name="pear2.php.net.xml"/>
+     <file role="data" name="pecl.php.net.xml"/>
+     <file role="data" name="__uri.xml"/>
+    </dir>
     <file role="data" name="channel-1.0.xsd"/>
     <file role="data" name="package-2.0.xsd"/>
     <file role="data" name="package-2.1.xsd"/>
    </dir>
    <dir name="src" baseinstalldir="PEAR2">
     <dir name="Pyrus">
+     <dir name="AtomicFileTransaction">
+      <file role="php" name="Exception.php"/>
+     </dir>
      <dir name="Channel">
       <file role="php" name="Base.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="IMirror.php"/>
-      <file role="php" name="Mirror.php"/>
+     </dir>
+     <dir name="ChannelFile">
+      <dir name="Parser">
+       <file role="php" name="v1.php"/>
+      </dir>
+      <dir name="v1">
+       <dir name="Servers">
+        <dir name="Protocols">
+         <file role="php" name="REST.php"/>
+        </dir>
+        <file role="php" name="Protocols.php"/>
+       </dir>
+       <file role="php" name="Mirror.php"/>
+       <file role="php" name="Servers.php"/>
+      </dir>
+      <file role="php" name="Exception.php"/>
+      <file role="php" name="v1.php"/>
      </dir>
      <dir name="ChannelRegistry">
-      <dir name="Channel">
-       <file role="php" name="Pear1.php"/>
-       <file role="php" name="Sqlite.php"/>
-       <file role="php" name="Xml.php"/>
-      </dir>
       <dir name="Mirror">
-       <file role="php" name="Sqlite.php"/>
+       <file role="php" name="Sqlite3.php"/>
        <file role="php" name="Xml.php"/>
       </dir>
       <file role="php" name="Base.php"/>
+      <file role="php" name="Channel.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="ParseException.php"/>
       <file role="php" name="Pear1.php"/>
-      <file role="php" name="Sqlite.php"/>
+      <file role="php" name="Sqlite3.php"/>
       <file role="php" name="Xml.php"/>
      </dir>
      <dir name="Config">
@@ -91,6 +112,7 @@ try {
       <file role="php" name="Vertex.php"/>
      </dir>
      <dir name="FileTransactions">
+      <file role="php" name="Exception.php"/>
       <file role="php" name="Installedas.php"/>
       <file role="php" name="Rename.php"/>
       <file role="php" name="Rmdir.php"/>
@@ -154,7 +176,10 @@ try {
         <file role="php" name="Exception.php"/>
        </dir>
        <dir name="Dependencies">
+        <file role="php" name="Dep.php"/>
         <file role="php" name="Exception.php"/>
+        <file role="php" name="Group.php"/>
+        <file role="php" name="Package.php"/>
        </dir>
        <dir name="Developer">
         <file role="php" name="Exception.php"/>
@@ -162,15 +187,28 @@ try {
        <dir name="Files">
         <file role="php" name="Exception.php"/>
        </dir>
-       <dir name="Release">
+       <dir name="License">
         <file role="php" name="Exception.php"/>
        </dir>
+       <dir name="Release">
+        <file role="php" name="BinaryPackage.php"/>
+        <file role="php" name="ConfigureOption.php"/>
+        <file role="php" name="Exception.php"/>
+        <file role="php" name="InstallCondition.php"/>
+       </dir>
+       <dir name="UsesRoleTask">
+        <file role="php" name="Exception.php"/>
+       </dir>
+       <file role="php" name="BundledPackage.php"/>
        <file role="php" name="Compatible.php"/>
        <file role="php" name="Dependencies.php"/>
        <file role="php" name="Developer.php"/>
        <file role="php" name="Files.php"/>
+       <file role="php" name="License.php"/>
        <file role="php" name="Release.php"/>
        <file role="php" name="Remote.php"/>
+       <file role="php" name="SimpleProperty.php"/>
+       <file role="php" name="UsesRoleTask.php"/>
        <file role="php" name="Validator.php"/>
       </dir>
       <dir name="v2Iterator">
@@ -187,20 +225,24 @@ try {
       <file role="php" name="v2.php"/>
      </dir>
      <dir name="Registry">
+      <dir name="Package">
+       <file role="php" name="Base.php"/>
+      </dir>
       <dir name="Pear1">
+       <file role="php" name="DependencyDB.php"/>
        <file role="php" name="Package.php"/>
       </dir>
-      <dir name="Sqlite">
+      <dir name="Sqlite3">
        <file role="php" name="Creator.php"/>
        <file role="php" name="Package.php"/>
       </dir>
+      <dir name="Xml">
+       <file role="php" name="Package.php"/>
+      </dir>
       <file role="php" name="Base.php"/>
-      <file role="php" name="Channel.php"/>
-      <file role="php" name="Config.php"/>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="Package.php"/>
       <file role="php" name="Pear1.php"/>
-      <file role="php" name="Sqlite.php"/>
+      <file role="php" name="Sqlite3.php"/>
       <file role="php" name="Xml.php"/>
      </dir>
      <dir name="REST">
@@ -214,6 +256,12 @@ try {
       <file role="php" name="Commands.php"/>
      </dir>
      <dir name="Task">
+      <dir name="Exception">
+       <file role="php" name="InvalidTask.php"/>
+       <file role="php" name="MissingAttribute.php"/>
+       <file role="php" name="NoAttributes.php"/>
+       <file role="php" name="WrongAttributeValue.php"/>
+      </dir>
       <dir name="Postinstallscript">
        <file role="php" name="rw.php"/>
       </dir>
@@ -245,7 +293,9 @@ try {
      <dir name="XMLWriter">
       <file role="php" name="Exception.php"/>
      </dir>
+     <file role="php" name="AtomicFileTransaction.php"/>
      <file role="php" name="Channel.php"/>
+     <file role="php" name="ChannelFile.php"/>
      <file role="php" name="ChannelRegistry.php"/>
      <file role="php" name="Config.php"/>
      <file role="php" name="DirectedGraph.php"/>
@@ -253,11 +303,13 @@ try {
      <file role="php" name="Exception.php"/>
      <file role="php" name="FileTransactions.php"/>
      <file role="php" name="IChannel.php"/>
+     <file role="php" name="IChannelFile.php"/>
      <file role="php" name="IChannelRegistry.php"/>
      <file role="php" name="IFileTransaction.php"/>
      <file role="php" name="ILog.php"/>
      <file role="php" name="Installer.php"/>
      <file role="php" name="IPackage.php"/>
+     <file role="php" name="IPackageFile.php"/>
      <file role="php" name="IRegistry.php"/>
      <file role="php" name="Log.php"/>
      <file role="php" name="OSGuess.php"/>
@@ -276,8 +328,184 @@ try {
     <file role="php" name="Pyrus.php"/>
    </dir>
    <dir name="tests" baseinstalldir="/">
+    <dir name="AtomicFileTransaction">
+     <dir name="begin">
+      <file role="test" name="begin.copy.phpt"/>
+      <file role="test" name="begin.fail.intransaction.phpt"/>
+      <file role="test" name="begin.fail.phpt"/>
+      <file role="test" name="begin.fail2.phpt"/>
+      <file role="test" name="begin.journal-exists.phpt"/>
+      <file role="test" name="begin.phpt"/>
+     </dir>
+     <dir name="commit">
+      <file role="test" name="commit.fail.notintransaction.phpt"/>
+      <file role="test" name="commit.failbackup.phpt"/>
+      <file role="test" name="commit.phpt"/>
+     </dir>
+     <dir name="createOrOpenPath">
+      <file role="test" name="createoropenpath.fail.fp.stream.empty.phpt"/>
+      <file role="test" name="createoropenpath.fail.notintransaction.phpt"/>
+      <file role="test" name="createoropenpath.failure.contents.phpt"/>
+      <file role="test" name="createoropenpath.failure.fp.phpt"/>
+      <file role="test" name="createoropenpath.failure.fp.stream.phpt"/>
+      <file role="test" name="createoropenpath.fp.phpt"/>
+      <file role="test" name="createoropenpath.fp.stream.phpt"/>
+     </dir>
+     <dir name="removeBackups">
+      <file role="test" name="removebackups.fail.notintransaction.phpt"/>
+     </dir>
+     <dir name="removePath">
+      <file role="test" name="removepath.fail.notintransaction.phpt"/>
+      <file role="test" name="removepath.fail.strict.phpt"/>
+      <file role="test" name="removepath.nonexisting.phpt"/>
+      <file role="test" name="removepath.notstrict.phpt"/>
+     </dir>
+     <dir name="repair">
+      <file role="test" name="repair.basic.phpt"/>
+      <file role="test" name="repair.fail.phpt"/>
+     </dir>
+     <dir name="rmrf">
+      <file role="test" name="rmrf.phpt"/>
+     </dir>
+     <dir name="rollback">
+      <file role="test" name="rollback.fail.notintransaction.phpt"/>
+      <file role="test" name="rollback.phpt"/>
+      <file role="test" name="rollback2.phpt"/>
+     </dir>
+     <file role="test" name="setup.empty.php.inc"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="Channel">
+     <file role="test" name="basic.phpt"/>
+     <file role="test" name="creation.phpt"/>
+     <file role="test" name="mirrors-set.phpt"/>
+     <file role="test" name="mirrors-unset.phpt"/>
+     <file role="test" name="mirrors.phpt"/>
+     <file role="test" name="remote.php"/>
+     <file role="test" name="remote.phpt"/>
+     <file role="test" name="rest.errors.phpt"/>
+     <file role="test" name="rest.template"/>
+     <file role="test" name="rest_creation.template"/>
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="ssl_channel.phpt"/>
+     <file role="test" name="uri.phpt"/>
+     <file role="test" name="validation.phpt"/>
+    </dir>
+    <dir name="ChannelFile">
+     <dir name="basic">
+      <file role="test" name="random.phpt"/>
+      <file role="test" name="simpleproperties.phpt"/>
+     </dir>
+     <dir name="setupFiles">
+      <file role="test" name="setupChannelFile.php.inc"/>
+     </dir>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="ChannelFile_Parser_v1">
+     <file role="test" name="error.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="ChannelRegistry">
+     <dir name="AllRegistries">
+      <dir name="add">
+       <file role="test" name="add.phpt"/>
+       <file role="test" name="add.readonly.phpt"/>
+      </dir>
+      <dir name="delete">
+       <file role="test" name="delete.installed.phpt"/>
+       <file role="test" name="delete.readonly.phpt"/>
+       <file role="test" name="external.phpt"/>
+       <file role="test" name="internal.phpt"/>
+      </dir>
+      <dir name="exists">
+       <file role="test" name="external.phpt"/>
+       <file role="test" name="internal.phpt"/>
+       <file role="test" name="strict_external.phpt"/>
+       <file role="test" name="strict_internal.phpt"/>
+      </dir>
+      <dir name="info">
+       <file role="test" name="basic.template"/>
+       <file role="test" name="mirrors.template"/>
+       <file role="test" name="rest.template"/>
+      </dir>
+      <dir name="listChannels">
+       <file role="test" name="default.phpt"/>
+      </dir>
+      <dir name="parseName">
+       <file role="test" name="parsename.phpt"/>
+      </dir>
+      <dir name="update">
+       <file role="test" name="update.phpt"/>
+       <file role="test" name="update.readonly.phpt"/>
+      </dir>
+     </dir>
+     <dir name="Pear1">
+      <dir name="add">
+       <file role="test" name="add.phpt"/>
+       <file role="test" name="add.readonly.phpt"/>
+      </dir>
+      <dir name="delete">
+       <file role="test" name="delete.installed.phpt"/>
+       <file role="test" name="delete.readonly.phpt"/>
+       <file role="test" name="external.phpt"/>
+       <file role="test" name="internal.phpt"/>
+      </dir>
+      <dir name="listChannels">
+       <file role="test" name="default.phpt"/>
+      </dir>
+      <dir name="update">
+       <file role="test" name="update.phpt"/>
+       <file role="test" name="update.readonly.phpt"/>
+      </dir>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
+     <dir name="Sqlite3">
+      <dir name="add">
+       <file role="test" name="add.phpt"/>
+       <file role="test" name="add.readonly.phpt"/>
+      </dir>
+      <dir name="delete">
+       <file role="test" name="delete.installed.phpt"/>
+       <file role="test" name="delete.readonly.phpt"/>
+       <file role="test" name="external.phpt"/>
+       <file role="test" name="internal.phpt"/>
+      </dir>
+      <dir name="listChannels">
+       <file role="test" name="default.phpt"/>
+      </dir>
+      <dir name="update">
+       <file role="test" name="update.phpt"/>
+      </dir>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
+     <dir name="Xml">
+      <dir name="add">
+       <file role="test" name="add.phpt"/>
+       <file role="test" name="add.readonly.phpt"/>
+      </dir>
+      <dir name="delete">
+       <file role="test" name="delete.readonly.phpt"/>
+       <file role="test" name="external.phpt"/>
+       <file role="test" name="internal.phpt"/>
+      </dir>
+      <dir name="listChannels">
+       <file role="test" name="default.phpt"/>
+      </dir>
+      <dir name="update">
+       <file role="test" name="update.phpt"/>
+       <file role="test" name="update.readonly.phpt"/>
+      </dir>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
+     <file role="test" name="sample_channel.xml"/>
+     <file role="test" name="sample_channel_complex.xml"/>
+     <file role="test" name="sample_channel_complex2.xml"/>
+     <file role="test" name="sample_ssl_channel.xml"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
     <dir name="Config">
      <dir name="addConfigValue">
+      <file role="test" name="fail.phpt"/>
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="test.phpt"/>
      </dir>
@@ -295,28 +523,197 @@ try {
       <file role="test" name="extension_dir.ini.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
+     <dir name="current">
+      <file role="test" name="singleton.phpt"/>
+     </dir>
      <dir name="loadConfigFile">
       <file role="test" name="badsystemfile.phpt"/>
       <file role="test" name="baduserfile.phpt"/>
       <file role="test" name="defaults.phpt"/>
       <file role="test" name="goodsystemfile.phpt"/>
-      <file role="test" name="gooduser.mypath.php"/>
+      <file role="test" name="goodsystemfile2.phpt"/>
+      <file role="test" name="goodsystemfile3.phpt"/>
+      <file role="test" name="goodsystemfile4.phpt"/>
       <file role="test" name="gooduser.mypath.phpt"/>
       <file role="test" name="gooduserfile.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="setCascadingRegistries">
-      <file role="test" name="basic.php"/>
       <file role="test" name="basic.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
-     <dir name="singleton">
-      <file role="test" name="noparams.php"/>
-      <file role="test" name="noparams.phpt"/>
-      <file role="test" name="peardir_not_in_include_path.phpt"/>
+     <dir name="userInitialized">
       <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.phpt"/>
+     </dir>
+     <dir name="__get__set__unset__isset">
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="test2.phpt"/>
+      <file role="test" name="test3.phpt"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="Dependency_Validator">
+     <dir name="validateArchDependency">
+      <file role="test" name="archdep.extra.phpt"/>
+      <file role="test" name="archdep.phpt"/>
+     </dir>
+     <dir name="validateDownloadedPackage">
+      <file role="test" name="downloadedpackage.downloaded.phpt"/>
+      <file role="test" name="downloadedpackage.fail.optional.phpt"/>
+      <file role="test" name="downloadedpackage.optional.phpt"/>
+      <file role="test" name="downloadedpackage.optional.subpackage.phpt"/>
+      <file role="test" name="downloadedpackage.required.phpt"/>
+      <file role="test" name="downloadedpackage.required.subpackage.phpt"/>
+      <file role="test" name="downloadedpackage.simple.phpt"/>
+     </dir>
+     <dir name="validateExtensionDependency">
+      <file role="test" name="extensiondep.exclude.fail.force.phpt"/>
+      <file role="test" name="extensiondep.exclude.fail.nodeps.phpt"/>
+      <file role="test" name="extensiondep.exclude.fail.phpt"/>
+      <file role="test" name="extensiondep.loaded.extversionless.phpt"/>
+      <file role="test" name="extensiondep.loaded.valid.phpt"/>
+      <file role="test" name="extensiondep.max.fail.force.phpt"/>
+      <file role="test" name="extensiondep.max.fail.phpt"/>
+      <file role="test" name="extensiondep.min.fail.force.phpt"/>
+      <file role="test" name="extensiondep.min.fail.nodeps.phpt"/>
+      <file role="test" name="extensiondep.min.fail.phpt"/>
+      <file role="test" name="extensiondep.notdownload.or.install.phpt"/>
+      <file role="test" name="extensiondep.notloaded.force.phpt"/>
+      <file role="test" name="extensiondep.notloaded.nodeps.phpt"/>
+      <file role="test" name="extensiondep.notloaded.phpt"/>
+      <file role="test" name="extensiondep.noversion.force.phpt"/>
+      <file role="test" name="extensiondep.noversion.nodeps.phpt"/>
+      <file role="test" name="extensiondep.noversion.phpt"/>
+      <file role="test" name="extensiondep.recommended.fail.force.phpt"/>
+      <file role="test" name="extensiondep.recommended.fail.nodeps.phpt"/>
+      <file role="test" name="extensiondep.recommended.fail.phpt"/>
+     </dir>
+     <dir name="validateOsDependency">
+      <file role="test" name="osdep.extra.phpt"/>
+      <file role="test" name="osdep.nodeps.phpt"/>
+      <file role="test" name="osdep.phpt"/>
+      <file role="test" name="osdep.windows.force.phpt"/>
+      <file role="test" name="osdep.windows.phpt"/>
+     </dir>
+     <dir name="validatePackageDependency">
+      <file role="test" name="packagedep.downloading.noversion.valid.phpt"/>
+      <file role="test" name="packagedep.downloading.valid.phpt"/>
+      <file role="test" name="packagedep.fail.installed.noversion.conflicts.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.noversion.conflicts.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.noversion.conflicts.phpt"/>
+      <file role="test" name="packagedep.fail.installed.noversion.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.noversion.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.noversion.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.exclude.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.exclude.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.exclude.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.max.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.max.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.max.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.min.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.min.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.conflicts.min.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.exclude.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.exclude.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.exclude.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.max.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.max.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.min.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.min.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.min.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.recommended.force.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.recommended.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.recommended.phpt"/>
+      <file role="test" name="packagedep.installed.noversion.phpt"/>
+      <file role="test" name="packagedep.installed.phpt"/>
+      <file role="test" name="packagedep.installed.version.installed.conflicts.exclude.phpt"/>
+      <file role="test" name="packagedep.installed.version.installed.conflicts.max.phpt"/>
+      <file role="test" name="packagedep.installed.version.installed.conflicts.phpt"/>
+      <file role="test" name="packagedep.installed.version.notinstalled.conflicts.phpt"/>
+      <file role="test" name="packagedep.installed.version.recommended.phpt"/>
+      <file role="test" name="packagedep.providesextension.installed.phpt"/>
+      <file role="test" name="packagedep.providesextension.loaded.extversionless.phpt"/>
+      <file role="test" name="packagedep.providesextension.notinstalled.phpt"/>
+     </dir>
+     <dir name="validatePackageUninstall">
+      <file role="test" name="uninstalldep.fail.exclude.force.phpt"/>
+      <file role="test" name="uninstalldep.fail.exclude.nodeps.phpt"/>
+      <file role="test" name="uninstalldep.fail.exclude.phpt"/>
+      <file role="test" name="uninstalldep.fail.max.force.phpt"/>
+      <file role="test" name="uninstalldep.fail.max.nodeps.phpt"/>
+      <file role="test" name="uninstalldep.fail.max.phpt"/>
+      <file role="test" name="uninstalldep.fail.min.force.phpt"/>
+      <file role="test" name="uninstalldep.fail.min.nodeps.phpt"/>
+      <file role="test" name="uninstalldep.fail.min.phpt"/>
+      <file role="test" name="uninstalldep.fail.required.force.phpt"/>
+      <file role="test" name="uninstalldep.fail.required.nodeps.phpt"/>
+      <file role="test" name="uninstalldep.fail.required.phpt"/>
+      <file role="test" name="uninstalldep.noconflict.conflicts.phpt"/>
+      <file role="test" name="uninstalldep.noconflict.exclude.phpt"/>
+      <file role="test" name="uninstalldep.noconflict.exclude2.phpt"/>
+      <file role="test" name="uninstalldep.noconflict.phpt"/>
+      <file role="test" name="uninstalldep.optional.phpt"/>
+      <file role="test" name="uninstalldep.optional2.phpt"/>
+     </dir>
+     <dir name="validatePearinstallerDependency">
+      <file role="test" name="pearinstallerdep.phpt"/>
+     </dir>
+     <dir name="validatePhpDependency">
+      <file role="test" name="phpdep.phpt"/>
+     </dir>
+     <dir name="validateSubpackageDependency">
+      <file role="test" name="subpackagedep.downloading.noversion.valid.phpt"/>
+      <file role="test" name="subpackagedep.downloading.valid.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.noversion.conflicts.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.noversion.conflicts.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.noversion.conflicts.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.noversion.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.noversion.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.noversion.php"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.exclude.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.exclude.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.exclude.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.max.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.max.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.max.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.min.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.min.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.conflicts.min.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.exclude.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.exclude.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.exclude.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.max.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.max.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.max.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.min.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.min.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.min.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.recommended.force.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.recommended.nodeps.phpt"/>
+      <file role="test" name="subpackagedep.fail.installed.version.recommended.phpt"/>
+      <file role="test" name="subpackagedep.installed.noversion.phpt"/>
+      <file role="test" name="subpackagedep.installed.phpt"/>
+      <file role="test" name="subpackagedep.installed.version.conflicts.exclude.phpt"/>
+      <file role="test" name="subpackagedep.installed.version.conflicts.max.phpt"/>
+      <file role="test" name="subpackagedep.installed.version.conflicts.phpt"/>
+      <file role="test" name="subpackagedep.installed.version.recommended.phpt"/>
+      <file role="test" name="subpackagedep.notinstalled.version.conflicts.phpt"/>
+      <file role="test" name="subpackagedep.providesextension.installed.phpt"/>
+      <file role="test" name="subpackagedep.providesextension.loaded.extversionless.phpt"/>
+      <file role="test" name="subpackagedep.providesextension.notinstalled.phpt"/>
+     </dir>
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="setup.registry.php.inc"/>
+     <file role="test" name="setup.uninstall.php.inc"/>
+     <file role="test" name="validator.php.inc"/>
     </dir>
     <dir name="DirectedGraph">
      <file role="test" name="basic.phpt"/>
@@ -324,70 +721,8 @@ try {
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Installer">
-     <dir name="testit">
-      <dir name=".configsnapshots">
-       <file role="test" name="configsnapshot-2008-09-29 17:01:52.xml"/>
-      </dir>
-      <dir name=".registry">
-       <dir name="pear2.php.net">
-        <dir name="PEAR2_SimpleChannelServer">
-         <file role="test" name="0.1.0-package.xml"/>
-        </dir>
-       </dir>
-      </dir>
-      <dir name="bin">
-       <file role="test" name="pearscs"/>
-      </dir>
-      <dir name="docs">
-       <dir name="pear2.php.net">
-        <dir name="PEAR2_SimpleChannelServer">
-         <dir name="examples">
-          <file role="test" name="update_channel.php"/>
-         </dir>
-        </dir>
-       </dir>
-      </dir>
-      <dir name="src" baseinstalldir="PEAR2">
-       <dir name="PEAR2">
-        <dir name="SimpleChannelServer">
-         <dir name="Categories">
-          <file role="test" name="Exception.php"/>
-         </dir>
-         <dir name="REST">
-          <file role="test" name="Category.php"/>
-          <file role="test" name="Maintainer.php"/>
-          <file role="test" name="Manager.php"/>
-          <file role="test" name="Package.php"/>
-          <file role="test" name="Release.php"/>
-         </dir>
-         <file role="test" name="Categories.php"/>
-         <file role="test" name="Channel.php"/>
-         <file role="test" name="CLI.php"/>
-         <file role="test" name="Exception.php"/>
-         <file role="test" name="Get.php"/>
-        </dir>
-        <file role="test" name="SimpleChannelServer.php"/>
-       </dir>
-      </dir>
-      <file role="test" name=".config"/>
-      <file role="test" name=".pear2registry"/>
-      <file role="test" name="bin_dir.txt"/>
-      <file role="test" name="cfg_dir.txt"/>
-      <file role="test" name="channel-pear.php.net.xml"/>
-      <file role="test" name="channel-pear2.php.net.xml"/>
-      <file role="test" name="channel-pecl.php.net.xml"/>
-      <file role="test" name="channel-__uri.xml"/>
-      <file role="test" name="channelalias-pear.txt"/>
-      <file role="test" name="channelalias-pear2.txt"/>
-      <file role="test" name="channelalias-pecl.txt"/>
-      <file role="test" name="channelalias-__uri.txt"/>
-      <file role="test" name="doc_dir.txt"/>
-      <file role="test" name="ext_dir.txt"/>
-      <file role="test" name="php_bin.txt"/>
-      <file role="test" name="php_ini.txt"/>
-      <file role="test" name="test_dir.txt"/>
-      <file role="test" name="www_dir.txt"/>
-     </dir>
+     <file role="test" name="install.verifyfiles.phpt"/>
+     <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
     </dir>
     <dir name="PackageFile_Parser_v2">
@@ -399,17 +734,464 @@ try {
      <file role="test" name="test_2.0.phpt"/>
      <file role="test" name="test_2.1.phpt"/>
     </dir>
+    <dir name="PackageFile_v2">
+     <dir name="basic">
+      <file role="test" name="allmaintainers.phpt"/>
+      <file role="test" name="bundledpackage.phpt"/>
+      <file role="test" name="extra.coverage.phpt"/>
+      <file role="test" name="file.phpt"/>
+      <file role="test" name="file2.phpt"/>
+      <file role="test" name="license.phpt"/>
+      <file role="test" name="maintainer.phpt"/>
+      <file role="test" name="maintainer2.phpt"/>
+      <file role="test" name="packagingcontents.phpt"/>
+      <file role="test" name="release.binarypackage.phpt"/>
+      <file role="test" name="release.configureoption.errors.phpt"/>
+      <file role="test" name="release.configureoption.phpt"/>
+      <file role="test" name="release.configureoption.setting.phpt"/>
+      <file role="test" name="release.phpt"/>
+      <file role="test" name="release2.phpt"/>
+      <file role="test" name="release3.phpt"/>
+      <file role="test" name="setlicense.phpt"/>
+      <file role="test" name="setup.php.inc"/>
+      <file role="test" name="simpleproperties.errors.phpt"/>
+      <file role="test" name="simpleproperties.phpt"/>
+      <file role="test" name="simpleproperties2.phpt"/>
+      <file role="test" name="test.phpt"/>
+      <file role="test" name="usesrole.errors.phpt"/>
+      <file role="test" name="usesrole.phpt"/>
+      <file role="test" name="usesrole2.phpt"/>
+      <file role="test" name="usestask.errors.phpt"/>
+      <file role="test" name="usestask.phpt"/>
+      <file role="test" name="usestask2.phpt"/>
+     </dir>
+     <dir name="compatible">
+      <file role="test" name="compatible.basic.phpt"/>
+      <file role="test" name="compatible.errors.phpt"/>
+      <file role="test" name="compatible.set.phpt"/>
+      <file role="test" name="iscompatible.basic.phpt"/>
+     </dir>
+     <dir name="dependencies">
+      <file role="test" name="arch.iterator.phpt"/>
+      <file role="test" name="dependencies.arch.conflicting.phpt"/>
+      <file role="test" name="dependencies.arch.phpt"/>
+      <file role="test" name="dependencies.arch.setting.phpt"/>
+      <file role="test" name="dependencies.errors.phpt"/>
+      <file role="test" name="dependencies.extension.basic.phpt"/>
+      <file role="test" name="dependencies.extension.setting.phpt"/>
+      <file role="test" name="dependencies.extension.setting2.phpt"/>
+      <file role="test" name="dependencies.group.extension.phpt"/>
+      <file role="test" name="dependencies.group.package.complex.phpt"/>
+      <file role="test" name="dependencies.group.package.phpt"/>
+      <file role="test" name="dependencies.group.phpt"/>
+      <file role="test" name="dependencies.group.setting.phpt"/>
+      <file role="test" name="dependencies.group.subpackage.phpt"/>
+      <file role="test" name="dependencies.optional.setting.phpt"/>
+      <file role="test" name="dependencies.os.conflicting.phpt"/>
+      <file role="test" name="dependencies.os.phpt"/>
+      <file role="test" name="dependencies.os.setting.phpt"/>
+      <file role="test" name="dependencies.package.complex.phpt"/>
+      <file role="test" name="dependencies.package.conflicting.phpt"/>
+      <file role="test" name="dependencies.package.optional.complex.phpt"/>
+      <file role="test" name="dependencies.package.pecl.phpt"/>
+      <file role="test" name="dependencies.package.setting.phpt"/>
+      <file role="test" name="dependencies.package.setting2.phpt"/>
+      <file role="test" name="dependencies.package.uri.phpt"/>
+      <file role="test" name="dependencies.pearinstaller.basic.phpt"/>
+      <file role="test" name="dependencies.pearinstaller.complex.phpt"/>
+      <file role="test" name="dependencies.php.basic.phpt"/>
+      <file role="test" name="dependencies.php.complex.phpt"/>
+      <file role="test" name="dependencies.php.exclude.phpt"/>
+      <file role="test" name="dependencies.php.reset.phpt"/>
+      <file role="test" name="dependencies.required.setting.phpt"/>
+      <file role="test" name="dependencies.subpackage.complex.phpt"/>
+      <file role="test" name="dependencies.subpackage.optional.complex.phpt"/>
+      <file role="test" name="dependencies.subpackage.setting.phpt"/>
+      <file role="test" name="dependencies.subpackage.setting2.phpt"/>
+      <file role="test" name="dependson.channel.phpt"/>
+      <file role="test" name="dependson.channel.subpackage.phpt"/>
+      <file role="test" name="dependson.uri.phpt"/>
+      <file role="test" name="dependson.uri.subpackage.phpt"/>
+      <file role="test" name="issubpackage.basic.phpt"/>
+      <file role="test" name="issubpackage.mixed.phpt"/>
+      <file role="test" name="issubpackage.mixed2.phpt"/>
+      <file role="test" name="issubpackage.mixed3.phpt"/>
+      <file role="test" name="issubpackage.uri.phpt"/>
+      <file role="test" name="issubpackageof.phpt"/>
+      <file role="test" name="os.iterator.phpt"/>
+      <file role="test" name="package.coverage.phpt"/>
+     </dir>
+     <dir name="setupFiles">
+      <file role="test" name="setupPackageFile.php.inc"/>
+     </dir>
+     <dir name="toarray">
+      <file role="test" name="basic.phpt"/>
+      <file role="test" name="multiplegroupdep.phpt"/>
+      <file role="test" name="onefile.phpt"/>
+      <file role="test" name="packaging.filelist.phpt"/>
+      <file role="test" name="packaging.filelist2.phpt"/>
+      <file role="test" name="packaging.filelist3.phpt"/>
+      <file role="test" name="packaging.phpt"/>
+     </dir>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="PackageFile_v2_Validator">
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="validate.fail.role.phpt"/>
+     <file role="test" name="validate.fail.task.phpt"/>
+     <file role="test" name="validate.newobject.packaging.phpt"/>
+     <file role="test" name="validate.newobject.phpt"/>
+    </dir>
     <dir name="Registry">
-     <dir name="Current">
-      <file role="test" name="singleton.phpt"/>
+     <dir name="AllRegistries">
+      <dir name="detectfileconflicts">
+       <file role="test" name="basic.template"/>
+      </dir>
+      <dir name="getdependentpackages">
+       <file role="test" name="basic.template"/>
+      </dir>
+      <dir name="info">
+       <file role="test" name="dirtree.template"/>
+       <file role="test" name="installedfiles.template"/>
+       <file role="test" name="simple.template"/>
+      </dir>
+      <dir name="install">
+       <file role="test" name="test.template"/>
+      </dir>
+      <dir name="listpackages">
+       <file role="test" name="multiple.channels.template"/>
+       <file role="test" name="multiple.template"/>
+       <file role="test" name="simple.template"/>
+      </dir>
+      <dir name="package">
+       <dir name="basic">
+        <file role="test" name="allmaintainers.template"/>
+        <file role="test" name="basic.template"/>
+        <file role="test" name="file.template"/>
+        <file role="test" name="file2.template"/>
+        <file role="test" name="license.template"/>
+        <file role="test" name="maintainer.template"/>
+        <file role="test" name="maintainer2.template"/>
+        <file role="test" name="packagingcontents.template"/>
+        <file role="test" name="release.template"/>
+        <file role="test" name="release2.template"/>
+        <file role="test" name="release3.template"/>
+       </dir>
+       <dir name="extended">
+        <file role="test" name="compatible.basic.template"/>
+        <file role="test" name="compatible.errors.template"/>
+        <file role="test" name="compatible.set.template"/>
+        <file role="test" name="dependencies.arch.conflicting.template"/>
+        <file role="test" name="dependencies.arch.setting.template"/>
+        <file role="test" name="dependencies.arch.template"/>
+        <file role="test" name="dependencies.extension.basic.template"/>
+        <file role="test" name="dependencies.extension.setting.template"/>
+        <file role="test" name="dependencies.extension.setting2.template"/>
+        <file role="test" name="dependencies.group.extension.template"/>
+        <file role="test" name="dependencies.group.package.complex.template"/>
+        <file role="test" name="dependencies.group.package.template"/>
+        <file role="test" name="dependencies.group.setting.template"/>
+        <file role="test" name="dependencies.group.subpackage.template"/>
+        <file role="test" name="dependencies.group.template"/>
+        <file role="test" name="dependencies.optional.setting.template"/>
+        <file role="test" name="dependencies.os.conflicting.template"/>
+        <file role="test" name="dependencies.os.setting.template"/>
+        <file role="test" name="dependencies.os.template"/>
+        <file role="test" name="dependencies.package.complex.template"/>
+        <file role="test" name="dependencies.package.conflicting.template"/>
+        <file role="test" name="dependencies.package.optional.complex.template"/>
+        <file role="test" name="dependencies.package.pecl.template"/>
+        <file role="test" name="dependencies.package.setting.template"/>
+        <file role="test" name="dependencies.package.setting2.template"/>
+        <file role="test" name="dependencies.package.uri.template"/>
+        <file role="test" name="dependencies.pearinstaller.basic.template"/>
+        <file role="test" name="dependencies.pearinstaller.complex.template"/>
+        <file role="test" name="dependencies.php.basic.template"/>
+        <file role="test" name="dependencies.php.complex.template"/>
+        <file role="test" name="dependencies.php.exclude.template"/>
+        <file role="test" name="dependencies.php.reset.template"/>
+        <file role="test" name="dependencies.required.setting.template"/>
+        <file role="test" name="dependencies.subpackage.complex.template"/>
+        <file role="test" name="dependencies.subpackage.optional.complex.template"/>
+        <file role="test" name="dependencies.subpackage.setting.template"/>
+        <file role="test" name="dependencies.subpackage.setting2.template"/>
+        <file role="test" name="release.binarypackage.template"/>
+        <file role="test" name="release.configureoption.errors.template"/>
+        <file role="test" name="release.configureoption.setting.template"/>
+        <file role="test" name="release.configureoption.template"/>
+        <file role="test" name="setlicense.template"/>
+        <file role="test" name="toarray.multiplegroupdep.template"/>
+        <file role="test" name="toarray.onefile.template"/>
+        <file role="test" name="toarray.packaging.filelist.template"/>
+        <file role="test" name="toarray.packaging.filelist2.template"/>
+        <file role="test" name="toarray.packaging.filelist3.template"/>
+        <file role="test" name="toarray.packaging.template"/>
+        <file role="test" name="toarray.template"/>
+        <file role="test" name="usesrole.template"/>
+        <file role="test" name="usesrole2.template"/>
+        <file role="test" name="usestask.template"/>
+        <file role="test" name="usestask2.template"/>
+       </dir>
+      </dir>
+      <dir name="Registry">
+       <dir name="detectFileConflicts">
+        <file role="test" name="detectfileconflicts.basic.phpt"/>
+       </dir>
+       <dir name="getDependentPackages">
+        <file role="test" name="getdependentpackages.basic.phpt"/>
+       </dir>
+       <dir name="listPackages">
+        <file role="test" name="cascade.phpt"/>
+        <file role="test" name="listpackages.multiple.channels.phpt"/>
+       </dir>
+       <dir name="toPackageFile">
+        <file role="test" name="cascade.phpt"/>
+       </dir>
+       <file role="test" name="setup.cascade.php.inc"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="uninstall">
+       <file role="test" name="test.template"/>
+      </dir>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="README"/>
+      <file role="test" name="setupPackageFile.php.inc"/>
+     </dir>
+     <dir name="Base">
+      <dir name="arrayaccess">
+       <file role="test" name="arrayaccess.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="cloneRegistry">
+       <file role="test" name="cloneregistry.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="makeUninstallConnections">
+       <file role="test" name="makeuninstallconnections.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="validateUninstallDependencies">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="validateuninstalldependencies.fail.phpt"/>
+       <file role="test" name="validateuninstalldependencies.parent.uninstall.phpt"/>
+       <file role="test" name="validateuninstalldependencies.phpt"/>
+      </dir>
+     </dir>
+     <dir name="Pear1">
+      <dir name="detectfileconflicts">
+       <file role="test" name="detectfileconflicts.basic.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="getdependentpackages">
+       <file role="test" name="getdependentpackages.basic.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="info">
+       <file role="test" name="info.dirtree.phpt"/>
+       <file role="test" name="info.installedfiles.phpt"/>
+       <file role="test" name="info.simple.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="install">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
+      <dir name="listpackages">
+       <file role="test" name="listpackages.multiple.channels.phpt"/>
+       <file role="test" name="listpackages.multiple.phpt"/>
+       <file role="test" name="listpackages.simple.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="package">
+       <dir name="basic">
+        <file role="test" name="allmaintainers.phpt"/>
+        <file role="test" name="basic.phpt"/>
+        <file role="test" name="file.phpt"/>
+        <file role="test" name="file2.phpt"/>
+        <file role="test" name="license.phpt"/>
+        <file role="test" name="maintainer.phpt"/>
+        <file role="test" name="maintainer2.phpt"/>
+        <file role="test" name="packagingcontents.phpt"/>
+        <file role="test" name="release.phpt"/>
+        <file role="test" name="release2.phpt"/>
+        <file role="test" name="release3.phpt"/>
+        <file role="test" name="setup.php.inc"/>
+       </dir>
+      </dir>
+      <dir name="uninstall">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
+     </dir>
+     <dir name="Sqlite3">
+      <dir name="detectfileconflicts">
+       <file role="test" name="detectfileconflicts.basic.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="getdependentpackages">
+       <file role="test" name="getdependentpackages.basic.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="info">
+       <file role="test" name="info.dirtree.phpt"/>
+       <file role="test" name="info.installedfiles.phpt"/>
+       <file role="test" name="info.simple.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="init">
+       <file role="test" name="construct.phpt"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
+      <dir name="install">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
+      <dir name="listpackages">
+       <file role="test" name="listpackages.multiple.channels.phpt"/>
+       <file role="test" name="listpackages.multiple.phpt"/>
+       <file role="test" name="listpackages.simple.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="package">
+       <dir name="basic">
+        <file role="test" name="allmaintainers.phpt"/>
+        <file role="test" name="basic.phpt"/>
+        <file role="test" name="file.phpt"/>
+        <file role="test" name="file2.phpt"/>
+        <file role="test" name="license.phpt"/>
+        <file role="test" name="maintainer.phpt"/>
+        <file role="test" name="maintainer2.phpt"/>
+        <file role="test" name="packagingcontents.phpt"/>
+        <file role="test" name="release.phpt"/>
+        <file role="test" name="release2.phpt"/>
+        <file role="test" name="release3.phpt"/>
+        <file role="test" name="setup.php.inc"/>
+       </dir>
+      </dir>
+      <dir name="uninstall">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
+     </dir>
+     <dir name="Xml">
+      <dir name="detectfileconflicts">
+       <file role="test" name="detectfileconflicts.basic.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="getdependentpackages">
+       <file role="test" name="getdependentpackages.basic.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="info">
+       <file role="test" name="info.dirtree.phpt"/>
+       <file role="test" name="info.installedfiles.phpt"/>
+       <file role="test" name="info.simple.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="install">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
+      <dir name="listpackages">
+       <file role="test" name="listpackages.multiple.channels.phpt"/>
+       <file role="test" name="listpackages.multiple.phpt"/>
+       <file role="test" name="listpackages.simple.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
+      <dir name="package">
+       <dir name="basic">
+        <file role="test" name="allmaintainers.phpt"/>
+        <file role="test" name="basic.phpt"/>
+        <file role="test" name="file.phpt"/>
+        <file role="test" name="file2.phpt"/>
+        <file role="test" name="license.phpt"/>
+        <file role="test" name="maintainer.phpt"/>
+        <file role="test" name="maintainer2.phpt"/>
+        <file role="test" name="packagingcontents.phpt"/>
+        <file role="test" name="release.phpt"/>
+        <file role="test" name="release2.phpt"/>
+        <file role="test" name="release3.phpt"/>
+        <file role="test" name="setup.php.inc"/>
+       </dir>
+      </dir>
+      <dir name="uninstall">
+       <file role="test" name="setup.php.inc"/>
+       <file role="test" name="test.phpt"/>
+      </dir>
      </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="ScriptFrontend">
      <dir name="Commands">
+      <dir name="testit">
+       <dir name=".xmlregistry">
+        <dir name="channels">
+         <file role="test" name="channel-pear.php.net.xml"/>
+         <file role="test" name="channel-pear2.php.net.xml"/>
+         <file role="test" name="channel-pecl.php.net.xml"/>
+         <file role="test" name="channel-__uri.xml"/>
+         <file role="test" name="channelalias-pear.txt"/>
+         <file role="test" name="channelalias-pear2.txt"/>
+         <file role="test" name="channelalias-pecl.txt"/>
+         <file role="test" name="channelalias-__uri.txt"/>
+        </dir>
+       </dir>
+       <file role="test" name=".pear2registry"/>
+      </dir>
+      <file role="test" name="channelAdd.phpt"/>
+      <file role="test" name="channelDel.phpt"/>
+      <file role="test" name="findpear1.phpt"/>
+      <file role="test" name="findpear2.phpt"/>
+      <file role="test" name="findpear3.phpt"/>
+      <file role="test" name="help.phpt"/>
+      <file role="test" name="install.phpt"/>
       <file role="test" name="listChannels.phpt"/>
+      <file role="test" name="listPackages.empty.phpt"/>
+      <file role="test" name="listPackages.full.phpt"/>
+      <file role="test" name="uninstall.basic.phpt"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="Uninstaller">
+     <file role="test" name="uninstall.basic.phpt"/>
+     <file role="test" name="uninstall.rollback.phpt"/>
+    </dir>
+    <dir name="Validate">
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="validatepackagename.extends.failure.phpt"/>
+     <file role="test" name="validatepackagename.extends.phpt"/>
+     <file role="test" name="validatepackagename.failure.phpt"/>
+     <file role="test" name="validateversion.alpha.0.3.4.phpt"/>
+     <file role="test" name="validateversion.alpha.extends.2.0.0a1.phpt"/>
+     <file role="test" name="validateversion.failure.00.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.2decimals.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
+     <file role="test" name="validateversion.failure.extends.stable.phpt"/>
+     <file role="test" name="validateversion.failure.invalidversion.phpt"/>
+     <file role="test" name="validateversion.failure.packaging.phpt"/>
+     <file role="test" name="validateversion.failure.stable.0.9.0.phpt"/>
+     <file role="test" name="validateversion.failure.stable.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.stable.rcalphabeta.phpt"/>
+     <file role="test" name="validateversion.validbeta.phpt"/>
+     <file role="test" name="validateversion.validsnapshot.phpt"/>
+     <file role="test" name="validpackagename.phpt"/>
+    </dir>
+    <dir name="Validator_PECL">
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="validatename.failure.phpt"/>
+     <file role="test" name="validateversion.failure.rc.phpt"/>
     </dir>
     <dir name="XMLParser">
      <file role="test" name="attribs.phpt"/>
@@ -436,6 +1218,7 @@ try {
      <file role="test" name="setup.php.inc"/>
      <file role="test" name="siblingtags.phpt"/>
     </dir>
+    <file role="test" name=".cvsignore"/>
     <file role="test" name="clean.php.inc"/>
     <file role="test" name="test_framework.php.inc"/>
    </dir>
