@@ -94,6 +94,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'contents' => 'getContents',
         'installcontents' => 'getInstallContents',
         'packagingcontents' => 'getPackagingContents',
+        'scriptfiles' => 'getScriptFiles',
         'installGroup' => 'getInstallGroup',
         'channel' => 'getChannel',
         'state' => 'getState',
@@ -242,6 +243,11 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
         return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
                     $this->filelist);
+    }
+
+    function getScriptFiles()
+    {
+        return new PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator($this->filelist, $this);
     }
 
     function getPackageFile()

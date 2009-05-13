@@ -17,7 +17,7 @@
  * Implements the postinstallscript file task.
  *
  * Note that post-install scripts are handled separately from installation, by the
- * "pear run-scripts" command
+ * "pyrus run-scripts" command
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -28,7 +28,7 @@
  */
 class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
 {
-    var $type = 'script';
+    const TYPE = 'script';
     var $_class;
     var $_params;
     var $_obj;
@@ -41,10 +41,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
     var $phase = PEAR2_Pyrus_Task_Common::INSTALL;
 
     /**
-     * Validate the raw xml at parsing-time.
-     *
-     * This also attempts to validate the script to make sure it meets the criteria
-     * for a post-install script
+     * Validate the basic contents of a <replace> tag
      * @param PEAR_Pyrus_IPackageFile
      * @param array
      * @param array the entire parsed <file> tag

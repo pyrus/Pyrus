@@ -25,12 +25,12 @@
  */
 class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
 {
-    var $type = 'simple';
+    const TYPE = 'simple';
     var $phase = PEAR2_Pyrus_Task_Common::PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
-     * Validate the basic contents of a <unixeol> tag
+     * Validate the basic contents of a <replace> tag
      * @param PEAR_Pyrus_IPackageFile
      * @param array
      * @param array the entire parsed <file> tag

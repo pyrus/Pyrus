@@ -25,7 +25,7 @@
  */
 class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
 {
-    var $type = 'simple';
+    const TYPE = 'simple';
     var $phase = PEAR2_Pyrus_Task_Common::PACKAGE;
     var $_replacements;
 

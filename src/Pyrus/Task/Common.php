@@ -53,7 +53,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
      * Child task classes must override this property.
      * @access protected
      */
-    var $type = 'simple';
+    const TYPE = 'simple';
     /**
      * Determines which install phase this task is executed under
      */
@@ -72,7 +72,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     function __construct($phase)
     {
         $this->installphase = $phase;
-        if ($this->type == 'multiple') {
+        if (static::TYPE == 'multiple') {
             self::$multiple[get_class($this)][] = $this;
         }
     }
@@ -161,9 +161,9 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
      * Determines whether a role is a script
      * @return bool
      */
-    final function isScript()
+    final static function isScript()
     {
-        return $this->type == 'script';
+        return static::TYPE == 'script';
     }
 }
 ?>

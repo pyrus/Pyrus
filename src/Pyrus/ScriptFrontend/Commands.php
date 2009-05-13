@@ -442,6 +442,16 @@ previous:
         }
     }
 
+    function runScripts($args)
+    {
+        $runner = new PEAR2_Pyrus_ScriptRunner($this);
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        foreach ($args as $package) {
+            $package = $reg->package[$package];
+            $runner->run($package);
+        }
+    }
+
     /**
      * Display pyrus configuration vars
      *
