@@ -62,26 +62,25 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 
         $package = str_replace('\\', '/', $package);
         try {
-            if (!$pxml) {
+            if ($pxml === false) {
                 foreach (new RecursiveIteratorIterator($phar,
                             RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
                     $filename = $file->getFileName();
                     // default to new package.xml, but search for old one
                     // also
-                    if (preg_match('@^(.+)\-package.xml$@',
-                          $filename)) {
+                    if (preg_match('@^(.+)\-package.xml$@', $filename)) {
                         $pxml = $file->getPathName();
                         break;
                     } elseif ($filename == 'package2.xml') {
                         $this->_BCpackage = true;
                         $pxml = $file->getPathName();
-                    } elseif (!$pxml && $filename == 'package.xml') {
+                    } elseif ($pxml === false && $filename == 'package.xml') {
                         $this->_BCpackage = true;
                         $pxml = $file->getPathName();
                     }
                 }
             }
-            if (!$pxml) {
+            if ($pxml === false) {
                 throw new PEAR2_Pyrus_Package_Phar_Exception('No package.xml in archive');
             }
         } catch (Exception $e) {
@@ -89,9 +88,8 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
                 $package, $e);
         }
 
-        parent::__construct(new PEAR2_Pyrus_PackageFile($this->getFileContents($pxml,
-                                                                               'PEAR2_Pyrus_PackageFile_v2',
-                                                                               true)),
+        parent::__construct(new PEAR2_Pyrus_PackageFile($pxml,
+                                                       'PEAR2_Pyrus_PackageFile_v2'),
                             $parent);
     }
 
@@ -124,7 +122,15 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         if (!isset($this->packagefile->info->files[$file])) {
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
-
-        return 'phar://' . str_replace('\\', '/', $this->_packagename) . '/' . $file;
+        
+        $phar_file = 'phar://' . str_replace('\\', '/', $this->_packagename) . '/' . $file;
+        if (!file_exists($phar_file)) {
+            $phar_file = 'phar://' . str_replace('\\', '/', $this->_packagename) . '/' .
+                    $this->packagefile->info->name . '-' .
+                    $this->packagefile->info->version['release'] . '/' .
+                    $file;
+        
+        }
+        return $phar_file;
     }
 }

@@ -222,6 +222,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         }
         if ($asstream) {
             $fp = fopen($this->getFilePath($file), 'rb');
+            return $fp;
         } else {
             $ret = file_get_contents($this->getFilePath($file));
             if (!$ret) {
