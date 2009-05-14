@@ -78,6 +78,7 @@ $installer->setOptions($dp->getOptions());
 $installer->sortPackagesForInstall($result);
 $installer->setDownloadedPackages($result);
 $ret = $installer->install($result[0], $dp->getOptions());
+unset($ret['dirtree']);
 $test->assertEquals(array (
   'attribs' =>
   array (
@@ -579,12 +580,6 @@ to the constructor. May cause BC issues.',
     ),
   ),
   '_lastversion' => NULL,
-  'dirtree' =>
-  array (
-    __DIR__ . '/testit/doc/Net_URL/docs' => true,
-    __DIR__ . '/testit/doc/Net_URL' => true,
-    __DIR__ . '/testit/php/Net' => true,
-  ),
   'old' =>
   array (
     'version' => '1.0.15',
