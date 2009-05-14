@@ -79,7 +79,7 @@ $installer->sortPackagesForInstall($result);
 $installer->setDownloadedPackages($result);
 $ret = $installer->install($result[0], $dp->getOptions());
 $test->assertEquals(array (
-  'attribs' => 
+  'attribs' =>
   array (
     'packagerversion' => '1.6.0',
     'version' => '2.0',
@@ -92,16 +92,16 @@ $test->assertEquals(array (
   'channel' => 'pear.php.net',
   'summary' => 'Easy parsing of Urls',
   'description' => 'Provides easy parsing of URLs and their constituent parts.',
-  'lead' => 
+  'lead' =>
   array (
-    0 => 
+    0 =>
     array (
       'name' => 'Richard heyes',
       'user' => 'richard',
       'email' => 'richard@php.net',
       'active' => 'no',
     ),
-    1 => 
+    1 =>
     array (
       'name' => 'David Coallier',
       'user' => 'davidc',
@@ -111,19 +111,19 @@ $test->assertEquals(array (
   ),
   'date' => $ret['date'],
   'time' => $ret['time'],
-  'version' => 
+  'version' =>
   array (
     'release' => '1.0.15',
     'api' => '1.0.15',
   ),
-  'stability' => 
+  'stability' =>
   array (
     'release' => 'stable',
     'api' => 'stable',
   ),
-  'license' => 
+  'license' =>
   array (
-    'attribs' => 
+    'attribs' =>
     array (
       'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
     ),
@@ -141,19 +141,19 @@ $test->assertEquals(array (
 - Fixed Bug #2334 Sqare brackets in var names were encoded
 - Fixed Bug #2824 Better error handling support.
 - Fixed bug #3159 setProtocol was calling getStandardPort incorrectly',
-  'contents' => 
+  'contents' =>
   array (
-    'dir' => 
+    'dir' =>
     array (
-      'attribs' => 
+      'attribs' =>
       array (
         'name' => '/',
       ),
-      'file' => 
+      'file' =>
       array (
-        0 => 
+        0 =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'baseinstalldir' => 'Net',
             'md5sum' => 'af793351a5f00e31a2df697b54cfbc02',
@@ -161,9 +161,9 @@ $test->assertEquals(array (
             'role' => 'doc',
           ),
         ),
-        1 => 
+        1 =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'baseinstalldir' => 'Net',
             'md5sum' => '0488b5531c31332113100971be7ba2d9',
@@ -171,9 +171,9 @@ $test->assertEquals(array (
             'role' => 'doc',
           ),
         ),
-        2 => 
+        2 =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'baseinstalldir' => 'Net',
             'md5sum' => 'c7e690d656b56cc48a12399331a35b27',
@@ -184,41 +184,41 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  'dependencies' => 
+  'dependencies' =>
   array (
-    'required' => 
+    'required' =>
     array (
-      'php' => 
+      'php' =>
       array (
         'min' => '4.0.0',
       ),
-      'pearinstaller' => 
+      'pearinstaller' =>
       array (
         'min' => '1.4.0b1',
       ),
     ),
   ),
   'phprelease' => '',
-  'changelog' => 
+  'changelog' =>
   array (
-    'release' => 
+    'release' =>
     array (
-      0 => 
+      0 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.14',
           'api' => '1.0.14',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2004-06-19',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -226,22 +226,22 @@ $test->assertEquals(array (
         ),
         'notes' => 'Whitespace',
       ),
-      1 => 
+      1 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.13',
           'api' => '1.0.13',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2004-06-05',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -249,22 +249,22 @@ $test->assertEquals(array (
         ),
         'notes' => 'Fix bug 1558',
       ),
-      2 => 
+      2 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.12',
           'api' => '1.0.12',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2004-05-08',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -272,22 +272,22 @@ $test->assertEquals(array (
         ),
         'notes' => 'Bug fixes release (#704 and #1036)',
       ),
-      3 => 
+      3 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.11',
           'api' => '1.0.11',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2004-01-17',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -295,22 +295,22 @@ $test->assertEquals(array (
         ),
         'notes' => 'Bug fixes release (#83 and #471)',
       ),
-      4 => 
+      4 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.10',
           'api' => '1.0.10',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-04-06',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -318,22 +318,22 @@ $test->assertEquals(array (
         ),
         'notes' => 'Be more flexible in what constitutes a scheme',
       ),
-      5 => 
+      5 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.9',
           'api' => '1.0.9',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-04-05',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -341,22 +341,22 @@ $test->assertEquals(array (
         ),
         'notes' => 'Fix couple of absolute URL bugs.',
       ),
-      6 => 
+      6 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.8',
           'api' => '1.0.8',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-03-06',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -365,22 +365,22 @@ $test->assertEquals(array (
         'notes' => 'Various bugs. Remove auto setting of default url to \'/\' if a url is supplied
 to the constructor. May cause BC issues.',
       ),
-      7 => 
+      7 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.7',
           'api' => '1.0.7',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-12-07',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -388,22 +388,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'Added method to resolve URL paths of //, ../ and ./',
       ),
-      8 => 
+      8 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.6',
           'api' => '1.0.6',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-12-07',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -411,22 +411,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'Make usage of [] optional',
       ),
-      9 => 
+      9 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.5',
           'api' => '1.0.5',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-11-14',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -434,22 +434,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'Allow for URLS such as ...?foo',
       ),
-      10 => 
+      10 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.4',
           'api' => '1.0.4',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-07-27',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -457,22 +457,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'License change',
       ),
-      11 => 
+      11 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.3',
           'api' => '1.0.3',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-06-20',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -480,22 +480,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'Now uses HTTP_HOST if available.',
       ),
-      12 => 
+      12 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.2',
           'api' => '1.0.2',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-04-28',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -503,22 +503,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'updated to fix a minor irritation when running on windows',
       ),
-      13 => 
+      13 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0.1',
           'api' => '1.0.1',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-04-28',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -526,22 +526,22 @@ to the constructor. May cause BC issues.',
         ),
         'notes' => 'Maintenance release. Bugs fixed with path detection and defaults.',
       ),
-      14 => 
+      14 =>
       array (
-        'version' => 
+        'version' =>
         array (
           'release' => '1.0',
           'api' => '1.0',
         ),
-        'stability' => 
+        'stability' =>
         array (
           'release' => 'stable',
           'api' => 'stable',
         ),
         'date' => '2002-02-17',
-        'license' => 
+        'license' =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'uri' => 'http://www.opensource.org/licenses/bsd-license.php',
           ),
@@ -551,41 +551,41 @@ to the constructor. May cause BC issues.',
       ),
     ),
   ),
-  'filelist' => 
+  'filelist' =>
   array (
-    'docs/example.php' => 
+    'docs/example.php' =>
     array (
       'baseinstalldir' => 'Net',
       'md5sum' => 'af793351a5f00e31a2df697b54cfbc02',
       'name' => 'docs/example.php',
       'role' => 'doc',
-      'installed_as' => '/home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit/doc/Net_URL/docs/example.php',
+      'installed_as' => __DIR__ . '/testit/doc/Net_URL/docs/example.php',
     ),
-    'docs/6470.php' => 
+    'docs/6470.php' =>
     array (
       'baseinstalldir' => 'Net',
       'md5sum' => '0488b5531c31332113100971be7ba2d9',
       'name' => 'docs/6470.php',
       'role' => 'doc',
-      'installed_as' => '/home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit/doc/Net_URL/docs/6470.php',
+      'installed_as' => __DIR__ . '/testit/doc/Net_URL/docs/6470.php',
     ),
-    'URL.php' => 
+    'URL.php' =>
     array (
       'baseinstalldir' => 'Net',
       'md5sum' => 'c7e690d656b56cc48a12399331a35b27',
       'name' => 'URL.php',
       'role' => 'php',
-      'installed_as' => '/home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit/php/Net/URL.php',
+      'installed_as' => __DIR__ . '/testit/php/Net/URL.php',
     ),
   ),
   '_lastversion' => NULL,
-  'dirtree' => 
+  'dirtree' =>
   array (
-    '/home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit/doc/Net_URL/docs' => true,
-    '/home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit/doc/Net_URL' => true,
-    '/home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit/php/Net' => true,
+    __DIR__ . '/testit/doc/Net_URL/docs' => true,
+    __DIR__ . '/testit/doc/Net_URL' => true,
+    __DIR__ . '/testit/php/Net' => true,
   ),
-  'old' => 
+  'old' =>
   array (
     'version' => '1.0.15',
     'release_date' => '2007-06-28',
@@ -603,16 +603,16 @@ to the constructor. May cause BC issues.',
 - Fixed Bug #2334 Sqare brackets in var names were encoded
 - Fixed Bug #2824 Better error handling support.
 - Fixed bug #3159 setProtocol was calling getStandardPort incorrectly',
-    'release_deps' => 
+    'release_deps' =>
     array (
-      0 => 
+      0 =>
       array (
         'type' => 'php',
         'rel' => 'ge',
         'version' => '4.0.0',
         'optional' => 'no',
       ),
-      1 => 
+      1 =>
       array (
         'type' => 'pkg',
         'channel' => 'pear.php.net',
@@ -622,9 +622,9 @@ to the constructor. May cause BC issues.',
         'optional' => 'no',
       ),
     ),
-    'maintainers' => 
+    'maintainers' =>
     array (
-      0 => 
+      0 =>
       array (
         'name' => 'Richard heyes',
         'email' => 'richard@php.net',
@@ -632,7 +632,7 @@ to the constructor. May cause BC issues.',
         'handle' => 'richard',
         'role' => 'lead',
       ),
-      1 => 
+      1 =>
       array (
         'name' => 'David Coallier',
         'email' => 'davidc@php.net',
