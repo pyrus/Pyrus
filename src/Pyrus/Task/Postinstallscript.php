@@ -63,7 +63,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         }
         try {
             $file = $pkg->getFileContents($fileXml['name']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] . '" is not valid: ' .
@@ -74,56 +74,55 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                              'Post-install script "' .
                                                              $fileXml['name'] . '" could not be ' .
                                                              'retrieved for processing!');
-        } else {
-            $validator = $pkg->getValidator();
-            $analysis = $validator->analyzeSourceCode($file, true);
-            if (!$analysis) {
-                $warnings = '';
-                // iterate over the problems
-                foreach ($validator->getErrors() as $warn) {
-                    $warnings .= $warn->getMessage() . "\n";
-                }
-                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file, 
-                                                                 'Analysis of post-install script "' .
-                                                                 $fileXml['name'] . '" failed: ' . $warnings,
-                                                                 $validator->getErrors());
+        }
+        $validator = $pkg->getValidator();
+        $analysis = $validator->analyzeSourceCode($file, true);
+        if (!$analysis) {
+            $warnings = '';
+            // iterate over the problems
+            foreach ($validator->getErrors() as $warn) {
+                $warnings .= $warn->getMessage() . "\n";
             }
-            if (count($analysis['declared_classes']) != 1) {
-                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
-                                                                 'Post-install script "' .
-                                                                 $fileXml['name'] .
-                                                                 '" must declare exactly 1 class');
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file, 
+                                                             'Analysis of post-install script "' .
+                                                             $fileXml['name'] . '" failed: ' . $warnings,
+                                                             $validator->getErrors());
+        }
+        if (count($analysis['declared_classes']) != 1) {
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] .
+                                                             '" must declare exactly 1 class');
+        }
+        $class = $analysis['declared_classes'][0];
+        if ($class != str_replace(array('/', '.php'), array('_', ''),
+              $fileXml['name']) . '_postinstall') {
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] . '" class "' .
+                                                             $class . '" must be named "' .
+                                                             str_replace(array('/', '.php'),
+                                                                         array('_', ''),
+                                                                         $fileXml['name']) .
+                                                             '_postinstall"');
+        }
+        if (!isset($analysis['declared_methods'][$class])) {
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] .
+                                                             '" must declare methods init() and run()');
+        }
+        $methods = array('init' => 0, 'run' => 1);
+        foreach ($analysis['declared_methods'][$class] as $method) {
+            if (isset($methods[$method])) {
+                unset($methods[$method]);
             }
-            $class = $analysis['declared_classes'][0];
-            if ($class != str_replace(array('/', '.php'), array('_', ''),
-                  $fileXml['name']) . '_postinstall') {
-                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
-                                                                 'Post-install script "' .
-                                                                 $fileXml['name'] . '" class "' .
-                                                                 $class . '" must be named "' .
-                                                                 str_replace(array('/', '.php'),
-                                                                             array('_', ''),
-                                                                             $fileXml['name']) .
-                                                                 '_postinstall"');
-            }
-            if (!isset($analysis['declared_methods'][$class])) {
-                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
-                                                                 'Post-install script "' .
-                                                                 $fileXml['name'] .
-                                                                 '" must declare methods init() and run()');
-            }
-            $methods = array('init' => 0, 'run' => 1);
-            foreach ($analysis['declared_methods'][$class] as $method) {
-                if (isset($methods[$method])) {
-                    unset($methods[$method]);
-                }
-            }
-            if (count($methods)) {
-                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
-                                                                 'Post-install script "' .
-                                                                 $fileXml['name'] .
-                                                                 '" must declare methods init() and run()');
-            }
+        }
+        if (count($methods)) {
+            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                                                             'Post-install script "' .
+                                                             $fileXml['name'] .
+                                                             '" must declare methods init() and run()');
         }
         $definedparams = array();
         $tasksNamespace = $pkg->getTasksNs() . ':';
@@ -143,7 +142,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                                  'Post-install script "' .
                                                                  $fileXml['name'] .
                                                                  '" <paramgroup> must have ' .
-                                                                 'an ' . $tasksNamespace . 'id> tag');
+                                                                 'an <id> tag');
                 }
                 if (isset($param[$tasksNamespace . 'name'])) {
                     if (!in_array($param[$tasksNamespace . 'name'], $definedparams)) {

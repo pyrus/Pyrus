@@ -171,7 +171,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                         }
                         foreach ($value as $v) {
                             try {
-                                $ret = $tagClass::validateXml($this->_pf, $v, $save, $file->name);
+                                $ret = $tagClass::validateXml($this->_pf, $v, $save['attribs'], $file->name);
                             } catch (PEAR2_Pyrus_Task_Exception $e) {
                                 $this->errors->E_ERROR[] =
                                     new PEAR2_Pyrus_PackageFile_Exception('Invalid task $task', $e);
