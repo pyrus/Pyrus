@@ -361,86 +361,87 @@ class PEAR2_Pyrus_Installer
             // }}}
 
             // pretty much nothing happens if we are only registering the install
-            if (empty($this->_options['register-only'])) {
-                try {
-                    $transact->mkdir($dir, 0755);
-                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
-                    throw new PEAR2_Pyrus_Installer_Exception("failed to mkdir $dir", $e);
-                }
-                PEAR2_Pyrus_Log::log(3, "+ mkdir $dir");
+            if (isset($this->_options['register-only'])) {
+                continue;
+            }
+            try {
+                $transact->mkdir($dir, 0755);
+            } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                throw new PEAR2_Pyrus_Installer_Exception("failed to mkdir $dir", $e);
+            }
+            PEAR2_Pyrus_Log::log(3, "+ mkdir $dir");
 
-                if ($file->md5sum) {
-                    $md5sum = md5_file($package->getFilePath($file->packagedname));
-                    if (strtolower($md5sum) == strtolower($file->md5sum)) {
-                        PEAR2_Pyrus_Log::log(2, "md5sum ok: $dest_file");
-                    } else {
-                        if (empty($options['force'])) {
-                            if (!isset($options['ignore-errors'])) {
-                                throw new PEAR2_Pyrus_Installer_Exception(
-                                    "bad md5sum for file $file");
-                            } else {
-                                if (!isset($options['soft'])) {
-                                    PEAR2_Pyrus_Log::log(0,
-                                        "warning : bad md5sum for file $dest_file");
-                                }
-                            }
+            if ($file->md5sum) {
+                $md5sum = md5_file($package->getFilePath($file->packagedname));
+                if (strtolower($md5sum) == strtolower($file->md5sum)) {
+                    PEAR2_Pyrus_Log::log(2, "md5sum ok: $dest_file");
+                } else {
+                    if (empty($options['force'])) {
+                        if (!isset($options['ignore-errors'])) {
+                            throw new PEAR2_Pyrus_Installer_Exception(
+                                "bad md5sum for file $file");
                         } else {
                             if (!isset($options['soft'])) {
                                 PEAR2_Pyrus_Log::log(0,
                                     "warning : bad md5sum for file $dest_file");
                             }
                         }
+                    } else {
+                        if (!isset($options['soft'])) {
+                            PEAR2_Pyrus_Log::log(0,
+                                "warning : bad md5sum for file $dest_file");
+                        }
                     }
                 }
+            }
 
-                if (strpos(PHP_OS, 'WIN') === false) {
-                    if ($role->isExecutable()) {
-                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0777);
-                        PEAR2_Pyrus_Log::log(3, "+ chmod +x $dest_file");
+            if (strpos(PHP_OS, 'WIN') === false) {
+                if ($role->isExecutable()) {
+                    $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0777);
+                    PEAR2_Pyrus_Log::log(3, "+ chmod +x $dest_file");
+                } else {
+                    $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0666);
+                }
+            } else {
+                $mode = null;
+            }
+
+            try {
+                $transact->createOrOpenPath($dest_file, $package->getFileContents($file->packagedname, true), $mode);
+            } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                throw new PEAR2_Pyrus_Installer_Exception(
+                    "failed writing to $dest_file", $e);
+            }
+
+            $tasks = $file->tasks;
+            // only add the global replace task if it is not preprocessed
+            if ($package->isNewPackage() && !$package->isPreProcessed()) {
+                if (isset($tasks['tasks:replace'])) {
+                    if (isset($tasks['tasks:replace'][0])) {
+                        $tasks['tasks:replace'][] = $globalreplace;
                     } else {
-                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0666);
+                        $tasks['tasks:replace'] = array($tasks['tasks:replace'],
+                            $globalreplace);
                     }
                 } else {
-                    $mode = null;
+                    $tasks['tasks:replace'] = $globalreplace;
                 }
-
-                try {
-                    $transact->createOrOpenPath($dest_file, $package->getFileContents($file->packagedname, true), $mode);
-                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
-                    throw new PEAR2_Pyrus_Installer_Exception(
-                        "failed writing to $dest_file", $e);
+            }
+            $fp = false;
+            foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package,
+                                                                  PEAR2_Pyrus_Task_Common::INSTALL, $lastversion)
+                      as $name => $task) {
+                if (!$fp) {
+                    $fp = $transact->openPath($dest_file);
                 }
-
-                $tasks = $file->tasks;
-                // only add the global replace task if it is not preprocessed
-                if ($package->isNewPackage() && !$package->isPreProcessed()) {
-                    if (isset($tasks['tasks:replace'])) {
-                        if (isset($tasks['tasks:replace'][0])) {
-                            $tasks['tasks:replace'][] = $globalreplace;
-                        } else {
-                            $tasks['tasks:replace'] = array($tasks['tasks:replace'],
-                                $globalreplace);
-                        }
-                    } else {
-                        $tasks['tasks:replace'] = $globalreplace;
-                    }
+                $task[1]->startSession($package, $fp, $dest_file);
+                if (!rewind($fp)) {
+                    throw new PEAR2_Pyrus_Installer_Exception('task ' . $name .
+                                                              ' closed the file pointer, invalid task');
                 }
-                $fp = false;
-                foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package,
-                                                                      PEAR2_Pyrus_Task_Common::INSTALL, $lastversion)
-                          as $name => $task) {
-                    if (!$fp) {
-                        $fp = $transact->openPath($dest_file);
-                    }
-                    $task[1]->startSession($package, $fp, $dest_file);
-                    if (!rewind($fp)) {
-                        throw new PEAR2_Pyrus_Installer_Exception('task ' . $name .
-                                                                  ' closed the file pointer, invalid task');
-                    }
-                }
-                if ($fp) {
-                    fclose($fp);
-                }
+            }
+            if ($fp) {
+                fclose($fp);
             }
         }
     }
