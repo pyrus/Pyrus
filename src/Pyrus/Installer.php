@@ -369,9 +369,9 @@ class PEAR2_Pyrus_Installer
                 }
                 PEAR2_Pyrus_Log::log(3, "+ mkdir $dir");
 
-                if (isset($file['md5sum'])) {
+                if ($file->md5sum) {
                     $md5sum = md5_file($package->getFilePath($file->packagedname));
-                    if (strtolower($md5sum) == strtolower($file['md5sum'])) {
+                    if (strtolower($md5sum) == strtolower($file->md5sum)) {
                         PEAR2_Pyrus_Log::log(2, "md5sum ok: $dest_file");
                     } else {
                         if (empty($options['force'])) {
