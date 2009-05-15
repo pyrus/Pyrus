@@ -33,8 +33,4 @@ class PEAR2_Pyrus_Task_Exception extends PEAR2_Exception
     const WRONG_ATTRIB_VALUE = 3;
     const INVALID = 4;
     /**#@-*/
-    function __construct($message, $code, $cause = null)
-    {
-        
-    }
 }

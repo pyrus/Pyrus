@@ -44,7 +44,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
         }
         $errs = new PEAR2_MultiErrors;
         foreach (array('type', 'to', 'from') as $attrib) {
-            if (!isset($xml['attribs']['type'])) {
+            if (!isset($xml['attribs'][$attrib])) {
                 $errs->E_ERROR[] =
                     new PEAR2_Pyrus_Task_Exception_MissingAttribute('replace',
                                                                     $attrib, $file);
@@ -57,6 +57,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
             throw new PEAR2_Pyrus_Task_Exception('Invalid replace task, multiple missing attributes', $errs);
         }
         if ($xml['attribs']['type'] == 'pear-config') {
+            $config = PEAR2_Pyrus_Config::current();
             if (!in_array($xml['attribs']['to'], $config->systemvars)) {
                 throw new PEAR2_Pyrus_Task_Exception_WrongAttributeValue('replace',
                                                                          'to', $xml['attribs']['to'],
@@ -90,7 +91,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
             }
         } else {
             throw new PEAR2_Pyrus_Task_Exception_WrongAttributeValue('replace',
-                                                                     'to', $xml['attribs']['to'],
+                                                                     'type', $xml['attribs']['type'],
                                                                      $file,
                                                                      array('pear-config',
                                                                            'package-info',
