@@ -22,6 +22,9 @@ $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEP
                     . 'Installed pear.php.net/Net_URL-1.0.15' . "\n",
                     $contents,
                     'list packages');
+                    
+$test->assertFileExists(__DIR__ . '/testit/docs/Net_URL/Net/Docs/example.php', 'Docs installed to old doc directory.');
+
 
 ?>
 ===DONE===

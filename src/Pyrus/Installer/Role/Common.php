@@ -139,8 +139,13 @@ class PEAR2_Pyrus_Installer_Role_Common
                 $dest_dir .= $file->baseinstalldir;
             }
         } elseif ($roleInfo['unusualbaseinstall']) {
-            $dest_dir = $save_destdir =
-                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+        	if (!$pkg->isNewPackage()) {
+        		// Place files using the old doc dir structure
+        		$dest_dir = $save_destdir = $pkg->name;
+        	} else {
+	            $dest_dir = $save_destdir =
+	                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+        	}
             if ($file->baseinstalldir) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $file->baseinstalldir;
             }
