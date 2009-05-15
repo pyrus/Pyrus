@@ -26,7 +26,7 @@
 class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
 {
     const TYPE = 'simple';
-    var $phase = PEAR2_Pyrus_Task_Common::PACKAGE;
+    const PHASE = PEAR2_Pyrus_Task_Common::PACKAGE;
     var $_replacements;
 
     /**
@@ -59,15 +59,19 @@ class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
      * Replace all line endings with windows line endings
      *
      * See validateXml() source for the complete list of allowed fields
-     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
-     * @param string file contents
+     * @param PEAR2_Pyrus_IPackage
+     * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string
      */
-    function startSession(PEAR2_Pyrus_IPackage $pkg, $contents, $dest)
+    function startSession(PEAR2_Pyrus_IPackage $pkg, $fp, $dest)
     {
+        $contents = stream_get_contents($fp);
         PEAR2_Pyrus_Log::log(3, "replacing all line endings with \\r\\n in $dest");
-        return preg_replace("/\r\n|\n\r|\r|\n/", "\r\n", $contents);
+        $contents = preg_replace("/\r\n|\n\r|\r|\n/", "\r\n", $contents);
+        rewind($fp);
+        fwrite($fp, $contents);
+        return true;
     }
 }
 ?>

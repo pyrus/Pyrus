@@ -26,7 +26,7 @@
 class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
 {
     const TYPE = 'simple';
-    var $phase = PEAR2_Pyrus_Task_Common::PACKAGEANDINSTALL;
+    const PHASE = PEAR2_Pyrus_Task_Common::PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
@@ -116,12 +116,13 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
      *
      * See validateXml() source for the complete list of allowed fields
      * @param PEAR2_Pyrus_IPackage
-     * @param string file contents
+     * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false
      */
-    function startSession(PEAR2_Pyrus_IPackage $pkg, $contents, $dest)
+    function startSession(PEAR2_Pyrus_IPackage $pkg, $fp, $dest)
     {
+        $contents = stream_get_contents($fp);
         $subst_from = $subst_to = array();
         foreach ($this->_replacements as $a) {
             $a = $a['attribs'];
@@ -166,7 +167,9 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
         if (sizeof($subst_from)) {
             $contents = str_replace($subst_from, $subst_to, $contents);
         }
-        return $contents;
+        rewind($fp);
+        fwrite($fp, $contents);
+        return true;
     }
 }
 ?>

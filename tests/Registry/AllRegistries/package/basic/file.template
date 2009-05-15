@@ -152,8 +152,8 @@ $test->assertEquals('poop', $temp['install-as'], 'install-as');
 $test->assertEquals('poop', $temp->{'install-as'}, 'install-as __get');
 $test->assertEquals('poop', $temp->name, 'magic name install-as returned instead of name');
 
-$replace = new PEAR2_Pyrus_Task_Replace(PEAR2_Pyrus_Task_Common::PACKAGE);
-$replace->init(array('attribs' => array('from' => '@' . 'PACKAGE_VERSION@',
+$replace = new PEAR2_Pyrus_Task_Replace(PEAR2_Pyrus_Task_Common::PACKAGE,
+                                        array('attribs' => array('from' => '@' . 'PACKAGE_VERSION@',
                           'to' => 'version',
                           'type' => 'package-info')), array('from' => '@' . 'PACKAGE_VERSION@',
                           'to' => 'version',

@@ -43,6 +43,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     const PACKAGE = 1;
     const INSTALL = 2;
     const PACKAGEANDINSTALL = 3;
+    const POSTINSTALL = 4; // this is used by post-install scripts
     /**
      * Valid types for this version are 'simple' and 'multiple'
      *
@@ -57,11 +58,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     /**
      * Determines which install phase this task is executed under
      */
-    var $phase = PEAR2_Pyrus_Task_Common::INSTALL;
-    /**
-     * @access protected
-     */
-    var $installphase;
+    const PHASE = PEAR2_Pyrus_Task_Common::INSTALL;
     /**
      * @param PEAR_Config
      * @param PEAR_Common
@@ -69,9 +66,24 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
 
     static $multiple = array();
 
-    function __construct($phase)
+    protected $installphase;
+    protected $xml;
+    protected $taskAttributes;
+    protected $lastVersion;
+
+
+    /**
+     * Initialize a task instance with the parameters
+     * @param array raw, parsed xml
+     * @param array attributes from the <file> tag containing this task
+     * @param string|null last installed version of this package
+     */
+    function __construct($phase, $xml, $attribs, $lastversion)
     {
         $this->installphase = $phase;
+        $this->xml = $xml;
+        $this->taskAttributes = $attribs;
+        $this->lastVersion = $lastversion;
         if (static::TYPE == 'multiple') {
             self::$multiple[get_class($this)][] = $this;
         }
@@ -103,18 +115,10 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
      * @throws PEAR2_Pyrus_Task_Exception_MissingAttribute
      * @throws PEAR2_Pyrus_Task_Exception_WrongAttributeValue
      * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
+     * @abstract
      */
-    abstract static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file);
-
-    /**
-     * Initialize a task instance with the parameters
-     * @param array raw, parsed xml
-     * @param array attributes from the <file> tag containing this task
-     * @param string|null last installed version of this package
-     */
-    function init($xml, $fileAttributes, $lastVersion)
+    static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
     {
-        parent::__construct($xml);
     }
 
     /**
@@ -124,13 +128,20 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
      *
      * This method MUST NOT write out any changes to disk
      * @param PEAR_Pyrus_IPackageFile
-     * @param string file contents
+     * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false false to skip this file, otherwise return the new contents
      * @throws PEAR2_Pyrus_Task_Exception on errors, throw this exception
      * @abstract
      */
-    abstract function startSession(PEAR2_Pyrus_IPackage $pkg, $contents, $dest);
+    function startSession(PEAR2_Pyrus_IPackage $pkg, $fp, $dest)
+    {
+    }
+
+
+    function runPostInstall(PEAR2_Pyrus_IPackage $pkg, $path)
+    {
+    }
 
     /**
      * This method is used to process each of the tasks for a particular multiple class

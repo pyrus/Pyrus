@@ -29,11 +29,14 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
     private $_parent;
     private $_tasksNs;
     private $_installphase;
-    function __construct(array $arr, PEAR2_Pyrus_Package $parent, $install = false)
+    protected $lastversion;
+
+    function __construct(array $arr, PEAR2_Pyrus_Package $parent, $phase, $lastversion = null)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
-        $this->_installphase = $install;
+        $this->_installphase = $phase;
+        $this->lastversion = $lastversion;
         parent::__construct($this->_inner = new ArrayIterator($arr));
     }
 
@@ -52,7 +55,15 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
             return false;
         }
 
-        if ($this->_installphase && $this->_parent->isPreProcessed()) {
+        $xml = parent::current();
+        $task = 'PEAR2_Pyrus_Task_' . ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
+
+        if (0 == $task::PHASE & $this->_installphase) {
+            // skip tasks that won't run in this installphase
+            return false;
+        }
+
+        if ($this->_installphase == PEAR2_Pyrus_Task_Common::INSTALL && $this->_parent->isPreProcessed()) {
             $info = $this->current();
             if ($info[1] instanceof PEAR2_Pyrus_Task_Replace) {
                 if ($info[0]['attribs']['type'] == 'package-info') {
@@ -65,11 +76,16 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
         return true;
     }
 
+    function key()
+    {
+        return str_replace($this->_tasksNs . ':', '', parent::key());
+    }
+
     function current()
     {
         $xml = parent::current();
         $task = 'PEAR2_Pyrus_Task_' .
-            ucfirst(str_replace($this->_tasksNs . ':', '', $this->key()));
+            ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
         $a = new $task(PEAR2_Pyrus_Config::current(), PEAR2_Pyrus_Task_Common::PACKAGE);
         return array($xml, $a);
     }

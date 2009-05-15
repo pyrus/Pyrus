@@ -190,11 +190,16 @@ class PEAR2_Pyrus_Package_Creator
                 $info['tasks:replace'] = $globalreplace;
             }
 
-            foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package) as $task) {
+            if (isset(PEAR2_Pyrus_Config::current()->registry->package[$package->channel . '/' . $package->name])) {
+                $version = PEAR2_Pyrus_Config::current()->registry->info($package->name, $package->channel, 'version');
+            } else {
+                $version = null;
+            }
+            foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($info, $package,
+                                                                  PEAR2_Pyrus_Task_Common::PACKAGE,
+                                                                  $version) as $task) {
                 // do pre-processing of file contents
                 try {
-                    // TODO: get last installed version into that last "null"
-                    $task[1]->init($task[0], $info['attribs'], null);
                     $newcontents = $task[1]->startSession($package, $contents, $packageat);
                     if ($newcontents) {
                         $contents = $newcontents;

@@ -195,6 +195,24 @@ class PEAR2_Pyrus_AtomicFileTransaction
         }
     }
 
+    /**
+     * To perform modifications on a path within the journal transaction
+     */
+    function openPath($relativepath)
+    {
+        if (!static::$intransaction) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot open ' . $relativepath .
+                                                                  ' - not in a transaction');
+        }
+        $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
+        $fp = @fopen($path, 'r+');
+        if (!$fp) {
+            throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Unable to open ' .
+                $relativepath . ' for writing in ' . $this->journalpath);
+        }
+        return $fp;
+    }
+
     function createOrOpenPath($relativepath, $contents = null, $mode = null)
     {
         if (!static::$intransaction) {

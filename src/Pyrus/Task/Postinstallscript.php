@@ -29,19 +29,25 @@
 class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
 {
     const TYPE = 'script';
-    var $_class;
-    var $_params;
-    var $_obj;
-    /**
-     *
-     * @var PEAR_PackageFile_v2
-     */
-    var $_pkg;
-    var $_contents;
-    var $phase = PEAR2_Pyrus_Task_Common::INSTALL;
+    const PHASE = PEAR2_Pyrus_Task_Common::POSTINSTALL;
+    protected $scriptClass;
+    protected $obj;
 
     /**
-     * Validate the basic contents of a <replace> tag
+     * Initialize a task instance with the parameters
+     * @param array raw, parsed xml
+     * @param array attributes from the <file> tag containing this task
+     * @param string|null last installed version of this package, if any (useful for upgrades)
+     */
+    function __construct($phase, $xml, $attribs, $lastversion)
+    {
+        parent::__construct($phase, $xml, $attribs, $lastversion);
+        $this->scriptClass = str_replace(array('/', '.php'), array('_', ''), $fileattribs['name']);
+        $this->_filename = $fileattribs['name'];
+    }
+
+    /**
+     * Validate the basic contents of a <postinstallscript> tag
      * @param PEAR_Pyrus_IPackageFile
      * @param array
      * @param array the entire parsed <file> tag
@@ -260,38 +266,22 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
     }
 
     /**
-     * Initialize a task instance with the parameters
-     * @param array raw, parsed xml
-     * @param array attributes from the <file> tag containing this task
-     * @param string|null last installed version of this package, if any (useful for upgrades)
-     */
-    function init($xml, $fileattribs, $lastversion)
-    {
-        $this->_class = str_replace('/', '_', $fileattribs['name']);
-        $this->_filename = $fileattribs['name'];
-        $this->_class = str_replace ('.php', '', $this->_class) . '_postinstall';
-        $this->_params = $xml;
-        $this->_lastversion = $lastversion;
-        parent::init($xml, $fileattribs, $lastversion);
-    }
-
-    /**
      * Strip the tasks: namespace from internal params
      */
     protected function stripNamespace($params = null)
     {
         if ($params === null) {
             $params = array();
-            if (!is_array($this->_params)) {
+            if (!is_array($this->xml)) {
                 return;
             }
-            foreach ($this->_params as $i => $param) {
+            foreach ($this->xml as $i => $param) {
                 if (is_array($param)) {
                     $param = $this->stripNamespace($param);
                 }
                 $params[str_replace($this->_pkg->getTasksNs() . ':', '', $i)] = $param;
             }
-            $this->_params = $params;
+            $this->xml = $params;
         } else {
             $newparams = array();
             foreach ($params as $i => $param) {
@@ -307,38 +297,35 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
     /**
      * Unlike other tasks, the installed file name is passed in instead of the file contents,
      * because this task is handled post-installation
-     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
-     * @param string file name
-     * @return bool|PEAR_Error false to skip this file, PEAR_Error to fail
-     *         (use $this->throwError)
+     * @param PEAR2_Pyrus_IPackage
+     * @param string path to the post-install script
+     * @return bool false to skip this file
      */
-    function startSession($pkg, $contents)
+    function runPostInstall(PEAR2_Pyrus_IPackage $pkg, $path)
     {
         if ($this->installphase != PEAR2_Pyrus_Task_Common::INSTALL) {
             return false;
         }
         // remove the tasks: namespace if present
-        $this->_pkg = $pkg;
         $this->stripNamespace();
         PEAR2_Pyrus_Log::log(0, 'Including external post-installation script "' .
-            $contents . '" - any errors are in this script');
-        include $contents;
-        if (class_exists($this->_class)) {
+            $path . '" - any errors are in this script');
+        include $path;
+        if (class_exists($this->scriptClass)) {
             PEAR2_Pyrus_Log::log(0, 'Inclusion succeeded');
         } else {
-            throw new PEAR2_Pyrus_Task_Exception('init of post-install script class "' . $this->_class
+            throw new PEAR2_Pyrus_Task_Exception('init of post-install script class "' . $this->scriptClass
                 . '" failed');
         }
-        $this->_obj = new $this->_class;
-        PEAR2_Pyrus_Log::log(1, 'running post-install script "' . $this->_class . '->init()"');
+        $this->obj = new $this->scriptClass;
+        PEAR2_Pyrus_Log::log(1, 'running post-install script "' . $this->scriptClass . '->init()"');
         try {
-            $res = $this->_obj->init($this->config, $pkg, $this->_lastversion);
+            $this->obj->init($this->config, $pkg, $this->lastVersion);
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Task_Exception('init of post-install script "' . $this->_class .
+            throw new PEAR2_Pyrus_Task_Exception('init of post-install script "' . $this->scriptClass .
                 '->init()" failed', $e);
         }
         PEAR2_Pyrus_Log::log(0, 'init succeeded');
-        $this->_contents = $contents;
         return true;
     }
 
@@ -352,6 +339,28 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      */
     function run()
     {
+    }
+
+    function __get($var)
+    {
+        if ($var === 'params') {
+            return $this->xml;
+        }
+        if ($var === 'scriptobject') {
+            return $this->obj;
+        }
+        if ($var === 'paramgroup') {
+            if (!isset($this->xml) || !is_array($this->xml)) {
+                $params = array();
+            } else {
+                $params = $this->xml;
+                if (!isset($params[0])) {
+                    $params = array($params);
+                }
+            }
+            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup($this, $params);
+        }
+        throw new PEAR2_Pyrus_Task_Exception('Invalid variable ' . $var . 'requested from Post-install script task');
     }
 }
 ?>

@@ -394,6 +394,24 @@ class PEAR2_Pyrus_Installer
                     }
                 }
 
+                if (strpos(PHP_OS, 'WIN') === false) {
+                    if ($role->isExecutable()) {
+                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0777);
+                        PEAR2_Pyrus_Log::log(3, "+ chmod +x $dest_file");
+                    } else {
+                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0666);
+                    }
+                } else {
+                    $mode = null;
+                }
+
+                try {
+                    $transact->createOrOpenPath($dest_file, $package->getFileContents($file->packagedname, true), $mode);
+                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+                    throw new PEAR2_Pyrus_Installer_Exception(
+                        "failed writing to $dest_file", $e);
+                }
+
                 $tasks = $file->tasks;
                 // only add the global replace task if it is not preprocessed
                 if ($package->isNewPackage() && !$package->isPreProcessed()) {
@@ -408,40 +426,19 @@ class PEAR2_Pyrus_Installer
                         $tasks['tasks:replace'] = $globalreplace;
                     }
                 }
-                foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package, true)
-                          as $task) {
+                $fp = $transact->openPath($dest_file);
+                foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package,
+                                                                      PEAR2_Pyrus_Task_Common::INSTALL, $lastversion)
+                          as $name => $task) {
                     if (!$task[1]->isScript()) { // scripts are only handled after installation
-                        $task[1]->init($task[0], $file['attribs'], null);
-                        $contents = $package->getFileContents($file->packagedname);
-                        $newcontents = $task[1]->startSession($package, $contents, $dest_file);
-                        if ($newcontents) {
-                            $contents = $newcontents; // save changes
+                        $task[1]->startSession($package, $fp, $dest_file);
+                        if (!rewind($fp)) {
+                            throw new PEAR2_Pyrus_Installer_Exception('task ' . $name .
+                                                                      ' closed the file pointer, invalid task');
                         }
                     }
                 }
-                if (!isset($contents)) {
-                    // this file had no install-time tasks to perform, so we can
-                    // use the more efficient stream-to-stream copy method
-                    $contents = $package->getFileContents($file->packagedname, true);
-                }
-
-                if (strpos(PHP_OS, 'WIN') === false) {
-                    if ($role->isExecutable()) {
-                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0777);
-                        PEAR2_Pyrus_Log::log(3, "+ chmod +x $dest_file");
-                    } else {
-                        $mode = (~octdec(PEAR2_Pyrus_Config::current()->umask) & 0666);
-                    }
-                } else {
-                    $mode = null;
-                }
-
-                try {
-                    $transact->createOrOpenPath($dest_file, $contents, $mode);
-                } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
-                    throw new PEAR2_Pyrus_Installer_Exception(
-                        "failed writing to $dest_file", $e);
-                }
+                fclose($fp);
             }
         }
     }
