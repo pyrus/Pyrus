@@ -362,5 +362,14 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         }
         throw new PEAR2_Pyrus_Task_Exception('Invalid variable ' . $var . 'requested from Post-install script task');
     }
+
+    function setParamgroups($info)
+    {
+        if ($info === null) {
+            unset($this->xml['paramgroup']);
+            return;
+        }
+        $this->xml['paramgroup'] = $info;
+    }
 }
 ?>

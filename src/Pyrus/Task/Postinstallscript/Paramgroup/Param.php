@@ -1,6 +1,6 @@
 <?php
 /**
- * <tasks:postinstallscript> paramgroup object
+ * <tasks:postinstallscript> paramgroup param object
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Implements the postinstallscript file task <paramgroup> tag
+ * Implements the postinstallscript file task <param> tag
  *
  * Sample usage:
  *
@@ -31,7 +31,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess, Iterator
 {
     protected $info;
     protected $index = null;
@@ -54,7 +54,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function current()
     {
         $i = key($this->info);
-        foreach (array('id', 'instructions', 'name', 'conditiontype', 'value', 'param') as $key) {
+        foreach (array('name', 'prompt', 'type', 'default') as $key) {
             if (!array_key_exists($this->tasksNs . $key, $this->info[$i])) {
                 $this->info[$i][$this->tasksNs . $key] = null;
             }
@@ -83,11 +83,11 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         return current($this->info);
     }
 
-    function locateParamgroup($id)
+    function locateParam($name)
     {
-        foreach ($this->info as $i => $paramgroup)
+        foreach ($this->info as $i => $param)
         {
-            if (isset($paramgroup[$this->tasksNs . 'id']) && $paramgroup[$this->tasksNs . 'id'] == $id) {
+            if (isset($param[$this->tasksNs . 'name']) && $param[$this->tasksNs . 'name'] == $name) {
                 return $i;
             }
         }
@@ -97,19 +97,17 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function offsetGet($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access paramgroup properties');
+            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access param properties');
         }
-        $i = $this->locateParamgroup($var);
+        $i = $this->locateParam($var);
         if (false === $i) {
             $i = count($this->info);
-            $this->info[$i] = array($this->tasksNs . 'id' => $var,
-                                    $this->tasksNs . 'instructions' => null,
-                                    $this->tasksNs . 'name' => null,
-                                    $this->tasksNs . 'conditiontype' => null,
-                                    $this->tasksNs . 'value' => null,
-                                    $this->tasksNs . 'param' => null);
+            $this->info[$i] = array($this->tasksNs . 'name' => $var,
+                                    $this->tasksNs . 'prompt' => null,
+                                    $this->tasksNs . 'type' => null,
+                                    $this->tasksNs . 'default' => null);
         } else {
-            foreach (array('id', 'instructions', 'name', 'conditiontype', 'value', 'param') as $key) {
+            foreach (array('name', 'prompt', 'type', 'default') as $key) {
                 if (!array_key_exists($this->tasksNs . $key, $this->info[$i])) {
                     $this->info[$i][$key] = null;
                 }
@@ -121,12 +119,12 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function offsetSet($var, $value)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access paramgroup properties');
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Use -> operator to access param properties');
         }
         if (!($value instanceof self)) {
-            throw new PEAR2_Pyrus_Task_Exception('Can only set $paramgroup[\'' .
+            throw new PEAR2_Pyrus_Task_Exception('Can only set $param[\'' .
                 $var .
-                '\'] to PEAR2_Pyrus_Task_Postinstallscript_Paramgroup object');
+                '\'] to PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param object');
         }
         if ($var === null) {
             $var = $value->id;
@@ -135,9 +133,9 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             throw new PEAR2_Pyrus_Task_Exception('Cannot set ' .
                 $var . ' to ' .
                 $value->id .
-                ', use $paramgroup[] to set a new value');
+                ', use $param[] to set a new value');
         }
-        if (false === ($i = $this->locateParamgroup($var))) {
+        if (false === ($i = $this->locateParam($var))) {
             $i = count($this->info);
         }
         $this->info[$i] = $value->getInfo();
@@ -147,18 +145,18 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function offsetExists($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access paramgroup properties');
+            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access param properties');
         }
-        $i = $this->locateParamgroup($var);
+        $i = $this->locateParam($var);
         return $i !== false;
     }
 
     function offsetUnset($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access paramgroup properties');
+            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access param properties');
         }
-        $i = $this->locateParamgroup($var);
+        $i = $this->locateParam($var);
         if ($i === false) {
             return;
         }
@@ -170,7 +168,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
+            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
         }
         if (!array_key_exists($var, $this->info)) {
             $info = array_keys($this->info);
@@ -179,13 +177,6 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             throw new PEAR2_Pyrus_Task_Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
             );
-        }
-        if ($var === 'param') {
-            $ret = $this->info[$this->tasksNs . 'param'];
-            if (!is_array($ret)) {
-                $ret = array($ret);
-            }
-            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Params($this->tasksNs, $this, $ret);
         }
         return $this->info[$var];
     }
@@ -209,7 +200,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function __unset($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
+            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
         }
         if (!array_key_exists($var, $this->info)) {
             $info = array_keys($this->info);
@@ -230,7 +221,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function __call($var, $args)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
+            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
         }
         if (!array_key_exists($var, $this->info)) {
             $info = array_keys($this->info);
@@ -245,18 +236,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             $this->save();
             return $this;
         }
-        if ($var == 'param') {
-            if (!isset($this->info[$var])) {
-                $this->info[$var] = $args;
-            } else {
-                if (!is_array($this->info[$var])) {
-                    $this->info[$var] = array($this->info[$var]);
-                }
-                $this->info[$var] = array_merge($this->info[$var], $args);
-            }
-        } else {
-            $this->info[$var] = $args[0];
-        }
+        $this->info[$var] = $args[0];
         $this->save();
         return $this;
     }
@@ -280,29 +260,10 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         $this->info[$index] = $info;
     }
 
-    function setParam($index, $info)
-    {
-        if ($info === null) {
-            unset($this->info['param']);
-            return;
-        }
-        foreach ($info as $key => $null) {
-            if ($null === null) {
-                unset($info[$key]);
-                continue;
-            }
-            if (is_array($null) && count($null) == 1) {
-                $info[$key] = $null[0];
-            }
-        }
-        $this->info['param'][$index] = $info;
-    }
-
     function save()
     {
         if ($this->parent instanceof self) {
             $this->parent->setInfo($this->index, $this->info);
-            $this->parent->save();
         } else {
             $info = $this->info;
             if (count($info) == 1) {
@@ -310,8 +271,9 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             } elseif (!count($info)) {
                 $info = null;
             }
-            $this->parent->setParamgroup($info);
+            $this->parent->setParam($this->index, $info);
         }
+        $this->parent->save();
     }
 }
 ?>
