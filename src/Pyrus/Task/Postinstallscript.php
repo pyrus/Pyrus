@@ -266,35 +266,6 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
     }
 
     /**
-     * Strip the tasks: namespace from internal params
-     */
-    protected function stripNamespace($params = null)
-    {
-        if ($params === null) {
-            $params = array();
-            if (!is_array($this->xml)) {
-                return;
-            }
-            foreach ($this->xml as $i => $param) {
-                if (is_array($param)) {
-                    $param = $this->stripNamespace($param);
-                }
-                $params[str_replace($this->_pkg->getTasksNs() . ':', '', $i)] = $param;
-            }
-            $this->xml = $params;
-        } else {
-            $newparams = array();
-            foreach ($params as $i => $param) {
-                if (is_array($param)) {
-                    $param = $this->stripNamespace($param);
-                }
-                $newparams[str_replace($this->_pkg->getTasksNs() . ':', '', $i)] = $param;
-            }
-            return $newparams;
-        }
-    }
-
-    /**
      * Unlike other tasks, the installed file name is passed in instead of the file contents,
      * because this task is handled post-installation
      * @param PEAR2_Pyrus_IPackage
@@ -306,8 +277,6 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         if ($this->installphase != PEAR2_Pyrus_Task_Common::INSTALL) {
             return false;
         }
-        // remove the tasks: namespace if present
-        $this->stripNamespace();
         PEAR2_Pyrus_Log::log(0, 'Including external post-installation script "' .
             $path . '" - any errors are in this script');
         include $path;

@@ -31,7 +31,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iterator, Countable
 {
     protected $info;
     protected $index = null;
@@ -49,6 +49,60 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         $this->parent = $parent;
         $this->info = $info;
         $this->index = $index;
+    }
+
+    /**
+     * Determines whether the <conditiontype> tag in this paramgroup is satisfied by
+     * the last <paramgroup>.
+     *
+     * If this is a simple paramgroup with no conditiontype, this always returns true.
+     * Otherwise, this processes the conditiontype, and determines whether the variable
+     * specified was satisfied by the last executed paramgroup
+     * @return bool
+     */
+    function matchesConditionType(PEAR2_Pyrus_Task_Postinstallscript_Paramgroup $lastGroup, array $answers = null)
+    {
+        if (!isset($this->name)) {
+            return true;
+        }
+        $paramname = explode('::', $this->name);
+        if ($lastgroup->id != $paramname[0]) {
+            return false;
+        }
+
+        $varname = $paramname[1];
+        if (!isset($answers)) {
+            throw new PEAR2_Pyrus_Task_Exception('Invalid post-install script, <conditiontype> can only ' .
+                                                 'be used if the previous paramgroup has prompts');
+        }
+
+        if (isset($answers[$varname])) {
+            switch ($this->conditiontype) {
+                case '=' :
+                    if ($answers[$varname] != $this->value) {
+                        return false;
+                    }
+                break;
+                case '!=' :
+                    if ($answers[$varname] == $this->value) {
+                        return false;
+                    }
+                break;
+                case 'preg_match' :
+                    if (!@preg_match('/' . $this->value . '/',
+                          $answers[$varname])) {
+                        return false;
+                    }
+                break;
+                default :
+                return false;
+            }
+        }
+    }
+
+    function count()
+    {
+        return count($this->info);
     }
 
     function current()

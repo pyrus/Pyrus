@@ -31,7 +31,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess, Iterator, Countable
 {
     protected $info;
     protected $index = null;
@@ -49,6 +49,11 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         $this->parent = $parent;
         $this->info = $info;
         $this->index = $index;
+    }
+
+    function count()
+    {
+        return count($this->info);
     }
 
     function current()
