@@ -166,7 +166,7 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
 
     function _parsePackageDescription($package)
     {
-        if (strpos($package, 'http://') === 0) {
+        if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
             return 'PEAR2_Pyrus_Package_Remote';
         }
         try {
