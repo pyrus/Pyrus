@@ -98,17 +98,16 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
         }
         return true;
     }
-
     /**
      * Initialize a task instance with the parameters
      * @param array raw, parsed xml
-     * @param unused
-     * @param unused
+     * @param array attributes from the <file> tag containing this task
+     * @param string|null last installed version of this package
      */
-    function init($xml, $attribs, $lastVersion)
+    function __construct($phase, $xml, $attribs, $lastversion)
     {
+        parent::__construct($phase, $xml, $attribs, $lastversion);
         $this->_replacements = isset($xml['attribs']) ? array($xml) : $xml;
-        parent::init($xml, $attribs, $lastVersion);
     }
 
     /**

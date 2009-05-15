@@ -50,7 +50,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
             return false;
         }
 
-        $key = $this->key();
+        $key = parent::key();
         if (strpos($key, $this->_tasksNs . ':') !== 0) {
             return false;
         }
@@ -84,9 +84,13 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
     function current()
     {
         $xml = parent::current();
+        $attribs = array();
+        if (isset($xml['attribs'])) {
+            $attribs = $xml['attribs'];
+        }
         $task = 'PEAR2_Pyrus_Task_' .
             ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
-        $a = new $task(PEAR2_Pyrus_Config::current(), PEAR2_Pyrus_Task_Common::PACKAGE);
+        $a = new $task(PEAR2_Pyrus_Task_Common::PACKAGE, $xml, $attribs, $this->lastversion);
         return array($xml, $a);
     }
 }

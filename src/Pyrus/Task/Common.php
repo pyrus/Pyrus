@@ -71,7 +71,6 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     protected $taskAttributes;
     protected $lastVersion;
 
-
     /**
      * Initialize a task instance with the parameters
      * @param array raw, parsed xml
