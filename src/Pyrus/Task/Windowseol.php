@@ -39,7 +39,7 @@ class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
      */
     static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
     {
-        if ($xml != '') {
+        if (is_array($xml) && count($xml) || $xml === '') {
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('windowseol', $file, 'no attributes allowed');
         }
         return true;
