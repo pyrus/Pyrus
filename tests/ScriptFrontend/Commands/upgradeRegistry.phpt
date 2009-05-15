@@ -9,6 +9,10 @@ fclose($f);
 ?>
 --FILE--
 <?php
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
+    $dir = __DIR__ . '/testit';
+    include __DIR__ . '/../../clean.php.inc';
+}
 
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.php.inc';
