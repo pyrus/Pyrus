@@ -42,8 +42,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
     }
 
     /**
-     * Used to determine whether <install as> tags are necessary for
-     * PEAR2-style packages
+     * Used to determine whether a package is designed for Pyrus, or for the PEAR installer
      *
      * @return bool
      */

@@ -325,7 +325,6 @@ class PEAR2_Pyrus_Installer
      */
     function install(PEAR2_Pyrus_Package $package)
     {
-        $tmp_path = $package->getLocation();
         $this->_options = array();
         try {
             $lastversion = PEAR2_Pyrus_Config::current()->registry->info(

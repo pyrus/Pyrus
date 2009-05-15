@@ -48,6 +48,17 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
         return false;
     }
 
+    /**
+     * Used to determine whether a package is designed for Pyrus, or for the PEAR installer
+     *
+     * @return bool
+     */
+    function isNewPackage()
+    {
+        return version_compare($this->dependencies['required']->pearinstaller->min,
+                               '2.0.0a1', '>=');
+    }
+
     function getLocation()
     {
         return dirname($this->packagefile->path);
