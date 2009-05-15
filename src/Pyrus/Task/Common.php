@@ -166,14 +166,5 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
         }
         self::$multiple[$class] = array();
     }
-
-    /**
-     * Determines whether a role is a script
-     * @return bool
-     */
-    final static function isScript()
-    {
-        return static::TYPE == 'script';
-    }
 }
 ?>
