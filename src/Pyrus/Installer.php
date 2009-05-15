@@ -425,19 +425,22 @@ class PEAR2_Pyrus_Installer
                         $tasks['tasks:replace'] = $globalreplace;
                     }
                 }
-                $fp = $transact->openPath($dest_file);
+                $fp = false;
                 foreach (new PEAR2_Pyrus_Package_Creator_TaskIterator($tasks, $package,
                                                                       PEAR2_Pyrus_Task_Common::INSTALL, $lastversion)
                           as $name => $task) {
-                    if (!$task[1]->isScript()) { // scripts are only handled after installation
-                        $task[1]->startSession($package, $fp, $dest_file);
-                        if (!rewind($fp)) {
-                            throw new PEAR2_Pyrus_Installer_Exception('task ' . $name .
-                                                                      ' closed the file pointer, invalid task');
-                        }
+                    if (!$fp) {
+                        $fp = $transact->openPath($dest_file);
+                    }
+                    $task[1]->startSession($package, $fp, $dest_file);
+                    if (!rewind($fp)) {
+                        throw new PEAR2_Pyrus_Installer_Exception('task ' . $name .
+                                                                  ' closed the file pointer, invalid task');
                     }
                 }
-                fclose($fp);
+                if ($fp) {
+                    fclose($fp);
+                }
             }
         }
     }
