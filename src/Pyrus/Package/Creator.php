@@ -175,7 +175,7 @@ class PEAR2_Pyrus_Package_Creator
             }
 
             $alreadyPackaged[$packageat] = true;
-            $contents = $package->getFileContents($info['attribs']['name']);
+            $contents = $package->getFileContents($info['attribs']['name'], true);
             $globalreplace = array('attribs' =>
                         array('from' => '@' . 'PACKAGE_VERSION@',
                               'to' => 'version',
@@ -200,10 +200,7 @@ class PEAR2_Pyrus_Package_Creator
                                                                   $version) as $task) {
                 // do pre-processing of file contents
                 try {
-                    $newcontents = $task[1]->startSession($package, $contents, $packageat);
-                    if ($newcontents) {
-                        $contents = $newcontents;
-                    }
+                    $task[1]->startSession($package, $contents, $packageat);
                 } catch (Exception $e) {
                     // TODO: handle exceptions
                 }
