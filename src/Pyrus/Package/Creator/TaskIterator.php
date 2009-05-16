@@ -55,7 +55,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
             return false;
         }
 
-        $xml = parent::current();
+        //erase me $xml = parent::current();
         $task = 'PEAR2_Pyrus_Task_' . ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
 
         if (0 == $task::PHASE & $this->_installphase) {
@@ -84,13 +84,26 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
     function current()
     {
         $xml = parent::current();
+        if (isset($xml[0])) {
+            $tasks = array();
+            foreach ($xml as $info) {
+                $attribs = array();
+                if (isset($xml['attribs'])) {
+                    $attribs = $xml['attribs'];
+                }
+                $task = 'PEAR2_Pyrus_Task_' .
+                    ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
+                $tasks[] = new $task($this->_installphase, $info, $attribs, $this->lastversion);
+            }
+            // use proxy for multiple tasks
+            return array($xml, new PEAR2_Pyrus_Task_MultipleProxy($tasks, $this->key()));
+        }
         $attribs = array();
         if (isset($xml['attribs'])) {
             $attribs = $xml['attribs'];
         }
         $task = 'PEAR2_Pyrus_Task_' .
             ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
-        $a = new $task($this->_installphase, $xml, $attribs, $this->lastversion);
-        return array($xml, $a);
+        return new $task($this->_installphase, $xml, $attribs, $this->lastversion);
     }
 }

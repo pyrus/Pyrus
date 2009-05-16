@@ -132,7 +132,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                 if ($this->installphase == PEAR2_Pyrus_Task_Common::PACKAGE) {
                     return false;
                 }
-                $to = $this->config->{$a['to']};
+                $to = PEAR2_Pyrus_Config::current()->{$a['to']};
                 if (is_null($to)) {
                     PEAR2_Pyrus_Log::log(0, "$dest: invalid pear-config replacement: $a[to]");
                     return false;
@@ -169,6 +169,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
             $contents = str_replace($subst_from, $subst_to, $contents);
         }
         rewind($fp);
+        ftruncate($fp, 0);
         fwrite($fp, $contents);
         return true;
     }

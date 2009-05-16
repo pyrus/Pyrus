@@ -18,7 +18,7 @@ $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;
 foreach ($iterator as $task) {
     ++$runcount;
-    $task[1]->startSession($package, $fp, 'foo.php');
+    $task->startSession($package, $fp, 'foo.php');
     rewind($fp);
 }
 $test->assertEquals(1, $runcount, 'Iterator did not run unixeol 1');
@@ -37,7 +37,7 @@ $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;
 foreach ($iterator as $task) {
     ++$runcount;
-    $task[1]->startSession($package, $fp, 'foo.php');
+    $task->startSession($package, $fp, 'foo.php');
     rewind($fp);
 }
 $test->assertEquals(1, $runcount, 'Iterator did not run unixeol 2');

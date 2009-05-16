@@ -434,7 +434,7 @@ class PEAR2_Pyrus_Installer
                 if (!$fp) {
                     $fp = $transact->openPath($dest_file);
                 }
-                $task[1]->startSession($package, $fp, $dest_file);
+                $task->startSession($package, $fp, $dest_file);
                 if (!rewind($fp)) {
                     throw new PEAR2_Pyrus_Installer_Exception('task ' . $name .
                                                               ' closed the file pointer, invalid task');
