@@ -30,6 +30,18 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
     var $_replacements;
 
     /**
+     * Initialize a task instance with the parameters
+     * @param array raw, parsed xml
+     * @param array attributes from the <file> tag containing this task
+     * @param string|null last installed version of this package
+     */
+    function __construct($phase, $xml, $attribs, $lastversion)
+    {
+        parent::__construct($phase, $xml, $attribs, $lastversion);
+        $this->_replacements = isset($xml['attribs']) ? array($xml) : $xml;
+    }
+
+    /**
      * Validate the basic contents of a <replace> tag
      * @param PEAR_Pyrus_IPackageFile
      * @param array
@@ -98,17 +110,6 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                                                                            'php-const'));
         }
         return true;
-    }
-    /**
-     * Initialize a task instance with the parameters
-     * @param array raw, parsed xml
-     * @param array attributes from the <file> tag containing this task
-     * @param string|null last installed version of this package
-     */
-    function __construct($phase, $xml, $attribs, $lastversion)
-    {
-        parent::__construct($phase, $xml, $attribs, $lastversion);
-        $this->_replacements = isset($xml['attribs']) ? array($xml) : $xml;
     }
 
     /**

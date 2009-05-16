@@ -30,6 +30,17 @@ class PEAR2_Pyrus_Task_Unixeol extends PEAR2_Pyrus_Task_Common
     var $_replacements;
 
     /**
+     * Initialize a task instance with the parameters
+     * @param array raw, parsed xml
+     * @param array attributes from the <file> tag containing this task
+     * @param string|null last installed version of this package
+     */
+    function __construct($phase, $xml, $attribs, $lastversion)
+    {
+        parent::__construct($phase, $xml, $attribs, $lastversion);
+    }
+
+    /**
      * Validate the basic contents of a <unixeol> tag
      * @param PEAR_Pyrus_IPackageFile
      * @param array
@@ -43,16 +54,6 @@ class PEAR2_Pyrus_Task_Unixeol extends PEAR2_Pyrus_Task_Common
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('unixeol', $file, 'no attributes allowed');
         }
         return true;
-    }
-
-    /**
-     * Initialize a task instance with the parameters
-     * @param array raw, parsed xml
-     * @param unused
-     */
-    function init($xml, $attribs, $lastversion)
-    {
-        parent::init($xml, $fileattribs, $lastversion);
     }
 
     /**
