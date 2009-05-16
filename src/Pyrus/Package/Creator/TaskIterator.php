@@ -90,7 +90,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
         }
         $task = 'PEAR2_Pyrus_Task_' .
             ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
-        $a = new $task(PEAR2_Pyrus_Task_Common::PACKAGE, $xml, $attribs, $this->lastversion);
+        $a = new $task($this->_installphase, $xml, $attribs, $this->lastversion);
         return array($xml, $a);
     }
 }

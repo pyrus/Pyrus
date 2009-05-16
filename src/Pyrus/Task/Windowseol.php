@@ -26,7 +26,7 @@
 class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
 {
     const TYPE = 'simple';
-    const PHASE = PEAR2_Pyrus_Task_Common::PACKAGE;
+    const PHASE = PEAR2_Pyrus_Task_Common::PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
@@ -71,6 +71,7 @@ class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
         PEAR2_Pyrus_Log::log(3, "replacing all line endings with \\r\\n in $dest");
         $contents = preg_replace("/\r\n|\n\r|\r|\n/", "\r\n", $contents);
         rewind($fp);
+        ftruncate($fp, 0);
         fwrite($fp, $contents);
         return true;
     }
