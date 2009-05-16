@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Task_Postinstallscript::validateXml() failures 1
+PEAR2_Pyrus_Task_Postinstallscript::validateXml() failures 3
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -22,10 +22,23 @@ $causetest = function($message, $severity, $exception, $index, $errs) use ($test
     $test->assertEquals($message, $errs->{$severity}[$index]->getMessage(), 'right message');
 };
 
-$xmltest(array(), array('role' => 'src', 'name' => 'foo'), 'task <postinstallscript> in file filename is invalid because of "' .
-         'Post-install script "foo" must be role="php""', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
+mkdir(__DIR__ . '/testit');
+file_put_contents(__DIR__ . '/testit/glooby', '<?php
+class oops {
+class oops2 {
+interface::$hla;
+    }
+}
+');
+
+$xmltest(array(), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Analysis of post-install script "glooby" failed: Parser error: invalid PHP found in file"', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
 
 ?>
 ===DONE===
+--CLEAN--
+<?php
+$dir = __DIR__ . '/testit';
+include __DIR__ . '/../../clean.php.inc';
+?>
 --EXPECT--
 ===DONE===

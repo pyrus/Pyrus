@@ -425,6 +425,9 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             throw new PEAR2_Pyrus_PackageFile_Exception(
                 'Parser error: token_get_all() function must exist to analyze source code');
         }
+        if (!($this->errors instanceof PEAR2_MultiErrors)) {
+            $this->errors = new PEAR2_MultiErrors;
+        }
         if ($string) {
             $contents = $file;
         } else {
@@ -517,8 +520,13 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                     $interface = true;
                 case T_CLASS:
                     if (($current_class_level != -1) || ($current_function_level != -1)) {
-                        $this->errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
-                            'Parser error: invalid PHP found in file "' . $file . '"');
+                        if ($string) {
+                            $this->errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
+                                'Parser error: invalid PHP found in file');
+                        } else {
+                            $this->errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
+                                'Parser error: invalid PHP found in file "' . $file . '"');
+                        }
                         return false;
                     }
                 case T_FUNCTION:
@@ -575,9 +583,13 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
                         continue;
                     }
                     if (!($tokens[$i - 1][0] == T_WHITESPACE || $tokens[$i - 1][0] == T_STRING)) {
-                        $this->errors->E_ERROR[] =
-                            new PEAR2_Pyrus_PackageFile_Exception(
-                            'Parser error: invalid PHP found in file "' . $file . '"');
+                        if ($string) {
+                            $this->errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
+                                'Parser error: invalid PHP found in file');
+                        } else {
+                            $this->errors->E_ERROR[] = new PEAR2_Pyrus_PackageFile_Exception(
+                                'Parser error: invalid PHP found in file "' . $file . '"');
+                        }
                         return false;
                     }
                     $class = $tokens[$i - 1][1];

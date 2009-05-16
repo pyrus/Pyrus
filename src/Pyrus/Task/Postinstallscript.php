@@ -62,27 +62,23 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                              $fileXml['name'] . '" must be role="php"');
         }
         try {
-            $file = $pkg->getFileContents($fileXml['name']);
+            $filecontents = $pkg->getFileContents($fileXml['name']);
         } catch (\Exception $e) {
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] . '" is not valid: ' .
                                                              $e->getMessage(), $e);
         }
-        if ($file === null) {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
-                                                             'Post-install script "' .
-                                                             $fileXml['name'] . '" could not be ' .
-                                                             'retrieved for processing!');
-        }
+
         $validator = $pkg->getValidator();
-        $analysis = $validator->analyzeSourceCode($file, true);
+        $analysis = $validator->analyzeSourceCode($filecontents, true);
         if (!$analysis) {
-            $warnings = '';
+            $warnings = array();
             // iterate over the problems
             foreach ($validator->getErrors() as $warn) {
-                $warnings .= $warn->getMessage() . "\n";
+                $warnings[] = $warn->getMessage();
             }
+            $warnings = implode($warnings);
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file, 
                                                              'Analysis of post-install script "' .
                                                              $fileXml['name'] . '" failed: ' . $warnings,
