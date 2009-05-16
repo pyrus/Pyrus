@@ -205,7 +205,7 @@ class PEAR2_Pyrus_AtomicFileTransaction
                                                                   ' - not in a transaction');
         }
         $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
-        $fp = @fopen($path, 'r+');
+        $fp = @fopen($path, 'rb+');
         if (!$fp) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Unable to open ' .
                 $relativepath . ' for writing in ' . $this->journalpath);
