@@ -22,7 +22,6 @@ $causetest = function($message, $severity, $exception, $index, $errs) use ($test
     $test->assertEquals($message, $errs->{$severity}[$index]->getMessage(), 'right message');
 };
 
-mkdir(__DIR__ . '/testit');
 file_put_contents(__DIR__ . '/testit/glooby', '<?php
 class glooby_postinstall {
     function init(){}

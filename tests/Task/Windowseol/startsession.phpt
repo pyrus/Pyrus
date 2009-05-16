@@ -4,7 +4,6 @@ PEAR2_Pyrus_Task_Windowseol::startSession()
 <?php
 define('MYDIR', __DIR__);
 include dirname(__DIR__) . '/setup.php.inc';
-mkdir(__DIR__ . '/testit');
 
 $taskxml = array('attribs' =>
               array('name' => 'foo.php', 'role' => 'src'),

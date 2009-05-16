@@ -48,7 +48,7 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         if ($forceremote) {
             $this->internal = new PEAR2_Pyrus_Package_Remote($packagedescription);
         } else {
-            $class = $this->_parsePackageDescription($packagedescription);
+            $class = $this->parsePackageDescription($packagedescription);
             $this->internal = new $class($packagedescription, $this);
         }
     }
@@ -164,7 +164,7 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         }
     }
 
-    function _parsePackageDescription($package)
+    static function parsePackageDescription($package)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
             return 'PEAR2_Pyrus_Package_Remote';
@@ -176,9 +176,9 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
                     // guess based on first 4 characters
                     $f = @fopen($package, 'r');
                     if ($f) {
-                        $first4 = fread($f, 4);
+                        $first5 = fread($f, 5);
                         fclose($f);
-                        if ($first4 == '<?xml') {
+                        if ($first5 == '<?xml') {
                             return 'PEAR2_Pyrus_Package_Xml';
                         }
                         return 'PEAR2_Pyrus_Package_Phar';
