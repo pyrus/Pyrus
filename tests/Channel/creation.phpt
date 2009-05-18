@@ -5,7 +5,11 @@ PEAR2_Pyrus_Channel Create new channel
 require dirname(__FILE__) . '/setup.php.inc';
 
 $channel_array = array(
-                    'attribs' => array('version'=>'1.0', 'xmlns'=>'http://pear.php.net/channel-1.0'),
+                    'attribs' => array('version'=>'1.0',
+                                       'xmlns'=>'http://pear.php.net/channel-1.0',
+                                       'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                                       'xsi:schemaLocation' => 'http://pear.php.net/channel-1.0 
+http://pear.php.net/dtd/channel-1.0.xsd'),
                     'name'    => 'foo.example.com',
                     'summary' => 'bar');
 $channelinfo = new PEAR2_Pyrus_ChannelFile_v1;
