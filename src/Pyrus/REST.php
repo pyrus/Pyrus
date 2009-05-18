@@ -331,7 +331,7 @@ class PEAR2_Pyrus_REST
         }
         if ($response->code != 200) {
             throw new PEAR2_Pyrus_REST_HTTPException(
-                "File http://$host:$port$path not valid (received: $line)", $response->code);
+                "File http://$host:$port$path not valid (received: {$response->body})", $response->code);
         }
         if (isset($response->headers['content-length'])) {
             $length = $response->headers['content-length'];

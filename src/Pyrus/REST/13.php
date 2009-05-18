@@ -69,7 +69,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         }
         $skippedphp = false;
         foreach ($info['r'] as $release) {
-            if (!isset($this->_rest->_options['force']) && ($installed &&
+            if (!isset($this->options['force']) && ($installed &&
                   version_compare($release['v'], $installed, '<'))) {
                 continue;
             }
@@ -97,7 +97,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
                 }
             } elseif (isset($version)) {
                 if ($release['v'] == $version) {
-                    if (!isset($this->_rest->_options['force']) &&
+                    if (!isset($this->options['force']) &&
                           !isset($version) &&
                           version_compare($release['m'], phpversion(), '>')) {
                         // skip releases that require a PHP version newer than our PHP version
@@ -164,7 +164,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
             $info['r'] = array($info['r']);
         }
         foreach ($info['r'] as $release) {
-            if (!isset($this->rest->_options['force']) && ($installed &&
+            if (!isset($this->options['force']) && ($installed &&
                   version_compare($release['v'], $installed, '<'))) {
                 continue;
             }

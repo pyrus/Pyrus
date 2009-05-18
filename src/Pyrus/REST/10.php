@@ -29,9 +29,11 @@ class PEAR2_Pyrus_REST_10
      * @var PEAR2_Pyrus_REST
      */
     protected $rest;
+    protected $options;
     function __construct($options = array())
     {
-        $this->rest = new PEAR2_Pyrus_REST($options);
+        $this->options = $options;
+        $this->rest = new PEAR2_Pyrus_REST($this->options);
     }
 
     /**
@@ -75,7 +77,7 @@ class PEAR2_Pyrus_REST_10
             $info['r'] = array($info['r']);
         }
         foreach ($info['r'] as $release) {
-            if (!isset($this->rest->_options['force']) && ($installed &&
+            if (!isset($this->options['force']) && ($installed &&
                   version_compare($release['v'], $installed, '<'))) {
                 continue;
             }
@@ -142,7 +144,7 @@ class PEAR2_Pyrus_REST_10
             $info['r'] = array($info['r']);
         }
         foreach ($info['r'] as $release) {
-            if (!isset($this->rest->_options['force']) && ($installed &&
+            if (!isset($this->options['force']) && ($installed &&
                   version_compare($release['v'], $installed, '<'))) {
                 continue;
             }
