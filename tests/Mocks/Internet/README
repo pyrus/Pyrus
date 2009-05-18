@@ -1,0 +1,4 @@
+This directory is for storage of fake document roots to be used for internet-based tests
+
+Scripts for document root creation are stored in each respective document root as "make.php"
+
