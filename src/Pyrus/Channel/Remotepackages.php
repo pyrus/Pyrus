@@ -33,6 +33,9 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
     function __construct(PEAR2_Pyrus_IChannel $channelinfo)
     {
         $this->parent = $channelinfo;
+        if (!isset($this->parent->protocols->rest['REST1.0'])) {
+            throw new PEAR2_Pyrus_Channel_Exception('Cannot access remote packages without REST1.0 protocol');
+        }
         $this->rest = new PEAR2_Pyrus_REST;
     }
 
