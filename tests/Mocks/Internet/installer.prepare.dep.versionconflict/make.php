@@ -64,6 +64,12 @@ $p2_2->name = 'P2';
 $p2_2->version['release'] = '1.2.2';
 $p2_2->dependencies['required']->package['pear2.php.net/P3']->save();
 
+
+$p2_0 = clone $save;
+$p2_0->name = 'P2';
+$p2_0->version['release'] = '0.9.0';
+$p2_0->stability['release'] = 'beta';
+
 $p3 = clone $save;
 $p3->name = 'P3';
 
@@ -85,12 +91,12 @@ $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package1, $xmlcont
 $package1->setInternalPackage($xml);
 $scs->saveRelease($package1, 'cellog');
 
-$package2_1_2_3 = new PEAR2_Pyrus_Package(false);
-$xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_3);
-$xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_1_2_3, $xmlcontainer);
-$package2_1_2_3->setInternalPackage($xml);
-file_put_contents(__DIR__ . '/package.xml', $p2_3);
-$scs->saveRelease($package2_1_2_3, 'cellog');
+$package2_0_9_0 = new PEAR2_Pyrus_Package(false);
+$xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_0);
+$xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_0_9_0, $xmlcontainer);
+$package2_0_9_0->setInternalPackage($xml);
+file_put_contents(__DIR__ . '/package.xml', $p2_0);
+$scs->saveRelease($package2_0_9_0, 'cellog');
 
 $package2_1_2_2 = new PEAR2_Pyrus_Package(false);
 $xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_2);
@@ -98,6 +104,13 @@ $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_1_2_2, $x
 $package2_1_2_2->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p2_2);
 $scs->saveRelease($package2_1_2_2, 'cellog');
+
+$package2_1_2_3 = new PEAR2_Pyrus_Package(false);
+$xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_3);
+$xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_1_2_3, $xmlcontainer);
+$package2_1_2_3->setInternalPackage($xml);
+file_put_contents(__DIR__ . '/package.xml', $p2_3);
+$scs->saveRelease($package2_1_2_3, 'cellog');
 
 $package3 = new PEAR2_Pyrus_Package(false);
 $xmlcontainer = new PEAR2_Pyrus_PackageFile($p3);
@@ -129,12 +142,4 @@ foreach (new DirectoryIterator(dirname(__DIR__) . '/.configsnapshots') as $file)
     }
     unlink($file->getPathName());
 }
-foreach (new DirectoryIterator(dirname(__DIR__) . '/.xmlregistry/channels') as $file) {
-    if ($file->isDot()) {
-        continue;
-    }
-    unlink($file->getPathName());
-}
-rmdir(dirname(__DIR__) . '/.xmlregistry/channels');
-rmdir(dirname(__DIR__) . '/.xmlregistry');
 rmdir(dirname(__DIR__) . '/.configsnapshots');

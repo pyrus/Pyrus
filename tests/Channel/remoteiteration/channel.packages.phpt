@@ -26,24 +26,69 @@ $test->assertEquals(array('1.2.3' => array(
                                            'minimumphp' => '5.2.0'),
                           '1.2.2' => array(
                                            'stability' => 'stable',
-                                           'minimumphp' => '5.2.0')),
+                                           'minimumphp' => '5.2.0'),
+                          '0.9.0' => array(
+                                           'stability' => 'beta',
+                                           'minimumphp' => '5.2.0')
+                          ),
                     $releases, 'release information');
 
 $names = array();
 foreach ($chan->remotepackages['stable'] as $package) {
-    $names[] = $package;
+    if ($package->name == 'P2') {
+        $testp = $package;
+    }
+    $names[] = $package->name;
 }
 sort($names);
 
 $test->assertEquals(array('P1', 'P2', 'P3', 'P4'), $names, 'package names stable');
 
+$releases = array();
+foreach ($testp as $version => $release) {
+    $releases[$version] = $release;
+}
+$test->assertEquals(array('1.2.3' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          '1.2.2' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          ),
+                    $releases, 'release stable information');
+
+
 $names = array();
 foreach ($chan->remotepackages['beta'] as $package) {
-    $names[] = $package;
+    if ($package->name == 'P2') {
+        $testp = $package;
+    }
+    $names[] = $package->name;
 }
 sort($names);
 
-$test->assertEquals(array('P5'), $names, 'package names beta');
+$test->assertEquals(array('P1', 'P2', 'P3', 'P4', 'P5'), $names, 'package names beta');
+
+$releases = array();
+foreach ($testp as $version => $release) {
+    $releases[$version] = $release;
+}
+
+$releases = array();
+foreach ($testp as $version => $release) {
+    $releases[$version] = $release;
+}
+$test->assertEquals(array('1.2.3' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          '1.2.2' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          '0.9.0' => array(
+                                           'stability' => 'beta',
+                                           'minimumphp' => '5.2.0')
+                          ),
+                    $releases, 'release beta information');
 ?>
 ===DONE===
 --CLEAN--

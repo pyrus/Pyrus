@@ -38,7 +38,7 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
 
     function offsetGet($var)
     {
-        if ($var !== 'devel' || $var !== 'alpha' || $var !== 'beta' || $var !== 'stable') {
+        if ($var !== 'devel' && $var !== 'alpha' && $var !== 'beta' && $var !== 'stable') {
             throw new PEAR2_Pyrus_Channel_Exception('Invalid stability requested, must be one of ' .
                                                     'devel, alpha, beta, stable');
         }
@@ -69,10 +69,20 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
 
     function current()
     {
-        $lowerpackage = current($this->packageList);
+        if ($this->stability) {
+            $info = current($this->packageList);
+            $lowerpackage = $info[0];
+            $releases = $info[1];
+        } else {
+            $lowerpackage = current($this->packageList);
+        }
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
-        $pxml = new PEAR2_Pyrus_PackageFile_v2;
+        if (isset($releases)) {
+            $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);
+        } else {
+            $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent);
+        }
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
         $pxml->license = $info['l'];
@@ -98,6 +108,38 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
         $this->packageList = $this->packageList['p'];
         if (!is_array($this->packageList)) {
             $this->packageList = array($this->packageList);
+        }
+        if (isset($this->stability)) {
+            // filter the package list for packages of this stability or better
+            $ok = PEAR2_Pyrus_Installer::betterStates($this->stability, true);
+            $filtered = array();
+            foreach ($this->packageList as $lowerpackage) {
+                if (isset($this->parent->protocols->rest['REST1.3'])) {
+                    $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
+                                                            'r/' . $lowerpackage . '/allreleases2.xml');
+                } else {
+                    $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                            'r/' . $lowerpackage . '/allreleases.xml');
+                }
+                if (!isset($info['r'][0])) {
+                    $info['r'] = array($info['r']);
+                }
+                $releases = array();
+                foreach ($info['r'] as $release) {
+                    if (!in_array($release['s'], $ok)) {
+                        continue;
+                    }
+                    if (!isset($release['m'])) {
+                        $release['m'] = '5.2.0';
+                    }
+                    $releases[] = $release;
+                }
+                if (!count($releases)) {
+                    continue;
+                }
+                $filtered[] = array($lowerpackage, $releases);
+            }
+            $this->packageList = $filtered;
         }
     }
 }

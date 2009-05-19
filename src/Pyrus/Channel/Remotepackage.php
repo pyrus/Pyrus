@@ -29,10 +29,11 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     protected $rest;
     protected $releaseList;
 
-    function __construct(PEAR2_Pyrus_IChannel $channelinfo)
+    function __construct(PEAR2_Pyrus_IChannel $channelinfo, $releases = null)
     {
         $this->parent = $channelinfo;
         $this->rest = new PEAR2_Pyrus_REST;
+        $this->releaseList = $releases;
     }
 
     function offsetGet($var)
@@ -42,6 +43,29 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                                                     'p/' . strtolower($var) . '/info.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('package ' . $var . ' does not exist', $e);
+        }
+        if (is_string($this->releaseList)) {
+            if (isset($this->parent->protocols->rest['REST1.0'])) {
+                $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                        'r/' . $lowerpackage . '/allreleases.xml');
+            } else {
+                $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
+                                                        'r/' . $lowerpackage . '/allreleases2.xml');
+            }
+            if (!isset($info['r'][0])) {
+                $info['r'] = array($info['r']);
+            }
+            $releases = array();
+            foreach ($info['r'] as $release) {
+                if (!in_array($release['s'], $ok)) {
+                    continue;
+                }
+                if (!isset($release['m'])) {
+                    $release['m'] = '5.2.0';
+                }
+                $releases[] = $release;
+            }
+            $this->releaseList = $releases;
         }
         $pxml = clone $this;
         $pxml->channel = $info['c'];
@@ -103,6 +127,9 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     function rewind()
     {
+        if ($this->releaseList) {
+            return reset($this->releaseList);
+        }
         if (!$this->name) {
             throw new PEAR2_Pyrus_Channel_Exception('Cannot iterate without first choosing a remote package');
         }
