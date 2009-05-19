@@ -60,5 +60,15 @@ class PEAR2_Pyrus_Task_MultipleProxy
             }
         }
     }
+
+    function isPreProcessed()
+    {
+        foreach ($this->tasks as $task) {
+            if (!$task->isPreProcessed()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 ?>

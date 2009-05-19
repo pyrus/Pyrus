@@ -32,6 +32,10 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     protected $_type;
     protected $downloadInfo;
     /**
+     * For easy unit testing
+     */
+    static public $downloadClass = 'PEAR2_HTTP_Request';
+    /**
      * @param string $package path to package file
      */
     function __construct($package, PEAR2_Pyrus_Package $parent)
@@ -58,8 +62,15 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         }
 
         $internal = $this->internal;
-        // first try to download zip, then tgz, then tar
+        // first try to download .phar, then .tgz, then .tar, then .zip
         $errs = new PEAR2_MultiErrors;
+        try {
+            $this->internal = new PEAR2_Pyrus_Package_Remote(
+                $this->downloadInfo['url'] . '.phar', $this);
+        } catch (Exception $e) {
+            $errs->E_ERROR[] = $e;
+        }
+    
         try {
             $this->internal = new PEAR2_Pyrus_Package_Remote(
                 $this->downloadInfo['url'] . '.tgz', $this);
@@ -103,7 +114,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 //                array(&$this->_downloader, '_downloadCallback') : null;
         $dir = PEAR2_Pyrus_Config::current()->download_dir;
         try {
-            $http = new PEAR2_HTTP_Request($param);
+            $download = static::$downloadClass;
+            $http = new $download($param);
             $response = $http->sendRequest();
             $name = 'unknown.tgz';
             if ($response->code != '200') {

@@ -75,5 +75,10 @@ class PEAR2_Pyrus_Task_Windowseol extends PEAR2_Pyrus_Task_Common
         fwrite($fp, $contents);
         return true;
     }
+
+    function isPreProcessed()
+    {
+        return true;
+    }
 }
 ?>

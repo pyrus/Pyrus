@@ -166,5 +166,10 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
         }
         self::$multiple[$class] = array();
     }
+
+    function isPreProcessed()
+    {
+        return false;
+    }
 }
 ?>

@@ -25,13 +25,25 @@
  */
 class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
 {
-    protected $subpackage;
-    protected $required;
-    function __construct(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $info, PEAR2_Pyrus_Package $parent, $subpackage = false,
-                         $required = false)
+    /**
+     * An array of 
+    protected $dep;
+
+    /**
+     * Check to see if any packages in the list of packages to be installed
+     * satisfy this dependency, and return one if found, otherwise
+     * instantiate a new dependency package object
+     * @return PEAR2_Pyrus_IPackage
+     */
+    static function retrieve(array $toBeInstalled, PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $info,
+                             PEAR2_Pyrus_Package $parent)
     {
-        $this->subpackage = $subpackage;
-        $this->required = $required;
+        
+    }
+
+    function __construct(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $info, PEAR2_Pyrus_Package $parent)
+    {
+        $this->dep = $dep;
         $dependency = $info->getInfo();
         $dependency['package'] = $dependency['name'];
         parent::__construct($dependency, $parent);

@@ -42,7 +42,13 @@ class PEAR2_Pyrus_Package_Creator
                     ' pass in the path to the constructor');
             }
         } else {
-            if (!($pear2Exception = @fopen($pear2ExceptionPath, 'r', true))) {
+            if ($a = realpath($pear2ExceptionPath)) {
+                $pear2ExceptionPath = $a;
+            }
+            if (dirname($pear2ExceptionPath) == dirname($pear2ExceptionPath . 'test')) {
+                $pear2ExceptionPath .= '/';
+            }
+            if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/Exception.php' .
                     ' in ' . $pear2ExceptionPath);
             }
@@ -55,11 +61,14 @@ class PEAR2_Pyrus_Package_Creator
                     ' pass in the path to the constructor');
             }
         } else {
-            if (!($pear2Autoload = @fopen($pear2AutoloadPath, 'r', true))) {
+            if ($a = realpath($pear2AutoloadPath)) {
+                $pear2AutoloadPath = $a;
+            }
+            if (dirname($pear2AutoloadPath) == dirname($pear2AutoloadPath . 'test')) {
+                $pear2AutoloadPath .= '/';
+            }
+            if (!($pear2Autoload = @fopen($pear2AutoloadPath . 'Autoload.php', 'r'))) {
                 fclose($pear2Exception);
-                if ($a = realpath($pear2AutoloadPath)) {
-                    $pear2AutoloadPath = $a;
-                }
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/Autoload.php' .
                     ' in ' . $pear2AutoloadPath);
             }
@@ -81,18 +90,21 @@ class PEAR2_Pyrus_Package_Creator
                     ' pass in the path to the constructor');
             }
         } else {
+            if ($a = realpath($pear2MultiErrorsPath)) {
+                $pear2MultiErrorsPath = $a;
+            }
             if (dirname($pear2MultiErrorsPath) == dirname($pear2MultiErrorsPath . 'test')) {
                 $pear2MultiErrorsPath .= '/';
             }
 
-            if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r', true))) {
+            if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/MultiErrors.php' .
                     ' in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
             }
 
-            if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r', true))) {
+            if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);

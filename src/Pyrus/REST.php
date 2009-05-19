@@ -27,6 +27,11 @@ class PEAR2_Pyrus_REST
 {
     protected $config;
     protected $_options;
+    /**
+     * For easy unit testing
+     */
+    static public $downloadClass = 'PEAR2_HTTP_Request';
+
     function __construct($options = array())
     {
         $this->config = PEAR2_Pyrus_Config::current();
@@ -268,7 +273,8 @@ class PEAR2_Pyrus_REST
         if (!isset($info['host'])) {
             throw new PEAR2_Pyrus_REST_Exception('Cannot download from non-URL "' . $url . '"');
         }
-        $request = new PEAR2_HTTP_Request($url);
+        $class = static::$downloadClass;
+        $request = new $class($url);
         $host = $info['host'];
         if (!array_key_exists('port', $info)) {
             $info['port'] = null;

@@ -65,13 +65,9 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
 
         if ($this->_installphase == PEAR2_Pyrus_Task_Common::INSTALL && $this->_parent->isPreProcessed()) {
             $info = $this->current();
-            if (isset($info[1]) 
-                && $info[1] instanceof PEAR2_Pyrus_Task_Replace) {
-                if ($info[0]['attribs']['type'] == 'package-info') {
-                    // for pre-processed packages, package-info replacements are
-                    // done at packaging time, so we don't need to re-do these
-                    return false;
-                }
+            if ($info->isPreProcessed()) {
+                // some tasks are pre-processed at package-time
+                return false;
             }
         }
         return true;
@@ -97,7 +93,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
                 $tasks[] = new $task($this->_installphase, $info, $attribs, $this->lastversion);
             }
             // use proxy for multiple tasks
-            return array($xml, new PEAR2_Pyrus_Task_MultipleProxy($tasks, $this->key()));
+            return new PEAR2_Pyrus_Task_MultipleProxy($tasks, $this->key());
         }
         $attribs = array();
         if (isset($xml['attribs'])) {

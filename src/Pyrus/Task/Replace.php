@@ -173,5 +173,13 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
         fwrite($fp, $contents);
         return true;
     }
+
+    function isPreProcessed()
+    {
+        if ($this->_replacements[0]['attribs']['type'] == 'package-info') {
+            return true;
+        }
+        return false;
+    }
 }
 ?>
