@@ -23,30 +23,33 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Remotepackage implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 implements ArrayAccess, Iterator
 {
     protected $parent;
-    protected $multiple;
-    public $stability = null;
     protected $rest;
-    protected $packageList;
+    protected $releaseList;
 
     function __construct(PEAR2_Pyrus_IChannel $channelinfo)
     {
         $this->parent = $channelinfo;
-        $this->multiple = $multiple;
         $this->rest = new PEAR2_Pyrus_REST;
     }
 
     function offsetGet($var)
     {
-        if ($var !== 'devel' || $var !== 'alpha' || $var !== 'beta' || $var !== 'stable') {
-            throw new PEAR2_Pyrus_Channel_Exception('Invalid stability requested, must be one of ' .
-                                                    'devel, alpha, beta, stable');
+        try {
+            $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                    'p/' . strtolower($var) . '/info.xml');
+        } catch (Exception $e) {
+            throw new PEAR2_Pyrus_Channel_Exception('package ' . $var . ' does not exist', $e);
         }
-        $a = clone $this;
-        $a->stability = $var;
-        return $a;
+        $pxml = clone $this;
+        $pxml->channel = $info['c'];
+        $pxml->name = $info['n'];
+        $pxml->license = $info['l'];
+        $pxml->summary = $info['s'];
+        $pxml->description = $info['d'];
+        return $pxml;
     }
 
     function offsetSet($var, $value)
@@ -59,34 +62,57 @@ class PEAR2_Pyrus_Channel_Remotepackage implements ArrayAccess, Iterator
         throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
     }
 
+    /**
+     * This is very expensive, use sparingly if at all
+     */
     function offsetExists($var)
     {
-        // implement this
+        try {
+            $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                    'p/' . strtolower($var) . '/info.xml');
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
     }
 
     function valid()
     {
-        return current($this->packageList);
+        return current($this->releaseList);
     }
 
     function current()
     {
-        return current($this->packageList);
+        $info = current($this->releaseList);
+        if (!isset($info['m'])) {
+            $info['m'] = '5.2.0'; // guess something lower than us
+        }
+        return array('stability' => $info['s'], 'minimumphp' => $info['m']);
     }
 
     function key()
     {
-        return key($this->packageList);
+        $info = current($this->releaseList);
+        return $info['v'];
     }
 
     function next()
     {
-        return next($this->packageList);
+        return next($this->releaseList);
     }
 
     function rewind()
     {
-        $this->packageList = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                             'p/packages.xml');
+        if (!$this->name) {
+            throw new PEAR2_Pyrus_Channel_Exception('Cannot iterate without first choosing a remote package');
+        }
+        if (isset($this->parent->protocols->rest['REST1.3'])) {
+            $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
+                                                    'r/' . strtolower($this->name) . '/allreleases2.xml');
+        } else {
+            $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                    'r/' . strtolower($this->name) . '/allreleases.xml');
+        }
+        $this->releaseList = $info['r'];
     }
 }

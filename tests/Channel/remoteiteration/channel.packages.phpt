@@ -18,8 +18,8 @@ sort($names);
 
 $test->assertEquals(array('P1', 'P2', 'P3', 'P4', 'P5'), $names, 'package names');
 $releases = array();
-foreach ($chan->remotepackage['P2'] as $release) {
-    $releases[] = $release;
+foreach ($chan->remotepackage['P2'] as $version => $release) {
+    $releases[$version] = $release;
 }
 $test->assertEquals(array('1.2.3' => array(
                                            'stability' => 'stable',
