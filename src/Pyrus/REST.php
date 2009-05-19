@@ -32,10 +32,10 @@ class PEAR2_Pyrus_REST
      */
     static public $downloadClass = 'PEAR2_HTTP_Request';
 
-    function __construct($options = array())
+    function __construct()
     {
         $this->config = PEAR2_Pyrus_Config::current();
-        $this->_options = $options;
+        $this->_options = PEAR2_Pyrus_Installer::$options;
     }
 
     /**
