@@ -89,6 +89,35 @@ $test->assertEquals(array('1.2.3' => array(
                                            'minimumphp' => '5.2.0')
                           ),
                     $releases, 'release beta information');
+
+$releases = array();
+foreach ($chan->remotepackages['stable']->getPackage('P2') as $version => $release) {
+    $releases[$version] = $release;
+}
+$test->assertEquals(array('1.2.3' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          '1.2.2' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          ),
+                    $releases, 'getPackage release stable information');
+
+$releases = array();
+foreach ($chan->remotepackages['beta']->getPackage('P2') as $version => $release) {
+    $releases[$version] = $release;
+}
+$test->assertEquals(array('1.2.3' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          '1.2.2' => array(
+                                           'stability' => 'stable',
+                                           'minimumphp' => '5.2.0'),
+                          '0.9.0' => array(
+                                           'stability' => 'beta',
+                                           'minimumphp' => '5.2.0')
+                          ),
+                    $releases, 'getPackage release beta information');
 ?>
 ===DONE===
 --CLEAN--

@@ -91,6 +91,42 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
         return $pxml;
     }
 
+    function getPackage($package)
+    {
+        $lowerpackage = strtolower($package);
+        if (isset($this->parent->protocols->rest['REST1.3'])) {
+            $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
+                                                    'r/' . $lowerpackage . '/allreleases2.xml');
+        } else {
+            $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                    'r/' . $lowerpackage . '/allreleases.xml');
+        }
+        if (!isset($info['r'][0])) {
+            $info['r'] = array($info['r']);
+        }
+        // filter the package list for packages of this stability or better
+        $ok = PEAR2_Pyrus_Installer::betterStates($this->stability, true);
+        $releases = array();
+        foreach ($info['r'] as $release) {
+            if (!in_array($release['s'], $ok)) {
+                continue;
+            }
+            if (!isset($release['m'])) {
+                $release['m'] = '5.2.0';
+            }
+            $releases[] = $release;
+        }
+        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                'p/' . $lowerpackage . '/info.xml');
+        $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);
+        $pxml->channel = $info['c'];
+        $pxml->name = $info['n'];
+        $pxml->license = $info['l'];
+        $pxml->summary = $info['s'];
+        $pxml->description = $info['d'];
+        return $pxml;
+    }
+
     function key()
     {
         return key($this->packageList);
