@@ -19,9 +19,9 @@ class Internet extends PEAR2_HTTP_Request
         }
     }
 
-    function addDirectory($dir, $urlbase)
+    static function addDirectory($dir, $urlbase)
     {
-        self::$requestMap[$urlbase] = $dir;
+        self::$requestMap[$urlbase] = realpath($dir);
     }
 }
 
@@ -50,14 +50,15 @@ class Internet_Adapter extends PEAR2_HTTP_Request_Adapter
         $uri = $this->uri->url;
         $actualfile = false;
         foreach (Internet::$requestMap as $urlbase => $dir) {
-            if (strpos($urlbase, str_replace('\\', '/', $uri)) === 0) {
-                $actualfile = $dir . DIRECTORY_SEPARATOR . substr($urlbase, strlen($uri)+1);
+            if (strpos($uri, $urlbase) === 0) {
+                $actualfile = $dir . DIRECTORY_SEPARATOR . substr($uri, strlen($urlbase));
                 break;
             }
         }
         if (!$actualfile) {
             throw new Internet_Exception('URL ' . $uri . ' is not in the request map, setup is needed');
         }
+        $details = $this->uri->toArray();
         if (!file_exists($actualfile)) {
             $details['code'] = '404';
             $body = '';
@@ -70,9 +71,23 @@ class Internet_Adapter extends PEAR2_HTTP_Request_Adapter
         // $this->headers is array of headers
         // $this->body is request body
 
-        $details = $this->uri->toArray();
         $details['httpVersion'] = 'HTTP/1.1';
         $cookies = array();
+        $headers = array();
+        $headers['content-length'] = strlen($body);
+        $headers['etag'] = md5($body);
+        $headers['last-modified'] = date('Y-m-d H:i', filemtime($actualfile));
+        $info = pathinfo($actualfile);
+        switch ($info['extension']) {
+            case 'xml' :
+                $headers['content-type'] = 'text/xml';
+                break;
+            case 'txt' :
+                $headers['content-type'] = 'text/plain';
+                break;
+            default :
+                $headers['content-type'] = 'application/octet-stream';
+        }
 
         return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
     }	   
