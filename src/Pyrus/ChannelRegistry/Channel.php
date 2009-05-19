@@ -32,6 +32,16 @@ class PEAR2_Pyrus_ChannelRegistry_Channel extends PEAR2_Pyrus_ChannelFile_v1 imp
         parent::__construct($data);
     }
 
+    function __get($var)
+    {
+        if ($var == 'remotepackages') {
+            return new PEAR2_Pyrus_Channel_Remotepackages($this);
+        } elseif ($var == 'remotepackage') {
+            return new PEAR2_Pyrus_Channel_Remotepackage($this, false);
+        }
+        return parent::__get($var);
+    }
+
     function __set($var, $value)
     {
         parent::__set($var, $value);

@@ -18,6 +18,9 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST implements ArrayAccess, 
     function current()
     {
         $info = current($this->info['baseurl']);
+        if ($info['_content'][strlen($info['_content'])-1] != '/') {
+            return $info['_content'] . '/';
+        }
         return $info['_content'];
     }
 

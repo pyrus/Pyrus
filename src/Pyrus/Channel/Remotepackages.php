@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel_Remotepackage
+ * PEAR2_Pyrus_Channel_Remotepackages
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Remote REST iteration handler
+ * Remote REST iteration handler for package listing
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -23,10 +23,9 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Remotepackage implements ArrayAccess, Iterator
+class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
 {
     protected $parent;
-    protected $multiple;
     public $stability = null;
     protected $rest;
     protected $packageList;
@@ -34,7 +33,6 @@ class PEAR2_Pyrus_Channel_Remotepackage implements ArrayAccess, Iterator
     function __construct(PEAR2_Pyrus_IChannel $channelinfo)
     {
         $this->parent = $channelinfo;
-        $this->multiple = $multiple;
         $this->rest = new PEAR2_Pyrus_REST;
     }
 
@@ -71,7 +69,16 @@ class PEAR2_Pyrus_Channel_Remotepackage implements ArrayAccess, Iterator
 
     function current()
     {
-        return current($this->packageList);
+        $lowerpackage = current($this->packageList);
+        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                'p/' . $lowerpackage . '/info.xml');
+        $pxml = new PEAR2_Pyrus_PackageFile_v2;
+        $pxml->channel = $info['c'];
+        $pxml->name = $info['n'];
+        $pxml->license = $info['l'];
+        $pxml->summary = $info['s'];
+        $pxml->description = $info['d'];
+        return $pxml;
     }
 
     function key()
@@ -88,5 +95,9 @@ class PEAR2_Pyrus_Channel_Remotepackage implements ArrayAccess, Iterator
     {
         $this->packageList = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                              'p/packages.xml');
+        $this->packageList = $this->packageList['p'];
+        if (!is_array($this->packageList)) {
+            $this->packageList = array($this->packageList);
+        }
     }
 }

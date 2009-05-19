@@ -12,7 +12,7 @@ PEAR2_Pyrus_REST::$downloadClass = 'Internet';
 $chan = PEAR2_Pyrus_Config::current()->channelregistry['pear2.php.net'];
 $names = array();
 foreach ($chan->remotepackages as $package) {
-    $names[] = $package;
+    $names[] = $package->name;
 }
 sort($names);
 
