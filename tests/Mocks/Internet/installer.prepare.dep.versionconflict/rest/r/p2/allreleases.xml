@@ -3,27 +3,11 @@
  <p>P2</p>
  <c>pear2.php.net</c>
  <r>
-  <v>1.2.2</v>
-  <s>stable</s>
- </r>
- <r>
   <v>1.2.3</v>
   <s>stable</s>
  </r>
  <r>
   <v>1.2.2</v>
   <s>stable</s>
- </r>
- <r>
-  <v>1.2.3</v>
-  <s>stable</s>
- </r>
- <r>
-  <v>1.2.2</v>
-  <s>devel</s>
- </r>
- <r>
-  <v>1.2.3</v>
-  <s>devel</s>
  </r>
 </a>
