@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
- <name>P4</name>
+ <name>P3</name>
  <channel>pear2.php.net</channel>
  <summary>testing</summary>
  <description>hi description</description>
@@ -10,14 +10,14 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-18</date>
- <time>12:26:04</time>
+ <date>2009-05-19</date>
+ <time>11:19:33</time>
  <version>
-  <release>0.1.0</release>
+  <release>1.0.0</release>
   <api>0.1.0</api>
  </version>
  <stability>
-  <release>devel</release>
+  <release>stable</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
@@ -35,12 +35,6 @@
    <pearinstaller>
     <min>2.0.0a1</min>
    </pearinstaller>
-   <package>
-    <name>P2</name>
-    <channel>pear2.php.net</channel>
-    <min>1.2.0</min>
-    <exclude>1.2.3</exclude>
-   </package>
   </required>
  </dependencies>
  <phprelease/>
