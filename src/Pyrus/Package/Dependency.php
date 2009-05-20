@@ -145,6 +145,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                     $recommended = $deppackage;
                 }
                 $compdep['exclude'] = $actualdep->exclude;
+                $initial = false;
                 continue;
             }
             if (isset($compdep['recommended']) && isset($actualdep->recommended)
