@@ -425,11 +425,13 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     function getCompatible()
     {
         if (!isset($this->packageInfo['compatible'])) {
-            $this->packageInfo['compatible'] = array();
+            $compatible = array();
+        } else {
+            $compatible = $this->packageInfo['compatible'];
         }
         return new PEAR2_Pyrus_PackageFile_v2_Compatible(
             $this,
-            $this->packageInfo['compatible']);
+            $compatible);
     }
 
     function getSchemaOK()
