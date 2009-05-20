@@ -162,7 +162,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
             if ($compdep['min'] && $actualdep->max && version_compare($actualdep->max, $compdep['min'], '<')) {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (' .
-                    $deppackage . ' max is > ' . $min . ' min)');
+                    $deppackage . ' max is < ' . $min . ' min)');
             }
             if ($actualdep->min) {
                 $compdep['min'] = $actualdep->min;

@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Installer::prepare(), composite dep conflict 1
+PEAR2_Pyrus_Installer::prepare(), composite dep conflict 2
 --FILE--
 <?php
 /**
@@ -19,14 +19,14 @@ Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.depcon
                        'http://pear2.php.net/');
 PEAR2_Pyrus_REST::$downloadClass = 'Internet';
 PEAR2_Pyrus_Installer::begin();
+PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P3-1.0.0'));
 PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P1-1.0.0'));
-PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P3-1.0.0', true));
 try {
     PEAR2_Pyrus_Installer::preCommitDependencyResolve();
     throw new Exception('should have failed, did not');
 } catch (PEAR2_Pyrus_Package_Exception $e) {
     $test->assertEquals('Cannot install pear2.php.net/P2, two dependencies conflict (' .
-                        'pear2.php.net/P3 max is < pear2.php.net/P1 min)', $e->getMessage(),
+                        'pear2.php.net/P1 min is > pear2.php.net/P3 max)', $e->getMessage(),
                         'right cause message');
 }
 PEAR2_Pyrus_Installer::rollback();
