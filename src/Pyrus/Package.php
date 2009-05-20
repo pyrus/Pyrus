@@ -107,11 +107,6 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         return $this;
     }
 
-    function getLocation()
-    {
-        return $this->internal->getLocation();
-    }
-
     function getPackageFileObject()
     {
         return $this->internal->getPackageFileObject();

@@ -59,11 +59,6 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
                                '2.0.0a1', '>=');
     }
 
-    function getLocation()
-    {
-        return dirname($this->packagefile->path);
-    }
-
     function getFilePath($file)
     {
         return dirname($this->_file) . DIRECTORY_SEPARATOR . $file;

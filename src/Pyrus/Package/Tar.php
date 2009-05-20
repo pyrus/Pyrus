@@ -109,18 +109,6 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         return $this->_packagename;
     }
 
-    function getLocation()
-    {
-        $ret = $this->_tmpdir;
-        // support old packages
-        if (file_exists($a = $ret . DIRECTORY_SEPARATOR .
-              $this->packagefile->info->name . '-' .
-              $this->packagefile->info->version['release'])) {;
-            return $a;
-        }
-        return $ret;
-    }
-
     function __get($var)
     {
         if ($var === 'archivefile') {

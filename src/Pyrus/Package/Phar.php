@@ -98,11 +98,6 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         return $this->_packagename;
     }
 
-    function getLocation()
-    {
-        return $this->_tmpdir;
-    }
-
     function isNewPackage()
     {
         return !$this->_BCpackage;

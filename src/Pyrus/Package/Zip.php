@@ -102,11 +102,6 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
         } while (!file_exists($dir));
     }
 
-    function getLocation()
-    {
-        return $this->_tmpdir;
-    }
-
     function __get($var)
     {
         if ($var === 'archivefile') {
