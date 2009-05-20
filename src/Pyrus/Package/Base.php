@@ -41,6 +41,11 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         $this->from = $parent;
     }
 
+    function isStatic()
+    {
+        return true;
+    }
+
     /**
      * Used to determine whether a package is designed for Pyrus, or for the PEAR installer
      *

@@ -38,11 +38,6 @@ class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
 
     function __get($var)
     {
-        if ($var == 'remotepackages') {
-            return new PEAR2_Pyrus_Channel_Remotepackages($this);
-        } elseif ($var == 'remotepackage') {
-            return new PEAR2_Pyrus_Channel_Remotepackage($this, false);
-        }
         return $this->internal->$var;
     }
     

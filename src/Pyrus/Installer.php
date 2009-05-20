@@ -41,15 +41,6 @@ class PEAR2_Pyrus_Installer
      * the packages to install
      * @var array
      */
-    protected static $preinstallPackages = array();
-
-    /**
-     * Packages that will be installed
-     *
-     * This list is used when {@link commit()} is called to determine
-     * the packages to install
-     * @var array
-     */
     protected static $installPackages = array();
 
     /**
@@ -78,6 +69,8 @@ class PEAR2_Pyrus_Installer
      * @var array
      */
     protected static $removedPackages = array();
+    
+    protected static $phase = 1;
 
     /**
      * Installer options.  Valid indices are:
@@ -94,11 +87,11 @@ class PEAR2_Pyrus_Installer
     static function begin()
     {
         if (!static::$inTransaction) {
-            static::$preinstallPackages = array();
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$removedPackages = array();
             static::$inTransaction = true;
+            static::$phase = 1;
         }
     }
 
@@ -109,9 +102,9 @@ class PEAR2_Pyrus_Installer
      * and manages removing duplicates or erroring out on a conflict
      * @param PEAR2_Pyrus_Package $package
      */
-    static function prepare(PEAR2_Pyrus_IPackage $package)
+    static function prepare(PEAR2_Pyrus_IPackage $package, $isdep = false)
     {
-        if (!isset(static::$preinstallPackages[$package->channel . '/' . $package->name])) {
+        if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
             if (PEAR2_Pyrus_Config::current()->registry->exists(
                   $package->name, $package->channel)) {
                 if (version_compare($package->version['release'],
@@ -125,26 +118,22 @@ class PEAR2_Pyrus_Installer
                     }
                 }
             }
-            static::$preinstallPackages[$package->channel . '/' . $package->name] = $package;
+            static::$installPackages[$package->channel . '/' . $package->name] = $package;
             return;
         }
-        $clone = static::$preinstallPackages[$package->channel . '/' . $package->name];
-        // compare version
-        if ($package->version['release'] === $clone->version['release']) {
+        $clone = static::$installPackages[$package->channel . '/' . $package->name];
+        if ($package->isStatic() && !$clone->isStatic()) {
+            // always prefer explicitly versioned over abstract
+            static::$installPackages[$package->channel . '/' . $package->name] = $package;
+            return;
+        }
+        if (!$package->isStatic() && !$clone->isStatic()) {
             // identical, ignore this package
             return;
         }
-        if (static::couldBeVersion($clone)) {
-            // all dependencies are satisfied by this existing install
-            return;
-        }
-        if (static::couldBeVersion($package)) {
-            // packages depending on the newer version of this package
-            // are OK with an older version, so we replace the newer with the older
-            // first remove the dependencies of package $clone
-            static::removeDependencies($clone);
-            static::$preinstallPackages[$package->channel . '/' . $package->name] = $package;
-            static::prepareDependencies($package);
+        // compare version
+        if ($package->isStatic() && $clone->isStatic() && $package->version['release'] === $clone->version['release']) {
+            // identical, ignore this package
             return;
         }
         if (!static::$options['force']) {
@@ -172,30 +161,30 @@ class PEAR2_Pyrus_Installer
             if ($dep->conflicts) {
                 continue;
             }
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$preinstallPackages, $dep, $package));
+            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
         }
         foreach ($package->dependencies['required']->subpackage as $dep) {
             if ($dep->conflicts) {
                 continue;
             }
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$preinstallPackages, $dep, $package));
+            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
         }
         if ($package->requestedGroup) {
             foreach ($package->dependencies['group']->{$package->requestedGroup}->package as $dep) {
-                static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$preinstallPackages, $dep, $package));
+                static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
             }
             foreach ($package->dependencies['group']->{$package->requestedGroup}->subpackage as $dep) {
-                static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$preinstallPackages, $dep, $package));
+                static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
             }
         }
         if (!isset(static::$options['optionaldeps'])) {
             return;
         }
         foreach ($package->dependencies['optional']->package as $dep) {
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$preinstallPackages, $dep, $package));
+            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
         }
         foreach ($package->dependencies['optional']->subpackage as $dep) {
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$preinstallPackages, $dep, $package));
+            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
         }
     }
 
@@ -230,7 +219,6 @@ class PEAR2_Pyrus_Installer
                     $err->E_ERROR[] = $e;
                 }
             }
-            static::$preinstallPackages = array();
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$registeredPackages = array();
@@ -248,11 +236,46 @@ class PEAR2_Pyrus_Installer
      */
     static function preCommitDependencyResolve()
     {
-        if (!count(static::$preinstallPackages)) {
+        if (!static::$inTransaction) {
+            return false;
+        }
+        if (!count(static::$installPackages)) {
             return;
         }
-        // for now, we don't do anything
-        static::$installPackages = static::$preinstallPackages;
+        $done = true;
+        $allpackages = $packages = static::$installPackages;
+        do {
+            foreach ($allpackages as $package => $info) {
+                if (!$info->isRemote()) {
+                    // anything downloaded is good
+                    continue;
+                }
+                $dep = PEAR2_Pyrus_Package_Dependency::getCompositeDependency($info);
+                try {
+                    if (true === $info->figureOutBestVersion($dep)) {
+                        // we just changed version from a previously calculated version,
+                        // so restart
+                        $unset = PEAR2_Pyrus_Package_Dependency::removePackage($info);
+                        foreach ($unset as $p) {
+                            unset(static::$installPackages[$p]);
+                        }
+                        // just added some new packages that affect dependencies
+                        $done = false;
+                        continue 2;
+                    }
+                    static::prepareDependencies($info);
+                } catch (PEAR2_Pyrus_Channel_Exception $e) {
+                    throw new PEAR2_Pyrus_Installer_Exception('Dependency validation failed ' .
+                        'for some packages to install, installation aborted', $e);
+                }
+            }
+            $packages = array();
+            foreach (array_diff(array_keys(static::$installPackages), array_keys($allpackages)) as $package) {
+                $packages[$package] = static::$installPackages[$package];
+            }
+            $allpackages = static::$installPackages;
+            $done = !count($packages);
+        } while (!$done);
     }
 
     /**
@@ -273,7 +296,7 @@ class PEAR2_Pyrus_Installer
             }
             if (count($errs->E_ERROR)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Dependency validation failed ' .
-                    'for some installed packages, installation aborted', $errs);
+                    'for some packages to install, installation aborted', $errs);
             }
             // download non-local packages
             foreach (static::$installPackages as $package) {

@@ -180,6 +180,11 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (isset($this->getMap[$var])) {
             return $this->{$this->getMap[$var]}($var);
         }
+        if ($var == 'remotepackages') {
+            return new PEAR2_Pyrus_Channel_Remotepackages($this);
+        } elseif ($var == 'remotepackage') {
+            return new PEAR2_Pyrus_Channel_Remotepackage($this, false);
+        }
         if (!isset($this->channelInfo[$var])) {
             return null;
         }

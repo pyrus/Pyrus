@@ -152,9 +152,16 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         unset($this->internal[$offset]);
     }
 
+    function isStatic()
+    {
+        return $this->internal->isStatic();
+    }
+
     function isRemote()
     {
-        return $this->internal instanceof PEAR2_Pyrus_Package_Remote;
+        return $this->internal instanceof PEAR2_Pyrus_Package_Remote ||
+                    $this->internal instanceof PEAR2_Pyrus_Channel_Remotepackage || (
+                    $this->internal instanceof PEAR2_Pyrus_Package && $this->internal->isRemote());
     }
 
     function download()

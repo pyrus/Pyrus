@@ -26,10 +26,12 @@
 class PEAR2_Pyrus_ChannelRegistry_ParseException extends PEAR2_Exception
 {
     public $why;
+    public $params;
 
-    function __construct($message, $why)
+    function __construct($message, $why, $params = array())
     {
         $this->why = $why;
+        $this->params = $params;
         parent::__construct($message);
     }
 }
