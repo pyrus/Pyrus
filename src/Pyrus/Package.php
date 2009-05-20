@@ -33,6 +33,11 @@
 class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
 {
     /**
+     * This is strictly for unit-testing purposes
+     * @var string
+     */
+    public $archivefile;
+    /**
      * The actual package representation
      *
      * @var PEAR2_Pyrus_Package_Xml|PEAR2_Pyrus_Package_Tar|PEAR2_Pyrus_Package_Phar

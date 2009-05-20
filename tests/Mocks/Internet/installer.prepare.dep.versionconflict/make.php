@@ -98,6 +98,7 @@ $package1 = new PEAR2_Pyrus_Package(false);
 $xmlcontainer = new PEAR2_Pyrus_PackageFile($pf);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
 $package1->setInternalPackage($xml);
+$package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');
 
 $package2_0_9_0 = new PEAR2_Pyrus_Package(false);
@@ -105,6 +106,7 @@ $xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_0);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_0_9_0, $xmlcontainer);
 $package2_0_9_0->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p2_0);
+$package2_0_9_0->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package2_0_9_0, 'cellog');
 
 $package2_1_2_2 = new PEAR2_Pyrus_Package(false);
@@ -112,6 +114,7 @@ $xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_2);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_1_2_2, $xmlcontainer);
 $package2_1_2_2->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p2_2);
+$package2_1_2_2->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package2_1_2_2, 'cellog');
 
 $package2_1_2_3 = new PEAR2_Pyrus_Package(false);
@@ -119,6 +122,7 @@ $xmlcontainer = new PEAR2_Pyrus_PackageFile($p2_3);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package2_1_2_3, $xmlcontainer);
 $package2_1_2_3->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p2_3);
+$package2_1_2_3->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package2_1_2_3, 'cellog');
 
 $package3 = new PEAR2_Pyrus_Package(false);
@@ -126,6 +130,7 @@ $xmlcontainer = new PEAR2_Pyrus_PackageFile($p3);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package3, $xmlcontainer);
 $package3->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p3);
+$package3->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package3, 'cellog');
 
 $package4 = new PEAR2_Pyrus_Package(false);
@@ -133,6 +138,7 @@ $xmlcontainer = new PEAR2_Pyrus_PackageFile($p4);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package4, $xmlcontainer);
 $package4->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p4);
+$package4->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package4, 'cellog');
 
 $package5 = new PEAR2_Pyrus_Package(false);
@@ -140,6 +146,7 @@ $xmlcontainer = new PEAR2_Pyrus_PackageFile($p5);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package5, $xmlcontainer);
 $package5->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p5);
+$package5->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package5, 'cellog');
 
 // clean up
