@@ -72,25 +72,25 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         // first try to download .phar, then .tgz, then .tar, then .zip
         $errs = new PEAR2_MultiErrors;
         try {
-            $internal = new PEAR2_Pyrus_Package_Remote($url . '.phar');
+            return new PEAR2_Pyrus_Package_Remote($url . '.phar');
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
         }
     
         try {
-            $internal = new PEAR2_Pyrus_Package_Remote($url . '.tgz');
+            return new PEAR2_Pyrus_Package_Remote($url . '.tgz');
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
         }
 
         try {
-            $internal = new PEAR2_Pyrus_Package_Remote($url . '.tar');
+            return new PEAR2_Pyrus_Package_Remote($url . '.tar');
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
         }
 
         try {
-            $internal = new PEAR2_Pyrus_Package_Remote($url . '.zip');
+            return new PEAR2_Pyrus_Package_Remote($url . '.zip');
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
             throw new PEAR2_Pyrus_Package_Exception(
@@ -98,7 +98,6 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 $this->channel . '/' .
                 $this->name, $errs);
         }
-        return $internal;
     }
 
     function offsetGet($var)

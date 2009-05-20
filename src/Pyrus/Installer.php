@@ -155,7 +155,7 @@ class PEAR2_Pyrus_Installer
      *
      * @param PEAR2_Pyrus_Package $package
      */
-    static function prepareDependencies(PEAR2_Pyrus_Package $package)
+    static function prepareDependencies(PEAR2_Pyrus_IPackage $package)
     {
         foreach ($package->dependencies['required']->package as $dep) {
             if ($dep->conflicts) {
@@ -356,7 +356,7 @@ class PEAR2_Pyrus_Installer
      * PEAR2_Pyrus_Config will update the install-time snapshots of configuration
      * @param PEAR2_Pyrus_Package $package
      */
-    function install(PEAR2_Pyrus_Package $package)
+    function install(PEAR2_Pyrus_IPackage $package)
     {
         $this->_options = array();
         try {

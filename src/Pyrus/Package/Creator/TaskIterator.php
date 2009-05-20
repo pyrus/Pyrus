@@ -31,7 +31,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
     private $_installphase;
     protected $lastversion;
 
-    function __construct(array $arr, PEAR2_Pyrus_Package $parent, $phase, $lastversion = null)
+    function __construct(array $arr, PEAR2_Pyrus_IPackage $parent, $phase, $lastversion = null)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
