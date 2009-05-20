@@ -10,8 +10,8 @@
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-19</date>
- <time>21:03:30</time>
+ <date>2009-05-20</date>
+ <time>13:00:24</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -24,7 +24,7 @@
  <notes>my notes</notes>
  <contents>
   <dir name="/">
-   <file role="php" name="glooby"/>
+   <file role="php" name="glooby4"/>
   </dir>
  </contents>
  <dependencies>
