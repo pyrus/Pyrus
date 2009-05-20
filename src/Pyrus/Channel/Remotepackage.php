@@ -291,13 +291,6 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 }
             }
             // now check for versions satisfying the dependency
-            if (isset($compositeDep->recommended)) {
-                if ($versioninfo['v'] == $compositeDep->recommended) {
-                    // we're done.  That was easy.
-                    $this->version['release'] = $versioninfo['v'];
-                    return;
-                }
-            }
             if (isset($compositeDep->min)) {
                 if (version_compare($versioninfo['v'], $compositeDep->min, '<')) {
                     continue;
@@ -313,6 +306,13 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             if (isset($compositeDep->max)) {
                 if (version_compare($versioninfo['v'], $compositeDep->max, '>')) {
                     continue;
+                }
+            }
+            if (isset($compositeDep->recommended)) {
+                if ($versioninfo['v'] == $compositeDep->recommended) {
+                    // we're done.  That was easy.
+                    $this->version['release'] = $versioninfo['v'];
+                    return;
                 }
             }
             // found one

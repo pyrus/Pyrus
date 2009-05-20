@@ -165,12 +165,26 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                     $deppackage . ' max is < ' . $min . ' min)');
             }
             if ($actualdep->min) {
-                $compdep['min'] = $actualdep->min;
-                $min = $deppackage;
+                if ($compdep['min']) {
+                    if (version_compare($actualdep->min, $compdep['min'], '>')) {
+                        $compdep['min'] = $actualdep->min;
+                        $min = $deppackage;
+                    }
+                } else {
+                    $compdep['min'] = $actualdep->min;
+                    $min = $deppackage;
+                }
             }
             if ($actualdep->max) {
-                $compdep['max'] = $actualdep->max;
-                $max = $deppackage;
+                if ($compdep['max']) {
+                    if (version_compare($actualdep->max, $compdep['max'], '<')) {
+                        $compdep['max'] = $actualdep->max;
+                        $max = $deppackage;
+                    }
+                } else {
+                    $compdep['max'] = $actualdep->max;
+                    $max = $deppackage;
+                }
             }
             if ($actualdep->recommended) {
                 $compdep['recommended'] = $actualdep->recommended;
