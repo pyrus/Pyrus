@@ -42,7 +42,9 @@ boo::prepare(new PEAR2_Pyrus_Package('pear2/P1-1.0.0'));
 boo::prepare(new PEAR2_Pyrus_Package('pear2/P4-stable'));
 boo::preCommitDependencyResolve();
 $test->assertEquals(4, count(boo::$installPackages), '4 packages should be installed');
+$pnames = array();
 foreach (boo::$installPackages as $package) {
+    $pnames[] = $package->name;
     switch ($package->name) {
         case 'P1' :
         case 'P3' :
@@ -59,6 +61,8 @@ foreach (boo::$installPackages as $package) {
             $test->assertEquals(false, $package->name, 'wrong package downloaded');
     }
 }
+sort($pnames);
+$test->assertEquals(array('P1', 'P2', 'P3', 'P4'), $pnames, 'correct packages');
 boo::rollback();
 ?>
 ===DONE===

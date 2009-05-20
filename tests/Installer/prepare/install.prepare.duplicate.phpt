@@ -6,15 +6,15 @@ define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 class boo extends PEAR2_Pyrus_Installer
 {
-    static $preinstallPackages = array();
+    static $installPackages = array();
 }
 boo::begin();
 boo::prepare($package);
-$test->assertEquals(1, count(boo::$preinstallPackages), 'first prepare');
+$test->assertEquals(1, count(boo::$installPackages), 'first prepare');
 boo::prepare($package);
-$test->assertEquals(1, count(boo::$preinstallPackages), 'second prepare');
+$test->assertEquals(1, count(boo::$installPackages), 'second prepare');
 boo::rollback();
-$test->assertEquals(0, count(boo::$preinstallPackages), 'rollback');
+$test->assertEquals(0, count(boo::$installPackages), 'rollback');
 // this passes if no exceptions are thrown
 ?>
 ===DONE===
