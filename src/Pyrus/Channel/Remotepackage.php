@@ -314,6 +314,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                     $this->version['release'] = $versioninfo['v'];
                     return;
                 }
+                continue;
             }
             // found one
             if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {
