@@ -75,6 +75,7 @@ class Internet_Adapter extends PEAR2_HTTP_Request_Adapter
         $cookies = array();
         $headers = array();
         if ($details['code'] == '200') {
+            $headers['content-disposition'] = 'filename="' . basename($actualfile) . '"';
             $headers['content-length'] = strlen($body);
             $headers['etag'] = md5($body);
             $headers['last-modified'] = date('Y-m-d H:i', filemtime($actualfile));

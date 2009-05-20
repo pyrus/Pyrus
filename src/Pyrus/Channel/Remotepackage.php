@@ -95,8 +95,8 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             $errs->E_ERROR[] = $e;
             throw new PEAR2_Pyrus_Package_Exception(
                 'Could not download abstract package ' .
-                $this->downloadInfo['info']->channel . '/' .
-                $this->downloadInfo['info']->name, $errs);
+                $this->channel . '/' .
+                $this->name, $errs);
         }
         return $internal;
     }
