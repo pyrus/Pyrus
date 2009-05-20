@@ -39,7 +39,7 @@ class boo extends PEAR2_Pyrus_Installer
 }
 boo::begin();
 boo::prepare(new PEAR2_Pyrus_Package('pear2/P1-1.0.0'));
-boo::prepare(new PEAR2_Pyrus_Package('pear2/P4-stable'));
+boo::prepare(new PEAR2_Pyrus_Package('pear2/P4-stable', true));
 boo::preCommitDependencyResolve();
 $test->assertEquals(4, count(boo::$installPackages), '4 packages should be installed');
 $pnames = array();
