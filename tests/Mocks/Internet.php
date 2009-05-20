@@ -74,19 +74,21 @@ class Internet_Adapter extends PEAR2_HTTP_Request_Adapter
         $details['httpVersion'] = 'HTTP/1.1';
         $cookies = array();
         $headers = array();
-        $headers['content-length'] = strlen($body);
-        $headers['etag'] = md5($body);
-        $headers['last-modified'] = date('Y-m-d H:i', filemtime($actualfile));
-        $info = pathinfo($actualfile);
-        switch ($info['extension']) {
-            case 'xml' :
-                $headers['content-type'] = 'text/xml';
-                break;
-            case 'txt' :
-                $headers['content-type'] = 'text/plain';
-                break;
-            default :
-                $headers['content-type'] = 'application/octet-stream';
+        if ($details['code'] == '200') {
+            $headers['content-length'] = strlen($body);
+            $headers['etag'] = md5($body);
+            $headers['last-modified'] = date('Y-m-d H:i', filemtime($actualfile));
+            $info = pathinfo($actualfile);
+            switch ($info['extension']) {
+                case 'xml' :
+                    $headers['content-type'] = 'text/xml';
+                    break;
+                case 'txt' :
+                    $headers['content-type'] = 'text/plain';
+                    break;
+                default :
+                    $headers['content-type'] = 'application/octet-stream';
+            }
         }
 
         return new PEAR2_HTTP_Request_Response($details, $body, $headers, $cookies);
