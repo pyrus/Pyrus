@@ -182,6 +182,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                     foreach ($actualdep->exclude as $exclude) {
                         $compdep['exclude'][] = $exclude;
                     }
+                    continue;
                 }
                 foreach ($actualdep->exclude as $exclude) {
                     if (in_array($exclude, $compdep['exclude'])) {
