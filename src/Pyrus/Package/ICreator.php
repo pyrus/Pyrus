@@ -32,6 +32,11 @@ interface PEAR2_Pyrus_Package_ICreator
      */
     function addFile($path, $filename);
     /**
+     * Add everything within a directory and all subdirectories
+     * @param string path to the directory to add
+     */
+    function addDir($path);
+    /**
      * Initialize the package creator
      */
     function init();

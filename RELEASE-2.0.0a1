@@ -1,1 +1,20 @@
-Initial development release, no frontend is included
+Initial development release
+
+Missing features:
+ - introspection of packages, installed or not
+ - mass upgrade/remote-list
+ - anything pecl
+ - post-install scripts
+ - fancy frontends
+
+Implemented features:
+ - install of both PEAR and Pyrus-generated packages
+ - remote install from URL
+ - remote install from channel
+ - more robust file transactions that are nearly atomic
+ - much smarter dependency resolution than PEAR
+ - much smarter pre-download version resolution for dependencies
+ - registry transactions on installation
+ - redundant registries in sqlite3, xml formats
+ - full support for PEAR 1.x serialized array registry
+ - simple CLI frontend

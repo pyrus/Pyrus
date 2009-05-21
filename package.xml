@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-12</date>
- <time>22:26:38</time>
+ <date>2009-05-21</date>
+ <time>00:05:28</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -45,7 +45,26 @@ try {
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Initial development release, no frontend is included</notes>
+ <notes>Initial development release
+
+Missing features:
+ - introspection of packages, installed or not
+ - mass upgrade/remote-list
+ - anything pecl
+ - post-install scripts
+ - fancy frontends
+
+Implemented features:
+ - install of both PEAR and Pyrus-generated packages
+ - remote install from URL
+ - remote install from channel
+ - more robust file transactions that are nearly atomic
+ - much smarter dependency resolution than PEAR
+ - much smarter pre-download version resolution for dependencies
+ - registry transactions on installation
+ - redundant registries in sqlite3, xml formats
+ - full support for PEAR 1.x serialized array registry
+ - simple CLI frontend</notes>
  <contents>
   <dir name="/">
    <dir name="data" baseinstalldir="/">
@@ -65,9 +84,10 @@ try {
       <file role="php" name="Exception.php"/>
      </dir>
      <dir name="Channel">
-      <file role="php" name="Base.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="IMirror.php"/>
+      <file role="php" name="Remotepackage.php"/>
+      <file role="php" name="Remotepackages.php"/>
      </dir>
      <dir name="ChannelFile">
       <dir name="Parser">
@@ -206,7 +226,6 @@ try {
        <file role="php" name="Files.php"/>
        <file role="php" name="License.php"/>
        <file role="php" name="Release.php"/>
-       <file role="php" name="Remote.php"/>
        <file role="php" name="SimpleProperty.php"/>
        <file role="php" name="UsesRoleTask.php"/>
        <file role="php" name="Validator.php"/>
@@ -219,6 +238,7 @@ try {
        <file role="php" name="FileInstallationFilter.php"/>
        <file role="php" name="FileTag.php"/>
        <file role="php" name="PackagingIterator.php"/>
+       <file role="php" name="ScriptFileFilterIterator.php"/>
       </dir>
       <file role="php" name="Exception.php"/>
       <file role="php" name="IValidator.php"/>
@@ -263,6 +283,10 @@ try {
        <file role="php" name="WrongAttributeValue.php"/>
       </dir>
       <dir name="Postinstallscript">
+       <dir name="Paramgroup">
+        <file role="php" name="Param.php"/>
+       </dir>
+       <file role="php" name="Paramgroup.php"/>
        <file role="php" name="rw.php"/>
       </dir>
       <dir name="Replace">
@@ -276,6 +300,7 @@ try {
       </dir>
       <file role="php" name="Common.php"/>
       <file role="php" name="Exception.php"/>
+      <file role="php" name="MultipleProxy.php"/>
       <file role="php" name="Postinstallscript.php"/>
       <file role="php" name="Replace.php"/>
       <file role="php" name="Unixeol.php"/>
@@ -299,7 +324,6 @@ try {
      <file role="php" name="ChannelRegistry.php"/>
      <file role="php" name="Config.php"/>
      <file role="php" name="DirectedGraph.php"/>
-     <file role="php" name="Downloader.php"/>
      <file role="php" name="Exception.php"/>
      <file role="php" name="FileTransactions.php"/>
      <file role="php" name="IChannel.php"/>
@@ -315,8 +339,10 @@ try {
      <file role="php" name="OSGuess.php"/>
      <file role="php" name="Package.php"/>
      <file role="php" name="PackageFile.php"/>
+     <file role="php" name="PluginRegistry.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
+     <file role="php" name="ScriptRunner.php"/>
      <file role="php" name="test.php"/>
      <file role="php" name="test1.php"/>
      <file role="php" name="test2.php"/>
@@ -351,6 +377,12 @@ try {
       <file role="test" name="createoropenpath.fp.phpt"/>
       <file role="test" name="createoropenpath.fp.stream.phpt"/>
      </dir>
+     <dir name="mkdir">
+      <file role="test" name="mkdir.fail.isfile.phpt"/>
+      <file role="test" name="mkdir.fail.notintransaction.phpt"/>
+      <file role="test" name="mkdir.nomode.phpt"/>
+      <file role="test" name="removejournalpath.fail.notintransaction.phpt"/>
+     </dir>
      <dir name="removeBackups">
       <file role="test" name="removebackups.fail.notintransaction.phpt"/>
      </dir>
@@ -376,12 +408,16 @@ try {
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Channel">
+     <dir name="remoteiteration">
+      <file role="test" name="channel.packages.phpt"/>
+      <file role="test" name="pearconfig.xml"/>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
      <file role="test" name="basic.phpt"/>
      <file role="test" name="creation.phpt"/>
      <file role="test" name="mirrors-set.phpt"/>
      <file role="test" name="mirrors-unset.phpt"/>
      <file role="test" name="mirrors.phpt"/>
-     <file role="test" name="remote.php"/>
      <file role="test" name="remote.phpt"/>
      <file role="test" name="rest.errors.phpt"/>
      <file role="test" name="rest.template"/>
@@ -447,6 +483,7 @@ try {
       <dir name="delete">
        <file role="test" name="delete.installed.phpt"/>
        <file role="test" name="delete.readonly.phpt"/>
+       <file role="test" name="external.php"/>
        <file role="test" name="external.phpt"/>
        <file role="test" name="internal.phpt"/>
       </dir>
@@ -475,6 +512,7 @@ try {
       </dir>
       <dir name="update">
        <file role="test" name="update.phpt"/>
+       <file role="test" name="update.readonly.phpt"/>
       </dir>
       <file role="test" name="setup.php.inc"/>
      </dir>
@@ -484,6 +522,7 @@ try {
        <file role="test" name="add.readonly.phpt"/>
       </dir>
       <dir name="delete">
+       <file role="test" name="delete.installed.phpt"/>
        <file role="test" name="delete.readonly.phpt"/>
        <file role="test" name="external.phpt"/>
        <file role="test" name="internal.phpt"/>
@@ -505,12 +544,14 @@ try {
     </dir>
     <dir name="Config">
      <dir name="addConfigValue">
+      <file role="test" name="fail.php"/>
       <file role="test" name="fail.phpt"/>
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="configSnapshot">
       <file role="test" name="setup.php.inc"/>
+      <file role="test" name="test.php"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="constructDefaults">
@@ -575,6 +616,7 @@ try {
       <file role="test" name="extensiondep.loaded.extversionless.phpt"/>
       <file role="test" name="extensiondep.loaded.valid.phpt"/>
       <file role="test" name="extensiondep.max.fail.force.phpt"/>
+      <file role="test" name="extensiondep.max.fail.nodeps.phpt"/>
       <file role="test" name="extensiondep.max.fail.phpt"/>
       <file role="test" name="extensiondep.min.fail.force.phpt"/>
       <file role="test" name="extensiondep.min.fail.nodeps.phpt"/>
@@ -621,6 +663,7 @@ try {
       <file role="test" name="packagedep.fail.installed.version.force.phpt"/>
       <file role="test" name="packagedep.fail.installed.version.max.force.phpt"/>
       <file role="test" name="packagedep.fail.installed.version.max.nodeps.phpt"/>
+      <file role="test" name="packagedep.fail.installed.version.max.phpt"/>
       <file role="test" name="packagedep.fail.installed.version.min.force.phpt"/>
       <file role="test" name="packagedep.fail.installed.version.min.nodeps.phpt"/>
       <file role="test" name="packagedep.fail.installed.version.min.phpt"/>
@@ -721,9 +764,420 @@ try {
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Installer">
+     <dir name="prepare">
+      <file role="test" name="install.prepare.dep.versionconflict.phpt"/>
+      <file role="test" name="install.prepare.duplicate.phpt"/>
+      <file role="test" name="install.prepare.fail.depconflict1.phpt"/>
+      <file role="test" name="install.prepare.fail.depconflict2.phpt"/>
+      <file role="test" name="install.prepare.fail.depconflict3.phpt"/>
+      <file role="test" name="install.prepare.fail.depconflict4.phpt"/>
+      <file role="test" name="pearconfig.xml"/>
+     </dir>
+     <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.verifyfiles.phpt"/>
      <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
+     <file role="test" name="pearconfig.xml"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="Mocks">
+     <dir name="Internet">
+      <dir name="installer.prepare.dep.versionconflict">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P2-0.9.0.tar"/>
+        <file role="test" name="P2-0.9.0.tgz"/>
+        <file role="test" name="P2-1.2.2.tar"/>
+        <file role="test" name="P2-1.2.2.tgz"/>
+        <file role="test" name="P2-1.2.3.tar"/>
+        <file role="test" name="P2-1.2.3.tgz"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P4-1.0.0.tar"/>
+        <file role="test" name="P4-1.0.0.tgz"/>
+        <file role="test" name="P5-0.9.0.tar"/>
+        <file role="test" name="P5-0.9.0.tgz"/>
+        <file role="test" name="P5-1.0.0.tgz"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="0.9.0.xml"/>
+          <file role="test" name="1.2.2.xml"/>
+          <file role="test" name="1.2.3.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="beta.txt"/>
+          <file role="test" name="deps.0.9.0.txt"/>
+          <file role="test" name="deps.1.2.2.txt"/>
+          <file role="test" name="deps.1.2.3.txt"/>
+          <file role="test" name="devel.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.0.9.0.xml"/>
+          <file role="test" name="package.1.2.2.xml"/>
+          <file role="test" name="package.1.2.3.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.0.9.0.xml"/>
+          <file role="test" name="v2.1.2.2.xml"/>
+          <file role="test" name="v2.1.2.3.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="devel.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="0.9.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="beta.txt"/>
+          <file role="test" name="deps.0.9.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.0.9.0.xml"/>
+          <file role="test" name="v2.0.9.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="installer.prepare.depconflict1">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P2-1.2.1.tar"/>
+        <file role="test" name="P2-1.2.1.tgz"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.2.1.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.2.1.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.2.1.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.2.1.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="installer.prepare.depconflict2">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P2-1.2.1.tar"/>
+        <file role="test" name="P2-1.2.1.tgz"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.2.1.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.2.1.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.2.1.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.2.1.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="installer.prepare.depconflict4">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P2-1.0.0.tar"/>
+        <file role="test" name="P2-1.0.0.tgz"/>
+        <file role="test" name="P2-1.2.0.tar"/>
+        <file role="test" name="P2-1.2.0.tgz"/>
+        <file role="test" name="P2-1.2.3.tar"/>
+        <file role="test" name="P2-1.2.3.tgz"/>
+        <file role="test" name="P2-1.3.1.tar"/>
+        <file role="test" name="P2-1.3.1.tgz"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="1.2.0.xml"/>
+          <file role="test" name="1.2.3.xml"/>
+          <file role="test" name="1.3.1.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="deps.1.2.0.txt"/>
+          <file role="test" name="deps.1.2.3.txt"/>
+          <file role="test" name="deps.1.3.1.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="package.1.2.0.xml"/>
+          <file role="test" name="package.1.2.3.xml"/>
+          <file role="test" name="package.1.3.1.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+          <file role="test" name="v2.1.2.0.xml"/>
+          <file role="test" name="v2.1.2.3.xml"/>
+          <file role="test" name="v2.1.3.1.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="src" baseinstalldir="PEAR2">
+       <dir name="PEAR2">
+        <dir name="MultiErrors">
+         <file role="test" name="Exception.php"/>
+        </dir>
+        <file role="test" name="Autoload.php"/>
+        <file role="test" name="Exception.php"/>
+        <file role="test" name="MultiErrors.php"/>
+       </dir>
+      </dir>
+      <file role="test" name=".pear2registry"/>
+      <file role="test" name="README"/>
+     </dir>
+     <file role="test" name="Internet.php"/>
+    </dir>
+    <dir name="Package">
+     <file role="test" name="arrayaccess.phpt"/>
+     <file role="test" name="parsePackageDescription.phpt"/>
+     <file role="test" name="setup.minimal.php.inc"/>
+     <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="PackageFile_Parser_v2">
      <dir name="packages">
@@ -1123,6 +1577,9 @@ try {
     </dir>
     <dir name="ScriptFrontend">
      <dir name="Commands">
+      <dir name="packages">
+       <file role="test" name="Net_URL-1.0.15.tgz"/>
+      </dir>
       <dir name="testit">
        <dir name=".xmlregistry">
         <dir name="channels">
@@ -1140,16 +1597,57 @@ try {
       </dir>
       <file role="test" name="channelAdd.phpt"/>
       <file role="test" name="channelDel.phpt"/>
+      <file role="test" name="configShow.phpt"/>
       <file role="test" name="findpear1.phpt"/>
       <file role="test" name="findpear2.phpt"/>
       <file role="test" name="findpear3.phpt"/>
       <file role="test" name="help.phpt"/>
       <file role="test" name="install.phpt"/>
+      <file role="test" name="install_pear1package.phpt"/>
       <file role="test" name="listChannels.phpt"/>
       <file role="test" name="listPackages.empty.phpt"/>
       <file role="test" name="listPackages.full.phpt"/>
+      <file role="test" name="set.phpt"/>
+      <file role="test" name="setup.pearinstall.php.inc"/>
       <file role="test" name="uninstall.basic.phpt"/>
+      <file role="test" name="upgradeRegistry.phpt"/>
      </dir>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="Task">
+     <dir name="Postinstallscript">
+      <file role="test" name="validatexml.failure.phpt"/>
+      <file role="test" name="validatexml.failure2.phpt"/>
+      <file role="test" name="validatexml.failure3.phpt"/>
+      <file role="test" name="validatexml.failure4.phpt"/>
+      <file role="test" name="validatexml.failure5.phpt"/>
+      <file role="test" name="validatexml.failure6.phpt"/>
+      <file role="test" name="validatexml.failure7.phpt"/>
+      <file role="test" name="validatexml.failure8.phpt"/>
+      <file role="test" name="validatexml.failure9.phpt"/>
+      <file role="test" name="validatexml.failure10.phpt"/>
+      <file role="test" name="validatexml.failure11.phpt"/>
+      <file role="test" name="validatexml.failure12.phpt"/>
+      <file role="test" name="validatexml.failure13.phpt"/>
+      <file role="test" name="validatexml.failure14.phpt"/>
+      <file role="test" name="validatexml.failure15.phpt"/>
+      <file role="test" name="validatexml.failure16.phpt"/>
+      <file role="test" name="validatexml.failure17.phpt"/>
+      <file role="test" name="validatexml.phpt"/>
+     </dir>
+     <dir name="Replace">
+      <file role="test" name="startsession.phpt"/>
+      <file role="test" name="validatexml.failure.phpt"/>
+     </dir>
+     <dir name="Unixeol">
+      <file role="test" name="startsession.phpt"/>
+      <file role="test" name="validatexml.failure.phpt"/>
+     </dir>
+     <dir name="Windowseol">
+      <file role="test" name="startsession.phpt"/>
+      <file role="test" name="validatexml.failure.phpt"/>
+     </dir>
+     <file role="test" name="setup.minimal.php.inc"/>
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Uninstaller">
@@ -1172,9 +1670,10 @@ try {
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
@@ -1220,6 +1719,8 @@ try {
     </dir>
     <file role="test" name=".cvsignore"/>
     <file role="test" name="clean.php.inc"/>
+    <file role="test" name="clean.xdebug.php.inc"/>
+    <file role="test" name="ignorexdebug.php"/>
     <file role="test" name="test_framework.php.inc"/>
    </dir>
   </dir>

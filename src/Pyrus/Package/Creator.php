@@ -167,11 +167,28 @@ class PEAR2_Pyrus_Package_Creator
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
         }
+        $packagingloc = PEAR2_Pyrus_Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
+        if (file_exists($packagingloc)) {
+            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($packagingloc,
+                        RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+                if (is_dir($file)) {
+                    rmdir($file);
+                } elseif (is_file($file)) {
+                    unlink($file);
+                }
+            }
+        } else {
+            mkdir($packagingloc, 0777, true);
+        }
 
         // $packageat is the relative path within the archive
         // $info is an array of format:
         // array('attribs' => array('name' => ...)[, 'tasks:blah' ...])
         $alreadyPackaged = array();
+        $globalreplace = array('attribs' =>
+                    array('from' => '@' . 'PACKAGE_VERSION@',
+                          'to' => 'version',
+                          'type' => 'package-info'));
         foreach ($package->packagingcontents as $packageat => $info) {
             $packageat = str_replace('\\', '/', $packageat);
             $packageat = str_replace('//', '/', $packageat);
@@ -188,18 +205,24 @@ class PEAR2_Pyrus_Package_Creator
 
             $alreadyPackaged[$packageat] = true;
             $contents = $package->getFileContents($info['attribs']['name'], true);
-            $globalreplace = array('attribs' =>
-                        array('from' => '@' . 'PACKAGE_VERSION@',
-                              'to' => 'version',
-                              'type' => 'package-info'));
-            if (isset($info['tasks:replace'])) {
-                if (isset($info['tasks:replace'][0])) {
-                    $info['tasks:replace'][] = $globalreplace;
+            if (!file_exists(dirname($packagingloc . DIRECTORY_SEPARATOR . $packageat))) {
+                mkdir(dirname($packagingloc . DIRECTORY_SEPARATOR . $packageat), 0777, true);
+            }
+            $fp = fopen($packagingloc . DIRECTORY_SEPARATOR . $packageat, 'wb+');
+            ftruncate($fp, 0);
+            stream_copy_to_stream($contents, $fp);
+            fclose($contents);
+            rewind($fp);
+            if ($info['attribs']['role'] == 'php') {
+                if (isset($info['tasks:replace'])) {
+                    if (isset($info['tasks:replace'][0])) {
+                        $info['tasks:replace'][] = $globalreplace;
+                    } else {
+                        $info['tasks:replace'] = array($info['tasks:replace'], $globalreplace);
+                    }
                 } else {
-                    $info['tasks:replace'] = array($info['tasks:replace'], $globalreplace);
+                    $info['tasks:replace'] = $globalreplace;
                 }
-            } else {
-                $info['tasks:replace'] = $globalreplace;
             }
 
             if (isset(PEAR2_Pyrus_Config::current()->registry->package[$package->channel . '/' . $package->name])) {
@@ -212,16 +235,16 @@ class PEAR2_Pyrus_Package_Creator
                                                                   $version) as $task) {
                 // do pre-processing of file contents
                 try {
-                    $task->startSession($package, $contents, $packageat);
+                    $task->startSession($package, $fp, $packageat);
                 } catch (Exception $e) {
                     // TODO: handle exceptions
                 }
             }
+            fclose($fp);
+        }
 
-            foreach ($this->_creators as $creator) {
-                $creator->mkdir(dirname($packageat));
-                $creator->addFile($packageat, $contents);
-            }
+        foreach ($this->_creators as $creator) {
+            $creator->addDir($packagingloc);
         }
 
         $creator->mkdir('src/PEAR2');
@@ -283,5 +306,14 @@ class PEAR2_Pyrus_Package_Creator
         foreach ($this->_creators as $creator) {
             $creator->close();
         }
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($packagingloc,
+                    RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+            if (is_dir($file)) {
+                rmdir($file);
+            } elseif (is_file($file)) {
+                unlink($file);
+            }
+        }
+        rmdir($packagingloc);
     }
 }

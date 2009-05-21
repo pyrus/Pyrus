@@ -7,7 +7,7 @@ ini_set('display_errors',true);
 require_once dirname(__FILE__).'/../autoload.php';
 
 if (ini_get('phar.readonly') != "0") {
-    throw new PEAR2_Pyrus_Exception('Error: phar.readonly is not set to "0" in your php.ini');
+    throw new PEAR2_Pyrus_Exception('Error: phar.readonly is not set to "0", pass -d phar.readonly=0 to PHP');
 }
 
 $a = new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(dirname(__FILE__), 'PEAR2_Pyrus');
@@ -25,8 +25,8 @@ $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 @array_shift($_SERVER[\'argv\']);
 $frontend->run($_SERVER[\'argv\']);
 '),),
-                    dirname(__FILE__) . '/../Exception/src/Exception.php',
-					dirname(__FILE__) . '/../Autoload/src/Autoload.php',
+                    dirname(__FILE__) . '/../Exception/src',
+					dirname(__FILE__) . '/../Autoload/src',
 					dirname(__FILE__) . '/../MultiErrors/src');
 $b = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
 $rp = __DIR__ . '/../HTTP_Request/src/HTTP';
@@ -34,10 +34,12 @@ $a->render($b, array(
     'src/PEAR2/HTTP/Request.php' => $rp . '/Request.php',
     'src/PEAR2/HTTP/Request/Adapter.php' => $rp . '/Request/Adapter.php',
     'src/PEAR2/HTTP/Request/Adapter/Curl.php' => $rp . '/Request/Adapter/Curl.php',
+    'src/PEAR2/HTTP/Request/Adapter/Http.php' => $rp . '/Request/Adapter/Http.php',
     'src/PEAR2/HTTP/Request/Adapter/Phpsocket.php' => $rp . '/Request/Adapter/Phpsocket.php',
     'src/PEAR2/HTTP/Request/Adapter/Phpstream.php' => $rp . '/Request/Adapter/Phpstream.php',
     'src/PEAR2/HTTP/Request/Exception.php' => $rp . '/Request/Exception.php',
     'src/PEAR2/HTTP/Request/Headers.php' => $rp . '/Request/Headers.php',
+    'src/PEAR2/HTTP/Request/Listener.php' => $rp . '/Request/Listener.php',
     'src/PEAR2/HTTP/Request/Response.php' => $rp . '/Request/Response.php',
     'src/PEAR2/HTTP/Request/Uri.php' => $rp . '/Request/Uri.php',
 ));
