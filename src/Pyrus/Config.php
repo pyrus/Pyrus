@@ -529,7 +529,14 @@ class PEAR2_Pyrus_Config
             return $e;
         }
 
-        return '/tmp/' . md5($_ENV['PWD']);
+        if (isset($_ENV['PWD'])) {
+            $cwd = $_ENV['PWD'];
+        } else {
+            $cwd = getcwd();
+        }
+        
+        return '/tmp/' . md5($cwd);
+        
     }
 
     /**
