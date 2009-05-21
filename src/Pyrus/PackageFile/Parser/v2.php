@@ -122,9 +122,21 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         return $ret;
     }
 
-    protected function mergeTag($arr, $tag, $attr, $name, $depth)
+    /**
+     * Merge a tag into the array
+     * @see PEAR2_Pyrus_XMLParser::mergeTag()
+     *
+     * @param array  $arr     The array representation of the XML
+     * @param string $tag     The tag name
+     * @param array  $attribs Associative array of attributes for this tag
+     * @param string $name    The tag name
+     * @param int    $depth   The current depth within the XML document
+     *
+     * @return array
+     */
+    protected function mergeTag($arr, $tag, $attribs, $name, $depth)
     {
-        $arr = parent::mergeTag($arr, $tag, $attr, $name, $depth);
+        $arr = parent::mergeTag($arr, $tag, $attribs, $name, $depth);
         if ($this->_inContents) {
             if ($this->_inFile) {
                 if ($depth < $this->_inFile) {
@@ -143,15 +155,15 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                 }
                 $this->_lastDepth = $depth;
                 $this->_lastFileDepth = $depth + 1;
-                $origpath = $path = $attr['name'];
+                $origpath = $path = $attribs['name'];
                 if ($path === '/') {
                     $path = '';
                 } else {
                     $path .= '/';
                 }
                 $this->_path .= $path;
-                if (isset($attr['baseinstalldir'])) {
-                    $this->_baseinstalldirs[$origpath] = $attr['baseinstalldir'];
+                if (isset($attribs['baseinstalldir'])) {
+                    $this->_baseinstalldirs[$origpath] = $attribs['baseinstalldir'];
                 } else {
                     if (isset($this->_baseinstalldirs[dirname($path)])) {
                         $this->_baseinstalldirs[$origpath] = $this->_baseinstalldirs[dirname($path)];
@@ -168,7 +180,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                     $this->_lastFileDepth--;
                     $this->_lastDepth--;
                 }
-                $path = $this->_path . $attr['name'];
+                $path = $this->_path . $attribs['name'];
                 if (isset($arr['file'][0])) {
                     $newarr = $arr['file'][count($arr['file']) - 1];
                 } else {

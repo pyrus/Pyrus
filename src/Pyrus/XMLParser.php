@@ -33,6 +33,14 @@ class PEAR2_Pyrus_XMLParser
         $this->reader = new XMLReader;
     }
 
+    /**
+     * Parse a string containing XML
+     *
+     * @param string $string The raw XML data
+     * @param string $schema Path to the xml schema file for validation
+     *
+     * @return array
+     */
     function parseString($string, $schema = false)
     {
         $this->reader->XML($string);
@@ -55,7 +63,10 @@ class PEAR2_Pyrus_XMLParser
      *    </pre>
      *    results in
      *    <code>array('test' => array('tag' => array('', ''), 'another' => ''))</code>
-     * @param string $file file URI to process
+     *
+     * @param string $file   file URI to process
+     * @param string $schema path to the xml schema file for validation
+     *
      * @return array
      */
     function parse($file, $schema = false)
@@ -67,17 +78,28 @@ class PEAR2_Pyrus_XMLParser
         return $this->_parse($file, $schema, true);
     }
 
-    protected function mergeTag($arr, $tag, $attr, $name, $depth)
+    /**
+     * Merge tag into the array
+     *
+     * @param array  $arr     The array representation of the XML
+     * @param string $tag     The tag name
+     * @param array  $attribs Associative array of attributes for this tag
+     * @param string $name    The tag name
+     * @param int    $depth   The current depth within the XML document
+     *
+     * @return array
+     */
+    protected function mergeTag($arr, $tag, $attribs, $name, $depth)
     {
-        if ($attr) {
+        if ($attribs) {
             // tag has attributes
             if (is_string($tag) && $tag !== '') {
-                $tag = array('attribs' => $attr, '_content' => $tag);
+                $tag = array('attribs' => $attribs, '_content' => $tag);
             } else {
                 if (!is_array($tag)) {
                     $tag = array();
                 }
-                $tag['attribs'] = $attr;
+                $tag['attribs'] = $attribs;
             }
         }
         if (is_array($arr) && isset($arr[$name]) && is_array($arr[$name]) &&
@@ -185,16 +207,16 @@ class PEAR2_Pyrus_XMLParser
             if ($this->reader->nodeType == XMLReader::ELEMENT) {
                 $tag = $this->reader->name;
 
-                $attrs = array();
+                $attribs = array();
                 if ($this->reader->isEmptyElement) {
                     if ($this->reader->hasAttributes) {
                         $attr = $this->reader->moveToFirstAttribute();
                         while ($attr) {
-                            $attrs[$this->reader->name] = $this->reader->value;
+                            $attribs[$this->reader->name] = $this->reader->value;
                             $attr = $this->reader->moveToNextAttribute();
                         }
                         $depth = $this->reader->depth;
-                        $arr = $this->mergeTag($arr, '', $attrs, $tag, $depth);
+                        $arr = $this->mergeTag($arr, '', $attribs, $tag, $depth);
                         continue;
                     }
                     $depth = $this->reader->depth;
@@ -204,12 +226,12 @@ class PEAR2_Pyrus_XMLParser
                 if ($this->reader->hasAttributes) {
                     $attr = $this->reader->moveToFirstAttribute();
                     while ($attr) {
-                        $attrs[$this->reader->name] = $this->reader->value;
+                        $attribs[$this->reader->name] = $this->reader->value;
                         $attr = $this->reader->moveToNextAttribute();
                     }
                 }
                 $depth = $this->reader->depth;
-                $arr = $this->mergeTag($arr, '', $attrs, $tag, $depth);
+                $arr = $this->mergeTag($arr, '', $attribs, $tag, $depth);
                 if (is_array($arr[$tag]) && isset($arr[$tag][0])) {
                     // seek to last sibling
                     $arr[$tag][count($arr[$tag]) - 1] =
