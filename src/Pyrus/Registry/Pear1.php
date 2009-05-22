@@ -32,7 +32,10 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 
     function __construct($path)
     {
-        $this->_path = $path . DIRECTORY_SEPARATOR . 'php';
+        if (basename($path) !== 'php') {
+            $path = $path . DIRECTORY_SEPARATOR . 'php';
+        }
+        $this->_path = $path;
         $this->filemap = $this->_path . DIRECTORY_SEPARATOR . '.filemap';
     }
 
@@ -430,25 +433,24 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             || isset($data['attribs']) && $data['attribs']['version'] == '1.0') {
             // make scrappy minimal package.xml we can use for dependencies/info
             $pf = new PEAR2_Pyrus_PackageFile_v2;
-            $pf->package = $data['name'];
+            $pf->name = $data['package'];
             $pf->channel = 'pear.php.net';
-            $pf->version['release'] = $pf->version['api'] = $data['release_version'];
+            $pf->version['release'] = $pf->version['api'] = $data['version'];
             $pf->stability['release'] = $pf->stability['api'] = $data['release_state'];
             $pf->notes = $data['release_notes'];
-            foreach ($data['maintainers'] as $maintainter) {
-                $pf->maintainers[$maintainer['handle']]->name($maintainer['name'])
+            $pf->license['name'] = $data['release_license'];
+            $pf->date = $data['release_date'];
+            foreach ($data['maintainers'] as $maintainer) {
+                $pf->maintainer[$maintainer['handle']]->name($maintainer['name'])
                    ->active('yes')->role($maintainer['role'])->email($maintainer['email']);
             }
             // we don't care what the ancient package depends on, really, so make it valid
             // and forget about it
-            $pf->dependencies->php['min'] = phpversion();
-            $pf->dependencies->pearinstaller['min'] = '1.4.0';
+            $pf->dependencies['required']->php->min = phpversion();
+            $pf->dependencies['required']->pearinstaller->min = '1.4.0';
             unset($data['filelist']['dirtree']);
-            if (!isset($data['filelist'][0])) {
-                $data['filelist'] = array($data['filelist']);
-            }
-            foreach ($data['filelist'] as $file) {
-                $pf->files[$file['name']] = array('attribs' => $file);
+            foreach ($data['filelist'] as $file => $info) {
+                $pf->files[$file] = array('attribs' => $info);
             }
         } else {
             // create packagefile v2 here
@@ -531,7 +533,9 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
      */
     static public function detectRegistries($path)
     {
-        $path = $path . DIRECTORY_SEPARATOR . 'php';
+        if (basename($path) !== 'php') {
+            $path = $path . DIRECTORY_SEPARATOR . 'php';
+        }
         if (file_exists($path . '/.registry') || is_dir($path . '/.registry')) {
             return array('Pear1');
         }
