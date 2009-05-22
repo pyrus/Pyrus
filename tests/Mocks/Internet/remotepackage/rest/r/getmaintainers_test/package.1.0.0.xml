@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>GetMaintainers_Test</name>
+ <channel>pear2.php.net</channel>
+ <summary>testing</summary>
+ <description>hi description</description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Foo One</name>
+  <user>foo1</user>
+  <email>foo1@example.com</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Foo Two</name>
+  <user>foo2</user>
+  <email>foo2@example.com</email>
+  <active>yes</active>
+ </developer>
+ <contributor>
+  <name>Foo Three</name>
+  <user>foo3</user>
+  <email>foo3@example.com</email>
+  <active>yes</active>
+ </contributor>
+ <helper>
+  <name>Foo Four</name>
+  <user>foo4</user>
+  <email>foo4@example.com</email>
+  <active>yes</active>
+ </helper>
+ <date>2009-05-22</date>
+ <time>14:33:26</time>
+ <version>
+  <release>1.0.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>my notes</notes>
+ <contents>
+  <dir name="/">
+   <file role="php" name="glooby1"/>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>

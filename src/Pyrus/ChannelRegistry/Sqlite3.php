@@ -135,7 +135,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                     $channel->name . ' has already been discovered');
             }
-            $this->delete($channel);
+            $this->delete($channel, true);
         } elseif ($update) {
             self::$databases[$this->path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
@@ -370,7 +370,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         return $ret;
     }
 
-    function delete(PEAR2_Pyrus_IChannel $channel)
+    function delete(PEAR2_Pyrus_IChannel $channel, $inupdate = false)
     {
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
@@ -382,8 +382,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
         $name = $channel->name;
         if ($name == 'pear.php.net' || $name == 'pear2.php.net' || $name == 'pecl.php.net' || $name == '__uri') {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
-                $channel->name);
+            if (!$inupdate) {
+                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
+                    $channel->name);
+            }
         }
 
         $sql = 'SELECT count(*) FROM packages WHERE channel = "' .

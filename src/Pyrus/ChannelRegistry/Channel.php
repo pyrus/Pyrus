@@ -45,7 +45,7 @@ class PEAR2_Pyrus_ChannelRegistry_Channel extends PEAR2_Pyrus_ChannelFile_v1 imp
     function __set($var, $value)
     {
         parent::__set($var, $value);
-        $this->parent->update($this);
+        $this->_parent->update($this);
     }
 
     function toChannelFile()

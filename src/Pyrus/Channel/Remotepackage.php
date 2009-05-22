@@ -102,25 +102,27 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     function offsetGet($var)
     {
+        $lowerpackage = strtolower($var);
         try {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'p/' . strtolower($var) . '/info.xml');
+                                                    'p/' . $lowerpackage . '/info.xml');
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Channel_Exception('package ' . $var . ' does not exist', $e);
         }
         if (is_string($this->releaseList)) {
-            if (isset($this->parent->protocols->rest['REST1.0'])) {
-                $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                        'r/' . $lowerpackage . '/allreleases.xml');
-            } else {
-                $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
+            $ok = PEAR2_Pyrus_Installer::betterStates($this->releaseList, true);
+            if (isset($this->parent->protocols->rest['REST1.3'])) {
+                $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
                                                         'r/' . $lowerpackage . '/allreleases2.xml');
+            } else {
+                $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                        'r/' . $lowerpackage . '/allreleases.xml');
             }
-            if (!isset($info['r'][0])) {
-                $info['r'] = array($info['r']);
+            if (!isset($rinfo['r'][0])) {
+                $rinfo['r'] = array($rinfo['r']);
             }
             $releases = array();
-            foreach ($info['r'] as $release) {
+            foreach ($rinfo['r'] as $release) {
                 if (!in_array($release['s'], $ok)) {
                     continue;
                 }
@@ -230,30 +232,32 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         if (isset($this->parent->protocols->rest['REST1.2'])) {
             $maintainers = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.2']->baseurl .
                                                     'p/' . strtolower($this->name) . '/maintainers2.xml');
+            $maintainers = $maintainers['m'];
             if (!isset($maintainers[0])) {
                 $maintainers = array($maintainers);
             }
             $info = array('lead' => array(), 'developer' => array(), 'contributor' => array(), 'helper' => array());
             foreach ($maintainers as $maintainer) {
                 $minfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'm/' . $maintainer['u'] . '/info.xml');
+                                                    'm/' . $maintainer['h'] . '/info.xml');
                 $info[$maintainer['r']][] = array('name' => $minfo['n'],
-                                                  'user' => $maintainer['u'],
+                                                  'user' => $maintainer['h'],
                                                   'email' => '*hidden*',
                                                   'active' => 'yes');
             }
         } else {
             $maintainers = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'p/' . strtolower($this->name) . '/maintainers2.xml');
+                                                    'p/' . strtolower($this->name) . '/maintainers.xml');
+            $maintainers = $maintainers['m'];
             if (!isset($maintainers[0])) {
                 $maintainers = array($maintainers);
             }
-            $info = array('lead' => array());
+            $info = array('lead' => array(), 'developer' => array(), 'contributor' => array(), 'helper' => array());
             foreach ($maintainers as $maintainer) {
                 $minfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'm/' . $maintainer['u'] . '/info.xml');
+                                                    'm/' . $maintainer['h'] . '/info.xml');
                 $info['lead'][] = array('name' => $minfo['n'],
-                                        'user' => $maintainer['u'],
+                                        'user' => $maintainer['h'],
                                         'email' => '*hidden*',
                                         'active' => 'yes');
             }
