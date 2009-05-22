@@ -31,7 +31,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
     function __construct($path, $readonly = false)
     {
         $this->readonly = $readonly;
-        if (basename($path) !== 'php') {
+        if (!file_exists($path . '/.registry') && basename($path) !== 'php') {
             $path = $path . DIRECTORY_SEPARATOR . 'php';
         }
         $this->path = $path;
@@ -79,7 +79,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     private function _channelAliasFileName($alias)
     {
-        return $this->path . DIRECTORY_SEPARATOR . '.alias' .
+        return $this->_channelPath . DIRECTORY_SEPARATOR . '.alias' .
               DIRECTORY_SEPARATOR . str_replace('/', '_', strtolower($alias)) . '.txt';
     }
 

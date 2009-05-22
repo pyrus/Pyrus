@@ -370,10 +370,12 @@ class PEAR2_Pyrus_Config
      */
     static public function singleton($pearDirectory = false, $userfile = false)
     {
+        if ($pearDirectory && file_exists($pearDirectory)) {
+            $pearDirectory = realpath($pearDirectory);
+        }
         if (isset(self::$configs[$pearDirectory])) {
             return self::$configs[$pearDirectory];
         }
-
         self::$configs[$pearDirectory] = new static($pearDirectory, $userfile);
         return self::$configs[$pearDirectory];
     }

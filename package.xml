@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-21</date>
- <time>23:11:56</time>
+ <date>2009-05-22</date>
+ <time>09:34:39</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -483,7 +483,6 @@ Implemented features:
       <dir name="delete">
        <file role="test" name="delete.installed.phpt"/>
        <file role="test" name="delete.readonly.phpt"/>
-       <file role="test" name="external.php"/>
        <file role="test" name="external.phpt"/>
        <file role="test" name="internal.phpt"/>
       </dir>
@@ -544,14 +543,12 @@ Implemented features:
     </dir>
     <dir name="Config">
      <dir name="addConfigValue">
-      <file role="test" name="fail.php"/>
       <file role="test" name="fail.phpt"/>
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="configSnapshot">
       <file role="test" name="setup.php.inc"/>
-      <file role="test" name="test.php"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="constructDefaults">
@@ -1577,23 +1574,37 @@ Implemented features:
     </dir>
     <dir name="ScriptFrontend">
      <dir name="Commands">
+      <dir name="listPackages.pear1">
+       <dir name="php">
+        <dir name=".channels">
+         <dir name=".alias">
+          <file role="test" name="foo.txt"/>
+          <file role="test" name="pear.txt"/>
+          <file role="test" name="pecl.txt"/>
+         </dir>
+         <file role="test" name="pear.foo.com.reg"/>
+         <file role="test" name="pear.php.net.reg"/>
+         <file role="test" name="pecl.php.net.reg"/>
+         <file role="test" name="__uri.reg"/>
+        </dir>
+        <dir name=".registry">
+         <file role="test" name="archive_tar.reg"/>
+         <file role="test" name="console_getopt.reg"/>
+         <file role="test" name="pear.reg"/>
+         <file role="test" name="php_archive.reg"/>
+         <file role="test" name="structures_graph.reg"/>
+         <file role="test" name="text_diff.reg"/>
+         <file role="test" name="xdebug.reg"/>
+         <file role="test" name="xml_util.reg"/>
+        </dir>
+        <file role="test" name=".depdb"/>
+        <file role="test" name=".depdblock"/>
+        <file role="test" name=".filemap"/>
+        <file role="test" name=".lock"/>
+       </dir>
+      </dir>
       <dir name="packages">
        <file role="test" name="Net_URL-1.0.15.tar"/>
-      </dir>
-      <dir name="testit">
-       <dir name=".xmlregistry">
-        <dir name="channels">
-         <file role="test" name="channel-pear.php.net.xml"/>
-         <file role="test" name="channel-pear2.php.net.xml"/>
-         <file role="test" name="channel-pecl.php.net.xml"/>
-         <file role="test" name="channel-__uri.xml"/>
-         <file role="test" name="channelalias-pear.txt"/>
-         <file role="test" name="channelalias-pear2.txt"/>
-         <file role="test" name="channelalias-pecl.txt"/>
-         <file role="test" name="channelalias-__uri.txt"/>
-        </dir>
-       </dir>
-       <file role="test" name=".pear2registry"/>
       </dir>
       <file role="test" name="channelAdd.phpt"/>
       <file role="test" name="channelDel.phpt"/>
@@ -1605,8 +1616,10 @@ Implemented features:
       <file role="test" name="install.phpt"/>
       <file role="test" name="install_pear1package.phpt"/>
       <file role="test" name="listChannels.phpt"/>
+      <file role="test" name="listPackages.cascade.phpt"/>
       <file role="test" name="listPackages.empty.phpt"/>
       <file role="test" name="listPackages.full.phpt"/>
+      <file role="test" name="listPackages.pear1.phpt"/>
       <file role="test" name="set.phpt"/>
       <file role="test" name="setup.pearinstall.php.inc"/>
       <file role="test" name="uninstall.basic.phpt"/>
@@ -1666,16 +1679,16 @@ Implemented features:
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>

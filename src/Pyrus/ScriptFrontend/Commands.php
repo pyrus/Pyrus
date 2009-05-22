@@ -138,7 +138,8 @@ previous:
             $maybe = array_shift($arr);
             $maybe = realpath($maybe);
             echo "Using PEAR installation found at $maybe\n";
-            $config = PEAR2_Pyrus_Config::singleton($maybe);
+            $configclass = static::$configclass;
+            $config = $configclass::singleton($maybe);
             return;
         }
         $configclass = static::$configclass;
@@ -158,7 +159,8 @@ previous:
                     echo $path," exists, and is not a directory\n";
                     goto previous;
                 }
-                $config = PEAR2_Pyrus_Config::singleton($path);
+                $configclass = static::$configclass;
+                $config = $configclass::singleton($path);
                 $config->saveConfig();
                 echo "Thank you, enjoy using Pyrus\n";
                 echo "Documentation is at http://pear.php.net\n";
@@ -167,11 +169,13 @@ previous:
                 exit;
             }
         }
-        $mypath = PEAR2_Pyrus_Config::current()->my_pear_path;
+        $configclass = static::$configclass;
+        $mypath = $configclass::current()->my_pear_path;
         if ($mypath) {
             foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
                 echo "Using PEAR installation found at $path\n";
-                $config = PEAR2_Pyrus_Config::singleton($path);
+                $configclass = static::$configclass;
+                $config = $configclass::singleton($path);
                 return;
             }
         }
@@ -311,7 +315,10 @@ previous:
         $reg = PEAR2_Pyrus_Config::current()->registry;
         $creg = PEAR2_Pyrus_Config::current()->channelregistry;
         $cascade = array(array($reg, $creg));
-        while ($p = $reg->getParent() && $c = $creg->getParent()) {
+        $p = $reg;
+        $c = $creg;
+        while ($p = $p->getParent()) {
+            $c = $c->getParent();
             $cascade[] = array($p, $c);
         }
         array_reverse($cascade);
