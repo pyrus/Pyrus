@@ -14,7 +14,7 @@ restore_include_path();
 
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
-$cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__ . '/packages/Net_URL-1.0.15.tgz'));
+$cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__ . '/packages/Net_URL-1.0.15.tar'));
 
 $contents = ob_get_contents();
 ob_end_clean();

@@ -68,7 +68,7 @@ $config = &PEAR_Config::singleton($temp_path . '/pear.ini');
 
 // now install the package
 $pathtopackagexml = dirname(__FILE__) . DIRECTORY_SEPARATOR .
-    'packages'. DIRECTORY_SEPARATOR . 'Net_URL-1.0.15.tgz';
+    'packages'. DIRECTORY_SEPARATOR . 'Net_URL-1.0.15.tar';
 $ui = new PEAR_Frontend_CLI;
 $dp = new PEAR_Downloader($ui, array('offline' => true), $config);
 $result = $dp->download(array($pathtopackagexml));
