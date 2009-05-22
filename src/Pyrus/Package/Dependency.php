@@ -47,7 +47,12 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
     {
         static::processDependencies($info, $parentPackage);
         if (isset($toBeInstalled[$info->channel . '/' . $info->name])) {
-            return $toBeInstalled[$info->channel . '/' . $info->name];
+            $ret = $toBeInstalled[$info->channel . '/' . $info->name];
+            if ($parentPackage->isRemote() && $parentPackage->getExplicitState()
+                && $ret->isRemote() && !$ret->getExplicitState()) {
+                $ret->setExplicitState($parentPackage->getExplicitState());
+            }
+            return $ret;
         }
         if (isset($info->uri)) {
             $ret = new PEAR2_Pyrus_Package_Remote($info->uri);
@@ -55,6 +60,11 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
             $ret->name = $info->name;
             $ret->uri = $info->uri;
             return $ret;
+        }
+        if ($parentPackage->isRemote() && $parentPackage->getExplicitState()) {
+            // pass the same explicit state to the child dependency
+            return new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name . '-' .
+                                                  $info->getExplicitState());
         }
         return new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name);
     }

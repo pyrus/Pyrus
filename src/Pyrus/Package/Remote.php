@@ -27,7 +27,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
 {
     private $_info;
     protected $parsedname;
-    protected $explicitState;
+    protected $explicitState = false;
     protected $explicitVersion;
     protected $explicitGroup;
     protected $type;
@@ -56,6 +56,11 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             return true;
         }
         return $this->explicitVersion;
+    }
+
+    function getExplicitState()
+    {
+        return $this->explicitState;
     }
 
     /**
@@ -187,18 +192,22 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         }
 
         $this->type = 'abstract';
-        $ret = $this->getPackageDownloadUrl($pname);
+        $ret = $this->getRemotePackage($pname);
         if ($this->explicitVersion) {
             $ret->version['release'] = $this->explicitVersion;
+        }
+        if ($this->explicitState) {
+            $ret->setExplicitState($this->explicitState);
         }
         return $ret;
     }
 
     /**
      * @param array output of {@link parsePackageName()}
+     * @return PEAR2_Pyrus_Channel_RemotePackage
      * @access private
      */
-    function getPackageDownloadUrl($parr)
+    function getRemotePackage($parr)
     {
         // getDownloadURL returns an array.  On error, it only contains information
         // on the latest release as array(version, info).  On success it contains

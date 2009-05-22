@@ -31,6 +31,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     protected $remotedeps;
     protected $remoteAbridgedInfo;
     protected $versionSet = false;
+    protected $minimumStability;
 
     function __construct(PEAR2_Pyrus_IChannelFile $channelinfo, $releases = null)
     {
@@ -42,6 +43,25 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         $this->rawMap['rawversion'] = array('setRawVersion');
         $this->rest = new PEAR2_Pyrus_REST;
         $this->releaseList = $releases;
+        $this->minimumStability = PEAR2_Pyrus_Config::current()->preferred_state;
+    }
+
+    /**
+     * Sets the minimum stability allowed.
+     *
+     * This is set by a call to a package such as "pyrus install Pname-stable"
+     * or "pyrus install Pname-beta"
+     *
+     * The stability is only changed if it is less stable than preferred_state.
+     * @param string
+     */
+    function setExplicitState($stability)
+    {
+        $states = PEAR2_Pyrus_Installer::betterStates($this->minimumStability);
+        $newstates = PEAR2_Pyrus_Installer::betterStates($stability);
+        if (count($newstates) > count($states)) {
+            $this->minimumStability = $stability;
+        }
     }
 
     function setRawVersion($var, $value)
@@ -287,6 +307,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     {
         // set up release list if not done yet
         $this->rewind();
+        $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
         foreach ($this->releaseList as $versioninfo) {
             if (isset($versioninfo['m'])) {
                 // minimum PHP version required
@@ -318,6 +339,11 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                     $this->version['release'] = $versioninfo['v'];
                     return;
                 }
+                continue;
+            }
+
+            if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
+                // release is not stable enough
                 continue;
             }
             // found one
