@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-05-21</date>
- <time>23:07:49</time>
+ <time>23:11:56</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -1578,7 +1578,7 @@ Implemented features:
     <dir name="ScriptFrontend">
      <dir name="Commands">
       <dir name="packages">
-       <file role="test" name="Net_URL-1.0.15.tgz"/>
+       <file role="test" name="Net_URL-1.0.15.tar"/>
       </dir>
       <dir name="testit">
        <dir name=".xmlregistry">
