@@ -157,34 +157,34 @@ class PEAR2_Pyrus_Installer
      */
     static function prepareDependencies(PEAR2_Pyrus_IPackage $package)
     {
-        foreach ($package->dependencies['required']->package as $dep) {
-            if ($dep->conflicts) {
-                continue;
+        foreach (array('package', 'subpackage') as $p) {
+            foreach ($package->dependencies['required']->$p as $dep) {
+                if ($dep->conflicts) {
+                    continue;
+                }
+                PEAR2_Pyrus_Package_Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
             }
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
-        }
-        foreach ($package->dependencies['required']->subpackage as $dep) {
-            if ($dep->conflicts) {
-                continue;
-            }
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
         }
         if ($package->requestedGroup) {
-            foreach ($package->dependencies['group']->{$package->requestedGroup}->package as $dep) {
-                static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
-            }
-            foreach ($package->dependencies['group']->{$package->requestedGroup}->subpackage as $dep) {
-                static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
+            foreach (array('package', 'subpackage') as $p) {
+                foreach ($package->dependencies['group']->{$package->requestedGroup}->$p as $dep) {
+                    if ($dep->conflicts) {
+                        continue;
+                    }
+                    PEAR2_Pyrus_Package_Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
+                }
             }
         }
         if (!isset(static::$options['optionaldeps'])) {
             return;
         }
-        foreach ($package->dependencies['optional']->package as $dep) {
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
-        }
-        foreach ($package->dependencies['optional']->subpackage as $dep) {
-            static::prepare(PEAR2_Pyrus_Package_Dependency::retrieve(static::$installPackages, $dep, $package), true);
+        foreach (array('package', 'subpackage') as $p) {
+            foreach ($package->dependencies['optional']->$p as $dep) {
+                if ($dep->conflicts) {
+                    continue;
+                }
+                PEAR2_Pyrus_Package_Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
+            }
         }
     }
 

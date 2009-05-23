@@ -75,6 +75,15 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         }
 
         $internal = $this->internal->download();
+        if ($internal->name != $this->name) {
+            throw new PEAR2_Pyrus_Package_Exception('Invalid package downloaded, package name changed from ' .
+                                                    $this->name . ' to ' . $internal->name);
+        }
+        if ($internal->channel != $this->channel) {
+            throw new PEAR2_Pyrus_Package_Exception('SECURITY ERROR: package is claiming to be from ' .
+                                                    'channel ' . $internal->channel . ', but we are ' .
+                                                    'channel ' . $this->name);
+        }
         $internal->setFrom($this->internal);
         $this->internal = $internal;
         return $this->internal;
@@ -173,12 +182,10 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         $this->explicitState = isset($pname['state']) ? $pname['state'] : false;
         $this->explicitGroup = isset($pname['group']) ? true            : false;
 
-        try {
-            $version = PEAR2_Pyrus_Config::current()->registry->info($pname['package'],
-                $pname['channel'], 'version');
-        } catch (Exception $e) {
-            $version = null;
-        }
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $version = $reg->info($pname['package'], $pname['channel'], 'version');
+        $stability = $reg->info($pname['package'], $pname['channel'], 'state');
+
         if (!isset(PEAR2_Pyrus_Installer::$options['force']) &&
               !isset(PEAR2_Pyrus_Installer::$options['downloadonly']) &&
               $version && $this->explicitVersion &&
@@ -188,6 +195,17 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
                     PEAR2_Pyrus_Config::parsedPackageNameToString($parr, true) .
                     ' is already installed and is newer than detected ' .
                     'release version ' . $pname['version']);
+            }
+        }
+        if (!$this->explicitVersion && $stability) {
+            // if installed, use stability of the installed package,
+            // but only if it is less restrictive than preferred_state.
+            // This allows automatic upgrade to a newer beta for 1 package
+            // even if preferred_state is stable, for instance.
+            $states = PEAR2_Pyrus_Installer::betterStates(PEAR2_Pyrus_Config::current()->preferred_state);
+            $newstates = PEAR2_Pyrus_Installer::betterStates($stability);
+            if (count($newstates) > count($states)) {
+                $this->explicitState = $stability;
             }
         }
 

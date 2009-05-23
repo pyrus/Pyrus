@@ -42,9 +42,31 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
      * instantiate a new dependency package object
      * @return PEAR2_Pyrus_IPackage
      */
-    static function retrieve(array $toBeInstalled, PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $info,
+    static function retrieve($installerclass, array $toBeInstalled,
+                             PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $info,
                              PEAR2_Pyrus_Package $parentPackage)
     {
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        // first check to see if the dependency is installed
+        if (isset($reg->package[$info->channel . '/' . $info->name])) {
+            $version = $reg->info($info->name, $info->channel, 'version');
+            $stability = $reg->info($info->name, $info->channel, 'state');
+            // see if there are new versions in our stability or better
+            $remote = new PEAR2_Pyrus_Channel_Remotepackage(PEAR2_Pyrus_Config::current()
+                                                            ->channelregistry[$info->channel], $stability);
+            $found = false;
+            foreach ($remote[$info->name] as $remoteversion) {
+                if (version_compare($remoteversion, $version, '<=')) {
+                    continue;
+                }
+                // found one, so upgrade is possible
+                $found = true;
+            }
+            // the installed package version satisfies this dependency, don't do anything
+            if (!$found) {
+                return;
+            }
+        }
         static::processDependencies($info, $parentPackage);
         if (isset($toBeInstalled[$info->channel . '/' . $info->name])) {
             $ret = $toBeInstalled[$info->channel . '/' . $info->name];
@@ -52,21 +74,21 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                 && $ret->isRemote() && !$ret->getExplicitState()) {
                 $ret->setExplicitState($parentPackage->getExplicitState());
             }
-            return $ret;
+            return $installerclass::prepare($ret, true);
         }
         if (isset($info->uri)) {
             $ret = new PEAR2_Pyrus_Package_Remote($info->uri);
             // set up the basics
             $ret->name = $info->name;
             $ret->uri = $info->uri;
-            return $ret;
+            return $installerclass::prepare($ret, true);
         }
         if ($parentPackage->isRemote() && $parentPackage->getExplicitState()) {
             // pass the same explicit state to the child dependency
-            return new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name . '-' .
-                                                  $parentPackage->getExplicitState());
+            return $installerclass::prepare(new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name . '-' .
+                                                  $parentPackage->getExplicitState()), true);
         }
-        return new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name);
+        return $installerclass::prepare(new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name), true);
     }
 
     /**
