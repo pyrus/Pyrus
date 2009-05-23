@@ -64,7 +64,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
         if ($parentPackage->isRemote() && $parentPackage->getExplicitState()) {
             // pass the same explicit state to the child dependency
             return new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name . '-' .
-                                                  $info->getExplicitState());
+                                                  $parentPackage->getExplicitState());
         }
         return new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name);
     }
