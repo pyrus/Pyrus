@@ -212,6 +212,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         $this->type = 'abstract';
         $ret = $this->getRemotePackage($pname);
         if ($this->explicitVersion) {
+            $ret->setExplicitVersion($this->explicitVersion);
             $ret->version['release'] = $this->explicitVersion;
         }
         if ($this->explicitState) {

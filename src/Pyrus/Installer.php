@@ -105,7 +105,9 @@ class PEAR2_Pyrus_Installer
     static function prepare(PEAR2_Pyrus_IPackage $package, $isdep = false)
     {
         if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
-            if (PEAR2_Pyrus_Config::current()->registry->exists(
+            // checking of validity for upgrade is done by PEAR2_Pyrus_Package_Dependency::retrieve(),
+            // so all deps that make it this far can be added
+            if (!$isdep && PEAR2_Pyrus_Config::current()->registry->exists(
                   $package->name, $package->channel)) {
                 if (version_compare($package->version['release'],
                       PEAR2_Pyrus_Config::current()->registry->info(
@@ -276,6 +278,16 @@ class PEAR2_Pyrus_Installer
             $allpackages = static::$installPackages;
             $done = !count($packages);
         } while (!$done);
+        if (!isset(self::$options['force'])) {
+            // now iterate over the list and remove any packages that are installed with this version
+            $packages = static::$installPackages;
+            $reg = PEAR2_Pyrus_Config::current()->registry;
+            foreach ($packages as $key => $package) {
+                if ($reg->info($package->name, $package->channel, 'version') === $package->version['release']) {
+                    unset(static::$installPackages[$key]);
+                }
+            }
+        }
     }
 
     /**

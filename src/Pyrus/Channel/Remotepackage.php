@@ -32,6 +32,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     protected $remoteAbridgedInfo;
     protected $versionSet = false;
     protected $minimumStability;
+    protected $explicitVersion;
 
     function __construct(PEAR2_Pyrus_IChannelFile $channelinfo, $releases = null)
     {
@@ -44,6 +45,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         $this->rest = new PEAR2_Pyrus_REST;
         $this->releaseList = $releases;
         $this->minimumStability = PEAR2_Pyrus_Config::current()->preferred_state;
+        $this->explicitVersion = false;
     }
 
     /**
@@ -62,6 +64,11 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         if (count($newstates) > count($states)) {
             $this->minimumStability = $stability;
         }
+    }
+
+    function setExplicitVersion($version)
+    {
+        $this->explicitVersion = $version;
     }
 
     function setRawVersion($var, $value)
@@ -308,28 +315,41 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         // set up release list if not done yet
         $this->rewind();
         $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
+        $v = $this->explicitVersion;
+        $n = $this->channel . '/' . $this->name;
+        $failIfExplicit = function() use ($v, $n) {
+            if ($v && $versioninfo['v'] == $v) {
+                throw new PEAR2_Pyrus_Channel_Exception($n .
+                                                        ' Cannot be installed, it does not satisfy ' .
+                                                        'all dependencies');
+            }
+        };
         foreach ($this->releaseList as $versioninfo) {
             if (isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
+                    $failIfExplicit();
                     continue;
                 }
             }
             // now check for versions satisfying the dependency
             if (isset($compositeDep->min)) {
                 if (version_compare($versioninfo['v'], $compositeDep->min, '<')) {
+                    $failIfExplicit();
                     continue;
                 }
             }
             if (isset($compositeDep->exclude)) {
                 foreach ($compositeDep->exclude as $exclude) {
                     if ($versioninfo['v'] == $exclude) {
+                        $failIfExplicit();
                         continue 2;
                     }
                 }
             }
             if (isset($compositeDep->max)) {
                 if (version_compare($versioninfo['v'], $compositeDep->max, '>')) {
+                    $failIfExplicit();
                     continue;
                 }
             }
@@ -346,9 +366,13 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 // release is not stable enough
                 continue;
             }
+            if ($this->explicitVersion && $versioninfo['v'] != $this->explicitVersion) {
+                continue;
+            }
             // found one
             if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {
                 // inform the installer we need to reset dependencies
+                $this->version['release'] = $versioninfo['v'];
                 return true;
             }
             $this->version['release'] = $versioninfo['v'];

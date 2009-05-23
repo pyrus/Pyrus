@@ -36,6 +36,11 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
      */
     static protected $packageDepTree = array();
 
+    static function getPHPVersion()
+    {
+        return phpversion();
+    }
+
     /**
      * Check to see if any packages in the list of packages to be installed
      * satisfy this dependency, and return one if found, otherwise
@@ -47,27 +52,42 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                              PEAR2_Pyrus_Package $parentPackage)
     {
         $reg = PEAR2_Pyrus_Config::current()->registry;
+        static::processDependencies($info, $parentPackage);
         // first check to see if the dependency is installed
         if (isset($reg->package[$info->channel . '/' . $info->name])) {
+            if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
+                // we don't attempt to upgrade a dep unless we're upgrading
+                return;
+            }
             $version = $reg->info($info->name, $info->channel, 'version');
             $stability = $reg->info($info->name, $info->channel, 'state');
+            if ($parentPackage->getExplicitState()) {
+                $installedstability = PEAR2_Pyrus_Installer::betterStates($stability);
+                $parentstability = PEAR2_Pyrus_Installer::betterStates($parentPackage->getExplicitState());
+                if (count($parentstability) > count($installedstability)) {
+                    $stability = $parentPackage->getExplicitState();
+                }
+            }
             // see if there are new versions in our stability or better
             $remote = new PEAR2_Pyrus_Channel_Remotepackage(PEAR2_Pyrus_Config::current()
                                                             ->channelregistry[$info->channel], $stability);
             $found = false;
-            foreach ($remote[$info->name] as $remoteversion) {
+            foreach ($remote[$info->name] as $remoteversion => $rinfo) {
                 if (version_compare($remoteversion, $version, '<=')) {
+                    continue;
+                }
+                if (version_compare($rinfo['minimumphp'], static::getPHPversion(), '>')) {
                     continue;
                 }
                 // found one, so upgrade is possible
                 $found = true;
+                break;
             }
             // the installed package version satisfies this dependency, don't do anything
             if (!$found) {
                 return;
             }
         }
-        static::processDependencies($info, $parentPackage);
         if (isset($toBeInstalled[$info->channel . '/' . $info->name])) {
             $ret = $toBeInstalled[$info->channel . '/' . $info->name];
             if ($parentPackage->isRemote() && $parentPackage->getExplicitState()
@@ -103,8 +123,8 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
     {
         static::$dependencyTree[$info->channel . '/' . $info->name]
                                [$parentPackage->channel . '/' . $parentPackage->name] = $info;
-        static::$packageDepTree[$parentPackage->channel . '/' . $parentPackage->name][]
-            = $info->channel . '/' . $info->name;
+        static::$packageDepTree[$parentPackage->channel . '/' . $parentPackage->name]
+            [$info->channel . '/' . $info->name] = 1;
     }
 
     /**
@@ -112,18 +132,18 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
      */
     static function removePackage(PEAR2_Pyrus_Package $info)
     {
-        var_dump('removing ' . $info->channel . '/' . $info->name);
         if (!isset(static::$packageDepTree[$info->channel . '/' . $info->name])) {
             return array();
         }
         $ret = array();
-        foreach (static::$packageDepTree[$info->channel . '/' . $info->name] as $package) {
+        foreach (static::$packageDepTree[$info->channel . '/' . $info->name] as $package => $unused) {
             unset(static::$dependencyTree[$package][$info->channel . '/' . $info->name]);
             if (!count(static::$dependencyTree[$package])) {
                 $ret[] = $package;
                 unset(static::$dependencyTree[$package]);
             }
         }
+        unset(static::$packageDepTree[$info->channel . '/' . $info->name]);
         return $ret;
     }
 

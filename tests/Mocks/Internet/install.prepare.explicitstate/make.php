@@ -11,12 +11,13 @@
  *
  * P3-1.1.0RC1 beta
  * P3-1.1.0
+ * P3-1.0.0         -> P2 <= 1.0.0
  *
  * Install of P1-beta and P3 should install
  *
  *  - P1-1.1.0RC1
  *  - P2-1.1.0RC3
- *  - P3-1.0.0
+ *  - P3-1.1.0
  */
 
 require __DIR__ . '/../../../../../autoload.php';
@@ -76,6 +77,12 @@ $p3beta->stability['release'] = 'beta';
 $p3beta->version['release'] = '1.1.0RC1';
 $p3beta->date = '2008-11-03';
 
+$p32 = clone $p3;
+$p32->version['release'] = '1.0.0';
+$p3->version['release'] = '1.1.0';
+
+$p32->dependencies['required']->package['pear2.php.net/P2']->max('1.0.0');
+
 $pf->files['glooby1'] =  array('role' => 'php');
 $pf_beta->files['glooby1'] =  array('role' => 'php');
 $p2->files['glooby2'] = array('role' => 'php');
@@ -83,6 +90,7 @@ $p2beta->files['glooby2'] = array('role' => 'php');
 $p2alpha->files['glooby2'] = array('role' => 'php');
 $p3->files['glooby3'] = array('role' => 'php');
 $p3beta->files['glooby3'] = array('role' => 'php');
+$p32->files['glooby3'] = array('role' => 'php');
 
 file_put_contents(__DIR__ . '/package.xml', $pf);
 
@@ -124,6 +132,14 @@ $package2->setInternalPackage($xml);
 file_put_contents(__DIR__ . '/package.xml', $p2alpha);
 $package2->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package2, 'cellog');
+
+$package3 = new PEAR2_Pyrus_Package(false);
+$xmlcontainer = new PEAR2_Pyrus_PackageFile($p32);
+$xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package3, $xmlcontainer);
+$package3->setInternalPackage($xml);
+file_put_contents(__DIR__ . '/package.xml', $p32);
+$package3->archivefile = __DIR__ . '/package.xml';
+$scs->saveRelease($package3, 'cellog');
 
 $package3 = new PEAR2_Pyrus_Package(false);
 $xmlcontainer = new PEAR2_Pyrus_PackageFile($p3);
