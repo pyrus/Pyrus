@@ -59,7 +59,7 @@ $pf_beta->version['release'] = '1.1.0RC1';
 $pf_beta->stability['release'] = 'beta';
 $pf_beta->date = '2008-11-03';
 
-$p2 = clone $pf;
+$p2 = clone $save;
 $p2->name = 'P2';
 $p2beta = clone $p2;
 $p2beta->date = '2008-11-03';
@@ -70,7 +70,7 @@ $p2alpha->date = '2008-12-03';
 $p2alpha->version['release'] = '1.2.0a1';
 $p2alpha->stability['release'] = 'alpha';
 
-$p3 = clone $pf;
+$p3 = clone $save;
 $p3->name = 'P3';
 $p3beta = clone $p3;
 $p3beta->stability['release'] = 'beta';

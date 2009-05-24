@@ -68,6 +68,12 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                 if (count($parentstability) > count($installedstability)) {
                     $stability = $parentPackage->getExplicitState();
                 }
+            } else {
+                $installedstability = PEAR2_Pyrus_Installer::betterStates($stability);
+                $prefstability = PEAR2_Pyrus_Installer::betterStates(PEAR2_Pyrus_Config::current()->preferred_state);
+                if (count($prefstability) > count($installedstability)) {
+                    $stability = PEAR2_Pyrus_Config::current()->preferred_state;
+                }
             }
             // see if there are new versions in our stability or better
             $remote = new PEAR2_Pyrus_Channel_Remotepackage(PEAR2_Pyrus_Config::current()

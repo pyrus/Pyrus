@@ -218,8 +218,9 @@ previous:
                 PEAR2_Pyrus_Installer::prepare($packages[] = new PEAR2_Pyrus_Package($arg));
             }
             PEAR2_Pyrus_Installer::commit();
-            foreach ($packages as $package) {
-                echo 'Installed ' . $package->channel . '/' . $package->name . '-' . $package->version['release'] . "\n";
+            foreach (PEAR2_Pyrus_Installer::getInstalledPackages() as $package) {
+                echo 'Installed ' . $package->channel . '/' . $package->name . '-' .
+                    $package->version['release'] . "\n";
             }
         } catch (Exception $e) {
             echo $e;

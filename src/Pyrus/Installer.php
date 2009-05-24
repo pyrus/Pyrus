@@ -253,6 +253,7 @@ class PEAR2_Pyrus_Installer
             foreach ($allpackages as $package => $info) {
                 if (!$info->isRemote()) {
                     // anything downloaded is good
+                    static::prepareDependencies($info);
                     continue;
                 }
                 $dep = PEAR2_Pyrus_Package_Dependency::getCompositeDependency($info);
@@ -332,8 +333,11 @@ class PEAR2_Pyrus_Installer
             try {
                 PEAR2_Pyrus_AtomicFileTransaction::begin();
                 foreach ($graph as $package) {
+                    if (isset(static::$installedPackages[$package->channel . '/' . $package->name])) {
+                        continue;
+                    }
                     $installer->install($package);
-                    static::$installedPackages[] = $package;
+                    static::$installedPackages[$package->channel . '/' . $package->name] = $package;
                 }
                 PEAR2_Pyrus_AtomicFileTransaction::commit();
             } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
@@ -348,8 +352,8 @@ class PEAR2_Pyrus_Installer
                 } catch (\Exception $e) {
                     $previous = null;
                 }
-                static::$registeredPackages[] = array($package, $previous);
                 $reg->install($package->getPackageFile()->info);
+                static::$registeredPackages[] = array($package, $previous);
             }
             static::$installPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
@@ -360,6 +364,11 @@ class PEAR2_Pyrus_Installer
             static::rollback();
             throw $e;
         }
+    }
+
+    static function getInstalledPackages()
+    {
+        return static::$installedPackages;
     }
 
     /**

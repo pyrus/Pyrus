@@ -27,6 +27,9 @@ PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package(__DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P2-1.0.0.tar'));
 PEAR2_Pyrus_Installer::commit();
 
+$test->assertEquals(true, isset(PEAR2_Pyrus_Config::current()->registry->package['pear2.php.net/P2']),
+    'ensure setup install of P2 worked');
+
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 $cli->run($args = array (__DIR__ . '/testit', 'upgrade', __DIR__ .
