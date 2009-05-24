@@ -102,18 +102,16 @@ class PEAR2_Pyrus_Installer
      * and manages removing duplicates or erroring out on a conflict
      * @param PEAR2_Pyrus_Package $package
      */
-    static function prepare(PEAR2_Pyrus_IPackage $package, $isdep = false)
+    static function prepare(PEAR2_Pyrus_IPackage $package)
     {
         if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
             // checking of validity for upgrade is done by PEAR2_Pyrus_Package_Dependency::retrieve(),
             // so all deps that make it this far can be added
-            if (!$isdep && PEAR2_Pyrus_Config::current()->registry->exists(
+            if (PEAR2_Pyrus_Config::current()->registry->exists(
                   $package->name, $package->channel)) {
-                if (version_compare($package->version['release'],
-                      PEAR2_Pyrus_Config::current()->registry->info(
-                        $package->name, $package->channel, 'version'), '<=')) {
-                    // installed package is the same or newer version than this one
+                if (!$package->isUpgradeable()) {
                     if (!isset(static::$options['force'])) {
+                        // installed package is the same or newer version than this one
                         PEAR2_Pyrus_Log::log(1, 'Skipping installed package ' .
                             $package->channel . '/' . $package->name);
                         return;
@@ -201,6 +199,9 @@ class PEAR2_Pyrus_Installer
             $err = new PEAR2_MultiErrors;
             foreach (static::$registeredPackages as $package) {
                 try {
+                    if (!$reg->exists($package[0]->name, $package[0]->channel)) {
+                        continue;
+                    }
                     $reg->uninstall($package[0]->name, $package[0]->channel);
                     if ($package[1]) {
                         $reg->install($package[1]);
@@ -210,10 +211,12 @@ class PEAR2_Pyrus_Installer
                 }
             }
             foreach (static::$removedPackages as $package) {
-                try {
-                    $reg->uninstall($package->name, $package->channel);
-                } catch (Exception $e) {
-                    $err->E_ERROR[] = $e;
+                if (!$reg->exists($package->name, $package->channel)) {
+                    try {
+                        $reg->uninstall($package->name, $package->channel);
+                    } catch (Exception $e) {
+                        $err->E_ERROR[] = $e;
+                    }
                 }
                 try {
                     $reg->install($package->getPackageFile()->info);

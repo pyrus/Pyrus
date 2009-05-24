@@ -54,6 +54,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
         $reg = PEAR2_Pyrus_Config::current()->registry;
         static::processDependencies($info, $parentPackage);
         // first check to see if the dependency is installed
+        $canupgrade = false;
         if (isset($reg->package[$info->channel . '/' . $info->name])) {
             if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
                 // we don't attempt to upgrade a dep unless we're upgrading
@@ -61,7 +62,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
             }
             $version = $reg->info($info->name, $info->channel, 'version');
             $stability = $reg->info($info->name, $info->channel, 'state');
-            if ($parentPackage->getExplicitState()) {
+            if ($parentPackage->isRemote() && $parentPackage->getExplicitState()) {
                 $installedstability = PEAR2_Pyrus_Installer::betterStates($stability);
                 $parentstability = PEAR2_Pyrus_Installer::betterStates($parentPackage->getExplicitState());
                 if (count($parentstability) > count($installedstability)) {
@@ -79,7 +80,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                 if (version_compare($rinfo['minimumphp'], static::getPHPversion(), '>')) {
                     continue;
                 }
-                // found one, so upgrade is possible
+                // found one, so upgrade is possible if dependencies pass
                 $found = true;
                 break;
             }
@@ -87,6 +88,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
             if (!$found) {
                 return;
             }
+            $canupgrade = true;
         }
         if (isset($toBeInstalled[$info->channel . '/' . $info->name])) {
             $ret = $toBeInstalled[$info->channel . '/' . $info->name];
@@ -94,21 +96,32 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
                 && $ret->isRemote() && !$ret->getExplicitState()) {
                 $ret->setExplicitState($parentPackage->getExplicitState());
             }
-            return $installerclass::prepare($ret, true);
+            if ($ret->isRemote() && $canupgrade) {
+                $ret->setUpgradeable();
+            }
+            return $installerclass::prepare($ret);
         }
         if (isset($info->uri)) {
             $ret = new PEAR2_Pyrus_Package_Remote($info->uri);
             // set up the basics
             $ret->name = $info->name;
             $ret->uri = $info->uri;
-            return $installerclass::prepare($ret, true);
+            return $installerclass::prepare($ret);
         }
         if ($parentPackage->isRemote() && $parentPackage->getExplicitState()) {
             // pass the same explicit state to the child dependency
-            return $installerclass::prepare(new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name . '-' .
-                                                  $parentPackage->getExplicitState()), true);
+            $ret = new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name . '-' .
+                                                  $parentPackage->getExplicitState());
+            if ($canupgrade) {
+                $ret->setUpgradeable();
+            }
+            return $installerclass::prepare($ret);
         }
-        return $installerclass::prepare(new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name), true);
+        $ret = new PEAR2_Pyrus_Package_Remote($info->channel . '/' . $info->name);
+        if ($canupgrade) {
+            $ret->setUpgradeable();
+        }
+        return $installerclass::prepare($ret);
     }
 
     /**

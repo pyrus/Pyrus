@@ -33,6 +33,10 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     protected $versionSet = false;
     protected $minimumStability;
     protected $explicitVersion;
+    /**
+     * Flag used to determine whether this package has been tested for upgradeability
+     */
+    protected $isUpgradeable = null;
 
     function __construct(PEAR2_Pyrus_IChannelFile $channelinfo, $releases = null)
     {
@@ -69,6 +73,16 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     function setExplicitVersion($version)
     {
         $this->explicitVersion = $version;
+    }
+
+    function setUpgradeable()
+    {
+        $this->isUpgradeable = true;
+    }
+
+    function isUpgradeable()
+    {
+        return $this->isUpgradeable;
     }
 
     function setRawVersion($var, $value)

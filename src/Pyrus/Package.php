@@ -104,6 +104,11 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         return $this->internal->isNewPackage();
     }
 
+    function isUpgradeable()
+    {
+        return $this->internal->isUpgradeable();
+    }
+
     function getFrom()
     {
         if ($this->from) {

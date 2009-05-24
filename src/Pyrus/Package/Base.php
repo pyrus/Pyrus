@@ -56,6 +56,20 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         return true;
     }
 
+    function isUpgradeable()
+    {
+        if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
+            // we don't attempt to upgrade a dep unless we're upgrading
+            return false;
+        }
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $version = $reg->info($this->name, $info->channel, 'version');
+        if (version_compare($this->version, $version, '<=')) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * This test tells the installer whether to run any package-info
      * replacement tasks.

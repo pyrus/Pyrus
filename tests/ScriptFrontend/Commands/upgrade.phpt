@@ -19,6 +19,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
 PEAR2_Pyrus_REST::$downloadClass = 'Internet';
+PEAR2_Pyrus_Package_Remote::$downloadClass = 'Internet';
 
 PEAR2_Pyrus_Installer::begin();
 PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package(__DIR__ .

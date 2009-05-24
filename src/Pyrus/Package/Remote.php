@@ -31,6 +31,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     protected $explicitVersion;
     protected $explicitGroup;
     protected $type;
+    protected $isUpgradeable = null;
     /**
      * For easy unit testing
      */
@@ -61,6 +62,56 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     function getExplicitState()
     {
         return $this->explicitState;
+    }
+
+    function setUpgradeable()
+    {
+        $this->isUpgradeable = true;
+    }
+
+    function isUpgradeable()
+    {
+        if ($this->isUpgradeable === null) {
+            // we are not a dependency, so figure out a version that could work
+            if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
+                // we don't attempt to upgrade a dep unless we're upgrading
+                return;
+            }
+            $reg = PEAR2_Pyrus_Config::current()->registry;
+            $version = $reg->info($this->name, $this->channel, 'version');
+            $stability = $reg->info($this->name, $this->channel, 'state');
+            if ($this->explicitState) {
+                $stability = $this->explicitState;
+            } else {
+                $installedstability = PEAR2_Pyrus_Installer::betterStates($stability);
+                $preferred = PEAR2_Pyrus_Installer::betterStates($pref =PEAR2_Pyrus_Config::current()->preferred_state);
+                if (count($preferred) < count($installedstability)) {
+                    $stability = $pref;
+                }
+            }
+            // see if there are new versions in our stability or better
+            $remote = new PEAR2_Pyrus_Channel_Remotepackage(PEAR2_Pyrus_Config::current()
+                                                            ->channelregistry[$this->channel], $stability);
+            $found = false;
+            foreach ($remote[$this->name] as $remoteversion => $rinfo) {
+                if (version_compare($remoteversion, $version, '<=')) {
+                    continue;
+                }
+                if (version_compare($rinfo['minimumphp'], phpversion(), '>')) {
+                    continue;
+                }
+                // found one, so upgrade is possible if dependencies pass
+                $found = true;
+                break;
+            }
+            // the installed package version satisfies this dependency, don't do anything
+            if (!$found) {
+                $this->isUpgradeable = false;
+            } else {
+                $this->isUpgradeable = true;
+            }
+        }
+        return $this->isUpgradeable;
     }
 
     /**
