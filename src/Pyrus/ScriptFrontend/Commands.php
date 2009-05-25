@@ -31,6 +31,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
     public $commands = array();
     // for unit-testing ease
     public static $configclass = 'PEAR2_Pyrus_Config';
+    public static $downloadClass = 'PEAR2_HTTP_Request';
 
     function __construct()
     {
@@ -378,25 +379,33 @@ previous:
      */
     function channelDiscover($args)
     {
-        $chan = 'http://' . $args[0] . '/channel.xml';
-        $http = new PEAR2_HTTP_Request($chan);
+        // try secure first
+        $chan = 'https://' . $args[0] . '/channel.xml';
+        $dl = self::$downloadClass;
+        $http = new $dl($chan);
         try {
             $response = $http->sendRequest();
+            if ($response->code != 200) {
+                throw new Exception('Download of channel.xml failed');
+            }
+addchan_success:    
+            $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($response->body, true));
+            PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
+            echo "Discovery of channel ", $chan->name, " successful\n";
         } catch (Exception $e) {
-            // try secure
             try {
-                $chan = 'https://' . $args[0] . '/channel.xml';
-                $http = new PEAR2_HTTP_Request($chan);
+                $chan = 'http://' . $args[0] . '/channel.xml';
+                $http = new $dl($chan);
                 $response = $http->sendRequest();
-            } catch (Exception $u) {
+                if ($response->code != 200) {
+                    throw new Exception('Download of channel.xml failed');
+                }
+                goto addchan_success;
+            } catch (Exception $e) {
                 // failed, re-throw original error
-                throw $e;
+                echo "Discovery of channel ", $args[0], " failed: ", $e->getMessage();
             }
         }
-
-        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($response->body, true));
-        PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
-        echo "Discovery of channel ", $chan->name, " successful\n";
     }
 
     /**
