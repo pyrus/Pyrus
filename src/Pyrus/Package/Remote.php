@@ -140,6 +140,15 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         return $this->internal;
     }
 
+    function copyTo($where)
+    {
+        $old = PEAR2_Pyrus_Config::current()->download_dir;
+        PEAR2_Pyrus_Config::current()->download_dir = $where;
+        $this->download();
+        PEAR2_Pyrus_Config::current()->download_dir = $old;
+        return;
+    }
+
     protected function fromUrl($param, $saveparam = '')
     {
         $this->type = 'url';
@@ -191,7 +200,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     {
         try {
             $pname = PEAR2_Pyrus_Config::parsePackageName($param, true);
-        } catch (Exception $e) {
+        } catch (PEAR2_Pyrus_ChannelRegistry_ParseException $e) {
             if ($e->why !== 'channel') {
                 throw new PEAR2_Pyrus_Package_Exception(
                     'invalid package name/package file "' . $param . '"', $e);

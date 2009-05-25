@@ -36,4 +36,9 @@ interface PEAR2_Pyrus_IPackage extends ArrayAccess, PEAR2_Pyrus_IPackageFile
      * @return PEAR2_Pyrus_IPackageFile
      */
     function getPackageFileObject();
+    /**
+     * Used by the download command to relocate a local tarball to the
+     * download directory
+     */
+    function copyTo($where);
 }

@@ -109,6 +109,12 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         return $this->_packagename;
     }
 
+    function copyTo($where)
+    {
+        copy($this->_packagename, $where . DIRECTORY_SEPARATOR . basename($this->_packagename));
+        $this->_packagename = $where . DIRECTORY_SEPARATOR . basename($this->_packagename);
+    }
+
     function __get($var)
     {
         if ($var === 'archivefile') {

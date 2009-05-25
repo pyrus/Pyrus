@@ -11,6 +11,10 @@
   <s>beta</s>
  </r>
  <r>
+  <v>1.1.0RC2</v> <!-- to test broken REST -->
+  <s>beta</s>
+ </r>
+ <r>
   <v>1.0.0</v>
   <s>stable</s>
  </r>

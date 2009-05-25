@@ -176,6 +176,11 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         }
     }
 
+    function copyTo($where)
+    {
+        $this->internal->copyTo($where);
+    }
+
     static function parsePackageDescription($package)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {

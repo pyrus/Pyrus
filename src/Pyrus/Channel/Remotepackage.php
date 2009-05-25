@@ -109,6 +109,26 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     function download()
     {
+        if (!$this->versionSet) {
+            // this happens when doing a simple download outside of an install
+            $this->rewind();
+            $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
+            foreach ($this->releaseList as $versioninfo) {
+                if (isset($versioninfo['m'])) {
+                    // minimum PHP version required
+                    if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
+                        continue;
+                    }
+                }
+
+                if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
+                    // release is not stable enough
+                    continue;
+                }
+                $this->version['release'] = $versioninfo['v'];
+                break;
+            }
+        }
         $url = $this->remoteAbridgedInfo['g'];
         // first try to download .phar, then .tgz, then .tar, then .zip
         $errs = new PEAR2_MultiErrors;

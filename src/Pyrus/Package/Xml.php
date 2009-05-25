@@ -59,6 +59,11 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
                                '2.0.0a1', '>=');
     }
 
+    function copyTo($where)
+    {
+        throw new PEAR2_Pyrus_Package_Exception('download/copy not supported for extracted packages');
+    }
+
     function getFilePath($file)
     {
         return dirname($this->_file) . DIRECTORY_SEPARATOR . $file;

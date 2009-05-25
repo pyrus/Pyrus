@@ -52,8 +52,8 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             }
         }
         if (!isset($components['path'])) {
-            throw new PEAR2_Registry_Exception('parsePackageName(): array $param ' .
-                'must contain a valid package name in "' . $param . '"');
+            throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): array $param ' .
+                'must contain a valid package name in "' . $param . '"', 'path');
         }
         if (isset($components['host'])) {
             // remove the leading "/"

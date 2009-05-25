@@ -286,7 +286,11 @@ previous:
             $package = $package[0];
             echo "Downloading ", $arg, '...';
             try {
-                $package->download();
+                if ($package->isRemote()) {
+                    $package->download();
+                } else {
+                    $package->copyTo(getcwd());
+                }
                 $path = $package->getInternalPackage()->getTarballPath();
                 echo "done ($path)\n";
             } catch (Exception $e) {
