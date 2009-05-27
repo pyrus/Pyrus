@@ -257,11 +257,9 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      * @param string path to the post-install script
      * @return bool false to skip this file
      */
-    function runPostInstall(PEAR2_Pyrus_IPackage $pkg, $path)
+    function setupPostInstall(PEAR2_Pyrus_Registry_Package_Base $package)
     {
-        if ($this->installphase != PEAR2_Pyrus_Task_Common::INSTALL) {
-            return false;
-        }
+        $path = $package->files[$this->_filename]['attribs']['installed_as'];
         PEAR2_Pyrus_Log::log(0, 'Including external post-installation script "' .
             $path . '" - any errors are in this script');
         include $path;
@@ -274,7 +272,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         $this->obj = new $this->scriptClass;
         PEAR2_Pyrus_Log::log(1, 'running post-install script "' . $this->scriptClass . '->init()"');
         try {
-            $this->obj->init($this->config, $pkg, $this->lastVersion);
+            $this->obj->init($this->config, $this->pkg, $this->lastVersion);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Task_Exception('init of post-install script "' . $this->scriptClass .
                 '->init()" failed', $e);

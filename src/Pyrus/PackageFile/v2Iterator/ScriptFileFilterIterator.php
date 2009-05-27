@@ -63,6 +63,6 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator extends Filter
 
     function current()
     {
-        return $this->_inner->key();
+        return $this->_parent->files[$this->_inner->key()];
     }
 }

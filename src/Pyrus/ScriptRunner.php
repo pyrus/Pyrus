@@ -39,9 +39,10 @@ class PEAR2_Pyrus_ScriptRunner
     function run(PEAR2_Pyrus_IPackageFile $package)
     {
         foreach ($package->scriptfiles as $file) {
-            
+            $this->runPostinstallScripts($file, $package);
         }
     }
+
     /**
      * Instruct the runInstallScript method to skip a paramgroup that matches the
      * id value passed in.
@@ -56,10 +57,13 @@ class PEAR2_Pyrus_ScriptRunner
         $this->_skipSections[$id] = true;
     }
 
-    function runPostinstallScripts($scripts)
+    function runPostinstallScripts(PEAR2_Pyrus_PackageFile_v2_Files_File $scriptfile,
+                                   PEAR2_Pyrus_IPackageFile $package)
     {
-        foreach ($scripts as $i => $script) {
-            $this->runInstallScript($scripts[$i]->_params, $scripts[$i]->_obj);
+        foreach ($scriptfile->postinstallscript as $script) {
+            $script->setupPostInstall(PEAR2_Pyrus_Config::current()->registry->package[$package->channel . '/' .
+                                                                                       $package->name]);
+            $this->runInstallScript($script);
         }
     }
 
@@ -68,11 +72,11 @@ class PEAR2_Pyrus_ScriptRunner
      * @param object $script post-installation script
      * @param string install|upgrade
      */
-    function runInstallScript(PEAR2_Pyrus_Task_Postinstallscript $info, $script)
+    function runInstallScript(PEAR2_Pyrus_Task_Postinstallscript $info)
     {
         $this->_skipSections = array();
-        if (!count($info)) {
-            $script->run(array(), '_default');
+        if (!count($info->paramgroup)) {
+            $info->scriptobject->run(array(), '_default');
             return;
         }
 
@@ -89,20 +93,18 @@ class PEAR2_Pyrus_ScriptRunner
                     if (!isset($answers)) {
                         $answers = null;
                     }
-                    if (!$group->matchesConditionType($lastgroup, $answers)) {
+                    if (!$group->matchesConditionType($answers)) {
                         continue;
                     }
                 }
     
-    
-                $lastgroup = $group;
                 if (isset($group->instructions)) {
                     $this->frontend->display($group->instructions);
                 }
     
                 if (isset($group->param)) {
-                    if (method_exists($script, 'postProcessPrompts')) {
-                        $prompts = $script->postProcessPrompts($group->param, $group->id);
+                    if (method_exists($info->scriptobject, 'postProcessPrompts')) {
+                        $prompts = $info->scriptobject->postProcessPrompts($group->param, $group->id);
                         if (!is_array($prompts) || count($prompts) != count($group->param)) {
                             throw new PEAR2_Pyrus_Task_Exception('Error: post-install script did not ' .
                                 'return proper post-processed prompts');
@@ -132,14 +134,14 @@ class PEAR2_Pyrus_ScriptRunner
     
                     array_unshift($completedPhases, $group->id);
                     // script should throw an exception on failure
-                    $script->run($answers, $group->id);
+                    $info->scriptobject->run($answers, $group->id);
                 } else {
-                    $script->run($completedPhases, '_undoOnError');
+                    $info->scriptobject->run($completedPhases, '_undoOnError');
                     return;
                 }
             }
         } catch (\Exception $e) {
-            $script->run($completedPhases, '_undoOnError');
+            $info->scriptobject->run($completedPhases, '_undoOnError');
             throw $e;
         }
     }
