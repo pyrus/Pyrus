@@ -291,7 +291,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      * @access protected
      * @static
      */
-    function run()
+    function run($tasks)
     {
     }
 

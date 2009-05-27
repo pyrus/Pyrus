@@ -174,11 +174,14 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
 
     function __get($var)
     {
+        if ($var === 'paramgroup') {
+            if ($this->parent instanceof self) {
+                return $this->parent->paramgroup;
+            }
+            return $this->parent;
+        }
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
-        }
-        if ($var === 'paramgroup') {
-            return $this->parent;
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
