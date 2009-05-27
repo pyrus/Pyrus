@@ -62,44 +62,39 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
      * specified was satisfied by the last executed paramgroup
      * @return bool
      */
-    function matchesConditionType(PEAR2_Pyrus_Task_Postinstallscript_Paramgroup $lastGroup, array $answers = null)
+    function matchesConditionType(array $answers = null)
     {
         if (!isset($this->name)) {
             return true;
         }
-        $paramname = explode('::', $this->name);
-        if ($lastgroup->id != $paramname[0]) {
-            return false;
-        }
-
-        $varname = $paramname[1];
         if (!isset($answers)) {
             throw new PEAR2_Pyrus_Task_Exception('Invalid post-install script, <conditiontype> can only ' .
                                                  'be used if the previous paramgroup has prompts');
         }
 
-        if (isset($answers[$varname])) {
+        if (isset($answers[$this->name])) {
             switch ($this->conditiontype) {
                 case '=' :
-                    if ($answers[$varname] != $this->value) {
-                        return false;
+                    if ($answers[$this->name] == $this->value) {
+                        return true;
                     }
                 break;
                 case '!=' :
-                    if ($answers[$varname] == $this->value) {
-                        return false;
+                    if ($answers[$this->name] != $this->value) {
+                        return true;
                     }
                 break;
                 case 'preg_match' :
-                    if (!@preg_match('/' . $this->value . '/',
-                          $answers[$varname])) {
-                        return false;
+                    if (@preg_match('/' . $this->value . '/',
+                          $answers[$this->name])) {
+                        return true;
                     }
                 break;
                 default :
                 return false;
             }
         }
+        return false;
     }
 
     function count()
@@ -382,10 +377,17 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
      * @param string $operator one of =, !=, or preg_match
      * @param string $value the value to match the parameter against
      */
-    function condition(PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param $parameter, $operator, $value)
+    function condition(PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param $parameter = null, $operator = null,
+                       $value = null)
     {
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
+        }
+        if ($parameter === null) {
+            $this->name = null;
+            $this->conditiontype = null;
+            $this->value = null;
+            return;
         }
         $this->name = $parameter->paramgroup->id . '::' . $parameter->name;
         if ($operator != '=' && $operator != '!=' && $operator != 'preg_match') {
