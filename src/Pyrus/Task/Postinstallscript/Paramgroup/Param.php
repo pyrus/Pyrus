@@ -40,8 +40,10 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
 
     function __construct($tasksNs, $parent, array $info, $index = null)
     {
-        if ($tasksNs && $tasksNs[strlen($tasksNs)-1] != ':') {
-            $tasksNs .= ':';
+        if ($tasksNs) {
+            if ($tasksNs[strlen($tasksNs)-1] != ':') {
+                $tasksNs .= ':';
+            }
         } else {
             $tasksNs = '';
         }
@@ -114,7 +116,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         } else {
             foreach (array('name', 'prompt', 'type', 'default') as $key) {
                 if (!array_key_exists($this->tasksNs . $key, $this->info[$i])) {
-                    $this->info[$i][$key] = null;
+                    $this->info[$i][$this->tasksNs . $key] = null;
                 }
             }
         }
@@ -175,15 +177,18 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if ($var === 'paramgroup') {
+            return $this->parent;
+        }
+        if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
-        return $this->info[$var];
+        return $this->info[$this->tasksNs . $var];
     }
 
     function __isset($var)
@@ -191,15 +196,15 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
-        return isset($this->info[$var]);
+        return isset($this->info[$this->tasksNs . $var]);
     }
 
     function __unset($var)
@@ -207,15 +212,16 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
-        $this->info[$var] = null;
+        $this->info[$this->tasksNs . $var] = null;
+        $this->save();
     }
 
     function __set($var, $value)
@@ -228,20 +234,20 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
         if (!count($args) || $args[0] === null) {
-            $this->info[$var] = null;
+            $this->info[$this->tasksNs . $var] = null;
             $this->save();
             return $this;
         }
-        $this->info[$var] = $args[0];
+        $this->info[$this->tasksNs . $var] = $args[0];
         $this->save();
         return $this;
     }
@@ -271,12 +277,10 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
             $this->parent->setInfo($this->index, $this->info);
         } else {
             $info = $this->info;
-            if (count($info) == 1) {
-                $info = $info[0];
-            } elseif (!count($info)) {
+            if (!count($info)) {
                 $info = null;
             }
-            $this->parent->setParam($this->index, $info);
+            $this->parent->setParams($info);
         }
         $this->parent->save();
     }

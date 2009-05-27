@@ -238,7 +238,9 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         }
         if ($var === 'param') {
             $ret = $this->info[$this->tasksNs . 'param'];
-            if (!is_array($ret)) {
+            if ($ret === null) {
+                $ret = array();
+            } elseif (is_array($ret) && !isset($ret[0])) {
                 $ret = array($ret);
             }
             return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param($this->tasksNs, $this, $ret);
@@ -276,6 +278,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             );
         }
         $this->info[$this->tasksNs. $var] = null;
+        $this->save();
     }
 
     function __set($var, $value)
@@ -311,6 +314,30 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
                 $this->info[$this->tasksNs. $var] = array_merge($this->info[$this->tasksNs. $var], $args);
             }
         } else {
+            if ($var === 'name') {
+                if (!strpos($args[0], '::')) {
+                    throw new PEAR2_Pyrus_Task_Exception('name must reference a previous paramgroup\'s param with ' .
+                                                         'syntax paramgroup::paramname');
+                }
+                $name = explode('::', $args[0]);
+                if (count($name) != 2) {
+                    throw new PEAR2_Pyrus_Task_Exception('name must reference a previous paramgroup\'s param with ' .
+                                                         'syntax paramgroup::paramname');
+                }
+                if ($name[0] == $this->id) {
+                    throw new PEAR2_Pyrus_Task_Exception('name must reference a previous paramgroup\'s param.  ' .
+                                                         $args[0] . ' references this paramgroup');
+                }
+                if (!isset($this->parent[$name[0]])) {
+                    throw new PEAR2_Pyrus_Task_Exception('name must reference a previous paramgroup\'s param.  ' .
+                                                         'paramgroup "' . $name[0] . '" is not yet created');
+                }
+                if (!isset($this->parent[$name[0]]->param[$name[1]])) {
+                    throw new PEAR2_Pyrus_Task_Exception('name must reference a previous paramgroup\'s param.  ' .
+                                                         'paramgroup "' . $name[0] . '" param "' .
+                                                         $name[1] . '" is not yet created');
+                }
+            }
             $this->info[$this->tasksNs. $var] = $args[0];
         }
         $this->save();
@@ -336,22 +363,37 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         $this->info[$index] = $info;
     }
 
-    function setParam($index, $info)
+    function setParams($info)
     {
         if ($info === null) {
             unset($this->info[$this->tasksNs. 'param']);
             return;
         }
-        foreach ($info as $key => $null) {
-            if ($null === null) {
-                unset($info[$key]);
-                continue;
-            }
-            if (is_array($null) && count($null) == 1) {
-                $info[$key] = $null[0];
-            }
+        if (count($info) == 1) {
+            $info = $info[0];
         }
-        $this->info[$this->tasksNs. 'param'][$index] = $info;
+        $this->info[$this->tasksNs. 'param'] = $info;
+    }
+
+    /**
+     * Set the condition for this paramgroup
+     * @param PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param $parameter the
+     *        previous parameter whose value we use for the condition check
+     * @param string $operator one of =, !=, or preg_match
+     * @param string $value the value to match the parameter against
+     */
+    function condition(PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param $parameter, $operator, $value)
+    {
+        if (!isset($this->index)) {
+            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
+        }
+        $this->name = $parameter->paramgroup->id . '::' . $parameter->name;
+        if ($operator != '=' && $operator != '!=' && $operator != 'preg_match') {
+            throw new PEAR2_Pyrus_Task_Exception('Invalid operator for post-install script condition, ' .
+                                                 ' must be one of =, != or preg_match');
+        }
+        $this->conditiontype = $operator;
+        $this->value = $value;
     }
 
     function save()
