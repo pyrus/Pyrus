@@ -301,10 +301,10 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             return $this->obj;
         }
         if ($var === 'paramgroup') {
-            if (!isset($this->xml) || !is_array($this->xml)) {
+            if (!isset($this->xml) || !is_array($this->xml) || !isset($this->xml['paramgroup'])) {
                 $params = array();
             } else {
-                $params = $this->xml;
+                $params = $this->xml['paramgroup'];
                 if (count($params) && !isset($params[0])) {
                     $params = array($params);
                 }

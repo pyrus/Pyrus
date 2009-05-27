@@ -167,7 +167,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         } else {
             foreach (array('id', 'instructions', 'name', 'conditiontype', 'value', 'param') as $key) {
                 if (!array_key_exists($this->tasksNs . $key, $this->info[$i])) {
-                    $this->info[$i][$key] = null;
+                    $this->info[$i][$this->tasksNs . $key] = null;
                 }
             }
         }
@@ -366,7 +366,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             } elseif (!count($info)) {
                 $info = null;
             }
-            $this->parent->setParamgroup($info);
+            $this->parent->setParamgroups($info);
         }
     }
 }
