@@ -70,15 +70,19 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     protected $xml;
     protected $taskAttributes;
     protected $lastVersion;
+    protected $pkg;
 
     /**
      * Initialize a task instance with the parameters
+     * @param PEAR2_Pyrus_Package|PEAR2_Pyrus_IPackageFile package information
+     * @param int install phase
      * @param array raw, parsed xml
      * @param array attributes from the <file> tag containing this task
      * @param string|null last installed version of this package
      */
-    function __construct($phase, $xml, $attribs, $lastversion)
+    function __construct($pkg, $phase, $xml, $attribs, $lastversion)
     {
+        $this->pkg = $pkg;
         $this->installphase = $phase;
         $this->xml = $xml;
         $this->taskAttributes = $attribs;
@@ -170,6 +174,11 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     function isPreProcessed()
     {
         return false;
+    }
+
+    function getInfo()
+    {
+        return $this->xml;
     }
 }
 ?>

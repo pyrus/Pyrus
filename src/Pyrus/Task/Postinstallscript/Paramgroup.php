@@ -40,8 +40,10 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
 
     function __construct($tasksNs, $parent, array $info, $index = null)
     {
-        if ($tasksNs && $tasksNs[strlen($tasksNs)-1] != ':') {
-            $tasksNs .= ':';
+        if ($tasksNs) {
+            if ($tasksNs[strlen($tasksNs)-1] != ':') {
+                $tasksNs .= ':';
+            }
         } else {
             $tasksNs = '';
         }
@@ -226,12 +228,12 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
         if ($var === 'param') {
@@ -239,9 +241,9 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
             if (!is_array($ret)) {
                 $ret = array($ret);
             }
-            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Params($this->tasksNs, $this, $ret);
+            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param($this->tasksNs, $this, $ret);
         }
-        return $this->info[$var];
+        return $this->info[$this->tasksNs. $var];
     }
 
     function __isset($var)
@@ -249,15 +251,15 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs. $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
-        return isset($this->info[$var]);
+        return isset($this->info[$this->tasksNs. $var]);
     }
 
     function __unset($var)
@@ -265,15 +267,15 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs. $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
-        $this->info[$var] = null;
+        $this->info[$this->tasksNs. $var] = null;
     }
 
     function __set($var, $value)
@@ -286,30 +288,30 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
         if (!isset($this->index)) {
             throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
         }
-        if (!array_key_exists($var, $this->info)) {
+        if (!array_key_exists($this->tasksNs. $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
             throw new PEAR2_Pyrus_Task_Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys)
+                'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
         if (!count($args) || $args[0] === null) {
-            $this->info[$var] = null;
+            $this->info[$this->tasksNs. $var] = null;
             $this->save();
             return $this;
         }
         if ($var == 'param') {
-            if (!isset($this->info[$var])) {
-                $this->info[$var] = $args;
+            if (!isset($this->info[$this->tasksNs. $var])) {
+                $this->info[$this->tasksNs. $var] = $args;
             } else {
-                if (!is_array($this->info[$var])) {
-                    $this->info[$var] = array($this->info[$var]);
+                if (!is_array($this->info[$this->tasksNs. $var])) {
+                    $this->info[$this->tasksNs. $var] = array($this->info[$this->tasksNs. $var]);
                 }
-                $this->info[$var] = array_merge($this->info[$var], $args);
+                $this->info[$this->tasksNs. $var] = array_merge($this->info[$this->tasksNs. $var], $args);
             }
         } else {
-            $this->info[$var] = $args[0];
+            $this->info[$this->tasksNs. $var] = $args[0];
         }
         $this->save();
         return $this;
@@ -337,7 +339,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
     function setParam($index, $info)
     {
         if ($info === null) {
-            unset($this->info['param']);
+            unset($this->info[$this->tasksNs. 'param']);
             return;
         }
         foreach ($info as $key => $null) {
@@ -349,7 +351,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup implements ArrayAccess, Iter
                 $info[$key] = $null[0];
             }
         }
-        $this->info['param'][$index] = $info;
+        $this->info[$this->tasksNs. 'param'][$index] = $info;
     }
 
     function save()

@@ -39,11 +39,11 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      * @param array attributes from the <file> tag containing this task
      * @param string|null last installed version of this package, if any (useful for upgrades)
      */
-    function __construct($phase, $xml, $attribs, $lastversion)
+    function __construct($pkg, $phase, $xml, $attribs, $lastversion)
     {
-        parent::__construct($phase, $xml, $attribs, $lastversion);
-        $this->scriptClass = str_replace(array('/', '.php'), array('_', ''), $fileattribs['name']);
-        $this->_filename = $fileattribs['name'];
+        parent::__construct($pkg, $phase, $xml, $attribs, $lastversion);
+        $this->scriptClass = str_replace(array('/', '.php'), array('_', ''), $attribs['name']);
+        $this->_filename = $attribs['name'];
     }
 
     /**
@@ -297,9 +297,6 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
 
     function __get($var)
     {
-        if ($var === 'params') {
-            return $this->xml;
-        }
         if ($var === 'scriptobject') {
             return $this->obj;
         }
@@ -308,11 +305,12 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                 $params = array();
             } else {
                 $params = $this->xml;
-                if (!isset($params[0])) {
+                if (count($params) && !isset($params[0])) {
                     $params = array($params);
                 }
             }
-            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup($this, $params);
+            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup($this->pkg->getTasksNs(),
+                                                                     $this, $params);
         }
         throw new PEAR2_Pyrus_Task_Exception('Invalid variable ' . $var . 'requested from Post-install script task');
     }

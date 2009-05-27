@@ -55,8 +55,10 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
             return false;
         }
 
-        //erase me $xml = parent::current();
-        $task = 'PEAR2_Pyrus_Task_' . ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
+        $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
+        $task = str_replace(' ', '/', ucwords($task));
+        $task = str_replace('/', '_', $task);
+        $task = 'PEAR2_Pyrus_Task_' . $task;
 
         if (0 == $task::PHASE & $this->_installphase) {
             // skip tasks that won't run in this installphase
@@ -83,14 +85,16 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
         $xml = parent::current();
         if (isset($xml[0])) {
             $tasks = array();
+            $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
+            $task = str_replace(' ', '/', ucwords($task));
+            $task = str_replace('/', '_', $task);
+            $task = 'PEAR2_Pyrus_Task_' . $task;
             foreach ($xml as $info) {
                 $attribs = array();
                 if (isset($xml['attribs'])) {
                     $attribs = $xml['attribs'];
                 }
-                $task = 'PEAR2_Pyrus_Task_' .
-                    ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
-                $tasks[] = new $task($this->_installphase, $info, $attribs, $this->lastversion);
+                $tasks[] = new $task($this->_parent, $this->_installphase, $info, $attribs, $this->lastversion);
             }
             // use proxy for multiple tasks
             return new PEAR2_Pyrus_Task_MultipleProxy($tasks, $this->key());
@@ -99,8 +103,10 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
         if (isset($xml['attribs'])) {
             $attribs = $xml['attribs'];
         }
-        $task = 'PEAR2_Pyrus_Task_' .
-            ucfirst(str_replace($this->_tasksNs . ':', '', parent::key()));
-        return new $task($this->_installphase, $xml, $attribs, $this->lastversion);
+        $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
+        $task = str_replace(' ', '/', ucwords($task));
+        $task = str_replace('/', '_', $task);
+        $task = 'PEAR2_Pyrus_Task_' . $task;
+        return new $task($this->_parent, $this->_installphase, $xml, $attribs, $this->lastversion);
     }
 }

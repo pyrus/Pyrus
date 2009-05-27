@@ -43,7 +43,7 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
     function offsetGet($var)
     {
         if (isset($this->info[$var])) {
-            return $this->info[$var];
+            return new PEAR2_Pyrus_PackageFile_v2_Files_File($this, $this->parent, $this->info[$var]);
         }
         return null;
     }

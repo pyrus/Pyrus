@@ -108,7 +108,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
             // setting a file task
             if ($value instanceof PEAR2_Pyrus_Task_Common) {
                 $this->_packagefile->setFileAttribute($this->dir .
-                    $this['attribs']['name'], $var, $value->getArrayCopy());
+                    $this['attribs']['name'], $var, $value->getInfo());
                 return;
             }
             throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' to non-' .

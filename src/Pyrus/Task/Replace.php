@@ -35,9 +35,9 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
      * @param array attributes from the <file> tag containing this task
      * @param string|null last installed version of this package
      */
-    function __construct($phase, $xml, $attribs, $lastversion)
+    function __construct($pkg, $phase, $xml, $attribs, $lastversion)
     {
-        parent::__construct($phase, $xml, $attribs, $lastversion);
+        parent::__construct($pkg, $phase, $xml, $attribs, $lastversion);
         $this->_replacements = isset($xml['attribs']) ? array($xml) : $xml;
     }
 

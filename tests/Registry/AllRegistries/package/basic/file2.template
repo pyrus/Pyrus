@@ -7,7 +7,7 @@ $test->assertEquals(array (
     'role' => 'doc',
     'name' => 'examples/update_channel.php',
   ),
-), $reg->files['examples/update_channel.php'], 'first');
+), $reg->files['examples/update_channel.php']->getArrayCopy(), 'first');
 unset($reg->files['examples/update_channel.php']);
 $test->assertEquals(null, $reg->files['examples/update_channel.php'], 'second');
 
@@ -29,4 +29,4 @@ try {
                 ' file poop', $e->getMessage(), 'message 2');
 }
 $reg->files['poop'] = new ArrayObject(array('role' => 'php'));
-$test->assertEquals(array('attribs' => array('role' => 'php', 'name' => 'poop')), $reg->files['poop'], 'after setting');
+$test->assertEquals(array('attribs' => array('role' => 'php', 'name' => 'poop')), $reg->files['poop']->getArrayCopy(), 'after setting');
