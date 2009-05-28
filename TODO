@@ -21,6 +21,8 @@ Implement subject/observer for Log
 
 Add log integration to scriptfrontend
 
+Move $options from PEAR2_Pyrus_Installer to PEAR2_Pyrus, move $downloadClass from all others to Pyrus
+
 Add PEAR 1.x configuration parsing to Pear1 registry, in order to use these values for PEAR 1.x packages.
     Decide how to handle the conflict, especially with php_dir being different, as it will be "php" for
     all PEAR 1.x packages.
