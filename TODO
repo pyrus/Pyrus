@@ -17,6 +17,10 @@ this will mostly be a test of what approach in COM will suit us best
 
 Update Sqlite3 to use the new exception mode, and to use bindValue() instead of bindParam()
 
+Implement subject/observer for Log
+
+Add log integration to scriptfrontend
+
 Add PEAR 1.x configuration parsing to Pear1 registry, in order to use these values for PEAR 1.x packages.
     Decide how to handle the conflict, especially with php_dir being different, as it will be "php" for
     all PEAR 1.x packages.
