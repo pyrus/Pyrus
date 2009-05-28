@@ -65,7 +65,7 @@ class PEAR2_Pyrus_Task_Unixeol extends PEAR2_Pyrus_Task_Common
      * @param string the eventual final file location (informational only)
      * @return string
      */
-    function startSession(PEAR2_Pyrus_IPackage $pkg, $fp, $dest)
+    function startSession($fp, $dest)
     {
         $contents = stream_get_contents($fp);
         PEAR2_Pyrus_Log::log(3, "replacing all line endings with \\n in $dest");

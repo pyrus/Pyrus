@@ -48,23 +48,27 @@ class PEAR2_Pyrus_PackageFile_v2_Files_File extends ArrayObject
             if (isset($inf[0])) {
                 $ret = array();
                 foreach ($inf as $info) {
-                    $ret[] = new $c(PEAR2_Pyrus_Validate::NORMAL, $info, $this['attribs'], null);
+                    $ret[] = new $c($this->pkg, PEAR2_Pyrus_Validate::NORMAL, $info, $this['attribs'], null);
                 }
-                return $ret;
+                goto return_multi;
             } else {
                 $c = 'PEAR2_Pyrus_Task_' . str_replace('-', '_', $var);
-                return array(new $c(PEAR2_Pyrus_Validate::NORMAL, $inf, $this['attribs'], null));
+                $ret = array(new $c($this->pkg, PEAR2_Pyrus_Validate::NORMAL, $inf, $this['attribs'], null));
+                goto return_multi;
             }
         }
-        return array(new $c($this->pkg, PEAR2_Pyrus_Validate::NORMAL, array(), $this['attribs'], null));
+        $ret = array();
+return_multi:
+        return new PEAR2_Pyrus_Task_MultipleProxy($this->pkg, $ret, $this['attribs'], $var);
     }
 
     function __set($var, $value)
     {
-        if (!($value instanceof PEAR2_Pyrus_Task_Common)) {
+        if (!($value instanceof PEAR2_Pyrus_Task_Common) && !($value instanceof PEAR2_Pyrus_Task_MultipleProxy)) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Can only change tasks via __set() to an instance ' .
                                                         'of PEAR2_Pyrus_Task_Common');
         }
         $this[$this->tasksNs . $var] = $value->getInfo();
+        $this->pkg->setFilelistFile($this['attribs']['name'], $this->getArrayCopy());
     }
 }

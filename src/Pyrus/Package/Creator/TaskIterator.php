@@ -97,7 +97,7 @@ class PEAR2_Pyrus_Package_Creator_TaskIterator extends FilterIterator
                 $tasks[] = new $task($this->_parent, $this->_installphase, $info, $attribs, $this->lastversion);
             }
             // use proxy for multiple tasks
-            return new PEAR2_Pyrus_Task_MultipleProxy($tasks, $this->key());
+            return new PEAR2_Pyrus_Task_MultipleProxy($this->_parent, $tasks, $this->_inner['attribs'], $this->key());
         }
         $attribs = array();
         if (isset($xml['attribs'])) {

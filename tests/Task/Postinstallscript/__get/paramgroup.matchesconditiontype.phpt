@@ -3,8 +3,7 @@ PEAR2_Pyrus_Task_Postinstallscript: paramgroup matchesConditionType()
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
-$postinstall = $package->files['foobar']->postinstallscript;
-$postinstall = $postinstall[0];
+$postinstall = $package->files['foobar']->postinstallscript->add();
 
 $postinstall->paramgroup['first']->param['paramname']->type('string')->prompt('paramname');
 $postinstall->paramgroup['first']->param['paramname2']->type('string')->prompt('paramname2');

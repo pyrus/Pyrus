@@ -61,8 +61,7 @@ class PEAR2_Pyrus_ScriptRunner
                                    PEAR2_Pyrus_IPackageFile $package)
     {
         foreach ($scriptfile->postinstallscript as $script) {
-            $script->setupPostInstall(PEAR2_Pyrus_Config::current()->registry->package[$package->channel . '/' .
-                                                                                       $package->name]);
+            $script->setupPostInstall();
             $this->runInstallScript($script);
         }
     }
@@ -101,7 +100,13 @@ class PEAR2_Pyrus_ScriptRunner
                 if (isset($group->instructions)) {
                     $this->frontend->display($group->instructions);
                 }
-    
+
+                if (isset($answers)) {
+                    $oldanswers = $answers;
+                    $answers = array();
+                } else {
+                    $oldanswers = $answers = array();
+                }
                 if (isset($group->param)) {
                     if (method_exists($info->scriptobject, 'postProcessPrompts')) {
                         $prompts = $info->scriptobject->postProcessPrompts($group->param, $group->id);
@@ -134,15 +139,27 @@ class PEAR2_Pyrus_ScriptRunner
     
                     array_unshift($completedPhases, $group->id);
                     // script should throw an exception on failure
-                    $info->scriptobject->run($answers, $group->id);
+                    $info->scriptobject->run(array_merge($answers, $oldanswers), $group->id);
                 } else {
                     $info->scriptobject->run($completedPhases, '_undoOnError');
                     return;
                 }
+                $answers = $this->mergeOldAnswers($oldanswers, $answers, $group->id);
             }
         } catch (\Exception $e) {
             $info->scriptobject->run($completedPhases, '_undoOnError');
             throw $e;
         }
+    }
+
+    function mergeOldAnswers($answers, $newanswers, $section)
+    {
+        foreach ($newanswers as $prompt => $answer) {
+            $answers[$section . '::' . $prompt] = $answer;
+        }
+        if (!count($answers)) {
+            $answers = null;
+        }
+        return $answers;
     }
 }

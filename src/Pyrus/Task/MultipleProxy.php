@@ -24,17 +24,24 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_MultipleProxy
+class PEAR2_Pyrus_Task_MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObserver
 {
-    protected $tasks = array();
     protected $name;
+    protected $parent;
+    protected $fileattribs;
     /**
+     * @param PEAR2_Pyrus_IPackage|PEAR2_Pyrus_IPackageFile
      * @param array a group of tasks
      */
-    function __construct(array $tasks, $name)
+    function __construct($parent, array $tasks, $fileattribs, $name)
     {
-        $this->tasks = $tasks;
+        $this->parent = $parent;
         $this->name = $name;
+        $this->fileattribs = $fileattribs;
+        parent::__construct($tasks);
+        foreach ($tasks as $task) {
+            $task->attach($this);
+        }
     }
 
     /**
@@ -50,10 +57,10 @@ class PEAR2_Pyrus_Task_MultipleProxy
      * @throws PEAR2_Pyrus_Task_Exception on errors, throw this exception
      * @abstract
      */
-    function startSession(PEAR2_Pyrus_IPackage $pkg, $fp, $dest)
+    function startSession($fp, $dest)
     {
-        foreach ($this->tasks as $task) {
-            $task->startSession($pkg, $fp, $dest);
+        foreach ($this as $task) {
+            $task->startSession($fp, $dest);
             if (!rewind($fp)) {
                 throw new PEAR2_Pyrus_Task_Exception('task ' . $this->name .
                                                           ' closed the file pointer, invalid task');
@@ -63,12 +70,55 @@ class PEAR2_Pyrus_Task_MultipleProxy
 
     function isPreProcessed()
     {
-        foreach ($this->tasks as $task) {
+        foreach ($this as $task) {
             if (!$task->isPreProcessed()) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Iterate over each task and aggregate their content, then pass it to the parent
+     * package object
+     */
+    function getInfo()
+    {
+        $ret = array();
+        foreach ($this as $task) {
+            $ret[] = $task->getInfo();
+        }
+        if (count($ret) == 1) {
+            $ret = $ret[0];
+        }
+        return $ret;
+    }
+
+    function add()
+    {
+        $task = str_replace('-', ' ', $this->name);
+        $task = str_replace(' ', '/', ucwords($task));
+        $task = str_replace('/', '_', $task);
+        $c = 'PEAR2_Pyrus_Task_' . $task;
+        $ret = new $c($this->parent, PEAR2_Pyrus_Validate::NORMAL, array(), $this->fileattribs, null);
+        $this[] = $ret;
+        $ret->attach($this);
+        return $ret;
+    }
+
+    function update(SplSubject $subject)
+    {
+        $ret = $subject->getInfo();
+        if (empty($ret)) {
+            foreach ($this as $i => $task) {
+                if ($subject === $task) {
+                    unset($this[$i]);
+                    $this->exchangeArray(array_values($this->getArrayCopy()));
+                    break;
+                }
+            }
+        }
+        $this->parent->files[$this->fileattribs['name']]->{$this->name} = $this;
     }
 }
 ?>

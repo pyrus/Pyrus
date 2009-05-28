@@ -235,7 +235,7 @@ class PEAR2_Pyrus_Package_Creator
                                                                   $version) as $task) {
                 // do pre-processing of file contents
                 try {
-                    $task->startSession($package, $fp, $packageat);
+                    $task->startSession($fp, $packageat);
                 } catch (Exception $e) {
                     // TODO: handle exceptions
                 }

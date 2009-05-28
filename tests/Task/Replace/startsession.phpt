@@ -21,7 +21,7 @@ $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;
 foreach ($iterator as $task) {
     ++$runcount;
-    $task->startSession($package, $fp, 'foo.php');
+    $task->startSession($fp, 'foo.php');
     rewind($fp);
 }
 $test->assertEquals(1, $runcount, 'Iterator did not run replace install');
@@ -38,7 +38,7 @@ $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;
 foreach ($iterator as $task) {
     ++$runcount;
-    $task->startSession($package, $fp, 'foo.php');
+    $task->startSession($fp, 'foo.php');
     rewind($fp);
 }
 $test->assertEquals(1, $runcount, 'Iterator did not run replace packaging');

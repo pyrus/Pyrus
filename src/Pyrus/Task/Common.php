@@ -31,6 +31,9 @@
  * with the path to the current data directory.  Then, it will include the
  * test.php file and run the script it contains to configure the package post-installation.
  *
+ * The observer pattern is used, so that updates from a MultipleProxy from one
+ * member task can be used to save changes to the parent file object.
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -38,7 +41,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
+abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubject
 {
     const PACKAGE = 1;
     const INSTALL = 2;
@@ -71,6 +74,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     protected $taskAttributes;
     protected $lastVersion;
     protected $pkg;
+    protected $observers = array();
 
     /**
      * Initialize a task instance with the parameters
@@ -137,12 +141,11 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
      * @throws PEAR2_Pyrus_Task_Exception on errors, throw this exception
      * @abstract
      */
-    function startSession(PEAR2_Pyrus_IPackage $pkg, $fp, $dest)
+    function startSession($fp, $dest)
     {
     }
 
-
-    function runPostInstall(PEAR2_Pyrus_IPackage $pkg, $path)
+    function setupPostInstall(PEAR2_Pyrus_Registry_Package_Base $package)
     {
     }
 
@@ -179,6 +182,29 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject
     function getInfo()
     {
         return $this->xml;
+    }
+
+    function attach(SplObserver $observer)
+    {
+        $this->observers[] = $observer;
+    }
+
+    function detach(SplObserver $observed)
+    {
+        foreach ($this->observers as $i => $observer) {
+            if ($observer === $observed) {
+                unset($this->observers[$i]);
+                $this->observers = array_values($this->observers);
+                return;
+            }
+        }
+    }
+
+    function notify()
+    {
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
     }
 }
 ?>

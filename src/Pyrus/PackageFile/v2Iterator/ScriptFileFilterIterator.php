@@ -47,14 +47,14 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator extends Filter
                 continue;
             }
 
-            $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
+            $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), $key);
             $task = str_replace(' ', '/', ucwords($task));
             $task = str_replace('/', '_', $task);
             $class = 'PEAR2_Pyrus_Task_' . $task;
             if (!class_exists($class, true)) {
                 continue;
             }
-            if ($class::isScript()) {
+            if ($class::TYPE == 'script') {
                 return true;
             }
         }
