@@ -27,8 +27,7 @@ $frontend->addPrompts(array('paramname' => 'first thingy 3', 'paramname2' => 'se
 $frontend->addPrompts(array('paramname' => 'first thingy 4', 'paramname2' => 'second thingy 4'));
 
 $runner = new PEAR2_Pyrus_ScriptRunner($frontend);
-$postinstall->setupPostInstall();
-$runner->runInstallScript($postinstall);
+$runner->run($package);
 
 $test->assertEquals(array (
   0 => 
