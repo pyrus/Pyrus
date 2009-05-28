@@ -32,6 +32,10 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
     // for unit-testing ease
     public static $configclass = 'PEAR2_Pyrus_Config';
     public static $downloadClass = 'PEAR2_HTTP_Request';
+    protected $term = array(
+        'bold'   => '',
+        'normal' => '',
+    );
 
     function __construct()
     {
@@ -44,6 +48,26 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
             $this->commands[preg_replace_callback('/[A-Z]/',
                     function($m) {return "-" . strtolower($m[0]);}, $name)] = $name;
         }
+        $term = getenv('TERM');
+        if (function_exists('posix_isatty') && !posix_isatty(1)) {
+            // output is being redirected to a file or through a pipe
+        } elseif ($term) {
+            if (preg_match('/^(xterm|vt220|linux)/', $term)) {
+                $this->term['bold']   = sprintf("%c%c%c%c", 27, 91, 49, 109);
+                $this->term['normal'] = sprintf("%c%c%c", 27, 91, 109);
+            } elseif (preg_match('/^vt100/', $term)) {
+                $this->term['bold']   = sprintf("%c%c%c%c%c%c", 27, 91, 49, 109, 0, 0);
+                $this->term['normal'] = sprintf("%c%c%c%c%c", 27, 91, 109, 0, 0);
+            }
+    }
+
+    function bold($text)
+    {
+        if (empty($this->term['bold'])) {
+            return strtoupper($text);
+        }
+
+        return $this->term['bold'] . $text . $this->term['normal'];
     }
 
     /**
@@ -128,9 +152,9 @@ previous:
         return $answer;
     }
 
-    function _readStdin()
+    function _readStdin($amount = 1024)
     {
-        return trim(fgets(STDIN, 1024));
+        return trim(fgets(STDIN, $amount));
     }
 
     function _findPEAR(&$arr)
@@ -532,5 +556,114 @@ addchan_success:
         $args = implode(PATH_SEPARATOR, $args);
         PEAR2_Pyrus_Config::current()->my_pear_path = $args;
         PEAR2_Pyrus_Config::current()->saveConfig();
+    }
+
+    /**
+     * Ask for user input, confirm the answers and continue until the user is satisfied
+     * @param array an array of arrays, format array('name' => 'paramname', 'prompt' =>
+     *              'text to display', 'type' => 'string'[, default => 'default value'])
+     * @return array
+     */
+    function confirmDialog($params)
+    {
+        $answers = $prompts = $types = array();
+        foreach ($params as $param) {
+            $prompts[$param['name']] = $param['prompt'];
+            $types[$param['name']]   = $param['type'];
+            $answers[$param['name']] = isset($param['default']) ? $param['default'] : '';
+        }
+
+        $tried = false;
+        do {
+            if ($tried) {
+                $i = 1;
+                foreach ($answers as $var => $value) {
+                    if (!strlen($value)) {
+                        echo $this->bold("* Enter an answer for #" . $i . ": ({$prompts[$var]})\n");
+                    }
+                    $i++;
+                }
+            }
+
+            $answers = $this->userDialog('', $prompts, $types, $answers);
+            $tried   = true;
+        } while (is_array($answers) && count(array_filter($answers)) != count($prompts));
+
+        return $answers;
+    }
+
+    function userDialog($command, $prompts, $types = array(), $defaults = array(), $screensize = 20)
+    {
+        if (!is_array($prompts)) {
+            return array();
+        }
+
+        $testprompts = array_keys($prompts);
+        $result      = $defaults;
+
+        reset($prompts);
+        if (count($prompts) === 1) {
+            foreach ($prompts as $key => $prompt) {
+                $type    = $types[$key];
+                $default = isset($defaults[$key]) ? $defaults[$key] : false;
+                print "$prompt ";
+                if ($default) {
+                    print "[$default] ";
+                }
+                print ": ";
+
+                $line         = $this->_readStdin(2048);
+                $result[$key] =  ($default && trim($line) == '') ? $default : trim($line);
+            }
+
+            return $result;
+        }
+
+        $first_run = true;
+        while (true) {
+            $descLength = max(array_map('strlen', $prompts));
+            $descFormat = "%-{$descLength}s";
+            $last       = count($prompts);
+
+            $i = 0;
+            foreach ($prompts as $n => $var) {
+                $res = isset($result[$n]) ? $result[$n] : null;
+                printf("%2d. $descFormat : %s\n", ++$i, $prompts[$n], $res);
+            }
+            print "\n1-$last, 'all', 'abort', or Enter to continue: ";
+
+            $tmp = $this->_readStdin();
+            if (empty($tmp)) {
+                break;
+            }
+
+            if ($tmp == 'abort') {
+                return false;
+            }
+
+            if (isset($testprompts[(int)$tmp - 1])) {
+                $var     = $testprompts[(int)$tmp - 1];
+                $desc    = $prompts[$var];
+                $current = @$result[$var];
+                print "$desc [$current] : ";
+                $tmp = $this->_readStdin();
+                if ($tmp !== '') {
+                    $result[$var] = $tmp;
+                }
+            } elseif ($tmp == 'all') {
+                foreach ($prompts as $var => $desc) {
+                    $current = $result[$var];
+                    print "$desc [$current] : ";
+                    $tmp = $this->_readStdin();
+                    if (trim($tmp) !== '') {
+                        $result[$var] = trim($tmp);
+                    }
+                }
+            }
+
+            $first_run = false;
+        }
+
+        return $result;
     }
 }
