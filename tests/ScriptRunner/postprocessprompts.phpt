@@ -1,8 +1,26 @@
 --TEST--
-ScriptRunner: basic post-install script runner test
+ScriptRunner: post-install script runner test, with post-processing of prompts
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
+file_put_contents(__DIR__ . '/testit/src/foobar', '<?php
+class foobar_postinstall extends fake2 {}');
+
+class fake2 extends fake
+{
+    function postProcessPrompts(array $prompts, $section)
+    {
+        fakefrontend::$displayed[] = array('postprocessprompts' => $prompts, 'section' => $section);
+        if ($section === 'fourth') {
+            foreach ($prompts as $i => $prompt) {
+                $prompts[$i]['default'] = 'booya';
+                $prompts[$i]['prompt'] = 'I am teh fail, are you?';
+            }
+        }
+        return $prompts;
+    }
+}
+
 $postinstall = $package->files['foobar']->postinstallscript->add();
 
 $postinstall->paramgroup['first']->param['paramname']->type('string')->prompt('paramname');
@@ -86,6 +104,25 @@ $test->assertEquals(array (
 this thing',
   1 => 
   array (
+    'postprocessprompts' => 
+    array (
+      0 => 
+      array (
+        'name' => 'paramname',
+        'prompt' => 'paramname',
+        'type' => 'string',
+      ),
+      1 => 
+      array (
+        'name' => 'paramname2',
+        'prompt' => 'paramname2',
+        'type' => 'string',
+      ),
+    ),
+    'section' => 'first',
+  ),
+  2 => 
+  array (
     0 => 
     array (
       'name' => 'paramname',
@@ -99,7 +136,26 @@ this thing',
       'type' => 'string',
     ),
   ),
-  2 => 
+  3 => 
+  array (
+    'postprocessprompts' => 
+    array (
+      0 => 
+      array (
+        'name' => 'paramname',
+        'prompt' => 'paramname',
+        'type' => 'string',
+      ),
+      1 => 
+      array (
+        'name' => 'paramname2',
+        'prompt' => 'paramname',
+        'type' => 'string',
+      ),
+    ),
+    'section' => 'third',
+  ),
+  4 => 
   array (
     0 => 
     array (
@@ -114,19 +170,40 @@ this thing',
       'type' => 'string',
     ),
   ),
-  3 => 
+  5 => 
+  array (
+    'postprocessprompts' => 
+    array (
+      0 => 
+      array (
+        'name' => 'paramname',
+        'prompt' => 'paramname',
+        'type' => 'string',
+      ),
+      1 => 
+      array (
+        'name' => 'paramname2',
+        'prompt' => 'paramname',
+        'type' => 'string',
+      ),
+    ),
+    'section' => 'fourth',
+  ),
+  6 => 
   array (
     0 => 
     array (
       'name' => 'paramname',
-      'prompt' => 'paramname',
+      'prompt' => 'I am teh fail, are you?',
       'type' => 'string',
+      'default' => 'booya',
     ),
     1 => 
     array (
       'name' => 'paramname2',
-      'prompt' => 'paramname',
+      'prompt' => 'I am teh fail, are you?',
       'type' => 'string',
+      'default' => 'booya',
     ),
   ),
 ), fakefrontend::$displayed, 'stuff displayed');

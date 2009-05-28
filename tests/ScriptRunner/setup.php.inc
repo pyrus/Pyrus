@@ -73,6 +73,7 @@ class fakefrontend
 
     function confirmDialog($prompts)
     {
+        self::$displayed[] = $prompts;
         return next(self::$promptmap);
     }
 }

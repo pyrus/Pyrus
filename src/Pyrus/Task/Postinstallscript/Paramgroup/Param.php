@@ -260,6 +260,24 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
         return $this->info;
     }
 
+    /**
+     * Return $this->info, but without the tasks: namespace
+     */
+    function getPrompts()
+    {
+        $prompts = array();
+        $info = $this->info;
+        if (count($info) && !isset($info[0])) {
+            $info = array($info);
+        }
+        foreach ($info as $i => $prompt) {
+            foreach ($prompt as $key => $thing) {
+                $prompts[$i][str_replace($this->tasksNs, '', $key)] = $thing;
+            }
+        }
+        return $prompts;
+    }
+
     function setInfo($index, $info)
     {
         foreach ($info as $key => $null) {

@@ -109,16 +109,17 @@ class PEAR2_Pyrus_ScriptRunner
                 }
                 if (isset($group->param)) {
                     if (method_exists($info->scriptobject, 'postProcessPrompts')) {
-                        $prompts = $info->scriptobject->postProcessPrompts($group->param, $group->id);
+                        $prompts = $info->scriptobject->postProcessPrompts($group->param->getPrompts(), $group->id);
                         if (!is_array($prompts) || count($prompts) != count($group->param)) {
                             throw new PEAR2_Pyrus_Task_Exception('Error: post-install script did not ' .
                                 'return proper post-processed prompts');
                         } else {
-                            foreach ($prompts as $i => $var) {
-                                if (!is_array($var) || !isset($var['prompt']) ||
-                                      !isset($var['name']) ||
-                                      ($var['name'] != $group->param[$i]->name) ||
-                                      ($var['type'] != $group->param[$i]->type)
+                            $testprompts = $group->param->getPrompts();
+                            foreach ($prompts as $i => $prompt) {
+                                if (!is_array($prompt) || !isset($prompt['prompt']) ||
+                                      !isset($prompt['name']) ||
+                                      ($prompt['name'] != $testprompts[$i]['name']) ||
+                                      ($prompt['type'] != $testprompts[$i]['type'])
                                 ) {
                                     throw new PEAR2_Pyrus_Task_Exception('Error: post-install script ' .
                                         'modified the variables or prompts, severe security risk');
@@ -128,7 +129,7 @@ class PEAR2_Pyrus_ScriptRunner
     
                         $answers = $this->frontend->confirmDialog($prompts);
                     } else {
-                        $answers = $this->frontend->confirmDialog($group->param->getInfo());
+                        $answers = $this->frontend->confirmDialog($group->param->getPrompts());
                     }
                 }
     
