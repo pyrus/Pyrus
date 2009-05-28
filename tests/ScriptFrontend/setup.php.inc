@@ -12,10 +12,14 @@ class test_scriptfrontend extends PEAR2_Pyrus_ScriptFrontend_Commands
 {
     public static $configclass = 'test_Config';
     public static $stdin = array();
-    function _readStdin()
+    public static $index = 0;
+    function _readStdin($amount = 1024)
     {
-        $ret = current(self::$stdin);
-        next(self::$stdin);
+        $ret = self::$stdin[self::$index];
+        echo $ret,"\n";
+        if (++self::$index >= count(self::$stdin)) {
+            throw new Exception('ran out of input, add more to test');
+        }
         return $ret;
     }
 }

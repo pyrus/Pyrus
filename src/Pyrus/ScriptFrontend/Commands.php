@@ -567,7 +567,10 @@ addchan_success:
     function __call($func, $params)
     {
         if ($func === 'confirmDialog') {
-            return $this->_confirmDialos($params[0]);
+            return $this->_confirmDialog($params[0]);
+        }
+        if ($func === 'display') {
+            return $this->_display($params[0]);
         }
         throw new \Exception('Unknown method ' . $func . ' in class PEAR2_Pyrus_ScriptFrontend\Commands');
     }
@@ -604,6 +607,11 @@ addchan_success:
         } while (is_array($answers) && count(array_filter($answers)) != count($prompts));
 
         return $answers;
+    }
+
+    function _display($text)
+    {
+        echo $text, "\n";
     }
 
     function _userDialog($command, $prompts, $types = array(), $defaults = array(), $screensize = 20)

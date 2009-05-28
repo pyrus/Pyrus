@@ -17,6 +17,7 @@ test_scriptfrontend::$stdin = array(
     'no',  // answer to "Create it?"
     __DIR__ . '/testit', // answer to "Where would you like to install packages by default?"
     'yes', // answer to "Create it?"
+    ''     // continue
 );
 $cli = new test_scriptfrontend();
 
@@ -30,29 +31,35 @@ $help1 = "Pyrus: No user configuration file detected\n" .
 "Please choose:\n" .
 "  yes\n" .
 "  no\n" .
-"[yes] : Great.  We will store your configuration in:\n" .
+"[yes] : yes\n" .
+"Great.  We will store your configuration in:\n" .
 '  ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . "foo.xml\n" .
 "Where would you like to install packages by default?\n" .
-'[' . getcwd() . "] : You have chosen:\n" .
+'[' . getcwd() . "] : " . __DIR__ . DIRECTORY_SEPARATOR . "testfoo\n" .
+"You have chosen:\n" .
 __DIR__ . DIRECTORY_SEPARATOR . "testfoo\n" .
 __DIR__ . DIRECTORY_SEPARATOR . "testfoo exists, and is not a directory\n" .
 "Where would you like to install packages by default?\n" .
-'[' . getcwd() . "] : You have chosen:\n" .
+'[' . getcwd() . "] : " . __DIR__ . DIRECTORY_SEPARATOR . "testit2\n" .
+"You have chosen:\n" .
 __DIR__ . DIRECTORY_SEPARATOR . "testit2\n" .
 " this path does not yet exist\n" .
 "Create it?\n" .
 "Please choose:\n" .
 "  yes\n" .
 "  no\n" .
-"[yes] : Where would you like to install packages by default?\n" .
-'[' . getcwd() . "] : You have chosen:\n" .
+"[yes] : no\n" .
+"Where would you like to install packages by default?\n" .
+'[' . getcwd() . "] : " . __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
+"You have chosen:\n" .
 __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 " this path does not yet exist\n" .
 "Create it?\n" .
 "Please choose:\n" .
 "  yes\n" .
 "  no\n" .
-"[yes] : Thank you, enjoy using Pyrus\n" .
+"[yes] : yes\n" .
+"Thank you, enjoy using Pyrus\n" .
 "Documentation is at http://pear.php.net\n" .
 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" 
 ;

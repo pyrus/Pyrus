@@ -13,9 +13,7 @@ Try out the how the Pyrus_Config::locateLocalSettingsDirectory handles if a sett
 this will mostly be a test of what approach in COM will suit us best
 
  [X] Sync OSGuess from pear to pyrus
-Rewrite it ?
-
-Add true command line argument parsing for the script frontend
+     Rewrite it ? [no]
 
 Update Sqlite3 to use the new exception mode, and to use bindValue() instead of bindParam()
 
@@ -28,7 +26,7 @@ Fully implement plugin system for custom roles, tasks and commands
     Sqlite3 registry, which extends the Sqlite3 registry and adds the plugin
     tables, and then have a check at load-in for plugins to load as needed.
 
-Fully implement and test post-install scripts
+ [X] Fully implement and test post-install scripts
 
 Implement PECL package install
     Unlike PEAR, we will install PECL packages and implement these new commands:

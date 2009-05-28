@@ -145,7 +145,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
     {
     }
 
-    function setupPostInstall(PEAR2_Pyrus_Registry_Package_Base $package)
+    function setupPostInstall()
     {
     }
 
