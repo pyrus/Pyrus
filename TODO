@@ -5,6 +5,8 @@ TODO:
 
 Declare dependencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
 
+Add doc.php.net as default channel
+
 Package-2.0 and 2.1 xsd needs to be relaxed a bit to allow flexible ordering of elements.
     Some ideas - change sequence to choice and enumerate the possible sequences within the choice,
     this will make a very large xsd, but may work. Something we need to try out.
