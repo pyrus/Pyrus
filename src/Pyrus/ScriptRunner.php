@@ -30,6 +30,7 @@
 class PEAR2_Pyrus_ScriptRunner
 {
     protected $frontend;
+    static protected $skipSections;
 
     function __construct($frontend)
     {
@@ -52,9 +53,9 @@ class PEAR2_Pyrus_ScriptRunner
      * post-install scripts without losing the cross-Frontend ability to retrieve user input
      * @param string
      */
-    function skipParamgroup($id)
+    static function skipParamgroup($id)
     {
-        $this->_skipSections[$id] = true;
+        self::$skipSections[$id] = true;
     }
 
     function runPostinstallScripts(PEAR2_Pyrus_PackageFile_v2_Files_File $scriptfile,
@@ -73,7 +74,7 @@ class PEAR2_Pyrus_ScriptRunner
      */
     function runInstallScript(PEAR2_Pyrus_Task_Postinstallscript $info)
     {
-        $this->_skipSections = array();
+        self::$skipSections = array();
         if (!count($info->paramgroup)) {
             $info->scriptobject->run(array(), '_default');
             return;
@@ -83,7 +84,7 @@ class PEAR2_Pyrus_ScriptRunner
 
         try {
             foreach ($info->paramgroup as $group) {
-                if (isset($this->_skipSections[$group->id])) {
+                if (isset(self::$skipSections[$group->id])) {
                     // the post-install script chose to skip this section dynamically
                     continue;
                 }

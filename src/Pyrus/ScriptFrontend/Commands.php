@@ -59,9 +59,10 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
                 $this->term['bold']   = sprintf("%c%c%c%c%c%c", 27, 91, 49, 109, 0, 0);
                 $this->term['normal'] = sprintf("%c%c%c%c%c", 27, 91, 109, 0, 0);
             }
+        }
     }
 
-    function bold($text)
+    function _bold($text)
     {
         if (empty($this->term['bold'])) {
             return strtoupper($text);
@@ -559,12 +560,25 @@ addchan_success:
     }
 
     /**
+     * This is why we need to move to a better CLI system...
+     *
+     * make it possible to call confirmDialog() without it showing up as a command
+     */
+    function __call($func, $params)
+    {
+        if ($func === 'confirmDialog') {
+            return $this->_confirmDialos($params[0]);
+        }
+        throw new \Exception('Unknown method ' . $func . ' in class PEAR2_Pyrus_ScriptFrontend\Commands');
+    }
+
+    /**
      * Ask for user input, confirm the answers and continue until the user is satisfied
      * @param array an array of arrays, format array('name' => 'paramname', 'prompt' =>
      *              'text to display', 'type' => 'string'[, default => 'default value'])
      * @return array
      */
-    function confirmDialog($params)
+    function _confirmDialog($params)
     {
         $answers = $prompts = $types = array();
         foreach ($params as $param) {
@@ -579,20 +593,20 @@ addchan_success:
                 $i = 1;
                 foreach ($answers as $var => $value) {
                     if (!strlen($value)) {
-                        echo $this->bold("* Enter an answer for #" . $i . ": ({$prompts[$var]})\n");
+                        echo $this->_bold("* Enter an answer for #" . $i . ": ({$prompts[$var]})\n");
                     }
                     $i++;
                 }
             }
 
-            $answers = $this->userDialog('', $prompts, $types, $answers);
+            $answers = $this->_userDialog('', $prompts, $types, $answers);
             $tried   = true;
         } while (is_array($answers) && count(array_filter($answers)) != count($prompts));
 
         return $answers;
     }
 
-    function userDialog($command, $prompts, $types = array(), $defaults = array(), $screensize = 20)
+    function _userDialog($command, $prompts, $types = array(), $defaults = array(), $screensize = 20)
     {
         if (!is_array($prompts)) {
             return array();

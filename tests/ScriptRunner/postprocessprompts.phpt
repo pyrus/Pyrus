@@ -19,6 +19,13 @@ class fake2 extends fake
         }
         return $prompts;
     }
+
+    function run(array $answers, $section)
+    {
+        // for coverage, also test skipParamgroup
+        PEAR2_Pyrus_ScriptRunner::skipParamgroup('third');
+        return parent::run($answers, $section);
+    }
 }
 
 $postinstall = $package->files['foobar']->postinstallscript->add();
@@ -41,7 +48,6 @@ $frontend = new fakefrontend;
 
 $frontend->addPrompts(array('paramname' => 'first thingy', 'paramname2' => 'second thingy'));
 $frontend->addPrompts(array('paramname' => 'first thingy 2', 'paramname2' => 'second thingy 2'));
-$frontend->addPrompts(array('paramname' => 'first thingy 3', 'paramname2' => 'second thingy 3'));
 $frontend->addPrompts(array('paramname' => 'first thingy 4', 'paramname2' => 'second thingy 4'));
 
 $runner = new PEAR2_Pyrus_ScriptRunner($frontend);
@@ -78,23 +84,10 @@ $test->assertEquals(array (
   array (
     'answers' => 
     array (
-      'paramname' => 'first thingy 3',
-      'paramname2' => 'second thingy 3',
-      'first::paramname' => 'first thingy 2',
-      'first::paramname2' => 'second thingy 2',
-    ),
-    'section' => 'third',
-  ),
-  4 => 
-  array (
-    'answers' => 
-    array (
       'paramname' => 'first thingy 4',
       'paramname2' => 'second thingy 4',
       'first::paramname' => 'first thingy 2',
       'first::paramname2' => 'second thingy 2',
-      'third::paramname' => 'first thingy 3',
-      'third::paramname2' => 'second thingy 3',
     ),
     'section' => 'fourth',
   ),
@@ -153,43 +146,9 @@ this thing',
         'type' => 'string',
       ),
     ),
-    'section' => 'third',
-  ),
-  4 => 
-  array (
-    0 => 
-    array (
-      'name' => 'paramname',
-      'prompt' => 'paramname',
-      'type' => 'string',
-    ),
-    1 => 
-    array (
-      'name' => 'paramname2',
-      'prompt' => 'paramname',
-      'type' => 'string',
-    ),
-  ),
-  5 => 
-  array (
-    'postprocessprompts' => 
-    array (
-      0 => 
-      array (
-        'name' => 'paramname',
-        'prompt' => 'paramname',
-        'type' => 'string',
-      ),
-      1 => 
-      array (
-        'name' => 'paramname2',
-        'prompt' => 'paramname',
-        'type' => 'string',
-      ),
-    ),
     'section' => 'fourth',
   ),
-  6 => 
+  4 => 
   array (
     0 => 
     array (
