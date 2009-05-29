@@ -3,7 +3,7 @@ PEAR2_Pyrus_Config::loadConfigFile() good systemfile 2
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
-set_include_path(''); // disable include_path cascading for simplicity
+set_include_path($testpath); // disable include_path cascading for simplicity
 file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>
 <c>
  <!-- make sure php_dir and data_dir are not processed -->
@@ -18,9 +18,10 @@ file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>
  <unknown>ha!</unknown>
 </c>');
 $a = $configclass::singleton($testpath, $testpath . '/blah');
+restore_include_path();
 $test->assertEquals($testpath, $a->path, 'peardir');
 $test->assertEquals($testpath . '/blah', $a->userfile, 'userfile');
-$test->assertEquals($testpath . '/src', $a->php_dir, 'php_dir');
+$test->assertEquals($testpath . '/php', $a->php_dir, 'php_dir');
 $test->assertEquals($testpath . '/data', $a->data_dir, 'data_dir');
 $test->assertEquals($testpath . '/foo', $a->ext_dir, 'ext_dir');
 $test->assertEquals($testpath . '/bah', $a->doc_dir, 'doc_dir');

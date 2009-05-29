@@ -23,21 +23,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  1 => 
+  1 =>
   array (
-    'name' => 'script/pearscs',
-    'file' => 
-    array (
-      'attribs' => 
-      array (
-        'role' => 'script',
-        'name' => 'scripts/pearscs',
-      ),
-    ),
-  ),
-  2 => 
-  array (
-    'name' => 'src/PEAR2/SimpleChannelServer.php',
+    'name' => 'php/PEAR2/SimpleChannelServer.php',
     'file' => 
     array (
       'attribs' => 
@@ -48,9 +36,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  3 => 
+  2 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Categories.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/Categories.php',
     'file' => 
     array (
       'attribs' => 
@@ -61,9 +49,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  4 => 
+  3 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Categories/Exception.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/Categories/Exception.php',
     'file' => 
     array (
       'attribs' => 
@@ -74,9 +62,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  5 => 
+  4 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Channel.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/Channel.php',
     'file' => 
     array (
       'attribs' => 
@@ -87,9 +75,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  6 => 
+  5 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/CLI.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/CLI.php',
     'file' => 
     array (
       'attribs' => 
@@ -100,9 +88,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  7 => 
+  6 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Exception.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/Exception.php',
     'file' => 
     array (
       'attribs' => 
@@ -113,9 +101,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  8 => 
+  7 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/Get.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/Get.php',
     'file' => 
     array (
       'attribs' => 
@@ -126,9 +114,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  9 => 
+  8 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Category.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/REST/Category.php',
     'file' => 
     array (
       'attribs' => 
@@ -139,9 +127,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  10 => 
+  9 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Maintainer.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/REST/Maintainer.php',
     'file' => 
     array (
       'attribs' => 
@@ -152,9 +140,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  11 => 
+  10 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Manager.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/REST/Manager.php',
     'file' => 
     array (
       'attribs' => 
@@ -165,9 +153,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  12 => 
+  11 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Package.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/REST/Package.php',
     'file' => 
     array (
       'attribs' => 
@@ -178,9 +166,9 @@ $test->assertEquals(array (
       ),
     ),
   ),
-  13 => 
+  12 => 
   array (
-    'name' => 'src/PEAR2/SimpleChannelServer/REST/Release.php',
+    'name' => 'php/PEAR2/SimpleChannelServer/REST/Release.php',
     'file' => 
     array (
       'attribs' => 
@@ -188,6 +176,18 @@ $test->assertEquals(array (
         'role' => 'php',
         'name' => 'src/SimpleChannelServer/REST/Release.php',
         'baseinstalldir' => 'PEAR2',
+      ),
+    ),
+  ),
+  13 => 
+  array (
+    'name' => 'script/pearscs',
+    'file' => 
+    array (
+      'attribs' => 
+      array (
+        'role' => 'script',
+        'name' => 'scripts/pearscs',
       ),
     ),
   ),

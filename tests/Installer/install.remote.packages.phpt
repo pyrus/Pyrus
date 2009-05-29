@@ -49,7 +49,7 @@ $test->assertEquals('1.0.0', $reg->info('P3', 'pear2.php.net', 'version'), 'P3 v
 $test->assertEquals('1.0.0', $reg->info('P4', 'pear2.php.net', 'version'), 'P4 version');
 
 for ($i = 1; $i <= 4; $i++) {
-    $test->assertFileExists(__DIR__ . "/testit/src/glooby$i", "P$i file not installed");
+    $test->assertFileExists(__DIR__ . "/testit/php/glooby$i", "P$i file not installed");
 }
 ?>
 ===DONE===

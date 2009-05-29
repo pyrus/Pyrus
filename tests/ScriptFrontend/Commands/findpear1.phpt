@@ -31,7 +31,8 @@ $help2 =
 'run-scripts [PEARPath]' . "\n" .
 'config-show [PEARPath]' . "\n" .
 'set [PEARPath]' . "\n" .
-'mypear [PEARPath]' . "\n";
+'mypear [PEARPath]' . "\n" .
+'build [PEARPath]' . "\n";
 $test->assertEquals($help1 . $help2,
                     $contents,
                     'help output');

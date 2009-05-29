@@ -80,7 +80,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/REST/Release.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/REST/Release.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -89,7 +89,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/REST/Package.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/REST/Package.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -98,7 +98,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/REST/Manager.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/REST/Manager.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -107,7 +107,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/REST/Maintainer.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/REST/Maintainer.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -116,7 +116,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/REST/Category.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/REST/Category.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -125,7 +125,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/Get.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/Get.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -134,7 +134,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/Exception.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/Exception.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -143,7 +143,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/CLI.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/CLI.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -152,7 +152,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/Channel.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/Channel.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -161,7 +161,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/Categories/Exception.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/Categories/Exception.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -170,7 +170,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer/Categories.php',
+              'name' => 'php/PEAR2/SimpleChannelServer/Categories.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),
@@ -179,7 +179,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'php',
-              'name' => 'src/PEAR2/SimpleChannelServer.php',
+              'name' => 'php/PEAR2/SimpleChannelServer.php',
               'baseinstalldir' => 'PEAR2',
             ),
           ),

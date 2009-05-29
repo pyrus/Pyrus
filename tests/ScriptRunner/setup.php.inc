@@ -8,8 +8,8 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 
-mkdir(__DIR__ . '/testit/src');
-file_put_contents(__DIR__ . '/testit/src/foobar', '<?php
+mkdir(__DIR__ . '/testit/php');
+file_put_contents(__DIR__ . '/testit/php/foobar', '<?php
 class foobar_postinstall extends fake {}');
 $pf->name = 'testing2';
 $pf->channel = 'pear2.php.net';

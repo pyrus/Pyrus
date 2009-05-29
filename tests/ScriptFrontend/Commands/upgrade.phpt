@@ -37,9 +37,9 @@ $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEP
                     $contents,
                     'list packages');
 
-$test->assertFileExists(__DIR__ . '/testit/src/glooby2', 'glooby2');
+$test->assertFileExists(__DIR__ . '/testit/php/glooby2', 'glooby2');
 $test->assertEquals('hi',
-                    file_get_contents(__DIR__ . '/testit/src/glooby2'), 'files match');
+                    file_get_contents(__DIR__ . '/testit/php/glooby2'), 'files match');
 ?>
 ===DONE===
 --CLEAN--

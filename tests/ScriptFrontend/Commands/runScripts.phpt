@@ -32,7 +32,13 @@ $cli->run($args = array ('run-scripts', 'testing2'));
 $contents = ob_get_contents();
 ob_end_clean();
 
-$output = 'Using PEAR installation found at /home/user/workspace/all/Pyrus/tests/ScriptFrontend/Commands/testit
+$d = DIRECTORY_SEPARATOR;
+$output = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit
+Including external post-installation script "' . __DIR__ . DIRECTORY_SEPARATOR . 'testit'.$d.'php'.$d.
+'foobar" - any errors are in this script
+Inclusion succeeded
+running post-install script "foobar_postinstall->init()"
+init succeeded
 testing
 this thing
  1. paramname  : 

@@ -85,6 +85,7 @@ class PEAR2_Pyrus_Config
      */
     protected $values;
 
+    static protected $initializing = false;
     /**
      * mapping of path => PEAR2 configuration objects
      *
@@ -122,7 +123,7 @@ class PEAR2_Pyrus_Config
      */
     static protected $defaults =
         array(
-            'php_dir' => '@php_dir@/src', // pseudo-value in this implementation
+            'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
@@ -130,7 +131,10 @@ class PEAR2_Pyrus_Config
             'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@/www',
             'test_dir' => '@php_dir@/tests',
+            'src_dir' => '@php_dir@/src',
             'php_bin' => '',
+            'php_prefix' => '',
+            'php_suffix' => '',
             'php_ini' => '',
             'default_channel' => 'pear2.php.net',
             'preferred_mirror' => 'pear2.php.net',
@@ -175,8 +179,11 @@ class PEAR2_Pyrus_Config
             'data_dir', // pseudo-value in this implementation
             'www_dir',
             'test_dir',
+            'src_dir',
             'php_bin',
             'php_ini',
+            'php_prefix',
+            'php_suffix',
         );
 
     /**
@@ -342,6 +349,7 @@ class PEAR2_Pyrus_Config
      */
     protected function __construct($pearDirectory = false, $userfile = false)
     {
+        self::$initializing = true;
         self::constructDefaults();
         if ($pearDirectory) {
             $pearDirectory = str_replace(array('\\', '//', '/'),
@@ -349,16 +357,22 @@ class PEAR2_Pyrus_Config
                                          $pearDirectory);
         }
 
-        $pearDirectory = $this->loadUserSettings($pearDirectory, $userfile);
+        $this->loadUserSettings($pearDirectory, $userfile);
+        $pearDirectory = $this->setupCascadingRegistries($pearDirectory);
         if ($pearDirectory) {
             $this->loadConfigFile($pearDirectory);
-            $this->setCascadingRegistries($pearDirectory);
         }
         self::$configs[$pearDirectory] = $this;
         $this->pearDir = $pearDirectory;
 
         // Always set the current config to the most recently created one.
         self::$current = $this;
+        self::$initializing = false;
+    }
+
+    static function initializing()
+    {
+        return self::$initializing;
     }
 
     /**
@@ -381,28 +395,11 @@ class PEAR2_Pyrus_Config
     }
 
     /**
-     * set the path to scan for pyrus installations
+     * set the paths to scan for pyrus installations
      */
     public function setCascadingRegistries($path)
     {
         $paths = explode(PATH_SEPARATOR, $path);
-        $ret = $paths[0];
-        if (count($paths) == 1) {
-            // add registries within include_path by default
-            // if explicit path is specified, user knows what they
-            // are doing, don't add include_path
-            PEAR2_Pyrus_Log::log(1, 'Automatically cascading include_path');
-            $extra = explode(PATH_SEPARATOR, get_include_path());
-            foreach ($extra as $i => $path) {
-                if (substr($path, strlen($path) - 3) == 'src' && $path[strlen($path) - 4] == DIRECTORY_SEPARATOR) {
-                    // include_path goes to the php_dir which is always src, so our config
-                    // file is in the parent directory.
-                    $extra[$i] = dirname($path);
-                }
-            }
-            array_unshift($extra, $ret);
-            $paths = $extra;
-        }
 
         $paths = array_unique($paths);
         $readonly = false;
@@ -454,7 +451,7 @@ class PEAR2_Pyrus_Config
                 }
             }
         }
-        return $ret;
+        return $paths[0];
     }
 
     /**
@@ -467,7 +464,7 @@ class PEAR2_Pyrus_Config
             return self::$current;
         }
         // default
-        return PEAR2_Pyrus_Config::singleton();
+        return static::singleton();
     }
 
     /**
@@ -570,11 +567,11 @@ class PEAR2_Pyrus_Config
         $this->userFile = $userfile;
         if (!$userfile || !file_exists($userfile)) {
             PEAR2_Pyrus_Log::log(5, 'User configuration file ' . $userfile . ' not found');
-            return $pearDirectory;
+            return;
         }
 
         if (isset(self::$userConfigs[$userfile])) {
-            return $pearDirectory;
+            return;
         }
 
         libxml_use_internal_errors(true);
@@ -603,24 +600,67 @@ class PEAR2_Pyrus_Config
             unset($x->$value);
         }
 
-        if (!$x->my_pear_path) {
+        if (self::initializing()) {
+            self::$userConfigs[$userfile] = (array) $x;
+            return;
+        }
+        $this->setupCascadingRegistries($pearDirectory);
+
+        self::$userConfigs[$userfile] = (array) $x;
+    }
+
+    /**
+     * automatically cascade include_path here if necessary
+     */
+    function cascadePath($pearDirectory)
+    {
+        $paths = explode(PATH_SEPARATOR, $pearDirectory);
+        $primary = $paths[0];
+        if (count($paths) == 1) {
+            // add registries within include_path by default
+            // if explicit path is specified, user knows what they
+            // are doing, don't add include_path
+            $include_path = explode(PATH_SEPARATOR, get_include_path());
+            foreach ($include_path as $i => $path) {
+                if ($path === '.') {
+                    continue;
+                }
+                if (substr($path, strlen($path) - 3) == 'php' && $path[strlen($path) - 4] == DIRECTORY_SEPARATOR) {
+                    // include_path goes to the php_dir which is always php, so our config
+                    // file is in the parent directory.
+                    $extra[] = dirname($path);
+                } else {
+                    $extra[] = $path;
+                }
+            }
+            PEAR2_Pyrus_Log::log(1, 'Automatically cascading include_path components ' . implode(', ', $extra));
+            array_unshift($extra, $primary);
+            $paths = $extra;
+        }
+        $paths = array_unique($paths);
+        $pearDirectory = implode(PATH_SEPARATOR, $paths);
+        return $pearDirectory;
+    }
+
+    function setupCascadingRegistries($pearDirectory)
+    {
+        if (!$this->my_pear_path) {
             if (!$pearDirectory) {
                 $pearDirectory = getcwd();
             }
-            $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory);
-            $x->my_pear_path = $pearDirectory;
-            PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $pearDirectory);
+            $this->my_pear_path = $this->cascadePath($pearDirectory);
+            PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $this->my_pear_path);
+            $pearDirectory = $this->setCascadingRegistries($this->my_pear_path);
         } else {
             if (!$pearDirectory) {
-                $pearDirectory = $this->setCascadingRegistries((string) $x->my_pear_path);
+                $pearDirectory = $this->setCascadingRegistries((string) $this->my_pear_path);
             } else {
                 // ensure that $pearDirectory is a part of this cascading directory path
                 $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory .
-                        PATH_SEPARATOR . $x->my_pear_path);
+                        PATH_SEPARATOR . $this->my_pear_path);
             }
         }
 
-        self::$userConfigs[$userfile] = (array) $x;
         return $pearDirectory;
     }
 
@@ -922,6 +962,10 @@ class PEAR2_Pyrus_Config
                 || $key === 'data_dir'
             ) {
                 if (isset(self::$defaults[$key])) {
+                    if ($key === 'verbose') {
+                        // this prevents a rather nasty loop if logging is checking on verbose
+                        return self::$defaults['verbose'];
+                    }
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
                                          $key .
                         ' default value "' . self::$defaults[$key] . '"');

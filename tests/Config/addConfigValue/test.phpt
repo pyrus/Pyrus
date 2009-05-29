@@ -23,9 +23,10 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->bin_dir . '</bin_dir><data_dir>' .
     $a->data_dir . '</data_dir><www_dir>' .
     $a->www_dir . '</www_dir><test_dir>' .
-    $a->test_dir . '</test_dir><php_bin>' .
+    $a->test_dir . '</test_dir><src_dir>' .
+    $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini><foo>' .
+    $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix><foo>' .
     $a->foo . '</foo></pearconfig>
 ', file_get_contents($cdir . '/' . $a->configSnapshot()), 'contents 1');
 ?>

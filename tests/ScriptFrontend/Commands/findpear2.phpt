@@ -21,10 +21,12 @@ test_scriptfrontend::$stdin = array(
 );
 $cli = new test_scriptfrontend();
 
+set_include_path(__DIR__ . '/testit');
 ob_start();
 $cli->run($args = array ());
 $contents = ob_get_contents();
 ob_end_clean();
+restore_include_path();
 
 $help1 = "Pyrus: No user configuration file detected\n" .
 "It appears you have not used Pyrus before, welcome!  Initialize install?\n" .
@@ -59,6 +61,7 @@ __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 "  yes\n" .
 "  no\n" .
 "[yes] : yes\n" .
+'Automatically cascading include_path components ' . __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 "Thank you, enjoy using Pyrus\n" .
 "Documentation is at http://pear.php.net\n" .
 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" 
@@ -79,7 +82,8 @@ $help2 =
 'run-scripts [PEARPath]' . "\n" .
 'config-show [PEARPath]' . "\n" .
 'set [PEARPath]' . "\n" .
-'mypear [PEARPath]' . "\n";
+'mypear [PEARPath]' . "\n" .
+'build [PEARPath]' . "\n";
 $test->assertEquals($help1 . $help2,
                     $contents,
                     'initialize choice');

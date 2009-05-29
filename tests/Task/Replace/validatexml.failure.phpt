@@ -53,7 +53,7 @@ $xmltest(array('attribs' => array('type' => 'package-info', 'to' => 'package-inf
          'task <replace> is missing attribute "from" in file filename', 'PEAR2_Pyrus_Task_Exception_MissingAttribute');
 
 $xmltest(array('attribs' => array('type' => 'pear-config', 'from' => 'poop', 'to' => 'package-info')), array(),
-         'task <replace> attribute "to" has the wrong value "package-info" in file filename, expecting one of "php_dir, ext_dir, cfg_dir, doc_dir, bin_dir, data_dir, www_dir, test_dir, php_bin, php_ini"', 'PEAR2_Pyrus_Task_Exception_WrongAttributeValue');
+         'task <replace> attribute "to" has the wrong value "package-info" in file filename, expecting one of "php_dir, ext_dir, cfg_dir, doc_dir, bin_dir, data_dir, www_dir, test_dir, src_dir, php_bin, php_ini, php_prefix, php_suffix"', 'PEAR2_Pyrus_Task_Exception_WrongAttributeValue');
 
 $xmltest(array('attribs' => array('type' => 'php-const', 'from' => 'poop', 'to' => 'package-info')), array(),
          'task <replace> attribute "to" has the wrong value "package-info" in file filename, expecting one of "valid PHP constant"', 'PEAR2_Pyrus_Task_Exception_WrongAttributeValue');

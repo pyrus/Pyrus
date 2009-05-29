@@ -27,9 +27,10 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->bin_dir . '</bin_dir><data_dir>' .
     $a->data_dir . '</data_dir><www_dir>' .
     $a->www_dir . '</www_dir><test_dir>' .
-    $t . '</test_dir><php_bin>' .
+    $t . '</test_dir><src_dir>' .
+    $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini></pearconfig>
+    $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix></pearconfig>
 ', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.xml'), 'contents 1');
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
@@ -40,9 +41,10 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->bin_dir . '</bin_dir><data_dir>' .
     $a->data_dir . '</data_dir><www_dir>' .
     $a->www_dir . '</www_dir><test_dir>' .
-    'hi</test_dir><php_bin>' .
+    'hi</test_dir><src_dir>' .
+    $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini></pearconfig>
+    $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix></pearconfig>
 ', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.1.xml'), 'contents 2');
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
@@ -53,9 +55,10 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->bin_dir . '</bin_dir><data_dir>' .
     $a->data_dir . '</data_dir><www_dir>' .
     $a->www_dir . '</www_dir><test_dir>' .
-    'another</test_dir><php_bin>' .
+    'another</test_dir><src_dir>' .
+    $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
-    $a->php_ini . '</php_ini></pearconfig>
+    $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix></pearconfig>
 ', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H:i:s') . '.1.1.xml'), 'contents 3');
 ?>
 ===DONE===

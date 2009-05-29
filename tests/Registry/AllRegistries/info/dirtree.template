@@ -11,11 +11,11 @@ if (substr(PHP_OS, 0, 3) == 'WIN') {
 } else {
     // $dir must be set to __DIR__ . '/testit' in the test itself
     $test->assertEquals(array (
-      $dir . 'src/PEAR2/SimpleChannelServer/REST',
-      $dir . 'src/PEAR2/SimpleChannelServer/Categories',
-      $dir . 'src/PEAR2/SimpleChannelServer',
-      $dir . 'src/PEAR2',
-      $dir . 'src',
+      $dir . 'php/PEAR2/SimpleChannelServer/REST',
+      $dir . 'php/PEAR2/SimpleChannelServer/Categories',
+      $dir . 'php/PEAR2/SimpleChannelServer',
+      $dir . 'php/PEAR2',
+      $dir . 'php',
       $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer/examples',
       $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer',
       $dir . 'docs/pear2.php.net',

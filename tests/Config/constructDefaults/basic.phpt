@@ -9,7 +9,7 @@ PHP_PEAR_BIN_DIR=
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
 $test->assertEquals(array(
-            'php_dir' => '@php_dir@/src', // pseudo-value in this implementation
+            'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext',
             'doc_dir' => '@php_dir@/docs',
             'bin_dir' => PHP_BINDIR,
@@ -17,7 +17,10 @@ $test->assertEquals(array(
             'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@/www',
             'test_dir' => '@php_dir@/tests',
-            'php_bin' => '', 
+            'src_dir' => '@php_dir@/src',
+            'php_bin' => '',
+            'php_prefix' => '',
+            'php_suffix' => '',
             'php_ini' => '',
             'default_channel' => 'pear2.php.net',
             'preferred_mirror' => 'pear2.php.net',
@@ -41,7 +44,7 @@ $test->assertEquals(array(
         ), tc::getTestDefaults(), 'before init');
 tc::constructDefaults();
 $test->assertEquals(array(
-            'php_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'src',
+            'php_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'php',
             'ext_dir' => PEAR_EXTENSION_DIR,
             'doc_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'docs',
             'bin_dir' => PHP_BINDIR,
@@ -49,7 +52,11 @@ $test->assertEquals(array(
             'cfg_dir' => '@php_dir@/cfg',
             'www_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'www',
             'test_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'tests',
+            'src_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'src',
             'php_bin' => PEAR2_Pyrus_Config::current()->php_bin, // no way to reliably test this, so a cop-out
+            'php_prefix' => '',
+            'php_suffix' => '',
+            'php_ini' => php_ini_loaded_file(),
             'default_channel' => 'pear2.php.net',
             'preferred_mirror' => 'pear2.php.net',
             'auto_discover' => '0',
@@ -69,7 +76,7 @@ $test->assertEquals(array(
             'sig_keydir' => '',
             'my_pear_path' => '@php_dir@',
             'plugins_dir' => '@default_config_dir@',
-        ), tc::getTestDefaults(true), 'after');
+        ), tc::getTestDefaults(), 'after');
 $phpini = tc::getTestDefaults();
 $test->assertRegex('/\.ini/', $phpini['php_ini'], 'php_ini');
 // increase code coverage

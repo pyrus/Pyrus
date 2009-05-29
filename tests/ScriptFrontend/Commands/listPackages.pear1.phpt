@@ -10,14 +10,12 @@ restore_include_path();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 
 ob_start();
-$cli->run($args = array (__DIR__.'/listPackages.pear1/php', 'list-packages'));
+$cli->run($args = array (__DIR__.'/listPackages.pear1', 'list-packages'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'listPackages.pear1' .
-                    DIRECTORY_SEPARATOR . 'php' . "\n"
-                    . 'Listing installed packages [' . __DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1' .
-                    DIRECTORY_SEPARATOR . 'php' . ']:' . "\n"
+$test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'listPackages.pear1' . "\n"
+                    . 'Listing installed packages [' . __DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1]:' . "\n"
                     . "[channel pear.php.net]:\n"
                     . " PEAR\n"
                     . " PHP_Archive\n"

@@ -26,7 +26,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ScriptFrontend_Commands
+class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
 {
     public $commands = array();
     // for unit-testing ease
@@ -39,10 +39,11 @@ class PEAR2_Pyrus_ScriptFrontend_Commands
 
     function __construct()
     {
+        PEAR2_Pyrus_Log::attach($this);
         $a = new ReflectionClass($this);
         foreach ($a->getMethods() as $method) {
             $name = $method->name;
-            if ($name[0] == '_' || $name === 'run') {
+            if ($name[0] == '_' || $name === 'run' || $name === 'log') {
                 continue;
             }
             $this->commands[preg_replace_callback('/[A-Z]/',
@@ -247,6 +248,9 @@ previous:
             foreach (PEAR2_Pyrus_Installer::getInstalledPackages() as $package) {
                 echo 'Installed ' . $package->channel . '/' . $package->name . '-' .
                     $package->version['release'] . "\n";
+                if ($package->type === 'extsrc' || $package->type === 'zendextsrc') {
+                    echo " ==> To build this PECL package, use the build command\n";
+                }
             }
         } catch (Exception $e) {
             echo $e;
@@ -559,6 +563,16 @@ addchan_success:
         PEAR2_Pyrus_Config::current()->saveConfig();
     }
 
+    function build($args)
+    {
+        echo "Building PECL extensions\n";
+        $builder = new PEAR2_Pyrus_PECLBuild($this);
+        foreach ($args as $arg) {
+            $package = PEAR2_Pyrus_Config::current()->registry->package[$arg];
+            $builder->build($package);
+        }
+    }
+
     /**
      * This is why we need to move to a better CLI system...
      *
@@ -571,6 +585,9 @@ addchan_success:
         }
         if ($func === 'display') {
             return $this->_display($params[0]);
+        }
+        if ($func === 'ask') {
+            return call_user_func_array(array($this, '_ask'), $params);
         }
         throw new \Exception('Unknown method ' . $func . ' in class PEAR2_Pyrus_ScriptFrontend\Commands');
     }
@@ -687,5 +704,26 @@ addchan_success:
         }
 
         return $result;
+    }
+
+    function log($level, $message)
+    {
+        static $data = array();
+        if (PEAR2_Pyrus_Config::initializing()) {
+            // we can't check verbose until initializing is complete, so save
+            // the message, and only display the log after config is initialized
+            $data[] = array($level, $message);
+            return;
+        }
+        if (count($data)) {
+            $save = $data;
+            $data = array();
+            foreach ($save as $info) {
+                $this->log($info[0], $info[1]);
+            }
+        }
+        if ($level <= PEAR2_Pyrus_Config::current()->verbose) {
+            echo $message, "\n";
+        }
     }
 }

@@ -2,14 +2,15 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::help()
 --FILE--
 <?php
-set_include_path(dirname(__FILE__).'/testit');
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
+set_include_path(__DIR__ . '/testit');
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 $cli->run($args = array (0 => 'help'));
 
 $contents = ob_get_contents();
 ob_end_clean();
+restore_include_path();
 $help1 = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n";
 $help2 =
 'Commands supported:' . "\n" .
@@ -27,7 +28,8 @@ $help2 =
 'run-scripts [PEARPath]' . "\n" .
 'config-show [PEARPath]' . "\n" .
 'set [PEARPath]' . "\n" .
-'mypear [PEARPath]' . "\n";
+'mypear [PEARPath]' . "\n" .
+'build [PEARPath]' . "\n";
 $test->assertEquals($help1 . $help2,
                     $contents,
                     'help output');

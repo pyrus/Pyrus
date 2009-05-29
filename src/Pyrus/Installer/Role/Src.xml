@@ -1,10 +1,10 @@
 <role version="1.0">
  <releasetypes>extsrc</releasetypes>
  <releasetypes>zendextsrc</releasetypes>
- <installable />
- <locationconfig />
+ <installable>1</installable>
+ <locationconfig>src_dir</locationconfig>
  <honorsbaseinstall />
- <unusualbaseinstall />
+ <unusualbaseinstall>1</unusualbaseinstall>
  <phpfile />
  <executable />
  <phpextension />

@@ -3,7 +3,7 @@ ScriptRunner: post-install script runner test, with post-processing of prompts
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
-file_put_contents(__DIR__ . '/testit/src/foobar', '<?php
+file_put_contents(__DIR__ . '/testit/php/foobar', '<?php
 class foobar_postinstall extends fake2 {}');
 
 class fake2 extends fake

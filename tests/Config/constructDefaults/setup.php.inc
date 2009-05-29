@@ -4,11 +4,6 @@ class tc extends PEAR2_Pyrus_Config
 {
     public static function getTestDefaults($nophpini = false)
     {
-        if ($nophpini) {
-            $a = self::$defaults;
-            unset($a['php_ini']);
-            return $a;
-        }
         return self::$defaults;
     }
 

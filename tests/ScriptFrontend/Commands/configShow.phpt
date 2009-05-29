@@ -2,11 +2,12 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::configShow()
 --FILE--
 <?php
-set_include_path(dirname(__FILE__).'/testit');
 define('MYDIR', __DIR__);
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 
+set_include_path(__DIR__ . '/testit');
 $a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/foo.xml');
+restore_include_path();
 $a->ext_dir = __DIR__ . '/testit/ext';
 $a->bin_dir = __DIR__ . '/testit/bin';
 file_put_contents(__DIR__ . '/testit/foo.xml', '<pearconfig version="1.0"></pearconfig>');
@@ -21,7 +22,7 @@ $help1 = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . '
 $d = DIRECTORY_SEPARATOR;
 $help2 =
    "System paths:\n"
- . "  php_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}src\n"
+ . "  php_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}php\n"
  . "  ext_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}ext\n"
  . "  cfg_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}cfg\n"
  . "  doc_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}docs\n"
@@ -29,8 +30,11 @@ $help2 =
  . "  data_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}data\n"
  . "  www_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}www\n"
  . "  test_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}tests\n"
+ . "  src_dir => " . __DIR__ . DIRECTORY_SEPARATOR . "testit${d}src\n"
  . "  php_bin => " . $a->php_bin . "\n"
  . "  php_ini => " . php_ini_loaded_file() . "\n"
+ . "  php_prefix => \n"
+ . "  php_suffix => \n"
  . "Custom System paths:\n"
  . "User config (from " . __DIR__ . "${d}testit${d}foo.xml):\n"
  . "  default_channel => pear2.php.net\n"

@@ -19,9 +19,9 @@ PEAR2_Pyrus_Installer::prepare($package);
 PEAR2_Pyrus_Installer::commit();
 $test->assertFileExists(__DIR__ . '/testit/bin/pearscs', 'bin/pearscs');
 $test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/bin/pearscs')), 'bin/pearscs perms');
-$test->assertFileExists(__DIR__ . '/testit/src/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php');
+$test->assertFileExists(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php');
 $test->assertEquals(file_get_contents(__DIR__.'/../../../../sandbox/SimpleChannelServer/src/SimpleChannelServer.php'),
-                    file_get_contents(__DIR__ . '/testit/src/PEAR2/SimpleChannelServer.php'), 'files match');
+                    file_get_contents(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
@@ -36,7 +36,7 @@ $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEP
                     'list packages');
 
 $test->assertFileNotExists(__DIR__ . '/testit/bin/pearscs', 'bin/pearscs after');
-$test->assertFileNotExists(__DIR__ . '/testit/src/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php after');
+$test->assertFileNotExists(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php after');
 $test->assertEquals(false, isset(PEAR2_Pyrus_Config::current()->registry->package['pear2.php.net/PEAR2_SimpleChannelServer']), 'verify uninstalled');
 ?>
 ===DONE===
