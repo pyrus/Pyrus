@@ -548,6 +548,52 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $stmt->close();
 
+        $sql = '
+            INSERT INTO pearinstaller_dependencies
+              (packages_name, packages_channel, min, max)
+            VALUES
+                (:name, :channel, :min, :max)';
+
+        $min = $info->dependencies['required']->pearinstaller->min;
+        $max = $info->dependencies['required']->pearinstaller->max;
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+
+        $stmt->bindParam(':name', $n);
+        $stmt->bindParam(':channel', $c);
+        $stmt->bindParam(':min', $min);
+        if ($max === null) {
+            $stmt->bindParam(':max', $max, SQLITE3_NULL);
+        } else {
+            $stmt->bindParam(':max', $max);
+        }
+        if (!@$stmt->execute()) {
+            static::$databases[$this->_path]->exec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                $info->channel . '/' . $info->name . ' could not be installed in registry');
+        }
+        $stmt->close();
+
+        $sql = '
+            INSERT INTO pearinstaller_dependencies_exclude
+              (packages_name, packages_channel, exclude)
+            VALUES
+                (:name, :channel, :exclude)';
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+
+        if ($info->dependencies['required']->pearinstaller->exclude) {
+            foreach ($info->dependencies['required']->pearinstaller->exclude as $exclude) {
+                $stmt->bindParam(':name', $n);
+                $stmt->bindParam(':channel', $c);
+                $stmt->bindParam(':exclude', $exclude);
+                if (!$stmt->execute()) {
+                    static::$databases[$this->_path]->exec('ROLLBACK');
+                    throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+                        $info->channel . '/' . $info->name . ' could not be installed in registry');
+                }
+            }
+        }
+        $stmt->close();
+
         if (isset($info->dependencies['required']->os)) {
             $sql = '
                 INSERT INTO os_dependencies
@@ -1131,7 +1177,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $a = static::$databases[$this->_path]->query($sql);
 
         while ($dep = $a->fetchArray()) {
-            $ret->dependencies['required']->php->exclude($dep['exclude']);
+            $ret->dependencies['required']->pearinstaller->exclude($dep['exclude']);
         }
 
         $sql = 'SELECT * FROM os_dependencies

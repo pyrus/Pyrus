@@ -82,6 +82,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
         return $this->info[$var];
     }
 
+    function __set($var, $value)
+    {
+        $this->__call($var, array($value));
+    }
+
     function __isset($var)
     {
         return isset($this->info[$var]);
@@ -153,7 +158,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
     function save()
     {
         $info = $this->info;
-        if ($this->type === 'php') {
+        if ($this->type === 'php' || $this->type === 'pearinstaller') {
             foreach ($info as $key => $val) {
                 if ($key === 'exclude' && is_array($val) && count($val) == 1) {
                     $info[$key] = $val[0];

@@ -571,7 +571,8 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
 
     function isNewPackage()
     {
-        return true;
+        return version_compare($this->dependencies['required']->pearinstaller->min,
+                               '2.0.0a1', '>=');
     }
 
     /**
