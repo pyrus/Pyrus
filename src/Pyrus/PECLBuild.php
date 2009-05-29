@@ -25,6 +25,65 @@
  */
 class PEAR2_Pyrus_PECLBuild
 {
+    protected $ui;
+
+    function __construct($ui)
+    {
+        $this->ui = $ui;
+    }
+
+    function listInstalledStuff($dir)
+    {
+        foreach (new \RecursiveIteratorIterator(
+                            new \RecursiveDirectoryIterator($dir,
+                                                            0|\RecursiveDirectoryIterator::SKIP_DOTS),
+                            \RecursiveIteratorIterator::SELF_FIRST) as $file) {
+            $info = stat($file);
+            $uname = posix_getpwuid($info['uid']);
+            $uname = $uname['name'];
+            $gname = posix_getgrgid($info['gid']);
+            $gname = $gname['name'];
+            $perms = fileperms($file);
+            foreach (array('s' => 0xC000, 'l' => 0xA000, '-' => 0x8000, 'b' => 0x6000,
+                           'd' => 0x4000, 'c' => 0x2000, 'p' => 0x1000)
+                     as $letter => $mask) {
+                if (($perms & $mask) === $mask) {
+                    $perminfo = $letter;
+                    break;
+                }
+            }
+            if (!isset($perminfo)) {
+                $perminfo = 'u';
+            }
+
+            // Owner
+            $perminfo .= (($perms & 0x0100) ? 'r' : '-');
+            $perminfo .= (($perms & 0x0080) ? 'w' : '-');
+            $perminfo .= (($perms & 0x0040) ?
+                        (($perms & 0x0800) ? 's' : 'x' ) :
+                        (($perms & 0x0800) ? 'S' : '-'));
+
+            // Group
+            $perminfo .= (($perms & 0x0020) ? 'r' : '-');
+            $perminfo .= (($perms & 0x0010) ? 'w' : '-');
+            $perminfo .= (($perms & 0x0008) ?
+                        (($perms & 0x0400) ? 's' : 'x' ) :
+                        (($perms & 0x0400) ? 'S' : '-'));
+
+            // World
+            $perminfo .= (($perms & 0x0004) ? 'r' : '-');
+            $perminfo .= (($perms & 0x0002) ? 'w' : '-');
+            $perminfo .= (($perms & 0x0001) ?
+                        (($perms & 0x0200) ? 't' : 'x' ) :
+                        (($perms & 0x0200) ? 'T' : '-'));
+            $date = new DateTime;
+            $date->setTimestamp($info['mtime']);
+    
+            echo $info['ino'], ' ', str_pad(($info['blocks']/2), 3, ' ', STR_PAD_LEFT), ' ', $perminfo, ' ',
+                 $info['nlink'], ' ', $uname, ' ', $gname, ' ',
+                 str_pad($info['size'], 10, ' ', STR_PAD_LEFT), ' ', $date->format('Y-m-d H:i'), ' ', $file, "\n";
+        }
+    }
 
     /**
      * @param string
@@ -32,47 +91,28 @@ class PEAR2_Pyrus_PECLBuild
      * @param array
      * @access private
      */
-    function _harvestInstDir($dest_prefix, $dirname, &$built_files)
+    function _harvestInstDir($dest_prefix, $dirname)
     {
-        $d = opendir($dirname);
-        if (!$d)
-            return false;
-
-        $ret = true;
-        while (($ent = readdir($d)) !== false) {
-            if ($ent{0} == '.')
-                continue;
-
-            $full = $dirname . DIRECTORY_SEPARATOR . $ent;
-            if (is_dir($full)) {
-                if (!$this->_harvestInstDir(
-                        $dest_prefix . DIRECTORY_SEPARATOR . $ent,
-                        $full, $built_files)) {
-                    $ret = false;
-                    break;
-                }
-            } else {
-                $dest = $dest_prefix . DIRECTORY_SEPARATOR . $ent;
-                $built_files[] = array(
-                        'file' => $full,
-                        'dest' => $dest,
+        $built_files = array();
+        foreach (new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($dirname,
+                                                    0|\RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
+            $built_files[] = array(
+                        'file' => (string) $file,
+                        'dest' => $dest_prefix . str_replace($dirname . DIRECTORY_SEPARATOR, '', $file),
                         'php_api' => $this->php_api_version,
                         'zend_mod_api' => $this->zend_module_api_no,
                         'zend_ext_api' => $this->zend_extension_api_no,
                         );
-            }
         }
-        closedir($d);
-        return $ret;
+        return $built_files;
     }
 
     /**
      * Build an extension from source.  Runs "phpize" in the source
-     * directory, but compiles in a temporary directory
-     * (/var/tmp/pear-build-USER/PACKAGE-VERSION).
+     * directory, and compiles there.
      *
-     * @param string|PEAR_PackageFile_v* $descfile path to XML package description file, or
-     *               a PEAR_PackageFile object
+     * @param PEAR2_Pyrus_IPackage $descfile package object
      *
      * @param mixed $callback callback function used to report output,
      * see PEAR_Builder::_runCommand for details
@@ -91,109 +131,75 @@ class PEAR2_Pyrus_PECLBuild
      */
     function build($descfile, $callback = null)
     {
+        $config = $config;
         if (preg_match('/(\\/|\\\\|^)([^\\/\\\\]+)?php(.+)?$/',
-                       $this->config->get('php_bin'), $matches)) {
+                       $config->php_bin, $matches)) {
             if (isset($matches[2]) && strlen($matches[2]) &&
-                trim($matches[2]) != trim($this->config->get('php_prefix'))) {
-                $this->log(0, 'WARNING: php_bin ' . $this->config->get('php_bin') .
+                trim($matches[2]) != trim($config->php_prefix)) {
+                $this->log(0, 'WARNING: php_bin ' . $config->php_bin .
                            ' appears to have a prefix ' . $matches[2] . ', but' .
                            ' config variable php_prefix does not match');
             }
             if (isset($matches[3]) && strlen($matches[3]) &&
-                trim($matches[3]) != trim($this->config->get('php_suffix'))) {
-                $this->log(0, 'WARNING: php_bin ' . $this->config->get('php_bin') .
+                trim($matches[3]) != trim($config->php_suffix)) {
+                $this->log(0, 'WARNING: php_bin ' . $config->php_bin .
                            ' appears to have a suffix ' . $matches[3] . ', but' .
                            ' config variable php_suffix does not match');
             }
         }
 
-
         $this->current_callback = $callback;
-        if (PEAR_OS == "Windows") {
-            return $this->_build_win32($descfile, $callback);
-        }
-        if (PEAR_OS != 'Unix') {
-            return $this->raiseError("building extensions not supported on this platform");
-        }
-        if (is_object($descfile)) {
-            $pkg = $descfile;
-            $descfile = $pkg->getPackageFile();
-            if (is_a($pkg, 'PEAR_PackageFile_v1')) {
-                $dir = dirname($descfile);
-            } else {
-                $dir = $pkg->_config->get('temp_dir') . '/' . $pkg->getName();
-                // automatically delete at session end
-                $this->addTempFile($dir);
-            }
-        } else {
-            $pf = &new PEAR_PackageFile($this->config);
-            $pkg = &$pf->fromPackageFile($descfile, PEAR_VALIDATE_NORMAL);
-            if (PEAR::isError($pkg)) {
-                return $pkg;
-            }
-            $dir = dirname($descfile);
-        }
+        $dir = $config->src_dir . DIRECTORY_SEPARATOR .
+            $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         $old_cwd = getcwd();
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
-            return $this->raiseError("could not chdir to $dir");
+            throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to package directory ' . $dir);
         }
-        $vdir = $pkg->getPackage() . '-' . $pkg->getVersion();
-        if (is_dir($vdir)) {
-            chdir($vdir);
+        if (!is_writable($dir)) {
+            throw new PEAR2_Pyrus_PECLBuild_Exception('cannot build in package directory ' . $dir .
+                                                      ', directory not writable');
         }
-        $dir = getcwd();
-        $this->log(2, "building in $dir");
-        putenv('PATH=' . $this->config->get('bin_dir') . ':' . getenv('PATH'));
-        $err = $this->_runCommand($this->config->get('php_prefix')
+        $this->log(0, "cleaning build directory $dir");
+        if (!$this->_runCommand($config->php_prefix
                                 . "phpize" .
-                                $this->config->get('php_suffix'),
-                                array(&$this, 'phpizeCallback'));
-        if (PEAR::isError($err)) {
-            return $err;
+                                $config->php_suffix . ' --clean',
+                                null,
+                                array('PATH' => $config->php_bin . ':' . getenv('PATH')))) {
+            throw new PEAR2_Pyrus_PECLBuild_Exception('phpize failed - if running phpize manually from ' . $dir .
+                                                      ' works, please open a bug for pyrus with details');
         }
-        if (!$err) {
-            return $this->raiseError("`phpize' failed");
+        $this->log(0, "building in $dir");
+        if (!$this->_runCommand($config->php_prefix
+                                . "phpize" .
+                                $config->php_suffix,
+                                array($this, 'phpizeCallback'),
+                                array('PATH' => $config->php_bin . ':' . getenv('PATH')))) {
+            throw new PEAR2_Pyrus_PECLBuild_Exception('phpize failed - if running phpize manually from ' . $dir .
+                                                      ' works, please open a bug for pyrus with details');
         }
 
         // {{{ start of interactive part
         $configure_command = "$dir/configure";
-        $configure_options = $pkg->getConfigureOptions();
-        if ($configure_options) {
-            foreach ($configure_options as $o) {
-                $default = array_key_exists('default', $o) ? $o['default'] : null;
-                list($r) = $this->ui->userDialog('build',
-                                                 array($o['prompt']),
-                                                 array('text'),
-                                                 array($default));
-                if (substr($o['name'], 0, 5) == 'with-' &&
+        if (count($pkg->configureoptions)) {
+            foreach ($pkg->configureoptions as $o) {
+                list($r) = $this->ui->ask($o->prompt, array(), $o->default);
+                if (substr($o->name, 0, 5) == 'with-' &&
                     ($r == 'yes' || $r == 'autodetect')) {
-                    $configure_command .= " --$o[name]";
+                    $configure_command .= ' --' . $o->name;
                 } else {
-                    $configure_command .= " --$o[name]=".trim($r);
+                    $configure_command .= ' --' . $o->name . '=' . trim($r);
                 }
             }
         }
         // }}} end of interactive part
 
-        // FIXME make configurable
-        if(!$user=getenv('USER')){
-            $user='defaultuser';
-        }
-        $build_basedir = "/var/tmp/pear-build-$user";
-        $build_dir = "$build_basedir/$vdir";
-        $inst_dir = "$build_basedir/install-$vdir";
+        $build_basedir = $dir;
+        $build_dir = $dir;
+        $inst_dir = $build_basedir . '/.install';
         $this->log(1, "building in $build_dir");
-        if (is_dir($build_dir)) {
-            System::rm(array('-rf', $build_dir));
+        if (!file_exists($inst_dir) || !is_dir($inst_dir) || !mkdir($inst_dir, 0755, true)) {
+            throw new PEAR2_Pyrus_PECLBuild_Exception('could not create temporary install dir: ' . $inst_dir);
         }
-        if (!System::mkDir(array('-p', $build_dir))) {
-            return $this->raiseError("could not create build dir: $build_dir");
-        }
-        $this->addTempFile($build_dir);
-        if (!System::mkDir(array('-p', $inst_dir))) {
-            return $this->raiseError("could not create temporary install dir: $inst_dir");
-        }
-        $this->addTempFile($inst_dir);
 
         if (getenv('MAKE')) {
             $make_command = getenv('MAKE');
@@ -204,31 +210,31 @@ class PEAR2_Pyrus_PECLBuild
             $configure_command,
             $make_command,
             "$make_command INSTALL_ROOT=\"$inst_dir\" install",
-            "find \"$inst_dir\" | xargs ls -dils"
             );
         if (!file_exists($build_dir) || !is_dir($build_dir) || !chdir($build_dir)) {
-            return $this->raiseError("could not chdir to $build_dir");
+            throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to ' . $build_dir);
         }
-        putenv('PHP_PEAR_VERSION=@PEAR-VER@');
         foreach ($to_run as $cmd) {
-            $err = $this->_runCommand($cmd, $callback);
-            if (PEAR::isError($err)) {
+            try {
+                if (!$this->_runCommand($cmd, $callback, array('PHP_PEAR_VERSION' => '@PEAR-VER@'))) {
+                    throw new PEAR2_Pyrus_PECLBuild_Exception("`$cmd' failed");
+                }
+            } catch (\Exception $e) {
                 chdir($old_cwd);
-                return $err;
-            }
-            if (!$err) {
-                chdir($old_cwd);
-                return $this->raiseError("`$cmd' failed");
+                throw $e;
             }
         }
-        if (!($dp = opendir("modules"))) {
+
+        $this->listInstalledStuff($inst_dir);
+
+        if (!file_exists('modules') || !is_dir('modules')) {
             chdir($old_cwd);
-            return $this->raiseError("no `modules' directory found");
+            throw new PEAR2_Pyrus_PECLBuild_Exception("no `modules' directory found");
         }
         $built_files = array();
-        $prefix = exec($this->config->get('php_prefix')
+        $prefix = exec($config->php_prefix
                         . "php-config" .
-                       $this->config->get('php_suffix') . " --prefix");
+                       $config->php_suffix . " --prefix");
         $this->_harvestInstDir($prefix, $inst_dir . DIRECTORY_SEPARATOR . $prefix, $built_files);
         chdir($old_cwd);
         return $built_files;
@@ -261,8 +267,6 @@ class PEAR2_Pyrus_PECLBuild
             $apino = (int)$matches[2];
             if (isset($this->$member)) {
                 $this->$member = $apino;
-                //$msg = sprintf("%-22s : %d", $matches[1], $apino);
-                //$this->log(1, $msg);
             }
         }
     }
@@ -283,41 +287,87 @@ class PEAR2_Pyrus_PECLBuild
      *
      * @access private
      */
-    function _runCommand($command, $callback = null)
+    function _runCommand($command, $callback = null, $env = null)
     {
         $this->log(1, "running: $command");
-        $pp = popen("$command 2>&1", "r");
-        if (!$pp) {
-            return $this->raiseError("failed to run `$command'");
-        }
-        if ($callback && $callback[0]->debug == 1) {
-            $olddbg = $callback[0]->debug;
-            $callback[0]->debug = 2;
+
+        $exitcode = $this->system_with_timeout($command, $this->buildDirectory, $callback, $env);
+        return ($exitcode == 0);
+    }
+
+    /**
+     * Ported from PHP 5.3's run-tests.php
+     */
+    function system_with_timeout($commandline, $cwd, $callback = null, $env = null, $stdin = null, $timeout = 60)
+    {
+        $data = '';
+
+        $bin_env = array();
+        foreach((array)$env as $key => $value) {
+            $bin_env[(binary)$key] = (binary)$value;
         }
 
-        while ($line = fgets($pp, 1024)) {
-            if ($callback) {
-                call_user_func($callback, 'cmdoutput', $line);
-            } else {
-                $this->log(2, rtrim($line));
+        $proc = proc_open($commandline, array(
+            0 => array('pipe', 'r'),
+            1 => array('pipe', 'w'),
+            2 => array('pipe', 'w')
+            ), $pipes, $cwd, $bin_env, array('suppress_errors' => true, 'binary_pipes' => true));
+
+        if (!$proc) {
+            return false;
+        }
+
+        if (!is_null($stdin)) {
+            fwrite($pipes[0], (binary) $stdin);
+        }
+        fclose($pipes[0]);
+
+        while (true) {
+            /* hide errors from interrupted syscalls */
+            $r = $pipes;
+            $w = null;
+            $e = null;
+
+            $n = @stream_select($r, $w, $e, $timeout);
+
+            if ($n === false) {
+                break;
+            } else if ($n === 0) {
+                /* timed out */
+                proc_terminate($proc);
+                throw new PEAR2_Pyrus_PECLBuild_Exception('Error: Process timed out');
+            } else if ($n > 0) {
+                if (strlen($line) == 0) {
+                        /* EOF */
+                        break;
+                }
+                while ($line = fgets($pipes[1], 1024)) {
+                    if ($callback) {
+                        call_user_func($callback, 'cmdoutput', $line);
+                    } else {
+                        $this->log(0, rtrim($line));
+                    }
+                }
             }
         }
-        if ($callback && isset($olddbg)) {
-            $callback[0]->debug = $olddbg;
+
+        $stat = proc_get_status($proc);
+
+        if ($stat['signaled']) {
+            $code = proc_close($proc);
+            throw new PEAR2_Pyrus_PECLBuild_Exception('Process was stopped with a signal: ' . $stat['stopsig']);
         }
 
-        $exitcode = is_resource($pp) ? pclose($pp) : -1;
-        return ($exitcode == 0);
+        $code = proc_close($proc);
+        return $code;
     }
 
     function log($level, $msg)
     {
         if ($this->current_callback) {
-            if ($this->debug >= $level) {
-                call_user_func($this->current_callback, 'output', $msg);
-            }
+            call_user_func($this->current_callback, 'output', $msg);
             return;
         }
-        return PEAR_Common::log($level, $msg);
+        return PEAR2_Pyrus_Log::log($level, $msg);
     }
 }
