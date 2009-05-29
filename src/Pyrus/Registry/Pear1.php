@@ -384,7 +384,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         $ret = array();
         try {
             foreach (new DirectoryIterator($dir) as $file) {
-                if ($file->isDot() && !$file->isFile()) continue;
+                if ($file->isDot() || !$file->isFile()) continue;
                 $a = @unserialize(file_get_contents($file->getPathName()));
                 // $a['name'] is not set on v1 regs
                 if ($a !== false && isset($a['name'])) {
