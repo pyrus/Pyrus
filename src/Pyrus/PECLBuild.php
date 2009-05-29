@@ -214,9 +214,17 @@ class PEAR2_Pyrus_PECLBuild
         if (!file_exists($build_dir) || !is_dir($build_dir) || !chdir($build_dir)) {
             throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to ' . $build_dir);
         }
+        $env = $_ENV;
+        // this next line is modified by the installer at packaging time
+        if ('@PEAR-VER@' == '@'.'PEAR-VER@') {
+            // we're running from svn
+            $env['PHP_PEAR_VERSION'] = '2.0.0a1';
+        } else {
+            $env['PHP_PEAR_VERSION'] = '@PEAR-VER@';
+        }
         foreach ($to_run as $cmd) {
             try {
-                if (!$this->_runCommand($cmd, $callback, array('PHP_PEAR_VERSION' => '@PEAR-VER@'))) {
+                if (!$this->_runCommand($cmd, $callback, $env)) {
                     throw new PEAR2_Pyrus_PECLBuild_Exception("`$cmd' failed");
                 }
             } catch (\Exception $e) {
