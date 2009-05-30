@@ -627,9 +627,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->clear();
                 $stmt->bindParam(':name', $n);
                 $stmt->bindParam(':channel', $c);
-                $name = $dep['name'];
+                $name = $dep->name;
                 $stmt->bindParam(':os', $name);
-                $conflicts = isset($dep['conflicts']);
+                $conflicts = $dep->conflicts;
                 $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
                 if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');
@@ -653,9 +653,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $stmt->clear();
                 $stmt->bindParam(':name', $n);
                 $stmt->bindParam(':channel', $c);
-                $name = $dep['pattern'];
+                $name = $dep->pattern;
                 $stmt->bindParam(':arch', $name);
-                $conflicts = isset($dep['conflicts']);
+                $conflicts = isset($dep->conflicts);
                 $stmt->bindParam(':conflicts', $conflicts, SQLITE3_INTEGER);
                 if (!@$stmt->execute()) {
                     static::$databases[$this->_path]->exec('ROLLBACK');

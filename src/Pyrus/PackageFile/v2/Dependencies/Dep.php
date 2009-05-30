@@ -13,7 +13,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
 
     function current()
     {
-        return current($this->info);
+        return new self($this, current($this->info), $this->type);
     }
 
     function rewind()
@@ -38,13 +38,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
     {
         return current($this->info);
     }
+
     function __call($var, $args)
     {
-        if ($this->type == 'os' || $this->type == 'arch') {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown method ' . $var . ' called');
-        }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown variable ' . $var . '(), must be one of ' .
+            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
         if ($args[0] === null) {
@@ -171,6 +169,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
         }
         $this->parent->setInfo($this->type, $info);
         $this->parent->save();
+        return $this;
     }
 }
 ?>

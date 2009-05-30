@@ -106,16 +106,19 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 'Cannot retrieve dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
+        $depname = 'name';
         if (!isset($this->info[$var])) {
             switch ($var) {
                 case 'arch' :
+                    $depname = 'pattern';
+                    // break intentionally omitted
                 case 'os' :
                     if ($this->deptype === 'optional' || $this->deptype === 'group') {
                         throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                                 $var . ' dependency is not supported as an optional dependency');
                     }
                     if (!isset($this->info[$var])) {
-                        $this->info[$var] = array();
+                        $this->info[$var] = array($depname => null, 'conflicts' => null);
                     }
                     break;
                 case 'php' :
