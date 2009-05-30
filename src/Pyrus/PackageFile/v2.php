@@ -94,6 +94,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'bundledpackage' => 'getBundledPackage',
         'channel' => 'getChannel',
         'compatible' => 'getCompatible',
+        'configureoption' => 'getConfigureOption',
         'contents' => 'getContents',
         'date' => 'tag',
         'dependencies' => 'getDependencies',
@@ -158,6 +159,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'rawdependencies' => 'dependencies',
         'rawlicense' => 'license',
         'rawcontents' => 'contents',
+        'rawconfigureoption' => array('setRawConfigureoption'), // array says call this function
         'rawrelease' => array('setRawRelease'), // array says call this function
         'rawcompatible' => 'compatible',
         'rawstability' => 'stability',
@@ -433,6 +435,19 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         return new PEAR2_Pyrus_PackageFile_v2_Compatible(
             $this,
             $compatible);
+    }
+
+    function getConfigureOption()
+    {
+        if (!isset($this->packageInfo['configureoption'])) {
+            $configureoption = array();
+        } else {
+            $configureoption = $this->packageInfo['configureoption'];
+            if (count($configureoption) && !isset($configureoption[0])) {
+                $configureoption = array($configureoption);
+            }
+        }
+        return new PEAR2_Pyrus_PackageFile_v2_Configureoption($this, $configureoption);
     }
 
     function getSchemaOK()
@@ -931,6 +946,21 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                     unset($this->packageInfo[$type]);
                 }
             }
+        }
+    }
+
+    function setRawConfigureopion($var, $value)
+    {
+        $t = $this->getPackageType();
+        if ($t != 'bundle') {
+            $t .= 'release';
+        }
+        if ($value === null) {
+            if (isset($this->packageInfo[$t]['configureoption'])) {
+                unset($this->packageInfo[$t]['configureoption']);
+            }
+        } else {
+            $this->packageInfo[$t]['configureoption'] = $value;
         }
     }
 
