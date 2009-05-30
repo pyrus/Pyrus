@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-22</date>
- <time>09:34:39</time>
+ <date>2009-05-30</date>
+ <time>12:00:50</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -131,12 +131,6 @@ Implemented features:
       <file role="php" name="Exception.php"/>
       <file role="php" name="Vertex.php"/>
      </dir>
-     <dir name="FileTransactions">
-      <file role="php" name="Exception.php"/>
-      <file role="php" name="Installedas.php"/>
-      <file role="php" name="Rename.php"/>
-      <file role="php" name="Rmdir.php"/>
-     </dir>
      <dir name="Installer">
       <dir name="Role">
        <file role="php" name="Common.php"/>
@@ -195,6 +189,9 @@ Implemented features:
        <dir name="Compatible">
         <file role="php" name="Exception.php"/>
        </dir>
+       <dir name="Configureoption">
+        <file role="php" name="Exception.php"/>
+       </dir>
        <dir name="Dependencies">
         <file role="php" name="Dep.php"/>
         <file role="php" name="Exception.php"/>
@@ -206,6 +203,7 @@ Implemented features:
        </dir>
        <dir name="Files">
         <file role="php" name="Exception.php"/>
+        <file role="php" name="File.php"/>
        </dir>
        <dir name="License">
         <file role="php" name="Exception.php"/>
@@ -221,6 +219,7 @@ Implemented features:
        </dir>
        <file role="php" name="BundledPackage.php"/>
        <file role="php" name="Compatible.php"/>
+       <file role="php" name="Configureoption.php"/>
        <file role="php" name="Dependencies.php"/>
        <file role="php" name="Developer.php"/>
        <file role="php" name="Files.php"/>
@@ -243,6 +242,9 @@ Implemented features:
       <file role="php" name="Exception.php"/>
       <file role="php" name="IValidator.php"/>
       <file role="php" name="v2.php"/>
+     </dir>
+     <dir name="PECLBuild">
+      <file role="php" name="Exception.php"/>
      </dir>
      <dir name="Registry">
       <dir name="Package">
@@ -287,7 +289,6 @@ Implemented features:
         <file role="php" name="Param.php"/>
        </dir>
        <file role="php" name="Paramgroup.php"/>
-       <file role="php" name="rw.php"/>
       </dir>
       <dir name="Replace">
        <file role="php" name="rw.php"/>
@@ -339,6 +340,7 @@ Implemented features:
      <file role="php" name="OSGuess.php"/>
      <file role="php" name="Package.php"/>
      <file role="php" name="PackageFile.php"/>
+     <file role="php" name="PECLBuild.php"/>
      <file role="php" name="PluginRegistry.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
@@ -543,11 +545,35 @@ Implemented features:
     </dir>
     <dir name="Config">
      <dir name="addConfigValue">
+      <dir name="testit:">
+       <dir name="usr">
+        <dir name="local">
+         <dir name="lib">
+          <dir name=".configsnapshots">
+           <file role="test" name="configsnapshot-2009-05-29 15:00:24.xml"/>
+          </dir>
+         </dir>
+        </dir>
+       </dir>
+      </dir>
       <file role="test" name="fail.phpt"/>
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="test.phpt"/>
      </dir>
      <dir name="configSnapshot">
+      <dir name="testit:">
+       <dir name="usr">
+        <dir name="local">
+         <dir name="lib">
+          <dir name=".configsnapshots">
+           <file role="test" name="configsnapshot-2009-05-29 15:00:24.1.1.xml"/>
+           <file role="test" name="configsnapshot-2009-05-29 15:00:24.1.xml"/>
+           <file role="test" name="configsnapshot-2009-05-29 15:00:24.xml"/>
+          </dir>
+         </dir>
+        </dir>
+       </dir>
+      </dir>
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="test.phpt"/>
      </dir>
@@ -578,6 +604,7 @@ Implemented features:
      </dir>
      <dir name="setCascadingRegistries">
       <file role="test" name="basic.phpt"/>
+      <file role="test" name="basic2.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="userInitialized">
@@ -763,7 +790,13 @@ Implemented features:
     <dir name="Installer">
      <dir name="prepare">
       <file role="test" name="install.prepare.dep.versionconflict.phpt"/>
+      <file role="test" name="install.prepare.depinstalled.notupgrading.phpt"/>
+      <file role="test" name="install.prepare.depinstalled.noupgrade.phpt"/>
+      <file role="test" name="install.prepare.depinstalled.phpt"/>
+      <file role="test" name="install.prepare.depinstalled.upgrade.phpt"/>
+      <file role="test" name="install.prepare.depinstalled.upgradeconflict.phpt"/>
       <file role="test" name="install.prepare.duplicate.phpt"/>
+      <file role="test" name="install.prepare.explicitstate.phpt"/>
       <file role="test" name="install.prepare.fail.depconflict1.phpt"/>
       <file role="test" name="install.prepare.fail.depconflict2.phpt"/>
       <file role="test" name="install.prepare.fail.depconflict3.phpt"/>
@@ -779,6 +812,141 @@ Implemented features:
     </dir>
     <dir name="Mocks">
      <dir name="Internet">
+      <dir name=".xmlregistry">
+       <dir name="channels">
+        <file role="test" name="channel-pear.php.net.xml"/>
+        <file role="test" name="channel-pear2.php.net.xml"/>
+        <file role="test" name="channel-pecl.php.net.xml"/>
+        <file role="test" name="channel-__uri.xml"/>
+        <file role="test" name="channelalias-pear.txt"/>
+        <file role="test" name="channelalias-pear2.txt"/>
+        <file role="test" name="channelalias-pecl.txt"/>
+        <file role="test" name="channelalias-__uri.txt"/>
+       </dir>
+      </dir>
+      <dir name="install.prepare.explicitstate">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P1-1.1.0RC1.tar"/>
+        <file role="test" name="P1-1.1.0RC1.tgz"/>
+        <file role="test" name="P1-1.1.0RC1.zip"/>
+        <file role="test" name="P2-1.0.0.tar"/>
+        <file role="test" name="P2-1.0.0.tgz"/>
+        <file role="test" name="P2-1.0.0.zip"/>
+        <file role="test" name="P2-1.1.0RC3.tar"/>
+        <file role="test" name="P2-1.1.0RC3.tgz"/>
+        <file role="test" name="P2-1.1.0RC3.zip"/>
+        <file role="test" name="P2-1.2.0a1.tar"/>
+        <file role="test" name="P2-1.2.0a1.tgz"/>
+        <file role="test" name="P2-1.2.0a1.zip"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
+        <file role="test" name="P3-1.1.0.tar"/>
+        <file role="test" name="P3-1.1.0.tgz"/>
+        <file role="test" name="P3-1.1.0.zip"/>
+        <file role="test" name="P3-1.1.0RC1.tar"/>
+        <file role="test" name="P3-1.1.0RC1.tgz"/>
+        <file role="test" name="P3-1.1.0RC1.zip"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="1.1.0RC1.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="beta.txt"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="deps.1.1.0RC1.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="package.1.1.0RC1.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+          <file role="test" name="v2.1.1.0RC1.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="1.1.0RC3.xml"/>
+          <file role="test" name="1.2.0a1.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="alpha.txt"/>
+          <file role="test" name="beta.txt"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="deps.1.1.0RC3.txt"/>
+          <file role="test" name="deps.1.2.0a1.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="package.1.1.0RC3.xml"/>
+          <file role="test" name="package.1.2.0a1.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+          <file role="test" name="v2.1.1.0RC3.xml"/>
+          <file role="test" name="v2.1.2.0a1.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="1.1.0.xml"/>
+          <file role="test" name="1.1.0RC1.xml"/>
+          <file role="test" name="1.1.0RC2.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="beta.txt"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="deps.1.1.0.txt"/>
+          <file role="test" name="deps.1.1.0RC1.txt"/>
+          <file role="test" name="deps.1.1.0RC2.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="package.1.1.0.xml"/>
+          <file role="test" name="package.1.1.0RC1.xml"/>
+          <file role="test" name="package.1.1.0RC2.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+          <file role="test" name="v2.1.1.0.xml"/>
+          <file role="test" name="v2.1.1.0RC1.xml"/>
+          <file role="test" name="v2.1.1.0RC2.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
       <dir name="installer.prepare.dep.versionconflict">
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
@@ -1146,6 +1314,61 @@ Implemented features:
           <file role="test" name="latest.txt"/>
           <file role="test" name="maintainers.xml"/>
           <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="remotepackage">
+       <dir name="get">
+        <file role="test" name="GetMaintainers_Test-1.0.0.tar"/>
+        <file role="test" name="GetMaintainers_Test-1.0.0.tgz"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="foo1">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="foo2">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="foo3">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <dir name="foo4">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="getmaintainers_test">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="getmaintainers_test">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
           <file role="test" name="package.1.0.0.xml"/>
           <file role="test" name="stable.txt"/>
           <file role="test" name="v2.1.0.0.xml"/>
@@ -1572,8 +1795,19 @@ Implemented features:
      </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>
+    <dir name="RemotePackage">
+     <file role="test" name="remotepackage.getmaintainers.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="ScriptFileFilterIterator">
+     <file role="test" name="basic.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
     <dir name="ScriptFrontend">
      <dir name="Commands">
+      <dir name="build">
+       <file role="test" name="docblock-0.2.0.tar"/>
+      </dir>
       <dir name="listPackages.pear1">
        <dir name="php">
         <dir name=".channels">
@@ -1606,9 +1840,31 @@ Implemented features:
       <dir name="packages">
        <file role="test" name="Net_URL-1.0.15.tar"/>
       </dir>
+      <dir name="testit">
+       <dir name=".xmlregistry">
+        <dir name="channels">
+         <file role="test" name="channel-pear.php.net.xml"/>
+         <file role="test" name="channel-pear2.php.net.xml"/>
+         <file role="test" name="channel-pecl.php.net.xml"/>
+         <file role="test" name="channel-__uri.xml"/>
+         <file role="test" name="channelalias-pear.txt"/>
+         <file role="test" name="channelalias-pear2.txt"/>
+         <file role="test" name="channelalias-pecl.txt"/>
+         <file role="test" name="channelalias-__uri.txt"/>
+        </dir>
+       </dir>
+       <file role="test" name=".pear2registry"/>
+      </dir>
+      <file role="test" name="build.php"/>
+      <file role="test" name="build.phpt"/>
       <file role="test" name="channelAdd.phpt"/>
       <file role="test" name="channelDel.phpt"/>
+      <file role="test" name="channelDiscover.fail.phpt"/>
+      <file role="test" name="channelDiscover.fail2.phpt"/>
+      <file role="test" name="channelDiscover.phpt"/>
+      <file role="test" name="channelDiscover2.phpt"/>
       <file role="test" name="configShow.phpt"/>
+      <file role="test" name="download.phpt"/>
       <file role="test" name="findpear1.phpt"/>
       <file role="test" name="findpear2.phpt"/>
       <file role="test" name="findpear3.phpt"/>
@@ -1620,15 +1876,32 @@ Implemented features:
       <file role="test" name="listPackages.empty.phpt"/>
       <file role="test" name="listPackages.full.phpt"/>
       <file role="test" name="listPackages.pear1.phpt"/>
+      <file role="test" name="runScripts.phpt"/>
       <file role="test" name="set.phpt"/>
       <file role="test" name="setup.pearinstall.php.inc"/>
+      <file role="test" name="setup.runscripts.php.inc"/>
       <file role="test" name="uninstall.basic.phpt"/>
+      <file role="test" name="upgrade.phpt"/>
+      <file role="test" name="upgrade2.phpt"/>
       <file role="test" name="upgradeRegistry.phpt"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>
+    <dir name="ScriptRunner">
+     <file role="test" name="basic.phpt"/>
+     <file role="test" name="postprocessprompts.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
     <dir name="Task">
      <dir name="Postinstallscript">
+      <dir name="__get">
+       <file role="test" name="param.phpt"/>
+       <file role="test" name="paramgroup.condition.phpt"/>
+       <file role="test" name="paramgroup.matchesconditiontype.phpt"/>
+       <file role="test" name="paramgroup1.phpt"/>
+       <file role="test" name="paramgroup2.phpt"/>
+       <file role="test" name="setup.php.inc"/>
+      </dir>
       <file role="test" name="validatexml.failure.phpt"/>
       <file role="test" name="validatexml.failure2.phpt"/>
       <file role="test" name="validatexml.failure3.phpt"/>
@@ -1679,14 +1952,14 @@ Implemented features:
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>

@@ -569,7 +569,7 @@ addchan_success:
         $builder = new PEAR2_Pyrus_PECLBuild($this);
         foreach ($args as $arg) {
             $package = PEAR2_Pyrus_Config::current()->registry->package[$arg];
-            $builder->build($package);
+            $builder->installBuiltStuff($package, $builder->build($package));
         }
     }
 

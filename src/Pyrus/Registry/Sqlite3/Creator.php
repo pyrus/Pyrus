@@ -70,6 +70,22 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         }
 
         $query = '
+          CREATE TABLE configureoptions (
+           packages_name TEXT(80) NOT NULL,
+           packages_channel TEXT(255) NOT NULL,
+           name TEXT(255) NOT NULL,
+           prompt TEXT(255) NOT NULL,
+           defaultValue TEXT(255),
+           PRIMARY KEY (packages_name, packages_channel, name)
+          );';
+        $worked = $database->exec($query);
+        if (!$worked) {
+            @$database->exec('ROLLBACK');
+            $error = $database->lastErrorMsg();
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $error);
+        }
+
+        $query = '
           CREATE TABLE maintainers (
            packages_name TEXT(80) NOT NULL,
            packages_channel TEXT(255) NOT NULL,

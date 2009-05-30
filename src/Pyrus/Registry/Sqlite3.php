@@ -236,6 +236,26 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $roles     = array();
 
         $sql = '
+            INSERT INTO configureoptions
+              (packages_name, packages_channel, name, prompt, defaultValue)
+            VALUES(:name, :channel, :oname, :prompt, :default)';
+
+        $stmt = static::$databases[$this->_path]->prepare($sql);
+
+        $stmt->bindValue(':name',     $n);
+        $stmt->bindValue(':channel',  $c);
+        
+        foreach ($info->configureoption as $option) {
+            $stmt->bindValue(':oname', $option->name);
+            $stmt->bindValue(':prompt', $option->prompt);
+            if ($option->default === null) {
+                $stmt->bindValue(':default', null, SQLITE3_NULL);
+            } else {
+                $stmt->bindValue(':default', $option->default);
+            }
+        }
+
+        $sql = '
             INSERT INTO files
               (packages_name, packages_channel, packagepath, configpath, role,
                relativepath, origpath, baseinstalldir, tasks)
@@ -1099,6 +1119,16 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $ret->setBaseInstallDirs($dirs);
         $stmt->close();
+
+        $sql = 'SELECT * FROM configureoptions
+                WHERE
+                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+        $a = static::$databases[$this->_path]->query($sql);
+
+        while ($option = $a->fetchArray()) {
+            $ret->configureoption[$option['name']]->prompt($option['prompt'])->default($option['defaultValue']);
+        }
         $this->fetchCompatible($ret);
         $this->fetchDeps($ret);
         $ret->release = null;
