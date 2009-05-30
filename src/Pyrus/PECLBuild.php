@@ -26,10 +26,100 @@
 class PEAR2_Pyrus_PECLBuild
 {
     protected $ui;
+    protected $buildDirectory;
+    protected $zend_extension_api_no = 1;
+    protected $zend_module_api_no = 1;
+    protected $php_api_version = 1;
 
     function __construct($ui)
     {
         $this->ui = $ui;
+    }
+
+    /**
+     * This is just cut/pasted from PEAR_Installer
+     * and needs to be fleshed out and made to work
+     * with AtomicFileTransaction and with setting
+     * files in the registry and then using Registry->replace()
+     * to save the changes in all registries
+     */
+    function installBuiltStuff($pkg)
+    {
+        $this->log(1, "\nBuild process completed successfully");
+        foreach ($built as $ext) {
+            $bn = basename($ext['file']);
+            list($_ext_name, $_ext_suff) = explode('.', $bn);
+            if ($_ext_suff == '.so' || $_ext_suff == '.dll') {
+                if (extension_loaded($_ext_name)) {
+                    $this->raiseError("Extension '$_ext_name' already loaded. " .
+                                      'Please unload it in your php.ini file ' .
+                                      'prior to install or upgrade');
+                }
+                $role = 'ext';
+            } else {
+                $role = 'src';
+            }
+
+            $dest = $ext['dest'];
+            $packagingroot = '';
+            if (isset($this->_options['packagingroot'])) {
+                $packagingroot = $this->_options['packagingroot'];
+            }
+
+            $copyto = $this->_prependPath($dest, $packagingroot);
+            if ($copyto != $dest) {
+                $this->log(1, "Installing '$dest' as '$copyto'");
+            } else {
+                $this->log(1, "Installing '$dest'");
+            }
+
+            $copydir = dirname($copyto);
+            // pretty much nothing happens if we are only registering the install
+            if (empty($this->_options['register-only'])) {
+                if (!file_exists($copydir) || !is_dir($copydir)) {
+                    if (!$this->mkDirHier($copydir)) {
+                        return $this->raiseError("failed to mkdir $copydir",
+                            PEAR_INSTALLER_FAILED);
+                    }
+
+                    $this->log(3, "+ mkdir $copydir");
+                }
+
+                if (!@copy($ext['file'], $copyto)) {
+                    return $this->raiseError("failed to write $copyto ($php_errormsg)", PEAR_INSTALLER_FAILED);
+                }
+
+                $this->log(3, "+ cp $ext[file] $copyto");
+                $this->addFileOperation('rename', array($ext['file'], $copyto));
+                if (!OS_WINDOWS) {
+                    $mode = 0666 & ~(int)octdec($this->config->get('umask'));
+                    $this->addFileOperation('chmod', array($mode, $copyto));
+                    if (!@chmod($copyto, $mode)) {
+                        $this->log(0, "failed to change mode of $copyto ($php_errormsg)");
+                    }
+                }
+            }
+
+            if ($filelist->getPackageXmlVersion() == '1.0') {
+                $filelist->installedFile($bn, array(
+                    'role' => $role,
+                    'name' => $bn,
+                    'installed_as' => $dest,
+                    'php_api' => $ext['php_api'],
+                    'zend_mod_api' => $ext['zend_mod_api'],
+                    'zend_ext_api' => $ext['zend_ext_api'],
+                    ));
+            } else {
+                $filelist->installedFile($bn, array('attribs' => array(
+                    'role' => $role,
+                    'name' => $bn,
+                    'installed_as' => $dest,
+                    'php_api' => $ext['php_api'],
+                    'zend_mod_api' => $ext['zend_mod_api'],
+                    'zend_ext_api' => $ext['zend_ext_api'],
+                    )));
+            }
+        }
     }
 
     function listInstalledStuff($dir)
@@ -99,7 +189,7 @@ class PEAR2_Pyrus_PECLBuild
                                                     0|\RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
             $built_files[] = array(
                         'file' => (string) $file,
-                        'dest' => $dest_prefix . str_replace($dirname . DIRECTORY_SEPARATOR, '', $file),
+                        'dest' => $dest_prefix . '/' . str_replace($dirname . DIRECTORY_SEPARATOR, '', $file),
                         'php_api' => $this->php_api_version,
                         'zend_mod_api' => $this->zend_module_api_no,
                         'zend_ext_api' => $this->zend_extension_api_no,
@@ -112,7 +202,7 @@ class PEAR2_Pyrus_PECLBuild
      * Build an extension from source.  Runs "phpize" in the source
      * directory, and compiles there.
      *
-     * @param PEAR2_Pyrus_IPackage $descfile package object
+     * @param PEAR2_Pyrus_IPackage $pkg package object
      *
      * @param mixed $callback callback function used to report output,
      * see PEAR_Builder::_runCommand for details
@@ -129,9 +219,9 @@ class PEAR2_Pyrus_PECLBuild
      *
      * @see PEAR_Builder::_runCommand
      */
-    function build($descfile, $callback = null)
+    function build($pkg, $callback = null)
     {
-        $config = $config;
+        $config = PEAR2_Pyrus_Config::current();
         if (preg_match('/(\\/|\\\\|^)([^\\/\\\\]+)?php(.+)?$/',
                        $config->php_bin, $matches)) {
             if (isset($matches[2]) && strlen($matches[2]) &&
@@ -149,8 +239,13 @@ class PEAR2_Pyrus_PECLBuild
         }
 
         $this->current_callback = $callback;
-        $dir = $config->src_dir . DIRECTORY_SEPARATOR .
-            $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+        if ($pkg->isNewPackage()) {
+            $dir = $config->src_dir . DIRECTORY_SEPARATOR .
+                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+        } else {
+            $dir = $config->src_dir . DIRECTORY_SEPARATOR . $pkg->name;
+        }
+        $this->buildDirectory = $dir;
         $old_cwd = getcwd();
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
             throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to package directory ' . $dir);
@@ -160,14 +255,11 @@ class PEAR2_Pyrus_PECLBuild
                                                       ', directory not writable');
         }
         $this->log(0, "cleaning build directory $dir");
-        if (!$this->_runCommand($config->php_prefix
+        $this->_runCommand($config->php_prefix
                                 . "phpize" .
                                 $config->php_suffix . ' --clean',
                                 null,
-                                array('PATH' => $config->php_bin . ':' . getenv('PATH')))) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('phpize failed - if running phpize manually from ' . $dir .
-                                                      ' works, please open a bug for pyrus with details');
-        }
+                                array('PATH' => $config->php_bin . ':' . getenv('PATH')));
         $this->log(0, "building in $dir");
         if (!$this->_runCommand($config->php_prefix
                                 . "phpize" .
@@ -193,11 +285,9 @@ class PEAR2_Pyrus_PECLBuild
         }
         // }}} end of interactive part
 
-        $build_basedir = $dir;
-        $build_dir = $dir;
-        $inst_dir = $build_basedir . '/.install';
-        $this->log(1, "building in $build_dir");
-        if (!file_exists($inst_dir) || !is_dir($inst_dir) || !mkdir($inst_dir, 0755, true)) {
+        $inst_dir = $dir . '/.install';
+        $this->log(1, "building in $dir");
+        if (!file_exists($inst_dir) && !mkdir($inst_dir, 0755, true) || !is_dir($inst_dir)) {
             throw new PEAR2_Pyrus_PECLBuild_Exception('could not create temporary install dir: ' . $inst_dir);
         }
 
@@ -211,8 +301,8 @@ class PEAR2_Pyrus_PECLBuild
             $make_command,
             "$make_command INSTALL_ROOT=\"$inst_dir\" install",
             );
-        if (!file_exists($build_dir) || !is_dir($build_dir) || !chdir($build_dir)) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to ' . $build_dir);
+        if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
+            throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to ' . $dir);
         }
         $env = $_ENV;
         // this next line is modified by the installer at packaging time
@@ -243,7 +333,7 @@ class PEAR2_Pyrus_PECLBuild
         $prefix = exec($config->php_prefix
                         . "php-config" .
                        $config->php_suffix . " --prefix");
-        $this->_harvestInstDir($prefix, $inst_dir . DIRECTORY_SEPARATOR . $prefix, $built_files);
+        $built_files = $this->_harvestInstDir($prefix, $inst_dir . DIRECTORY_SEPARATOR . $prefix);
         chdir($old_cwd);
         return $built_files;
     }
@@ -270,7 +360,7 @@ class PEAR2_Pyrus_PECLBuild
             return;
         }
         $matches = array();
-        if (preg_match('/^\s+(\S[^:]+):\s+(\d{8})/', $data, $matches)) {
+        if (preg_match('/^((?:[a-zA-Z]+ ?)+):\s+(\d{8})/', $data, $matches)) {
             $member = preg_replace('/[^a-z]/', '_', strtolower($matches[1]));
             $apino = (int)$matches[2];
             if (isset($this->$member)) {
@@ -297,9 +387,9 @@ class PEAR2_Pyrus_PECLBuild
      */
     function _runCommand($command, $callback = null, $env = null)
     {
-        $this->log(1, "running: $command");
+        $this->log(1, "running: $command 2>&1");
 
-        $exitcode = $this->system_with_timeout($command, $this->buildDirectory, $callback, $env);
+        $exitcode = $this->system_with_timeout($command . ' 2>&1', $this->buildDirectory, $callback, $env);
         return ($exitcode == 0);
     }
 
@@ -345,16 +435,17 @@ class PEAR2_Pyrus_PECLBuild
                 proc_terminate($proc);
                 throw new PEAR2_Pyrus_PECLBuild_Exception('Error: Process timed out');
             } else if ($n > 0) {
-                if (strlen($line) == 0) {
-                        /* EOF */
-                        break;
-                }
+                $called = false;
                 while ($line = fgets($pipes[1], 1024)) {
+                    $called = true;
                     if ($callback) {
                         call_user_func($callback, 'cmdoutput', $line);
                     } else {
                         $this->log(0, rtrim($line));
                     }
+                }
+                if (!$called) {
+                    break;
                 }
             }
         }
@@ -367,6 +458,7 @@ class PEAR2_Pyrus_PECLBuild
         }
 
         $code = proc_close($proc);
+        $code = $stat['exitcode'];
         return $code;
     }
 
