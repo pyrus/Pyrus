@@ -962,7 +962,7 @@ class PEAR2_Pyrus_Config
                 || $key === 'data_dir'
             ) {
                 if (isset(self::$defaults[$key])) {
-                    if (self::initializing() && $key === 'verbose') {
+                    if ($key === 'verbose') {
                         // this prevents a rather nasty loop if logging is checking on verbose
                         return self::$defaults['verbose'];
                     }
