@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-30</date>
- <time>12:00:50</time>
+ <date>2009-05-31</date>
+ <time>00:29:17</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -1495,6 +1495,28 @@ Implemented features:
       <file role="test" name="os.iterator.phpt"/>
       <file role="test" name="package.coverage.phpt"/>
      </dir>
+     <dir name="oddorderings">
+      <dir name="packages">
+       <dir name="APC">
+        <file role="test" name="package.xml"/>
+       </dir>
+       <dir name="Auth">
+        <file role="test" name="package.xml"/>
+       </dir>
+       <dir name="Auth_PrefManager">
+        <file role="test" name="package.xml"/>
+       </dir>
+       <dir name="bloomy">
+        <file role="test" name="package.xml"/>
+       </dir>
+      </dir>
+      <file role="test" name="APC.phpt"/>
+      <file role="test" name="Auth.phpt"/>
+      <file role="test" name="Auth_PrefManager.phpt"/>
+      <file role="test" name="bloomy.phpt"/>
+      <file role="test" name="README"/>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
      <dir name="setupFiles">
       <file role="test" name="setupPackageFile.php.inc"/>
      </dir>
@@ -1855,7 +1877,6 @@ Implemented features:
        </dir>
        <file role="test" name=".pear2registry"/>
       </dir>
-      <file role="test" name="build.php"/>
       <file role="test" name="build.phpt"/>
       <file role="test" name="channelAdd.phpt"/>
       <file role="test" name="channelDel.phpt"/>
@@ -1950,18 +1971,18 @@ Implemented features:
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
