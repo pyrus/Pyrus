@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>APC</name>
+ <channel>pecl.php.net</channel>
+ <summary>Alternative PHP Cache</summary>
+ <description>APC is a free, open, and robust framework for caching and optimizing PHP intermediate code.</description>
+ <lead>
+  <name>Daniel Cowgill</name>
+  <user>dcowgill</user>
+  <email>dan@mail.communityconnect.com</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>George Schlossnagle</name>
+  <user>gschlossnagle</user>
+  <email>george@omniti.com</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Rasmus Lerdorf</name>
+  <user>rasmus</user>
+  <email>rasmus@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Gopal Vijayaraghavan</name>
+  <user>gopalv</user>
+  <email>gopalv@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Edin Kadribasic</name>
+  <user>edink</user>
+  <email>edink@emini.dk</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Ilia Alshanetsky</name>
+  <user>iliaa</user>
+  <email>ilia@prohost.org</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Marcus Börger</name>
+  <user>helly</user>
+  <email>helly@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Sara Golemon</name>
+  <user>pollita</user>
+  <email>pollita@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Brian Shire</name>
+  <user>shire</user>
+  <email>shire@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2008-12-12</date>
+ <time>17:07:26</time>
+ <version>
+  <release>3.1.2</release>
+  <api>3.1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>- pecl package.xml/build fixes (bjori)</notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="841596cff3b9bd83e79d01ccb591ff55" name="tests/apc_001.phpt" role="test" />
+   <file md5sum="cc1dba4e429ff93dce1ca7dea01c2899" name="tests/apc_002.phpt" role="test" />
+   <file md5sum="04c800594e9934cf8e15157e9bd4c52f" name="tests/apc_003.phpt" role="test" />
+   <file md5sum="538f198f432614d9f2c0819fea5193a7" name="tests/apc_003b.phpt" role="test" />
+   <file md5sum="43c8e1c89fad5bb25ded528837e63b2b" name="tests/apc_004.phpt" role="test" />
+   <file md5sum="06432141cbc82df8ddde7fac52e9f65e" name="tests/apc_005.phpt" role="test" />
+   <file md5sum="af5fb27e3ff8867bf44d043aad378261" name="tests/apc_006.phpt" role="test" />
+   <file md5sum="0bcb17840e8281a5ffc2e82278319b53" name="tests/apc_007.phpt" role="test" />
+   <file md5sum="0674cbe2e88fe5c331bee3fbb1395d4f" name="tests/apc_008.phpt" role="test" />
+   <file md5sum="87bdae8d939c92ea82d7ee914728e6f8" name="tests/apc_009.phpt" role="test" />
+   <file md5sum="ae89fc951656bafc0028d3c3bf0f5e4d" name="tests/iterator_001.phpt" role="test" />
+   <file md5sum="278fd065fa65c6f4634cdb3bc91caf95" name="tests/iterator_002.phpt" role="test" />
+   <file md5sum="1bbc3b6d212f0a89ce3fe11b67fa7b9f" name="tests/iterator_003.phpt" role="test" />
+   <file md5sum="babe1d2bc638371cd180e3324f0792cb" name="tests/iterator_004.phpt" role="test" />
+   <file md5sum="3a70387a8eb37bc391b67d2bf8eb9eb2" name="tests/iterator_005.phpt" role="test" />
+   <file md5sum="2834d8f550ac95862c508c46f69e4c15" name="tests/iterator_006.phpt" role="test" />
+   <file md5sum="82a40b37c545631cd87c3e1e421353b5" name="tests/iterator_007.phpt" role="test" />
+   <file md5sum="6ecba4154b6bd6f8703000f5198710cc" name="tests/skipif.inc" role="test" />
+   <file md5sum="ed9a4192d7ab7f953856b92c5e689cf5" name="CHANGELOG" role="doc" />
+   <file md5sum="f5ca8db7fde5fb83ab79b509279b9856" name="INSTALL" role="doc" />
+   <file md5sum="694f49a7e1f276ba75a3dd2c5acd580d" name="LICENSE" role="doc" />
+   <file md5sum="eea150699d3dffb2cdf7d243854189d7" name="NOTICE" role="doc" />
+   <file md5sum="efa40416571fc54aa59912203c0391e6" name="TODO" role="doc" />
+   <file md5sum="b7dd14328e218d3ecc97d85fb83d7ba7" name="TECHNOTES.txt" role="doc" />
+   <file md5sum="050a47e9a05043e698eeee1b580b478d" name="apc.c" role="src" />
+   <file md5sum="09a525ff9a3850e6de42eee2adf07463" name="apc.dsp" role="src" />
+   <file md5sum="67d689ece47e2f43d1a7bdfcea3d4400" name="apc.h" role="src" />
+   <file md5sum="352831e4db2c9bba97944013604bd6e9" name="apc_cache.c" role="src" />
+   <file md5sum="bd42e24d736266b668c7b1adae301f16" name="apc_cache.h" role="src" />
+   <file md5sum="84e7b572e3a42287fb4967a5dd91fc9a" name="apc_compile.c" role="src" />
+   <file md5sum="4e881672af8c19547b90d64603e3182c" name="apc_compile.h" role="src" />
+   <file md5sum="7762f65c0e459163866663a56447049d" name="apc_debug.c" role="src" />
+   <file md5sum="46d182a6122f3c29a1904f62af7cfb51" name="apc_debug.h" role="src" />
+   <file md5sum="65367f710406a4dc87f274ca46417625" name="apc_fcntl.c" role="src" />
+   <file md5sum="dcabe06fc0a3d7547899ece513ec1100" name="apc_fcntl.h" role="src" />
+   <file md5sum="202ae82f6732496f4a6c761f4e45e78c" name="apc_globals.h" role="src" />
+   <file md5sum="c84940480451b2f0de65e359e42b76d9" name="apc_lock.h" role="src" />
+   <file md5sum="56d9bcb55dc89c89418454ed340a0c0e" name="apc_main.c" role="src" />
+   <file md5sum="b227ce21ac3370c3d7f564e4d303540d" name="apc_main.h" role="src" />
+   <file md5sum="cbc6ebf0be7b610cf5d3e26c54ff4d4e" name="apc_mmap.c" role="src" />
+   <file md5sum="113fd94c3c05423b997b41e03af86cdd" name="apc_php.h" role="src" />
+   <file md5sum="c885c9cef69b2ba06f9b8333708f8ea5" name="apc_pthreadmutex.c" role="src" />
+   <file md5sum="8d07a72d0ca3a69fb012d82846383a11" name="apc_pthreadmutex.h" role="src" />
+   <file md5sum="63f80e9ac6076e6fb93bbb05b566eb5c" name="apc_sem.c" role="src" />
+   <file md5sum="cbfacf4486d4d0a6f47a9947cf100838" name="apc_sem.h" role="src" />
+   <file md5sum="300306bdd82ff7579515ff9270c56e3f" name="apc_shm.c" role="src" />
+   <file md5sum="a30c912a457554fbbf8bb909536350e1" name="apc_shm.h" role="src" />
+   <file md5sum="b5e560ffdbf8e273786d33fe0aab49b4" name="apc_sma.c" role="src" />
+   <file md5sum="80a9785a7032a5726871529fc55ab2fe" name="apc_sma.h" role="src" />
+   <file md5sum="228f76738e0f800fe4a0ff554a2db8f5" name="apc_spin.c" role="src" />
+   <file md5sum="c6d00605fec2c886f9d98ea56e3372f2" name="apc_spin.h" role="src" />
+   <file md5sum="ac4574ad062994d05e13dc458350043a" name="apc_stack.c" role="src" />
+   <file md5sum="7d9fea097e632261c6f5039ad1d769fa" name="apc_stack.h" role="src" />
+   <file md5sum="13d01cf3d1d022ee2a9cf14df3ecede8" name="apc_zend.c" role="src" />
+   <file md5sum="0532efbc67417673a19cdf2161e71877" name="apc_zend.h" role="src" />
+   <file md5sum="0c84d4eff92d6fd5f0a8f75007b3e608" name="apc_signal.c" role="src" />
+   <file md5sum="001eaa1cc5b7d60f7430150ad9267733" name="apc_signal.h" role="src" />
+   <file md5sum="5cbb4715b9f084133ecfe85d09f2b1f5" name="apc_iterator.c" role="src" />
+   <file md5sum="95f12ee9869c1c1908dabeba3e113ebf" name="apc_iterator.h" role="src" />
+   <file md5sum="e05f065d0d53da1bc44559263b0697bc" name="apc_pool.c" role="src" />
+   <file md5sum="e412e21afe7e3178afdae3b7bcfdd866" name="apc_pool.h" role="src" />
+   <file md5sum="e493fedd312ad7133e2e3b03bbf8521f" name="config.m4" role="src" />
+   <file md5sum="115c8c1f6f3df61087e7477004dfffcd" name="config.w32" role="src" />
+   <file md5sum="01de6e34c6840726b7e78fdef7e71fb5" name="php_apc.c" role="src" />
+   <file md5sum="28059ab3cea1e84afab40d7fa66f6d83" name="php_apc.h" role="src" />
+   <file md5sum="b45f27dcf4858683000a6059eef4890e" name="pgsql_s_lock.c" role="src" />
+   <file md5sum="60e3c5ef4f051d48d52c13760af9b8a7" name="pgsql_s_lock.h" role="src" />
+   <file md5sum="eba8123157da4d7cd334e31d405dba2c" name="apc_fcntl_win32.c" role="src" />
+   <file md5sum="b48b9e243638d12cb529c1d3a6f2f7ba" name="apc_rfc1867.c" role="src" />
+   <file md5sum="5584690bea9f880f206c2fee311c36bd" name="apc.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>apc</providesextension>
+ <extsrcrelease>
+  <configureoption default="no" name="enable-apc-filehits" prompt="Enable per request file info about files used from the APC cache" />
+  <configureoption default="no" name="enable-spinlocks" prompt="Enable spin locks (EXPERIMENTAL)" />
+ </extsrcrelease>
+ <changelog>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>2.0.0</release>
+    <api>2.0.0</api>
+   </version>
+   <date>2003-07-01</date>
+   <notes>Complete rework.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>2.0.1</release>
+    <api>2.0.0</api>
+   </version>
+   <date>2003-07-01</date>
+   <notes>Win32 support added.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>2.0.2</release>
+    <api>2.0.0</api>
+   </version>
+   <date>2004-03-12</date>
+   <notes>Fixed non-existant class bug.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.0</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-05</date>
+   <notes>PHP-5.1 Support and numerous fixes</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.1</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-05</date>
+   <notes>PHP4 build fix</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.2</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-05</date>
+   <notes>Default to mmap and add a better error message for shmget failures</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.3</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-07</date>
+   <notes>Fix compile problem against PHP 5.0.x</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.4</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-18</date>
+   <notes>Add win32 support from Edin.
+Add --with-apxs switch to work around problem when loading APC into Apache binary compiled with LFS switches
+A couple of other minor fixes.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.5</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-27</date>
+   <notes>Make it easier for sapis that only populate file_handle-&gt;filename to use APC. (Rasmus)
+Support extensions such as bcompiler that need to hook into compile_file. (Val)
+Ralf Becker&apos;s apcgui code has now become the default apc.php status page. (Ralf, Rasmus, Ilia)
+Segfault in cache cleanup code (Ilia, Rasmus)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.6</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-07-30</date>
+   <notes>Added apc.php to package.xml file.
+Track per-entry memory usage. (Val)
+Various apc.php fixes and enhancements. (Ralf, Ilia, Rasmus)
+fcntl locking robustness fixes. (Rasmus)
+Shared read-locks where possible. (Rasmus)
+Added file_update_protection configuration parameter. (Rasmus)
+Windows ZTS fixes (Frank)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.7</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-08-16</date>
+   <notes>Fix to apc.php to show final segment in frag chart. (Ilia)
+A couple of win32 fixes. (Frank)
+Add apc.enable_cli ini directive. (Rasmus)
+Add test cases. (Marcus)
+Fix apc_define_constants() bug - http://pecl.php.net/bugs/5084 (Rasmus)
+Simplify user cache handling by removing the user_cache_stack (Rasmus)
+Fix apc_fetch() memory corruption (Andrei,Rasmus)
+Added apc.max_file_size INI setting that allows exclusion of large files from being cached. Default file size limit, 1 megabyte. (Ilia)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.8</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2005-08-24</date>
+   <notes>Fix invalid free in globals destructor introduced in 3.0.7 (Rasmus)
+Cache corruption fix in cache-full cleanup code (Gopal)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.9</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2006-03-04</date>
+   <notes>Eliminate rand() call when slam_defense is not set (Rasmus)
+Fix for __isset problem (Gopal)
+Rewrite allocator from a &quot;best fit&quot; to a &quot;next fit&quot; algorithm (Rasmus)
+Added a Cache Full counter so we have an idea how many times the segment has filled up causing an expunge (Rasmus)
+Report back the correct number of available bytes in the segment instead of the allocated bytes. (Rasmus)
+Add cache busy flag which is set when an expunge is underway (Rasmus)
+Add automatic serialization of objects in apc_store() (Marcus)
+64-bit .ini flag fix (Rasmus)
+Static members fix (Gopal)
+sma_cleanup() mem leak fix (Rasmus)
+Fix for http://pecl.php.net/bugs/5311 (Rasmus)
+Fix autoglobals JIT bug (Gopal)
+Fix instance bug (Gopal)
+Add a lock cleanup safety net to request shutdown (Rasmus)
+Fix apc.slam_defense edge-case bug (Rasmus)
+User entry memory usage tracking support (Ilia)
+Allow keys used in apc_store/apc_fetch/apc_delete to be binary safe and prevent conflicts between keys that are found at the start of other keys. (Ilia)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.10</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2006-03-11</date>
+   <notes>* Add apc.stat ini flag which defaults to 1.  If set to 0, the main script and any fullpath
+  includes will not be stat&apos;ed for any changes.  You will have to restart the server if you
+  change anything.  This mode increases performance quite a bit, especially if you have a
+  lot of includes.
+
+* Get rid of the lock safety net hack I added in 3.0.9.  It seems to cause more problems
+  than it solves.  I&apos;ll need to revisit locking and signal handling at some point soon.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.11</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2006-08-16</date>
+   <notes>* Made --enable-apc-mmap the default compile option (for real this time)
+
+* Add an optional flag to apc_cache_info() and some apc.php tweaks to make it
+  only fetch header information to make it useful when you have tens of
+  thousands of entries.  (Brian Shire)
+
+* 64-bit fixes (George)
+
+* Don&apos;t mix Full Path and Inode keys (George)
+
+* Override ZEND_INCLUDE_OR_EVAL opcode (when possible) to speed up use of
+  require_once() and include_once() statements. (Sara)
+
+* Add a non-blocking write_lock for cache inserts.  This is a better approach
+  to prevent cache slams and deprecates the slam_defense setting. (Rasmus)
+
+* A bit of work on the optimizer.  (Sara)
+
+* Various memory issues resolved. (Gopal)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.12</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2006-09-04</date>
+   <notes>* Fix stray debug message
+
+* Work on the optimizer - still not stable (Gopal, Ilia, Sara)
+
+* Performance boost - Replace multiple loops over the opcode
+  array with a single loop for copying, jump fixups and auto
+  global pre-fetches. (Gopal)
+
+* Perform fetch_global checks only in php5 and only if 
+  auto_globals_jit is enabled. (Gopal)
+
+* Fix bug #8579 - scrub php4 classes&apos; function_table and default
+  properties before inserting into cache. (Gopal)
+
+* Fix bug #8606 - ZEND_FETCH_GLOBAL is not an opcode, but is a 
+  op1-&gt;type.  The opcodes applicable are ZEND_FETCH_R and 
+  ZEND_FETCH_W. (Gopal)
+
+* PHP 5.2 Compatibility (Gopal)
+
+* Make the include_once override optional - default off (Sara)
+
+* Fixed crash when apc run in CLI, but enable_cli is off. (Ilia)
+
+* Ensure that the apc_globals-&gt;cache_stack is cleared before the 
+  shm cache is destroyed. Fixes segfault for corner-case i.e request
+  shutdown (apc_deactivate) is not called before module shutdown 
+  calls (php_apc_shutdown_globals)  (Gopal)
+
+* TSRM fixes (ensure ts_free_id before apc.so is dlclosed) (Gopal)
+
+* Fix memory leak of apc_cache_info_t-&gt;deleted_list (Gopal)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.12p1</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2006-09-05</date>
+   <notes>* The only change here is a trivial PHP 4 build fix.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.12p2</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2006-09-05</date>
+   <notes>* Let&apos;s get the version number right.  3.0.12p2 now.</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.13</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2007-02-24</date>
+   <notes>* PHP 5.2 file upload progress tracking support (Rasmus)
+* Pthread mutex and spin locks (Shire)
+* Recursive zval support for apc_fetch/_store (Shire, Gopal)
+* apc.stat_ctime flag for ctime checks (Rasmus)
+* Multiple key fetches with apc_fetch (Shire)
+* Canary checks for shm memory deallocation (Gopal)
+* Add hooks for external optimizer (Shire)
+* Obsolete and remove apc optimizer (Gopal)
+* APC info changes - cache insert rate, hit and miss rates (Shire)
+* Fix apc_load_constants (Gopal)
+* Rewrite dump opcode code to use vld (Gopal)
+* Use apc_[ewn]print functions for error reporting (Shire) 
+* Auto global fixes and refactoring (Gopal, Shire)
+* Fix memory leaks in object serialization (Ilia)
+* Memory cleanup code for destructor order (Gopal)
+* Win32 build fixes (Ilia, Wez)
+* ZTS and Php 4 build fixes (Bjori)
+* Add apc_add() function (Rasmus)
+* Add optional limited flag to apc_sma_info() (Rasmus)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.14</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2007-04-02</date>
+   <notes>* Build fix (Shire)
+* Don&apos;t hook the upload hook if APC is disabled (Rasmus)
+* Local shadow cache support (Gopal)
+* Avoid uneccessary loops over op_arrays for &quot;known&quot; auto-globals (Gopal)
+* Fix apc_add() to overwrite timed out user entries (Rasmus)
+* Fix double inclusion of files with conditional classes in php4 (Gopal)
+* Allocator fixes to reduce fragmentation (Gopal)</notes>
+  </release>
+  <release>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <version>
+    <release>3.0.15</release>
+    <api>3.0.0</api>
+   </version>
+   <date>2007-10-18</date>
+   <notes>* Eliminate a per-request time() syscall (Rasmus)
+* Added rfc1867 prefix, name, and freq ini options (Shire)
+* Allow deletion of individual user cache entries via apc.php (Sara)
+* Fix overzealous cleanup during RSHUTDOWN (Gopal)
+* Fix memory alignment and locking issues (Gopal)
+* Make apc_compile insert/replace entries (Shire)
+* Make mixed inheritance recompile &amp; cache afresh  (Gopal)
+* Make nostat mode search include_path for canonicalization (Gopal)
+* ZTS &amp; other compile fixes (Gopal, Edin, Shire)</notes>
+  </release>
+  <release>
+   <version>
+    <release>3.0.16</release>
+    <api>3.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <date>2008-03-26</date>
+   <notes>* Fix for longstanding cache-full crash (Christian Seiler)
+  http://news.php.net/php.pecl.dev/4951 for the details
+* Added optional shm unmap on a fatal signal feature (Lucas Nealan)
+* Added PTHREAD_MUTEX_ADAPTIVE_NP option pthread locks (Paul Saab)
+* Minor cleanups (Lucas Nealan)
+* Added configure option to enable apc_cache_info(&apos;filehits&apos;) (Shire)</notes>
+  </release>
+  <release>
+   <version>
+    <release>3.0.17</release>
+    <api>3.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <date>2008-03-29</date>
+   <notes>* Crash fixes
+* Fix apc_add() cache expunge bug (Rasmus)
+* Added parameter to apc_fetch to determine success/failure when fetching booleans (shire)
+* Fix misc. memleaks (shire)</notes>
+  </release>
+  <release>
+   <version>
+    <release>3.0.18</release>
+    <api>3.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <date>2008-03-29</date>
+   <notes>- Revert apc_expunge_cb bug-fix
+- Misc memleaks</notes>
+  </release>
+  <release>
+   <version>
+    <release>3.0.19</release>
+    <api>3.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <date>2008-05-15</date>
+   <notes>- Safe-mode and fast-cgi fixes
+- Fix double-free of builtin_functions
+- php 5.3 fixes</notes>
+  </release>
+  <release>
+   <version>
+    <release>3.1.1</release>
+    <api>3.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <date>2008-12-12</date>
+   <notes>- PHP4 compatibilty break
+- apc_pool allocator (Gopal) 
+- doubly-linked sma allocator (Shire)
+- php 5.3 gc compatibility (Gopal)
+- APCIterator for easy access (Shire)
+- apc_delete_file (Shire)
+- apc_inc/apc_dec/apc_cas functions (Shire)
+- apc.canonicalize (Gopal)
+- apc.preload_path (Gopal)
+- apc.rfc1867_ttl  (Shire)
+- apc.file_md5     (Shire)
+- consolidate locking macros (Shire)
+- remove futex/TSRM locks  (Shire)
+- non-blocking semaphore locks  (Shire)
+- zval* object rework (Gopal)</notes>
+  </release>
+ </changelog>
+</package>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>bloomy</name>
+ <channel>pecl.php.net</channel>
+ <summary>Extension implementing a Bloom filter</summary>
+ <description>This extension implements a Bloom filter, which is a space-efficient
+  probabilistic data structure that is used to test whether an element is a
+  member of a set.</description>
+ <lead>
+  <name>Andrei Zmievski</name>
+  <user>andrei</user>
+  <email>andrei@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Andrei Zmievski</name>
+  <user>andrei</user>
+  <email>andrei@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-03-23</date>
+ <time>15:56:59</time>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP</license>
+ <notes>- Initial PECL release</notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="7291f1b05a4608bc9223993fd2bea6c2" name="EXPERIMENTAL" role="doc" />
+   <file md5sum="dccc33317a74c41b5b4617164635b970" name="README" role="doc" />
+   <file md5sum="087e38d1111ef87574ef14e094b085b6" name="CREDITS" role="doc" />
+   <file md5sum="56e7876babee694afcf5aa631bbe2a54" name="LICENSE" role="doc" />
+   <file md5sum="e4371910e11b5a7e694ddc3ea253beb6" name="ChangeLog" role="doc" />
+   <file md5sum="c2e9db1d86e7cf58d55dbbe37e08f7ea" name="config.m4" role="src" />
+   <file md5sum="643911e0fb385fa5f4d45b059f8a14ad" name="config.w32" role="src" />
+   <file md5sum="de9a12d2221f49ced2ebc6bef1270e7a" name="bloom.c" role="src" />
+   <file md5sum="ec37945ab142f269babd8a019a4b886d" name="bloom.h" role="src" />
+   <file md5sum="fe1bfa37893c82854398236475542ca1" name="lookup3.c" role="src" />
+   <file md5sum="d985b6b209f5208eb7f1606eceef57aa" name="php_bloomy.h" role="src" />
+   <file md5sum="e1e2a01573d8bc5b371b1cc34252ac7e" name="php_bloomy.c" role="src" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+    <max>6.0.0</max>
+    <exclude>6.0.0</exclude>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>bloomy</providesextension>
+ <extsrcrelease />
+ <changelog>
+  <release>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <date>2009-03-23</date>
+   <notes>- Initial PECL release</notes>
+  </release>
+ </changelog>
+</package>
