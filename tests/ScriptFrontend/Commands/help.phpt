@@ -2,7 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::help()
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 set_include_path(__DIR__ . '/testit');
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();

@@ -2,8 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::_findPEAR test 2: no userfile detected
 --FILE--
 <?php
-define('MYDIR', __DIR__);
-require dirname(__DIR__) . '/setup.php.inc';
+require __DIR__ . '/setup.minimal.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';

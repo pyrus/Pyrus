@@ -15,7 +15,7 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 
 define('MYDIR', __DIR__);
-require dirname(__DIR__) . '/setup.php.inc';
+require __DIR__ . '/setup.minimal.php.inc';
 
 include __DIR__ . '/setup.pearinstall.php.inc';
 

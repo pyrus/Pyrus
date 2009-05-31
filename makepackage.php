@@ -17,10 +17,11 @@ $package = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
 $outfile = $package->name.'-'.$package->version['release'];
 $a = new PEAR2_Pyrus_Package_Creator(array(
                     new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive(__DIR__ . '/pyrus.phar', '<?php
-function __autoload($class)
+function pyrus_autoload($class)
 {
     include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
 }
+spl_autoload_register("pyrus_autoload");
 $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
 @array_shift($_SERVER[\'argv\']);
 $frontend->run($_SERVER[\'argv\']);

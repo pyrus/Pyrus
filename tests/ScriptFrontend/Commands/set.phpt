@@ -4,7 +4,7 @@ PEAR2_Pyrus_ScriptFrontend_Commands::set()
 <?php
 set_include_path(dirname(__FILE__).'/testit');
 define('MYDIR', __DIR__);
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/foo.xml');
 $a->ext_dir = __DIR__ . '/testit/ext';

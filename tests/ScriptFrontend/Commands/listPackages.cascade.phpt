@@ -2,7 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), no packages installed
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
+require __DIR__ . '/setup.minimal.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';

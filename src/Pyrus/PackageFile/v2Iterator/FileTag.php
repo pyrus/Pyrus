@@ -126,15 +126,4 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileTag extends ArrayObject
             unset($this['attribs'][$var]);
         }
     }
-
-    function getInstallLocation()
-    {
-        $role = PEAR2_Pyrus_Installer_Role::factory($this->_packagefile, $this['attribs']['role'],
-            PEAR2_Pyrus_Config::current());
-        $role->setup(new PEAR2_Pyrus_Installer, $this->_packagefile, $this['attribs'], $this['attribs']['name']);
-        if (!$role->isInstallable()) {
-            return false;
-        }
-        return $role->getRelativeLocation($this->_packagefile, $this);
-    }
 }

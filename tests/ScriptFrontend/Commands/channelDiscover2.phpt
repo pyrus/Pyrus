@@ -2,7 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::channelDiscover() https
 --FILE--
 <?php
-require dirname(__DIR__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';

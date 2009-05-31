@@ -6,10 +6,18 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element name="name" type="xs:string"/>
-    <xs:element name="autoloadpath" type="xs:string">
+    <xs:element name="classprefix" type="xs:string">
      <xs:annotation>
       <xs:documentation xml:lang="EN">
-       Relative path within php_dir to search for this role's classes in the autoloader
+       Prefix to role for proper class name
+      </xs:documentation>
+     </xs:annotation>
+    </xs:element>
+    <xs:element name="autoloadpath" type="xs:string" minOccurs="0" maxOccurs="1">
+     <xs:annotation>
+      <xs:documentation xml:lang="EN">
+       Relative path within php_dir to search for this role's classes in the autoloader.
+       If not present, no additional autoloader is added to the autoloader chain.
       </xs:documentation>
      </xs:annotation>
     </xs:element>

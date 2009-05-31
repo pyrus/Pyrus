@@ -25,6 +25,7 @@
  */
 class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
 {
+    static protected $customtasks = array();
     public $rootAttributes = array(
                                  'version' => '2.1',
                                  'xmlns' => 'http://pear.php.net/dtd/package-2.1',
@@ -844,13 +845,23 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     {
         $this->getTasksNs();
         // transform all '-' to '/' and 'tasks:' to '' so tasks:replace becomes replace
-        $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), $task);
+        $task = $tasktest = str_replace($this->_tasksNs . ':', '', $task);
+        $task = str_replace('-', ' ', $task);
         $task = str_replace(' ', '/', ucwords($task));
-        $test = str_replace('/', '_', $task);
-        if (class_exists("PEAR2_Pyrus_Task_$test", true)) {
-            return "PEAR2_Pyrus_Task_$test";
+        if (isset(static::$customtasks[$task])) {
+            $test = static::$customtasks[$task]['classprefix'] . '_' . str_replace('/', '_', $task);
+        } else {
+            $test = 'PEAR2_Pyrus_Task_' . str_replace('/', '_', $task);
+        }
+        if (class_exists($test, true)) {
+            return $test;
         }
         return false;
+    }
+
+    static function registerCustomTask($taskinfo)
+    {
+        static::$customtasks[$taskinfo['name']] = $taskinfo;
     }
 
     function getBaseInstallDir($file)

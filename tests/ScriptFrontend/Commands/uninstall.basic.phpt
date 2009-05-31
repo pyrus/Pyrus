@@ -2,7 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::uninstall(), basic test
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $package = new PEAR2_Pyrus_Package(__DIR__.'/../../../../sandbox/SimpleChannelServer/package.xml');
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';

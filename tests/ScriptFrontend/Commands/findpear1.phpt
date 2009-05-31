@@ -2,7 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::_findPEAR test 1: explicit config path
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';

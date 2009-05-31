@@ -1,13 +1,7 @@
 <?php
 define('MYDIR', __DIR__);
-require dirname(__DIR__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $pf = new PEAR2_Pyrus_PackageFile_v2;
-mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
-set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
-restore_include_path();
-$c->saveConfig();
 
 mkdir(__DIR__ . '/testit/php');
 file_put_contents(__DIR__ . '/testit/php/foobar', '<?php

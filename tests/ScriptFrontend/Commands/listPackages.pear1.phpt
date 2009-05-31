@@ -2,7 +2,7 @@
 PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), existing PEAR1 registry, packages installed
 --FILE--
 <?php
-require dirname(__DIR__) . '/setup.php.inc';
+require __DIR__ . '/setup.minimal.php.inc';
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'listPackages.pear1/php');
 $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/listPackages.pear1/php', __DIR__ . '/dontloadme.xml');
 restore_include_path();

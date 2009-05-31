@@ -3,7 +3,7 @@ PEAR2_Pyrus_ScriptFrontend_Commands::_findPEAR test 3: no userfile detected, dec
 --FILE--
 <?php
 define('MYDIR', __DIR__);
-require dirname(__DIR__) . '/setup.php.inc';
+require __DIR__ . '/setup.minimal.php.inc';
 test_scriptfrontend::$stdin = array(
     'no', // answer to "It appears you have not used Pyrus before, welcome!  Initialize install?"
     '', // conclusion

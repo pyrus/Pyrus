@@ -34,19 +34,24 @@ class PEAR2_Pyrus_Installer_Role_Common
      * @access protected
      */
     protected $config;
+    /**
+     * @var array
+     */
+    protected $info;
 
     /**
      * @param PEAR2_Pyrus_Config
      */
-    function __construct(PEAR2_Pyrus_Config $config)
+    function __construct(PEAR2_Pyrus_Config $config, $info)
     {
         $this->config = $config;
+        $this->info = $info;
     }
 
     /**
      * Retrieve configuration information about a file role from its XML info
      *
-     * @param string $role Role Classname, as in "PEAR2_Pyrus_Installer_Role_Data"
+     * @param string $role role name
      * @return array
      */
     static function getInfo($role)
@@ -63,10 +68,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     function getPackagingLocation(PEAR2_Pyrus_IPackageFile $pkg, $atts)
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
-            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        $role = str_replace('pear2_pyrus_installer_role_', '',
-                strtolower(get_class($this)));
+        $role = $this->info['name'];
 
         $file = $atts['name'];
         // strip role from file path
@@ -91,7 +93,7 @@ class PEAR2_Pyrus_Installer_Role_Common
             $file = $newpath;
         }
 
-        if ($roleInfo['honorsbaseinstall']) {
+        if ($this->info['honorsbaseinstall']) {
             $dest_dir = $role;
             if (array_key_exists('baseinstalldir', $atts)) {
                 if ($atts['baseinstalldir'] != '/') {
@@ -104,7 +106,7 @@ class PEAR2_Pyrus_Installer_Role_Common
             } else {
                 $dest_dir .= '/';
             }
-        } elseif ($roleInfo['unusualbaseinstall']) {
+        } elseif ($this->info['unusualbaseinstall']) {
             $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name . '/';
             if (array_key_exists('baseinstalldir', $atts)) {
                 if (strlen($atts['baseinstalldir']) && $atts['baseinstalldir'] != '/') {
@@ -128,18 +130,16 @@ class PEAR2_Pyrus_Installer_Role_Common
     function getRelativeLocation(PEAR2_Pyrus_IPackageFile $pkg, PEAR2_Pyrus_PackageFile_v2Iterator_FileTag $file,
                                  $retDir = false)
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
-            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        if (!$roleInfo['locationconfig']) {
+        if (!$this->info['locationconfig']) {
             return false;
         }
 
-        if ($roleInfo['honorsbaseinstall']) {
+        if ($this->info['honorsbaseinstall']) {
             $dest_dir = $save_destdir = '';
             if ($file->baseinstalldir) {
                 $dest_dir .= $file->baseinstalldir;
             }
-        } elseif ($roleInfo['unusualbaseinstall']) {
+        } elseif ($this->info['unusualbaseinstall']) {
         	if (!$pkg->isNewPackage()) {
         		// Place files using the old doc dir structure
         		$dest_dir = $save_destdir = $pkg->name;
@@ -212,9 +212,7 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     function getLocationConfig()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
-            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        return $roleInfo['locationconfig'];
+        return $this->info['locationconfig'];
     }
 
     /**
@@ -230,22 +228,16 @@ class PEAR2_Pyrus_Installer_Role_Common
 
     function isExecutable()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
-            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        return $roleInfo['executable'];
+        return $this->info['executable'];
     }
 
     function isInstallable()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role_Common::getInfo('PEAR2_Pyrus_Installer_Role_' .
-            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        return $roleInfo['installable'];
+        return $this->info['installable'];
     }
 
     function isExtension()
     {
-        $roleInfo = PEAR2_Pyrus_Installer_Role::getInfo('PEAR2_Pyrus_Installer_Role_' .
-            ucfirst(str_replace('pear2_pyrus_installer_role_', '', strtolower(get_class($this)))));
-        return $roleInfo['phpextension'];
+        return $this->info['phpextension'];
     }
 }

@@ -1,4 +1,6 @@
-<role version="1.0">
+<role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
+ <name>ext</name>
+ <classprefix>PEAR2_Pyrus_Installer_Role</classprefix>
  <releasetypes>extbin</releasetypes>
  <releasetypes>zendextbin</releasetypes>
  <installable>1</installable>
@@ -8,5 +10,4 @@
  <phpfile />
  <executable />
  <phpextension>1</phpextension>
- <config_vars />
 </role>

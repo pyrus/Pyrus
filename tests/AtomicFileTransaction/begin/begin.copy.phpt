@@ -27,7 +27,7 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir', __DIR__ . '/testit/.journal-php/another/dir before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir/file', __DIR__ . '/testit/.journal-php/another/dir/file before');
 
-$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current());
+$role = new PEAR2_Pyrus_Installer_Role_Php(PEAR2_Pyrus_Config::current(), PEAR2_Pyrus_Installer_Role::getInfo('php'));
 $atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject($role);
 
 PEAR2_Pyrus_AtomicFileTransaction::begin();
