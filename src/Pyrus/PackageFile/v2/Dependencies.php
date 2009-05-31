@@ -117,28 +117,27 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                         throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
                                 $var . ' dependency is not supported as an optional dependency');
                     }
-                    if (!isset($this->info[$var])) {
-                        $this->info[$var] = array($depname => null, 'conflicts' => null);
-                    }
+                    $info = array();
                     break;
                 case 'php' :
-                    $this->info[$var] = array('min' => null, 'max' => null, 'exclude' => null);
+                    $info = array('min' => null, 'max' => null, 'exclude' => null);
                     break;
                 case 'pearinstaller' :
-                    $this->info[$var] = array('min' => null, 'max' => null, 'exclude' => null, 'recommended' => null);
+                    $info = array('min' => null, 'max' => null, 'exclude' => null, 'recommended' => null);
                     break;
                 case 'package' :
                 case 'subpackage' :
                 case 'extension' :
-                    $this->info[$var] = array();
-                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $this->info[$var]);
+                    $info = array();
+                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $info);
                 default :
                     throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown dependency type: '.
                         $var);
             }
         } else {
-            if (!is_array($this->info[$var])) {
-                $this->info[$var] = array($this->info[$var]);
+            $info = $this->info[$var];
+            if (!is_array($info)) {
+                $info = array($info);
             }
             $keys = array();
             switch ($var) {
@@ -151,18 +150,18 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 case 'package' :
                 case 'subpackage' :
                 case 'extension' :
-                    if (count($this->info[$var]) && !isset($this->info[$var][0])) {
-                        $this->info[$var] = array($this->info[$var]);
+                    if (count($info) && !isset($info[0])) {
+                        $info = array($info);
                     }
-                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $this->info[$var]);
+                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $info);
             }
             foreach ($keys as $key => $null) {
-                if (!array_key_exists($key, $this->info[$var])) {
-                    $this->info[$var][$key] = $null;
+                if (!array_key_exists($key, $info)) {
+                    $info[$key] = $null;
                 }
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep($this, $this->info[$var], $var);
+        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep($this, $info, $var);
     }
 
     function __set($var, $value)

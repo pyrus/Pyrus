@@ -42,9 +42,23 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
     function __call($var, $args)
     {
         if (!array_key_exists($var, $this->info)) {
+            if ($this->type == 'os') {
+                if ($var == 'name' || $var == 'conflicts') {
+                    goto set_ok;
+                }
+                $keys = array('name', 'conflicts');
+            } elseif ($this->type == 'arch') {
+                if ($var == 'pattern' || $var == 'conflicts') {
+                    goto set_ok;
+                }
+                $keys = array('pattern', 'conflicts');
+            } else {
+                $keys = array_keys($this->info);
+            }
             throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown variable ' . $var . ', must be one of ' .
-                            implode(', ', array_keys($this->info)));
+                            implode(', ', $keys));
         }
+set_ok:
         if ($args[0] === null) {
             $this->info[$var] = null;
             $this->save();
@@ -58,6 +72,12 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
                     $this->info[$var] = array($this->info[$var]);
                 }
                 $this->info[$var] = array_merge($this->info[$var], $args);
+            }
+        } elseif ($var == 'conflicts') {
+            if ($args[0]) {
+                $this->info[$var] = '';
+            } else {
+                $this->info[$var] = null;
             }
         } else {
             $this->info[$var] = $args[0];
@@ -76,6 +96,11 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
             if (!is_array($ret)) {
                 return array($ret);
             }
+        } elseif ($var == 'conflicts') {
+            if (isset($this->info['conflicts'])) {
+                return true;
+            }
+            return false;
         }
         return $this->info[$var];
     }
@@ -163,7 +188,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
                 }
             }
         } else {
-            if (count($info) == 1) {
+            if (is_array($info) && count($info) == 1 && isset($info[0])) {
                 $info = $info[0];
             }
         }

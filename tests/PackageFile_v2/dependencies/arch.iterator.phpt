@@ -9,7 +9,7 @@ $pf->dependencies['required']->arch['bye'] = false;
 $pf->dependencies['required']->arch['last'] = true;
 $comp = array();
 foreach ($pf->dependencies['required']->arch as $key => $dep) {
-    $comp[$key] = $dep;
+    $comp[$key] = $dep->getInfo();
 }
 $test->assertEquals(array (
   0 => 

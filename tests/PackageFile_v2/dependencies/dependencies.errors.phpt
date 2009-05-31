@@ -218,7 +218,7 @@ try {
     $package->dependencies['required']->php->oops();
     throw new Exception('oops worked and should not');
 } catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
-    $test->assertEquals('Unknown variable oops(), must be one of min, max, exclude',
+    $test->assertEquals('Unknown variable oops, must be one of min, max, exclude',
                         $e->getMessage(), 'setting optional->conflicts');
 }
 
@@ -253,7 +253,7 @@ try {
     $package->dependencies['required']->arch->foo(1);
     throw new Exception('foo = 1 worked and should not');
 } catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
-    $test->assertEquals('Unknown method foo called',
+    $test->assertEquals('Unknown variable foo, must be one of pattern, conflicts',
                         $e->getMessage(), 'foo = 1');
 }
 
@@ -261,7 +261,7 @@ try {
     $package->dependencies['required']->os->foo2(1);
     throw new Exception('foo2 = 1 worked and should not');
 } catch (PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception $e) {
-    $test->assertEquals('Unknown method foo2 called',
+    $test->assertEquals('Unknown variable foo2, must be one of name, conflicts',
                         $e->getMessage(), 'foo2 = 1');
 }
 
