@@ -747,7 +747,6 @@ class PEAR2_Pyrus_Config
                 $userfile = $this->userFile;
             } else {
                 $userfile = self::getDefaultUserConfigFile();
-                // FIXME any reason why we don't name it .pear on windows ? no special meaning
             }
         }
 
