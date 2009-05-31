@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear2.php.net/dtd/customtask-2.0"
+ targetNamespace="http://pear2.php.net/dtd/customtask-2.0" elementFormDefault="qualified"
+ attributeFormDefault="unqualified" xml:lang="EN">
+ <xs:element name="task">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="autoloadpath" type="xs:string">
+     <xs:annotation>
+      <xs:documentation xml:lang="EN">
+       Relative path within php_dir to search for this task's classes in the autoloader
+      </xs:documentation>
+     </xs:annotation>
+    </xs:element>
+   </xs:sequence>
+   <xs:attribute name="version" type="xs:string" fixed="2.0"/>
+  </xs:complexType>
+ </xs:element>
+</xs:schema>

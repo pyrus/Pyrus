@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear2.php.net/dtd/customrole-2.0"
+ targetNamespace="http://pear2.php.net/dtd/customrole-2.0" elementFormDefault="qualified"
+ attributeFormDefault="unqualified" xml:lang="EN">
+ <xs:element name="role">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="autoloadpath" type="xs:string">
+     <xs:annotation>
+      <xs:documentation xml:lang="EN">
+       Relative path within php_dir to search for this role's classes in the autoloader
+      </xs:documentation>
+     </xs:annotation>
+    </xs:element>
+    <xs:element name="releasetypes" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+    <xs:element name="installable" type="xs:int" default="0"/>
+    <xs:element name="locationconfig" type="xs:string"/>
+    <xs:element name="honorsbaseinstall" type="xs:int" default="0"/>
+    <xs:element name="unusualbaseinstall" type="xs:int" default="0"/>
+    <xs:element name="phpfile" type="xs:int" default="0"/>
+    <xs:element name="executable" type="xs:int" default="0"/>
+    <xs:element name="phpextension" type="xs:int" default="0"/>
+    <xs:element ref="configvar" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+   <xs:attribute name="version" type="xs:string" fixed="2.0"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="configvar">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="type" type="xs:string"/>
+    <xs:element name="default" type="xs:string">
+     <xs:annotation>
+      <xs:documentation xml:lang="EN">
+       Should contain PHP source to execute to retrieve the default value
+      </xs:documentation>
+     </xs:annotation>
+    </xs:element>
+    <xs:element name="doc" type="xs:string"/>
+    <xs:element name="validset" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="prompt" type="xs:string"/>
+    <xs:element name="group" type="xs:string"/>
+   </xs:sequence>
+  </xs:complexType> 
+ </xs:element>
+</xs:schema>
