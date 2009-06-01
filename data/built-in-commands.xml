@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands version="2.0" xmlns="http://pear2.php.net/dtd/customcommand-2.0">
+ <command>
+  <name>install</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>install</function>
+  <summary>Install a package.  Use plugin-install to install plugins</summary>
+  <shortcut>i</shortcut>
+  <options>
+   <option>
+    <name>force</name>
+    <shortopt>f</shortopt>
+    <type>bool</type>
+    <doc>Force the installation to proceed independent of errors</doc>
+   </option>
+  </options>
+  <arguments>
+   <argument>
+    <name>package</name>
+    <multiple>1</multiple>
+    <optional>0</optional>
+    <doc>package.xml, local package archive, remove package archive, or abstract package.</doc>
+   </argument>
+  </arguments>
+  <doc>Installs listed packages.
+
+local package.xml example:
+php pyrus.phar install package.xml
+
+local package archive example:
+php pyrus.phar install PackageName-1.2.0.tar
+
+remote package archive example:
+php pyrus.phar install http://www.example.com/PackageName-1.2.0.tgz
+
+Examples of an abstract package:
+php pyrus.phar install PackageName
+ installs PackageName from the default channel with stability preferred_state
+php pyrus.phar pear/PackageName
+ installs PackageName from the pear.php.net channel with stability preferred_state
+php pyrus.phar install channel://doc.php.net/PackageName
+ installs PackageName from the doc.php.net channel with stability preferred_state
+php pyrus.phar install PackageName-beta
+ installs PackageName from the default channel, beta or stable stability
+php pyrus.phar install PackageName-1.2.0
+ installs PackageName from the default channel, version 1.2.0</doc>
+ </command>
+</commands>
