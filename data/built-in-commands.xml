@@ -4,14 +4,32 @@
   <name>install</name>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>install</function>
-  <summary>Install a package.  Use plugin-install to install plugins</summary>
+  <summary>Install a package.  Use install --plugin to install plugins</summary>
   <shortcut>i</shortcut>
   <options>
+   <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type>string</type>
+    <doc>Manage plugin installation only</doc>
+   </option>
+   <option>
+    <name>packagingroot</name>
+    <shortopt>r</shortopt>
+    <type>string</type>
+    <doc>Install the package in a directory in preparation for packaging with tools like RPM</doc>
+   </option>
+   <option>
+    <name>optionaldeps</name>
+    <shortopt>o</shortopt>
+    <type>bool</type>
+    <doc>Automatically download and install all optional dependencies</doc>
+   </option>
    <option>
     <name>force</name>
     <shortopt>f</shortopt>
     <type>bool</type>
-    <doc>Force the installation to proceed independent of errors</doc>
+    <doc>Force the installation to proceed independent of errors.  USE SPARINGLY.</doc>
    </option>
   </options>
   <arguments>
@@ -44,5 +62,348 @@ php pyrus.phar install PackageName-beta
  installs PackageName from the default channel, beta or stable stability
 php pyrus.phar install PackageName-1.2.0
  installs PackageName from the default channel, version 1.2.0</doc>
+ </command>
+ <command>
+  <name>upgrade</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>upgrade</function>
+  <summary>Upgrade a package.  Use upgrade --plugin to upgrade plugins</summary>
+  <shortcut>up</shortcut>
+  <options>
+   <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type>string</type>
+    <doc>Manage plugin installation only</doc>
+   </option>
+   <option>
+    <name>optionaldeps</name>
+    <shortopt>o</shortopt>
+    <type>bool</type>
+    <doc>Automatically download and install all optional dependencies</doc>
+   </option>
+   <option>
+    <name>force</name>
+    <shortopt>f</shortopt>
+    <type>bool</type>
+    <doc>Force the installation to proceed independent of errors.  USE SPARINGLY.</doc>
+   </option>
+  </options>
+  <arguments>
+   <argument>
+    <name>package</name>
+    <multiple>1</multiple>
+    <optional>0</optional>
+    <doc>package.xml, local package archive, remove package archive, or abstract package.</doc>
+   </argument>
+  </arguments>
+  <doc>Installs or upgrades listed packages.
+
+local package.xml example:
+php pyrus.phar install package.xml
+
+local package archive example:
+php pyrus.phar install PackageName-1.2.0.tar
+
+remote package archive example:
+php pyrus.phar install http://www.example.com/PackageName-1.2.0.tgz
+
+Examples of an abstract package:
+php pyrus.phar install PackageName
+ installs PackageName from the default channel with stability preferred_state
+php pyrus.phar pear/PackageName
+ installs PackageName from the pear.php.net channel with stability preferred_state
+php pyrus.phar install channel://doc.php.net/PackageName
+ installs PackageName from the doc.php.net channel with stability preferred_state
+php pyrus.phar install PackageName-beta
+ installs PackageName from the default channel, beta or stable stability
+php pyrus.phar install PackageName-1.2.0
+ installs PackageName from the default channel, version 1.2.0</doc>
+ </command>
+ <command>
+  <name>uninstall</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>uninstall</function>
+  <summary>Uninstall a package.  Use uninstall --plugin to uninstall plugins</summary>
+  <shortcut>un</shortcut>
+  <options>
+   <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type>string</type>
+    <doc>Manage plugin installation only</doc>
+   </option>
+   <option>
+    <name>force</name>
+    <shortopt>f</shortopt>
+    <type>bool</type>
+    <doc>Force the uninstallation to proceed independent of errors.  USE SPARINGLY.</doc>
+   </option>
+  </options>
+  <arguments>
+   <argument>
+    <name>package</name>
+    <multiple>1</multiple>
+    <optional>0</optional>
+    <doc>channel/PackageName of packages to uninstall</doc>
+   </argument>
+  </arguments>
+  <doc>Uninstall a package
+
+Uninstalls packages.
+
+Example:
+php pyrus.phar uninstall PackageName
+  uninstalls [default channel]/PackageName
+php pyrus.phar uninstall channelname/PackageName
+  uninstalls package PackageName from channel channelname.</doc>
+ </command>
+ <command>
+  <name>build</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>build</function>
+  <summary>Build a PHP extension package from source and install the compiled extension</summary>
+  <shortcut>b</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>PackageName</name>
+    <multiple>1</multiple>
+    <optional>0</optional>
+    <doc>Package name to build.</doc>
+   </argument>
+  </arguments>
+  <doc>Build a PECL package from source, and install the compiled extension.
+
+This command is used to build an extension.  It performs an automatic version of:
+
+phpize --clean
+phpize
+./configure
+make
+make install
+
+In the source directory of the package.</doc>
+ </command>
+ <command>
+  <name>download</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>download</function>
+  <summary>Download a remote package to the current directory</summary>
+  <shortcut>d</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>package</name>
+    <multiple>1</multiple>
+    <optional>0</optional>
+    <doc>package.xml, local package archive, remove package archive, or abstract package.</doc>
+   </argument>
+  </arguments>
+  <doc>Download a remote package.
+
+This command downloads a package to the current directory.  It can download
+a remote package or copy a local package (although cp may be more efficient)</doc>
+ </command>
+ <command>
+  <name>list-packages</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>listPackages</function>
+  <summary>List all installed packages in all channels</summary>
+  <shortcut>l</shortcut>
+  <options/>
+  <arguments/>
+  <doc>List all installed packages.
+
+This command lists all installed packages organized by channel and by installation location.</doc>
+ </command>
+ <command>
+  <name>list-channels</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>listChannels</function>
+  <summary>List all discovered channels</summary>
+  <shortcut>lc</shortcut>
+  <options/>
+  <arguments/>
+  <doc>List all discovered channels.
+
+This command lists channels already known.  Use channel-discover or channel-add
+to add a new channel.</doc>
+ </command>
+ <command>
+  <name>channel-discover</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>channelDiscover</function>
+  <summary>Discover a new channel</summary>
+  <shortcut>di</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>channel</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Channel name</doc>
+   </argument>
+  </arguments>
+  <doc>Discover a new channel.
+
+This command searches for a channel.xml first at a secure and then unsecured http address.
+
+Examples:
+php pyrus.phar channel-discover pear.example.com
+  This tries to locate https://pear.example.com/channel.xml and if that fails,
+  http://pear.example.com/channel.xml, and then adds the channel to the registry.
+
+Use channel-add to add a local channel.xml to the registry</doc>
+ </command>
+ <command>
+  <name>channel-add</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>channelAdd</function>
+  <summary>Add a new channel to the registry</summary>
+  <shortcut>ca</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>channel.xml</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Path to local channel.xml file</doc>
+   </argument>
+  </arguments>
+  <doc>Add a new channel to the registry.
+
+Use channel-discover to add a remote channel to the registry.</doc>
+ </command>
+ <command>
+  <name>channel-del</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>channelDel</function>
+  <summary>Remove a channel from the registry</summary>
+  <shortcut>cd</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>channel</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Channel name</doc>
+   </argument>
+  </arguments>
+  <doc>Remove an existing channel from the registry.
+
+pear2.php.net, pear.php.net, pecl.php.net, and doc.php.net cannot be removed
+from the registry.</doc>
+ </command>
+ <command>
+  <name>upgrade-registry</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>upgradeRegistry</function>
+  <summary>Upgrade an old PEAR installation to the new registry format</summary>
+  <shortcut>ur</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>path</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Path to PEAR registry to upgrade</doc>
+   </argument>
+  </arguments>
+  <doc>Upgrade an old PEAR installation to the new Sqlite and XML registry.
+
+This command does not remove the old PEAR registry, but creates a duplicate in the new Sqlite
+and XML formats, so that Pyrus can take advantage of the greater stability and speed of the
+new format.</doc>
+ </command>
+ <command>
+  <name>run-scripts</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>runScripts</function>
+  <summary>Run all post-install scripts for a package</summary>
+  <shortcut>r</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>package</name>
+    <multiple>1</multiple>
+    <optional>0</optional>
+    <doc>Package name for which to run post-install scripts</doc>
+   </argument>
+  </arguments>
+  <doc>Run all post-install scripts for a package.
+
+This command runs each post-install script, and is interactive, prompting
+for answers to queries posed by the post-install script, and executes
+based on the answers provided.</doc>
+ </command>
+ <command>
+  <name>config-show</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>configShow</function>
+  <summary>Show all configuration values</summary>
+  <shortcut>r</shortcut>
+  <options/>
+  <arguments/>
+  <doc>List all configuration values.
+
+This lists configuration values, organized by system configuration settings and
+user configuration settings.</doc>
+ </command>
+ <command>
+  <name>set</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>set</function>
+  <summary>Set a configuration value</summary>
+  <shortcut>set</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>variable</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Configuration variable name.  This can be a system or user variable.</doc>
+   </argument>
+   <argument>
+    <name>value</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Value to set the variable.</doc>
+   </argument>
+  </arguments>
+  <doc>Set a configuration variable.
+
+For example:
+php pyrus.phar set download_dir /home/blah/downloads</doc>
+ </command>
+ <command>
+  <name>mypear</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>mypear</function>
+  <summary>Set a configuration value</summary>
+  <shortcut>m</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>path</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Set the path of your preferred PEAR locations.</doc>
+   </argument>
+  </arguments>
+  <doc>Set the path of your preferred PEAR locations.
+
+This should be in the same format as include_path.
+
+For example:
+to set a local PEAR install at /home/user/pear and a system install at
+/usr/local/lib/php, do
+
+php pyrus.phar mypear /home/user/pear:/usr/local/lib/php
+
+On windows:
+php pyrus.phar mypear "C:\Documents and Settings\User\pear;C:\php5"
+
+This is a convenience alias to the set command with my_pear_path.</doc>
  </command>
 </commands>
