@@ -95,6 +95,8 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
                 $args[0] = 'help';
             }
             $this->_findPEAR($args);
+            // scan for custom commands/roles/tasks
+            PEAR2_Pyrus_Config::current()->pluginregistry->scan();
             if (isset($this->commands[$args[0]])) {
                 $command = array_shift($args);
                 $command = $this->commands[$command];

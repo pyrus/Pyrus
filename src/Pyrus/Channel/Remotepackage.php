@@ -85,6 +85,11 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         return $this->isUpgradeable;
     }
 
+    function isPlugin()
+    {
+        return false; // until there is some REST in place, we have to return false
+    }
+
     function setRawVersion($var, $value)
     {
         if (isset($this->parent->protocols->rest['REST1.3'])) {

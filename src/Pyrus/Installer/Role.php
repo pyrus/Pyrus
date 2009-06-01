@@ -272,6 +272,28 @@ class PEAR2_Pyrus_Installer_Role
         self::getInstallableRoles(true);
         self::getPhpRoles(true);
         self::getValidRoles('****', true);
+        if (isset($info['configvar'])) {
+            if (!isset($info['configvar'][0])) {
+                $info['configvar'] = array($info['configvar']);
+            }
+            foreach ($info['configvar'] as $configvar) {
+                $default = $configvar['default'];
+                if (false !== strpos($default, '<?php')) {
+                    $tmp = PEAR2_Pyrus_Config::current()->temp_dir . DIRECTORY_SEPARATOR .
+                        '.configdefault.php';
+                    if (!file_exists(dirname($tmp))) {
+                        mkdir(dirname($tmp), 0755, true);
+                    }
+                    file_put_contents($tmp, $default);
+                    $getDefault = function() use ($tmp) {
+                        include $tmp;
+                        return $default;
+                    };
+                    $default = $getDefault();
+                }
+                PEAR2_Pyrus_Config::addConfigValue($configvar['name'], $default, $configvar['configtype'] == 'system');
+            }
+        }
     }
 
     /**

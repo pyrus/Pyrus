@@ -37,11 +37,13 @@
  <xs:element name="configvar">
   <xs:complexType>
    <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
     <xs:element name="type" type="xs:string"/>
     <xs:element name="default" type="xs:string">
      <xs:annotation>
       <xs:documentation xml:lang="EN">
-       Should contain PHP source to execute to retrieve the default value
+       Should contain PHP source to execute to retrieve the default value.
+       The source must set the variable $default to the default value
       </xs:documentation>
      </xs:annotation>
     </xs:element>
@@ -49,6 +51,14 @@
     <xs:element name="validset" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="prompt" type="xs:string"/>
     <xs:element name="group" type="xs:string"/>
+    <xs:element name="configtype">
+     <xs:simpleType>
+      <xs:restriction base="xs:string">
+       <xs:enumeration value="system"/>
+       <xs:enumeration value="user"/>
+      </xs:restriction>
+     </xs:simpleType>
+    </xs:element>
    </xs:sequence>
   </xs:complexType> 
  </xs:element>

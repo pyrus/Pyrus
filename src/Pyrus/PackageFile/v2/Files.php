@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
+class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess, Iterator
 {
     protected $info;
     protected $parent;
@@ -76,5 +76,30 @@ class PEAR2_Pyrus_PackageFile_v2_Files implements ArrayAccess
     function offsetExists($var)
     {
         return isset($this->info[$var]);
+    }
+
+    function valid()
+    {
+        return $this->key();
+    }
+
+    function next()
+    {
+        return next($this->info);
+    }
+
+    function current()
+    {
+        return $this[$this->key()];
+    }
+
+    function key()
+    {
+        return key($this->info);
+    }
+
+    function rewind()
+    {
+        reset($this->info);
     }
 }

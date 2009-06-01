@@ -71,6 +71,16 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
         return true;
     }
 
+    function isPlugin()
+    {
+        foreach ($this->installcontents as $file) {
+            if ($file->role === 'customrole' || $file->role === 'customtask' || $file->role === 'customcommand') {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * This test tells the installer whether to run any package-info
      * replacement tasks.

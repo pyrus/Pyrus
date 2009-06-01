@@ -29,22 +29,19 @@
 class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
 {
     protected $pluginRegistryPath;
-    static protected $pluginRegistry;
     static protected $config;
 
-    protected function __construct($path = null)
+    function __construct($path = null)
     {
-        if (isset(self::$pluginRegistry)) {
-            $this->pluginRegistryPath = self::$pluginRegistry->path;
-            return;
-        }
         if ($path === null) {
             $this->pluginRegistryPath = PEAR2_Pyrus_Config::current()->plugins_dir;
         } else {
             $this->pluginRegistryPath = $path;
         }
+        $current = PEAR2_Pyrus_Config::current();
         self::$config = PEAR2_Pyrus_Config::singleton($this->pluginRegistryPath);
-        self::$pluginRegistry = new PEAR2_Pyrus_Registry($this->pluginRegistryPath, array('Sqlite3', 'Xml'));
+        PEAR2_Pyrus_Config::setCurrent($current->path);
+        parent::__construct($this->pluginRegistryPath, array('Sqlite3', 'Xml'));
     }
 
     /**
@@ -53,6 +50,11 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
      */
     function scan()
     {
+        static $scanned = false;
+        if ($scanned) {
+            return;
+        }
+        $scanned = true;
         $parser = new PEAR2_Pyrus_XMLParser;
         $schemapath = PEAR2_Pyrus::getDataPath();
         if (!file_exists(PEAR2_Pyrus::getDataPath() . '/channel-1.0.xsd')) {
@@ -61,17 +63,12 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
         $roleschema = $schemapath . '/customrole-2.0.xsd';
         $taskschema = $schemapath . '/customtask-2.0.xsd';
         $commandschema = $schemapath . '/customcommand-2.0.xsd';
-        $customroles = array();
-        $customtasks = array();
-        $customcommands = array();
 
         try {
             foreach (PEAR2_Pyrus_Config::current()->channelregistry as $channel) {
-                foreach (self::$pluginRegistry->listPackages($channel->name) as $package) {
-                    $info = explode('/', $package);
-                    $pname = array_pop($info);
-                    $chan = implode('/', $info);
-                    $files = self::$pluginRegistry->info($pname, $chan, 'installed-files');
+                foreach ($this->listPackages($channel->name) as $package) {
+                    $chan = $channel->name;
+                    $files = $this->info($package, $chan, 'installedfiles');
                     // each package may only have 1 role, task or command
                     foreach ($files as $path => $info) {
                         switch ($info['role']) {
@@ -87,11 +84,13 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                                             ', autoload path ' . $roleinfo['autoloadpath'] . ' does not exist');
                                     }
                                     $autoloader = function($class) use ($fullpath) {
-                                        include $fullpath . str_replace('_', '/', $class) . '.php';
+                                        if (file_exists($fullpath . '/' . str_replace('_', '/', $class) . '.php')) {
+                                            include $fullpath . '/' . str_replace('_', '/', $class) . '.php';
+                                        }
                                     };
                                     spl_autoload_register($autoloader);
                                 }
-                                PEAR2_Pyrus_Installer_Role::registerCustomRole($role['role']);
+                                PEAR2_Pyrus_Installer_Role::registerCustomRole($roleinfo);
                                 continue 2;
                             case 'customtask' :
                                 $taskinfo = $parser->parse($path, $taskschema);
@@ -105,9 +104,12 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                                             ', autoload path ' . $taskinfo['autoloadpath'] . ' does not exist');
                                     }
                                     $autoloader = function($class) use ($fullpath) {
-                                        include $fullpath . str_replace('_', '/', $class) . '.php';
+                                        if (file_exists($fullpath . '/' . str_replace('_', '/', $class) . '.php')) {
+                                            include $fullpath . '/' . str_replace('_', '/', $class) . '.php';
+                                        }
                                     };
                                     spl_autoload_register($autoloader);
+                                    PEAR2_Pyrus_PackageFile_v2::registerCustomTask($taskinfo);
                                 }
                                 continue 2;
                             case 'customcommand' :
@@ -118,7 +120,7 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                 }
             }
         } catch (Exception $e) {
-            PEAR2_Pyrus_Log(0, 'Unable to add all custom roles/tasks/commands: ' . $e);
+            PEAR2_Pyrus_Log::log(0, 'Unable to add all custom roles/tasks/commands: ' . $e);
         }
     }
 

@@ -848,8 +848,8 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $task = $tasktest = str_replace($this->_tasksNs . ':', '', $task);
         $task = str_replace('-', ' ', $task);
         $task = str_replace(' ', '/', ucwords($task));
-        if (isset(static::$customtasks[$task])) {
-            $test = static::$customtasks[$task]['classprefix'] . '_' . str_replace('/', '_', $task);
+        if (isset(static::$customtasks[$tasktest])) {
+            $test = static::$customtasks[$tasktest]['classprefix'] . '_' . str_replace('/', '_', $task);
         } else {
             $test = 'PEAR2_Pyrus_Task_' . str_replace('/', '_', $task);
         }

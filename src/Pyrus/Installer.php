@@ -87,6 +87,9 @@ class PEAR2_Pyrus_Installer
     static function begin()
     {
         if (!static::$inTransaction) {
+            if (isset(static::$options['install-plugins'])) {
+                PEAR2_Pyrus_Config::setCurrent(PEAR2_Pyrus_Config::current()->plugins_dir);
+            }
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$removedPackages = array();
@@ -104,6 +107,13 @@ class PEAR2_Pyrus_Installer
      */
     static function prepare(PEAR2_Pyrus_IPackage $package)
     {
+        if ($package->isPlugin()) {
+            if (!isset(static::$options['install-plugins'])) {
+                PEAR2_Pyrus_Log::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
+                                     ', use plugin-install/plugin-upgrade to manage plugins');
+                return;
+            }
+        }
         if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
             // checking of validity for upgrade is done by PEAR2_Pyrus_Package_Dependency::retrieve(),
             // so all deps that make it this far can be added
@@ -317,6 +327,14 @@ class PEAR2_Pyrus_Installer
             // download non-local packages
             foreach (static::$installPackages as $package) {
                 $package->download();
+                if ($package->isPlugin()) {
+                    // check for downloaded packages
+                    if (!isset(static::$options['install-plugins'])) {
+                        PEAR2_Pyrus_Log::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
+                                             ', use plugin-install/plugin-upgrade to manage plugins');
+                        unset(static::$installPackages[$package->channel . '/' . $package->name]);
+                    }
+                }
             }
 
             // now validate everything to the fine-grained level

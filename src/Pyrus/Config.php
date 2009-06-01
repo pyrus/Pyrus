@@ -85,6 +85,8 @@ class PEAR2_Pyrus_Config
      */
     protected $values;
 
+    static protected $explicitUserConfig = false;
+
     static protected $initializing = false;
     /**
      * mapping of path => PEAR2 configuration objects
@@ -239,6 +241,7 @@ class PEAR2_Pyrus_Config
      */
     static protected $magicVars = array('registry',
                                         'channelregistry',
+                                        'pluginregistry',
                                         'systemvars',
                                         'uservars',
                                         'mainsystemvars',
@@ -455,6 +458,18 @@ class PEAR2_Pyrus_Config
     }
 
     /**
+     * @var string path to the configuration to set as the current config
+     */
+    static public function setCurrent($path)
+    {
+        if (isset(self::$configs[$path])) {
+            self::$current = self::$configs[$path];
+        } else {
+            static::singleton($path);
+        }
+    }
+
+    /**
      * Retrieve the currently active primary configuration
      * @return PEAR2_Pyrus_Config
      */
@@ -547,6 +562,10 @@ class PEAR2_Pyrus_Config
     protected function loadUserSettings($pearDirectory, $userfile = false)
     {
         if (!$userfile) {
+            if (self::$explicitUserConfig) {
+                // never attempt to reload unless the user says so explicitly
+                return;
+            }
             $userfile = static::getDefaultUserConfigFile();
 
             if (!file_exists($userfile)) {
@@ -561,6 +580,7 @@ class PEAR2_Pyrus_Config
                     $userfile);
             }
         } else {
+            self::$explicitUserConfig = true;
             PEAR2_Pyrus_Log::log(5, 'Using explicit user configuration file ' . $userfile);
         }
 
@@ -1031,7 +1051,7 @@ class PEAR2_Pyrus_Config
 
         if ($key == 'pluginregistry') {
             if (!isset($this->mypluginregistry)) {
-                $this->mypluginregistry = new PEAR2_Pyrus_Registry($this->__get('plugins_dir', array('Sqlite3', 'Xml')));
+                $this->mypluginregistry = new PEAR2_Pyrus_PluginRegistry($this->__get('plugins_dir'));
             }
             return $this->mypluginregistry;
         }
