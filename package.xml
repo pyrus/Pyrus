@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-06-01</date>
- <time>23:08:53</time>
+ <time>23:50:22</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -612,28 +612,16 @@ Implemented features:
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Custom">
+     <dir name="Command">
+      <file role="test" name="basic.php"/>
+      <file role="test" name="basic.phpt"/>
+      <file role="test" name="setup.php.inc"/>
+     </dir>
      <dir name="Role">
       <file role="test" name="basic.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="Task">
-      <dir name="testit">
-       <dir name="plugins">
-        <dir name=".xmlregistry">
-         <dir name="channels">
-          <file role="test" name="channel-pear.php.net.xml"/>
-          <file role="test" name="channel-pear2.php.net.xml"/>
-          <file role="test" name="channel-pecl.php.net.xml"/>
-          <file role="test" name="channel-__uri.xml"/>
-          <file role="test" name="channelalias-pear.txt"/>
-          <file role="test" name="channelalias-pear2.txt"/>
-          <file role="test" name="channelalias-pecl.txt"/>
-          <file role="test" name="channelalias-__uri.txt"/>
-         </dir>
-        </dir>
-        <file role="test" name=".pear2registry"/>
-       </dir>
-      </dir>
       <file role="test" name="basic.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
@@ -1976,8 +1964,8 @@ Implemented features:
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
