@@ -10,25 +10,25 @@
    <option>
     <name>plugin</name>
     <shortopt>p</shortopt>
-    <type>string</type>
+    <type><string/></type>
     <doc>Manage plugin installation only</doc>
    </option>
    <option>
     <name>packagingroot</name>
     <shortopt>r</shortopt>
-    <type>string</type>
+    <type><string/></type>
     <doc>Install the package in a directory in preparation for packaging with tools like RPM</doc>
    </option>
    <option>
     <name>optionaldeps</name>
     <shortopt>o</shortopt>
-    <type>bool</type>
+    <type><bool/></type>
     <doc>Automatically download and install all optional dependencies</doc>
    </option>
    <option>
     <name>force</name>
     <shortopt>f</shortopt>
-    <type>bool</type>
+    <type><bool/></type>
     <doc>Force the installation to proceed independent of errors.  USE SPARINGLY.</doc>
    </option>
   </options>
@@ -73,19 +73,19 @@ php pyrus.phar install PackageName-1.2.0
    <option>
     <name>plugin</name>
     <shortopt>p</shortopt>
-    <type>string</type>
+    <type><string/></type>
     <doc>Manage plugin installation only</doc>
    </option>
    <option>
     <name>optionaldeps</name>
     <shortopt>o</shortopt>
-    <type>bool</type>
+    <type><bool/></type>
     <doc>Automatically download and install all optional dependencies</doc>
    </option>
    <option>
     <name>force</name>
     <shortopt>f</shortopt>
-    <type>bool</type>
+    <type><bool/></type>
     <doc>Force the installation to proceed independent of errors.  USE SPARINGLY.</doc>
    </option>
   </options>
@@ -130,13 +130,13 @@ php pyrus.phar install PackageName-1.2.0
    <option>
     <name>plugin</name>
     <shortopt>p</shortopt>
-    <type>string</type>
+    <type><string/></type>
     <doc>Manage plugin installation only</doc>
    </option>
    <option>
     <name>force</name>
     <shortopt>f</shortopt>
-    <type>bool</type>
+    <type><bool/></type>
     <doc>Force the uninstallation to proceed independent of errors.  USE SPARINGLY.</doc>
    </option>
   </options>
@@ -265,7 +265,7 @@ Use channel-add to add a local channel.xml to the registry</doc>
   <options/>
   <arguments>
    <argument>
-    <name>channel.xml</name>
+    <name>channelfile</name>
     <multiple>0</multiple>
     <optional>0</optional>
     <doc>Path to local channel.xml file</doc>
@@ -301,7 +301,14 @@ from the registry.</doc>
   <function>upgradeRegistry</function>
   <summary>Upgrade an old PEAR installation to the new registry format</summary>
   <shortcut>ur</shortcut>
-  <options/>
+  <options>
+   <option>
+    <name>removeold</name>
+    <shortopt>r</shortopt>
+    <type><bool/></type>
+    <doc>Remove the old PEAR registry</doc>
+   </option>
+  </options>
   <arguments>
    <argument>
     <name>path</name>
@@ -386,24 +393,39 @@ php pyrus.phar set download_dir /home/blah/downloads</doc>
   <arguments>
    <argument>
     <name>path</name>
-    <multiple>0</multiple>
+    <multiple>1</multiple>
     <optional>0</optional>
     <doc>Set the path of your preferred PEAR locations.</doc>
    </argument>
   </arguments>
   <doc>Set the path of your preferred PEAR locations.
 
-This should be in the same format as include_path.
-
 For example:
 to set a local PEAR install at /home/user/pear and a system install at
 /usr/local/lib/php, do
 
-php pyrus.phar mypear /home/user/pear:/usr/local/lib/php
+php pyrus.phar mypear /home/user/pear /usr/local/lib/php
 
 On windows:
-php pyrus.phar mypear "C:\Documents and Settings\User\pear;C:\php5"
+php pyrus.phar mypear "C:\Documents and Settings\User\pear" C:\php5
 
 This is a convenience alias to the set command with my_pear_path.</doc>
+ </command>
+ <command>
+  <name>help</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>help</function>
+  <summary>Get help on a particular command, or all commands</summary>
+  <shortcut>e</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>command</name>
+    <multiple>0</multiple>
+    <optional>1</optional>
+    <doc>Command to get help on.  Leave blank to get help on all commands</doc>
+   </argument>
+  </arguments>
+  <doc>Get detailed help on a command.</doc>
  </command>
 </commands>

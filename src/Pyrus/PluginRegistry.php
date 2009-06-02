@@ -30,6 +30,9 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
 {
     protected $pluginRegistryPath;
     static protected $config;
+    static protected $commandMap = array();
+    static protected $autoloadMap = array();
+    static protected $frontend;
 
     function __construct($path = null)
     {
@@ -75,45 +78,18 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                             case 'customrole' :
                                 $roleinfo = $parser->parse($path, $roleschema);
                                 $roleinfo = $roleinfo['role'];
-                                if (isset($roleinfo['autoloadpath'])) {
-                                    $fullpath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR .
-                                        $roleinfo['autoloadpath']);
-                                    if (!$fullpath) {
-                                        throw new PEAR2_Pyrus_PluginRegistry_Exception(
-                                            'Unable to create autoloader for custom role ' . $roleinfo['name'] .
-                                            ', autoload path ' . $roleinfo['autoloadpath'] . ' does not exist');
-                                    }
-                                    $autoloader = function($class) use ($fullpath) {
-                                        if (file_exists($fullpath . '/' . str_replace('_', '/', $class) . '.php')) {
-                                            include $fullpath . '/' . str_replace('_', '/', $class) . '.php';
-                                        }
-                                    };
-                                    spl_autoload_register($autoloader);
-                                }
+                                static::makeAutoloader($roleinfo, 'role');
                                 PEAR2_Pyrus_Installer_Role::registerCustomRole($roleinfo);
                                 continue 2;
                             case 'customtask' :
                                 $taskinfo = $parser->parse($path, $taskschema);
                                 $taskinfo = $taskinfo['task'];
-                                if (isset($taskinfo['autoloadpath'])) {
-                                    $fullpath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR .
-                                        $taskinfo['autoloadpath']);
-                                    if (!$fullpath) {
-                                        throw new PEAR2_Pyrus_PluginRegistry_Exception(
-                                            'Unable to create autoloader for custom task ' . $taskinfo['name'] .
-                                            ', autoload path ' . $taskinfo['autoloadpath'] . ' does not exist');
-                                    }
-                                    $autoloader = function($class) use ($fullpath) {
-                                        if (file_exists($fullpath . '/' . str_replace('_', '/', $class) . '.php')) {
-                                            include $fullpath . '/' . str_replace('_', '/', $class) . '.php';
-                                        }
-                                    };
-                                    spl_autoload_register($autoloader);
-                                    PEAR2_Pyrus_PackageFile_v2::registerCustomTask($taskinfo);
-                                }
+                                static::makeAutoloader($taskinfo, 'task');
+                                PEAR2_Pyrus_PackageFile_v2::registerCustomTask($taskinfo);
                                 continue 2;
                             case 'customcommand' :
-                                $this->addCommand($parser->parse($path, $commandschema));
+                                $commands = $parser->parse($path, $commandschema);
+                                $this->addCommand($commands['commands']['command']);
                                 continue 2;
                         }
                     }
@@ -124,8 +100,56 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
         }
     }
 
-    function addCommand($command)
+    static function registerFrontend($frontend)
     {
-        
+        self::$frontend = $frontend;
+    }
+
+    static function addCommand($commands)
+    {
+        if (!isset($commands[0])) {
+            $commands = array($commands);
+        }
+        foreach ($commands as $command) {
+            if (isset(self::$commandMap[$command['name']])) {
+                throw new PEAR2_Pyrus_PluginRegistry_Exception($command['name'] . ' is' .
+                                                               ' already mapped and cannot be re-used');
+            }
+            self::$commandMap[$command['name']] = $command;
+            static::makeAutoloader($command, 'command');
+            if (null !== self::$frontend) {
+                self::$frontend->mapCommand($command);
+            }
+        }
+    }
+
+    function getCommandInfo($command = null)
+    {
+        if (null === $command) {
+            return self::$commandMap;
+        }
+        if (isset(self::$commandMap[$command])) {
+            return self::$commandMap[$command];
+        }
+        return false;    
+    }
+
+    static function makeAutoloader($info, $type)
+    {
+        if (isset($info['autoloadpath']) && !isset(self::$autoloadMap[$info['autoloadpath']])) {
+            $fullpath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR .
+                $info['autoloadpath']);
+            if (!$fullpath) {
+                throw new PEAR2_Pyrus_PluginRegistry_Exception(
+                    'Unable to create autoloader for custom ' . $type . $info['name'] .
+                    ', autoload path ' . $info['autoloadpath'] . ' does not exist');
+            }
+            $autoloader = function($class) use ($fullpath) {
+                if (file_exists($fullpath . '/' . str_replace('_', '/', $class) . '.php')) {
+                    include $fullpath . '/' . str_replace('_', '/', $class) . '.php';
+                }
+            };
+            spl_autoload_register($autoloader);
+        }
     }
 }

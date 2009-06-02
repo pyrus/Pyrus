@@ -27,16 +27,6 @@
        </xs:element>
        <xs:element name="summary" type="xs:string"/>
        <xs:element name="shortcut" type="xs:string"/>
-       <xs:element ref="options"/>
-       <xs:element ref="arguments"/>
-       <xs:element name="doc" type="xs:string"/>
-      </xs:sequence>
-     </xs:complexType>
-    </xs:element>
-   </xs:sequence>
-   <xs:attribute name="version" type="xs:string" fixed="2.0"/>
-  </xs:complexType>
- </xs:element>
  <xs:element name="options">
   <xs:complexType>
    <xs:sequence>
@@ -51,11 +41,9 @@
           <xs:element name="bool"/>
           <xs:element name="string"/>
           <xs:element name="int"/>
+          <xs:element name="float"/>
           <xs:element name="counter"/>
           <xs:element name="callback">
-           <xs:simpleType>
-            <xs:restriction base="xs:string"/>
-           </xs:simpleType>
            <xs:annotation>
             <xs:documentation>
              function within the command class that will handle the argument callback.
@@ -63,10 +51,21 @@
              Return: value to set the option result to
             </xs:documentation>
            </xs:annotation>
+           <xs:simpleType>
+            <xs:restriction base="xs:string"/>
+           </xs:simpleType>
+          </xs:element>
+          <xs:element name="set">
+           <xs:complexType>
+            <xs:sequence>
+             <xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+           </xs:complexType>
           </xs:element>
          </xs:choice>
         </xs:complexType>
        </xs:element>
+       <xs:element name="default" type="xs:string" minOccurs="0"/>
        <xs:element name="doc" type="xs:string"/>
       </xs:sequence>
      </xs:complexType>
@@ -89,5 +88,13 @@
     </xs:element>
    </xs:sequence>
   </xs:complexType> 
+ </xs:element>
+       <xs:element name="doc" type="xs:string"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+   </xs:sequence>
+   <xs:attribute name="version" type="xs:string" fixed="2.0"/>
+  </xs:complexType>
  </xs:element>
 </xs:schema>

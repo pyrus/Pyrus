@@ -66,23 +66,42 @@ __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" 
 ;
 $help2 =
-'Commands supported:' . "\n" .
-'help [PEARPath]' . "\n" .
-'install [PEARPath]' . "\n" .
-'uninstall [PEARPath]' . "\n" .
-'download [PEARPath]' . "\n" .
-'upgrade [PEARPath]' . "\n" .
-'list-packages [PEARPath]' . "\n" .
-'list-channels [PEARPath]' . "\n" .
-'channel-discover [PEARPath]' . "\n" .
-'channel-add [PEARPath]' . "\n" .
-'channel-del [PEARPath]' . "\n" .
-'upgrade-registry [PEARPath]' . "\n" .
-'run-scripts [PEARPath]' . "\n" .
-'config-show [PEARPath]' . "\n" .
-'set [PEARPath]' . "\n" .
-'mypear [PEARPath]' . "\n" .
-'build [PEARPath]' . "\n";
+'
+Pyrus, the installer for PEAR2
+
+Usage:
+  php findpear2.php [/path/to/pear] [options]
+  php findpear2.php [/path/to/pear] [options] <command> [options] [args]
+
+Options:
+  -v, --verbose  increase verbosity
+  -h, --help     show this help message and exit
+  --version      show the program version and exit
+
+Commands:
+  install           Install a package.  Use install --plugin to install
+                    plugins
+  upgrade           Upgrade a package.  Use upgrade --plugin to upgrade
+                    plugins
+  uninstall         Uninstall a package.  Use uninstall --plugin to
+                    uninstall plugins
+  build             Build a PHP extension package from source and install
+                    the compiled extension
+  download          Download a remote package to the current directory
+  list-packages     List all installed packages in all channels
+  list-channels     List all discovered channels
+  channel-discover  Discover a new channel
+  channel-add       Add a new channel to the registry
+  channel-del       Remove a channel from the registry
+  upgrade-registry  Upgrade an old PEAR installation to the new registry
+                    format
+  run-scripts       Run all post-install scripts for a package
+  config-show       Show all configuration values
+  set               Set a configuration value
+  mypear            Set a configuration value
+  help              Get help on a particular command, or all commands
+
+';
 $test->assertEquals($help1 . $help2,
                     $contents,
                     'initialize choice');

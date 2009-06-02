@@ -36,18 +36,43 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
         'bold'   => '',
         'normal' => '',
     );
+    protected static $commandParser;
 
     function __construct()
     {
         PEAR2_Pyrus_Log::attach($this);
-        $a = new ReflectionClass($this);
-        foreach ($a->getMethods() as $method) {
-            $name = $method->name;
-            if ($name[0] == '_' || $name === 'run' || $name === 'log') {
-                continue;
+        if (!isset(static::$commandParser)) {
+            $schemapath = PEAR2_Pyrus::getDataPath() . '/customcommand-2.0.xsd';
+            $defaultcommands = PEAR2_Pyrus::getDataPath() . '/built-in-commands.xml';
+            if (!file_exists($schemapath)) {
+                $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
+                $defaultcommands = realpath(__DIR__ . '/../../../data/built-in-commands.xml');
             }
-            $this->commands[preg_replace_callback('/[A-Z]/',
-                    function($m) {return "-" . strtolower($m[0]);}, $name)] = $name;
+            $parser = new PEAR2_Pyrus_XMLParser;
+            $commands = $parser->parse($defaultcommands, $schemapath);
+            $commands = $commands['commands']['command'];
+            if ('@PACKAGE_VERSION@' == '@'.'PACKAGE_VERSION@') {
+                $version = '2.0.0a1'; // running from svn
+            } else {
+                $version = '@PACKAGE_VERSION@';
+            }
+            static::$commandParser = new PEAR2_Pyrus_ScriptFrontend(array(
+                    'version' => $version,
+                    'description' => 'Pyrus, the installer for PEAR2',
+                    'name' => 'php ' . basename($_SERVER['argv'][0])
+                )
+            );
+            // set up our custom renderer for help options
+            static::$commandParser->accept(new PEAR2_Pyrus_ScriptFrontend_Renderer(static::$commandParser));
+            // set up command-less options and argument
+            static::$commandParser->addOption('verbose', array(
+                'short_name'  => '-v',
+                'long_name'   => '--verbose',
+                'action'      => 'Counter',
+                'description' => 'increase verbosity'
+            ));
+            PEAR2_Pyrus_PluginRegistry::registerFrontend($this);
+            PEAR2_Pyrus_PluginRegistry::addCommand($commands);
         }
         $term = getenv('TERM');
         if (function_exists('posix_isatty') && !posix_isatty(1)) {
@@ -59,6 +84,81 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
             } elseif (preg_match('/^vt100/', $term)) {
                 $this->term['bold']   = sprintf("%c%c%c%c%c%c", 27, 91, 49, 109, 0, 0);
                 $this->term['normal'] = sprintf("%c%c%c%c%c", 27, 91, 109, 0, 0);
+            }
+        }
+    }
+
+    function mapCommand($commandinfo)
+    {
+        $command = static::$commandParser->addCommand($commandinfo['name'], array(
+            'description' => $commandinfo['summary']
+        ));
+        if (isset($commandinfo['options']['option'])) {
+            $options = $commandinfo['options']['option'];
+            if (!isset($options[0])) {
+                $options = array($options);
+            }
+            foreach ($options as $option) {
+                switch (key($option['type'])) {
+                    case 'bool' :
+                        $action = 'StoreTrue';
+                        break;
+                    case 'string' :
+                        $action = 'StoreString';
+                        break;
+                    case 'int' :
+                        $action = 'StoreInt';
+                        break;
+                    case 'float' :
+                        $action = 'StoreFloat';
+                        break;
+                    case 'counter' :
+                        $action = 'Counter';
+                        break;
+                    case 'callback' :
+                        $func = $option['type']['callback'];
+                        $class = $commandinfo['class'];
+                        $callback = function ($value, $option, $result, $parser) use ($func, $class) {
+                            return $class::$func($value);
+                        };
+                        $action = 'Callback';
+                        break;
+                    case 'set' :
+                        $action = 'StoreString';
+                        $choice = $option['set']['value'];
+                        settype($choice, 'array');
+                        break;
+                }
+                $info = array(
+                    'short_name' => '-' . $option['shortopt'],
+                    'long_name' => '--' . $option['name'],
+                    'description' => $option['doc'],
+                    'action' => $action,
+                );
+                if ($action == 'Callback') {
+                    $info['callback'] = $callback;
+                }
+                if (isset($option['default'])) {
+                    $info['default'] = $option['default'];
+                }
+                if (isset($choice)) {
+                    $info['choices'] = $choice;
+                    $choice = null;
+                }
+                $command->addOption($option['name'], $info);
+            }
+        }
+        if (isset($commandinfo['arguments']['argument'])) {
+            $args = $commandinfo['arguments']['argument'];
+            if (!isset($args[0])) {
+                $args = array($args);
+            }
+            foreach ($args as $arg) {
+                $command->addArgument($arg['name'], array(
+                    'description' => $arg['doc'],
+                    'multiple' => (bool) $arg['multiple'],
+                    'optional' => (bool) $arg['optional'],
+                ));
             }
         }
     }
@@ -91,21 +191,25 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
     function run($args)
     {
         try {
-            if (!count($args)) {
-                $args[0] = 'help';
-            }
             $this->_findPEAR($args);
             // scan for custom commands/roles/tasks
             PEAR2_Pyrus_Config::current()->pluginregistry->scan();
-            if (isset($this->commands[$args[0]])) {
-                $command = array_shift($args);
-                $command = $this->commands[$command];
-                $this->$command($args);
+            $result = static::$commandParser->parse(count($args) + 1, array_merge(array('cruft'), $args));
+            if ($info = PEAR2_Pyrus_PluginRegistry::getCommandInfo($result->command_name)) {
+                if ($this instanceof $info['class']) {
+                    $this->{$info['function']}($result->command->args, $result->command->options);
+                } else {
+                    $class = new $info['class'];
+                    $class->{$info['function']}($result->command->args, $result->command->options);
+                }
             } else {
-                $this->help($args);
+                $this->help(array('command' => isset($args[0]) ? $args[0] : null));
             }
+        } catch (PEAR2_Console_CommandLine_Exception $e) {
+            static::$commandParser->displayError($e->getMessage());
         } catch (Exception $e) {
             echo "Operation failed:\n$e";
+            exit -1;
         }
     }
 
@@ -217,18 +321,16 @@ previous:
      */
     function help($args)
     {
-        if (isset($args[0]) && $args[0] == 'help') {
-            echo "Commands supported:\n";
-            foreach ($this->commands as $command => $true) {
-                echo "$command\n";
-            }
+        if (!isset($args['command']) || $args['command'] === 'help') {
+            static::$commandParser->displayUsage();
         } else {
-            if (isset($args[0])) {
-                echo "Unknown command: $args[0]\n";
-            }
-            echo "Commands supported:\n";
-            foreach ($this->commands as $command => $true) {
-                echo "$command [PEARPath]\n";
+            $info = PEAR2_Pyrus_PluginRegistry::getCommandInfo($args['command']);
+            if (!$info) {
+                echo "Unknown command: $args[command]\n";
+                static::$commandParser->displayUsage();
+            } else {
+                static::$commandParser->commands[$args['command']]->displayUsage();
+                echo "\n", $info['doc'], "\n";
             }
         }
     }
@@ -238,12 +340,15 @@ previous:
      *
      * @param array $args
      */
-    function install($args)
+    function install($args, $options)
     {
+        if ($options['plugin']) {
+            PEAR2_Pyrus_Installer::$options['install-plugin'] = true;
+        }
         PEAR2_Pyrus_Installer::begin();
         try {
             $packages = array();
-            foreach ($args as $arg) {
+            foreach ($args['package'] as $arg) {
                 PEAR2_Pyrus_Installer::prepare($packages[] = new PEAR2_Pyrus_Package($arg));
             }
             PEAR2_Pyrus_Installer::commit();
@@ -265,12 +370,15 @@ previous:
      *
      * @param array $args
      */
-    function uninstall($args)
+    function uninstall($args, $options)
     {
+        if ($options['plugin']) {
+            PEAR2_Pyrus_Installer::$options['install-plugin'] = true;
+        }
         PEAR2_Pyrus_Uninstaller::begin();
         try {
             $packages = $non = $failed = array();
-            foreach ($args as $arg) {
+            foreach ($args['package'] as $arg) {
                 try {
                     if (!isset(PEAR2_Pyrus_Config::current()->registry->package[$arg])) {
                         $non[] = $arg;
@@ -306,7 +414,7 @@ previous:
     {
         PEAR2_Pyrus_Config::current()->download_dir = getcwd();
         $packages = array();
-        foreach ($args as $arg) {
+        foreach ($args['package'] as $arg) {
             try {
                 $packages[] = array(new PEAR2_Pyrus_Package($arg), $arg);
             } catch (Exception $e) {
@@ -336,10 +444,10 @@ previous:
      *
      * @param array $args
      */
-    function upgrade($args)
+    function upgrade($args, $options)
     {
         PEAR2_Pyrus_Installer::$options['upgrade'] = true;
-        $this->install($args);
+        $this->install($args, $options);
     }
 
     /**
@@ -347,7 +455,7 @@ previous:
      *
      * @param array $args
      */
-    function listPackages($args)
+    function listPackages()
     {
         $reg = PEAR2_Pyrus_Config::current()->registry;
         $creg = PEAR2_Pyrus_Config::current()->channelregistry;
@@ -385,7 +493,7 @@ previous:
      *
      * @param array $args
      */
-    function listChannels($args)
+    function listChannels()
     {
         $creg = PEAR2_Pyrus_Config::current()->channelregistry;
         $cascade = array($creg);
@@ -411,7 +519,7 @@ previous:
     function channelDiscover($args)
     {
         // try secure first
-        $chan = 'https://' . $args[0] . '/channel.xml';
+        $chan = 'https://' . $args['channel'] . '/channel.xml';
         $dl = self::$downloadClass;
         $http = new $dl($chan);
         try {
@@ -425,7 +533,7 @@ addchan_success:
             echo "Discovery of channel ", $chan->name, " successful\n";
         } catch (Exception $e) {
             try {
-                $chan = 'http://' . $args[0] . '/channel.xml';
+                $chan = 'http://' . $args['channel'] . '/channel.xml';
                 $http = new $dl($chan);
                 $response = $http->sendRequest();
                 if ($response->code != 200) {
@@ -434,7 +542,7 @@ addchan_success:
                 goto addchan_success;
             } catch (Exception $e) {
                 // failed, re-throw original error
-                echo "Discovery of channel ", $args[0], " failed: ", $e->getMessage();
+                echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage();
             }
         }
     }
@@ -447,14 +555,14 @@ addchan_success:
     function channelAdd($args)
     {
         echo "Adding channel from channel.xml:\n";
-        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($args[0]));
+        $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($args['channelfile']));
         PEAR2_Pyrus_Config::current()->channelregistry->add($chan);
         echo "Adding channel ", $chan->name, " successful\n";
     }
 
     function channelDel($args)
     {
-        $chan = PEAR2_Pyrus_Config::current()->channelregistry->get($args[0], false);
+        $chan = PEAR2_Pyrus_Config::current()->channelregistry->get($args['channel'], false);
         if (count(PEAR2_Pyrus_Config::current()->registry->listPackages($chan->name))) {
             echo "Cannot remove channel ", $chan->name, " packages are installed\n";
             exit -1;
@@ -463,14 +571,14 @@ addchan_success:
         echo "Deleting channel ", $chan->name, " successful\n";
     }
 
-    function upgradeRegistry($args)
+    function upgradeRegistry($args, $options)
     {
-        if (!file_exists($args[0]) || !is_dir($args[0])) {
-            echo "Cannot upgrade registries at ", $args[0], ", path does not exist or is not a directory\n";
+        if (!file_exists($args['path']) || !is_dir($args['path'])) {
+            echo "Cannot upgrade registries at ", $args['path'], ", path does not exist or is not a directory\n";
             exit -1;
         }
-        echo "Upgrading registry at path ", $args[0], "\n";
-        $registries = PEAR2_Pyrus_Registry::detectRegistries($args[0]);
+        echo "Upgrading registry at path ", $args['path'], "\n";
+        $registries = PEAR2_Pyrus_Registry::detectRegistries($args['path']);
         if (!count($registries)) {
             echo "No registries found\n";
             exit;
@@ -479,18 +587,18 @@ addchan_success:
             echo "Registry already upgraded\n";
             exit;
         }
-        $pear1 = new PEAR2_Pyrus_Registry_Pear1($args[0]);
+        $pear1 = new PEAR2_Pyrus_Registry_Pear1($args['path']);
         if (!in_array('Sqlite3', $registries)) {
-            $sqlite3 = new PEAR2_Pyrus_Registry_Sqlite3($args[0]);
+            $sqlite3 = new PEAR2_Pyrus_Registry_Sqlite3($args['path']);
             $sqlite3->cloneRegistry($pear1);
         }
         if (!in_array('Xml', $registries)) {
-            $xml = new PEAR2_Pyrus_Registry_Xml($args[0]);
-            $sqlite3 = new PEAR2_Pyrus_Registry_Sqlite3($args[0]);
+            $xml = new PEAR2_Pyrus_Registry_Xml($args['path']);
+            $sqlite3 = new PEAR2_Pyrus_Registry_Sqlite3($args['path']);
             $xml->cloneRegistry($sqlite3);
         }
-        if (isset($args[1]) && $args[1] == '--removeold') {
-            PEAR2_Pyrus_Registry_Pear1::removeRegistry($args[0]);
+        if ($options['removeold']) {
+            PEAR2_Pyrus_Registry_Pear1::removeRegistry($args['path']);
         }
     }
 
@@ -498,7 +606,7 @@ addchan_success:
     {
         $runner = new PEAR2_Pyrus_ScriptRunner($this);
         $reg = PEAR2_Pyrus_Config::current()->registry;
-        foreach ($args as $package) {
+        foreach ($args['package'] as $package) {
             $package = $reg->package[$package];
             $runner->run($package);
         }
@@ -507,9 +615,8 @@ addchan_success:
     /**
      * Display pyrus configuration vars
      *
-     * @param array $args
      */
-    function configShow($args)
+    function configShow()
     {
         $conf = PEAR2_Pyrus_Config::current();
         echo "System paths:\n";
@@ -538,14 +645,14 @@ addchan_success:
     function set($args)
     {
         $conf = PEAR2_Pyrus_Config::current();
-        if (in_array($args[0], $conf->uservars)) {
+        if (in_array($args['variable'], $conf->uservars)) {
             echo "Setting $args[0] in " . $conf->userfile . "\n";
-            $conf->{$args[0]} = $args[1];
-        } elseif (in_array($args[0], $conf->systemvars)) {
-            echo "Setting $args[0] in system paths\n";
-            $conf->{$args[0]} = $args[1];
+            $conf->{$args['variable']} = $args[1];
+        } elseif (in_array($args['variable'], $conf->systemvars)) {
+            echo "Setting $args[variable] in system paths\n";
+            $conf->{$args['variable']} = $args['value'];
         } else {
-            echo "Unknown config variable: $args[0]\n";
+            echo "Unknown config variable: $args[variable]\n";
             exit -1;
         }
         $conf->saveConfig();
@@ -559,8 +666,8 @@ addchan_success:
     function mypear($args)
     {
         echo "Setting my pear repositories to:\n";
-        echo implode("\n", $args) . "\n";
-        $args = implode(PATH_SEPARATOR, $args);
+        echo implode("\n", $args['path']) . "\n";
+        $args = implode(PATH_SEPARATOR, $args['path']);
         PEAR2_Pyrus_Config::current()->my_pear_path = $args;
         PEAR2_Pyrus_Config::current()->saveConfig();
     }
@@ -569,7 +676,7 @@ addchan_success:
     {
         echo "Building PECL extensions\n";
         $builder = new PEAR2_Pyrus_PECLBuild($this);
-        foreach ($args as $arg) {
+        foreach ($args['PackageName'] as $arg) {
             $package = PEAR2_Pyrus_Config::current()->registry->package[$arg];
             $builder->installBuiltStuff($package, $builder->build($package));
         }
