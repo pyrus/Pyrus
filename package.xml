@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-05-31</date>
- <time>23:37:52</time>
+ <date>2009-06-01</date>
+ <time>23:08:53</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -74,6 +74,7 @@ Implemented features:
      <file role="data" name="pecl.php.net.xml"/>
      <file role="data" name="__uri.xml"/>
     </dir>
+    <file role="data" name="built-in-commands.xml"/>
     <file role="data" name="channel-1.0.xsd"/>
     <file role="data" name="customcommand-2.0.xsd"/>
     <file role="data" name="customrole-2.0.xsd"/>
@@ -287,7 +288,9 @@ Implemented features:
       <file role="php" name="HTTPException.php"/>
      </dir>
      <dir name="ScriptFrontend">
+      <file role="php" name="Command.php"/>
       <file role="php" name="Commands.php"/>
+      <file role="php" name="Renderer.php"/>
      </dir>
      <dir name="Task">
       <dir name="Exception">
@@ -356,6 +359,7 @@ Implemented features:
      <file role="php" name="PluginRegistry.php"/>
      <file role="php" name="Registry.php"/>
      <file role="php" name="REST.php"/>
+     <file role="php" name="ScriptFrontend.php"/>
      <file role="php" name="ScriptRunner.php"/>
      <file role="php" name="test.php"/>
      <file role="php" name="test1.php"/>
@@ -613,6 +617,23 @@ Implemented features:
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="Task">
+      <dir name="testit">
+       <dir name="plugins">
+        <dir name=".xmlregistry">
+         <dir name="channels">
+          <file role="test" name="channel-pear.php.net.xml"/>
+          <file role="test" name="channel-pear2.php.net.xml"/>
+          <file role="test" name="channel-pecl.php.net.xml"/>
+          <file role="test" name="channel-__uri.xml"/>
+          <file role="test" name="channelalias-pear.txt"/>
+          <file role="test" name="channelalias-pear2.txt"/>
+          <file role="test" name="channelalias-pecl.txt"/>
+          <file role="test" name="channelalias-__uri.txt"/>
+         </dir>
+        </dir>
+        <file role="test" name=".pear2registry"/>
+       </dir>
+      </dir>
       <file role="test" name="basic.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
@@ -1862,6 +1883,7 @@ Implemented features:
       <file role="test" name="findpear1.phpt"/>
       <file role="test" name="findpear2.phpt"/>
       <file role="test" name="findpear3.phpt"/>
+      <file role="test" name="help.command.phpt"/>
       <file role="test" name="help.phpt"/>
       <file role="test" name="install.phpt"/>
       <file role="test" name="install_pear1package.phpt"/>
@@ -1948,16 +1970,16 @@ Implemented features:
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>

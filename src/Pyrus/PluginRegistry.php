@@ -123,7 +123,7 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
         }
     }
 
-    function getCommandInfo($command = null)
+    static function getCommandInfo($command = null)
     {
         if (null === $command) {
             return self::$commandMap;
