@@ -5,9 +5,12 @@ TODO:
 
 Declare dependencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
 
+implement --packagingroot option
+
 Add doc.php.net as default channel
 
-Package-2.0 and 2.1 xsd needs to be relaxed a bit to allow flexible ordering of elements.
+ [idea works, relaxation successful here, but not at Brett's]
+    Package-2.0 and 2.1 xsd needs to be relaxed a bit to allow flexible ordering of elements.
     Some ideas - change sequence to choice and enumerate the possible sequences within the choice,
     this will make a very large xsd, but may work. Something we need to try out.
 
@@ -21,7 +24,7 @@ Update Sqlite3 to use the new exception mode, and to use bindValue() instead of 
 
 Implement subject/observer for Log
 
-Add log integration to scriptfrontend
+ [X] Add log integration to scriptfrontend
 
 Move $options from PEAR2_Pyrus_Installer to PEAR2_Pyrus, move $downloadClass from all others to Pyrus
 
@@ -29,17 +32,17 @@ Add PEAR 1.x configuration parsing to Pear1 registry, in order to use these valu
     Decide how to handle the conflict, especially with php_dir being different, as it will be "php" for
     all PEAR 1.x packages.
 
-Fully implement plugin system for custom roles, tasks and commands
+ [X] Fully implement plugin system for custom roles, tasks and commands
     plugin_dir config variable already exists, we need to create a plugin-specific
     Sqlite3 registry, which extends the Sqlite3 registry and adds the plugin
     tables, and then have a check at load-in for plugins to load as needed.
 
  [X] Fully implement and test post-install scripts
 
-Implement PECL package install
+ [X] Implement PECL package install
     Unlike PEAR, we will install PECL packages and implement these new commands:
     build - compile the extension and install it (this is implicit with "install/upgrade")
-    clean - equivalent to "make clean" which iterates over the source directory and cleans all
+    [not needed] clean - equivalent to "make clean" which iterates over the source directory and cleans all
             files not in package.xml
     This will allow much easier debugging of broken pecl compiles
 
@@ -53,4 +56,4 @@ Web frontend
 
 Gtk2 frontend
 
-Move CLI frontend to better format
+ [X] Move CLI frontend to better format
