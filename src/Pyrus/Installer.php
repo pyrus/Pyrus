@@ -69,8 +69,8 @@ class PEAR2_Pyrus_Installer
      * @var array
      */
     protected static $removedPackages = array();
-    
-    protected static $phase = 1;
+
+    protected static $lastCurrent;
 
     /**
      * Installer options.  Valid indices are:
@@ -88,13 +88,13 @@ class PEAR2_Pyrus_Installer
     {
         if (!static::$inTransaction) {
             if (isset(static::$options['install-plugins'])) {
+                self::$lastCurrent = PEAR2_Pyrus_Config::current();
                 PEAR2_Pyrus_Config::setCurrent(PEAR2_Pyrus_Config::current()->plugins_dir);
             }
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$removedPackages = array();
             static::$inTransaction = true;
-            static::$phase = 1;
         }
     }
 
@@ -238,6 +238,9 @@ class PEAR2_Pyrus_Installer
             static::$installedPackages = array();
             static::$registeredPackages = array();
             static::$removedPackages = array();
+            if (isset(static::$options['install-plugins'])) {
+                PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
+            }
             if (count($err)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
@@ -378,6 +381,9 @@ class PEAR2_Pyrus_Installer
             // success
             PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             static::$inTransaction = false;
+            if (isset(static::$options['install-plugins'])) {
+                PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
+            }
         } catch (Exception $e) {
             static::rollback();
             throw $e;

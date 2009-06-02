@@ -166,6 +166,8 @@ class PEAR2_Pyrus_Config
      */
     static protected $userConfigs = array();
 
+    static protected $lastUserConfig = null;
+
     /**
      * Configuration variable names that are bound to the PEAR installation
      *
@@ -564,6 +566,7 @@ class PEAR2_Pyrus_Config
         if (!$userfile) {
             if (self::$explicitUserConfig) {
                 // never attempt to reload unless the user says so explicitly
+                $this->userFile = self::$lastUserConfig;
                 return;
             }
             $userfile = static::getDefaultUserConfigFile();
@@ -585,6 +588,7 @@ class PEAR2_Pyrus_Config
         }
 
         $this->userFile = $userfile;
+        self::$lastUserConfig = $userfile;
         if (!$userfile || !file_exists($userfile)) {
             PEAR2_Pyrus_Log::log(5, 'User configuration file ' . $userfile . ' not found');
             return;
