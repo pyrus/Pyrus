@@ -262,6 +262,11 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         return $this->getDefaultChannel('pecl.php.net');
     }
 
+    public function getDocChannel()
+    {
+        return $this->getDefaultChannel('doc.php.net');
+    }
+
     public function getUriChannel()
     {
         return $this->getDefaultChannel('__uri');
@@ -285,10 +290,22 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $pear2 = $this->getPear2Channel();
         $pecl = $this->getPeclChannel();
         $__uri = $this->getUriChannel();
+        $doc = $this->getDocChannel();
         $this->add($pear);
         $this->add($pear2);
         $this->add($pecl);
+        $this->add($doc);
         $this->add($__uri);
+    }
+
+    function getDefaultChannels()
+    {
+        return array('__uri', 'pear2.php.net', 'pear.php.net', 'pecl.php.net', 'doc.php.net');
+    }
+
+    function getDefaultChannelAliases()
+    {
+        return array('__uri', 'pear2', 'pear', 'pecl', 'doc');
     }
 
     public function getPath()

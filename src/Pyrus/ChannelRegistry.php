@@ -104,13 +104,9 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         if ($this->readonly) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
         }
-        switch ($channel->name) {
-            case 'pear.php.net' :
-            case 'pear2.php.net' :
-            case 'pecl.php.net' :
-            case '__uri' :
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
-                    $channel->name);
+        if (in_array($channel->name, $this->_registries[0]->getDefaultChannels())) {
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
+                $channel->name);
         }
         foreach ($this->_registries as $reg) {
             $reg->delete($channel);
@@ -130,6 +126,8 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
                     return $this->_registries[0]->getPear2Channel();
                 case 'pecl.php.net' :
                     return $this->_registries[0]->getPeclChannel();
+                case 'doc.php.net' :
+                    return $this->_registries[0]->getDocChannel();
                 case '__uri' :
                     return $this->_registries[0]->getUriChannel();
             }
@@ -148,19 +146,12 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     public function exists($channel, $strict = true)
     {
         if (!$this->_registries[0]->exists($channel, $strict)) {
-            switch ($channel) {
-                case 'pear.php.net' :
-                case 'pear2.php.net' :
-                case 'pecl.php.net' :
-                case '__uri' :
-                    return true;
+            if (in_array($channel, $this->getDefaultChannels())) {
+                return true;
             }
             if (!$strict) {
-                switch ($channel) {
-                    case 'pear' :
-                    case 'pear2' :
-                    case 'pecl' :
-                        return true;
+                if (in_array($channel, $this->getDefaultChannelAliases())) {
+                    return true;
                 }
             }
             return false;

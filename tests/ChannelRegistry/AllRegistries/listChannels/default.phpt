@@ -14,6 +14,7 @@ sort($chans);
 
 $test->assertEquals(array(
     '__uri',
+    'doc.php.net',
     'pear.php.net',
     'pear2.php.net',
     'pecl.php.net',

@@ -162,7 +162,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         }
 
         $name = $channel->name;
-        if ($name == 'pear.php.net' || $name == 'pear2.php.net' || $name == 'pecl.php.net' || $name == '__uri') {
+        if (in_array($name, $this->getDefaultChannels())) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
                 $channel->name);
         }

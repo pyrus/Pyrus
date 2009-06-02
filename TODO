@@ -7,7 +7,7 @@ Declare dependencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - ad
 
 implement --packagingroot option
 
-Add doc.php.net as default channel
+ [X] Add doc.php.net as default channel
 
  [idea works, relaxation successful here, but not at Brett's]
     Package-2.0 and 2.1 xsd needs to be relaxed a bit to allow flexible ordering of elements.
@@ -22,7 +22,7 @@ this will mostly be a test of what approach in COM will suit us best
 
 Update Sqlite3 to use the new exception mode, and to use bindValue() instead of bindParam()
 
-Implement subject/observer for Log
+ [X] Implement subject/observer for Log
 
  [X] Add log integration to scriptfrontend
 

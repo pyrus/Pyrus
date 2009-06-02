@@ -23,6 +23,7 @@ ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
                     . 'Listing channels [' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . ']:' . "\n"
                     . '__uri (__uri)' . "\n"
+                    . 'doc.php.net (phpdocs)' . "\n"
                     . 'pear.php.net (pear)' . "\n"
                     . 'pear2.php.net (pear2)' . "\n"
                     . 'pecl.php.net (pecl)' . "\n",
