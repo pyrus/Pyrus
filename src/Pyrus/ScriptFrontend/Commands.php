@@ -343,7 +343,7 @@ previous:
     function install($args, $options)
     {
         if ($options['plugin']) {
-            PEAR2_Pyrus::$options['install-plugin'] = true;
+            PEAR2_Pyrus::$options['install-plugins'] = true;
         }
         if (isset($options['packagingroot']) && $options['packagingroot']) {
             PEAR2_Pyrus::$options['packagingroot'] = $options['packagingroot'];
@@ -376,7 +376,7 @@ previous:
     function uninstall($args, $options)
     {
         if ($options['plugin']) {
-            PEAR2_Pyrus::$options['install-plugin'] = true;
+            PEAR2_Pyrus::$options['install-plugins'] = true;
         }
         PEAR2_Pyrus_Uninstaller::begin();
         try {

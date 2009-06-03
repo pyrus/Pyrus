@@ -102,9 +102,9 @@ class PEAR2_Pyrus_Installer
     static function prepare(PEAR2_Pyrus_IPackage $package)
     {
         if ($package->isPlugin()) {
-            if (!isset(PEAr2_Pyrus::$options['install-plugins'])) {
+            if (!isset(PEAR2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Log::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
-                                     ', use plugin-install/plugin-upgrade to manage plugins');
+                                     ', use install -p/upgrade -p to manage plugins');
                 return;
             }
         }
@@ -375,7 +375,7 @@ class PEAR2_Pyrus_Installer
             // success
             PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             static::$inTransaction = false;
-            if (isset(PEAr2_Pyrus::$options['install-plugins'])) {
+            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
             }
         } catch (Exception $e) {

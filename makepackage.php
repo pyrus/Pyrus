@@ -19,7 +19,9 @@ $a = new PEAR2_Pyrus_Package_Creator(array(
                     new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive(__DIR__ . '/pyrus.phar', '<?php
 function pyrus_autoload($class)
 {
-    include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
+    if (file_exists(\'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\')) {
+        include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
+    }
 }
 spl_autoload_register("pyrus_autoload");
 $frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;

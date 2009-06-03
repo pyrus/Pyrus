@@ -60,20 +60,18 @@ class PEAR2_Pyrus_Uninstaller
      */
     protected static $registeredPackages = array();
 
+    protected static $lastCurrent;
 
-    /**
-     * Installer options.  Valid indices are:
-     *
-     * - ignore_errors
-     * @var array
-     */
-    public static $options = array();
     /**
      * Prepare uninstallation of packages
      */
     static function begin()
     {
         if (!self::$inTransaction) {
+            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
+                self::$lastCurrent = PEAR2_Pyrus_Config::current();
+                PEAR2_Pyrus_Config::setCurrent(PEAR2_Pyrus_Config::current()->plugins_dir);
+            }
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$inTransaction = true;
@@ -124,6 +122,9 @@ class PEAR2_Pyrus_Uninstaller
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$registeredPackages = array();
+            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
+                PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
+            }
             if (count($err)) {
                 throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
@@ -179,6 +180,9 @@ class PEAR2_Pyrus_Uninstaller
             PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             self::$uninstallPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
+            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
+                PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
+            }
         } catch (Exception $e) {
             self::rollback();
             throw $e;

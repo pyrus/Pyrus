@@ -10,7 +10,7 @@
    <option>
     <name>plugin</name>
     <shortopt>p</shortopt>
-    <type><string/></type>
+    <type><bool/></type>
     <doc>Manage plugin installation only</doc>
    </option>
    <option>
@@ -73,7 +73,7 @@ php pyrus.phar install PackageName-1.2.0
    <option>
     <name>plugin</name>
     <shortopt>p</shortopt>
-    <type><string/></type>
+    <type><bool/></type>
     <doc>Manage plugin installation only</doc>
    </option>
    <option>
@@ -130,7 +130,7 @@ php pyrus.phar install PackageName-1.2.0
    <option>
     <name>plugin</name>
     <shortopt>p</shortopt>
-    <type><string/></type>
+    <type><bool/></type>
     <doc>Manage plugin installation only</doc>
    </option>
    <option>

@@ -64,9 +64,9 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
             return false;
         }
         $reg = PEAR2_Pyrus_Config::current()->registry;
-        $version = $reg->info($this->name, $info->channel, 'version');
-        if (version_compare($this->version, $version, '<=')) {
-            return false;
+        $version = $reg->info($this->name, $this->channel, 'version');
+        if (version_compare($this->version['release'], $version, '<=')) {
+            return !isset(PEAR2_Pyrus::$options['force']);
         }
         return true;
     }
