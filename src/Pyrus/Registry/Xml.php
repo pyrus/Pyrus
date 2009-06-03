@@ -40,6 +40,9 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
 
     function __construct($path, $readonly = false)
     {
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
         $this->_path = $path;
         $this->readonly = $readonly;
     }
@@ -319,6 +322,9 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
      */
     static public function detectRegistries($path)
     {
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
         if (file_exists($path . '/.xmlregistry') || is_dir($path . '/.xmlregistry')) {
             return array('Xml');
         }

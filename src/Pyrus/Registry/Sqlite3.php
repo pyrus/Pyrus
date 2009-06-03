@@ -70,14 +70,23 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             return;
         }
 
-        if (!file_exists(dirname($path))) {
-            if ($readonly) {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
-            }
-            @mkdir(dirname($path), 0755, true);
+        $dbpath = $path;
+        if ($path != ':memory:' && isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $dbpath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
         }
 
-        @(static::$databases[$path] = new SQLite3($path));
+        if ($path != ':memory:' && !file_exists(dirname($dbpath))) {
+            if ($readonly) {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+            }
+            @mkdir(dirname($dbpath), 0755, true);
+        }
+
+        if ($readonly && $path != ':memory:' && !file_exists($dbpath)) {
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+        }
+
+        static::$databases[$path] = new SQLite3($dbpath);
         // ScottMac needs to fix sqlite3 FIXME
         if (static::$databases[$path]->lastErrorCode()) {
             $error = static::$databases[$path]->lastErrorMsg();
@@ -1451,6 +1460,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
      */
     static public function detectRegistries($path)
     {
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
         if (file_exists($path . '/.pear2registry') || is_file($path . '/.pear2registry')) {
             return array('Sqlite3');
         }

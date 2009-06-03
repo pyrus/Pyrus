@@ -201,7 +201,20 @@ class PEAR2_Pyrus_Installer_Role_Common
                                                         array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
                                                               DIRECTORY_SEPARATOR),
                                                         array($dest_dir, $dest_file));
+            if ($dest_file[0] == DIRECTORY_SEPARATOR) {
+                $dest_file = substr($dest_file, 1);
+            }
             return array($dest_dir, $dest_file);
+        }
+        // Clean up the DIRECTORY_SEPARATOR mess
+        $ds2 = DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
+
+        $dest_file = preg_replace(array('!\\\\+!', '!/!', "!$ds2+!"),
+                                                    array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR,
+                                                          DIRECTORY_SEPARATOR),
+                                                    $dest_file);
+        if ($dest_file[0] == DIRECTORY_SEPARATOR) {
+            $dest_file = substr($dest_file, 1);
         }
         return $dest_file;
     }

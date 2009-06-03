@@ -4,7 +4,7 @@ Dependency_Validator: subpackage dependency, installed failure --nodeps
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-PEAR2_Pyrus_Installer::$options['nodeps'] = true;
+PEAR2_Pyrus::$options['nodeps'] = true;
 $fake = new PEAR2_Pyrus_PackageFile_v2;
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo']->min('1.2.0');
 

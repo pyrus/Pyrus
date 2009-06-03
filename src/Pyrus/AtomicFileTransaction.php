@@ -55,6 +55,9 @@ class PEAR2_Pyrus_AtomicFileTransaction
 
     protected function __construct($rolepath)
     {
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $rolepath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $rolepath);
+        }
         $this->rolepath = $rolepath;
         $this->backuppath = dirname($rolepath) . DIRECTORY_SEPARATOR .
             '.old-' . basename($rolepath);

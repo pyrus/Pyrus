@@ -36,7 +36,7 @@ class b extends PEAR2_Pyrus_Installer
 $a = new PEAR2_Pyrus_PackageFile(__DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/rest/r/p2/package.1.0.0.xml');
 PEAR2_Pyrus_Config::current()->registry->package[] = $a->info;
-PEAR2_Pyrus_Installer::$options['upgrade'] = true;
+PEAR2_Pyrus::$options['upgrade'] = true;
 
 b::begin();
 b::prepare(new PEAR2_Pyrus_Package('pear2/P1-beta'));

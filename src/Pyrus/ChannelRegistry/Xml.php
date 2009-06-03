@@ -34,6 +34,9 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
     function __construct($path, $readonly = false)
     {
         $this->readonly = $readonly;
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
         $this->path = $path;
         $this->channelpath = $path . DIRECTORY_SEPARATOR . '.xmlregistry' . DIRECTORY_SEPARATOR .
             'channels'; 

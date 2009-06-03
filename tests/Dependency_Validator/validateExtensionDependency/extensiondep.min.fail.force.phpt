@@ -4,7 +4,7 @@ Dependency_Validator: Extension dependency, min bounds failure --force
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-PEAR2_Pyrus_Installer::$options['force'] = true;
+PEAR2_Pyrus::$options['force'] = true;
 $fake = new PEAR2_Pyrus_PackageFile_v2;
 $foo = $fake->dependencies['required']->extension['foo']->min('2.0.0');
 $validator->extensions['foo'] = true;

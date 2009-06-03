@@ -3,7 +3,7 @@ Dependency_Validator: OS dependency windows --force
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-PEAR2_Pyrus_Installer::$options = array('force' => true);
+PEAR2_Pyrus::$options = array('force' => true);
 $fake = new PEAR2_Pyrus_PackageFile_v2;
 $os = $fake->dependencies['required']->os;
 $os->name = 'windows';

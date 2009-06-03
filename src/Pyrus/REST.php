@@ -35,7 +35,7 @@ class PEAR2_Pyrus_REST
     function __construct()
     {
         $this->config = PEAR2_Pyrus_Config::current();
-        $this->_options = PEAR2_Pyrus_Installer::$options;
+        $this->_options = PEAR2_Pyrus::$options;
     }
 
     /**

@@ -55,20 +55,25 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             return;
         }
 
+        $dbpath = $path;
+        if ($path != ':memory:' && isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $dbpath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
+
         if (!$path) {
             $path = ':memory:';
-        } elseif (!file_exists(dirname($path))) {
+        } elseif ($path != ':memory:' && !file_exists(dirname($dbpath))) {
             if ($readonly) {
                 throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
             }
-            @mkdir(dirname($path), 0755, true);
+            @mkdir(dirname($dbpath), 0755, true);
         }
 
-        if ($readonly && !file_exists($path)) {
+        if ($readonly && $path != ':memory:' && !file_exists($dbpath)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
-        self::$databases[$path] = new SQLite3($path);
+        static::$databases[$path] = new SQLite3($dbpath);
         // hopefully this works
         if (self::$databases[$path]->lastErrorCode()) {
             $temp = self::$databases[$path];

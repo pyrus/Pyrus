@@ -51,7 +51,7 @@ foreach ($errs->E_ERROR as $error) {
                         '5.3.1 fail message');
 }
 
-PEAR2_Pyrus_Installer::$options = array('force' => true);
+PEAR2_Pyrus::$options = array('force' => true);
 
 // reset multierrors
 $errs = new PEAR2_MultiErrors;

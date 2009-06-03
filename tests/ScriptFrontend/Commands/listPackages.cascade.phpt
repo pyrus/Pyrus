@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), no packages installed
+PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), cascading include_path
 --FILE--
 <?php
 require __DIR__ . '/setup.minimal.php.inc';
@@ -8,9 +8,11 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     include __DIR__ . '/../../clean.php.inc';
 }
 mkdir(__DIR__ . '/testit');
+
 set_include_path(__DIR__ . '/testit' . PATH_SEPARATOR . __DIR__ . '/listPackages.pear1');
-PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/noconfig.xml');
+PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
+
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
 $cli->run($args = array (__DIR__ . '/testit', 'list-packages'));

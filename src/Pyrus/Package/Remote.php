@@ -73,7 +73,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     {
         if ($this->isUpgradeable === null) {
             // we are not a dependency, so figure out a version that could work
-            if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
+            if (!isset(PEAR2_Pyrus::$options['upgrade'])) {
                 // we don't attempt to upgrade a dep unless we're upgrading
                 return;
             }
@@ -246,8 +246,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         $version = $reg->info($pname['package'], $pname['channel'], 'version');
         $stability = $reg->info($pname['package'], $pname['channel'], 'state');
 
-        if (!isset(PEAR2_Pyrus_Installer::$options['force']) &&
-              !isset(PEAR2_Pyrus_Installer::$options['downloadonly']) &&
+        if (!isset(PEAR2_Pyrus::$options['force']) &&
+              !isset(PEAR2_Pyrus::$options['downloadonly']) &&
               $version && $this->explicitVersion &&
               !isset($pname['group'])) {
             if (version_compare($version, $pname['version'], '>=')) {

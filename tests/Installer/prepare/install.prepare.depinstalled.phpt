@@ -10,7 +10,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
 PEAR2_Pyrus_REST::$downloadClass = 'Internet';
-PEAR2_Pyrus_Installer::$options['upgrade'] = true;
+PEAR2_Pyrus::$options['upgrade'] = true;
 class b extends PEAR2_Pyrus_Installer
 {
     static $installPackages = array();

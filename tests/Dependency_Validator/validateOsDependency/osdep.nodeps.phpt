@@ -4,7 +4,7 @@ Dependency_Validator: OS dependency unix --nodeps
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-PEAR2_Pyrus_Installer::$options = array('nodeps' => true);
+PEAR2_Pyrus::$options = array('nodeps' => true);
 $fake = new PEAR2_Pyrus_PackageFile_v2;
 $os = $fake->dependencies['required']->os;
 $os->name = 'unix';

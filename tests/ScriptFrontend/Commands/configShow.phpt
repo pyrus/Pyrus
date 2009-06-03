@@ -6,11 +6,11 @@ define('MYDIR', __DIR__);
 require __DIR__ . '/setup.php.inc';
 
 set_include_path(__DIR__ . '/testit');
-$a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/foo.xml');
+$a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/foo.xml');
 restore_include_path();
 $a->ext_dir = __DIR__ . '/testit/ext';
 $a->bin_dir = __DIR__ . '/testit/bin';
-file_put_contents(__DIR__ . '/testit/foo.xml', '<pearconfig version="1.0"></pearconfig>');
+file_put_contents(__DIR__ . '/testit/plugins/foo.xml', '<pearconfig version="1.0"></pearconfig>');
 
 ob_start();
 $cli = new test_scriptfrontend();
@@ -36,7 +36,7 @@ $help2 =
  . "  php_prefix => \n"
  . "  php_suffix => \n"
  . "Custom System paths:\n"
- . "User config (from " . __DIR__ . "${d}testit${d}foo.xml):\n"
+ . "User config (from " . __DIR__ . "${d}testit${d}plugins${d}foo.xml):\n"
  . "  default_channel => pear2.php.net\n"
  . "  preferred_mirror => pear2.php.net\n"
  . "  auto_discover => 0\n"
@@ -55,8 +55,8 @@ $help2 =
  . "  sig_keyid => \n"
  . "  sig_keydir => \n"
  . "  my_pear_path => " . __DIR__ . DIRECTORY_SEPARATOR . "testit\n"
- . "  plugins_dir => " . __DIR__ . "${d}testit\n"
- . "Custom User config (from " . __DIR__ . "${d}testit${d}foo.xml):\n";
+ . "  plugins_dir => " . __DIR__ . "${d}testit${d}plugins\n"
+ . "Custom User config (from " . __DIR__ . "${d}testit${d}plugins${d}foo.xml):\n";
 
 $test->assertEquals($help1 . $help2,
                     $contents,

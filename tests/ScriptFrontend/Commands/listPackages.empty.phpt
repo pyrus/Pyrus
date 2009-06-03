@@ -9,7 +9,7 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 mkdir(__DIR__ . '/testit');
 set_include_path(__DIR__ . '/testit');
-PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/noconfig.xml');
+PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands();

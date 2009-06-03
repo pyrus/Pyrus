@@ -3,7 +3,7 @@ include __DIR__ . '/../test_framework.php.inc';
 $pf = new PEAR2_Pyrus_PackageFile_v2;
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/pearconfig.xml');
+$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();

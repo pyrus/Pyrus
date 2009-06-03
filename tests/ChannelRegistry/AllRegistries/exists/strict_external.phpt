@@ -5,7 +5,7 @@ PEAR2_Pyrus_ChannelRegistry::exists() strict external channel check
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit');
+$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 $c->saveConfig();
 $chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));

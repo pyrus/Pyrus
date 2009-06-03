@@ -6,10 +6,10 @@ set_include_path(dirname(__FILE__).'/testit');
 define('MYDIR', __DIR__);
 require __DIR__ . '/setup.php.inc';
 
-$a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/foo.xml');
+$a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $a->ext_dir = __DIR__ . '/testit/ext';
 $a->bin_dir = __DIR__ . '/testit/bin';
-file_put_contents(__DIR__ . '/testit/foo.xml', '<pearconfig version="1.0"></pearconfig>');
+file_put_contents(__DIR__ . '/testit/plugins/pearconfig.xml', '<pearconfig version="1.0"></pearconfig>');
 
 ob_start();
 $cli = new test_scriptfrontend();

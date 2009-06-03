@@ -35,7 +35,10 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
             $path = $path . DIRECTORY_SEPARATOR . 'php';
         }
         $this->path = $path;
-        $this->_channelPath = $this->path . DIRECTORY_SEPARATOR . '.channels';
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
+        $this->_channelPath = $path . DIRECTORY_SEPARATOR . '.channels';
         $this->_aliasPath = $this->_channelPath . DIRECTORY_SEPARATOR . '.alias';
         if (!file_exists($this->_channelPath) || !is_dir($this->_channelPath)) {
             if ($readonly) {

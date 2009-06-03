@@ -73,21 +73,12 @@ class PEAR2_Pyrus_Installer
     protected static $lastCurrent;
 
     /**
-     * Installer options.  Valid indices are:
-     *
-     * - upgrade (upgrade or install packages)
-     * - optionaldeps (also automatically download/install optional deps)
-     * - force
-     * @var array
-     */
-    public static $options = array();
-    /**
      * Prepare installation of packages
      */
     static function begin()
     {
         if (!static::$inTransaction) {
-            if (isset(static::$options['install-plugins'])) {
+            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
                 self::$lastCurrent = PEAR2_Pyrus_Config::current();
                 PEAR2_Pyrus_Config::setCurrent(PEAR2_Pyrus_Config::current()->plugins_dir);
             }
@@ -95,6 +86,9 @@ class PEAR2_Pyrus_Installer
             static::$installedPackages = array();
             static::$removedPackages = array();
             static::$inTransaction = true;
+            if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+                PEAR2_Pyrus_Config::current()->resetForPackagingRoot();
+            }
         }
     }
 
@@ -108,7 +102,7 @@ class PEAR2_Pyrus_Installer
     static function prepare(PEAR2_Pyrus_IPackage $package)
     {
         if ($package->isPlugin()) {
-            if (!isset(static::$options['install-plugins'])) {
+            if (!isset(PEAr2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Log::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
                                      ', use plugin-install/plugin-upgrade to manage plugins');
                 return;
@@ -120,7 +114,7 @@ class PEAR2_Pyrus_Installer
             if (PEAR2_Pyrus_Config::current()->registry->exists(
                   $package->name, $package->channel)) {
                 if (!$package->isUpgradeable()) {
-                    if (!isset(static::$options['force'])) {
+                    if (!isset(PEAr2_Pyrus::$options['force'])) {
                         // installed package is the same or newer version than this one
                         PEAR2_Pyrus_Log::log(1, 'Skipping installed package ' .
                             $package->channel . '/' . $package->name);
@@ -146,7 +140,7 @@ class PEAR2_Pyrus_Installer
             // identical, ignore this package
             return;
         }
-        if (!static::$options['force']) {
+        if (!PEAr2_Pyrus::$options['force']) {
             //
             static::rollback();
             throw new PEAR2_Pyrus_Installer_Exception('Cannot install ' .
@@ -185,7 +179,7 @@ class PEAR2_Pyrus_Installer
                 }
             }
         }
-        if (!isset(static::$options['optionaldeps'])) {
+        if (!isset(PEAr2_Pyrus::$options['optionaldeps'])) {
             return;
         }
         foreach (array('package', 'subpackage') as $p) {
@@ -238,7 +232,7 @@ class PEAR2_Pyrus_Installer
             static::$installedPackages = array();
             static::$registeredPackages = array();
             static::$removedPackages = array();
-            if (isset(static::$options['install-plugins'])) {
+            if (isset(PEAr2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
             }
             if (count($err)) {
@@ -295,7 +289,7 @@ class PEAR2_Pyrus_Installer
             $allpackages = static::$installPackages;
             $done = !count($packages);
         } while (!$done);
-        if (!isset(self::$options['force'])) {
+        if (!isset(PEAr2_Pyrus::$options['force'])) {
             // now iterate over the list and remove any packages that are installed with this version
             $packages = static::$installPackages;
             $reg = PEAR2_Pyrus_Config::current()->registry;
@@ -332,7 +326,7 @@ class PEAR2_Pyrus_Installer
                 $package->download();
                 if ($package->isPlugin()) {
                     // check for downloaded packages
-                    if (!isset(static::$options['install-plugins'])) {
+                    if (!isset(PEAr2_Pyrus::$options['install-plugins'])) {
                         PEAR2_Pyrus_Log::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
                                              ', use plugin-install/plugin-upgrade to manage plugins');
                         unset(static::$installPackages[$package->channel . '/' . $package->name]);
@@ -381,7 +375,7 @@ class PEAR2_Pyrus_Installer
             // success
             PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             static::$inTransaction = false;
-            if (isset(static::$options['install-plugins'])) {
+            if (isset(PEAr2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
             }
         } catch (Exception $e) {
@@ -407,12 +401,8 @@ class PEAR2_Pyrus_Installer
     function install(PEAR2_Pyrus_IPackage $package)
     {
         $this->_options = array();
-        try {
-            $lastversion = PEAR2_Pyrus_Config::current()->registry->info(
-                                    $package->name, $package->channel, 'version');
-        } catch (Exception $e) {
-            $lastversion = null;
-        }
+        $lastversion = PEAR2_Pyrus_Config::current()->registry->info(
+                                $package->name, $package->channel, 'version');
         $globalreplace = array('attribs' =>
                     array('from' => '@' . 'PACKAGE_VERSION@',
                           'to' => 'version',

@@ -59,7 +59,7 @@ define('OS_UNIX', false);
 $g = PEAR2_Pyrus_Config::singleton('C:/development/pear-core/testpear');
 //$g = new PEAR2_Pyrus_Config('/home/cellog/testpear');
 try {
-    PEAR2_Pyrus_Installer::$options['force'] = true;
+    PEAR2_Pyrus::$options['force'] = true;
     PEAR2_Pyrus_Installer::begin();
     PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Autoload/trunk/package.xml'));
     PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('C:/development/PEAR2/Exception/trunk/package.xml'));

@@ -101,7 +101,6 @@ $test->assertEquals(array (
 ===DONE===
 --CLEAN--
 <?php
-unlink(__DIR__ . '/pearconfig.xml');
 $dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>

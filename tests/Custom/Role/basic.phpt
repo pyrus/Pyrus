@@ -3,7 +3,7 @@ Custom file role: basic test
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
-PEAR2_Pyrus_Installer::$options['install-plugins'] = true;
+PEAR2_Pyrus::$options['install-plugins'] = true;
 
 $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugin');
 

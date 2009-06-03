@@ -85,6 +85,8 @@ class PEAR2_Pyrus_Config
      */
     protected $values;
 
+    protected $hasPackagingRoot = false;
+
     static protected $explicitUserConfig = false;
 
     static protected $initializing = false;
@@ -372,12 +374,18 @@ class PEAR2_Pyrus_Config
 
         // Always set the current config to the most recently created one.
         self::$current = $this;
+        $this->hasPackagingRoot = isset(PEAR2_Pyrus::$options['packagingroot']);
         self::$initializing = false;
     }
 
     static function initializing()
     {
         return self::$initializing;
+    }
+
+    function hasPackagingRoot()
+    {
+        return $this->hasPackagingRoot;
     }
 
     /**
@@ -393,7 +401,15 @@ class PEAR2_Pyrus_Config
             $pearDirectory = realpath($pearDirectory);
         }
         if (isset(self::$configs[$pearDirectory])) {
-            return self::$configs[$pearDirectory];
+            if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+                if (self::$configs[$pearDirectory]->hasPackagingRoot()) {
+                    return self::$configs[$pearDirectory];
+                }
+            } else {
+                if (!self::$configs[$pearDirectory]->hasPackagingRoot()) {
+                    return self::$configs[$pearDirectory];
+                }
+            }
         }
         self::$configs[$pearDirectory] = new static($pearDirectory, $userfile);
         return self::$configs[$pearDirectory];
@@ -444,7 +460,9 @@ class PEAR2_Pyrus_Config
 
                 $last  = $registry;
                 $lastc = $channel_registry;
-                
+                if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+                    break; // no cascading registries allowed for packaging
+                }
             } catch (Exception $e) {
                 if (!$readonly) {
                     throw new PEAR2_Pyrus_Config_Exception(
@@ -469,6 +487,14 @@ class PEAR2_Pyrus_Config
         } else {
             static::singleton($path);
         }
+    }
+
+    /**
+     * Call to reset the registries after setting or resetting a packagingroot
+     */
+    function resetForPackagingRoot()
+    {
+        $this->setCascadingRegistries($this->pearDir);
     }
 
     /**
@@ -789,6 +815,9 @@ class PEAR2_Pyrus_Config
         }
 
         $test = $this->pearDir . '.config';
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $test = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $test);
+        }
         while ($test && !file_exists($test)) {
             $test = dirname($test);
         }
@@ -823,6 +852,9 @@ class PEAR2_Pyrus_Config
         $system = $this->pearDir . '.config';
         if (dirname($system) != $this->pearDir) {
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
+        }
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $system = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $system);
         }
         if (!file_exists(dirname($system)) && !@mkdir(dirname($system), 0777, true)) {
             throw new PEAR2_Pyrus_Config_Exception(
@@ -859,6 +891,9 @@ class PEAR2_Pyrus_Config
     {
         $conf = self::current();
         $snapshotdir = $conf->pearDir . DIRECTORY_SEPARATOR . '.configsnapshots';
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $snapshotdir = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $snapshotdir);
+        }
         if (!file_exists($snapshotdir)) {
             // this will be simple - no snapshots exist yet
             if (!@mkdir($snapshotdir, 0755, true)) {

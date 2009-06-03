@@ -56,8 +56,8 @@ class PEAR2_Pyrus_PECLBuild
 
             $copyto = $dest = $ext['dest'];
             $packagingroot = '';
-            if (isset(PEAR2_Pyrus_Installer::$options['packagingroot'])) {
-                $packagingroot = PEAR2_Pyrus_Installer::$options['packagingroot'];
+            if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+                $packagingroot = PEAR2_Pyrus::$options['packagingroot'];
                 $copyto = $this->_prependPath($dest, $packagingroot);
             }
 

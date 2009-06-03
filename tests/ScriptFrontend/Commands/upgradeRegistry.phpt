@@ -25,10 +25,11 @@ $test->assertEquals(array('Pear1'), PEAR2_Pyrus_Registry::detectRegistries(__DIR
 // now for the Pyrus portion of this test
 set_include_path(dirname(__FILE__).'/testit');
 
-$a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/foo.xml');
+$a = PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $a->ext_dir = __DIR__ . '/testit/ext';
 $a->bin_dir = __DIR__ . '/testit/bin';
-file_put_contents(__DIR__ . '/testit/foo.xml', '<pearconfig version="1.0"></pearconfig>');
+mkdir(__DIR__ . '/testit/plugins');
+file_put_contents(__DIR__ . '/testit/plugins/pearconfig.xml', '<pearconfig version="1.0"></pearconfig>');
 restore_include_path();
 
 ob_start();

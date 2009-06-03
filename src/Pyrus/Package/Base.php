@@ -59,7 +59,7 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
 
     function isUpgradeable()
     {
-        if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
+        if (!isset(PEAR2_Pyrus::$options['upgrade'])) {
             // we don't attempt to upgrade a dep unless we're upgrading
             return false;
         }

@@ -126,7 +126,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                     }
                 }
 
-                if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
+                if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus::$options['force'])) {
                     // release is not stable enough
                     continue;
                 }
@@ -401,7 +401,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 continue;
             }
 
-            if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus_Installer::$options['force'])) {
+            if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus::$options['force'])) {
                 // release is not stable enough
                 continue;
             }

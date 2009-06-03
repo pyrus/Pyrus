@@ -20,7 +20,7 @@ foreach ($errs->E_ERROR as $error) {
                         'foobar conflicts fail message');
 }
 
-PEAR2_Pyrus_Installer::$options = array('force' => true);
+PEAR2_Pyrus::$options = array('force' => true);
 // reset multierrors
 $errs = new PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
@@ -37,7 +37,7 @@ foreach ($errs->E_WARNING as $error) {
                         'foobar conflicts fail message force');
 }
 
-PEAR2_Pyrus_Installer::$options = array();
+PEAR2_Pyrus::$options = array();
 // reset multierrors
 $errs = new PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
@@ -55,7 +55,7 @@ foreach ($errs->E_ERROR as $error) {
                         'barfoo fail message');
 }
 
-PEAR2_Pyrus_Installer::$options = array('nodeps' => true);
+PEAR2_Pyrus::$options = array('nodeps' => true);
 // reset multierrors
 $errs = new PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);

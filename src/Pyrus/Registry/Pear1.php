@@ -35,6 +35,9 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         if (!file_exists($path . '/.registry') && basename($path) !== 'php') {
             $path = $path . DIRECTORY_SEPARATOR . 'php';
         }
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
         $this->_path = $path;
         $this->filemap = $this->_path . DIRECTORY_SEPARATOR . '.filemap';
     }
@@ -533,6 +536,9 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
      */
     static public function detectRegistries($path)
     {
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
         if (file_exists($path . '/.registry') || is_dir($path . '/.registry')) {
             return array('Pear1');
         }

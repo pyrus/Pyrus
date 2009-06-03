@@ -4,7 +4,7 @@ Dependency_Validator: subpackage dependency, conflicts, installed max fail --nod
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-PEAR2_Pyrus_Installer::$options['nodeps'] = true;
+PEAR2_Pyrus::$options['nodeps'] = true;
 $fake = new PEAR2_Pyrus_PackageFile_v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';

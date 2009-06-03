@@ -56,7 +56,7 @@ class PEAR2_Pyrus_Package_Dependency extends PEAR2_Pyrus_Package_Remote
         // first check to see if the dependency is installed
         $canupgrade = false;
         if (isset($reg->package[$info->channel . '/' . $info->name])) {
-            if (!isset(PEAR2_Pyrus_Installer::$options['upgrade'])) {
+            if (!isset(PEAR2_Pyrus::$options['upgrade'])) {
                 // we don't attempt to upgrade a dep unless we're upgrading
                 return;
             }
