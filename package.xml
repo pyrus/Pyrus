@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-01</date>
- <time>23:50:22</time>
+ <date>2009-06-02</date>
+ <time>23:48:16</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -69,6 +69,7 @@ Implemented features:
   <dir name="/">
    <dir name="data" baseinstalldir="/">
     <dir name="default_channels">
+     <file role="data" name="doc.php.net.xml"/>
      <file role="data" name="pear.php.net.xml"/>
      <file role="data" name="pear2.php.net.xml"/>
      <file role="data" name="pecl.php.net.xml"/>
@@ -613,7 +614,6 @@ Implemented features:
     </dir>
     <dir name="Custom">
      <dir name="Command">
-      <file role="test" name="basic.php"/>
       <file role="test" name="basic.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
@@ -810,6 +810,7 @@ Implemented features:
       <file role="test" name="install.prepare.fail.depconflict4.phpt"/>
       <file role="test" name="pearconfig.xml"/>
      </dir>
+     <file role="test" name="install.packagingroot.phpt"/>
      <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.verifyfiles.phpt"/>
      <file role="test" name="install_existing_package.phpt"/>
@@ -1873,6 +1874,7 @@ Implemented features:
       <file role="test" name="findpear3.phpt"/>
       <file role="test" name="help.command.phpt"/>
       <file role="test" name="help.phpt"/>
+      <file role="test" name="install.packagingroot.phpt"/>
       <file role="test" name="install.phpt"/>
       <file role="test" name="install_pear1package.phpt"/>
       <file role="test" name="listChannels.phpt"/>
@@ -1964,8 +1966,8 @@ Implemented features:
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
