@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-06-03</date>
- <time>00:05:53</time>
+ <time>14:32:47</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -1860,6 +1860,63 @@ Implemented features:
       <dir name="packages">
        <file role="test" name="Net_URL-1.0.15.tar"/>
       </dir>
+      <dir name="Pyrus_Developer">
+       <dir name="customcommand">
+        <file role="test" name="commands.xml"/>
+       </dir>
+       <dir name="data" baseinstalldir="/">
+        <file role="test" name="phartemplate.php"/>
+       </dir>
+       <dir name="src" baseinstalldir="PEAR2">
+        <dir name="Pyrus">
+         <dir name="Developer">
+          <dir name="CoverageAnalyzer">
+           <dir name="SourceFile">
+            <file role="test" name="PerTest.php"/>
+           </dir>
+           <dir name="Web">
+            <file role="test" name="Aggregator.php"/>
+            <file role="test" name="Controller.php"/>
+            <file role="test" name="Exception.php"/>
+            <file role="test" name="View.php"/>
+           </dir>
+           <file role="test" name="AbstractSourceDecorator.php"/>
+           <file role="test" name="Aggregator.php"/>
+           <file role="test" name="DefaultSourceDecorator.php"/>
+           <file role="test" name="Exception.php"/>
+           <file role="test" name="make-coverage-phar.php"/>
+           <file role="test" name="pear2coverage.phar.php"/>
+           <file role="test" name="SourceFile.php"/>
+           <file role="test" name="Sqlite.php"/>
+           <file role="test" name="test-modified.php"/>
+           <file role="test" name="test.php"/>
+          </dir>
+          <dir name="Creator">
+           <dir name="Phar">
+            <file role="test" name="PHPArchive.php"/>
+           </dir>
+           <file role="test" name="Exception.php"/>
+           <file role="test" name="Phar.php"/>
+           <file role="test" name="Tar.php"/>
+           <file role="test" name="Xml.php"/>
+           <file role="test" name="Zip.php"/>
+          </dir>
+          <dir name="PackageFile">
+           <dir name="PEAR2SVN">
+            <file role="test" name="Filter.php"/>
+           </dir>
+           <file role="test" name="Commands.php"/>
+           <file role="test" name="PEAR2SVN.php"/>
+           <file role="test" name="v2.php"/>
+          </dir>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="CREDITS"/>
+       <file role="test" name="package.xml"/>
+       <file role="test" name="README"/>
+       <file role="test" name="RELEASE-0.1.0"/>
+      </dir>
       <file role="test" name="build.phpt"/>
       <file role="test" name="channelAdd.phpt"/>
       <file role="test" name="channelDel.phpt"/>
@@ -1876,6 +1933,7 @@ Implemented features:
       <file role="test" name="help.phpt"/>
       <file role="test" name="install.packagingroot.phpt"/>
       <file role="test" name="install.phpt"/>
+      <file role="test" name="install.plugin.phpt"/>
       <file role="test" name="install_pear1package.phpt"/>
       <file role="test" name="listChannels.phpt"/>
       <file role="test" name="listPackages.cascade.phpt"/>
@@ -1889,6 +1947,8 @@ Implemented features:
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="setup.runscripts.php.inc"/>
       <file role="test" name="uninstall.basic.phpt"/>
+      <file role="test" name="uninstall.plugin.phpt"/>
+      <file role="test" name="upgrade.force.phpt"/>
       <file role="test" name="upgrade.phpt"/>
       <file role="test" name="upgrade2.phpt"/>
       <file role="test" name="upgradeRegistry.phpt"/>
@@ -1958,16 +2018,16 @@ Implemented features:
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>

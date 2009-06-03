@@ -345,6 +345,9 @@ previous:
         if ($options['plugin']) {
             PEAR2_Pyrus::$options['install-plugins'] = true;
         }
+        if ($options['force']) {
+            PEAR2_Pyrus::$options['force'] = true;
+        }
         if (isset($options['packagingroot']) && $options['packagingroot']) {
             PEAR2_Pyrus::$options['packagingroot'] = $options['packagingroot'];
         }

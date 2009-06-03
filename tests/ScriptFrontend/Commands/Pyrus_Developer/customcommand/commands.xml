@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands version="2.0" xmlns="http://pear2.php.net/dtd/customcommand-2.0">
+ <command>
+  <name>make</name>
+  <class>PEAR2_Pyrus_Developer_PackageFile_Commands</class>
+  <function>makePackageXml</function>
+  <autoloadpath></autoloadpath>
+  <summary>Create a package.xml from a standard PEAR2 directory layout</summary>
+  <shortcut>x</shortcut>
+  <options>
+<!-- no need for this yet, but keep it to make adding them easier
+    <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type><string/></type>
+    <doc>Manage plugin installation only</doc>
+   </option>
+-->
+  </options>
+  <arguments>
+   <argument>
+    <name>packagename</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Name of the package to create.</doc>
+   </argument>
+   <argument>
+    <name>dir</name>
+    <multiple>0</multiple>
+    <optional>1</optional>
+    <doc>path to directory to make the packagefile for.</doc>
+   </argument>
+  </arguments>
+  <doc>Make a package.xml file from a standard PEAR2 directory layout.
+
+This command looks for these standard files:
+
+CREDITS, README, RELEASE-X.Y.Z (where X.Y.Z is the release version)
+
+and for a standard directory layout of
+
+src/             PHP files
+data/            Data files
+tests/           Test files
+doc/             Documentation files
+examples/        Example files (documentation)
+scripts/         Executable files, scripts
+www/             Web files
+customrole/      Custom installer role xml definition files
+customtask/      Custom installer task xml definition files
+customcommand/   Custom command xml definition files
+
+The CREDITS file must have this format:
+
+;; comments ignored
+Maintainer One [handle1] &lt;email@example.com&gt; (role)
+Maintainer Two [handle2] &lt;email@example.com&gt; (role)
+
+Where role is one of lead, developer, contributor, helper.
+
+The first line of README is used as the summary of the package.
+RELEASE-X.Y.Z is used as the release notes.
+</doc>
+ </command>
+</commands>

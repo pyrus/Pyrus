@@ -1,0 +1,5 @@
+Developer tools for the Pyrus installer
+
+This package contains several custom commands for Pyrus,
+including command to automatically generate a package.xml,
+and commands to create a package from an existing package.xml

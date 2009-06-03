@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>PEAR2_Pyrus_Developer</name>
+ <channel>pear2.php.net</channel>
+ <summary>Developer tools for the Pyrus installer
+</summary>
+ <description>
+Developer tools for the Pyrus installer
+
+This package contains several custom commands for Pyrus,
+including command to automatically generate a package.xml,
+and commands to create a package from an existing package.xml.</description>
+ <lead>
+  <name>Gregory Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-06-02</date>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>Initial development release</notes>
+ <contents>
+  <dir name="/">
+   <dir name="customcommand" baseinstalldir="/">
+    <file role="customcommand" name="commands.xml"/>
+   </dir>
+   <dir name="data" baseinstalldir="/">
+    <file role="data" name="phartemplate.php"/>
+   </dir>
+   <dir name="src" baseinstalldir="PEAR2">
+    <dir name="Pyrus">
+     <dir name="Developer">
+      <dir name="Creator">
+       <dir name="Phar">
+        <file role="php" name="PHPArchive.php"/>
+       </dir>
+       <file role="php" name="Exception.php"/>
+       <file role="php" name="Phar.php"/>
+       <file role="php" name="Tar.php"/>
+       <file role="php" name="Xml.php"/>
+       <file role="php" name="Zip.php"/>
+      </dir>
+      <dir name="PackageFile">
+       <dir name="PEAR2SVN">
+        <file role="php" name="Filter.php"/>
+       </dir>
+       <file role="php" name="Commands.php"/>
+       <file role="php" name="PEAR2SVN.php"/>
+       <file role="php" name="v2.php"/>
+      </dir>
+     </dir>
+    </dir>
+   </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease></phprelease>
+</package>
