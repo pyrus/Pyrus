@@ -359,7 +359,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             }
             $ret = array();
             foreach ($data['filelist'] as $file) {
-                if (!isset($file['installed_as'])) {
+                if (!isset($file['installed_as']) || !isset($configpaths[$file['role']])) {
                     continue;
                 }
                 if (0 !== strpos($file['installed_as'], $configpaths[$file['role']])) {
