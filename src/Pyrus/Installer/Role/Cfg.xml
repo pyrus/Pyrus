@@ -1,0 +1,16 @@
+<role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
+ <name>cfg</name>
+ <classprefix>PEAR2_Pyrus_Installer_Role</classprefix>
+ <releasetypes>php</releasetypes>
+ <releasetypes>extsrc</releasetypes>
+ <releasetypes>extbin</releasetypes>
+ <releasetypes>zendextsrc</releasetypes>
+ <releasetypes>zendextbin</releasetypes>
+ <installable>1</installable>
+ <locationconfig>cfg_dir</locationconfig>
+ <honorsbaseinstall />
+ <unusualbaseinstall>1</unusualbaseinstall>
+ <phpfile />
+ <executable />
+ <phpextension />
+</role>

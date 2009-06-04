@@ -530,7 +530,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
      */
     function setFileAttribute($filename, $attr, $value)
     {
-        if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as'), true)) {
+        if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as', 'md5sum'), true)) {
             // check to see if this is a task
             if ($this->isValidTask($attr)) {
                 if (!isset($this->filelist[$filename][$attr])) {

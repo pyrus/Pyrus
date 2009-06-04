@@ -464,6 +464,9 @@ class PEAR2_Pyrus_Installer
                         }
                     }
                 }
+            } else {
+                // installing from package.xml in source control, save the md5 of the current file
+                $file->md5sum = md5_file($package->getFilePath($file->packagedname));
             }
 
             if (strpos(PHP_OS, 'WIN') === false) {

@@ -267,8 +267,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $sql = '
             INSERT INTO files
               (packages_name, packages_channel, packagepath, configpath, role,
-               relativepath, origpath, baseinstalldir, tasks)
-            VALUES(:name, :channel, :path, :configpath, :role, :relativepath, :origpath, :baseinstall, :tasks)';
+               relativepath, origpath, baseinstalldir, tasks, md5sum)
+            VALUES(:name, :channel, :path, :configpath, :role, :relativepath, :origpath, :baseinstall, :tasks, :md5)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
 
@@ -298,6 +298,13 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $bi = $file->baseinstalldir;
             $stmt->bindParam(':baseinstall',  $bi);
             $stmt->bindValue(':tasks',        serialize($file->tasks));
+            if ($file->md5sum) {
+                $stmt->bindValue(':md5', $file->md5sum);
+            } else {
+                // clearly the person installing doesn't care about this, so
+                // use a dummy value
+                $stmt->bindValue(':md5', md5(''));
+            }
 
             if (!@$stmt->execute()) {
                 static::$databases[$this->_path]->exec('ROLLBACK');
