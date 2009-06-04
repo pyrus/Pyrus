@@ -33,11 +33,6 @@
 class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
 {
     /**
-     * This is strictly for unit-testing purposes
-     * @var string
-     */
-    public $archivefile;
-    /**
      * The actual package representation
      *
      * @var PEAR2_Pyrus_Package_Xml|PEAR2_Pyrus_Package_Tar|PEAR2_Pyrus_Package_Phar
@@ -67,9 +62,14 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
     {
         return $this->internal->$var;
     }
-
+ 
     function __set($var, $value)
     {
+        //This is strictly for unit-testing purposes
+        if ($var == 'archivefile') {
+            $this->_packagename = $value;
+            return;
+        }
         return $this->internal->__set($var, $value);
     }
 
