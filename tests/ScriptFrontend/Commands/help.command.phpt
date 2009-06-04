@@ -20,7 +20,7 @@ Usage:
   php help.command.php [options] install [options] <package...>
 
 Options:
-  -p plugin, --plugin=plugin                       Manage plugin
+  -p, --plugin                                     Manage plugin
                                                    installation only
   -r packagingroot, --packagingroot=packagingroot  Install the package in a
                                                    directory in preparation
