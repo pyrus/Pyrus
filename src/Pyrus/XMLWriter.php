@@ -131,7 +131,7 @@ class PEAR2_Pyrus_XMLWriter
                 $this->_writer->startElementNs($ns, $element, $this->_namespaces[$ns]);
             }
         } else {
-            if (is_string($values) || is_int($values)) {
+            if (is_string($values) || is_int($values) || is_bool($values)) {
                 if (strlen($values)) {
                     $this->_writer->writeElement($key, $values);
                 } else {
