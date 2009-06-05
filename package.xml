@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-03</date>
- <time>14:32:47</time>
+ <date>2009-06-05</date>
+ <time>00:18:13</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -138,6 +138,8 @@ Implemented features:
      </dir>
      <dir name="Installer">
       <dir name="Role">
+       <file role="php" name="Cfg.php"/>
+       <file role="php" name="Cfg.xml"/>
        <file role="php" name="Common.php"/>
        <file role="php" name="Customcommand.php"/>
        <file role="php" name="Customcommand.xml"/>
