@@ -38,7 +38,11 @@ class PEAR2_Pyrus_PackageFile
         if ($isstring) {
             $data = $package;
         } else {
-            $data = file_get_contents($package);
+            if (file_exists($package)) {
+                $data = file_get_contents($package);
+            } else {
+                $data = false;
+            }
         }
         if ($data === false || empty($data)) {
             throw new PEAR2_Pyrus_PackageFile_Exception('Unable to open package xml file '
