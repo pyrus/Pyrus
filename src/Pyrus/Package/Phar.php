@@ -63,23 +63,31 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         $package = str_replace('\\', '/', $package);
         try {
             if ($pxml === false) {
-                foreach (new RecursiveIteratorIterator($phar,
-                            RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
-                    $filename = $file->getFileName();
-                    // default to new package.xml, but search for old one
-                    // also
-                    if (preg_match('@^(.+)\-package.xml$@', $filename)) {
-                        $pxml = $file->getPathName();
-                        break;
-                    } elseif ($filename == 'package2.xml') {
-                        $this->_BCpackage = true;
-                        $pxml = $file->getPathName();
-                    } elseif ($pxml === false && $filename == 'package.xml') {
-                        $this->_BCpackage = true;
-                        $pxml = $file->getPathName();
+                if (isset($phar['.xmlregistry'])) {
+                    if ($phar instanceof PharData) {
+                        $iterate = new PharData('phar://' . $package . '/.xmlregistry');
+                    } else {
+                        $iterate = new Phar('phar://' . $package . '/.xmlregistry');
+                    }
+                    foreach (new RecursiveIteratorIterator($iterate,
+                                RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+                        $filename = $file->getFileName();
+                        // default to new package.xml
+                        if (preg_match('@^(.+)\-package.xml$@', $filename)) {
+                            $pxml = $file->getPathName();
+                            break;
+                        }
                     }
                 }
+                if (false === $pxml && isset($phar['package2.xml'])) {
+                    $this->_BCpackage = true;
+                    $pxml = $phar['package2.xml']->getPathName();
+                } elseif (false === $pxml && isset($phar['package.xml'])) {
+                    $this->_BCpackage = true;
+                    $pxml = $phar['package.xml']->getPathName();
+                }
             }
+            
             if ($pxml === false) {
                 throw new PEAR2_Pyrus_Package_Phar_Exception('No package.xml in archive');
             }
