@@ -167,6 +167,12 @@ class PEAR2_Pyrus_Package_Creator
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
         }
+        if ($package->getInternalPackage() instanceof PEAR2_Pyrus_Package_Xml) {
+            // check for package_compatible.xml
+            if (file_exists($package->getFilePath('package_compatible.xml'))) {
+                $creator->addFile('package.xml', $package->getFilePath('package_compatible.xml'));
+            }
+        }
         $packagingloc = PEAR2_Pyrus_Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
         if (file_exists($packagingloc)) {
             foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($packagingloc,
