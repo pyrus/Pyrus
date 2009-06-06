@@ -3,6 +3,8 @@ TODO:
 [X] Implement array access for registry so you can use isset($reg['pear.php.net/Validate']), or
     $info = $reg['pear.php.net/Validate'];
 
+implement channel-specific config vars like user/password, add ability to do this in custom config vars
+
 Declare dependencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
 
  [X] implement --packagingroot option
