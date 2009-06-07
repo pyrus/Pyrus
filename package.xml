@@ -34,14 +34,14 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-05</date>
- <time>00:18:13</time>
+ <date>2009-06-06</date>
+ <time>21:52:47</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
  </version>
  <stability>
-  <release>devel</release>
+  <release>alpha</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
@@ -288,7 +288,6 @@ Implemented features:
       <file role="php" name="11.php"/>
       <file role="php" name="13.php"/>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="HTTPException.php"/>
      </dir>
      <dir name="ScriptFrontend">
       <file role="php" name="Command.php"/>
@@ -343,8 +342,10 @@ Implemented features:
      <file role="php" name="ChannelRegistry.php"/>
      <file role="php" name="Config.php"/>
      <file role="php" name="DirectedGraph.php"/>
+     <file role="php" name="DownloadProgressListener.php"/>
      <file role="php" name="Exception.php"/>
      <file role="php" name="FileTransactions.php"/>
+     <file role="php" name="HTTPException.php"/>
      <file role="php" name="IChannel.php"/>
      <file role="php" name="IChannelFile.php"/>
      <file role="php" name="IChannelRegistry.php"/>
@@ -1863,7 +1864,7 @@ Implemented features:
        <file role="test" name="Net_URL-1.0.15.tar"/>
       </dir>
       <dir name="Pyrus_Developer">
-       <dir name="customcommand">
+       <dir name="customcommand" baseinstalldir="/">
         <file role="test" name="commands.xml"/>
        </dir>
        <dir name="data" baseinstalldir="/">
@@ -2020,18 +2021,18 @@ Implemented features:
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>

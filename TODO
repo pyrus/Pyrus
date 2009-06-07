@@ -50,7 +50,7 @@ Add PEAR 1.x configuration parsing to Pear1 registry, in order to use these valu
 
 Finish implementing remote channel REST iteration for maintainers/categories
 
-DOWNLOAD PROGRESS BAR IN PEAR2_HTTP_REQUEST!!!!
+ [X] DOWNLOAD PROGRESS BAR IN PEAR2_HTTP_REQUEST!!!!
 
 Interactive CLI frontend (menus, etc.)
 

@@ -377,7 +377,7 @@ class PEAR2_Pyrus_REST_10
         // gives '404 Not Found' error when category doesn't exist
         try {
             $packagelist = $this->rest->retrieveData($base.'c/'.urlencode($category).'/packages.xml');
-        } catch (PEAR2_Pyrus_REST_HTTPException $e) {
+        } catch (PEAR2_Pyrus_HTTPException $e) {
             throw new PEAR2_Pyrus_REST_Exception('Unknown category ' . $category, $e);
         }
         if (!is_array($packagelist) || !isset($packagelist['p'])) {

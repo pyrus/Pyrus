@@ -17,8 +17,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-PEAR2_Pyrus_REST::$downloadClass = 'Internet';
-PEAR2_Pyrus_Package_Remote::$downloadClass = 'Internet';
+PEAR2_Pyrus::$downloadClass = 'Internet';
 
 mkdir(__DIR__ . '/testit/oksavehere');
 chdir(__DIR__ . '/testit/oksavehere');

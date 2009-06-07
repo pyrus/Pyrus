@@ -9,8 +9,7 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
                        'http://pear2.php.net/');
-PEAR2_Pyrus_REST::$downloadClass = 'Internet';
-PEAR2_Pyrus_Package_Remote::$downloadClass = 'Internet';
+PEAR2_Pyrus::$downloadClass = 'Internet';
 $remote = new PEAR2_Pyrus_Channel_Remotepackage(PEAR2_Pyrus_Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['GetMaintainers_Test'];

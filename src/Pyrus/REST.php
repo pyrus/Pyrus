@@ -27,10 +27,6 @@ class PEAR2_Pyrus_REST
 {
     protected $config;
     protected $_options;
-    /**
-     * For easy unit testing
-     */
-    static public $downloadClass = 'PEAR2_HTTP_Request';
 
     function __construct()
     {
@@ -273,71 +269,10 @@ class PEAR2_Pyrus_REST
         if (!isset($info['host'])) {
             throw new PEAR2_Pyrus_REST_Exception('Cannot download from non-URL "' . $url . '"');
         }
-        $class = static::$downloadClass;
-        $request = new $class($url);
-        $host = $info['host'];
-        if (!array_key_exists('port', $info)) {
-            $info['port'] = null;
-        }
-        if (!array_key_exists('path', $info)) {
-            $info['path'] = null;
-        }
-        $port = $info['port'];
-        $path = $info['path'];
-        $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if ($this->config->http_proxy &&
-              $proxy = parse_url($this->config->http_proxy)) {
-            $proxy_host = isset($proxy['host']) ? $proxy['host'] : null;
-            if (isset($proxy['scheme']) && $proxy['scheme'] == 'https') {
-                $proxy_host = 'ssl://' . $proxy_host;
-            }
-            $proxy_port = isset($proxy['port']) ? $proxy['port'] : 8080;
-            $proxy_user = isset($proxy['user']) ? urldecode($proxy['user']) : null;
-            $proxy_pass = isset($proxy['pass']) ? urldecode($proxy['pass']) : null;
-            // TODO: implement this when HTTP_Request supports it
-        }
-        if (empty($port)) {
-            if (isset($info['scheme']) && $info['scheme'] == 'https') {
-                $port = 443;
-            } else {
-                $port = 80;
-            }
-        }
 
-        if (is_array($lastmodified)) {
-            if (isset($lastmodified['Last-Modified'])) {
-                $request->setHeader('If-Modified-Since', $lastmodified['Last-Modified']);
-            }
-            if (isset($lastmodified['ETag'])) {
-                $request->setHeader('If-None-Match', $lastmodified['ETag']);
-            }
-        } elseif ($lastmodified) {
-            $request->setHeader('If-Modified-Since', $lastmodified);
-        }
-        $request->setHeader('User-Agent', 'PEAR2_Pyrus/@PACKAGE_VERSION@/PHP/' . PHP_VERSION);
-        $username = $this->config->username;
-        $password = $this->config->password;
-        if ($username && $password) {
-            $tmp = base64_encode("$username:$password");
-            $request->setHeader('Authorization', 'Basic ' . $tmp);
-        }
-        if ($proxy_host != '' && $proxy_user != '') {
-            $request->setHeader('Proxy-Authorization', 'Basic ' .
-                base64_encode($proxy_user . ':' . $proxy_pass));
-        }
-        if ($accept) {
-            $request->setHeader('Accept', implode(', ', $accept));
-        } else {
-            $request->setHeader('Accept', '');
-        }
-        $request->setHeader('Connection', 'close');
-        $response = $request->sendRequest();
+        $response = PEAR2_Pyrus::download($url);
         if ($response->code == 304 && ($lastmodified || ($lastmodified === false))) {
             return false;
-        }
-        if ($response->code != 200) {
-            throw new PEAR2_Pyrus_REST_HTTPException(
-                "File http://$host:$port$path not valid (received: {$response->body})", $response->code);
         }
         if (isset($response->headers['content-length'])) {
             $length = $response->headers['content-length'];

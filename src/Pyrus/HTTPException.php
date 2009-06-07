@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_REST_HTTPException
+ * PEAR2_Pyrus_HTTPException
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Exception for REST HTTP
+ * Exception for HTTP issues
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -23,4 +23,4 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_REST_HTTPException extends PEAR2_Pyrus_REST_Exception {}
+class PEAR2_Pyrus_HTTPException extends PEAR2_Exception {}

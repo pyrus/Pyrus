@@ -34,14 +34,14 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-05</date>
- <time>00:18:15</time>
+ <date>2009-06-06</date>
+ <time>21:52:48</time>
  <version>
-  <release>0.1.0</release>
-  <api>0.1.0</api>
+  <release>2.0.0a1</release>
+  <api>2.0.0a1</api>
  </version>
  <stability>
-  <release>devel</release>
+  <release>alpha</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
@@ -288,7 +288,6 @@ Implemented features:
       <file role="php" name="11.php"/>
       <file role="php" name="13.php"/>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="HTTPException.php"/>
      </dir>
      <dir name="ScriptFrontend">
       <file role="php" name="Command.php"/>
@@ -343,8 +342,10 @@ Implemented features:
      <file role="php" name="ChannelRegistry.php"/>
      <file role="php" name="Config.php"/>
      <file role="php" name="DirectedGraph.php"/>
+     <file role="php" name="DownloadProgressListener.php"/>
      <file role="php" name="Exception.php"/>
      <file role="php" name="FileTransactions.php"/>
+     <file role="php" name="HTTPException.php"/>
      <file role="php" name="IChannel.php"/>
      <file role="php" name="IChannelFile.php"/>
      <file role="php" name="IChannelRegistry.php"/>
@@ -2139,8 +2140,10 @@ Implemented features:
    <install name="src/Pyrus/DirectedGraph.php" as="Pyrus/DirectedGraph.php"/>
    <install name="src/Pyrus/DirectedGraph/Exception.php" as="Pyrus/DirectedGraph/Exception.php"/>
    <install name="src/Pyrus/DirectedGraph/Vertex.php" as="Pyrus/DirectedGraph/Vertex.php"/>
+   <install name="src/Pyrus/DownloadProgressListener.php" as="Pyrus/DownloadProgressListener.php"/>
    <install name="src/Pyrus/Exception.php" as="Pyrus/Exception.php"/>
    <install name="src/Pyrus/FileTransactions.php" as="Pyrus/FileTransactions.php"/>
+   <install name="src/Pyrus/HTTPException.php" as="Pyrus/HTTPException.php"/>
    <install name="src/Pyrus/IChannel.php" as="Pyrus/IChannel.php"/>
    <install name="src/Pyrus/IChannelFile.php" as="Pyrus/IChannelFile.php"/>
    <install name="src/Pyrus/IChannelRegistry.php" as="Pyrus/IChannelRegistry.php"/>
@@ -2257,7 +2260,6 @@ Implemented features:
    <install name="src/Pyrus/REST/11.php" as="Pyrus/REST/11.php"/>
    <install name="src/Pyrus/REST/13.php" as="Pyrus/REST/13.php"/>
    <install name="src/Pyrus/REST/Exception.php" as="Pyrus/REST/Exception.php"/>
-   <install name="src/Pyrus/REST/HTTPException.php" as="Pyrus/REST/HTTPException.php"/>
    <install name="src/Pyrus/ScriptFrontend.php" as="Pyrus/ScriptFrontend.php"/>
    <install name="src/Pyrus/ScriptFrontend/Command.php" as="Pyrus/ScriptFrontend/Command.php"/>
    <install name="src/Pyrus/ScriptFrontend/Commands.php" as="Pyrus/ScriptFrontend/Commands.php"/>

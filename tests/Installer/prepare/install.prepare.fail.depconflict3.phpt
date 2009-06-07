@@ -17,7 +17,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.depconflict2',
                        'http://pear2.php.net/');
-PEAR2_Pyrus_REST::$downloadClass = 'Internet';
+PEAR2_Pyrus::$downloadClass = 'Internet';
 PEAR2_Pyrus_Installer::begin();
 PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P3-1.0.0'));
 PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P1-1.0.0'));

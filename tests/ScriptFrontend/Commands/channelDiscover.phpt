@@ -18,8 +18,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/testit',
                        'http://pear.unl.edu/');
-PEAR2_Pyrus_REST::$downloadClass = 'Internet';
-PEAR2_Pyrus_ScriptFrontend_Commands::$downloadClass = 'Internet';
+PEAR2_Pyrus::$downloadClass = 'Internet';
 file_put_contents(__DIR__ . '/testit/channel.xml', '<?xml version="1.0" encoding="UTF-8"?>
 <channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/channel-1.0 http://pear.php.net/dtd/channel-1.0.xsd">
  <name>pear.unl.edu</name>

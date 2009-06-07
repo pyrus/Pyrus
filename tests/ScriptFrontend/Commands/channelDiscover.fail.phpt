@@ -18,8 +18,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/testit',
                        'http://pear.unl.edu/');
-PEAR2_Pyrus_REST::$downloadClass = 'Internet';
-PEAR2_Pyrus_ScriptFrontend_Commands::$downloadClass = 'Internet';
+PEAR2_Pyrus::$downloadClass = 'Internet';
 $test->assertEquals(false, isset(PEAR2_Pyrus_Config::current()->channelregistry['pear.unl.edu']),
                     'before discover of pear.unl.edu');
 ob_start();
@@ -29,7 +28,7 @@ $cli->run($args = array (__DIR__ . '/testit', 'channel-discover', 'pear.unl.edu'
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . "Discovery of channel pear.unl.edu failed: Download of channel.xml failed\n",
+                    . "Discovery of channel pear.unl.edu failed: Download of http://pear.unl.edu/channel.xml failed, file does not exist\n",
                      $contents,
                     'list packages');
 

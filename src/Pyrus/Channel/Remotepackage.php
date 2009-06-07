@@ -139,28 +139,52 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         $errs = new PEAR2_MultiErrors;
         try {
             return new PEAR2_Pyrus_Package_Remote($url . '.phar');
+        } catch (PEAR2_Pyrus_HTTPException $e) {
+            $errs->E_ERROR[] = $e;
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
+            throw new PEAR2_Pyrus_Package_Exception(
+                'Invalid abstract package ' .
+                $this->channel . '/' .
+                $this->name, $errs);
         }
     
         try {
             return new PEAR2_Pyrus_Package_Remote($url . '.tgz');
+        } catch (PEAR2_Pyrus_HTTPException $e) {
+            $errs->E_ERROR[] = $e;
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
+            throw new PEAR2_Pyrus_Package_Exception(
+                'Invalid abstract package ' .
+                $this->channel . '/' .
+                $this->name, $errs);
         }
 
         try {
             return new PEAR2_Pyrus_Package_Remote($url . '.tar');
+        } catch (PEAR2_Pyrus_HTTPException $e) {
+            $errs->E_ERROR[] = $e;
         } catch (Exception $e) {
             $errs->E_ERROR[] = $e;
+            throw new PEAR2_Pyrus_Package_Exception(
+                'Invalid abstract package ' .
+                $this->channel . '/' .
+                $this->name, $errs);
         }
 
         try {
             return new PEAR2_Pyrus_Package_Remote($url . '.zip');
-        } catch (Exception $e) {
+        } catch (PEAR2_Pyrus_HTTPException $e) {
             $errs->E_ERROR[] = $e;
             throw new PEAR2_Pyrus_Package_Exception(
                 'Could not download abstract package ' .
+                $this->channel . '/' .
+                $this->name, $errs);
+        } catch (Exception $e) {
+            $errs->E_ERROR[] = $e;
+            throw new PEAR2_Pyrus_Package_Exception(
+                'Invalid abstract package ' .
                 $this->channel . '/' .
                 $this->name, $errs);
         }

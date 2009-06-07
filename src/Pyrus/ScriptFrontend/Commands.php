@@ -31,7 +31,6 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
     public $commands = array();
     // for unit-testing ease
     public static $configclass = 'PEAR2_Pyrus_Config';
-    public static $downloadClass = 'PEAR2_HTTP_Request';
     protected $term = array(
         'bold'   => '',
         'normal' => '',
@@ -438,7 +437,7 @@ previous:
                     $package->copyTo(getcwd());
                 }
                 $path = $package->getInternalPackage()->getTarballPath();
-                echo "done ($path)\n";
+                echo "\ndone ($path)\n";
             } catch (Exception $e) {
                 echo 'failed! (', $e->getMessage(), ")\n";
             }
@@ -526,10 +525,8 @@ previous:
     {
         // try secure first
         $chan = 'https://' . $args['channel'] . '/channel.xml';
-        $dl = self::$downloadClass;
-        $http = new $dl($chan);
         try {
-            $response = $http->sendRequest();
+            $response = PEAR2_Pyrus::download($chan);
             if ($response->code != 200) {
                 throw new Exception('Download of channel.xml failed');
             }
@@ -540,8 +537,7 @@ addchan_success:
         } catch (Exception $e) {
             try {
                 $chan = 'http://' . $args['channel'] . '/channel.xml';
-                $http = new $dl($chan);
-                $response = $http->sendRequest();
+                $response = PEAR2_Pyrus::download($chan);
                 if ($response->code != 200) {
                     throw new Exception('Download of channel.xml failed');
                 }

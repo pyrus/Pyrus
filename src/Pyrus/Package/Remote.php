@@ -33,10 +33,6 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
     protected $type;
     protected $isUpgradeable = null;
     /**
-     * For easy unit testing
-     */
-    static public $downloadClass = 'PEAR2_HTTP_Request';
-    /**
      * @param string $package path to package file
      */
     function __construct($package, PEAR2_Pyrus_Package $parent = null)
@@ -154,9 +150,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
         $this->type = 'url';
         $dir = PEAR2_Pyrus_Config::current()->download_dir;
         try {
-            $download = static::$downloadClass;
-            $http = new $download($param);
-            $response = $http->sendRequest();
+            $response = PEAR2_Pyrus::downloadWithProgress($param);
             $name = 'unknown.tgz';
             if ($response->code != '200') {
                 throw new PEAR2_Pyrus_Package_Exception('Download failed, received ' . $response->code);
@@ -177,6 +171,8 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             // whew, download worked!
             $a = new PEAR2_Pyrus_Package($dir . DIRECTORY_SEPARATOR . $name);
             return $a->getInternalPackage();
+        } catch (PEAR2_Pyrus_HTTPException $e) {
+            throw $e; // pass it along
         } catch (Exception $e) {
             if (!empty($saveparam)) {
                 $saveparam = ", cannot download \"$saveparam\"";

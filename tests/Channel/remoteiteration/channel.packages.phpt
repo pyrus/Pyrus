@@ -8,7 +8,7 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.dep.versionconflict',
                        'http://pear2.php.net/');
-PEAR2_Pyrus_REST::$downloadClass = 'Internet';
+PEAR2_Pyrus::$downloadClass = 'Internet';
 $chan = PEAR2_Pyrus_Config::current()->channelregistry['pear2.php.net'];
 $names = array();
 foreach ($chan->remotepackages as $package) {
