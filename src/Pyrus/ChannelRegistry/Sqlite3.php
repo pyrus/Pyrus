@@ -51,7 +51,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
     private function _init($path, $readonly)
     {
-        if (isset(self::$databases[$path]) && self::$databases[$path]) {
+        if (isset(static::$databases[$path]) && static::$databases[$path]) {
             return;
         }
 
@@ -75,16 +75,16 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
         static::$databases[$path] = new SQLite3($dbpath);
         // hopefully this works
-        if (self::$databases[$path]->lastErrorCode()) {
-            $temp = self::$databases[$path];
-            unset(self::$databases[$path]);
+        if (static::$databases[$path]->lastErrorCode()) {
+            $temp = static::$databases[$path];
+            unset(static::$databases[$path]);
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
         }
 
         $sql = 'SELECT version FROM pearregistryversion';
-        if (@self::$databases[$path]->querySingle($sql) == '1.0.0') {
+        if (@static::$databases[$path]->querySingle($sql) == '1.0.0') {
             $sql = 'SELECT COUNT(*) FROM channels';
-            if (!self::$databases[$path]->querySingle($sql)) {
+            if (!static::$databases[$path]->querySingle($sql)) {
                 if ($readonly) {
                     throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
@@ -99,23 +99,23 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         }
 
         $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
-        $a->create(self::$databases[$path]);
+        $a->create(static::$databases[$path]);
         $this->initDefaultChannels();
     }
 
     function exists($channel, $strict = true)
     {
-        if (!isset(self::$databases[$this->path])) {
+        if (!isset(static::$databases[$this->path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
-        $sql = 'SELECT channel FROM channels WHERE alias = "' . self::$databases[$this->path]->escapeString($channel) . '"';
-        if (!$strict && $a = self::$databases[$this->path]->querySingle($sql)) {
+        $sql = 'SELECT channel FROM channels WHERE alias = "' . static::$databases[$this->path]->escapeString($channel) . '"';
+        if (!$strict && $a = static::$databases[$this->path]->querySingle($sql)) {
             return true;
         }
 
-        $sql = 'SELECT channel FROM channels WHERE channel = "' . self::$databases[$this->path]->escapeString($channel) . '"';
-        if ($a = self::$databases[$this->path]->querySingle($sql)) {
+        $sql = 'SELECT channel FROM channels WHERE channel = "' . static::$databases[$this->path]->escapeString($channel) . '"';
+        if ($a = static::$databases[$this->path]->querySingle($sql)) {
             return true;
         }
 
@@ -128,25 +128,39 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
         }
 
-        if (!isset(self::$databases[$this->path])) {
+        if (!isset(static::$databases[$this->path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
-        self::$databases[$this->path]->exec('BEGIN');
-        $sql = 'SELECT channel FROM channels WHERE channel = "' . self::$databases[$this->path]->escapeString($channel->name) . '"';
-        if (self::$databases[$this->path]->querySingle($sql)) {
+        $sql = 'SELECT channel FROM channels WHERE channel = "' . static::$databases[$this->path]->escapeString($channel->name) . '"';
+        if (static::$databases[$this->path]->querySingle($sql)) {
             if (!$update) {
-                self::$databases[$this->path]->exec('ROLLBACK');
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                     $channel->name . ' has already been discovered');
             }
+            static::$databases[$this->path]->exec('BEGIN');
             $this->delete($channel, true);
         } elseif ($update) {
-            self::$databases[$this->path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
                 $channel->name . ' is unknown');
+        } else {
+            static::$databases[$this->path]->exec('BEGIN');
         }
 
+        static::$databases[$this->path]->enableExceptions(true);
+        try {
+            $this->_add($channel, $lastmodified);
+        } catch (\Exception $e) {
+            static::$databases[$this->path]->enableExceptions(false);
+            @static::$databases[$this->path]->exec('ROLLBACK');
+            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->name .
+                ' could not be added to the SQLite3 registry', $e);
+        }
+        static::$databases[$this->path]->enableExceptions(false);
+    }
+
+    private function _add($channel, $lastmodified)
+    {
         $validate = $channel->getValidationPackage();
 
         $sql = '
@@ -158,7 +172,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 :alias, :version, :package, :lastmodified
             )';
 
-        $stmt = self::$databases[$this->path]->prepare($sql);
+        $stmt = static::$databases[$this->path]->prepare($sql);
 
         $stmt->bindValue(':name',           $cn = $channel->name);
         $stmt->bindValue(':summary',        $channel->summary);
@@ -168,11 +182,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         $stmt->bindValue(':package',        $validate['_content']);
         $stmt->bindValue(':lastmodified',   $channel->lastModified());
 
-        if (!$stmt->execute()) {
-            self::$databases[$this->path]->exec('ROLLBACK');
-            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->name .
-                ' could not be added to the SQLite3 registry');
-        }
+        $stmt->execute();
         $stmt->close();
 
         $sql = '
@@ -181,23 +191,19 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             VALUES(
                 :channel, :server, :ssl, :port
             )';
-        $stmt = self::$databases[$this->path]->prepare($sql);
+        $stmt = static::$databases[$this->path]->prepare($sql);
 
         $stmt->bindValue(':channel', $cn);
         $stmt->bindValue(':server',  $cn);
         $stmt->bindValue(':ssl',     $channel->ssl, SQLITE3_INTEGER);
         $stmt->bindValue(':port',    $channel->port, SQLITE3_INTEGER);
 
-        if (!$stmt->execute()) {
-            self::$databases[$this->path]->exec('ROLLBACK');
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->name .
-                ' could not be added to the SQLite3 registry');
-        }
+        $stmt->execute();
         $stmt->close();
 
         if ($channel->name == '__uri') {
             // __uri pseudo-channel has no protocols or mirrors
-            self::$databases[$this->path]->exec('COMMIT');
+            static::$databases[$this->path]->exec('COMMIT');
             return;
         }
 
@@ -209,19 +215,14 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                     :channel, :server, :func, :attrib
                 )';
 
-            $stmt = self::$databases[$this->path]->prepare($sql);
+            $stmt = static::$databases[$this->path]->prepare($sql);
 
             $stmt->bindValue(':channel', $cn);
             $stmt->bindValue(':server',  $cn);
             $stmt->bindValue(':func',    $baseurl);
             $stmt->bindValue(':attrib',  $type);
 
-            if (!$stmt->execute()) {
-                self::$databases[$this->path]->exec('ROLLBACK');
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->name .
-                    ' could not be added to the SQLite3 registry');
-            }
-            $stmt->close();
+            $stmt->execute();
         }
 
         $sql = '
@@ -230,7 +231,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             VALUES(
                 :channel, :server, :ssl, :port
             )';
-        $stmt = self::$databases[$this->path]->prepare($sql);
+        $stmt = static::$databases[$this->path]->prepare($sql);
         foreach ($channel->mirrors as $mirror) {
 
             $ssl = 0;
@@ -243,11 +244,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             $stmt->bindValue(':ssl',     $ssl, SQLITE3_INTEGER);
             $stmt->bindValue(':port',    $mirror->port, SQLITE3_INTEGER);
 
-            if (!$stmt->execute()) {
-                self::$databases[$this->path]->exec('ROLLBACK');
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->name .
-                    ' could not be added to the registry');
-            }
+            $stmt->execute();
 
             $sql = '
                 INSERT INTO channel_server_rest
@@ -256,7 +253,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                     :channel, :server, :func, :attrib
                 )';
 
-            $stmt1 = self::$databases[$this->path]->prepare($sql);
+            $stmt1 = static::$databases[$this->path]->prepare($sql);
             foreach ($mirror->protocols->rest as $type => $baseurl) {
 
                 $stmt1->bindValue(':channel', $cn);
@@ -264,14 +261,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                 $stmt1->bindValue(':func',    $baseurl);
                 $stmt1->bindValue(':attrib',  $type);
 
-                if (!$stmt1->execute()) {
-                    self::$databases[$this->path]->exec('ROLLBACK');
-                    throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' . $channel->name .
-                        ' could not be added to the SQLite3 registry');
-                }
+                $stmt1->execute();
             }
         }
-        self::$databases[$this->path]->exec('COMMIT');
+        static::$databases[$this->path]->exec('COMMIT');
     }
 
     function update(PEAR2_Pyrus_IChannel $channel)
@@ -285,7 +278,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
     function get($channel, $strict = true)
     {
-        if (!isset(self::$databases[$this->path])) {
+        if (!isset(static::$databases[$this->path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
@@ -300,13 +293,13 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     function channelFromAlias($alias)
     {
         $sql = 'SELECT channel FROM channels WHERE alias = "' .
-            self::$databases[$this->path]->escapeString($alias) . '"';
-        if ($chan = self::$databases[$this->path]->querySingle($sql)) {
+            static::$databases[$this->path]->escapeString($alias) . '"';
+        if ($chan = static::$databases[$this->path]->querySingle($sql)) {
             return $chan;
         }
         $sql = 'SELECT channel FROM channels WHERE channel = "' .
-            self::$databases[$this->path]->escapeString($alias) . '"';
-        if ($chan = self::$databases[$this->path]->querySingle($sql)) {
+            static::$databases[$this->path]->escapeString($alias) . '"';
+        if ($chan = static::$databases[$this->path]->querySingle($sql)) {
             return $chan;
         }
         throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown channel/alias: ' . $alias);
@@ -319,9 +312,9 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     {
         $channel = $this->channelFromAlias($channel);
         $sql = 'SELECT * FROM channels WHERE channel = "' .
-            self::$databases[$this->path]->escapeString($channel) . '"';
+            static::$databases[$this->path]->escapeString($channel) . '"';
 
-        $result = self::$databases[$this->path]->query($sql);
+        $result = static::$databases[$this->path]->query($sql);
         if (!$result) {
             throw new PEAR2_Pyrus_ChannelFile_Exception('Failed to query channels table');
         }
@@ -341,8 +334,8 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
         $sql = 'SELECT channel, server, ssl, port FROM channel_servers
             WHERE channel = "' .
-            self::$databases[$this->path]->escapeString($channel) . '"';
-        $result = self::$databases[$this->path]->query($sql);
+            static::$databases[$this->path]->escapeString($channel) . '"';
+        $result = static::$databases[$this->path]->query($sql);
         if (!$result) {
             throw new PEAR2_Pyrus_ChannelFile_Exception('Failed to query mirrors table');
         }
@@ -359,8 +352,8 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
 
         $sql = 'SELECT channel, server, baseurl, type FROM channel_server_rest
             WHERE channel= "' .
-            self::$databases[$this->path]->escapeString($channel) . '"';
-        $result = self::$databases[$this->path]->query($sql);
+            static::$databases[$this->path]->escapeString($channel) . '"';
+        $result = static::$databases[$this->path]->query($sql);
         if (!$result) {
             throw new PEAR2_Pyrus_ChannelFile_Exception('Failed to query rest table');
         }
@@ -381,7 +374,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
         }
 
-        if (!isset(self::$databases[$this->path])) {
+        if (!isset(static::$databases[$this->path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
@@ -394,31 +387,36 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         }
 
         $sql = 'SELECT count(*) FROM packages WHERE channel = "' .
-            self::$databases[$this->path]->escapeString($channel->name) . '"';
-        if (self::$databases[$this->path]->querySingle($sql)) {
+            static::$databases[$this->path]->escapeString($channel->name) . '"';
+        if (static::$databases[$this->path]->querySingle($sql)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
                 $channel->name . ', packages are installed');
         }
 
 
         $sql = 'DELETE FROM channels WHERE channel = "' .
-            self::$databases[$this->path]->escapeString($channel->name) . '"';
-        if (!@self::$databases[$this->path]->exec($sql)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot delete channel ' .
-                $channel->name . ': ' . self::$databases[$this->path]->lastErrorMsg());
+            static::$databases[$this->path]->escapeString($channel->name) . '"';
+        static::$databases[$this->path]->enableExceptions(true);
+        try {
+            static::$databases[$this->path]->exec($sql);
+        } catch (\Exception $e) {
+            static::$databases[$this->path]->enableExceptions(false);
+            throw new PEAR2_Pyrus_Registry_Exception('Error: Deleting channel ' .
+                $channel->name . ' failed: ' . $e->getMessage(), $e);
         }
+        static::$databases[$this->path]->enableExceptions(false);
     }
 
     public function listChannels()
     {
-        if (!isset(self::$databases[$this->path])) {
+        if (!isset(static::$databases[$this->path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception(
                 'Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
         $ret = array();
         $sql = 'SELECT channel FROM channels ORDER BY channel';
-        $res = self::$databases[$this->path]->query($sql);
+        $res = static::$databases[$this->path]->query($sql);
         while ($chan = $res->fetchArray(SQLITE_ASSOC)) {
             $ret[] = $chan['channel'];
         }

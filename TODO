@@ -22,7 +22,7 @@ this will mostly be a test of what approach in COM will suit us best
  [X] Sync OSGuess from pear to pyrus
      Rewrite it ? [no]
 
-Update Sqlite3 to use the new exception mode, and to use bindValue() instead of bindParam()
+ [X] Update Sqlite3 to use the new exception mode, and to use bindValue() instead of bindParam()
 
  [X] Implement subject/observer for Log
 
