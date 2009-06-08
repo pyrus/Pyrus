@@ -9,7 +9,7 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 mkdir(__DIR__ . '/testit');
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'help'));
 
 $contents = ob_get_contents();
@@ -35,6 +35,7 @@ Commands:
                     plugins
   uninstall         Uninstall a package.  Use uninstall --plugin to
                     uninstall plugins
+  info              Display information about a package
   build             Build a PHP extension package from source and install
                     the compiled extension
   download          Download a remote package to the current directory

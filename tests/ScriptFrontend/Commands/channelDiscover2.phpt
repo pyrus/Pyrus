@@ -37,7 +37,7 @@ file_put_contents(__DIR__ . '/testit/channel.xml', '<?xml version="1.0" encoding
 $test->assertEquals(false, isset(PEAR2_Pyrus_Config::current()->channelregistry['pear.unl.edu']),
                     'before discover of pear.unl.edu');
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'channel-discover', 'pear.unl.edu'));
 
 $contents = ob_get_contents();

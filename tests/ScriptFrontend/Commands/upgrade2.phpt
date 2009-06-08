@@ -30,7 +30,7 @@ $test->assertEquals(true, isset(PEAR2_Pyrus_Config::current()->registry->package
     'ensure setup install of P2 worked');
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'upgrade', __DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P1-1.1.0RC1.tar'));
 

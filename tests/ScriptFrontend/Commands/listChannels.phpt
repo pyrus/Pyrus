@@ -4,7 +4,7 @@ PEAR2_Pyrus_ScriptFrontend_Commands::listChannels()
 <?php
 require __DIR__ . '/setup.php.inc';
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (0 => 'mypear',
                          1 => __DIR__ . '/testit'));
 

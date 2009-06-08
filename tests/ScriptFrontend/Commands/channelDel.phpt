@@ -16,7 +16,7 @@ PEAR2_Pyrus_Config::current()->channelregistry[] = $newchan;
 $test->assertTrue(isset(PEAR2_Pyrus_Config::current()->channelregistry['foobar']), 'verify we added it');
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'channel-del', 'foobar'));
 
 $contents = ob_get_contents();

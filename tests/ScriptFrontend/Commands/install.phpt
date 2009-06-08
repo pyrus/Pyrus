@@ -13,7 +13,7 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../../../sandbox/SimpleChannelServer/package.xml'));
 
 $contents = ob_get_contents();

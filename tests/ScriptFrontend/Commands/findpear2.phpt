@@ -60,7 +60,6 @@ __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 "  yes\n" .
 "  no\n" .
 "[yes] : yes\n" .
-'Automatically cascading include_path components ' . __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 "Thank you, enjoy using Pyrus\n" .
 "Documentation is at http://pear.php.net\n" .
 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" 
@@ -85,6 +84,7 @@ Commands:
                     plugins
   uninstall         Uninstall a package.  Use uninstall --plugin to
                     uninstall plugins
+  info              Display information about a package
   build             Build a PHP extension package from source and install
                     the compiled extension
   download          Download a remote package to the current directory

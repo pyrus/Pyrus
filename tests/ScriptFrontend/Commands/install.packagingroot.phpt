@@ -14,7 +14,7 @@ restore_include_path();
 $c->saveConfig();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../../../sandbox/SimpleChannelServer/package.xml',
                          '--packagingroot=' . __DIR__ . '/testit'));
 

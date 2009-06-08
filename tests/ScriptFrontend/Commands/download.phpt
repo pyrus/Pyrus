@@ -22,7 +22,7 @@ PEAR2_Pyrus::$downloadClass = 'Internet';
 mkdir(__DIR__ . '/testit/oksavehere');
 chdir(__DIR__ . '/testit/oksavehere');
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'download', __DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P1-1.1.0RC1.tar',
                                 'P2-beta', 'P1', 'unknown', 'P3-1.1.0RC2'));

@@ -248,7 +248,7 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
               !isset($pname['group'])) {
             if (version_compare($version, $pname['version'], '>=')) {
                 throw new PEAR2_Pyrus_Package_InstalledException(
-                    PEAR2_Pyrus_Config::parsedPackageNameToString($parr, true) .
+                    PEAR2_Pyrus_Config::parsedPackageNameToString($pname, true) .
                     ' is already installed and is newer than detected ' .
                     'release version ' . $pname['version']);
             }
@@ -275,6 +275,13 @@ class PEAR2_Pyrus_Package_Remote extends PEAR2_Pyrus_Package
             $ret->setExplicitState($this->explicitState);
         }
         return $ret;
+    }
+
+    function grabEntirePackagexml()
+    {
+        if ($this->type == 'abstract') {
+            $this->internal->grabEntirePackagexml();
+        }
     }
 
     /**

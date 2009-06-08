@@ -26,7 +26,7 @@ PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package(__DIR__ .
 PEAR2_Pyrus_Installer::commit();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'upgrade', 'P2-beta'));
 
 $contents = ob_get_contents();

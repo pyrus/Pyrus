@@ -14,7 +14,7 @@ $newchan->name = 'foobar';
 $newchan->alias = 'fb';
 file_put_contents(__DIR__ . '/testit/blah.xml', $newchan);
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'channel-add', __DIR__ . '/testit/blah.xml'));
 
 $contents = ob_get_contents();

@@ -33,6 +33,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     protected $versionSet = false;
     protected $minimumStability;
     protected $explicitVersion;
+    protected $fullPackagexml = false;
     /**
      * Flag used to determine whether this package has been tested for upgradeability
      */
@@ -100,7 +101,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         } else {
             $a = $this->remoteAbridgedInfo = $this->rest->retrieveCacheFirst(
                                                         $this->parent->protocols->rest['REST1.0']->baseurl .
-                                                        'r/' . strtolower($this->name) . '/v2.' . $value['release'] . '.xml');
+                                                        'r/' . strtolower($this->name) . '/' . $value['release'] . '.xml');
         }
         $this->packageInfo['version'] = $value;
         $this->stability['release'] = $a['st'];
@@ -361,12 +362,63 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     }
 
     /**
+     * This is used to download the entire package.xml, which is useful
+     * for commands such as the info command.
+     */
+    function grabEntirePackagexml()
+    {
+        if ($this->fullPackagexml) {
+            return;
+        }
+        if (!$this->explicitVersion) {
+            $fakedep = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package(
+                'required', 'package', null, array('name' => $this->name, 'channel' => $this->channel, 'uri' => null,
+                                            'min' => null, 'max' => null,
+                                            'recommended' => null, 'exclude' => null,
+                                            'providesextension' => null, 'conflicts' => null), 0);
+            $this->figureOutBestVersion($fakedep);
+        }
+        $pxml = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                'r/' . strtolower($this->name) . '/package.' .
+                                                $this->version['release'] . '.xml');
+        $this->fromArray(array('package' => $pxml));
+        $this->fullPackagexml = true;
+    }
+
+    /**
      * For unit testing purposes
      */
     function getPHPVersion()
     {
         return phpversion();
     }
+
+    function getAllUpgrades($currentversion)
+    {
+        // set up release list if not done yet
+        $this->rewind();
+        $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
+        $ret = array();
+        foreach ($this->releaseList as $versioninfo) {
+            if (isset($versioninfo['m'])) {
+                // minimum PHP version required
+                if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
+                    $failIfExplicit();
+                    continue;
+                }
+            }
+            if (version_compare($versioninfo['v'], $currentversion, '<=')) {
+                continue;
+            }
+            if (!in_array($versioninfo['s'], $ok)) {
+                // release is not stable enough
+                continue;
+            }
+            $ret[] = $versioninfo;
+        }
+        return $ret;
+    }
+
     /**
      * Figure out which version is best, and use this, or error out if none work
      * @param PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $compositeDep

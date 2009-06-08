@@ -45,6 +45,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
                                 $conditions = array($conditions);
                             }
                             foreach ($conditions as $condition) {
+                                $condition = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
                             }
                         }

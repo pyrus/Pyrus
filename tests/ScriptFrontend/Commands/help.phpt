@@ -5,7 +5,7 @@ PEAR2_Pyrus_ScriptFrontend_Commands::help()
 require __DIR__ . '/setup.php.inc';
 set_include_path(__DIR__ . '/testit');
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (0 => 'help'));
 
 $contents = ob_get_contents();
@@ -32,6 +32,7 @@ Commands:
                     plugins
   uninstall         Uninstall a package.  Use uninstall --plugin to
                     uninstall plugins
+  info              Display information about a package
   build             Build a PHP extension package from source and install
                     the compiled extension
   download          Download a remote package to the current directory

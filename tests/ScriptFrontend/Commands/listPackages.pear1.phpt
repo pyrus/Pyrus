@@ -7,7 +7,7 @@ set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1');
 $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/listPackages.pear1', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 
 ob_start();
 set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1');

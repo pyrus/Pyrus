@@ -31,14 +31,37 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
     public $commands = array();
     // for unit-testing ease
     public static $configclass = 'PEAR2_Pyrus_Config';
+    protected $verbose;
     protected $term = array(
         'bold'   => '',
         'normal' => '',
     );
     protected static $commandParser;
 
-    function __construct()
+    function exceptionHandler($e)
     {
+        if ($this->verbose > 3) {
+            echo $e;
+        }
+        if ($e instanceof PEAR2_Exception) {
+            $cause = array();
+            $e->getCauseMessage($cause);
+            $causeMsg = '';
+            foreach ($causes as $i => $cause) {
+                $causeMsg .= str_repeat(' ', $i) . $cause['class'] . ': '
+                       . $cause['message'];
+            }
+            echo $causeMsg;
+        } else {
+            echo $e->getMessage();
+        }
+    }
+
+    function __construct($debugging = false)
+    {
+        if (!$debugging) {
+            set_exception_handler(array($this, 'exceptionHandler'));
+        }
         PEAR2_Pyrus_Log::attach($this);
         if (!isset(static::$commandParser)) {
             $schemapath = PEAR2_Pyrus::getDataPath() . '/customcommand-2.0.xsd';
@@ -191,9 +214,13 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
     {
         try {
             $this->_findPEAR($args);
+            $this->verbose = PEAR2_Pyrus_Config::current()->verbose;
             // scan for custom commands/roles/tasks
             PEAR2_Pyrus_Config::current()->pluginregistry->scan();
             $result = static::$commandParser->parse(count($args) + 1, array_merge(array('cruft'), $args));
+            if ($result->options['verbose']) {
+                $this->verbose = $result->options['verbose'];
+            }
             if ($info = PEAR2_Pyrus_PluginRegistry::getCommandInfo($result->command_name)) {
                 if ($this instanceof $info['class']) {
                     $this->{$info['function']}($result->command->args, $result->command->options);
@@ -417,6 +444,7 @@ previous:
      */
     function download($args)
     {
+        PEAR2_Pyrus::$options['downloadonly'] = true;
         PEAR2_Pyrus_Config::current()->download_dir = getcwd();
         $packages = array();
         foreach ($args['package'] as $arg) {
@@ -684,6 +712,135 @@ addchan_success:
         }
     }
 
+    function info($args, $options)
+    {
+        try {
+            if (!$options['forceremote']) {
+                if (isset(PEAR2_Pyrus_Config::current()->registry->package[$args['package']])) {
+                    $package = PEAR2_Pyrus_Config::current()->registry->package[$args['package']];
+                    $installed = true;
+                }
+            }
+            if (!isset($package)) {
+                $installed = false;
+                $package = new PEAR2_Pyrus_Package($args['package'], $options['forceremote']);
+            }
+        } catch (\Exception $e) {
+            echo "Error, invalid package: ", $e->getMessage();
+            return;
+        }
+        echo $this->wrap($package->name . ' (' . $package->channel . ' Channel)'), "\n";
+        echo str_repeat('-', 80), "\n";
+        // this next line ensures we get an accurate reading on a remote abstract package
+        if (!$installed && $package->isRemote()) {
+            $package->grabEntirePackagexml();
+        }
+        if (!isset($args['field'])) {
+            echo 'Package type: ';
+            switch ($package->type) {
+                case 'php' :
+                    echo "PHP package\n";
+                    break;
+                case 'extsrc' :
+                    echo "Extension source package\n";
+                    break;
+                case 'zendextsrc' :
+                    echo "Zend Extension source package\n";
+                    break;
+                case 'extbin' :
+                    echo "Extension binary package\n";
+                    break;
+                case 'zendextbin' :
+                    echo "Zend Extension binary package\n";
+                    break;
+                case 'bundle' :
+                    echo "Package Bundle\n";
+                    break;
+            }
+            echo 'Version:      ', $package->version['release'], ' (API ', $package->version['api'], "), ";
+            echo 'Stability:    ', $package->stability['release'], ' (API ', $package->stability['api'], ")\n";
+            echo 'Release Date: ', $package->date;
+            if ($package->time) {
+                echo ' ', $package->time;
+            }
+            echo "\n";
+            echo "Package Summary: ", $this->columnWrap($package->summary, strlen("Package Summary: ")), "\n";
+            echo "Package Description Excerpt:\n   ",
+                 $this->columnWrap(substr(rtrim($package->description), 0, 171) . '...', 3), "\n";
+            echo '(info ' . $args['package'] . " description for full description)\n";
+            echo "Release Notes Excerpt:\n   ",
+                $this->columnWrap(substr(rtrim($package->notes), 0, 171) . '...', 3), "\n";
+            echo '(info ' . $args['package'] . " notes for full release notes)\n";
+            if ($installed) {
+                // check for upgrades
+                try {
+                    $tester = new PEAR2_Pyrus_Package($package->channel . '/' . $package->name, true);
+                    $upgrades = $tester->getAllUpgrades($package->version['release']);
+                    if (count($upgrades)) {
+                        echo "Upgrades available:\n";
+                        foreach ($upgrades as $info) {
+                            echo '  Version ', $info['v'], ' (', $info['s'], ")\n";
+                        }
+                    }
+                } catch (\Exception $e) {
+                    // ignore problems here, no need to freak out if checking for upgrades fails
+                    if ($this->verbose > 3) {
+                        echo $e;
+                    }
+                }
+            }
+        } elseif ($args['field'] == 'description') {
+            echo "Package Description:\n   ", $this->columnWrap(trim($package->description), 3), "\n";
+        } elseif ($args['field'] == 'notes') {
+            echo "Release Notes:\n   ", $this->columnWrap($package->notes, 3), "\n";
+        } elseif ($args['field'] == 'files') {
+            if ($installed) {
+                echo "Package Files (installed):\n";
+                foreach (PEAR2_Pyrus_Config::current()->registry->info($package->name, $package->channel,
+                                                                       'installedfiles') as $file => $info) {
+                    echo $file, ' (', $info['role'], ")\n";
+                }
+            } else {
+                if ($package->isRemote()) {
+                    echo "Package Files:\n";
+                    foreach ($package->contents as $file) {
+                        echo $file->name, ' (', $file->role, ")\n";
+                    }
+                } else {
+                    echo "Package Files (as would be installed):\n";
+                    foreach ($package->installcontents as $file) {
+                        echo $file->name, ' (', $file->role, ")\n";
+                    }
+                }
+            }
+        } else {
+            echo "Unknown sub-field ", $args['field'], " must be one of description, notes, or files\n";
+        }
+    }
+
+    protected function wrap($text)
+    {
+        return wordwrap($text, 80, "\n", false);
+    }
+
+    /**
+     * Borrowed from PEAR2_Console_CommandLine
+     */
+    protected function columnWrap($text, $cw)
+    {
+        $tokens = explode("\n", $this->wrap($text));
+        $ret    = $tokens[0];
+        $chunks = $this->wrap(trim(substr($text, strlen($ret))), 
+            80 - $cw);
+        $tokens = explode("\n", $chunks);
+        foreach ($tokens as $token) {
+            if (!empty($token)) {
+                $ret .= "\n" . str_repeat(' ', $cw) . $token;
+            }
+        }
+        return $ret;
+    }
+
     /**
      * This is why we need to move to a better CLI system...
      *
@@ -833,7 +990,7 @@ addchan_success:
                 $this->log($info[0], $info[1]);
             }
         }
-        if ($level <= PEAR2_Pyrus_Config::current()->verbose) {
+        if ($level <= $this->verbose) {
             echo $message, "\n";
         }
     }

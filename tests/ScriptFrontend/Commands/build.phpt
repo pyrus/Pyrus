@@ -22,7 +22,7 @@ restore_include_path();
 $c->saveConfig();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/build/docblock-0.2.0.tar'));
 
 $contents = ob_get_contents();

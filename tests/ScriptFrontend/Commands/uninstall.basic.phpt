@@ -24,7 +24,7 @@ $test->assertEquals(file_get_contents(__DIR__.'/../../../../sandbox/SimpleChanne
                     file_get_contents(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'uninstall', 'pear2/PEAR2_SimpleChannelServer', 'pear/foobar'));
 
 $contents = ob_get_contents();

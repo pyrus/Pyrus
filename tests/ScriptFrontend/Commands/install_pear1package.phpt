@@ -13,7 +13,7 @@ $c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins
 restore_include_path();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands();
+$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__ . '/packages/Net_URL-1.0.15.tar'));
 
 $contents = ob_get_contents();

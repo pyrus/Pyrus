@@ -159,6 +159,44 @@ php pyrus.phar uninstall channelname/PackageName
   uninstalls package PackageName from channel channelname.</doc>
  </command>
  <command>
+  <name>info</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>info</function>
+  <summary>Display information about a package</summary>
+  <shortcut>in</shortcut>
+  <options>
+   <option>
+    <name>forceremote</name>
+    <shortopt>r</shortopt>
+    <type><bool/></type>
+    <doc>Assume package name is a remote package, ignoring installed packages</doc>
+   </option>
+  </options>
+  <arguments>
+   <argument>
+    <name>package</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Package name, local package archive, or package.xml.</doc>
+   </argument>
+   <argument>
+    <name>field</name>
+    <multiple>0</multiple>
+    <optional>1</optional>
+    <doc>one of "description", "notes", "files"</doc>
+   </argument>
+  </arguments>
+  <doc>Display information about a package
+
+This command is used to display a list of information on a package,
+such as the maintainers, the stability and version or versions available
+(for remote packages).
+
+If passed "description" or "notes", display the complete text of these fields
+
+If passed "files", list the files in the package (on-disk location for installed packages)</doc>
+ </command>
+ <command>
   <name>build</name>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>build</function>
