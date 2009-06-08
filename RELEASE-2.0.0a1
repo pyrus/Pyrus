@@ -1,11 +1,8 @@
 Initial development release
 
 Missing features:
- - introspection of packages, installed or not
  - mass upgrade/remote-list
- - anything pecl
- - post-install scripts
- - fancy frontends
+ - Web frontend
 
 Implemented features:
  - install of both PEAR and Pyrus-generated packages
@@ -17,4 +14,5 @@ Implemented features:
  - registry transactions on installation
  - redundant registries in sqlite3, xml formats
  - full support for PEAR 1.x serialized array registry
- - simple CLI frontend
+ - full-featured CLI frontend
+ - post-install scripts
