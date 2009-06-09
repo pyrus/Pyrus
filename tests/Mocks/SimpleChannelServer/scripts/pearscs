@@ -1,0 +1,12 @@
+#!/usr/bin/php
+<?php
+if (file_exists(dirname(__FILE__).'/../../../autoload.php')) {
+    $autoload =  dirname(__FILE__).'/../../../autoload.php';
+} else {
+    $autoload = '@php_dir@/PEAR2/Autoload.php';
+}
+
+require_once $autoload;
+
+$cli = new PEAR2_SimpleChannelServer_CLI();
+$cli->process();

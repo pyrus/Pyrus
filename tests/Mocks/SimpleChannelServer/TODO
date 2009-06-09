@@ -1,0 +1,7 @@
+TODO - 
+Help appreciated! You'll need at least php 5.3!
+
+* Implement the remaining commands in the CLI utility.
+* Build some tests to ensure stability of existing functions.
+** Use the SimpleChannelServer's package.xml as a starting point - should be able to build a complete channel for this package.
+* Check for phar ini settings to ensure we can open & write phars or .tgzs --- phar.require_hash, 
