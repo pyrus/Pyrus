@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-08</date>
- <time>00:05:41</time>
+ <date>2009-06-09</date>
+ <time>01:20:52</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -48,11 +48,8 @@ try {
  <notes>Initial development release
 
 Missing features:
- - introspection of packages, installed or not
  - mass upgrade/remote-list
- - anything pecl
- - post-install scripts
- - fancy frontends
+ - Web frontend
 
 Implemented features:
  - install of both PEAR and Pyrus-generated packages
@@ -64,7 +61,9 @@ Implemented features:
  - registry transactions on installation
  - redundant registries in sqlite3, xml formats
  - full support for PEAR 1.x serialized array registry
- - simple CLI frontend</notes>
+ - full-featured CLI frontend
+ - post-install scripts
+</notes>
  <contents>
   <dir name="/">
    <dir name="data" baseinstalldir="/">
@@ -1388,6 +1387,41 @@ Implemented features:
       </dir>
       <file role="test" name="README"/>
      </dir>
+     <dir name="SimpleChannelServer">
+      <dir name="examples">
+       <file role="test" name="update_channel.php"/>
+      </dir>
+      <dir name="scripts" baseinstalldir="/">
+       <file role="test" name="pearscs"/>
+      </dir>
+      <dir name="src" baseinstalldir="PEAR2">
+       <dir name="SimpleChannelServer">
+        <dir name="Categories">
+         <file role="test" name="Exception.php"/>
+        </dir>
+        <dir name="REST">
+         <file role="test" name="Category.php"/>
+         <file role="test" name="Maintainer.php"/>
+         <file role="test" name="Manager.php"/>
+         <file role="test" name="Package.php"/>
+         <file role="test" name="Release.php"/>
+        </dir>
+        <file role="test" name="Categories.php"/>
+        <file role="test" name="Channel.php"/>
+        <file role="test" name="CLI.php"/>
+        <file role="test" name="Exception.php"/>
+        <file role="test" name="Get.php"/>
+       </dir>
+       <file role="test" name="SimpleChannelServer.php"/>
+      </dir>
+      <file role="test" name="CREDITS"/>
+      <file role="test" name="makepackage.php"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="pearscs.phar"/>
+      <file role="test" name="README"/>
+      <file role="test" name="RELEASE-0.1.0"/>
+      <file role="test" name="TODO"/>
+     </dir>
      <file role="test" name="Internet.php"/>
     </dir>
     <dir name="Package">
@@ -2021,18 +2055,18 @@ Implemented features:
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>

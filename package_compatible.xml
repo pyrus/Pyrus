@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-08</date>
- <time>00:05:43</time>
+ <date>2009-06-09</date>
+ <time>01:20:54</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -48,11 +48,8 @@ try {
  <notes>Initial development release
 
 Missing features:
- - introspection of packages, installed or not
  - mass upgrade/remote-list
- - anything pecl
- - post-install scripts
- - fancy frontends
+ - Web frontend
 
 Implemented features:
  - install of both PEAR and Pyrus-generated packages
@@ -64,7 +61,9 @@ Implemented features:
  - registry transactions on installation
  - redundant registries in sqlite3, xml formats
  - full support for PEAR 1.x serialized array registry
- - simple CLI frontend</notes>
+ - full-featured CLI frontend
+ - post-install scripts
+</notes>
  <contents>
   <dir name="/">
    <dir name="data">
@@ -1388,6 +1387,41 @@ Implemented features:
       </dir>
       <file role="test" name="README"/>
      </dir>
+     <dir name="SimpleChannelServer">
+      <dir name="examples">
+       <file role="test" name="update_channel.php"/>
+      </dir>
+      <dir name="scripts">
+       <file role="test" name="pearscs"/>
+      </dir>
+      <dir name="src">
+       <dir name="SimpleChannelServer">
+        <dir name="Categories">
+         <file role="test" name="Exception.php"/>
+        </dir>
+        <dir name="REST">
+         <file role="test" name="Category.php"/>
+         <file role="test" name="Maintainer.php"/>
+         <file role="test" name="Manager.php"/>
+         <file role="test" name="Package.php"/>
+         <file role="test" name="Release.php"/>
+        </dir>
+        <file role="test" name="Categories.php"/>
+        <file role="test" name="Channel.php"/>
+        <file role="test" name="CLI.php"/>
+        <file role="test" name="Exception.php"/>
+        <file role="test" name="Get.php"/>
+       </dir>
+       <file role="test" name="SimpleChannelServer.php"/>
+      </dir>
+      <file role="test" name="CREDITS"/>
+      <file role="test" name="makepackage.php"/>
+      <file role="test" name="package.xml"/>
+      <file role="test" name="pearscs.phar"/>
+      <file role="test" name="README"/>
+      <file role="test" name="RELEASE-0.1.0"/>
+      <file role="test" name="TODO"/>
+     </dir>
      <file role="test" name="Internet.php"/>
     </dir>
     <dir name="Package">
@@ -2021,14 +2055,14 @@ Implemented features:
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
@@ -2980,6 +3014,27 @@ Implemented features:
    <install name="tests/Mocks/Internet/src/PEAR2/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/Mocks/Internet/src/PEAR2/Exception.php"/>
    <install name="tests/Mocks/Internet/src/PEAR2/MultiErrors.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/Mocks/Internet/src/PEAR2/MultiErrors.php"/>
    <install name="tests/Mocks/Internet/src/PEAR2/MultiErrors/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/MultiErrors/Mocks/Internet/src/PEAR2/MultiErrors/Exception.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/CREDITS" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/CREDITS"/>
+   <install name="tests/Mocks/SimpleChannelServer/examples/update_channel.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/examples/Mocks/SimpleChannelServer/examples/update_channel.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/makepackage.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/makepackage.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/package.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/package.xml"/>
+   <install name="tests/Mocks/SimpleChannelServer/pearscs.phar" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/pearscs.phar"/>
+   <install name="tests/Mocks/SimpleChannelServer/README" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/README"/>
+   <install name="tests/Mocks/SimpleChannelServer/RELEASE-0.1.0" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/RELEASE-0.1.0"/>
+   <install name="tests/Mocks/SimpleChannelServer/scripts/pearscs" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/scripts/Mocks/SimpleChannelServer/scripts/pearscs"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/Mocks/SimpleChannelServer/src/SimpleChannelServer.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/Categories.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/Mocks/SimpleChannelServer/src/SimpleChannelServer/Categories.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/Categories/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/Categories/Mocks/SimpleChannelServer/src/SimpleChannelServer/Categories/Exception.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/Channel.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/Mocks/SimpleChannelServer/src/SimpleChannelServer/Channel.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/CLI.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/Mocks/SimpleChannelServer/src/SimpleChannelServer/CLI.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/Mocks/SimpleChannelServer/src/SimpleChannelServer/Exception.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/Get.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/Mocks/SimpleChannelServer/src/SimpleChannelServer/Get.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Category.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Category.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Maintainer.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Maintainer.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Manager.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Manager.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Package.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Package.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Release.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Release.php"/>
+   <install name="tests/Mocks/SimpleChannelServer/TODO" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/TODO"/>
    <install name="tests/Package/arrayaccess.phpt" as="pear2.php.net/PEAR2_Pyrus/Package/Package/arrayaccess.phpt"/>
    <install name="tests/Package/parsePackageDescription.phpt" as="pear2.php.net/PEAR2_Pyrus/Package/Package/parsePackageDescription.phpt"/>
    <install name="tests/Package/setup.minimal.php.inc" as="pear2.php.net/PEAR2_Pyrus/Package/Package/setup.minimal.php.inc"/>
@@ -3415,14 +3470,14 @@ Implemented features:
    <install name="tests/Validate/validateversion.failure.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.2decimals.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.2decimals.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
