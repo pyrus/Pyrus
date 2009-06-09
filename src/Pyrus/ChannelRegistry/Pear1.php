@@ -62,7 +62,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
             }
         }
         if (!$this->readonly) {
-            if (!$this->exists('pear.php.net')) {
+            if (1 === $this->exists('pear.php.net')) {
                 $this->initDefaultChannels();
             }
         }
@@ -105,7 +105,8 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
                 $channel->name . ', channel registry path is not writeable');
         }
         $channel->validate();
-        if ($this->exists($channel->name)) {
+        $exists = $this->exists($channel->name);
+        if ($exists && 1 !== $exists) {
             if (!$update) {
                 throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel ' .
                     $channel->name . ', channel already exists, use update to change');
@@ -184,9 +185,14 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     public function get($channel, $strict = true)
     {
-        if (!$this->exists($channel, $strict)) {
+        $exists = $this->exists($channel, $strict);
+        if (!$exists) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Channel ' . $channel .
                 ' does not exist');
+        }
+        if (1 === $exists) {
+            // is a default channel not installed
+            return $this->getDefaultChannel($channel);
         }
         $cont = file_get_contents($this->_channelFileName($channel, $strict));
         $a = @unserialize($cont);
@@ -209,7 +215,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
         if (file_exists($chan)) {
             return true;
         }
-        return false;
+        return parent::exists($channel, $strict);
     }
 
     function listChannels()

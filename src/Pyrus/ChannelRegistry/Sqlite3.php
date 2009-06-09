@@ -119,7 +119,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             return true;
         }
 
-        return false;
+        return parent::exists($channel, $strict);
     }
 
     function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
@@ -282,8 +282,14 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
-        if (!$this->exists($channel, $strict)) {
+        $exists = $this->exists($channel, $strict);
+        if (!$exists) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
+        }
+
+        if (1 === $exists) {
+            // is a default channel not installed
+            return $this->getDefaultChannel($channel);
         }
 
         $chan = $this->getChannelObject($this->channelFromAlias($channel));

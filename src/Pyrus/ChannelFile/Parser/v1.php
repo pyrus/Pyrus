@@ -22,7 +22,11 @@ class PEAR2_Pyrus_ChannelFile_Parser_v1 extends PEAR2_Pyrus_XMLParser
             $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/channel-1.0.xsd';
         }
         try {
-            $ret->fromArray(parent::parseString($data, $schema));
+            if ($file) {
+                $ret->fromArray(parent::parse($data, $schema));
+            } else {
+                $ret->fromArray(parent::parseString($data, $schema));
+            }
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_ChannelFile_Exception('Invalid channel.xml', null, $e);
         }

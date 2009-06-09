@@ -278,7 +278,9 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         if (!file_exists($xml)) {
             $xml = dirname(dirname(dirname(__DIR__))).'/data/default_channels/' . $channel . '.xml';
         }
-        return new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile($xml));
+        $parser = new PEAR2_Pyrus_ChannelFile_Parser_v1;
+        $info = $parser->parse($xml, true);
+        return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $info->getArray());
     }
 
     /**
@@ -296,6 +298,19 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $this->add($pecl);
         $this->add($doc);
         $this->add($__uri);
+    }
+
+    function exists($channel, $strict = true)
+    {
+        if (in_array($channel, $this->getDefaultChannels())) {
+            return 1;
+        }
+        if (!$strict) {
+            if (in_array($channel, $this->getDefaultChannelAliases())) {
+                return 1;
+            }
+        }
+        return false;
     }
 
     function getDefaultChannels()

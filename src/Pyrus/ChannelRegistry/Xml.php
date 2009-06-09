@@ -41,7 +41,7 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         $this->channelpath = $path . DIRECTORY_SEPARATOR . '.xmlregistry' . DIRECTORY_SEPARATOR .
             'channels'; 
         if (!$this->readonly) {
-            if (!$this->exists('pear.php.net')) {
+            if (1 === $this->exists('pear.php.net')) {
                 $this->initDefaultChannels();
             }
         }
@@ -115,10 +115,13 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
         }
 
         if ($strict) {
-            return false;
+            return parent::exists($channel, $strict);
         }
 
-        return file_exists($this->getAliasFile($channel));
+        if (file_exists($this->getAliasFile($channel))) {
+            return true;
+        }
+        return parent::exists($channel, $strict);
     }
 
     function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
@@ -181,7 +184,12 @@ class PEAR2_Pyrus_ChannelRegistry_Xml extends PEAR2_Pyrus_ChannelRegistry_Base
 
     function get($channel, $strict = true)
     {
-        if ($this->exists($channel, $strict)) {
+        $exists = $this->exists($channel, $strict);
+        if (1 === $exists) {
+            // is a default channel not installed
+            return $this->getDefaultChannel($channel);
+        }
+        if ($exists) {
             $channel = $this->channelFromAlias($channel);
             $chan = new PEAR2_Pyrus_ChannelFile($this->getChannelFile($channel));
             return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $chan->getArray());
