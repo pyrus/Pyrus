@@ -3,7 +3,7 @@ PEAR2_Pyrus_Installer::install() verify files installed correctly
 --FILE--
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-$package = new PEAR2_Pyrus_Package(__DIR__.'/../../../sandbox/SimpleChannelServer/package.xml');
+$package = new PEAR2_Pyrus_Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
 PEAR2_Pyrus::$options['packagingroot'] = __DIR__ . '/testit';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
@@ -18,7 +18,7 @@ $test->assertFileExists(__DIR__ . '/testit/usr/bin/pearscs', 'bin/pearscs');
 $test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/usr/bin/pearscs')), 'bin/pearscs perms');
 $test->assertFileExists(__DIR__ . '/testit/usr/local/lib/php/PEAR2/SimpleChannelServer.php',
                         'src/PEAR2/SimpleChannelServer.php');
-$test->assertEquals(file_get_contents(__DIR__.'/../../../sandbox/SimpleChannelServer/src/SimpleChannelServer.php'),
+$test->assertEquals(file_get_contents(__DIR__.'/../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
                     file_get_contents(__DIR__ . '/testit/usr/local/lib/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (

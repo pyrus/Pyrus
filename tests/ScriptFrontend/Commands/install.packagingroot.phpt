@@ -15,7 +15,7 @@ $c->saveConfig();
 
 ob_start();
 $cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../../../sandbox/SimpleChannelServer/package.xml',
+$cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../Mocks/SimpleChannelServer/package.xml',
                          '--packagingroot=' . __DIR__ . '/testit'));
 
 $contents = ob_get_contents();
@@ -30,7 +30,7 @@ $test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/' .
                                                           'testit/bin/pearscs')), 'bin/pearscs perms');
 $test->assertFileExists(__DIR__ . '/testit' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer.php',
                         'src/PEAR2/SimpleChannelServer.php');
-$test->assertEquals(file_get_contents(__DIR__.'/../../../../sandbox/SimpleChannelServer/src/SimpleChannelServer.php'),
+$test->assertEquals(file_get_contents(__DIR__.'/../../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
                     file_get_contents(__DIR__ . '/testit/' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
