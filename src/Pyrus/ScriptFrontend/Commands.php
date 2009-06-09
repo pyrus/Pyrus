@@ -866,6 +866,70 @@ addchan_success:
         }
     }
 
+    function listAll($args, $options)
+    {
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        echo "Remote packages for channel ", $args['channel'], ":\n";
+        if ($options['basic']) {
+            foreach (PEAR2_Pyrus_Config::current()->channelregistry[$args['channel']]->remotecategories as $category) {
+                echo $category->name, " Category:\n";
+                foreach ($category->basiclist as $package) {
+                    $installed = $reg->exists($package['package'], $args['channel']) ? '  *' : '   ';
+                    echo $installed, $package['package'], ' latest stable: ', $package['stable'],
+                        ', latest release: ', $package['latest']['v'], ' (', $package['latest']['s'],
+                        ', required PHP ', $package['latest']['m'], ")\n";
+                }
+            }
+            return;
+        }
+        foreach (PEAR2_Pyrus_Config::current()->channelregistry[$args['channel']]->remotecategories as $category) {
+            echo $category->name, " Category:\n";
+            $pnames = array();
+            $summaries = array();
+            $pnameinfo = array();
+            $versions = array();
+            foreach ($category as $package) {
+                $installed = ' ';
+                if ($package->isUpgradeable()) {
+                    $installed = '!';
+                } elseif ($reg->exists($package->name, $args['channel'])) {
+                    $installed = '*';
+                } 
+                foreach ($package as $latest) {
+                    break;
+                }
+                $pnames[] = $package->name;
+                $summaries[] = $package->summary;
+                $versions[] = $latest['v'];
+
+                $pnameinfo[$package->name] = array('installed' => $installed,
+                                                   'summary' => $package->summary,
+                                                   'latest' => $latest);
+            }
+        }
+        // calculate the longest package name
+        $longest = array_reduce($pnames, $func = function($last, $current) {
+            if (strlen($current) > $last) {
+                return strlen($current);
+            }
+            return $last;
+        }, 0) + 1;
+        $longestsummary = array_reduce($summaries, $func, 0) + 1;
+        $longestversion = array_reduce($versions, $func, 0) + 1;
+        if ($longestsummary-- + $longest-- + $longestversion-- > 80) {
+            foreach ($pnameinfo as $package => $info) {
+                echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}", $info['installed'],
+                             $info['latest'], $info['summary']);
+            }
+        } else {
+            foreach ($pnameinfo as $package => $info) {
+                echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}", $info['installed'],
+                             $info['latest'], $info['summary']);
+            }
+        }
+        echo "Key: * = installed, ! = upgrades available";
+    }
+
     protected function wrap($text)
     {
         return wordwrap($text, 80, "\n", false);

@@ -447,6 +447,12 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                     continue;
                 }
             }
+
+            if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus::$options['force'])) {
+                // release is not stable enough
+                continue;
+            }
+
             // now check for versions satisfying the dependency
             if (isset($compositeDep->min)) {
                 if (version_compare($versioninfo['v'], $compositeDep->min, '<')) {
@@ -477,10 +483,6 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 continue;
             }
 
-            if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus::$options['force'])) {
-                // release is not stable enough
-                continue;
-            }
             if ($this->explicitVersion && $versioninfo['v'] != $this->explicitVersion) {
                 continue;
             }

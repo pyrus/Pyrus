@@ -238,6 +238,35 @@ current preferred_state or the installed package's stability, whichever is
 less stable.</doc>
  </command>
  <command>
+  <name>remote-list</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>listAll</function>
+  <summary>List all remote packages in a channel, organized by category</summary>
+  <shortcut>rd</shortcut>
+  <options>
+   <option>
+    <name>basic</name>
+    <shortopt>b</shortopt>
+    <type><bool/></type>
+    <doc>Only provide a basic listing of information</doc>
+   </option>
+  </options>
+  <arguments>
+   <argument>
+    <name>channel</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Channel name to retrieve remote information about.</doc>
+   </argument>
+  </arguments>
+  <doc>List all remote packages in a channel, organized by category
+
+This command present an alphabetized list of all packages with the latest release and package summary.
+Installed packages are marked with an *.
+
+If the basic option is specified, only package name, latest release, and latest stable release are provided</doc>
+ </command>
+ <command>
   <name>download</name>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>download</function>

@@ -48,7 +48,7 @@ Add PEAR 1.x configuration parsing to Pear1 registry, in order to use these valu
             files not in package.xml
     This will allow much easier debugging of broken pecl compiles
 
-Finish implementing remote channel REST iteration for maintainers/categories
+ [X] Finish implementing remote channel REST iteration for maintainers/categories
 
  [X] DOWNLOAD PROGRESS BAR IN PEAR2_HTTP_REQUEST!!!!
 

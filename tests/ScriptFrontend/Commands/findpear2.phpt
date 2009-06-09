@@ -88,6 +88,8 @@ Commands:
   build             Build a PHP extension package from source and install
                     the compiled extension
   list-upgrades     List packages with upgrades available
+  remote-list       List all remote packages in a channel, organized by
+                    category
   download          Download a remote package to the current directory
   list-packages     List all installed packages in all channels
   list-channels     List all discovered channels

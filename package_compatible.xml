@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-06-09</date>
- <time>01:20:54</time>
+ <time>11:49:16</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -90,6 +90,8 @@ Implemented features:
      <dir name="Channel">
       <file role="php" name="Exception.php"/>
       <file role="php" name="IMirror.php"/>
+      <file role="php" name="Remotecategories.php"/>
+      <file role="php" name="Remotecategory.php"/>
       <file role="php" name="Remotepackage.php"/>
       <file role="php" name="Remotepackages.php"/>
      </dir>
@@ -2057,16 +2059,16 @@ Implemented features:
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
@@ -2146,6 +2148,8 @@ Implemented features:
    <install name="src/Pyrus/Channel.php" as="Pyrus/Channel.php"/>
    <install name="src/Pyrus/Channel/Exception.php" as="Pyrus/Channel/Exception.php"/>
    <install name="src/Pyrus/Channel/IMirror.php" as="Pyrus/Channel/IMirror.php"/>
+   <install name="src/Pyrus/Channel/Remotecategories.php" as="Pyrus/Channel/Remotecategories.php"/>
+   <install name="src/Pyrus/Channel/Remotecategory.php" as="Pyrus/Channel/Remotecategory.php"/>
    <install name="src/Pyrus/Channel/Remotepackage.php" as="Pyrus/Channel/Remotepackage.php"/>
    <install name="src/Pyrus/Channel/Remotepackages.php" as="Pyrus/Channel/Remotepackages.php"/>
    <install name="src/Pyrus/ChannelFile.php" as="Pyrus/ChannelFile.php"/>
@@ -3472,16 +3476,16 @@ Implemented features:
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.stable.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.stable.phpt"/>
    <install name="tests/Validate/validateversion.failure.invalidversion.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.invalidversion.phpt"/>
