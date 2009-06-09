@@ -224,6 +224,20 @@ make install
 In the source directory of the package.</doc>
  </command>
  <command>
+  <name>list-upgrades</name>
+  <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
+  <function>listUpgrades</function>
+  <summary>List packages with upgrades available</summary>
+  <shortcut>in</shortcut>
+  <options/>
+  <arguments/>
+  <doc>List packages with upgrades available.
+
+This command lists all packages that have upgrades available within the
+current preferred_state or the installed package's stability, whichever is
+less stable.</doc>
+ </command>
+ <command>
   <name>download</name>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>download</function>

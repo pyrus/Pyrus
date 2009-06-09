@@ -826,6 +826,46 @@ addchan_success:
         }
     }
 
+    function listUpgrades()
+    {
+        $config = PEAR2_Pyrus_Config::current();
+        $reg = $config->registry;
+        foreach ($config->channelregistry as $channel) {
+            $packages = $reg->listPackages($channel->name);
+            if (!count($packages)) {
+                echo "(no packages installed in channel ", $channel->name, ")\n";
+                continue;
+            }
+            $upgrades = array();
+            foreach ($packages as $package) {
+                try {
+                    $version = $reg->info($package, $channel->name, 'version');
+                    $tester = $channel->remotepackage[$package];
+                    // find a version newer than us
+                    $fakedep = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package(
+                        'required', 'package', null, array('name' => $package,
+                                            'channel' => $channel->name, 'uri' => null,
+                                            'min' => $version, 'max' => null,
+                                            'recommended' => null, 'exclude' => array($version),
+                                            'providesextension' => null, 'conflicts' => null), 0);
+                    $tester->figureOutBestVersion($fakedep);
+                } catch (\Exception $e) {
+                    continue;
+                }
+                $upgrades[$package] = array($tester->version['release'], $tester->stability['release'], $tester->date);
+            }
+            if (!count($upgrades)) {
+                echo "(no upgrades for packages installed in channel ", $channel->name, ")\n";
+                continue;
+            }
+            asort($upgrades);
+            echo "Upgrades for channel ", $channel->name, ":\n";
+            foreach ($upgrades as $package => $upgrade) {
+                echo '  ', $package, ' ', $upgrade[0], ' (' . $upgrade[1], ", released ", $upgrade[2], ")\n";
+            }
+        }
+    }
+
     protected function wrap($text)
     {
         return wordwrap($text, 80, "\n", false);

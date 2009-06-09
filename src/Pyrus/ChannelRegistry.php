@@ -145,18 +145,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      */
     public function exists($channel, $strict = true)
     {
-        if (!$this->_registries[0]->exists($channel, $strict)) {
-            if (in_array($channel, $this->getDefaultChannels())) {
-                return true;
-            }
-            if (!$strict) {
-                if (in_array($channel, $this->getDefaultChannelAliases())) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return true;
+        return $this->_registries[0]->exists($channel, $strict);
     }
 
     public function parseName($name, $defaultChannel = 'pear2.php.net')
