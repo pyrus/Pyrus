@@ -210,25 +210,34 @@ class PEAR2_Pyrus_Config
      */
     static protected $userConfigNames = array(
             'default_channel',
-            'preferred_mirror',
             'auto_discover',
             'http_proxy',
             'cache_dir',
             'temp_dir',
-            'download_dir',
-            'username',
-            'password',
             'verbose',
             'preferred_state',
             'umask',
             'cache_ttl',
+            'my_pear_path', // PATH_SEPARATOR-separated list of PEAR repositories to manage
+            'plugins_dir', // full path to location where pyrus plugins are installed
+        );
+
+    /**
+     * Configuration variable names that are channel-specific
+     * @var array
+     */
+    static protected $channelSpecificNames =
+        array(
+            'username',
+            'password',
+            'preferred_mirror',
+            'download_dir',
             'sig_type',
             'sig_bin',
             'sig_keyid',
             'sig_keydir',
-            'my_pear_path', // PATH_SEPARATOR-separated list of PEAR repositories to manage
-            'plugins_dir', // full path to location where pyrus plugins are installed
         );
+
     /**
      * Configuration variable names that are user-specific
      *
@@ -238,6 +247,16 @@ class PEAR2_Pyrus_Config
      * @var array
      */
     static protected $customUserConfigNames = array();
+
+    /**
+     * Configuration variable names that are channel-specific
+     *
+     * These are values that are channel-specific user preferences rather than
+     * information necessary for installation on the filesystem, and
+     * are set up by custom file roles
+     * @var array
+     */
+    static protected $customChannelSpecificNames = array();
 
     /**
      * __get variables that cannot be used as custom config values
@@ -639,7 +658,9 @@ class PEAR2_Pyrus_Config
                 $e);
         }
 
-        $unsetvalues = array_diff(array_keys((array) $x), array_merge(self::$userConfigNames, self::$customUserConfigNames));
+        $unsetvalues = array_diff(array_keys((array) $x),
+                                  array_merge(self::$userConfigNames, self::$customUserConfigNames,
+                                              self::$channelSpecificNames, self::$customChannelSpecificNames));
         // remove values that are not recognized user config variables
         foreach ($unsetvalues as $value) {
             if ($value == '@attributes') {
@@ -652,11 +673,20 @@ class PEAR2_Pyrus_Config
 
         if (self::initializing()) {
             self::$userConfigs[$userfile] = (array) $x;
+            foreach ($this->channelvars as $name) {
+                if (!isset(self::$userConfigs[$userfile][$name])) {
+                    continue;
+                }
+                self::$userConfigs[$userfile][$name] = (array) self::$userConfigs[$userfile][$name];
+            }
             return;
         }
         $this->setupCascadingRegistries($pearDirectory);
 
         self::$userConfigs[$userfile] = (array) $x;
+        foreach ($this->channelvars as $name) {
+            self::$userConfigs[$userfile][$name] = (array) self::$userConfigs[$userfile][$name];
+        }
     }
 
     /**
@@ -765,7 +795,8 @@ class PEAR2_Pyrus_Config
                 $e);
         }
 
-        $unsetvalues = array_diff($keys = array_keys((array) $x), array_merge(self::$pearConfigNames, self::$customPearConfigNames));
+        $unsetvalues = array_diff($keys = array_keys((array) $x),
+                                  array_merge(self::$pearConfigNames, self::$customPearConfigNames));
         // remove values that are not recognized system config variables
         // both data_dir and php_dir are abstract values, delete them if present
         $unsetvalues[] = 'php_dir';
@@ -958,9 +989,12 @@ class PEAR2_Pyrus_Config
     }
 
     /**
-     * Load a configuration
+     * Add a new custom configuration variable
+     * @param string $key variable name
+     * @param string $default default value
+     * @param string $system one of system, user or channel-specific
      */
-    static public function addConfigValue($key, $default, $system = true)
+    static public function addConfigValue($key, $default, $system = 'system')
     {
         if (in_array($key, self::$magicVars, true)) {
             throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration variable '
@@ -971,40 +1005,52 @@ class PEAR2_Pyrus_Config
             throw new PEAR2_Pyrus_Config_Exception('Invalid custom configuration variable name "'.  $key . '"');
         }
 
-        if ($system) {
+        if ($system === 'system') {
             if (in_array($key, self::$pearConfigNames)) {
                 throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
             }
 
             if (in_array($key, self::$customPearConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '"');
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key .
+                                                       '"');
             }
 
-            if (in_array($key, self::$userConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing user configuration value "' . $key . '" with system value');
+            if (in_array($key, array_merge(self::$userConfigNames, self::$channelSpecificNames))) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing user configuration value "' . $key .
+                                                       '" with system value');
             }
 
-            if (in_array($key, self::$customUserConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom user configuration value "' . $key . '" with system value');
+            if (in_array($key, array_merge(self::$customUserConfigNames, self::$customChannelSpecificNames))) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom user configuration value "' .
+                                                       $key . '" with system value');
             }
             $var = 'customPearConfigNames';
         } else {
-            if (in_array($key, self::$userConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '"');
-            }
-
-            if (in_array($key, self::$customUserConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' . $key . '"');
-            }
-
             if (in_array($key, self::$pearConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' . $key . '" with user value');
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing configuration value "' .
+                                                       $key . '" with user value');
             }
 
             if (in_array($key, self::$customPearConfigNames)) {
-                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom system configuration value "' . $key . '" with user value');
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom configuration value "' .
+                                                       $key . '" with user value');
+            }
+
+            if (in_array($key, array_merge(self::$userConfigNames, self::$channelSpecificNames))) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing user configuration value "' .
+                                                       $key . '"');
+            }
+
+            if (in_array($key, array_merge(self::$customUserConfigNames, self::$customChannelSpecificNames))) {
+                throw new PEAR2_Pyrus_Config_Exception('Cannot override existing custom user configuration value "'
+                                                       . $key . '"');
             }
             $var = 'customUserConfigNames';
+            if ($system === 'channel-specific') {
+                self::$customChannelSpecificNames[] = $key;
+                self::$customDefaults[$key] = $default;
+                return;
+            }
         }
         self::${$var}[count(self::${$var})] = $key;
         self::$customDefaults[$key] = $default;
@@ -1040,15 +1086,21 @@ class PEAR2_Pyrus_Config
     {
         if (in_array($key, array_merge(self::$pearConfigNames, self::$userConfigNames,
                                           self::$customPearConfigNames,
-                                          self::$customUserConfigNames))) {
+                                          self::$customUserConfigNames,
+                                          self::$channelSpecificNames,
+                                          self::$customChannelSpecificNames))) {
             if ((!isset(self::$userConfigs[$this->userFile][$key])
                 && !isset($this->values[$key])) || $key === 'php_dir'
                 || $key === 'data_dir'
             ) {
+return_default_value:
                 if (isset(self::$defaults[$key])) {
                     if ($key === 'verbose') {
                         // this prevents a rather nasty loop if logging is checking on verbose
                         return self::$defaults['verbose'];
+                    }
+                    if ($key === 'preferred_mirror') {
+                        return $this->default_channel;
                     }
                     PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
                                          $key .
@@ -1081,6 +1133,14 @@ class PEAR2_Pyrus_Config
                 return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
             }
 
+            if (in_array($key, array_merge(self::$channelSpecificNames,
+                                             self::$customChannelSpecificNames))) {
+                $chan = $this->safeName($this->default_channel);
+                if (isset(self::$userConfigs[$this->userfile][$key][$this->safeName($chan)])) {
+                    return self::$userConfigs[$this->userfile][$key][$this->safeName($chan)];
+                }
+                goto return_default_value;
+            }
             return self::$userConfigs[$this->userFile][$key];
         }
 
@@ -1104,7 +1164,12 @@ class PEAR2_Pyrus_Config
         }
 
         if ($key == 'uservars') {
-            return array_merge(self::$userConfigNames, self::$customUserConfigNames);
+            return array_merge(self::$userConfigNames, self::$customUserConfigNames,
+                               self::$channelSpecificNames, self::$customChannelSpecificNames);
+        }
+
+        if ($key == 'channelvars') {
+            return array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames);
         }
 
         if ($key == 'mainsystemvars') {
@@ -1113,6 +1178,10 @@ class PEAR2_Pyrus_Config
 
         if ($key == 'mainuservars') {
             return self::$userConfigNames;
+        }
+
+        if ($key == 'mainchannelvars') {
+            return self::$channelSpecificNames;
         }
 
         if ($key == 'userfile') {
@@ -1130,10 +1199,21 @@ class PEAR2_Pyrus_Config
         if ($key == 'customuservars') {
             return self::$customUserConfigNames;
         }
+        if ($key == 'customchannelvars') {
+            return self::$customChannelSpecificNames;
+        }
 
         throw new PEAR2_Pyrus_Config_Exception(
             'Unknown configuration variable "' . $key . '" in location ' .
             $this->pearDir);
+    }
+
+    /**
+     * Make a channel name safe for an xml element name
+     */
+    protected function safeName($name)
+    {
+        return str_replace(array('/','.'), array('SLASH','DOT'), $name);
     }
 
     public function __unset($key)
@@ -1153,7 +1233,16 @@ class PEAR2_Pyrus_Config
         }
 
         if (isset(self::$userConfigs[$this->userFile][$key])) {
-            unset(self::$userConfigs[$this->userFile][$key]);
+            if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
+                if (isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
+                    unset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)]);
+                    if (!count(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
+                        unset(self::$userConfigs[$this->userFile][$key]);
+                    }
+                }
+            } else {
+                unset(self::$userConfigs[$this->userFile][$key]);
+            }
         }
     }
 
@@ -1172,6 +1261,9 @@ class PEAR2_Pyrus_Config
             return isset($this->values[$key]);
         }
 
+        if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
+            return isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)]);
+        }
         return isset(self::$userConfigs[$this->userFile][$key]);
     }
 
@@ -1202,7 +1294,14 @@ class PEAR2_Pyrus_Config
             return;
         }
 
-        self::$userConfigs[$this->userFile][$key] = $value;
+        if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
+            if (!isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
+                self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)] = array();
+            }
+            self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)] = $value;
+        } else {
+            self::$userConfigs[$this->userFile][$key] = $value;
+        }
     }
 
     /**

@@ -6,7 +6,7 @@ require dirname(__FILE__) . '/setup.php.inc';
 set_include_path(''); // disable include_path cascading for simplicity
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 $a->addConfigValue('foo', 'booya');
-$a->addConfigValue('foo2', 'booya2', false);
+$a->addConfigValue('foo2', 'booya2', 'user');
 $test->assertEquals('booya', $a->foo, 'foo');
 $test->assertEquals('booya2', $a->foo2, 'foo');
 $a->foo = 'hi';

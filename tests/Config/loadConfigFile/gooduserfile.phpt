@@ -21,22 +21,22 @@ file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>
 file_put_contents($testpath . '/blah', '<?xml version="1.0" ?>
 <c>
  <default_channel>pear.poo.net</default_channel>
- <preferred_mirror>pear.poo.de</preferred_mirror>
+ <preferred_mirror><pearDOTpooDOTnet>pear.poo.de</pearDOTpooDOTnet></preferred_mirror>
  <auto_discover>2</auto_discover>
  <http_proxy>hi</http_proxy>
  <cache_dir>/path/tomy/dir</cache_dir>
  <temp_dir>/path/to/temp</temp_dir>
- <download_dir>/download</download_dir>
- <username>boo</username>
- <password>ya</password>
+ <download_dir><pearDOTpooDOTnet>/download</pearDOTpooDOTnet></download_dir>
+ <username><pearDOTpooDOTnet>boo</pearDOTpooDOTnet></username>
+ <password><pearDOTpooDOTnet>ya</pearDOTpooDOTnet></password>
  <verbose>5</verbose>
  <preferred_state>beta</preferred_state>
  <umask>' . 0642 . '</umask>
  <cache_ttl>1</cache_ttl>
- <sig_type>buh</sig_type>
- <sig_bin>/path/to/buh</sig_bin>
- <sig_keyid>999999random</sig_keyid>
- <sig_keydir>/path/to/buh/dir</sig_keydir>
+ <sig_type><pearDOTpooDOTnet>buh</pearDOTpooDOTnet></sig_type>
+ <sig_bin><pearDOTpooDOTnet>/path/to/buh</pearDOTpooDOTnet></sig_bin>
+ <sig_keyid><pearDOTpooDOTnet>999999random</pearDOTpooDOTnet></sig_keyid>
+ <sig_keydir><pearDOTpooDOTnet>/path/to/buh/dir</pearDOTpooDOTnet></sig_keydir>
  <my_pear_path>' . $testpath . '</my_pear_path>
  <unknown>ha!</unknown>
 </c>');

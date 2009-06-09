@@ -28,7 +28,7 @@ try {
     $test->assertEquals('Invalid custom configuration variable name "'.  "a\n!" . '"', $e->getMessage(), 'sneaky message');
 }
 try {
-    $a->addConfigValue("a\n!", 'sneaky', false);
+    $a->addConfigValue("a\n!", 'sneaky', 'user');
     throw new Exception('sneaky user should have failed!');
 } catch (PEAR2_Pyrus_Config_Exception $e) {
     $test->assertEquals('Invalid custom configuration variable name "'.  "a\n!" . '"', $e->getMessage(), 'sneaky user message');
@@ -44,7 +44,7 @@ foreach ($a->mainsystemvars as $var) {
 }
 foreach ($a->mainsystemvars as $var) {
     try {
-        $a->addConfigValue($var, 'fail', false);
+        $a->addConfigValue($var, 'fail', 'user');
         throw new Exception($var . ' system user should have failed!');
     } catch (PEAR2_Pyrus_Config_Exception $e) {
         $test->assertEquals('Cannot override existing configuration value "' . $var . '" with user value', $e->getMessage(),
@@ -62,16 +62,16 @@ foreach ($a->mainuservars as $var) {
 }
 foreach ($a->mainuservars as $var) {
     try {
-        $a->addConfigValue($var, 'fail', false);
+        $a->addConfigValue($var, 'fail', 'user');
         throw new Exception($var . ' user user should have failed!');
     } catch (PEAR2_Pyrus_Config_Exception $e) {
-        $test->assertEquals('Cannot override existing configuration value "' . $var . '"', $e->getMessage(),
+        $test->assertEquals('Cannot override existing user configuration value "' . $var . '"', $e->getMessage(),
                             $var . ' user user exception message');
     }
 }
 
 $a->addConfigValue('foo', 'booya');
-$a->addConfigValue('foo2', 'booya2', false);
+$a->addConfigValue('foo2', 'booya2', 'user');
 
 try {
     $a->addConfigValue('foo', 'fail');
@@ -82,10 +82,10 @@ try {
 }
 
 try {
-    $a->addConfigValue('foo', 'fail', false);
+    $a->addConfigValue('foo', 'fail', 'user');
     throw new Exception('foo user should have failed!');
 } catch (PEAR2_Pyrus_Config_Exception $e) {
-    $test->assertEquals('Cannot override existing custom system configuration value "foo" with user value', $e->getMessage(),
+    $test->assertEquals('Cannot override existing custom configuration value "foo" with user value', $e->getMessage(),
                         'foo user exception message');
 }
 
@@ -98,10 +98,10 @@ try {
 }
 
 try {
-    $a->addConfigValue('foo2', 'fail', false);
+    $a->addConfigValue('foo2', 'fail', 'user');
     throw new Exception('foo2 user should have failed!');
 } catch (PEAR2_Pyrus_Config_Exception $e) {
-    $test->assertEquals('Cannot override existing custom configuration value "foo2"', $e->getMessage(),
+    $test->assertEquals('Cannot override existing custom user configuration value "foo2"', $e->getMessage(),
                         'foo2 user exception message');
 }
 ?>

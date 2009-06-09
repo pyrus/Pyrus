@@ -14,7 +14,7 @@ $test->assertEquals('booya2', $a->foo2, 'get custom user config var');
 $test->assertEquals('PEAR2_Pyrus_Registry', get_class($a->registry), 'registry');
 $test->assertEquals('PEAR2_Pyrus_ChannelRegistry', get_class($a->channelregistry), 'channelregistry');
 $test->assertEquals(array_merge($a->mainsystemvars, array('foo')), $a->systemvars, 'systemvars');
-$test->assertEquals(array_merge($a->mainuservars, array('foo2')), $a->uservars, 'uservars');
+$test->assertEquals(array_merge($a->mainuservars, array('foo2'), $a->mainchannelvars), $a->uservars, 'uservars');
 $test->assertEquals($testpath, $a->path, 'path');
 $test->assertEquals($testpath . '/blah', $a->userfile, 'userfile');
 $test->assertEquals(array('foo'), $a->customsystemvars, 'customsystemvars');

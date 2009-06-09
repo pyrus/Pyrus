@@ -15,7 +15,16 @@ chdir(__DIR__ . '/testing');
 $test->assertFileExists(__DIR__ . '/testing/pearconfig.xml', 'pearconfig.xml should exist');
 $test->assertTrue(r::userInitialized(), 'third, pearconfig.xml found');
 file_put_contents(__DIR__ . '/testing/pearconfig.xml', '<?xml version="1.0"?>
-<pearconfig version="1.0"><default_channel>pear2.php.net</default_channel><preferred_mirror>pear2.php.net</preferred_mirror><auto_discover>0</auto_discover><download_dir>/hoo/boy</download_dir></pearconfig>
+<pearconfig version="1.0">
+ <default_channel>pear2.php.net</default_channel>
+ <preferred_mirror>
+  <pear2DOTphpDOTnet>pear2.php.net</pear2DOTphpDOTnet>
+ </preferred_mirror>
+ <auto_discover>0</auto_discover>
+ <download_dir>
+  <pear2DOTphpDOTnet>/hoo/boy</pear2DOTphpDOTnet>
+ </download_dir>
+</pearconfig>
 ');
 $t = r::singleton();
 $test->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'testing' . DIRECTORY_SEPARATOR . 'pearconfig.xml', $t->userfile, 'pearconfig.xml file');

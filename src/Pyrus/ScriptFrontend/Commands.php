@@ -657,12 +657,20 @@ addchan_success:
         foreach ($conf->customsystemvars as $var) {
             echo "  $var => " . $conf->$var . "\n";
         }
-        echo "User config (from " . $conf->userfile . "):\n";
+        echo "User config (from ", $conf->userfile, "):\n";
         foreach ($conf->mainuservars as $var) {
+            echo "  $var => " . $conf->$var . "\n";
+        }
+        echo "(variables specific to ", $conf->default_channel, "):\n";
+        foreach ($conf->mainchannelvars as $var) {
             echo "  $var => " . $conf->$var . "\n";
         }
         echo "Custom User config (from " . $conf->userfile . "):\n";
         foreach ($conf->customuservars as $var) {
+            echo "  $var => " . $conf->$var . "\n";
+        }
+        echo "(variables specific to ", $conf->default_channel, "):\n";
+        foreach ($conf->customchannelvars as $var) {
             echo "  $var => " . $conf->$var . "\n";
         }
     }

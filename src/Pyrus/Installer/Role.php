@@ -291,7 +291,7 @@ class PEAR2_Pyrus_Installer_Role
                     };
                     $default = $getDefault();
                 }
-                PEAR2_Pyrus_Config::addConfigValue($configvar['name'], $default, $configvar['configtype'] == 'system');
+                PEAR2_Pyrus_Config::addConfigValue($configvar['name'], $default, $configvar['configtype']);
             }
         }
     }

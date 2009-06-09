@@ -52,10 +52,19 @@
     <xs:element name="prompt" type="xs:string"/>
     <xs:element name="group" type="xs:string"/>
     <xs:element name="configtype">
+     <xs:annotation>
+      <xs:documentation xml:lang="EN">
+       system configuration variables are stored in the actual installation,
+       user configuration variables are installation-independent.
+       channel-specific configuration variables are also installation-independent,
+       but unique for each channel.
+      </xs:documentation>
+     </xs:annotation>
      <xs:simpleType>
       <xs:restriction base="xs:string">
        <xs:enumeration value="system"/>
        <xs:enumeration value="user"/>
+       <xs:enumeration value="channel-specific"/>
       </xs:restriction>
      </xs:simpleType>
     </xs:element>
