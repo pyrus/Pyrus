@@ -615,7 +615,7 @@
  <xs:element name="channel">
   <xs:simpleType>
    <xs:restriction base="xs:string">
-    <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+"/>
+    <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+((/[A-Za-z0-9]+)+)?"/>
    </xs:restriction>
   </xs:simpleType>
  </xs:element>

@@ -130,7 +130,7 @@
  </xs:complexType>
  <xs:simpleType name="channelname">
   <xs:restriction base="xs:string">
-   <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+|__uri"/>
+   <xs:pattern value="[A-Za-z][A-Za-z0-9_.]+((/[A-Za-z0-9]+)+)?|__uri"/>
   </xs:restriction>
  </xs:simpleType>
  <xs:element name="channel">
