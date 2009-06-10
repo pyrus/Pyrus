@@ -152,9 +152,21 @@ class PEAR2_Pyrus_Package_Creator
             $creator->init();
         }
 
-        $packagexml = '.xmlregistry/packages/' .
-            str_replace('/', '!', $package->channel) . '/' . $package->name . '/' .
-            $package->version['release'] . '-package.xml';
+        if ($package->isNewPackage()) {
+            $packagexml = '.xmlregistry/packages/' .
+                str_replace('/', '!', $package->channel) . '/' . $package->name . '/' .
+                $package->version['release'] . '-package.xml';
+        } else {
+            if ($package->isOldAndCrustyCompatible()) {
+                $packagexml = 'package2.xml';
+                $old = file_get_contents('package.xml');
+                foreach ($this->_creators as $creator) {
+                    $creator->addFile('package.xml', $old);
+                }
+            } else {
+                $packagexml = 'package.xml';
+            }
+        }
         if (self::VERSION === '@' . 'PACKAGE_VERSION@') {
             // we're running straight from SVN, so pretend to be 2.0.0
             $package->packagerversion = '2.0.0';
@@ -169,7 +181,7 @@ class PEAR2_Pyrus_Package_Creator
         }
         if ($package->getInternalPackage() instanceof PEAR2_Pyrus_Package_Xml) {
             // check for package_compatible.xml
-            if (file_exists($package->getFilePath('package_compatible.xml'))) {
+            if ($package->isNewPackage() && file_exists($package->getFilePath('package_compatible.xml'))) {
                 $creator->addFile('package.xml', $package->getFilePath('package_compatible.xml'));
             }
         }
@@ -219,7 +231,7 @@ class PEAR2_Pyrus_Package_Creator
             stream_copy_to_stream($contents, $fp);
             fclose($contents);
             rewind($fp);
-            if ($info['attribs']['role'] == 'php') {
+            if ($package->isNewPackage() && $info['attribs']['role'] == 'php') {
                 if (isset($info['tasks:replace'])) {
                     if (isset($info['tasks:replace'][0])) {
                         $info['tasks:replace'][] = $globalreplace;
@@ -253,7 +265,29 @@ class PEAR2_Pyrus_Package_Creator
             $creator->addDir($packagingloc);
         }
 
-        $creator->mkdir('php/PEAR2');
+        if ($package->isNewPackage()) {
+            $this->addPEAR2Stuff($alreadyPackaged, $extrafiles);
+        }
+
+        foreach ($this->_creators as $creator) {
+            $creator->close();
+        }
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($packagingloc,
+                    RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+            if (is_dir($file)) {
+                rmdir($file);
+            } elseif (is_file($file)) {
+                unlink($file);
+            }
+        }
+        rmdir($packagingloc);
+    }
+
+    protected function addPEAR2Stuff($alreadyPackaged, $extrafiles)
+    {
+        foreach ($this->_creators as $creator) {
+            $creator->mkdir('php/PEAR2');
+        }
         foreach ($this->_handles as $path => $stream) {
             if (isset($alreadyPackaged[$path])) {
                 continue; // we're packaging this package
@@ -308,18 +342,5 @@ class PEAR2_Pyrus_Package_Creator
 
             fclose($fp);
         }
-
-        foreach ($this->_creators as $creator) {
-            $creator->close();
-        }
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($packagingloc,
-                    RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-            if (is_dir($file)) {
-                rmdir($file);
-            } elseif (is_file($file)) {
-                unlink($file);
-            }
-        }
-        rmdir($packagingloc);
     }
 }

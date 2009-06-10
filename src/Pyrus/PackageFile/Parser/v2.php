@@ -109,7 +109,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
             }
         } else {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot process package.xml version 1.0');
+            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot process package.xml version 1.0', -3);
         }
         try {
             $ret->fromArray(parent::parseString($data, $schema));

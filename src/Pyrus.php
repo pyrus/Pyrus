@@ -52,6 +52,11 @@ class PEAR2_Pyrus
         return $val;
     }
 
+    static function getSourcePath()
+    {
+        return __DIR__;
+    }
+
     static function prepend($prepend, $path)
     {
         $path = $prepend . DIRECTORY_SEPARATOR . $path;

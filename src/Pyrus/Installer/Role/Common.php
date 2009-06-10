@@ -68,6 +68,9 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     function getPackagingLocation(PEAR2_Pyrus_IPackageFile $pkg, $atts)
     {
+        if (!$pkg->isNewPackage()) {
+            return $atts['name'];
+        }
         $role = $this->info['name'];
 
         $file = $atts['name'];

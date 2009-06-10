@@ -39,6 +39,10 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
      */
     protected $internal;
     protected $from;
+    /**
+     * Used when packaging up a package that should be ultra-backwards compatible
+     */
+    protected $saveAsPackage2_xml = false;
 
     function __construct($packagedescription, $forceremote = false)
     {
@@ -51,6 +55,23 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
             $class = $this->parsePackageDescription($packagedescription);
             $this->internal = new $class($packagedescription, $this);
         }
+    }
+
+    function isOldAndCrustyCompatible()
+    {
+        return $this->saveAsPackage2_xml;
+    }
+
+    /**
+     * Tell the package creator to save package.xml as package2.xml
+     * and to grab package.xml from cwd.
+     *
+     * This is used to package up things like the PEAR Installer that need
+     * to still be compatible with PEAR 1.3.x
+     */
+    function thisIsOldAndCrustyCompatible()
+    {
+        $this->saveAsPackage2_xml = true;
     }
 
     function setFrom($from)

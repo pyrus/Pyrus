@@ -49,7 +49,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         try {
             if (Phar::isValidPharFilename($package, 1)) {
                 $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
-                $pxml = $phar->getMetaData();
+                $pxml = 'phar://' . $package . '/' . $phar->getMetaData();
             } else {
                 $phar = new PharData($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
                 $pxml = false;

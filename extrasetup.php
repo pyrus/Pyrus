@@ -1,45 +1,10 @@
 <?php
 /**
  * This file generates the pyrus.phar file and PEAR2 package for Pyrus.
- *
- * This whole script can be replaced with 3 steps:
- * php pyrus.phar install -pf ../Pyrus_Developer/package.xml
- * php pyrus.phar make PEAR2_Pyrus
- * php -dphar.readonly=0 pyrus.phar package -s stub.php --phar -e extrasetup.php
  */
-error_reporting(E_ALL);
-ini_set('display_errors',true);
-require_once dirname(__FILE__).'/../autoload.php';
-
-if (ini_get('phar.readonly') != "0") {
-    throw new PEAR2_Pyrus_Exception('Error: phar.readonly is not set to "0", pass -d phar.readonly=0 to PHP');
-}
-
-$a = new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(dirname(__FILE__), 'PEAR2_Pyrus');
-
-$package = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
-
-$outfile = $package->name.'-'.$package->version['release'];
-$a = new PEAR2_Pyrus_Package_Creator(array(
-                    new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive(__DIR__ . '/pyrus.phar', '<?php
-function pyrus_autoload($class)
-{
-    if (file_exists(\'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\')) {
-        include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
-    }
-}
-spl_autoload_register("pyrus_autoload");
-$frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
-@array_shift($_SERVER[\'argv\']);
-$frontend->run($_SERVER[\'argv\']);
-'),),
-                    dirname(__FILE__) . '/../Exception/src',
-					dirname(__FILE__) . '/../Autoload/src',
-					dirname(__FILE__) . '/../MultiErrors/src');
-$b = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
 $rp = __DIR__ . '/../HTTP_Request/src/HTTP';
 $cc = __DIR__ . '/../sandbox/Console_CommandLine/src/Console';
-$a->render($b, array(
+$extrafiles = array(
     'php/PEAR2/HTTP/Request.php' => $rp . '/Request.php',
     'php/PEAR2/HTTP/Request/Adapter.php' => $rp . '/Request/Adapter.php',
     'php/PEAR2/HTTP/Request/Adapter/Curl.php' => $rp . '/Request/Adapter/Curl.php',
@@ -74,4 +39,4 @@ $a->render($b, array(
     'php/PEAR2/Console/CommandLine/Action/StoreString.php' => $cc . '/CommandLine/Action/StoreString.php',
     'php/PEAR2/Console/CommandLine/Action/StoreTrue.php' => $cc . '/CommandLine/Action/StoreTrue.php',
     'php/PEAR2/Console/CommandLine/Action/Version.php' => $cc . '/CommandLine/Action/Version.php',
-));
+);
