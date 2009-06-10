@@ -29,7 +29,7 @@ restore_include_path();
 $c->saveConfig();
 
 $chan = new PEAR2_SimpleChannelServer_Channel('pear2.php.net', 'unit test channel');
-$scs = new PEAR2_SimpleChannelServer($chan, __DIR__, dirname(__DIR__));
+$scs = new PEAR2_SimpleChannelServer($chan, __DIR__, dirname(__DIR__) . '/PEAR2');
 
 $scs->saveChannel();
 
@@ -164,10 +164,14 @@ for ($i = 1; $i <= 3; $i++) {
     unlink(__DIR__ . "/glooby$i");
 }
 unlink(__DIR__ . '/package.xml');
-foreach (new DirectoryIterator(dirname(__DIR__) . '/.configsnapshots') as $file) {
-    if ($file->isDot()) {
-        continue;
-    }
-    unlink($file->getPathName());
-}
-rmdir(dirname(__DIR__) . '/.configsnapshots');
+$dir = dirname(__DIR__) . '/.configsnapshots';
+include __DIR__ . '/../../../clean.php.inc';
+$dir = dirname(__DIR__) . '/.xmlregistry';
+include __DIR__ . '/../../../clean.php.inc';
+unlink(dirname(__DIR__) . '/.pear2registry');
+rmdir(dirname(__DIR__) . '/temp');
+$dir = dirname(__DIR__) . '/PEAR2/.xmlregistry';
+include __DIR__ . '/../../../clean.php.inc';
+unlink(dirname(__DIR__) . '/PEAR2/.pear2registry');
+rmdir(dirname(__DIR__) . '/PEAR2/temp');
+
