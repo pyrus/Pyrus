@@ -57,16 +57,17 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
             $ret = array();
             foreach ($this->packagesinfo as $info) {
                 if (!count($info['a'])) {
-                    $ret[] = array('package' => $info['n'],
+                    $ret[] = array('package' => $info['p']['n'],
                                    'latest' => array('v' => 'n/a', 's' => 'n/a', 'm' => 'n/a'),
                                    'stable' => 'n/a');
                     continue;
                 }
-                if (!isset($info['a'][0])) {
-                    $info['a'] = array($info['a']);
+                if (!isset($info['a']['r'][0])) {
+                    $info['a']['r'] = array($info['a']['r']);
                 }
-                $inf = array('package' => $info['n'], 'latest' => current($info['a']), 'stable' => 'n/a');
-                foreach ($info['a'] as $release) {
+                $inf = array('package' => $info['p']['n'], 'latest' => current($info['a']['r']), 'stable' => 'n/a');
+                $inf['latest']['m'] = '5.2.0';
+                foreach ($info['a']['r'] as $release) {
                     if ($release['s'] == 'stable') {
                         $inf['stable'] = $release['v'];
                         break;

@@ -876,8 +876,7 @@ addchan_success:
                 foreach ($category->basiclist as $package) {
                     $installed = $reg->exists($package['package'], $args['channel']) ? '  *' : '   ';
                     echo $installed, $package['package'], ' latest stable: ', $package['stable'],
-                        ', latest release: ', $package['latest']['v'], ' (', $package['latest']['s'],
-                        ', required PHP ', $package['latest']['m'], ")\n";
+                        ', latest release: ', $package['latest']['v'], ' (', $package['latest']['s'], ")\n";
                 }
             }
             return;
