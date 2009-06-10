@@ -872,7 +872,7 @@ addchan_success:
         echo "Remote packages for channel ", $args['channel'], ":\n";
         if ($options['basic']) {
             foreach (PEAR2_Pyrus_Config::current()->channelregistry[$args['channel']]->remotecategories as $category) {
-                echo $category->name, " Category:\n";
+                echo $category->name, ":\n";
                 foreach ($category->basiclist as $package) {
                     $installed = $reg->exists($package['package'], $args['channel']) ? '  *' : '   ';
                     echo $installed, $package['package'], ' latest stable: ', $package['stable'],
@@ -883,7 +883,7 @@ addchan_success:
             return;
         }
         foreach (PEAR2_Pyrus_Config::current()->channelregistry[$args['channel']]->remotecategories as $category) {
-            echo $category->name, " Category:\n";
+            echo $category->name, ":\n";
             $pnames = array();
             $summaries = array();
             $pnameinfo = array();
@@ -895,39 +895,40 @@ addchan_success:
                 } elseif ($reg->exists($package->name, $args['channel'])) {
                     $installed = '*';
                 } 
-                foreach ($package as $latest) {
+                foreach ($package as $version => $latest) {
                     break;
                 }
                 $pnames[] = $package->name;
                 $summaries[] = $package->summary;
-                $versions[] = $latest['v'];
+                $versions[] = $version;
+                $latest['v'] = $version;
 
                 $pnameinfo[$package->name] = array('installed' => $installed,
                                                    'summary' => $package->summary,
                                                    'latest' => $latest);
             }
+            // calculate the longest package name
+            $longest = array_reduce($pnames, $func = function($last, $current) {
+                if (strlen($current) > $last) {
+                    return strlen($current);
+                }
+                return $last;
+            }, 0) + 1;
+            $longestsummary = array_reduce($summaries, $func, 0) + 1;
+            $longestversion = array_reduce($versions, $func, 0) + 1;
+            if ($longestsummary-- + $longest-- + $longestversion-- > 80) {
+                foreach ($pnameinfo as $package => $info) {
+                    echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}s\n", $info['installed'],
+                                 $info['latest'], $info['summary']);
+                }
+            } else {
+                foreach ($pnameinfo as $package => $info) {
+                    echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}s\n", $info['installed'],
+                                 $package, $info['latest']['v'], $info['summary']);
+                }
+            }
+            echo "Key: * = installed, ! = upgrades available\n";
         }
-        // calculate the longest package name
-        $longest = array_reduce($pnames, $func = function($last, $current) {
-            if (strlen($current) > $last) {
-                return strlen($current);
-            }
-            return $last;
-        }, 0) + 1;
-        $longestsummary = array_reduce($summaries, $func, 0) + 1;
-        $longestversion = array_reduce($versions, $func, 0) + 1;
-        if ($longestsummary-- + $longest-- + $longestversion-- > 80) {
-            foreach ($pnameinfo as $package => $info) {
-                echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}", $info['installed'],
-                             $info['latest'], $info['summary']);
-            }
-        } else {
-            foreach ($pnameinfo as $package => $info) {
-                echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}", $info['installed'],
-                             $info['latest'], $info['summary']);
-            }
-        }
-        echo "Key: * = installed, ! = upgrades available";
     }
 
     protected function wrap($text)

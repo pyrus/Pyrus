@@ -35,14 +35,14 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
     {
         $this->parent = $channelinfo;
         $this->category = $category;
-        if (!isset($packagesinfo['p'])) {
-            $packagesinfo['p'] = array();
-        } elseif (!isset($packagesinfo['p'][0])) {
-            $packagesinfo['p'] = array($packagesinfo['p']);
+        if (!isset($packagesinfo['pi'])) {
+            $packagesinfo['pi'] = array();
+        } elseif (!isset($packagesinfo['pi'][0])) {
+            $packagesinfo['pi'] = array($packagesinfo['pi']);
         }
-        $this->packagesinfo = $packagesinfo['p'];
+        $this->packagesinfo = $packagesinfo['pi'];
         usort($this->packagesinfo, function($a, $b) {
-            return strnatcasecmp($a['n'], $b['n']);
+            return strnatcasecmp($a['p']['n'], $b['p']['n']);
         });
         $this->rest = new PEAR2_Pyrus_REST;
         $this->minimumStability = PEAR2_Pyrus_Config::current()->preferred_state;
@@ -82,39 +82,53 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
     {
         $lowerpackage = strtolower($var);
         foreach ($this->packagesinfo as $package) {
-            if ($package['n'] != $lowerpackage) {
+            if (strtolower($package['p']['n']) != $lowerpackage) {
                 continue;
             }
-            $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $package['a']);
-            $pxml->channel = $package['c'];
-            $pxml->name = $package['n'];
-            $pxml->license = $package['l'];
-            $pxml->summary = $package['s'];
-            $pxml->description = $package['d'];
-            $reg = PEAR2_Pyrus_Config::current()->registry;
-            if ($reg->exists($package['n'], $package['c'])) {
-                $pxml->setExplicitState($reg->info($package['n'], $package['c'], 'version'));
-                $found = false;
-                foreach ($pxml as $remoteversion => $rinfo) {
-                    if (version_compare($remoteversion, $version, '<=')) {
-                        continue;
-                    }
-                    if (version_compare($rinfo['minimumphp'], phpversion(), '>')) {
-                        continue;
-                    }
-                    // found one, so upgrade is possible if dependencies pass
-                    $found = true;
-                    break;
-                }
-                // the installed package version satisfies this dependency, don't do anything
-                if ($found) {
-                    $pxml->setUpgradeable();
-                }
-            } else {
-                $pxml->setExplicitState($this->minimumStability);
-            }
-            return $pxml;
+            return $this->getPackage($package);
         }
+    }
+
+    protected function getPackage($package)
+    {
+        $releases = $package['a']['r'];
+        if (!isset($releases[0])) {
+            $releases = array($releases);
+        }
+        foreach ($releases as $i => $release) {
+            if (!isset($release['m'])) {
+                $releases[$i]['m'] = '5.2.0';
+            }
+        }
+        $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);
+        $pxml->channel = $package['p']['c'];
+        $pxml->name = $package['p']['n'];
+        $pxml->license = $package['p']['l'];
+        $pxml->summary = $package['p']['s'];
+        $pxml->description = $package['p']['d'];
+        $reg = PEAR2_Pyrus_Config::current()->registry;
+        if ($reg->exists($package['p']['n'], $package['p']['c'])) {
+            $pxml->setExplicitState($version = $reg->info($package['p']['n'], $package['p']['c'], 'version'));
+            $found = false;
+            foreach ($pxml as $remoteversion => $rinfo) {
+                if (version_compare($remoteversion, $version, '<=')) {
+                    continue;
+                }
+                if (version_compare($rinfo['minimumphp'], phpversion(), '>')) {
+                    continue;
+                }
+                // found one, so upgrade is possible if dependencies pass
+                $found = true;
+                break;
+            }
+            // the installed package version satisfies this dependency, don't do anything
+            if ($found) {
+                $pxml->setUpgradeable();
+            }
+        } else {
+            $pxml->setExplicitState($this->minimumStability);
+        }
+        return $pxml;
     }
 
     function offsetExists($var)
@@ -139,7 +153,7 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
 
     function current()
     {
-        return $this[$this->key()];
+        return $this->getPackage(current($this->packagesinfo));
     }
 
     function next()
@@ -155,6 +169,6 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
     function key()
     {
         $current = current($this->packagesinfo);
-        return $current['n'];
+        return $current['p']['n'];
     }
 }
