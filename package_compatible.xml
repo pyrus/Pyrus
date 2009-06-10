@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-09</date>
- <time>11:49:16</time>
+ <date>2009-06-10</date>
+ <time>01:55:09</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -950,23 +950,34 @@ Implemented features:
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
         <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
         <file role="test" name="P2-0.9.0.tar"/>
         <file role="test" name="P2-0.9.0.tgz"/>
+        <file role="test" name="P2-0.9.0.zip"/>
         <file role="test" name="P2-1.2.2.tar"/>
         <file role="test" name="P2-1.2.2.tgz"/>
+        <file role="test" name="P2-1.2.2.zip"/>
         <file role="test" name="P2-1.2.3.tar"/>
         <file role="test" name="P2-1.2.3.tgz"/>
+        <file role="test" name="P2-1.2.3.zip"/>
         <file role="test" name="P3-1.0.0.tar"/>
         <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
         <file role="test" name="P4-1.0.0.tar"/>
         <file role="test" name="P4-1.0.0.tgz"/>
+        <file role="test" name="P4-1.0.0.zip"/>
         <file role="test" name="P5-0.9.0.tar"/>
         <file role="test" name="P5-0.9.0.tgz"/>
+        <file role="test" name="P5-0.9.0.zip"/>
         <file role="test" name="P5-1.0.0.tgz"/>
        </dir>
        <dir name="rest">
         <dir name="c">
-         <dir name="Default">
+         <dir name="Category+1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <dir name="Category+2">
           <file role="test" name="info.xml"/>
           <file role="test" name="packagesinfo.xml"/>
          </dir>
@@ -981,18 +992,28 @@ Implemented features:
         <dir name="p">
          <dir name="p1">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p2">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p3">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p4">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p5">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <file role="test" name="packages.xml"/>
         </dir>
@@ -1077,10 +1098,13 @@ Implemented features:
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
         <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
         <file role="test" name="P2-1.2.1.tar"/>
         <file role="test" name="P2-1.2.1.tgz"/>
+        <file role="test" name="P2-1.2.1.zip"/>
         <file role="test" name="P3-1.0.0.tar"/>
         <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
        </dir>
        <dir name="rest">
         <dir name="c">
@@ -1099,12 +1123,18 @@ Implemented features:
         <dir name="p">
          <dir name="p1">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p2">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p3">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <file role="test" name="packages.xml"/>
         </dir>
@@ -1154,10 +1184,13 @@ Implemented features:
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
         <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
         <file role="test" name="P2-1.2.1.tar"/>
         <file role="test" name="P2-1.2.1.tgz"/>
+        <file role="test" name="P2-1.2.1.zip"/>
         <file role="test" name="P3-1.0.0.tar"/>
         <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
        </dir>
        <dir name="rest">
         <dir name="c">
@@ -1176,12 +1209,18 @@ Implemented features:
         <dir name="p">
          <dir name="p1">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p2">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p3">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <file role="test" name="packages.xml"/>
         </dir>
@@ -1231,16 +1270,22 @@ Implemented features:
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
         <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
         <file role="test" name="P2-1.0.0.tar"/>
         <file role="test" name="P2-1.0.0.tgz"/>
+        <file role="test" name="P2-1.0.0.zip"/>
         <file role="test" name="P2-1.2.0.tar"/>
         <file role="test" name="P2-1.2.0.tgz"/>
+        <file role="test" name="P2-1.2.0.zip"/>
         <file role="test" name="P2-1.2.3.tar"/>
         <file role="test" name="P2-1.2.3.tgz"/>
+        <file role="test" name="P2-1.2.3.zip"/>
         <file role="test" name="P2-1.3.1.tar"/>
         <file role="test" name="P2-1.3.1.tgz"/>
+        <file role="test" name="P2-1.3.1.zip"/>
         <file role="test" name="P3-1.0.0.tar"/>
         <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
        </dir>
        <dir name="rest">
         <dir name="c">
@@ -1259,12 +1304,18 @@ Implemented features:
         <dir name="p">
          <dir name="p1">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p2">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <dir name="p3">
           <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
          </dir>
          <file role="test" name="packages.xml"/>
         </dir>
@@ -1322,6 +1373,14 @@ Implemented features:
        <file role="test" name="channel.xml"/>
        <file role="test" name="make.php"/>
       </dir>
+      <dir name="PEAR2">
+       <dir name="MultiErrors">
+        <file role="test" name="Exception.php"/>
+       </dir>
+       <file role="test" name="Autoload.php"/>
+       <file role="test" name="Exception.php"/>
+       <file role="test" name="MultiErrors.php"/>
+      </dir>
       <dir name="remotepackage">
        <dir name="get">
         <file role="test" name="GetMaintainers_Test-1.0.0.tar"/>
@@ -1376,16 +1435,6 @@ Implemented features:
        </dir>
        <file role="test" name="channel.xml"/>
        <file role="test" name="make.php"/>
-      </dir>
-      <dir name="src">
-       <dir name="PEAR2">
-        <dir name="MultiErrors">
-         <file role="test" name="Exception.php"/>
-        </dir>
-        <file role="test" name="Autoload.php"/>
-        <file role="test" name="Exception.php"/>
-        <file role="test" name="MultiErrors.php"/>
-       </dir>
       </dir>
       <file role="test" name="README"/>
      </dir>
@@ -1974,6 +2023,8 @@ Implemented features:
       <file role="test" name="install.phpt"/>
       <file role="test" name="install.plugin.phpt"/>
       <file role="test" name="install_pear1package.phpt"/>
+      <file role="test" name="listAll.basic.phpt"/>
+      <file role="test" name="listAll.phpt"/>
       <file role="test" name="listChannels.phpt"/>
       <file role="test" name="listPackages.cascade.phpt"/>
       <file role="test" name="listPackages.empty.phpt"/>
@@ -2059,14 +2110,14 @@ Implemented features:
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
@@ -2743,30 +2794,49 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/Mocks/Internet/installer.prepare.dep.versionconflict/channel.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P1-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P1-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P1-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P1-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-0.9.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-0.9.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-0.9.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-0.9.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-0.9.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-0.9.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.2.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.2.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.2.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.2.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.2.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.2.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.3.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.3.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.3.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.3.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.3.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P2-1.2.3.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P3-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P3-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P3-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P3-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P3-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P3-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P4-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P4-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P4-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P4-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P4-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P4-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-0.9.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-0.9.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-0.9.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-0.9.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-0.9.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-0.9.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/get/Mocks/Internet/installer.prepare.dep.versionconflict/get/P5-1.0.0.tgz"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/make.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/Mocks/Internet/installer.prepare.dep.versionconflict/make.php"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/categories.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/categories.xml"/>
-   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Default/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Default/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Default/info.xml"/>
-   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Default/packagesinfo.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Default/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Default/packagesinfo.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+1/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+1/packagesinfo.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+1/packagesinfo.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+2/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+2/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+2/packagesinfo.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+2/Mocks/Internet/installer.prepare.dep.versionconflict/rest/c/Category+2/packagesinfo.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/m/allmaintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/m/Mocks/Internet/installer.prepare.dep.versionconflict/rest/m/allmaintainers.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/m/cellog/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/m/cellog/Mocks/Internet/installer.prepare.dep.versionconflict/rest/m/cellog/info.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p1/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p2/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p3/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p4/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/p5/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/packages.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/Mocks/Internet/installer.prepare.dep.versionconflict/rest/p/packages.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/r/p1/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/r/p1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/r/p1/1.0.0.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.dep.versionconflict/rest/r/p1/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.dep.versionconflict/rest/r/p1/Mocks/Internet/installer.prepare.dep.versionconflict/rest/r/p1/allreleases.xml"/>
@@ -2832,10 +2902,13 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/Mocks/Internet/installer.prepare.depconflict1/channel.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P1-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P1-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P1-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P1-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P2-1.2.1.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P2-1.2.1.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P2-1.2.1.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P2-1.2.1.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P2-1.2.1.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P2-1.2.1.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P3-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P3-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P3-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P3-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/get/P3-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/get/Mocks/Internet/installer.prepare.depconflict1/get/P3-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/make.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/Mocks/Internet/installer.prepare.depconflict1/make.php"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/c/categories.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/c/Mocks/Internet/installer.prepare.depconflict1/rest/c/categories.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/c/Default/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/c/Default/Mocks/Internet/installer.prepare.depconflict1/rest/c/Default/info.xml"/>
@@ -2843,8 +2916,14 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/m/allmaintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/m/Mocks/Internet/installer.prepare.depconflict1/rest/m/allmaintainers.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/m/cellog/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/m/cellog/Mocks/Internet/installer.prepare.depconflict1/rest/m/cellog/info.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/Mocks/Internet/installer.prepare.depconflict1/rest/p/p1/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/Mocks/Internet/installer.prepare.depconflict1/rest/p/p2/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/Mocks/Internet/installer.prepare.depconflict1/rest/p/p3/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/p/packages.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/p/Mocks/Internet/installer.prepare.depconflict1/rest/p/packages.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/r/p1/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/r/p1/Mocks/Internet/installer.prepare.depconflict1/rest/r/p1/1.0.0.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict1/rest/r/p1/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict1/rest/r/p1/Mocks/Internet/installer.prepare.depconflict1/rest/r/p1/allreleases.xml"/>
@@ -2879,10 +2958,13 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/Mocks/Internet/installer.prepare.depconflict2/channel.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P1-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P1-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P1-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P1-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P2-1.2.1.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P2-1.2.1.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P2-1.2.1.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P2-1.2.1.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P2-1.2.1.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P2-1.2.1.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P3-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P3-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P3-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P3-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/get/P3-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/get/Mocks/Internet/installer.prepare.depconflict2/get/P3-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/make.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/Mocks/Internet/installer.prepare.depconflict2/make.php"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/c/categories.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/c/Mocks/Internet/installer.prepare.depconflict2/rest/c/categories.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/c/Default/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/c/Default/Mocks/Internet/installer.prepare.depconflict2/rest/c/Default/info.xml"/>
@@ -2890,8 +2972,14 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/m/allmaintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/m/Mocks/Internet/installer.prepare.depconflict2/rest/m/allmaintainers.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/m/cellog/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/m/cellog/Mocks/Internet/installer.prepare.depconflict2/rest/m/cellog/info.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/Mocks/Internet/installer.prepare.depconflict2/rest/p/p1/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/Mocks/Internet/installer.prepare.depconflict2/rest/p/p2/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/Mocks/Internet/installer.prepare.depconflict2/rest/p/p3/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/p/packages.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/p/Mocks/Internet/installer.prepare.depconflict2/rest/p/packages.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/r/p1/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/r/p1/Mocks/Internet/installer.prepare.depconflict2/rest/r/p1/1.0.0.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict2/rest/r/p1/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict2/rest/r/p1/Mocks/Internet/installer.prepare.depconflict2/rest/r/p1/allreleases.xml"/>
@@ -2926,16 +3014,22 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/Mocks/Internet/installer.prepare.depconflict4/channel.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P1-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P1-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P1-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P1-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.3.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.3.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.3.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.3.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.3.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.2.3.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.3.1.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.3.1.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.3.1.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.3.1.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.3.1.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P2-1.3.1.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P3-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P3-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P3-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P3-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/get/P3-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/get/Mocks/Internet/installer.prepare.depconflict4/get/P3-1.0.0.zip"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/make.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/Mocks/Internet/installer.prepare.depconflict4/make.php"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/c/categories.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/c/Mocks/Internet/installer.prepare.depconflict4/rest/c/categories.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/c/Default/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/c/Default/Mocks/Internet/installer.prepare.depconflict4/rest/c/Default/info.xml"/>
@@ -2943,8 +3037,14 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/m/allmaintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/m/Mocks/Internet/installer.prepare.depconflict4/rest/m/allmaintainers.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/m/cellog/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/m/cellog/Mocks/Internet/installer.prepare.depconflict4/rest/m/cellog/info.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/Mocks/Internet/installer.prepare.depconflict4/rest/p/p1/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/Mocks/Internet/installer.prepare.depconflict4/rest/p/p2/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/info.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/Mocks/Internet/installer.prepare.depconflict4/rest/p/p3/maintainers2.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/p/packages.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/p/Mocks/Internet/installer.prepare.depconflict4/rest/p/packages.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/r/p1/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/r/p1/Mocks/Internet/installer.prepare.depconflict4/rest/r/p1/1.0.0.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/r/p1/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/r/p1/Mocks/Internet/installer.prepare.depconflict4/rest/r/p1/allreleases.xml"/>
@@ -2988,6 +3088,10 @@ Implemented features:
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/package.1.0.0.xml"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/stable.txt"/>
    <install name="tests/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/PEAR2/Autoload.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Autoload.php"/>
+   <install name="tests/Mocks/Internet/PEAR2/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php"/>
+   <install name="tests/Mocks/Internet/PEAR2/MultiErrors.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php"/>
+   <install name="tests/Mocks/Internet/PEAR2/MultiErrors/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/PEAR2/MultiErrors/Mocks/Internet/PEAR2/MultiErrors/Exception.php"/>
    <install name="tests/Mocks/Internet/README" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/Mocks/Internet/README"/>
    <install name="tests/Mocks/Internet/remotepackage/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/Mocks/Internet/remotepackage/channel.xml"/>
    <install name="tests/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tar"/>
@@ -3014,10 +3118,6 @@ Implemented features:
    <install name="tests/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/package.1.0.0.xml"/>
    <install name="tests/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/stable.txt"/>
    <install name="tests/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
-   <install name="tests/Mocks/Internet/src/PEAR2/Autoload.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/Mocks/Internet/src/PEAR2/Autoload.php"/>
-   <install name="tests/Mocks/Internet/src/PEAR2/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/Mocks/Internet/src/PEAR2/Exception.php"/>
-   <install name="tests/Mocks/Internet/src/PEAR2/MultiErrors.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/Mocks/Internet/src/PEAR2/MultiErrors.php"/>
-   <install name="tests/Mocks/Internet/src/PEAR2/MultiErrors/Exception.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/src/PEAR2/MultiErrors/Mocks/Internet/src/PEAR2/MultiErrors/Exception.php"/>
    <install name="tests/Mocks/SimpleChannelServer/CREDITS" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/CREDITS"/>
    <install name="tests/Mocks/SimpleChannelServer/examples/update_channel.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/examples/Mocks/SimpleChannelServer/examples/update_channel.php"/>
    <install name="tests/Mocks/SimpleChannelServer/makepackage.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/makepackage.php"/>
@@ -3358,6 +3458,8 @@ Implemented features:
    <install name="tests/ScriptFrontend/Commands/install.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.phpt"/>
    <install name="tests/ScriptFrontend/Commands/install.plugin.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.plugin.phpt"/>
    <install name="tests/ScriptFrontend/Commands/install_pear1package.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install_pear1package.phpt"/>
+   <install name="tests/ScriptFrontend/Commands/listAll.basic.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listAll.basic.phpt"/>
+   <install name="tests/ScriptFrontend/Commands/listAll.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listAll.phpt"/>
    <install name="tests/ScriptFrontend/Commands/listChannels.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listChannels.phpt"/>
    <install name="tests/ScriptFrontend/Commands/listPackages.cascade.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listPackages.cascade.phpt"/>
    <install name="tests/ScriptFrontend/Commands/listPackages.empty.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listPackages.empty.phpt"/>
@@ -3476,14 +3578,14 @@ Implemented features:
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
