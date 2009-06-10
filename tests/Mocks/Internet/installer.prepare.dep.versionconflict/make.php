@@ -94,6 +94,15 @@ $p5->files['glooby5'] =  array('role' => 'php');
 
 file_put_contents(__DIR__ . '/package.xml', $pf);
 
+$cat = PEAR2_SimpleChannelServer_Categories::create('Category 1', 'First Category')
+                                           ->create('Category 2', 'Second Category');
+
+$cat->link('P1', 'Category 1');
+$cat->link('P2', 'Category 2');
+$cat->link('P3', 'Category 1');
+$cat->link('P4', 'Category 2');
+$cat->link('P5', 'Category 1');
+
 $package1 = new PEAR2_Pyrus_Package(false);
 $xmlcontainer = new PEAR2_Pyrus_PackageFile($pf);
 $xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
