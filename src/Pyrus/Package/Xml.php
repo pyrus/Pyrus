@@ -25,10 +25,9 @@
  */
 class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
 {
-    private $_file;
     function __construct($package, PEAR2_Pyrus_Package $parent, PEAR2_Pyrus_PackageFile $info = null)
     {
-        $this->_file = $package;
+        $this->archive = $package;
         if ($info === null) {
             $info = new PEAR2_Pyrus_PackageFile($package);
         }
@@ -55,6 +54,6 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
 
     function getFilePath($file)
     {
-        return dirname($this->_file) . DIRECTORY_SEPARATOR . $file;
+        return dirname($this->archive) . DIRECTORY_SEPARATOR . $file;
     }
 }

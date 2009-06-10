@@ -25,7 +25,6 @@
  */
 class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
 {
-    private $_packagename;
     static private $_tempfiles = array();
     private $_tmpdir;
 
@@ -39,7 +38,7 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
                 'Zip extension is not available');
         }
 
-        $this->_packagename = $package;
+        $this->archive = $package;
         $zip = new ZIPArchive;
         if (true !== ($zip->open($package))) {
             throw new PEAR2_Pyrus_Package_Zip_Exception('Could not open ZIP archive ' .
@@ -100,15 +99,6 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
             self::$_tempfiles[] = $dir;
             $dir = dirname($dir);
         } while (!file_exists($dir));
-    }
-
-    function __get($var)
-    {
-        if ($var === 'archivefile') {
-            return $this->_packagename;
-        }
-
-        return parent::__get($var);
     }
 
     function getFilePath($file)

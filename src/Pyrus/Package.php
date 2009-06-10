@@ -65,11 +65,6 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
  
     function __set($var, $value)
     {
-        //This is strictly for unit-testing purposes
-        if ($var == 'archivefile') {
-            $this->_packagename = $value;
-            return;
-        }
         return $this->internal->__set($var, $value);
     }
 

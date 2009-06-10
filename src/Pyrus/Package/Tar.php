@@ -26,7 +26,6 @@
 class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
 {
     private $_fp;
-    private $_packagename;
     private $_internalFileLength;
     private $_footerLength;
     private $_tmpdir;
@@ -38,7 +37,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
      */
     function __construct($package, PEAR2_Pyrus_Package $parent)
     {
-        $this->_packagename = $package;
+        $this->archive = $package;
         $info = pathinfo($package);
         $streamfilters = stream_get_filters();
         $this->_fp = fopen($package, 'rb');
@@ -106,21 +105,13 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
 
     function getTarballPath()
     {
-        return $this->_packagename;
+        return $this->archive;
     }
 
     function copyTo($where)
     {
-        copy($this->_packagename, $where . DIRECTORY_SEPARATOR . basename($this->_packagename));
-        $this->_packagename = $where . DIRECTORY_SEPARATOR . basename($this->_packagename);
-    }
-
-    function __get($var)
-    {
-        if ($var === 'archivefile') {
-            return $this->_packagename;
-        }
-        return parent::__get($var);
+        copy($this->archive, $where . DIRECTORY_SEPARATOR . basename($this->archive));
+        $this->archive = $where . DIRECTORY_SEPARATOR . basename($this->archive);
     }
 
     function getFilePath($file)
@@ -148,7 +139,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     {
         if (strlen($rawHeader) < 512 || $rawHeader == pack("a512", "")) {
             throw new PEAR2_Pyrus_Package_Tar_Exception(
-                'Error: "' . $this->_packagename . '" has corrupted tar header');
+                'Error: "' . $this->archive . '" has corrupted tar header');
         }
 
         $header = unpack(
@@ -301,7 +292,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
             if ($amount != $this->_internalFileLength) {
                 throw new PEAR2_Pyrus_Package_Tar_Exception(
                     'Unable to fully extract ' . $header['filename'] . ' from ' .
-                    $this->_packagename);
+                    $this->archive);
             }
 
             if ($this->_footerLength) {
@@ -326,7 +317,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         fclose($fp);
         fclose($this->_fp);
         if (!$packagexml) {
-            throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->_packagename .
+            throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->archive .
                 ' does not contain a package.xml file');
         }
 

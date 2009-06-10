@@ -25,7 +25,6 @@
  */
 class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 {
-    private $_packagename;
     static private $_tempfiles = array();
     private $_tmpdir;
     private $_BCpackage = false;
@@ -46,7 +45,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
                 'Phar extension is not available');
         }
 
-        $this->_packagename = $package;
+        $this->archive = $package;
         try {
             if (Phar::isValidPharFilename($package, 1)) {
                 $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
@@ -103,27 +102,18 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
 
     function getTarballPath()
     {
-        return $this->_packagename;
+        return $this->archive;
     }
 
     function copyTo($where)
     {
-        copy($this->_packagename, $where . DIRECTORY_SEPARATOR . basename($this->_packagename));
-        $this->_packagename = $where . DIRECTORY_SEPARATOR . basename($this->_packagename);
+        copy($this->archive, $where . DIRECTORY_SEPARATOR . basename($this->archive));
+        $this->archive = $where . DIRECTORY_SEPARATOR . basename($this->archive);
     }
 
     function isNewPackage()
     {
         return !$this->_BCpackage;
-    }
-
-    function __get($var)
-    {
-        if ($var === 'archivefile') {
-            return $this->_packagename;
-        }
-
-        return parent::__get($var);
     }
 
     function getFilePath($file)
@@ -132,9 +122,9 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
         }
         
-        $phar_file = 'phar://' . str_replace('\\', '/', $this->_packagename) . '/' . $file;
+        $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' . $file;
         if (!file_exists($phar_file)) {
-            $phar_file = 'phar://' . str_replace('\\', '/', $this->_packagename) . '/' .
+            $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' .
                     $this->packagefile->info->name . '-' .
                     $this->packagefile->info->version['release'] . '/' .
                     $file;

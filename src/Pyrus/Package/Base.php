@@ -25,6 +25,7 @@
  */
 abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
 {
+    protected $archive;
     protected $packagefile;
     /**
      * The original source of this package
@@ -208,11 +209,17 @@ abstract class PEAR2_Pyrus_Package_Base implements PEAR2_Pyrus_IPackage
 
     function __get($var)
     {
+        if ($var === 'archivefile') {
+            return $this->archive;
+        }
         return $this->packagefile->info->$var;
     }
 
     function __set($var, $value)
     {
+        if ($var === 'archivefile') {
+            return $this->archive = $value;
+        }
         return $this->packagefile->info->$var = $value;
     }
 

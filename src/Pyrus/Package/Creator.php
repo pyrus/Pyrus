@@ -48,7 +48,7 @@ class PEAR2_Pyrus_Package_Creator
             if (dirname($pear2ExceptionPath) == dirname($pear2ExceptionPath . 'test')) {
                 $pear2ExceptionPath .= '/';
             }
-            if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
+            if (!($pear2Exception = fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
                 throw new PEAR2_Pyrus_Package_Exception('Cannot locate PEAR2/Exception.php' .
                     ' in ' . $pear2ExceptionPath);
             }
