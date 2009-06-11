@@ -145,8 +145,8 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                     ', autoload path ' . $info['autoloadpath'] . ' does not exist');
             }
             $autoloader = function($class) use ($fullpath) {
-                if (file_exists($fullpath . '/' . str_replace('_', '/', $class) . '.php')) {
-                    include $fullpath . '/' . str_replace('_', '/', $class) . '.php';
+                if (file_exists($fullpath . '/' . str_replace(array('\\', '_'), array('/', '/'), $class) . '.php')) {
+                    include $fullpath . '/' . str_replace(array('\\', '_'), array('/', '/'), $class) . '.php';
                 }
             };
             spl_autoload_register($autoloader);
