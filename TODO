@@ -1,11 +1,38 @@
 TODO:
 
+If a path is explicit to find Config, don't cascade include_path.
+
+Implement --optionaldeps
+
+Implement displaying of optional deps and dep groups not installed if --optionaldeps isn't specified,
+ by aggregating all of them and displaying all at once prior to install
+ 
+Implement custom validation support for role files
+
+Implement deploy as a creation of a local copy of the remote repository that can be rsync/copied as the user
+sees fit
+
+Implement Registry transactions, either based on database transactions (sqlite3) or on AtomicFileTransaction
+and locking (pear1, xml)
+
+Re-factor upgrade and install so the sequence is:
+ - begin registry transaction
+ - uninstall old packages [upgrade only]
+ - check for file conflicts in new packages
+ - begin file transaction
+ - install files for new packages
+ - install packages in registry
+ - commit file transaction
+ - commit registry transaction
+ - remove file backups
+ This will eliminate the need for subpackage deps completely and make it even safer to do an install
+
  [X] Implement array access for registry so you can use isset($reg['pear.php.net/Validate']), or
      $info = $reg['pear.php.net/Validate'];
 
  [X] implement channel-specific config vars like user/password, add ability to do this in custom config vars
 
-Declare dependencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
+ [X] Declare dependencies on PEAR2_HTTP_Request, PEAR2_Autoload, PEAR2_Exception - add to package.xml
 
  [X] implement --packagingroot option
 
