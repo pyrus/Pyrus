@@ -2,11 +2,16 @@
 /**
  * This file generates the pyrus.phar file and PEAR2 package for Pyrus.
  *
- * This whole script can be replaced with 3 steps:
+ * **THIS SCRIPT IS OBSOLETE, USE THE STEPS BELOW INSTEAD**
+ *
+ * This whole script can be replaced with 2 steps:
  * php pyrus.phar install -pf ../Pyrus_Developer/package.xml
- * php pyrus.phar make PEAR2_Pyrus
- * php -dphar.readonly=0 pyrus.phar package -s stub.php --phar -e extrasetup.php
+ * php -dphar.readonly=0 pyrus.phar make --package=phar
  */
+echo "Tip: Don't use this any more.  Instead, use PEAR2_Pyrus_Developer like so:
+php pyrus.phar install -pf ../Pyrus_Developer/package.xml
+php -dphar.readonly=0 pyrus.phar make --package=phar
+mv PEAR2_Pyrus-2.0.0a1.phar pyrus.phar\n";
 error_reporting(E_ALL);
 ini_set('display_errors',true);
 require_once dirname(__FILE__).'/../autoload.php';
