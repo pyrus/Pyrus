@@ -113,7 +113,8 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
     function mapCommand($commandinfo)
     {
         $command = static::$commandParser->addCommand($commandinfo['name'], array(
-            'description' => $commandinfo['summary']
+            'description' => $commandinfo['summary'],
+            'aliases' => array($commandinfo['shortcut']),
         ));
         if (isset($commandinfo['options']['option'])) {
             $options = $commandinfo['options']['option'];

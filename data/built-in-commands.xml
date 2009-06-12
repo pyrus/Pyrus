@@ -228,7 +228,7 @@ In the source directory of the package.</doc>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>listUpgrades</function>
   <summary>List packages with upgrades available</summary>
-  <shortcut>in</shortcut>
+  <shortcut>lu</shortcut>
   <options/>
   <arguments/>
   <doc>List packages with upgrades available.
@@ -430,7 +430,7 @@ based on the answers provided.</doc>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>configShow</function>
   <summary>Show all configuration values</summary>
-  <shortcut>r</shortcut>
+  <shortcut>cs</shortcut>
   <options/>
   <arguments/>
   <doc>List all configuration values.
@@ -497,7 +497,7 @@ This is a convenience alias to the set command with my_pear_path.</doc>
   <class>PEAR2_Pyrus_ScriptFrontend_Commands</class>
   <function>help</function>
   <summary>Get help on a particular command, or all commands</summary>
-  <shortcut>e</shortcut>
+  <shortcut>h</shortcut>
   <options/>
   <arguments>
    <argument>
