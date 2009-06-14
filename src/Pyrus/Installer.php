@@ -369,7 +369,16 @@ class PEAR2_Pyrus_Installer
             }
             // topologically sort packages and install them via iterating over the graph
             try {
+                $reg = PEAR2_Pyrus_Config::current()->registry;
                 PEAR2_Pyrus_AtomicFileTransaction::begin();
+                if (isset(PEAR2_Pyrus::$options['upgrade'])) {
+                    foreach ($graph as $package) {
+                        if ($reg->exists($package->name, $package->channel)) {
+                            $reg->uninstall($package->name, $package->channel);
+                        }
+                    }
+                }
+                static::detectDownloadConflicts($graph, $reg);
                 foreach ($graph as $package) {
                     if (isset(static::$installedPackages[$package->channel . '/' . $package->name])) {
                         continue;
@@ -383,7 +392,6 @@ class PEAR2_Pyrus_Installer
                 throw new PEAR2_Pyrus_Installer_Exception('Installation of ' . $package->channel .
                                                           '/' . $package->name . ' failed', $e);
             }
-            $reg = PEAR2_Pyrus_Config::current()->registry;
             foreach (static::$installedPackages as $package) {
                 try {
                     $previous = $reg->toPackageFile($package->name, $package->channel, true);
@@ -404,6 +412,59 @@ class PEAR2_Pyrus_Installer
         } catch (Exception $e) {
             static::rollback();
             throw $e;
+        }
+    }
+
+    static protected function detectDownloadConflicts($graph, $reg)
+    {
+        // check conflicts with packages already installed
+        $conflicts = array();
+        $checked = array();
+        foreach ($graph as $package) {
+            if (isset($checked[$package->channel . '/' . $package->name])) {
+                continue;
+            }
+            $checked[$package->channel . '/' . $package->name] = 1;
+            $conflict = $reg->detectFileConflicts($package);
+            if (!count($conflict)) {
+                continue;
+            }
+            $conflicts[$package->channel . '/' . $package->name] = $conflict;
+        }
+        // check conflicts with other downloaded packages
+        $filelist = array();
+        $checked = array();
+        $dupes = array();
+        foreach ($graph as $package) {
+            if (isset($checked[$package->channel . '/' . $package->name])) {
+                continue;
+            }
+            $checked[$package->channel . '/' . $package->name] = 1;
+            foreach ($package->installcontents as $path => $info) {
+                if (isset($filelist[$info->role][$path])) {
+                    $dupes[$path] = $info->role;
+                }
+                $filelist[$info->role][$path][] = $package->channel . '/' . $package->name;
+            }
+        }
+        foreach ($dupes as $path => $role) {
+            $conflicted = array_shift($filelist[$role][$path]);
+            foreach ($filelist[$role][$path] as $package) {
+                $conflicts[$conflicted][] = array($path => $package);
+            }
+        }
+        if (count($conflicts)) {
+            $message = "File conflicts detected:\n";
+            foreach ($conflicts as $package => $files) {
+                $message .= " Package $package:\n";
+                foreach ($files as $info) {
+                    foreach ($info as $path => $conflict) {
+                        $message .= '  ' . $path . ' (conflicts with package ' . $conflict . ")\n";
+                    }
+                }
+            }
+            PEAR2_Pyrus_AtomicFileTransaction::rollback();
+            throw new PEAR2_Pyrus_Installer_Exception($message);
         }
     }
 
