@@ -36,6 +36,8 @@
 class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
 {
     protected $readonly;
+    protected $atomic;
+    protected $intransaction = false;
     private $_path;
 
     function __construct($path, $readonly = false)
@@ -57,12 +59,20 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         return $path . DIRECTORY_SEPARATOR . $version . '-package.xml';
     }
 
+    private function _getPath()
+    {
+        if ($this->intransaction) {
+            return $this->atomic->getJournalPath();
+        } else {
+            return $this->_path . DIRECTORY_SEPARATOR .
+                '.xmlregistry';
+        }
+    }
+
     private function _namePath($channel, $package)
     {
-        return $this->_path . DIRECTORY_SEPARATOR .
-            '.xmlregistry' . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR .
-            str_replace('/', '!', $channel) .
-            DIRECTORY_SEPARATOR . $package;
+        return $this->_getPath() . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR .
+            str_replace('/', '!', $channel) . DIRECTORY_SEPARATOR . $package;
     }
 
     /**
@@ -344,5 +354,31 @@ class PEAR2_Pyrus_Registry_Xml extends PEAR2_Pyrus_Registry_Base
         } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot remove XML registry: ' . $e->getMessage(), $e);
         }
+    }
+
+    function begin()
+    {
+        if ($this->intransaction) {
+            return;
+        }
+        if (!PEAR2_Pyrus_AtomicFileTransaction::inTransaction()) {
+            throw new PEAR2_Pyrus_Registry_Exception(
+                    'internal error: file transaction must be started before registry transaction');
+        }
+        $this->atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(
+                                            $this->_path. DIRECTORY_SEPARATOR . '.xmlregistry');
+        $this->intransaction = true;
+    }
+
+    function rollback()
+    {
+        // do nothing - the file transaction rollback will also roll back this transaction
+        $this->intransaction = false;
+    }
+
+    function commit()
+    {
+        // do nothing - the file transaction commit will also commit this transaction
+        $this->intransaction = false;
     }
 }

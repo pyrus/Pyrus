@@ -222,44 +222,12 @@ class PEAR2_Pyrus_Installer
     {
         if (static::$inTransaction) {
             static::$inTransaction = false;
-            $reg = PEAR2_Pyrus_Config::current()->registry;
-            $err = new PEAR2_MultiErrors;
-            foreach (static::$registeredPackages as $package) {
-                try {
-                    if (!$reg->exists($package[0]->name, $package[0]->channel)) {
-                        continue;
-                    }
-                    $reg->uninstall($package[0]->name, $package[0]->channel);
-                    if ($package[1]) {
-                        $reg->install($package[1]);
-                    }
-                } catch (Exception $e) {
-                    $err->E_ERROR[] = $e;
-                }
-            }
-            foreach (static::$removedPackages as $package) {
-                if (!$reg->exists($package->name, $package->channel)) {
-                    try {
-                        $reg->uninstall($package->name, $package->channel);
-                    } catch (Exception $e) {
-                        $err->E_ERROR[] = $e;
-                    }
-                }
-                try {
-                    $reg->install($package->getPackageFile()->info);
-                } catch (Exception $e) {
-                    $err->E_ERROR[] = $e;
-                }
-            }
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$registeredPackages = array();
             static::$removedPackages = array();
             if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
-            }
-            if (count($err)) {
-                throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
         }
     }
@@ -368,9 +336,10 @@ class PEAR2_Pyrus_Installer
                 $package->makeConnections($graph, static::$installPackages);
             }
             // topologically sort packages and install them via iterating over the graph
+            $reg = PEAR2_Pyrus_Config::current()->registry;
             try {
-                $reg = PEAR2_Pyrus_Config::current()->registry;
                 PEAR2_Pyrus_AtomicFileTransaction::begin();
+                $reg->begin();
                 if (isset(PEAR2_Pyrus::$options['upgrade'])) {
                     foreach ($graph as $package) {
                         if ($reg->exists($package->name, $package->channel)) {
@@ -386,22 +355,23 @@ class PEAR2_Pyrus_Installer
                     $installer->install($package);
                     static::$installedPackages[$package->channel . '/' . $package->name] = $package;
                 }
+                foreach (static::$installedPackages as $package) {
+                    try {
+                        $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                    } catch (\Exception $e) {
+                        $previous = null;
+                    }
+                    $reg->install($package->getPackageFile()->info);
+                    static::$registeredPackages[] = array($package, $previous);
+                }
+                static::$installPackages = array();
                 PEAR2_Pyrus_AtomicFileTransaction::commit();
+                $reg->commit();
             } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
                 PEAR2_Pyrus_AtomicFileTransaction::rollback();
-                throw new PEAR2_Pyrus_Installer_Exception('Installation of ' . $package->channel .
-                                                          '/' . $package->name . ' failed', $e);
+                $reg->rollback();
+                throw new PEAR2_Pyrus_Installer_Exception('Installation failed', $e);
             }
-            foreach (static::$installedPackages as $package) {
-                try {
-                    $previous = $reg->toPackageFile($package->name, $package->channel, true);
-                } catch (\Exception $e) {
-                    $previous = null;
-                }
-                $reg->install($package->getPackageFile()->info);
-                static::$registeredPackages[] = array($package, $previous);
-            }
-            static::$installPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
             // success
             PEAR2_Pyrus_AtomicFileTransaction::removeBackups();

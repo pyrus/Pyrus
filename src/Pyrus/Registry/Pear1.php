@@ -29,6 +29,8 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
     static public $dependencyDBClass = 'PEAR2_Pyrus_Registry_Pear1_DependencyDB';
     protected $_path;
     protected $filemap;
+    protected $intransaction;
+    protected $atomic;
 
     function __construct($path)
     {
@@ -40,6 +42,14 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         }
         $this->_path = $path;
         $this->filemap = $this->_path . DIRECTORY_SEPARATOR . '.filemap';
+    }
+
+    protected function filemap()
+    {
+        if ($this->intransaction) {
+            return $this->atomic->getJournalPath() . DIRECTORY_SEPARATOR . '.filemap';
+        }
+        return $this->_path . DIRECTORY_SEPARATOR . '.filemap';
     }
 
     protected function rebuildFileMap()
@@ -86,10 +96,10 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             }
         }
 
-        if (!@is_dir(dirname($this->filemap))) {
-            mkdir(dirname($this->filemap), 0755, true);
+        if (!@is_dir(dirname($this->filemap()))) {
+            mkdir(dirname($this->filemap()), 0755, true);
         }
-        $fp = fopen($this->filemap, 'wb');
+        $fp = fopen($this->filemap(), 'wb');
         if (!$fp) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot write out Pear1 filemap');
         }
@@ -100,11 +110,11 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 
     protected function readFileMap()
     {
-        if (!file_exists($this->filemap)) {
+        if (!file_exists($this->filemap())) {
             return array();
         }
 
-        $fp = @fopen($this->filemap, 'r');
+        $fp = @fopen($this->filemap(), 'r');
         if (!$fp) {
             throw new PEAR2_Pyrus_Registry_Exception('Could not open Pear1 registry filemap "' . $this->filemap . '"');
         }
@@ -112,7 +122,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         clearstatcache();
         $rt = get_magic_quotes_runtime();
         set_magic_quotes_runtime(0);
-        $fsize = filesize($this->filemap);
+        $fsize = filesize($this->filemap());
         $data = stream_get_contents($fp);
         fclose($fp);
         set_magic_quotes_runtime($rt);
@@ -132,6 +142,15 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         return $path . '.reg';
     }
 
+    private function _getPath()
+    {
+        if ($this->intransaction) {
+            return $this->atomic->getJournalPath();
+        } else {
+            return $this->_path;
+        }
+    }
+
     private function _namePath($channel, $package)
     {
         if ($channel == 'pear.php.net') {
@@ -140,7 +159,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
             $channel = '.channel.' . strtolower($channel) . DIRECTORY_SEPARATOR;
         }
 
-        return $this->_path . DIRECTORY_SEPARATOR .
+        return $this->_getPath() . DIRECTORY_SEPARATOR .
             '.registry' . DIRECTORY_SEPARATOR . $channel . strtolower($package);
     }
 
@@ -292,7 +311,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         file_put_contents($packagefile, serialize($arr));
         $this->rebuildFileMap();
         $classname = self::$dependencyDBClass;
-        $dep = new $classname($this->_path);
+        $dep = new $classname($this->_getPath());
         $dep->installPackage($info);
     }
 
@@ -301,7 +320,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         @unlink($packagefile);
         $classname = self::$dependencyDBClass;
-        $dep = new $classname($this->_path);
+        $dep = new $classname($this->_getPath());
         $dep->uninstallPackage($channel, $package);
         $this->rebuildFileMap();
     }
@@ -480,7 +499,7 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
     public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
         $class = self::$dependencyDBClass;
-        $dep = new $class($this->_path);
+        $dep = new $class($this->_getPath());
         $ret = $dep->getDependentPackages($package);
         foreach ($ret as $i => $package) {
             $ret[$i] = $this->package[$package['channel'] . '/' . $package['package']];
@@ -583,5 +602,31 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
         if (count($errs->E_ERROR)) {
             throw new PEAR2_Pyrus_Registry_Exception('Unable to remove Pear1 registry', $errs);
         }
+    }
+
+    function begin()
+    {
+        if ($this->intransaction) {
+            return;
+        }
+        if (!PEAR2_Pyrus_AtomicFileTransaction::inTransaction()) {
+            throw new PEAR2_Pyrus_Registry_Exception(
+                    'internal error: file transaction must be started before registry transaction');
+        }
+        $this->atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(
+                                            $this->_path);
+        $this->intransaction = true;
+    }
+
+    function rollback()
+    {
+        // do nothing - the file transaction rollback will also roll back this transaction
+        $this->intransaction = false;
+    }
+
+    function commit()
+    {
+        // also do nothing - the file transaction commit will also commit this transaction
+        $this->intransaction = false;
     }
 }

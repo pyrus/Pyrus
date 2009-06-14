@@ -370,6 +370,11 @@ class PEAR2_Pyrus_AtomicFileTransaction
         }
     }
 
+    static function inTransaction()
+    {
+        return static::$intransaction;
+    }
+
     static function begin()
     {
         if (static::$intransaction) {
@@ -409,6 +414,7 @@ class PEAR2_Pyrus_AtomicFileTransaction
 
     function beginTransaction()
     {
+        $this->committed = false;
         if (!file_exists($this->journalpath)) {
 create_journal:
             @mkdir($this->journalpath, 0755, true);
@@ -532,7 +538,11 @@ create_journal:
         if (!static::$intransaction) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception('Cannot commit - not in a transaction');
         }
-        if (file_exists($this->backuppath) || (file_exists($this->rolepath) && !rename($this->rolepath, $this->backuppath))) {
+        if ($this->committed) {
+            return; // this is here for registry transactions
+        }
+        if (file_exists($this->backuppath) || (file_exists($this->rolepath)
+                                               && !rename($this->rolepath, $this->backuppath))) {
             throw new PEAR2_Pyrus_AtomicFileTransaction_Exception(
                 'CRITICAL - unable to complete transaction, rename of actual to backup path failed');
         }
@@ -544,5 +554,10 @@ create_journal:
                 'CRITICAL - unable to complete transaction, rename of journal to actual path failed');
         }
         $this->committed = true;
+    }
+
+    function getJournalPath()
+    {
+        return $this->journalpath;
     }
 }

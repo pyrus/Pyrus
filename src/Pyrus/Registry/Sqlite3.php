@@ -133,8 +133,6 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         try {
-            // this ensures upgrade will work
-            static::$databases[$this->_path]->exec('BEGIN');
             $this->uninstall($info->name, $info->channel);
         } catch (Exception $e) {
             // ignore errors
@@ -145,7 +143,6 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $this->_install($info, $replace);
         } catch (\Exception $e) {
             static::$databases[$this->_path]->enableExceptions(false);
-            @static::$databases[$this->_path]->exec('ROLLBACK');
             throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
                 $info->channel . '/' . $info->name . ' could not be installed in registry: ' .
                 $e->getMessage(), $e);
@@ -725,8 +722,6 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             }
         }
         $stmt->close();
-
-        static::$databases[$this->_path]->exec('COMMIT');
     }
 
     function uninstall($package, $channel)
@@ -1384,5 +1379,20 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         if (!@unlink($path)) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot remove Sqlite3 registry: Unable to remove SQLite database');
         }
+    }
+
+    function begin()
+    {
+        static::$databases[$this->_path]->exec('BEGIN');
+    }
+
+    function rollback()
+    {
+        static::$databases[$this->_path]->exec('ROLLBACK');
+    }
+
+    function commit()
+    {
+        static::$databases[$this->_path]->exec('COMMIT');
     }
 }

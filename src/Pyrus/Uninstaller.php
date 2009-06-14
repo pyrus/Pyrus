@@ -107,26 +107,11 @@ class PEAR2_Pyrus_Uninstaller
     {
         if (self::$inTransaction) {
             self::$inTransaction = false;
-            $reg = PEAR2_Pyrus_Config::current()->registry;
-            $err = new PEAR2_MultiErrors;
-            foreach (self::$registeredPackages as $package) {
-                try {
-                    $reg->uninstall($package[0]->name, $package[0]->channel);
-                    if ($package[1]) {
-                        $reg->install($package[1]);
-                    }
-                } catch (Exception $e) {
-                    $err->E_ERROR[] = $e;
-                }
-            }
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$registeredPackages = array();
             if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
                 PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
-            }
-            if (count($err)) {
-                throw new PEAR2_Pyrus_Installer_Exception('Could not successfully rollback', $err);
             }
         }
     }
@@ -139,10 +124,11 @@ class PEAR2_Pyrus_Uninstaller
         if (!self::$inTransaction) {
             return false;
         }
+        $installer = new PEAR2_Pyrus_Uninstaller;
+        // validate dependencies
+        $errs = new PEAR2_MultiErrors;
+        $reg = PEAR2_Pyrus_Config::current()->registry;
         try {
-            $installer = new PEAR2_Pyrus_Uninstaller;
-            // validate dependencies
-            $errs = new PEAR2_MultiErrors;
             foreach (self::$uninstallPackages as $package) {
                 $package->validateUninstallDependencies(self::$uninstallPackages, $errs);
             }
@@ -156,28 +142,39 @@ class PEAR2_Pyrus_Uninstaller
                 $package->makeUninstallConnections($graph, self::$uninstallPackages);
             }
             // topologically sort packages and install them via iterating over the graph
-            PEAR2_Pyrus_AtomicFileTransaction::begin();
             $actual = array();
             foreach ($graph as $package) {
                 $actual[] = $package;
             }
-            $reg = PEAR2_Pyrus_Config::current()->registry;
             // easy reverse topological sort
             array_reverse($actual);
-            foreach ($actual as $package) {
-                $installer->uninstall($package, $reg);
-                self::$uninstalledPackages[] = $package;
+
+            PEAR2_Pyrus_AtomicFileTransaction::begin();
+            $reg->begin();
+            try {
+                foreach ($actual as $package) {
+                    $installer->uninstall($package, $reg);
+                    self::$uninstalledPackages[] = $package;
+                }
+                $dirtrees = array();
+                foreach (self::$uninstalledPackages as $package) {
+                    $dirtrees[] = $reg->info($package->name, $package->channel, 'dirtree');
+                    $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                    self::$registeredPackages[] = array($package, $previous);
+                    $reg->uninstall($package->name, $package->channel);
+                }
+
+                PEAR2_Pyrus_AtomicFileTransaction::rmEmptyDirs($dirtrees);
+                PEAR2_Pyrus_AtomicFileTransaction::commit();
+                $reg->commit();
+                PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
+            } catch (\Exception $e) {
+                if (PEAR2_Pyrus_AtomicFileTransaction::inTransaction()) {
+                    PEAR2_Pyrus_AtomicFileTransaction::rollback();
+                }
+                $reg->rollback();
+                throw $e;
             }
-            $dirtrees = array();
-            foreach (self::$uninstalledPackages as $package) {
-                $dirtrees[] = $reg->info($package->name, $package->channel, 'dirtree');
-                $previous = $reg->toPackageFile($package->name, $package->channel, true);
-                self::$registeredPackages[] = array($package, $previous);
-                $reg->uninstall($package->name, $package->channel);
-            }
-            PEAR2_Pyrus_AtomicFileTransaction::rmEmptyDirs($dirtrees);
-            PEAR2_Pyrus_AtomicFileTransaction::commit();
-            PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
             self::$uninstallPackages = array();
             PEAR2_Pyrus_Config::current()->saveConfig();
             if (isset(PEAR2_Pyrus::$options['install-plugins'])) {

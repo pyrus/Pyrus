@@ -302,4 +302,25 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
             $class::removeRegistry($path);
         }
     }
+
+    function begin()
+    {
+        foreach ($this->registries as $registry) {
+            $registry->begin();
+        }
+    }
+
+    function rollback()
+    {
+        foreach ($this->registries as $registry) {
+            $registry->rollback();
+        }
+    }
+
+    function commit()
+    {
+        foreach ($this->registries as $registry) {
+            $registry->commit();
+        }
+    }
 }

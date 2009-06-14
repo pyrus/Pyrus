@@ -58,4 +58,7 @@ interface PEAR2_Pyrus_IRegistry
      * Completely remove all traces of a registry
      */
     static public function removeRegistry($path);
+    public function begin();
+    public function rollback();
+    public function commit();
 }
