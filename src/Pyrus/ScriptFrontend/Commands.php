@@ -378,6 +378,9 @@ previous:
         if (isset($options['packagingroot']) && $options['packagingroot']) {
             PEAR2_Pyrus::$options['packagingroot'] = $options['packagingroot'];
         }
+        if ($options['optionaldeps']) {
+            PEAR2_Pyrus::$options['optionaldeps'] = $options['optionaldeps'];
+        }
         PEAR2_Pyrus_Installer::begin();
         try {
             $packages = array();
@@ -391,6 +394,13 @@ previous:
                 if ($package->type === 'extsrc' || $package->type === 'zendextsrc') {
                     echo " ==> To build this PECL package, use the build command\n";
                 }
+            }
+            $optionals = PEAR2_Pyrus_Installer::getIgnoredOptionalDeps();
+            if (count($optionals)) {
+                echo "Optional dependencies that will not be installed, use --optionaldeps:\n";
+            }
+            foreach ($optionals as $dep => $packages) {
+                echo $dep, ' depended on by ', implode(', ', array_keys($packages)), "\n";
             }
         } catch (Exception $e) {
             echo $e;

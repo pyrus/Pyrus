@@ -44,6 +44,15 @@ class PEAR2_Pyrus_Installer
     protected static $installPackages = array();
 
     /**
+     * Optional dependencies that won't be installed
+     *
+     * Informational list of optional depenndencies that
+     * will not be installed without the --optionaldeps flag
+     * @var array
+     */
+    protected static $optionalDeps = array();
+
+    /**
      * Packages that were installed
      *
      * This list is used when {@link rollback()} is called to determine
@@ -123,6 +132,9 @@ class PEAR2_Pyrus_Installer
                 }
             }
             static::$installPackages[$package->channel . '/' . $package->name] = $package;
+            if (isset(static::$optionalDeps[$package->channel . '/' . $package->name])) {
+                unset(static::$optionalDeps[$package->channel . '/' . $package->name]);
+            }
             return;
         }
         $clone = static::$installPackages[$package->channel . '/' . $package->name];
@@ -179,17 +191,28 @@ class PEAR2_Pyrus_Installer
                 }
             }
         }
-        if (!isset(PEAR2_Pyrus::$options['optionaldeps'])) {
-            return;
-        }
         foreach (array('package', 'subpackage') as $p) {
             foreach ($package->dependencies['optional']->$p as $dep) {
                 if ($dep->conflicts) {
                     continue;
                 }
+                if (!isset(PEAR2_Pyrus::$options['optionaldeps']) && !isset(static::$installPackages
+                                                                            [$dep->channel . '/' . $dep->name])) {
+                    if (!isset(static::$optionalDeps[$dep->channel . '/' . $dep->name])) {
+                        static::$optionalDeps[$dep->channel . '/' . $dep->name] = array();
+                    }
+                    static::$optionalDeps[$dep->channel . '/' . $dep->name][$package->channel . '/' .$package->name]
+                        = 1;
+                    continue;
+                }
                 PEAR2_Pyrus_Package_Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
             }
         }
+    }
+
+    static function getIgnoredOptionalDeps()
+    {
+        return static::$optionalDeps;
     }
 
     /**

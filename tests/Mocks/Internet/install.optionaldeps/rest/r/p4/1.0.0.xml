@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/p4">P4</p>
+ <c>pear2.php.net</c>
+ <v>1.0.0</v>
+ <st>stable</st>
+ <l>New BSD License</l>
+ <m>cellog</m>
+ <s>testing</s>
+ <d>hi description</d>
+ <da>2009-06-12 22:44:01</da>
+ <n>my notes</n>
+ <f>1218</f>
+ <g>http://pear2.php.net/get/P4-1.0.0</g>
+ <x xlink:href="package.1.0.0.xml"/>
+</r>

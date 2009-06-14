@@ -108,6 +108,12 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
 
     function __set($group, $value)
     {
+        $this->__call($group, array($value));
+    }
+
+    function __call($group, $values)
+    {
+        $value = isset($values[0]) ? $values[0] : null;
         if (isset($this->index)) {
             if ($group == 'hint') {
                 if ($value === null) {
@@ -116,7 +122,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                     }
                     unset($this->info['attribs']['hint']);
                     $this->save();
-                    return;
+                    return $this;
                 }
                 if (!is_string($value)) {
                     throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('hint must be a string, was ' . gettype($value));
@@ -126,7 +132,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                 }
                 $this->info['attribs']['hint'] = $value;
                 $this->save();
-                return;
+                return $this;
             }
             $info = array();
             switch ($group) {
@@ -136,7 +142,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                     if ($value === null) {
                         unset($this->info[$group]);
                         $this->save();
-                        return;
+                        return $this;
                     }
                     if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Package)) {
                         throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
@@ -153,6 +159,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                                     $group);
             }
         }
+        return $this;
     }
 
     function __isset($group)

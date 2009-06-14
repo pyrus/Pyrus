@@ -2,10 +2,10 @@ TODO:
 
 If a path is explicit to find Config, don't cascade include_path.
 
-Implement --optionaldeps
+ [X] Implement --optionaldeps
 
-Implement displaying of optional deps and dep groups not installed if --optionaldeps isn't specified,
- by aggregating all of them and displaying all at once prior to install
+ [X] Implement displaying of optional deps and dep groups not installed if --optionaldeps isn't specified,
+      by aggregating all of them and displaying all at once prior to install
  
 Implement custom validation support for role files
 
