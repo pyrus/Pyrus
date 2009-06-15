@@ -29,8 +29,7 @@ class tc extends PEAR2_Pyrus_Config
             self::$paths = array($GLOBALS['testpath'], $GLOBALS['testpath'] . PATH_SEPARATOR .
                              $GLOBALS['testpath'] . DIRECTORY_SEPARATOR . 'hi/there', );
         } else {
-            self::$paths = array($GLOBALS['testpath'] . PATH_SEPARATOR .
-                             $GLOBALS['testpath'] . DIRECTORY_SEPARATOR . 'hi/there', $GLOBALS['testpath'], );
+            self::$paths = array($GLOBALS['testpath'], $GLOBALS['testpath'], );
         }
         return parent::__construct($pearDirectory, $userfile);
     }

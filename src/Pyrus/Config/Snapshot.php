@@ -55,8 +55,8 @@ class PEAR2_Pyrus_Config_Snapshot extends PEAR2_Pyrus_Config
         if (!$config) {
             $config = PEAR2_Pyrus_Config::current();
         }
-        $this->loadConfigFile($config->path, $snapshot);
-        $this->pearDir = $config->path;
+        $this->loadConfigFile($config->location, $snapshot);
+        $this->pearDir = $config->location;
     }
 
     /**

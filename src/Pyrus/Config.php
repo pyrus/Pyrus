@@ -45,11 +45,18 @@
 class PEAR2_Pyrus_Config
 {
     /**
-     * location of PEAR2 installation
+     * location of primary PEAR2 installation
      *
      * @var string
      */
     protected $pearDir;
+
+    /**
+     * locations of all PEAR installations separated by PATH_SEPARATOR
+     *
+     * @var string
+     */
+    protected $pearPaths;
 
     /**
      * location of user-specific configuration file
@@ -385,14 +392,14 @@ class PEAR2_Pyrus_Config
 
         $this->loadUserSettings($pearDirectory, $userfile);
         $pearDirectory = $this->setupCascadingRegistries($pearDirectory);
-        if ($pearDirectory) {
-            $this->loadConfigFile($pearDirectory);
+        $this->loadConfigFile($pearDirectory);
+        $this->pearDir = $this->pearPaths = $pearDirectory;
+        if (strpos($pearDirectory, PATH_SEPARATOR)) {
+            $this->pearDir = explode(PATH_SEPARATOR, $this->pearDir);
+            $this->pearDir = $this->pearDir[0];
         }
-        self::$configs[$pearDirectory] = $this;
-        $this->pearDir = $pearDirectory;
 
         // Always set the current config to the most recently created one.
-        self::$current = $this;
         $this->hasPackagingRoot = isset(PEAR2_Pyrus::$options['packagingroot']);
         self::$initializing = false;
     }
@@ -416,22 +423,45 @@ class PEAR2_Pyrus_Config
      */
     static public function singleton($pearDirectory = false, $userfile = false)
     {
-        if ($pearDirectory && file_exists($pearDirectory)) {
-            $pearDirectory = realpath($pearDirectory);
+        if ($pearDirectory) {
+            if (file_exists($pearDirectory)) {
+                $pearDirectory = realpath($pearDirectory);
+            }
+            if (self::_OKPackagingRoot($pearDirectory)) {
+                self::$current = self::$configs[$pearDirectory];
+                return self::$configs[$pearDirectory];
+            }
+            $config = new static($pearDirectory, $userfile);
+        } else {
+            $config = new static(false, $userfile);
         }
-        if (isset(self::$configs[$pearDirectory])) {
-            if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
-                if (self::$configs[$pearDirectory]->hasPackagingRoot()) {
-                    return self::$configs[$pearDirectory];
-                }
-            } else {
-                if (!self::$configs[$pearDirectory]->hasPackagingRoot()) {
-                    return self::$configs[$pearDirectory];
-                }
+        // now that we have a definitive path, check to see if
+        // it exists
+        if (self::_OKPackagingRoot($config->path)) {
+            self::$current = self::$configs[$config->path];
+            return self::$configs[$config->path];
+        }
+        $pearDirectory = $config->path;
+        self::$configs[$pearDirectory] = $config;
+        self::$current = $config;
+        return $config;
+    }
+
+    private static function _OKPackagingRoot($path)
+    {
+        if (!isset(self::$configs[$path])) {
+            return false;
+        }
+        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            if (self::$configs[$path]->hasPackagingRoot()) {
+                return true;
+            }
+        } else {
+            if (!self::$configs[$path]->hasPackagingRoot()) {
+                return true;
             }
         }
-        self::$configs[$pearDirectory] = new static($pearDirectory, $userfile);
-        return self::$configs[$pearDirectory];
+        return false;
     }
 
     /**
@@ -493,7 +523,6 @@ class PEAR2_Pyrus_Config
                 }
             }
         }
-        return $paths[0];
     }
 
     /**
@@ -513,7 +542,7 @@ class PEAR2_Pyrus_Config
      */
     function resetForPackagingRoot()
     {
-        $this->setCascadingRegistries($this->pearDir);
+        $this->setCascadingRegistries($this->pearPaths);
     }
 
     /**
@@ -727,20 +756,18 @@ class PEAR2_Pyrus_Config
         if (!$this->my_pear_path) {
             if (!$pearDirectory) {
                 $pearDirectory = getcwd();
+                $this->my_pear_path = $pearDirectory = $this->cascadePath($pearDirectory);
+            } else {
+                $this->my_pear_path = $pearDirectory;
             }
-            $this->my_pear_path = $this->cascadePath($pearDirectory);
             PEAR2_Pyrus_Log::log(5, 'Assuming my_pear_path is ' . $this->my_pear_path);
-            $pearDirectory = $this->setCascadingRegistries($this->my_pear_path);
         } else {
             if (!$pearDirectory) {
-                $pearDirectory = $this->setCascadingRegistries((string) $this->my_pear_path);
-            } else {
-                // ensure that $pearDirectory is a part of this cascading directory path
-                $pearDirectory = $this->setCascadingRegistries((string)$pearDirectory .
-                        PATH_SEPARATOR . $this->my_pear_path);
+                $pearDirectory = $this->my_pear_path;
             }
         }
 
+        $this->setCascadingRegistries($pearDirectory);
         return $pearDirectory;
     }
 
@@ -765,6 +792,10 @@ class PEAR2_Pyrus_Config
      */
     protected function loadConfigFile($pearDirectory)
     {
+        if (strpos($pearDirectory, PATH_SEPARATOR)) {
+            $pearDirectory = explode(PATH_SEPARATOR, $pearDirectory);
+            $pearDirectory = $pearDirectory[0];
+        }
         if (isset(self::$configs[$pearDirectory]) ||
               !file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
             PEAR2_Pyrus_Log::log(5, 'Configuration not found for ' . $pearDirectory .
@@ -1144,6 +1175,14 @@ return_default_value:
             return self::$userConfigs[$this->userFile][$key];
         }
 
+        if ($key == 'path') {
+            return $this->pearPaths;
+        }
+
+        if ($key == 'location') {
+            return $this->pearDir;
+        }
+
         if ($key == 'registry') {
             return $this->myregistry;
         }
@@ -1186,10 +1225,6 @@ return_default_value:
 
         if ($key == 'userfile') {
             return $this->userFile;
-        }
-
-        if ($key == 'path') {
-            return $this->pearDir;
         }
 
         if ($key == 'customsystemvars') {

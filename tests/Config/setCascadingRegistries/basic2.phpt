@@ -6,10 +6,12 @@ require dirname(__FILE__) . '/setup.php.inc';
 
 // check descending from php to registry directory
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something/php');
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something/php');
-$unused = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo',
-                             dirname(__FILE__) . '/something/blah2');
-$c = $configclass::singleton(dirname(__FILE__) . '/something2', dirname(__FILE__) . '/something/blah');
+@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something2');
+$unused = new PEAR2_Pyrus_Registry(__DIR__ . '/something');
+set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'something2' .
+                 DIRECTORY_SEPARATOR . 'php' . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something/php');
+chdir(__DIR__ . DIRECTORY_SEPARATOR . 'something2');
+$c = $configclass::singleton(false, dirname(__FILE__) . '/something/blah');
 restore_include_path();
 
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something2',

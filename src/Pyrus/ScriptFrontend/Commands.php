@@ -330,14 +330,12 @@ previous:
             }
         }
         $configclass = static::$configclass;
-        $mypath = $configclass::current()->my_pear_path;
-        if ($mypath) {
-            foreach (explode(PATH_SEPARATOR, $mypath) as $path) {
-                echo "Using PEAR installation found at $path\n";
-                $configclass = static::$configclass;
-                $config = $configclass::singleton($path);
-                return;
-            }
+        $config = $configclass::singleton();
+        $path = $config->path;
+        if (strpos($path, PATH_SEPARATOR)) {
+            echo "Using PEAR installations found at $path\n";
+        } else {
+            echo "Using PEAR installation found at $path\n";
         }
     }
 

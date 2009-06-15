@@ -19,6 +19,7 @@ file_put_contents($testpath . '/.config', '<?xml version="1.0" ?>
 </c>');
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 restore_include_path();
+$test->assertEquals($testpath, $a->location, 'peardir');
 $test->assertEquals($testpath, $a->path, 'peardir');
 $test->assertEquals($testpath . '/blah', $a->userfile, 'userfile');
 $test->assertEquals($testpath . '/php', $a->php_dir, 'php_dir');
