@@ -34,6 +34,7 @@ class PEAR2_Pyrus_Log
             foreach (self::$observers as $observer) {
                 $observer->log($level, $message);
             }
+            return;
         }
         for ($i = $level; $i <= self::$maxlevel; $i++) {
             self::$log[$i][] = $message;
