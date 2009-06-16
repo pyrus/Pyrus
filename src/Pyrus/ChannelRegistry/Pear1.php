@@ -61,10 +61,10 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
                     'PEAR1 channel registry, channel aliasdirectory could not be initialized');
             }
         }
-        if (!$this->readonly) {
-            if (1 === $this->exists('pear.php.net')) {
-                $this->initDefaultChannels();
-            }
+        if (1 === $this->exists('pear.php.net')) {
+            $this->initialized = false;
+        } else {
+            $this->initialized = true;
         }
     }
 
@@ -86,8 +86,11 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
               DIRECTORY_SEPARATOR . str_replace('/', '_', strtolower($alias)) . '.txt';
     }
 
-    private function _channelFromAlias($alias)
+    public function channelFromAlias($alias)
     {
+        if (!$this->initialized) {
+            return parent::channelFromAlias($alias);
+        }
         $file = $this->_channelAliasFileName($alias);
         if (file_exists($file)) {
             return file_get_contents($file);
@@ -104,6 +107,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel ' .
                 $channel->name . ', channel registry path is not writeable');
         }
+
+        $this->lazyInit();
+
         $channel->validate();
         $exists = $this->exists($channel->name);
         if ($exists && 1 !== $exists) {
@@ -123,7 +129,7 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
         }
         if ($channel->alias != $channel->name) {
             if (file_exists($this->_channelAliasFileName($channel->alias)) &&
-                  $this->_channelFromAlias($channel->alias) != $channel->name) {
+                  $this->channelFromAlias($channel->alias) != $channel->name) {
                 $channel->alias = $channel->name;
             }
             $fp = @fopen($this->_channelAliasFileName($channel->alias), 'w');
@@ -175,6 +181,8 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
             return true;
         }
 
+        $this->lazyInit();
+
         if ($this->packageCount($name)) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
                 $name . ', packages are installed');
@@ -220,6 +228,9 @@ class PEAR2_Pyrus_ChannelRegistry_Pear1 extends PEAR2_Pyrus_ChannelRegistry_Base
 
     function listChannels()
     {
+        if (!$this->initialized) {
+            return $this->getDefaultChannels();
+        }
         $ret = array();
         foreach (new RegexIterator(new DirectoryIterator($this->_channelPath),
                                 '/^(.+?)\.reg/', RegexIterator::GET_MATCH) as $file) {

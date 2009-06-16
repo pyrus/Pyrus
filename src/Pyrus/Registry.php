@@ -75,6 +75,11 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
         $this->channelRegistry = $reg;
     }
 
+    function getChannelRegistry()
+    {
+        return $this->channelRegistry;
+    }
+
     public function setParent(PEAR2_Pyrus_Registry $parent = null)
     {
         $this->parent = $parent;
@@ -106,7 +111,8 @@ class PEAR2_Pyrus_Registry implements PEAR2_Pyrus_IRegistry, IteratorAggregate
                 $exceptions);
         }
 
-        $this->channelRegistry = new PEAR2_Pyrus_ChannelRegistry($path,
+        $channelregistry_class = PEAR2_Pyrus_ChannelRegistry::$className;
+        $this->channelRegistry = new $channelregistry_class($path,
             $registries, $readonly);
     }
 

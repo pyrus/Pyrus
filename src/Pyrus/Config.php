@@ -478,7 +478,6 @@ class PEAR2_Pyrus_Config
                 if ($path === '.') continue;
                 
                 $registry_class        = PEAR2_Pyrus_Registry::$className;
-                $channelregistry_class = PEAR2_Pyrus_ChannelRegistry::$className;
 
                 $registries = PEAR2_Pyrus_Registry::detectRegistries($path);
                 if (!count($registries)) {
@@ -490,7 +489,7 @@ class PEAR2_Pyrus_Config
                 }
 
                 $registry         = new $registry_class($path, $registries, $readonly);
-                $channel_registry = new $channelregistry_class($path, $registries, $readonly);
+                $channel_registry = $registry->getChannelRegistry();
                 
                 if (!$readonly) {
                     $this->myregistry        = $registry;

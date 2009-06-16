@@ -546,8 +546,13 @@ previous:
         array_reverse($cascade);
         foreach ($cascade as $c) {
             echo "Listing channels [", $c->getPath(), "]:\n";
+            $chans = array();
             foreach ($c as $channel) {
-                echo $channel->name . ' (' . $channel->alias . ")\n";
+                $chans[$channel->name] = $channel->alias;
+            }
+            ksort($chans);
+            foreach ($chans as $channel => $alias) {
+                echo $channel . ' (' . $alias . ")\n";
             }
         }
     }

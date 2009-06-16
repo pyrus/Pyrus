@@ -28,7 +28,19 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
 {
     protected $path;
     protected $readonly;
-    
+    protected $initialized;
+
+    protected function lazyInit()
+    {
+        // lazy initialization
+        if (!$this->initialized && 1 === $this->exists('pear.php.net')) {
+            $this->initialized = true;
+            $this->initDefaultChannels();
+        } else {
+            $this->initialized = true;
+        }
+    }
+
     /**
      * Parse a package name, or validate a parsed package name array
      * @param string string of format
@@ -311,6 +323,20 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
             }
         }
         return false;
+    }
+
+    function channelFromAlias($alias)
+    {
+        $aliases = $this->getDefaultChannelAliases();
+        $channels = $this->getDefaultChannels();
+        if (in_array($alias, $aliases)) {
+            $aliases = array_flip($aliases);
+            return $channels[$aliases[$alias]];
+        }
+        if (in_array($alias, $channels)) {
+            return $alias;
+        }
+        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown channel/alias: ' . $alias);
     }
 
     function getDefaultChannels()

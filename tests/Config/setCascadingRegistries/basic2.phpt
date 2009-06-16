@@ -7,6 +7,10 @@ require dirname(__FILE__) . '/setup.php.inc';
 // check descending from php to registry directory
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something/php');
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something2');
+@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something');
+$fake = new Sqlite3(__DIR__ . DIRECTORY_SEPARATOR . 'something' . DIRECTORY_SEPARATOR . '.pear2registry');
+$fake->close();
+unset($fake);
 $unused = new PEAR2_Pyrus_Registry(__DIR__ . '/something');
 set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'something2' .
                  DIRECTORY_SEPARATOR . 'php' . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something/php');

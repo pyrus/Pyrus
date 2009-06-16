@@ -7,6 +7,9 @@ require dirname(__FILE__) . '/setup.php.inc';
 
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
 
+$fake = new Sqlite3(__DIR__ . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . '.pear2registry');
+$fake->close();
+unset($fake);
 $unused = $configclass::singleton(__DIR__ . '/foo',
                                   __DIR__ . '/something/blah');
 

@@ -41,6 +41,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
      */
     static protected $databases = array();
     private $_path;
+    private $_initialized = false;
     protected $readonly;
 
     /**
@@ -56,8 +57,55 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
             }
         }
-        $this->_init($path, $readonly);
-        $this->_path = $path ? $path : ':memory:';
+        if ($path && file_exists($path)) {
+            $this->_initialized = true;
+            $this->_init($path, $readonly);
+        } else {
+            if (!$path || $path == ':memory:') {
+                if ($readonly) {
+                    throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+                }
+                $this->_path = ':memory:';
+                $this->_init(':memory:', false);
+                return;
+            }
+            $file = $path;
+            while ($file && $file !== '.' && $file !== '/' && !is_writable($file)) {
+                $file = dirname($file);
+            }
+            if (!$file || $file == '.') {
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+            }
+        }
+        $this->_path = $path;
+    }
+
+    private function _lazyInit($path, $readonly)
+    {
+        if ($this->_initialized) {
+            return;
+        }
+
+        if ($readonly || !$path || $path == ':memory:' || isset(static::$databases[$path])) {
+            return $this->_init($path, true);
+        }
+
+        $dbpath = $path;
+        if ($path != ':memory:' && isset(PEAR2_Pyrus::$options['packagingroot'])) {
+            $dbpath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        }
+
+        if ($path != ':memory:' && file_exists($dbpath)) {
+            return $this->_init($path, false);
+        }
+    }
+
+    private function _prepareWrite()
+    {
+        if (isset(static::$databases[$this->_path])) {
+            return;
+        }
+        $this->_init($this->_path, $this->readonly);
     }
 
     private function _init($path, $readonly)
@@ -66,7 +114,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $path = ':memory:';
         }
     
-        if (isset(static::$databases[$path]) && static::$databases[$path]) {
+        if (isset(static::$databases[$path])) {
             return;
         }
 
@@ -77,13 +125,13 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         if ($path != ':memory:' && !file_exists(dirname($dbpath))) {
             if ($readonly) {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
             }
             @mkdir(dirname($dbpath), 0755, true);
         }
 
         if ($readonly && $path != ':memory:' && !file_exists($dbpath)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
         }
 
         static::$databases[$path] = new SQLite3($dbpath);
@@ -95,6 +143,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $sql = 'SELECT version FROM pearregistryversion';
         if (@static::$databases[$path]->querySingle($sql) == '1.0.0') {
+            $this->_initialized = true;
             return;
         }
 
@@ -105,6 +154,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
         try {
             $a->create(static::$databases[$path]);
+            $this->_initialized = true;
         } catch (Exception $e) {
             unset(static::$databases[$path]);
             $a = get_class($e);
@@ -127,6 +177,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
         }
+        $this->_prepareWrite();
 
         if (!isset(static::$databases[$this->_path])) {
             throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
@@ -729,6 +780,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         if ($this->readonly) {
             throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall package, registry is read-only');
         }
+        $this->_prepareWrite();
 
         if (!isset(static::$databases[$this->_path])) {
             throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
@@ -757,7 +809,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     function exists($package, $channel)
     {
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
+            return false;
         }
 
         $sql = 'SELECT
@@ -888,7 +940,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     public function listPackages($channel)
     {
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
+            return array();
         }
 
         $ret = array();
@@ -1265,6 +1317,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
     public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
     {
+        if (!$this->_initialized) {
+            return array();
+        }
         if (!isset(static::$databases[$this->_path])) {
             throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
@@ -1383,6 +1438,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
     function begin()
     {
+        if (!isset(static::$databases[$this->_path])) {
+            $this->_init($this->_path, $this->readonly);
+        }
         static::$databases[$this->_path]->exec('BEGIN');
     }
 
