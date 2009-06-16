@@ -34,8 +34,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-06-12</date>
- <time>14:31:08</time>
+ <date>2009-06-16</date>
+ <time>01:20:21</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -366,9 +366,6 @@ Implemented features:
      <file role="php" name="REST.php"/>
      <file role="php" name="ScriptFrontend.php"/>
      <file role="php" name="ScriptRunner.php"/>
-     <file role="php" name="test.php"/>
-     <file role="php" name="test1.php"/>
-     <file role="php" name="test2.php"/>
      <file role="php" name="Uninstaller.php"/>
      <file role="php" name="Validate.php"/>
      <file role="php" name="XMLParser.php"/>
@@ -814,15 +811,152 @@ Implemented features:
       <file role="test" name="install.prepare.fail.depconflict4.phpt"/>
       <file role="test" name="pearconfig.xml"/>
      </dir>
+     <file role="test" name="install.fileconflict.phpt"/>
+     <file role="test" name="install.fileconflict2.phpt"/>
      <file role="test" name="install.packagingroot.phpt"/>
      <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.verifyfiles.phpt"/>
      <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
      <file role="test" name="setup.php.inc"/>
+     <file role="test" name="upgrade.packagesplitting.phpt"/>
     </dir>
     <dir name="Mocks">
      <dir name="Internet">
+      <dir name="install.optionaldeps">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P2-1.0.0.tar"/>
+        <file role="test" name="P2-1.0.0.tgz"/>
+        <file role="test" name="P2-1.0.0.zip"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
+        <file role="test" name="P4-1.0.0.tar"/>
+        <file role="test" name="P4-1.0.0.tgz"/>
+        <file role="test" name="P4-1.0.0.zip"/>
+        <file role="test" name="P5-1.0.0.tar"/>
+        <file role="test" name="P5-1.0.0.tgz"/>
+        <file role="test" name="P5-1.0.0.zip"/>
+        <file role="test" name="P6-1.0.0.tar"/>
+        <file role="test" name="P6-1.0.0.tgz"/>
+        <file role="test" name="P6-1.0.0.zip"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p6">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p6">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
       <dir name="install.prepare.explicitstate">
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
@@ -1436,6 +1570,129 @@ Implemented features:
        <file role="test" name="channel.xml"/>
        <file role="test" name="make.php"/>
       </dir>
+      <dir name="upgrade.packagesplitting">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P1-1.1.0.tar"/>
+        <file role="test" name="P1-1.1.0.tgz"/>
+        <file role="test" name="P1-1.1.0.zip"/>
+        <file role="test" name="P2-1.0.0.tar"/>
+        <file role="test" name="P2-1.0.0.tgz"/>
+        <file role="test" name="P2-1.0.0.zip"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
+        <file role="test" name="P4-1.0.0.tar"/>
+        <file role="test" name="P4-1.0.0.tgz"/>
+        <file role="test" name="P4-1.0.0.zip"/>
+        <file role="test" name="P5-1.0.0.tar"/>
+        <file role="test" name="P5-1.0.0.tgz"/>
+        <file role="test" name="P5-1.0.0.zip"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="1.1.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="deps.1.1.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="package.1.1.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+          <file role="test" name="v2.1.1.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
       <file role="test" name="README"/>
      </dir>
      <dir name="SimpleChannelServer">
@@ -2019,6 +2276,8 @@ Implemented features:
       <file role="test" name="findpear3.phpt"/>
       <file role="test" name="help.command.phpt"/>
       <file role="test" name="help.phpt"/>
+      <file role="test" name="install.optionaldeps.noopts.phpt"/>
+      <file role="test" name="install.optionaldeps.phpt"/>
       <file role="test" name="install.packagingroot.phpt"/>
       <file role="test" name="install.phpt"/>
       <file role="test" name="install.plugin.phpt"/>
@@ -2114,8 +2373,8 @@ Implemented features:
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
@@ -2382,9 +2641,6 @@ Implemented features:
    <install name="src/Pyrus/Task/Unixeol/rw.php" as="Pyrus/Task/Unixeol/rw.php"/>
    <install name="src/Pyrus/Task/Windowseol.php" as="Pyrus/Task/Windowseol.php"/>
    <install name="src/Pyrus/Task/Windowseol/rw.php" as="Pyrus/Task/Windowseol/rw.php"/>
-   <install name="src/Pyrus/test.php" as="Pyrus/test.php"/>
-   <install name="src/Pyrus/test1.php" as="Pyrus/test1.php"/>
-   <install name="src/Pyrus/test2.php" as="Pyrus/test2.php"/>
    <install name="src/Pyrus/Uninstaller.php" as="Pyrus/Uninstaller.php"/>
    <install name="src/Pyrus/Validate.php" as="Pyrus/Validate.php"/>
    <install name="src/Pyrus/Validate/Exception.php" as="Pyrus/Validate/Exception.php"/>
@@ -2690,6 +2946,8 @@ Implemented features:
    <install name="tests/DirectedGraph/cycles.phpt" as="pear2.php.net/PEAR2_Pyrus/DirectedGraph/DirectedGraph/cycles.phpt"/>
    <install name="tests/DirectedGraph/setup.php.inc" as="pear2.php.net/PEAR2_Pyrus/DirectedGraph/DirectedGraph/setup.php.inc"/>
    <install name="tests/ignorexdebug.php" as="pear2.php.net/PEAR2_Pyrus/ignorexdebug.php"/>
+   <install name="tests/Installer/install.fileconflict.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.fileconflict.phpt"/>
+   <install name="tests/Installer/install.fileconflict2.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.fileconflict2.phpt"/>
    <install name="tests/Installer/install.packagingroot.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.packagingroot.phpt"/>
    <install name="tests/Installer/install.remote.packages.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.remote.packages.phpt"/>
    <install name="tests/Installer/install.verifyfiles.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.verifyfiles.phpt"/>
@@ -2709,7 +2967,100 @@ Implemented features:
    <install name="tests/Installer/prepare/install.prepare.fail.depconflict4.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict4.phpt"/>
    <install name="tests/Installer/prepare/pearconfig.xml" as="pear2.php.net/PEAR2_Pyrus/Installer/prepare/Installer/prepare/pearconfig.xml"/>
    <install name="tests/Installer/setup.php.inc" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/setup.php.inc"/>
+   <install name="tests/Installer/upgrade.packagesplitting.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/upgrade.packagesplitting.phpt"/>
    <install name="tests/Mocks/Internet.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Mocks/Internet.php"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/Mocks/Internet/install.optionaldeps/channel.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P2-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P2-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P2-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P2-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P2-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P2-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P3-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P3-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P3-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P3-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P3-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P3-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P4-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P4-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P4-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P4-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P4-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P4-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P5-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P5-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P5-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P5-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P5-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P5-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P6-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P6-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P6-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P6-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/get/P6-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P6-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/make.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/Mocks/Internet/install.optionaldeps/make.php"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/c/categories.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/c/Mocks/Internet/install.optionaldeps/rest/c/categories.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/c/Default/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/c/Default/Mocks/Internet/install.optionaldeps/rest/c/Default/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/c/Default/packagesinfo.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/c/Default/Mocks/Internet/install.optionaldeps/rest/c/Default/packagesinfo.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/m/allmaintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/m/Mocks/Internet/install.optionaldeps/rest/m/allmaintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/m/cellog/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/m/cellog/Mocks/Internet/install.optionaldeps/rest/m/cellog/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p1/Mocks/Internet/install.optionaldeps/rest/p/p1/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p1/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p1/Mocks/Internet/install.optionaldeps/rest/p/p1/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p1/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p1/Mocks/Internet/install.optionaldeps/rest/p/p1/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p2/Mocks/Internet/install.optionaldeps/rest/p/p2/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p2/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p2/Mocks/Internet/install.optionaldeps/rest/p/p2/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p2/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p2/Mocks/Internet/install.optionaldeps/rest/p/p2/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p3/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p3/Mocks/Internet/install.optionaldeps/rest/p/p3/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p3/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p3/Mocks/Internet/install.optionaldeps/rest/p/p3/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p3/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p3/Mocks/Internet/install.optionaldeps/rest/p/p3/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p4/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p4/Mocks/Internet/install.optionaldeps/rest/p/p4/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p4/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p4/Mocks/Internet/install.optionaldeps/rest/p/p4/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p4/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p4/Mocks/Internet/install.optionaldeps/rest/p/p4/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p5/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p5/Mocks/Internet/install.optionaldeps/rest/p/p5/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p5/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p5/Mocks/Internet/install.optionaldeps/rest/p/p5/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p5/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p5/Mocks/Internet/install.optionaldeps/rest/p/p5/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p6/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p6/Mocks/Internet/install.optionaldeps/rest/p/p6/info.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p6/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p6/Mocks/Internet/install.optionaldeps/rest/p/p6/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/p6/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/p6/Mocks/Internet/install.optionaldeps/rest/p/p6/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/p/packages.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/p/Mocks/Internet/install.optionaldeps/rest/p/packages.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/latest.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/stable.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p1/Mocks/Internet/install.optionaldeps/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/latest.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/stable.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p2/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p2/Mocks/Internet/install.optionaldeps/rest/r/p2/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/latest.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/stable.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p3/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p3/Mocks/Internet/install.optionaldeps/rest/r/p3/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/latest.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/stable.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p4/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p4/Mocks/Internet/install.optionaldeps/rest/r/p4/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/latest.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/stable.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p5/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p5/Mocks/Internet/install.optionaldeps/rest/r/p5/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/latest.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/stable.txt"/>
+   <install name="tests/Mocks/Internet/install.optionaldeps/rest/r/p6/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.optionaldeps/rest/r/p6/Mocks/Internet/install.optionaldeps/rest/r/p6/v2.1.0.0.xml"/>
    <install name="tests/Mocks/Internet/install.prepare.explicitstate/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.prepare.explicitstate/Mocks/Internet/install.prepare.explicitstate/channel.xml"/>
    <install name="tests/Mocks/Internet/install.prepare.explicitstate/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.prepare.explicitstate/get/Mocks/Internet/install.prepare.explicitstate/get/P1-1.0.0.tar"/>
    <install name="tests/Mocks/Internet/install.prepare.explicitstate/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/install.prepare.explicitstate/get/Mocks/Internet/install.prepare.explicitstate/get/P1-1.0.0.tgz"/>
@@ -3130,6 +3481,91 @@ Implemented features:
    <install name="tests/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/package.1.0.0.xml"/>
    <install name="tests/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/stable.txt"/>
    <install name="tests/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/Mocks/Internet/remotepackage/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/channel.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/Mocks/Internet/upgrade.packagesplitting/channel.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P1-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P1-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P1-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P1-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P1-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P1-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P1-1.1.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P1-1.1.0.tar"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P1-1.1.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P1-1.1.0.tgz"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P1-1.1.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P1-1.1.0.zip"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P2-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P2-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P2-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P2-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P2-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P2-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P3-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P3-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P3-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P3-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P3-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P3-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P4-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P4-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P4-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P4-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P4-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P4-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P5-1.0.0.tar" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P5-1.0.0.tar"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P5-1.0.0.tgz" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P5-1.0.0.tgz"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/get/P5-1.0.0.zip" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/get/Mocks/Internet/upgrade.packagesplitting/get/P5-1.0.0.zip"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/make.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/Mocks/Internet/upgrade.packagesplitting/make.php"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/c/categories.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/c/Mocks/Internet/upgrade.packagesplitting/rest/c/categories.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/c/Default/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/c/Default/Mocks/Internet/upgrade.packagesplitting/rest/c/Default/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/c/Default/packagesinfo.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/c/Default/Mocks/Internet/upgrade.packagesplitting/rest/c/Default/packagesinfo.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/m/allmaintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/m/Mocks/Internet/upgrade.packagesplitting/rest/m/allmaintainers.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/m/cellog/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/m/cellog/Mocks/Internet/upgrade.packagesplitting/rest/m/cellog/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/Mocks/Internet/upgrade.packagesplitting/rest/p/p1/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/Mocks/Internet/upgrade.packagesplitting/rest/p/p2/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/Mocks/Internet/upgrade.packagesplitting/rest/p/p3/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/Mocks/Internet/upgrade.packagesplitting/rest/p/p4/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/info.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/info.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/maintainers.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/maintainers.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/maintainers2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/Mocks/Internet/upgrade.packagesplitting/rest/p/p5/maintainers2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/p/packages.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/p/Mocks/Internet/upgrade.packagesplitting/rest/p/packages.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/1.1.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/1.1.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/deps.1.1.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/deps.1.1.0.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/latest.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/package.1.1.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/package.1.1.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/stable.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/v2.1.1.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/Mocks/Internet/upgrade.packagesplitting/rest/r/p1/v2.1.1.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/latest.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/stable.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/Mocks/Internet/upgrade.packagesplitting/rest/r/p2/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/latest.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/stable.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/Mocks/Internet/upgrade.packagesplitting/rest/r/p3/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/latest.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/stable.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/Mocks/Internet/upgrade.packagesplitting/rest/r/p4/v2.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/allreleases.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/allreleases.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/allreleases2.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/allreleases2.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/deps.1.0.0.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/deps.1.0.0.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/latest.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/latest.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/package.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/package.1.0.0.xml"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/stable.txt" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/stable.txt"/>
+   <install name="tests/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/v2.1.0.0.xml" as="pear2.php.net/PEAR2_Pyrus/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/Mocks/Internet/upgrade.packagesplitting/rest/r/p5/v2.1.0.0.xml"/>
    <install name="tests/Mocks/SimpleChannelServer/CREDITS" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/CREDITS"/>
    <install name="tests/Mocks/SimpleChannelServer/examples/update_channel.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/examples/Mocks/SimpleChannelServer/examples/update_channel.php"/>
    <install name="tests/Mocks/SimpleChannelServer/makepackage.php" as="pear2.php.net/PEAR2_Pyrus/Mocks/SimpleChannelServer/Mocks/SimpleChannelServer/makepackage.php"/>
@@ -3466,6 +3902,8 @@ Implemented features:
    <install name="tests/ScriptFrontend/Commands/findpear3.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/findpear3.phpt"/>
    <install name="tests/ScriptFrontend/Commands/help.command.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/help.command.phpt"/>
    <install name="tests/ScriptFrontend/Commands/help.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/help.phpt"/>
+   <install name="tests/ScriptFrontend/Commands/install.optionaldeps.noopts.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.optionaldeps.noopts.phpt"/>
+   <install name="tests/ScriptFrontend/Commands/install.optionaldeps.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.optionaldeps.phpt"/>
    <install name="tests/ScriptFrontend/Commands/install.packagingroot.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.packagingroot.phpt"/>
    <install name="tests/ScriptFrontend/Commands/install.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.phpt"/>
    <install name="tests/ScriptFrontend/Commands/install.plugin.phpt" as="pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/install.plugin.phpt"/>
@@ -3590,14 +4028,14 @@ Implemented features:
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
