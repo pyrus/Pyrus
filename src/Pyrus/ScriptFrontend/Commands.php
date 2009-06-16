@@ -44,16 +44,16 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
             echo $e;
         }
         if ($e instanceof PEAR2_Exception) {
-            $cause = array();
-            $e->getCauseMessage($cause);
+            $causes = array();
+            $e->getCauseMessage($causes);
             $causeMsg = '';
             foreach ($causes as $i => $cause) {
                 $causeMsg .= str_repeat(' ', $i) . $cause['class'] . ': '
-                       . $cause['message'];
+                       . $cause['message'] . "\n";
             }
             echo $causeMsg;
         } else {
-            echo $e->getMessage();
+            echo $e->getMessage(), "\n";
         }
     }
 
@@ -233,10 +233,23 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
             }
         } catch (PEAR2_Console_CommandLine_Exception $e) {
+            // look for developer commands
+            foreach ($args as $arg) {
+                switch ($arg) {
+                    case 'package' :
+                    case 'make' :
+                    case 'run-phpt' :
+                    case 'pickle' :
+                        if ('yes' === $this->_ask('The "' . $arg . '" command is in the developer tools.  Install developer tools?',
+                                    array('yes', 'no'), 'no')) {
+                            return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
+                                           array('plugin' => true, 'force' => false, 'optionaldeps' => false));
+                        }
+                    default :
+                        break;
+                }
+            }
             static::$commandParser->displayError($e->getMessage());
-        } catch (Exception $e) {
-            echo "Operation failed:\n$e";
-            exit -1;
         }
     }
 
