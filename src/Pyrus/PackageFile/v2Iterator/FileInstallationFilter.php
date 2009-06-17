@@ -33,7 +33,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
         $errs = new PEAR2_MultiErrors;
         $depchecker = new PEAR2_Pyrus_Dependency_Validator(
             array('channel' => self::$_parent->channel,
-                  'package' => self::$_parent->package),
+                  'package' => self::$_parent->name),
             PEAR2_Pyrus_Validate::INSTALLING, $errs);
         foreach (self::$_parent->installGroup as $instance) {
             try {

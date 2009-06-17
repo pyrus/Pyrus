@@ -73,6 +73,8 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'phprelease' => array(),
     );
 
+    protected $releaseIndex;
+
     /**
      * Set if the XML has been validated against schema
      *
@@ -95,7 +97,6 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'bundledpackage' => 'getBundledPackage',
         'channel' => 'getChannel',
         'compatible' => 'getCompatible',
-        'configureoption' => 'getConfigureOption',
         'contents' => 'getContents',
         'date' => 'tag',
         'dependencies' => 'getDependencies',
@@ -104,6 +105,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         'files' => 'getFiles',
         'installcontents' => 'getInstallContents',
         'installGroup' => 'getInstallGroup',
+        'installrelease' => 'getReleaseToInstall',
         'license' => 'getLicense',
         'maintainer' => 'getMaintainer',
         'name' => 'tag',
@@ -204,6 +206,41 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     {
         $this->_packageFile = $file;
         $this->_archiveFile = $archive ? $archive : $file;
+    }
+
+    function getReleaseToInstall($var, $reset = false)
+    {
+        if (!$reset && isset($this->releaseIndex)) {
+            return $this->release[$this->releaseIndex];
+        }
+        $errs = new PEAR2_MultiErrors;
+        $depchecker = new PEAR2_Pyrus_Dependency_Validator(
+            array('channel' => $this->channel,
+                  'package' => $this->name),
+            PEAR2_Pyrus_Validate::INSTALLING, $errs);
+        foreach ($this->installGroup as $index => $instance) {
+            try {
+                if (isset($instance['installconditions'])) {
+                    $installconditions = $instance['installconditions'];
+                    if (is_array($installconditions)) {
+                        foreach ($installconditions as $type => $conditions) {
+                            if (!isset($conditions[0])) {
+                                $conditions = array($conditions);
+                            }
+                            foreach ($conditions as $condition) {
+                                $condition = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep(null, $condition, $type);
+                                $ret = $depchecker->{"validate{$type}Dependency"}($condition);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                // can't use this release
+                continue;
+            }
+            $this->releaseIndex = $index;
+            return $this->release[$index];
+        }
     }
 
     function getBundledPackage()

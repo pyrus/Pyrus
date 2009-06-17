@@ -54,6 +54,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         $query = '
           CREATE TABLE packages (
            name TEXT(80) NOT NULL,
+           packagetype TEXT(15) NOT NULL,
            channel TEXT(255) NOT NULL,
            version TEXT(20) NOT NULL,
            apiversion TEXT(20) NOT NULL,
@@ -387,6 +388,10 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
                 WHERE
                   dep_groups.packages_name = old.name AND
                   dep_groups.packages_channel = old.channel;
+                DELETE FROM configureoptions
+                WHERE
+                  configureoptions.packages_name = old.name AND
+                  configureoptions.packages_channel = old.channel;
               END;
         ';
         $worked = $database->exec($query);

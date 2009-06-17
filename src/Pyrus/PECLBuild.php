@@ -269,8 +269,8 @@ class PEAR2_Pyrus_PECLBuild
 
         // {{{ start of interactive part
         $configure_command = "$dir/configure";
-        if (count($pkg->configureoption)) {
-            foreach ($pkg->configureoption as $o) {
+        if (count($pkg->installrelease->configureoption)) {
+            foreach ($pkg->installrelease->configureoption as $o) {
                 list($r) = $this->ui->ask($o->prompt, array(), $o->default);
                 if (substr($o->name, 0, 5) == 'with-' &&
                     ($r == 'yes' || $r == 'autodetect')) {

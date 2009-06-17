@@ -218,15 +218,15 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $sql = '
             INSERT INTO packages
-              (name, channel, version, apiversion, summary,
+              (name, channel, version, apiversion, summary, packagetype,
                description, stability, apistability, releasedate,
                releasetime, license, licenseuri, licensepath,
                releasenotes, lastinstalledversion, installedwithpear,
                installtimeconfig)
             VALUES(:name, :channel, :versionrelease, :versionapi, :summary,
-                :description, :stabilityrelease, :stabilityapi, :date, :time,
-                :license, :licenseuri, :licensepath, :notes, :lastinstalledv,
-                :lastinstalledp, :lastinstalltime
+                :packagetype, :description, :stabilityrelease, :stabilityapi,
+                :date, :time, :license, :licenseuri, :licensepath, :notes,
+                :lastinstalledv, :lastinstalledp, :lastinstalltime
             )';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
@@ -238,6 +238,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->bindValue(':versionapi',        $info->version['api']);
         $stmt->bindValue(':summary',           $info->summary);
         $stmt->bindValue(':description',       $info->description);
+        $stmt->bindValue(':packagetype',       $info->type);
         $stmt->bindValue(':stabilityrelease',  $info->stability['release']);
         $stmt->bindValue(':stabilityapi',      $info->stability['api']);
         $stmt->bindValue(':date',              $info->date);
@@ -296,7 +297,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt->bindValue(':name',     $n);
         $stmt->bindValue(':channel',  $c);
         
-        foreach ($info->configureoption as $option) {
+        foreach ($info->installrelease->configureoption as $option) {
             $stmt->bindValue(':oname', $option->name);
             $stmt->bindValue(':prompt', $option->prompt);
             if ($option->default === null) {
@@ -981,6 +982,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $ret->channel     = $channel;
         $ret->summary     = $this->info($package, $channel, 'summary');
         $ret->description = $this->info($package, $channel, 'description');
+        $ret->type = $this->info($package, $channel, 'packagetype');
 
         $sql = 'SELECT * FROM maintainers
                 WHERE packages_name = :name AND packages_channel = :channel';
@@ -1068,19 +1070,19 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $ret->setBaseInstallDirs($dirs);
         $stmt->close();
+        $this->fetchCompatible($ret);
+        $this->fetchDeps($ret);
 
+        $ret->release = null;
         $sql = 'SELECT * FROM configureoptions
                 WHERE
                     packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
         $a = static::$databases[$this->_path]->query($sql);
 
-        while ($option = $a->fetchArray()) {
-            $ret->configureoption[$option['name']]->prompt($option['prompt'])->default($option['defaultValue']);
+        while ($option = $a->fetchArray(SQLITE3_ASSOC)) {
+            $ret->installrelease->configureoption[$option['name']]->prompt($option['prompt'])->default($option['defaultValue']);
         }
-        $this->fetchCompatible($ret);
-        $this->fetchDeps($ret);
-        $ret->release = null;
         return $ret;
     }
 
