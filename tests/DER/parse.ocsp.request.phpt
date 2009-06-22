@@ -84,26 +84,26 @@ try {
       hashAlgorithm [sequence]: 
        algorithm [objectIdentifier] (1.3.14.3.2.26 [SHA-1 hash algorithm])
        parameters [null] ()
-      end
+      end hashAlgorithm
 
       issuerNameHash [octetString] (8ba4c9cb172919453ebb8e730991b925f2832265)
       issuerKeyHash [octetString] (16b5321bd4c7f3e0e68ef3bdd2b03aeeb23918d1)
       serialNumber [integer] (460788)
-     end
-    end
-   end
+     end reqCert
+    end requestList
+   end test
 
    requestExtensions [sequence]: 
     Inner [sequence]: 
      Extension [sequence]: 
       extnID [objectIdentifier] (1.3.6.1.5.5.7.48.1.2 [OCSP nonce])
       extnValue [octetString] (0410139ca1bc5dbc7cb422d547b6d730ca87)
-     end
-    end
-   end
-  end
- end
-end
+     end Extension
+    end Inner
+   end requestExtensions
+  end tbsRequest
+ end OCSPRequest
+end 
 ', (string) $der, 'after parsing');
 } catch (Exception $e) {
     echo $e->getMessage(), "\n", $der;

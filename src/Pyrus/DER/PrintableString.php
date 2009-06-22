@@ -29,7 +29,7 @@ class PEAR2_Pyrus_DER_PrintableString extends PEAR2_Pyrus_DER_String
 
     function setValue($string)
     {
-        if (!preg_match('/^[a-zA-Z0-9\'()+,\-\\.\/:=?]+\\z/', $string)) {
+        if (strlen($string) && !preg_match('/^[a-zA-Z0-9\'()+,\-\\.\/:=?]+\\z/', $string)) {
             throw new PEAR2_Pyrus_DER_Exception('Invalid Printable string value ' . $string .
                                                 ', can only contain letters, digits, space and' .
                                                 ' these punctuations: \' ( ) + , - . / : = ?');

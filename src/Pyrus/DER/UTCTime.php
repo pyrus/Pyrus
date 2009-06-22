@@ -44,7 +44,7 @@ class PEAR2_Pyrus_DER_UTCTime extends PEAR2_Pyrus_DER
 
     function serialize()
     {
-        $value = $this->value->format('YmdHis');
+        $value = $this->value->format('ymdHis');
         $value .= 'Z';
 
         return $this->prependTLV($value, strlen($value));
@@ -53,12 +53,22 @@ class PEAR2_Pyrus_DER_UTCTime extends PEAR2_Pyrus_DER
     function parse($data, $location)
     {
         $ret = parent::parse($data, $location);
+        // Y2K issues
+        if ($this->value[0] < 5) {
+            $this->value = '20' . $this->value;
+        } else {
+            $this->value = '19' . $this->value;
+        }
         $this->value = new DateTime($this->value);
         return $ret;
     }
 
     function valueToString()
     {
-        return $this->value->format('YmdHis') . 'Z';
+        if ($this->value instanceof DateTime) {
+            return $this->value->format('ymdHis') . 'Z';
+        } else {
+            return '<Uninitialized UTCTime>';
+        }
     }
 }

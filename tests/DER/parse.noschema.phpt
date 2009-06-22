@@ -13,7 +13,7 @@ $der->constructed(
             )
             ->visibleString('www.asn1.com')
             ->objectIdentifier('1.2.840.113549')
-            ->UTCTime(new DateTime('2009-05-01', new DateTimeZone('America/Chicago')))
+            ->generalizedTime(new DateTime('2009-05-01', new DateTimeZone('America/Chicago')))
             ->integer(460788)
     );
 
@@ -32,7 +32,7 @@ $test->assertEquals(
                     '7777772e61736e312e636f6d' .
                     '0606' . // object identifier, length 6
                     '2a864886f70d' .
-                    '170f' . // UTCTime, length 15
+                    '180f' . // GeneralizedTime, length 15
                     '32303039303530313035303030305a' .
                     '0203' . // integer, length 3
                     '0707f4', bin2hex($data = $der->serialize()), 'fancy');
@@ -54,7 +54,7 @@ $test->assertEquals(
                     '7777772e61736e312e636f6d' .
                     '0606' . // obejct identifier, length 6
                     '2a864886f70d' .
-                    '170f' . // UTCTime, length 15
+                    '180f' . // GeneralizedTime, length 15
                     '32303039303530313035303030305a' .
                     '0203' . // integer, length 3
                     '0707f4', bin2hex($data = $der->serialize()), 'fancy 2');

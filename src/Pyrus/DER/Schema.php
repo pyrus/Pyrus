@@ -66,6 +66,11 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
         $this->tag = $tag;
     }
 
+    function setClass($class)
+    {
+        $this->class = $class;
+    }
+
     function multiple()
     {
         return $this->multiple;
@@ -187,6 +192,20 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
         throw new PEAR2_Pyrus_DER_Exception('Unknown schema element ' . $var);
     }
 
+
+    function findTag($tag)
+    {
+        if ($this->tag === $tag) {
+            return $this;
+        }
+        return false;
+    }
+
+    function resetLastFind()
+    {
+        $this->lastfind = false;
+    }
+
     function find($tag)
     {
         foreach ($this->objs as $index => $obj) {
@@ -195,8 +214,8 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
             }
             if ($this->lastfind) {
                 if ($obj->multiple() && $this->lastfind == $index) {
-                    if ($obj->tag == $tag) {
-                        return $obj;
+                    if ($test = $obj->findTag($tag)) {
+                        return $test;
                     }
                 }
                 $this->lastfind = false;
@@ -221,18 +240,33 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
                 $this->lastfind = $index;
                 return $ret;
             }
-            if ($obj->tag == $tag) {
+            if ($test = $obj->findTag($tag)) {
                 $this->lastfind = $index;
-                return $obj;
+                if ($test->name != $index) {
+                    $test = clone $test;
+                    $test->setName($index);
+                }
+                return $test;
             }
             if (!$obj->optional()) {
+                if (isset($this->tagMap[$tag])) {
+                    $tag = '"' . str_replace('PEAR2_Pyrus_DER_', '', $this->tagMap[$tag]) .
+                        '" (0x' . dechex($tag) . ')';
+                } else {
+                    $tag = dechex($tag);
+                }
                 throw new PEAR2_Pyrus_DER_Exception('Invalid DER document, required tag ' .
                                                     $index . ' not found, instead requested ' .
-                                                    'tag value ' . dechex($tag) . ' at ' .
+                                                    'tag value ' . $tag . ' at ' .
                                                     $this->path());
             }
         }
-        throw new PEAR2_Pyrus_DER_Exception('Invalid DER document, no matching elements for tag ' . dechex($tag) .
+        if (isset($this->tagMap[$tag])) {
+            $tag = '"' . str_replace('PEAR2_Pyrus_DER_', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
+        } else {
+            $tag = dechex($tag);
+        }
+        throw new PEAR2_Pyrus_DER_Exception('Invalid DER document, no matching elements for tag ' . $tag .
                                             ' at ' . $this->path());
     }
 

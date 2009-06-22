@@ -26,4 +26,28 @@
 class PEAR2_Pyrus_DER_GeneralizedTime extends PEAR2_Pyrus_DER_UTCTime
 {
     const TAG = 0x18;
+
+    function serialize()
+    {
+        $value = $this->value->format('YmdHis');
+        $value .= 'Z';
+
+        return $this->prependTLV($value, strlen($value));
+    }
+
+    function valueToString()
+    {
+        if ($this->value instanceof DateTime) {
+            return $this->value->format('YmdHis') . 'Z';
+        } else {
+            return '<Uninitialized GeneralizedTime>';
+        }
+    }
+
+    function parse($data, $location)
+    {
+        $ret = PEAR2_Pyrus_DER::parse($data, $location);
+        $this->value = new DateTime($this->value);
+        return $ret;
+    }
 }

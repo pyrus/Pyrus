@@ -28,10 +28,21 @@ class PEAR2_Pyrus_DER_ObjectIdentifier extends PEAR2_Pyrus_DER
     const TAG = 0x06;
     protected $value = '';
     protected $map = array(
-        '1.3.14.3.2.26' => 'SHA-1 hash algorithm',
-        '1.3.6.1.5.5.7.48.1.2' => 'OCSP nonce',
-        '1.3.6.1.5.5.7.48.1.1' => 'OCSP basic response',
+        '1.2.840.113549.1.1.1' => 'RSA encryption',
+        '1.2.840.113549.1.1.5' => 'SHA-1 checksum with RSA encryption',
+        '1.2.840.113549.1.9.1' => 'Email (for use in signatures)',
         '1.3.6.1.5.5.7.48.1' => 'OCSP',
+        '1.3.6.1.5.5.7.48.1.1' => 'OCSP basic response',
+        '1.3.6.1.5.5.7.48.1.2' => 'OCSP nonce',
+        '1.3.14.3.2.26' => 'SHA-1 hash algorithm',
+        '2.5.4.3' => 'Common Name',
+        '2.5.4.6' => 'Country Name',
+        '2.5.4.7' => 'Locality (City) Name',
+        '2.5.4.8' => 'State/Province Name',
+        '2.5.4.10' => 'Organization Name',
+        '2.5.4.11' => 'Organization Web Site',
+        '2.5.29.37' => 'Extended Key Usage',
+        '2.5.29.17' => 'Subject Alternative Name',
     );
 
     function __construct($value = '')

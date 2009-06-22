@@ -27,7 +27,7 @@ $first->int = 460788;
 
 $test->assertEquals(
                     '30' . // sequence identifier
-                    '38' . // length
+                    '36' . // length
                     '80' . // context tag value 0 (boolean)
                     '01ff' . // length 1, true
                     '01' . // boolean
@@ -40,8 +40,8 @@ $test->assertEquals(
                     '7777772e61736e312e636f6d' .
                     '0606' . // object identifier, length 6
                     '2a864886f70d' .
-                    '170f' . // UTCTime, length 15
-                    '32303039303530313035303030305a' .
+                    '170d' . // UTCTime, length 13
+                    '3039303530313035303030305a' .
                     '0203' . // integer, length 3
                     '0707f4', bin2hex($data = $der->serialize()), 'fancy');
 
@@ -50,7 +50,7 @@ $der->setSchema($schema);
 $der->parseFromString($data);
 $test->assertEquals(
                     '30' . // sequence identifier
-                    '38' . // length
+                    '36' . // length
                     '80' . // context tag value 0 (boolean)
                     '01ff' . // length 1, true
                     '01' . // boolean
@@ -63,8 +63,8 @@ $test->assertEquals(
                     '7777772e61736e312e636f6d' .
                     '0606' . // obejct identifier, length 6
                     '2a864886f70d' .
-                    '170f' . // UTCTime, length 15
-                    '32303039303530313035303030305a' .
+                    '170d' . // UTCTime, length 13
+                    '3039303530313035303030305a' .
                     '0203' . // integer, length 3
                     '0707f4', bin2hex($data = $der->serialize()), 'fancy 2');
 ?>

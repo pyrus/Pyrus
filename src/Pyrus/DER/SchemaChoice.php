@@ -37,9 +37,35 @@ class PEAR2_Pyrus_DER_SchemaChoice extends PEAR2_Pyrus_DER_Schema
         }
     }
 
-    function option($name, $type)
+    function findTag($tag)
     {
-        $this->$type($name, count($this->objs));
+        if ($tag === $this->tag) {
+            return $this;
+        }
+        foreach ($this->objs as $obj) {
+            if ($obj instanceof self) {
+                if ($test = $obj->findTag($tag)) {
+                    if (!$test->class) {
+                        $test->setClass('PEAR2_Pyrus_DER_Choice');
+                    }
+                    return $test;
+                }
+            } else {
+                if ($obj->tag === $tag) {
+                    return $obj;
+                }
+            }
+        }
+        return false;
+    }
+
+    function option($name, $type, $index = null)
+    {
+        if (null === $index) {
+            $this->$type($name, count($this->objs));
+        } else {
+            $this->$type($name, $index);
+        }
         return $this;
     }
 }
