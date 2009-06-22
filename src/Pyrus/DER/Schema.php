@@ -106,8 +106,11 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
                 }
             }
         } else {
-            $this->checkType($func);
             $class = 'PEAR2_Pyrus_DER_' . ucfirst($func);
+            if (!class_exists($class, 1)) {
+                throw new PEAR2_Pyrus_DER_Exception('Unknown type ' . $func .
+                                                    ' at ' . $this->path());
+            }
             if (!isset($args[1])) {
                 $tag = $class::TAG;
             } else {

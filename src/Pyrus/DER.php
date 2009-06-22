@@ -156,29 +156,15 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         return $ret;
     }
 
-    function checkType($type)
-    {
-        $order = count($this->objs);
-        if (isset($this->schema[$order])) {
-            if (strtolower($type) != strtolower($this->schema[$order]['type'])) {
-                throw new PEAR2_Pyrus_DER_Exception('Invalid - schema requires item #' . $order .
-                                                    ' to be of type ' . ucfirst($type));
-            }
-        }
-        return true;
-    }
-
     function _bitString($string = '', $bits = 0)
     {
-        $this->checkType('bitString');
         $obj = new PEAR2_Pyrus_DER_BitString($string, $bits);
         $this->objs[] = $obj;
         return $this;
     }
 
-    function null()
+    function _null()
     {
-        $this->checkType('null');
         $obj = new PEAR2_Pyrus_DER_Null;
         $this->objs[] = $obj;
         return $this;
@@ -189,8 +175,13 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         if (strtolower($func) == 'bitstring') {
             return call_user_func_array(array($this, '_bitString'), $args);
         }
-        $this->checkType($func);
+        if (strtolower($func) == 'null') {
+            return $this->_null();
+        }
         $class = 'PEAR2_Pyrus_DER_' . ucfirst($func);
+        if (!class_exists($class, 1)) {
+            throw new PEAR2_Pyrus_DER_Exception('Unknown type ' . $func);
+        }
         if (isset($args[0])) {
             $obj = new $class($args[0]);
         } else {
@@ -202,7 +193,6 @@ class PEAR2_Pyrus_DER implements ArrayAccess
 
     function constructed(PEAR2_Pyrus_DER $der)
     {
-        $this->checkType(lcfirst(str_replace('PEAR2_Pyrus_DER_', '', get_class($der))));
         $this->objs[] = $der;
         return $this;
     }

@@ -30,6 +30,8 @@ class PEAR2_Pyrus_DER_ObjectIdentifier extends PEAR2_Pyrus_DER
     protected $map = array(
         '1.3.14.3.2.26' => 'SHA-1 hash algorithm',
         '1.3.6.1.5.5.7.48.1.2' => 'OCSP nonce',
+        '1.3.6.1.5.5.7.48.1.1' => 'OCSP basic response',
+        '1.3.6.1.5.5.7.48.1' => 'OCSP',
     );
 
     function __construct($value = '')
