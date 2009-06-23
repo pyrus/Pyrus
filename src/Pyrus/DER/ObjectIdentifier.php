@@ -43,6 +43,7 @@ class PEAR2_Pyrus_DER_ObjectIdentifier extends PEAR2_Pyrus_DER
         '2.5.4.11' => 'Organization Web Site',
         '2.5.29.37' => 'Extended Key Usage',
         '2.5.29.17' => 'Subject Alternative Name',
+        '2.5.29.19' => 'Basic Constraints - can it be a CA?'
     );
 
     function __construct($value = '')

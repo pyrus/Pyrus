@@ -172,6 +172,11 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
         self::$types[strtolower($name)] = $schema;
     }
 
+    static function types()
+    {
+        return self::$types;
+    }
+
     function __get($var)
     {
         if ($var === 'types') {

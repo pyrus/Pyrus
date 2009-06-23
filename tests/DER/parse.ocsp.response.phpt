@@ -433,7 +433,7 @@ end
        Inner [sequence]: 
        (multiple): 
         Extension [sequence]: 
-         extnID [objectIdentifier] (2.5.29.19)
+         extnID [objectIdentifier] (2.5.29.19 [Basic Constraints - can it be a CA?])
          critical [boolean] (TRUE)
          extnValue [octetString] (3000)
         end Extension

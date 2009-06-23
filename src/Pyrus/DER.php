@@ -34,6 +34,15 @@ class PEAR2_Pyrus_DER implements ArrayAccess
     const SET = 0x31;
 
     protected $depth = 0;
+    /**
+     * If value was parsed, this contains the absolute offset within the parsed
+     * data.
+     *
+     * This is very useful for calculating signature of an OCSP response, as
+     * we simply find the offset of the signature, and check everything before it
+     * @var int
+     */
+    protected $offset;
     protected $schema;
     protected $value;
     protected $objs = array();
@@ -61,6 +70,11 @@ class PEAR2_Pyrus_DER implements ArrayAccess
     static function factory()
     {
         return new static;
+    }
+
+    function setOffset($offset)
+    {
+        $this->offset = $offset;
     }
 
     function setDepth($d)
@@ -96,6 +110,9 @@ class PEAR2_Pyrus_DER implements ArrayAccess
 
     function __get($name)
     {
+        if ($name == '__offset') {
+            return $this->offset;
+        }
         if (!isset($this->schema)) {
             throw new PEAR2_Pyrus_DER_Exception('To access objects, use ArrayAccess when schema is not set');
         }
@@ -312,6 +329,11 @@ class PEAR2_Pyrus_DER implements ArrayAccess
                 $parent[$index] = $obj = new $type;
             }
 
+            if ($parent) {
+                $obj->setOffset($parent->__offset + $location);
+            } else {
+                $obj->setOffset($location);
+            }
             $obj->setDepth($this->depth + 1);
             $location = $obj->parse($data, $location + 1);
             if (!isset($this->schema)) {
