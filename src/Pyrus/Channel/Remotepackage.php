@@ -25,6 +25,139 @@
  */
 class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 implements ArrayAccess, Iterator
 {
+    /**
+     * openssl CA authorities whose certs we have
+     */
+    protected static $authorities = array (
+                0 => 'AAACertificateServices',
+                1 => 'ABA.ECOMRootCA',
+                2 => 'AOLTimeWarnerRootCertificationAuthority1',
+                3 => 'AOLTimeWarnerRootCertificationAuthority2',
+                4 => 'AddTrustClass1CARoot',
+                5 => 'AddTrustExternalCARoot',
+                6 => 'AddTrustPublicCARoot',
+                7 => 'AddTrustQualifiedCARoot',
+                8 => 'AmericaOnlineRootCertificationAuthority1',
+                9 => 'AmericaOnlineRootCertificationAuthority2',
+                10 => 'AutoridaddeCertificacionFirmaprofesionalCIFA62634068',
+                11 => 'BaltimoreCyberTrustRoot',
+                12 => 'BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA1',
+                13 => 'BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA3',
+                14 => 'BuiltinObjectToken:EquifaxSecureCA',
+                15 => 'BuiltinObjectToken:EquifaxSecureeBusinessCA2',
+                16 => 'BuiltinObjectToken:GoDaddyClass2CA',
+                17 => 'BuiltinObjectToken:RSASecurity1024v3',
+                18 => 'BuiltinObjectToken:RSASecurity2048v3',
+                19 => 'BuiltinObjectToken:SecurityCommunicationRootCA',
+                20 => 'BuiltinObjectToken:StarfieldClass2CA',
+                21 => 'BuiltinObjectToken:TCTrustCenter,Germany,Class2CA',
+                22 => 'BuiltinObjectToken:TCTrustCenter,Germany,Class3CA',
+                23 => 'BuiltinObjectToken:TDCInternetRootCA',
+                24 => 'BuiltinObjectToken:TaiwanGRCA',
+                25 => 'BuiltinObjectToken:Verisign-RSASecureServerCA',
+                26 => 'BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority',
+                27 => 'BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority-G2',
+                28 => 'BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority',
+                29 => 'BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority-G2',
+                30 => 'BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority',
+                31 => 'BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority-G2',
+                32 => 'BuiltinObjectToken:VerisignClass4PublicPrimaryCertificationAuthority-G2',
+                33 => 'CACertSigningAuthority',
+                34 => 'COMODOCertificationAuthority',
+                35 => 'CertumCA',
+                36 => 'ChambersofCommerceRoot',
+                37 => 'Class2PrimaryCA',
+                38 => 'DSTACESCAX6',
+                39 => 'DSTRootCAX1',
+                40 => 'DSTRootCAX2',
+                41 => 'DSTRootCAX3',
+                42 => 'DigiCertAssuredIDRootCA',
+                43 => 'DigiCertGlobalRootCA',
+                44 => 'DigiCertHighAssuranceEVRootCA',
+                45 => 'DigiNotarRootCA',
+                46 => 'Entrust.netCertificationAuthority(2048)',
+                47 => 'Entrust.netClientCertificationAuthority',
+                48 => 'Entrust.netClientCertificationAuthority2',
+                49 => 'Entrust.netSecureServerCertificationAuthority',
+                50 => 'Entrust.netSecureServerCertificationAuthority2',
+                51 => 'EntrustRootCertificationAuthority',
+                52 => 'EquifaxSecureGlobaleBusinessCA-1',
+                53 => 'EquifaxSecureeBusinessCA-1',
+                54 => 'FreeSSLCertificationAuthority',
+                55 => 'GPRoot2',
+                56 => 'GTECyberTrustGlobalRoot',
+                57 => 'GTECyberTrustRoot',
+                58 => 'GeoTrustGlobalCA',
+                59 => 'GeoTrustGlobalCA2',
+                60 => 'GeoTrustPrimaryCertificationAuthority',
+                61 => 'GeoTrustUniversalCA',
+                62 => 'GeoTrustUniversalCA2',
+                63 => 'GlobalChambersignRoot',
+                64 => 'GlobalSign',
+                65 => 'GlobalSign2',
+                66 => 'GlobalSignExtendedValidationCA',
+                67 => 'GlobalSignRootCA',
+                68 => 'GoDaddySecureCertificationAuthority',
+                69 => 'IPSCACLASE1CertificationAuthority',
+                70 => 'IPSCACLASE3CertificationAuthority',
+                71 => 'IPSCACLASEA1CertificationAuthority',
+                72 => 'IPSCACLASEA3CertificationAuthority',
+                73 => 'IPSCAChainedCAsCertificationAuthority',
+                74 => 'IPSCATimestampingCertificationAuthority',
+                75 => 'IPSSERVIDORES',
+                76 => 'NetLockExpressz(ClassC)Tanusitvanykiado',
+                77 => 'NetLockKozjegyzoi(ClassA)Tanusitvanykiado',
+                78 => 'NetLockMinositettKozjegyzoi(ClassQA)Tanusitvanykiado',
+                79 => 'NetLockUzleti(ClassB)Tanusitvanykiado',
+                80 => 'NetworkSolutionsCertificateAuthority',
+                81 => 'QuoVadisRootCA2',
+                82 => 'QuoVadisRootCA3',
+                83 => 'QuoVadisRootCertificationAuthority',
+                84 => 'SecureCertificateServices',
+                85 => 'SecureGlobalCA',
+                86 => 'SecureTrustCA',
+                87 => 'SoneraClass1CA',
+                88 => 'SoneraClass2CA',
+                89 => 'StaatderNederlandenRootCA',
+                90 => 'StartComCertificationAuthority',
+                91 => 'SwissSignGoldCA-G2',
+                92 => 'SwissSignPlatinumCA-G2',
+                93 => 'SwissSignSilverCA-G2',
+                94 => 'SwisscomRootCA1',
+                95 => 'TDCOCESCA',
+                96 => 'ThawtePersonalBasicCA',
+                97 => 'ThawtePersonalFreemailCA',
+                98 => 'ThawtePersonalPremiumCA',
+                99 => 'ThawtePremiumServerCA',
+                100 => 'ThawteSGCCA',
+                101 => 'ThawteServerCA',
+                102 => 'ThawteTimestampingCA',
+                103 => 'TrustedCertificateServices',
+                104 => 'TÜRKTRUSTElektronikSertifikaHizmetSağlayıcısı',
+                105 => 'TÜRKTRUSTElektronikSertifikaHizmetSağlayıcısı2',
+                106 => 'UTN-DATACorpSGC',
+                107 => 'UTN-USERFirst-ClientAuthenticationandEmail',
+                108 => 'UTN-USERFirst-Hardware',
+                109 => 'UTN-USERFirst-NetworkApplications',
+                110 => 'UTN-USERFirst-Object',
+                111 => 'VeriSignClass1PublicPrimaryCertificationAuthority-G3',
+                112 => 'VeriSignClass2PublicPrimaryCertificationAuthority-G3',
+                113 => 'VeriSignClass3PublicPrimaryCertificationAuthority-G3',
+                114 => 'VeriSignClass3PublicPrimaryCertificationAuthority-G5',
+                115 => 'VeriSignClass4PublicPrimaryCertificationAuthority-G3',
+                116 => 'VeriSignTimeStampingAuthorityCA',
+                117 => 'VisaeCommerceRoot',
+                118 => 'WellsFargoRootCertificateAuthority',
+                119 => 'XRampGlobalCertificationAuthority',
+                120 => 'beTRUSTedRootCA',
+                121 => 'beTRUSTedRootCA-BaltimoreImplementation',
+                122 => 'beTRUSTedRootCA-EntrustImplementation',
+                123 => 'beTRUSTedRootCA-RSAImplementation',
+                124 => 'thawtePrimaryRootCA',
+                125 => 'valicert.com',
+                126 => 'valicert.com2',
+                127 => 'valicert.com3',
+            );
     protected $parent;
     protected $rest;
     protected $releaseList;
@@ -38,6 +171,24 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
      * Flag used to determine whether this package has been tested for upgradeability
      */
     protected $isUpgradeable = null;
+
+    static function authorities()
+    {
+        static $authorities = null;
+        if ($authorities) {
+            return $authorities;
+        }
+        $d = PEAR2_Pyrus::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
+        // for running out of svn
+        if (!file_exists($d)) {
+            $d = realpath(__DIR__ . '/../../../data/x509rootcerts');
+        }
+        $authorities = static::$authorities;
+        foreach ($authorities as $i => $authority) {
+            $authorities[$i] = $d . DIRECTORY_SEPARATOR . $authority;
+        }
+        return $authorities;
+    }
 
     function __construct(PEAR2_Pyrus_IChannelFile $channelinfo, $releases = null)
     {
@@ -136,46 +287,73 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             }
         }
         $url = $this->remoteAbridgedInfo['g'];
-        // first try to download .phar, then .tgz, then .tar, then .zip
         $errs = new PEAR2_MultiErrors;
-        try {
-            return new PEAR2_Pyrus_Package_Remote($url . '.phar');
-        } catch (PEAR2_Pyrus_HTTPException $e) {
-            $errs->E_ERROR[] = $e;
-        } catch (Exception $e) {
-            $errs->E_ERROR[] = $e;
-            throw new PEAR2_Pyrus_Package_Exception(
-                'Invalid abstract package ' .
-                $this->channel . '/' .
-                $this->name, $errs);
+
+        $certdownloaded = false;
+        if (extension_loaded('openssl')) {
+            // try to download openssl x509 signature certificate for our release
+            try {
+                $cert = PEAR2_Pyrus::download($url . '.pem');
+                $cert = $cert->body;
+                $certdownloaded = true;
+            } catch (PEAR2_Pyrus_HTTPException $e) {
+                // file does not exist, ignore
+            } catch (Exception $e) {
+                $errs->E_ERROR[] = $e;
+                throw new PEAR2_Pyrus_Package_Exception(
+                    'Invalid abstract package ' .
+                    $this->channel . '/' .
+                    $this->name . ' - certificate is invalid', $errs);
+            }
+            if ($certdownloaded) {
+                $info = openssl_x509_parse($cert);
+                if (!$info) {
+                    throw new PEAR2_Pyrus_Package_Exception(
+                        'Invalid abstract package ' .
+                        $this->channel . '/' .
+                        $this->name . ' - releasing maintainer\'s certificate is not a certificate');
+                }
+                if (true !== openssl_x509_checkpurpose($cert, X509_PURPOSE_SSL_SERVER,
+                                                       self::authorities())) {
+                    throw new PEAR2_Pyrus_Package_Exception(
+                        'Invalid abstract package ' .
+                        $this->channel . '/' .
+                        $this->name . ' - releasing maintainer\'s certificate is invalid');
+                }
+                $key = openssl_pkey_get_public($cert);
+                $key = openssl_pkey_get_details($key);
+                $key = $key['key'];
+            }
         }
-    
-        try {
-            return new PEAR2_Pyrus_Package_Remote($url . '.tgz');
-        } catch (PEAR2_Pyrus_HTTPException $e) {
-            $errs->E_ERROR[] = $e;
-        } catch (Exception $e) {
-            $errs->E_ERROR[] = $e;
-            throw new PEAR2_Pyrus_Package_Exception(
-                'Invalid abstract package ' .
-                $this->channel . '/' .
-                $this->name, $errs);
+
+        // first try to download .phar, then .tgz, then .tar, then .zip
+        // if a public key was downloaded, save it where ext/phar will
+        // look to validate the openssl signature
+        foreach (array('.phar', '.tgz', '.tar') as $ext) {
+            try {
+                if ($certdownloaded) {
+                    file_put_contents($pubkey = PEAR2_Pyrus_Config::current()->download_dir .
+                                      DIRECTORY_SEPARATOR . basename($url) . $ext . '.pubkey', $key);
+                }
+                $ret = new PEAR2_Pyrus_Package_Remote($url . $ext);
+                return $ret;
+            } catch (PEAR2_Pyrus_HTTPException $e) {
+                unlink($pubkey);
+                $errs->E_ERROR[] = $e;
+            } catch (Exception $e) {
+                unlink($pubkey);
+                $errs->E_ERROR[] = $e;
+                throw new PEAR2_Pyrus_Package_Exception(
+                    'Invalid abstract package ' .
+                    $this->channel . '/' .
+                    $this->name, $errs);
+            }
         }
 
         try {
-            return new PEAR2_Pyrus_Package_Remote($url . '.tar');
-        } catch (PEAR2_Pyrus_HTTPException $e) {
-            $errs->E_ERROR[] = $e;
-        } catch (Exception $e) {
-            $errs->E_ERROR[] = $e;
-            throw new PEAR2_Pyrus_Package_Exception(
-                'Invalid abstract package ' .
-                $this->channel . '/' .
-                $this->name, $errs);
-        }
-
-        try {
-            return new PEAR2_Pyrus_Package_Remote($url . '.zip');
+            // phar does not support signatures for zip archives
+            $ret = new PEAR2_Pyrus_Package_Remote($url . '.zip');
+            return $ret;
         } catch (PEAR2_Pyrus_HTTPException $e) {
             $errs->E_ERROR[] = $e;
             throw new PEAR2_Pyrus_Package_Exception(
