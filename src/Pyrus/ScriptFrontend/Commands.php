@@ -227,7 +227,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
                     $this->{$info['function']}($result->command->args, $result->command->options);
                 } else {
                     $class = new $info['class'];
-                    $class->{$info['function']}($result->command->args, $result->command->options);
+                    $class->{$info['function']}($this, $result->command->args, $result->command->options);
                 }
             } else {
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
@@ -240,7 +240,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
                     case 'make' :
                     case 'run-phpt' :
                     case 'pickle' :
-                        if ('yes' === $this->_ask('The "' . $arg . '" command is in the developer tools.  Install developer tools?',
+                        if ('yes' === $this->ask('The "' . $arg . '" command is in the developer tools.  Install developer tools?',
                                     array('yes', 'no'), 'no')) {
                             return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
                                            array('plugin' => true, 'force' => false, 'optionaldeps' => false));
@@ -253,7 +253,7 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
         }
     }
 
-    function _ask($question, array $choices = null, $default = null)
+    function ask($question, array $choices = null, $default = null)
     {
         if (is_array($choices)) {
             foreach ($choices as $i => $choice) {
@@ -318,14 +318,14 @@ previous:
         $configclass = static::$configclass;
         if (!$configclass::userInitialized()) {
             echo "Pyrus: No user configuration file detected\n";
-            if ('yes' === $this->_ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
+            if ('yes' === $this->ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
                 echo "Great.  We will store your configuration in:\n  ",$configclass::getDefaultUserConfigFile(),"\n";
 previous:
-                $path = $this->_ask("Where would you like to install packages by default?", null, getcwd());
+                $path = $this->ask("Where would you like to install packages by default?", null, getcwd());
                 echo "You have chosen:\n", $path, "\n";
                 if (!realpath($path)) {
                     echo " this path does not yet exist\n";
-                    if ('yes' !== $this->_ask("Create it?", array('yes', 'no'), 'yes')) {
+                    if ('yes' !== $this->ask("Create it?", array('yes', 'no'), 'yes')) {
                         goto previous;
                     }
                 } elseif (!is_dir($path)) {
@@ -994,7 +994,7 @@ addchan_success:
             return $this->_display($params[0]);
         }
         if ($func === 'ask') {
-            return call_user_func_array(array($this, '_ask'), $params);
+            return call_user_func_array(array($this, 'ask'), $params);
         }
         throw new \Exception('Unknown method ' . $func . ' in class PEAR2_Pyrus_ScriptFrontend\Commands');
     }
