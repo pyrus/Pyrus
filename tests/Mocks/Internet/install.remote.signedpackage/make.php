@@ -48,7 +48,7 @@ $pf->version['release'] = '1.0.0';
 $pf->stability['release'] = 'stable';
 $pf->description = 'hi description';
 $pf->notes = 'my notes';
-$pf->maintainer['cellog']->role('lead')->email('cellog@php.net')->active('yes')->name('Greg Beaver');
+$pf->maintainer['cellog']->role('lead')->email('greg@chiaraquartet.net')->active('yes')->name('Greg Beaver');
 $pf->files['glooby1'] = array('role' => 'php');
 
 $pf->setPackagefile(__DIR__ . '/package.xml');

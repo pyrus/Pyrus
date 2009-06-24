@@ -320,6 +320,24 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is invalid');
                 }
+                // now verify that this cert is in fact the releasing maintainer's certificate
+                // by verifying that alternate name is the releaser's email address
+                if (!isset($info['subject']) || !isset($info['subject']['emailAddress'])) {
+                    throw new PEAR2_Pyrus_Package_Exception(
+                        'Invalid abstract package ' .
+                        $this->channel . '/' .
+                        $this->name . ' - releasing maintainer\'s certificate does not contain' .
+                        ' an alternate name corresponding to the releaser\'s email address');
+                }
+                // retrieve releaser's email address
+                
+                if ($info['subject']['emailAddress'] != $this->maintainer[$this->remoteAbridgedInfo['m']]->email) {
+                    throw new PEAR2_Pyrus_Package_Exception(
+                        'Invalid abstract package ' .
+                        $this->channel . '/' .
+                        $this->name . ' - releasing maintainer\'s certificate ' .
+                        'alternate name does not match the releaser\'s email address ' . $this->maintainer[$this->remoteAbridgedInfo['m']]->email);
+                }
                 $key = openssl_pkey_get_public($cert);
                 $key = openssl_pkey_get_details($key);
                 $key = $key['key'];
@@ -498,44 +516,8 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     function getMaintainer()
     {
-        if (isset($this->parent->protocols->rest['REST1.2'])) {
-            $maintainers = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.2']->baseurl .
-                                                    'p/' . strtolower($this->name) . '/maintainers2.xml');
-            $maintainers = $maintainers['m'];
-            if (!isset($maintainers[0])) {
-                $maintainers = array($maintainers);
-            }
-            $info = array('lead' => array(), 'developer' => array(), 'contributor' => array(), 'helper' => array());
-            foreach ($maintainers as $maintainer) {
-                $minfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'm/' . $maintainer['h'] . '/info.xml');
-                $info[$maintainer['r']][] = array('name' => $minfo['n'],
-                                                  'user' => $maintainer['h'],
-                                                  'email' => '*hidden*',
-                                                  'active' => 'yes');
-            }
-        } else {
-            $maintainers = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'p/' . strtolower($this->name) . '/maintainers.xml');
-            $maintainers = $maintainers['m'];
-            if (!isset($maintainers[0])) {
-                $maintainers = array($maintainers);
-            }
-            $info = array('lead' => array(), 'developer' => array(), 'contributor' => array(), 'helper' => array());
-            foreach ($maintainers as $maintainer) {
-                $minfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'm/' . $maintainer['h'] . '/info.xml');
-                $info['lead'][] = array('name' => $minfo['n'],
-                                        'user' => $maintainer['h'],
-                                        'email' => '*hidden*',
-                                        'active' => 'yes');
-            }
-        }
-        foreach ($info as $role => $peoples) {
-            foreach ($peoples as $dev) {
-                $this->packageInfo[$role][] = $dev;
-            }
-        }
+        // can't get email addresses from REST, have to grab the entire package.xml
+        $this->grabEntirePackagexml();
         return parent::getMaintainer();
     }
 
