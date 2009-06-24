@@ -350,16 +350,23 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         foreach (array('.phar', '.tgz', '.tar') as $ext) {
             try {
                 if ($certdownloaded) {
+                    if (!file_exists(PEAR2_Pyrus_Config::current()->download_dir)) {
+                        mkdir(PEAR2_Pyrus_Config::current()->download_dir, 0755, true);
+                    }
                     file_put_contents($pubkey = PEAR2_Pyrus_Config::current()->download_dir .
                                       DIRECTORY_SEPARATOR . basename($url) . $ext . '.pubkey', $key);
                 }
                 $ret = new PEAR2_Pyrus_Package_Remote($url . $ext);
                 return $ret;
             } catch (PEAR2_Pyrus_HTTPException $e) {
-                unlink($pubkey);
+                if ($certdownloaded && file_exists($pubkey)) {
+                    unlink($pubkey);
+                }
                 $errs->E_ERROR[] = $e;
             } catch (Exception $e) {
-                unlink($pubkey);
+                if ($certdownloaded && file_exists($pubkey)) {
+                    unlink($pubkey);
+                }
                 $errs->E_ERROR[] = $e;
                 throw new PEAR2_Pyrus_Package_Exception(
                     'Invalid abstract package ' .

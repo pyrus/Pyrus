@@ -23,32 +23,32 @@ asort($res);
 $test->assertEquals(array (
   'cellog' => 
   array (
-    0 => '*hidden*',
-    1 => 'cellog',
+    0 => 'cellog@php.net',
+    1 => 'Greg Beaver',
     2 => 'lead',
   ),
   'foo1' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo1',
+    0 => 'foo1@example.com',
+    1 => 'Foo One',
     2 => 'developer',
   ),
   'foo2' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo2',
+    0 => 'foo2@example.com',
+    1 => 'Foo Two',
     2 => 'developer',
   ),
   'foo3' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo3',
+    0 => 'foo3@example.com',
+    1 => 'Foo Three',
     2 => 'contributor',
   ),
   'foo4' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo4',
+    0 => 'foo4@example.com',
+    1 => 'Foo Four',
     2 => 'helper',
   ),
 ), $res, 'maintainers REST1.2');
@@ -67,33 +67,33 @@ asort($res);
 $test->assertEquals(array (
   'cellog' => 
   array (
-    0 => '*hidden*',
-    1 => 'cellog',
+    0 => 'cellog@php.net',
+    1 => 'Greg Beaver',
     2 => 'lead',
   ),
   'foo1' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo1',
-    2 => 'lead',
+    0 => 'foo1@example.com',
+    1 => 'Foo One',
+    2 => 'developer',
   ),
   'foo2' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo2',
-    2 => 'lead',
+    0 => 'foo2@example.com',
+    1 => 'Foo Two',
+    2 => 'developer',
   ),
   'foo3' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo3',
-    2 => 'lead',
+    0 => 'foo3@example.com',
+    1 => 'Foo Three',
+    2 => 'contributor',
   ),
   'foo4' => 
   array (
-    0 => '*hidden*',
-    1 => 'foo4',
-    2 => 'lead',
+    0 => 'foo4@example.com',
+    1 => 'Foo Four',
+    2 => 'helper',
   ),
 ), $res, 'maintainers REST1.0');
 ?>

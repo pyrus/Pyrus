@@ -160,10 +160,8 @@ class PEAR2_Pyrus_Config
             'preferred_state' => 'stable',
             'umask' => '0022',
             'cache_ttl' => 3600,
-            'sig_type' => '',
-            'sig_bin' => '',
-            'sig_keyid' => '',
-            'sig_keydir' => '',
+            'openssl_cert' => '',
+            'handle' => '',
             'my_pear_path' => '@php_dir@',
             'plugins_dir' => '@default_config_dir@',
         );
@@ -239,10 +237,8 @@ class PEAR2_Pyrus_Config
             'password',
             'preferred_mirror',
             'download_dir',
-            'sig_type',
-            'sig_bin',
-            'sig_keyid',
-            'sig_keydir',
+            'openssl_cert',
+            'handle',
         );
 
     /**

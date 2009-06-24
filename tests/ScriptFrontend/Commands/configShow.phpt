@@ -51,10 +51,8 @@ $help2 =
  . "  password => \n"
  . "  preferred_mirror => pear2.php.net\n"
  . "  download_dir => " . __DIR__ . "${d}testit${d}downloads\n"
- . "  sig_type => \n"
- . "  sig_bin => \n"
- . "  sig_keyid => \n"
- . "  sig_keydir => \n"
+ . "  openssl_cert => \n"
+ . "  handle => \n"
  . "Custom User config (from " . __DIR__ . "${d}testit${d}plugins${d}foo.xml):\n"
  . "(variables specific to pear2.php.net):\n";
 

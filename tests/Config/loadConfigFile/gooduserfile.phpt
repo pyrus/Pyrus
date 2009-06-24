@@ -33,10 +33,8 @@ file_put_contents($testpath . '/blah', '<?xml version="1.0" ?>
  <preferred_state>beta</preferred_state>
  <umask>' . 0642 . '</umask>
  <cache_ttl>1</cache_ttl>
- <sig_type><pearDOTpooDOTnet>buh</pearDOTpooDOTnet></sig_type>
- <sig_bin><pearDOTpooDOTnet>/path/to/buh</pearDOTpooDOTnet></sig_bin>
- <sig_keyid><pearDOTpooDOTnet>999999random</pearDOTpooDOTnet></sig_keyid>
- <sig_keydir><pearDOTpooDOTnet>/path/to/buh/dir</pearDOTpooDOTnet></sig_keydir>
+ <openssl_cert><pearDOTpooDOTnet>/path/to/buh</pearDOTpooDOTnet></openssl_cert>
+ <handle><pearDOTpooDOTnet>buh</pearDOTpooDOTnet></handle>
  <my_pear_path>' . $testpath . '</my_pear_path>
  <unknown>ha!</unknown>
 </c>');
@@ -55,10 +53,8 @@ $test->assertEquals('5', $a->verbose, 'verbose');
 $test->assertEquals('beta', $a->preferred_state, 'preferred_state');
 $test->assertEquals((string) 0642, $a->umask, 'umask');
 $test->assertEquals('1', $a->cache_ttl, 'cache_ttl');
-$test->assertEquals('buh', $a->sig_type, 'sig_type');
-$test->assertEquals('/path/to/buh', $a->sig_bin, 'sig_bin');
-$test->assertEquals('999999random', $a->sig_keyid, 'sig_keyid');
-$test->assertEquals('/path/to/buh/dir', $a->sig_keydir, 'sig_keydir');
+$test->assertEquals('/path/to/buh', $a->openssl_cert, 'openssl_cert');
+$test->assertEquals('buh', $a->handle, 'handle');
 $test->assertEquals($testpath, $a->my_pear_path, 'my_pear_path');
 try {
     $test->assertEquals('this should NOT execute, should go to exception', $a->unknown, 'unknown');
