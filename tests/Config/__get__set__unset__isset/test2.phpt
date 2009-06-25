@@ -47,6 +47,19 @@ $a->foo = 'hi2';
 $test->assertEquals('hi2', $a->foo, 'foo');
 $a->foo2 = 'hi3';
 $test->assertEquals('hi3', $a->foo2, 'foo2');
+
+// test setting channel-specific variables
+$test->assertEquals('', $a->openssl_cert, 'cert before');
+$a->openssl_cert = 'hi';
+$test->assertEquals('hi', $a->openssl_cert, 'cert after');
+$a->default_channel = 'pecl.php.net';
+$test->assertEquals('', $a->openssl_cert, 'cert pecl before');
+$a->default_channel = 'pear2.php.net';
+$test->assertEquals('hi', $a->openssl_cert, 'cert pear2 after');
+$a->default_channel = 'pecl.php.net';
+$test->assertEquals('', $a->openssl_cert, 'cert pecl before bye');
+$a->openssl_cert = 'bye';
+$test->assertEquals('bye', $a->openssl_cert, 'cert pecl after bye');
 ?>
 ===DONE===
 --CLEAN--
