@@ -893,6 +893,24 @@ class PEAR2_Pyrus_Config
             $x->$var = (string) $this->$var;
         }
 
+        foreach (self::$channelSpecificNames as $key) {
+            if (!isset(self::$userConfigs[$this->userfile][$key] )) {
+                continue;
+            }
+            foreach (self::$userConfigs[$this->userfile][$key] as $safechan => $value) {
+                $x->$key->$safechan = (string) $value;
+            }
+        }
+
+        foreach (self::$customChannelSpecificNames as $key) {
+            if (!isset(self::$userConfigs[$this->userfile][$key] )) {
+                continue;
+            }
+            foreach (self::$userConfigs[$this->userfile][$key] as $safechan => $value) {
+                $x->$key->$safechan = (string) $value;
+            }
+        }
+
         $userfiledir = dirname($userfile);
         if (!file_exists($userfiledir) && !@mkdir($userfiledir, 0777, true)) {
             throw new PEAR2_Pyrus_Config_Exception(

@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-06-24</date>
- <time>19:43:16</time>
+ <time>20:18:36</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -755,6 +755,7 @@ Implemented features:
       <file role="test" name="goodsystemfile4.phpt"/>
       <file role="test" name="gooduser.mypath.phpt"/>
       <file role="test" name="gooduserfile.phpt"/>
+      <file role="test" name="gooduserfile.saveconfig.phpt"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="setCascadingRegistries">
@@ -2602,8 +2603,8 @@ Implemented features:
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
@@ -3174,6 +3175,7 @@ Implemented features:
    <install name="tests/Config/loadConfigFile/goodsystemfile4.phpt" as="pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/goodsystemfile4.phpt"/>
    <install name="tests/Config/loadConfigFile/gooduser.mypath.phpt" as="pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduser.mypath.phpt"/>
    <install name="tests/Config/loadConfigFile/gooduserfile.phpt" as="pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.phpt"/>
+   <install name="tests/Config/loadConfigFile/gooduserfile.saveconfig.phpt" as="pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.saveconfig.phpt"/>
    <install name="tests/Config/loadConfigFile/setup.php.inc" as="pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/setup.php.inc"/>
    <install name="tests/Config/setCascadingRegistries/basic.phpt" as="pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt"/>
    <install name="tests/Config/setCascadingRegistries/basic2.phpt" as="pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt"/>
@@ -4466,8 +4468,8 @@ Implemented features:
    <install name="tests/Validate/validateversion.failure.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.2decimals.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.2decimals.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
