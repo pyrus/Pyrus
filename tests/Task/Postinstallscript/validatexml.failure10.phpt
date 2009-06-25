@@ -24,14 +24,17 @@ $causetest = function($message, $severity, $exception, $index, $errs) use ($test
 
 file_put_contents(__DIR__ . '/testit/glooby', '<?php
 class glooby_postinstall {
-    function init(){}
-    function run(){}
+    function init2(){}
+    function run2(){}
 }
 ');
 
 $xmltest(array('tasks:paramgroup' =>
                array('tasks:id' => 'hi',
-                     'tasks:name' => 'foo::bar')), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Post-install script "glooby" <paramgroup> id "hi" conditiontype parameter "foo::bar" has not been previously defined"', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
+                     'tasks:name' => 'foo::bar')), array('role' => 'php', 'name' => 'glooby'),
+         'task <postinstallscript> in file filename is invalid because of "Post-install ' .
+         'script "glooby" <paramgroup> id "hi" conditiontype parameter "foo::bar" has not ' .
+         'been previously defined"', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
 
 
 ?>

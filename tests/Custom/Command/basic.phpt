@@ -59,9 +59,9 @@ mkdir(__DIR__ . '/testit/Fronky/Wonky', 0755, true);
 file_put_contents(__DIR__ . '/testit/Fronky/Wonky/Burm.php', '<?php
 class Fronky_Wonky_Burm
 {
-    function doDatThingy($args, $opts)
+    function doDatThingy($frontend, $args, $opts)
     {
-        var_dump($args, $opts);
+        var_dump(get_class($frontend), $args, $opts);
     }
 }');
 
@@ -79,6 +79,7 @@ $contents = ob_get_contents();
 ob_end_clean();
 
 $test->assertEquals('Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit
+string(' . strlen('PEAR2_Pyrus_ScriptFrontend_Commands') . ') "PEAR2_Pyrus_ScriptFrontend_Commands"
 array(1) {
   ["package"]=>
   array(2) {

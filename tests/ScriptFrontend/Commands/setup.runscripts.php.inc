@@ -34,12 +34,12 @@ class fake
         self::$captured = array();
     }
 
-    function run(array $answers, $section)
+    function run2(array $answers, $section)
     {
         self::$captured[] = array('answers' => $answers, 'section' => $section);
     }
 
-    function init($pkg, $lastversion)
+    function init2($pkg, $lastversion)
     {
         self::$captured[] = array('init' => array($pkg->channel . '/' . $pkg->name, $lastversion));
     }

@@ -106,9 +106,9 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] .
-                                                             '" must declare methods init() and run()');
+                                                             '" must declare methods init2() and run2()');
         }
-        $methods = array('init' => 0, 'run' => 1);
+        $methods = array('init2' => 0, 'run2' => 1);
         foreach ($analysis['declared_methods'][$class] as $method) {
             if (isset($methods[$method])) {
                 unset($methods[$method]);
@@ -118,7 +118,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] .
-                                                             '" must declare methods init() and run()');
+                                                             '" must declare methods init2() and run2()');
         }
         $definedparams = array();
         $tasksNamespace = $pkg->getTasksNs() . ':';
@@ -278,7 +278,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         $this->obj = new $this->scriptClass;
         PEAR2_Pyrus_Log::log(1, 'running post-install script "' . $this->scriptClass . '->init()"');
         try {
-            $this->obj->init($this->pkg, $this->lastVersion);
+            $this->obj->init2($this->pkg, $this->lastVersion);
         } catch (Exception $e) {
             throw new PEAR2_Pyrus_Task_Exception('init of post-install script "' . $this->scriptClass .
                 '->init()" failed', $e);

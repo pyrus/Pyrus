@@ -8,7 +8,7 @@ class foobar_postinstall extends fake2 {}');
 
 class fake2 extends fake
 {
-    function postProcessPrompts(array $prompts, $section)
+    function postProcessPrompts2(array $prompts, $section)
     {
         fakefrontend::$displayed[] = array('postprocessprompts' => $prompts, 'section' => $section);
         if ($section === 'fourth') {
@@ -20,11 +20,11 @@ class fake2 extends fake
         return $prompts;
     }
 
-    function run(array $answers, $section)
+    function run2(array $answers, $section)
     {
         // for coverage, also test skipParamgroup
         PEAR2_Pyrus_ScriptRunner::skipParamgroup('third');
-        return parent::run($answers, $section);
+        return parent::run2($answers, $section);
     }
 }
 

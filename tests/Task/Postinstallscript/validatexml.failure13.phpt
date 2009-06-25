@@ -24,8 +24,8 @@ $causetest = function($message, $severity, $exception, $index, $errs) use ($test
 
 file_put_contents(__DIR__ . '/testit/glooby', '<?php
 class glooby_postinstall {
-    function init(){}
-    function run(){}
+    function init2(){}
+    function run2(){}
 }
 ');
 
@@ -39,7 +39,10 @@ $xmltest(array('tasks:paramgroup' => array(
                      ),
                array('tasks:id' => 'hi',
                      'tasks:name' => 'foo::bar',
-                     'tasks:conditiontype' => '='))), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Post-install script "glooby" <paramgroup> id "hi" must have a <value> tag containing expected parameter value"', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
+                     'tasks:conditiontype' => '='))), array('role' => 'php', 'name' => 'glooby'),
+         'task <postinstallscript> in file filename is invalid because of "Post-install script ' .
+         '"glooby" <paramgroup> id "hi" must have a <value> tag containing expected parameter value"',
+         'PEAR2_Pyrus_Task_Exception_Invalidtask');
 
 
 ?>

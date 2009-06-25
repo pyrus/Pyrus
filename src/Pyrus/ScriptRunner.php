@@ -76,7 +76,7 @@ class PEAR2_Pyrus_ScriptRunner
     {
         self::$skipSections = array();
         if (!count($info->paramgroup)) {
-            $info->scriptobject->run(array(), '_default');
+            $info->scriptobject->run2(array(), '_default');
             return;
         }
 
@@ -109,8 +109,8 @@ class PEAR2_Pyrus_ScriptRunner
                     $oldanswers = $answers = array();
                 }
                 if (isset($group->param)) {
-                    if (method_exists($info->scriptobject, 'postProcessPrompts')) {
-                        $prompts = $info->scriptobject->postProcessPrompts($group->param->getPrompts(), $group->id);
+                    if (method_exists($info->scriptobject, 'postProcessPrompts2')) {
+                        $prompts = $info->scriptobject->postProcessPrompts2($group->param->getPrompts(), $group->id);
                         if (!is_array($prompts) || count($prompts) != count($group->param)) {
                             throw new PEAR2_Pyrus_Task_Exception('Error: post-install script did not ' .
                                 'return proper post-processed prompts');
@@ -141,15 +141,15 @@ class PEAR2_Pyrus_ScriptRunner
     
                     array_unshift($completedPhases, $group->id);
                     // script should throw an exception on failure
-                    $info->scriptobject->run(array_merge($answers, $oldanswers), $group->id);
+                    $info->scriptobject->run2(array_merge($answers, $oldanswers), $group->id);
                 } else {
-                    $info->scriptobject->run($completedPhases, '_undoOnError');
+                    $info->scriptobject->run2($completedPhases, '_undoOnError');
                     return;
                 }
                 $answers = $this->mergeOldAnswers($oldanswers, $answers, $group->id);
             }
         } catch (\Exception $e) {
-            $info->scriptobject->run($completedPhases, '_undoOnError');
+            $info->scriptobject->run2($completedPhases, '_undoOnError');
             throw $e;
         }
     }
