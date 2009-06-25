@@ -257,6 +257,11 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
     function rewind()
     {
         $this->channelList = $this->listChannels();
+        if (!count($this->channelList)) {
+            // this only happens if we were never properly initialized
+            $this->initialized = false;
+            $this->lazyInit();
+        }
     }
 
     public function getPearChannel()

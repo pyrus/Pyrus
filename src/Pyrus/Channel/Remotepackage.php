@@ -182,6 +182,19 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         // for running out of svn
         if (!file_exists($d)) {
             $d = realpath(__DIR__ . '/../../../data/x509rootcerts');
+        } else {
+            if (strpos($d, 'phar://') === 0) {
+                if (!file_exists($temp = PEAR2_Pyrus_Config::current()->temp_dir .
+                                 DIRECTORY_SEPARATOR . 'x509rootcerts')) {
+                    mkdir($temp, 0755, true);
+                }
+                // openssl can't process these from within a phar (pity)
+                foreach (static::$authorities as $i => $authority) {
+                    copy($d . DIRECTORY_SEPARATOR . $authority, $temp . DIRECTORY_SEPARATOR . $authority);
+                    $authorities[$i] = $temp . DIRECTORY_SEPARATOR . $authority;
+                }
+                return $authorities;
+            }
         }
         $authorities = static::$authorities;
         foreach ($authorities as $i => $authority) {
@@ -357,6 +370,17 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                                       DIRECTORY_SEPARATOR . basename($url) . $ext . '.pubkey', $key);
                 }
                 $ret = new PEAR2_Pyrus_Package_Remote($url . $ext);
+                if ($certdownloaded) {
+                    if ($ext == '.tar' || $ext == '.tgz') {
+                        if (phpversion() == '5.3.0') {
+                            PEAR2_Pyrus_Log::log(0, 'WARNING: ' . $url . $ext . ' may not be installable ' .
+                                                                    'with PHP version 5.3.0, the PHP extension phar ' .
+                                                                    'has a bug verifying openssl signatures for ' .
+                                                                    'tar and tgz files.  Either upgrade to PHP 5.3.1 ' .
+                                                                    'or install the .zip version');
+                        }
+                    }
+                }
                 return $ret;
             } catch (PEAR2_Pyrus_HTTPException $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
