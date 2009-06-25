@@ -711,8 +711,8 @@ addchan_success:
     {
         $conf = PEAR2_Pyrus_Config::current();
         if (in_array($args['variable'], $conf->uservars)) {
-            echo "Setting $args[0] in " . $conf->userfile . "\n";
-            $conf->{$args['variable']} = $args[1];
+            echo "Setting $args[variable] in " . $conf->userfile . "\n";
+            $conf->{$args['variable']} = $args['value'];
         } elseif (in_array($args['variable'], $conf->systemvars)) {
             echo "Setting $args[variable] in system paths\n";
             $conf->{$args['variable']} = $args['value'];
