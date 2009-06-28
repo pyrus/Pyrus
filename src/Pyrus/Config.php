@@ -1322,11 +1322,11 @@ return_default_value:
         }
 
         if ($key == 'php_dir') {
-            throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, move the repository to change this value');
+            throw new PEAR2_Pyrus_Config_Exception('Cannot set php_dir, php_dir is always php/ in the repository');
         }
 
         if ($key == 'data_dir') {
-            throw new PEAR2_Pyrus_Config_Exception('Cannot set data_dir, move the repository to change this value');
+            throw new PEAR2_Pyrus_Config_Exception('Cannot set data_dir, data_dir is always data/ in the repository');
         }
 
         if (!isset(self::$defaults[$key]) && !isset(self::$customDefaults[$key])) {
