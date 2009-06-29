@@ -17,6 +17,8 @@
         </xs:annotation>
        </xs:element>
        <xs:element name="function" type="xs:string"/>
+       <xs:element name="gtkfunction" type="xs:string" minOccurs="0"/>
+       <xs:element name="webfunction" type="xs:string" minOccurs="0"/>
        <xs:element name="autoloadpath" type="xs:string" minOccurs="0" maxOccurs="1">
         <xs:annotation>
          <xs:documentation xml:lang="EN">
