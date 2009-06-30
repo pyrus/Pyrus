@@ -43,6 +43,7 @@
  */
 abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubject
 {
+    static protected $customtasks = array();
     const PACKAGE = 1;
     const INSTALL = 2;
     const PACKAGEANDINSTALL = 3;
@@ -205,6 +206,50 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
         foreach ($this->observers as $observer) {
             $observer->update($this);
         }
+    }
+
+    /**
+     * Determine whether a task name is a valid task.  Custom tasks may be defined
+     * using subdirectories by putting a "-" in the name, as in <tasks:mycustom-task>
+     *
+     * Note that this method will auto-load the task class file and test for the existence
+     * of the name with "-" replaced by "_" as in PEAR/Task/mycustom/task.php makes class
+     * PEAR_Task_mycustom_task
+     * @param string
+     * @return boolean
+     */
+    static function getTask($task)
+    {
+        if (!count(static::$customtasks)) {
+            static::registerBuiltinTasks();
+        }
+        if ($pos = strpos($task, ':')) {
+            $task = substr($task, $pos + 1);
+        }
+        if (isset(static::$customtasks[$task])) {
+            $test = static::$customtasks[$task]['class'];
+            if (class_exists($test, true)) {
+                return $test;
+            }
+        }
+        return false;
+    }
+
+    static function registerBuiltinTasks()
+    {
+        static::registerCustomTask(array('name' => 'replace',
+                                         'class' => 'PEAR2_Pyrus_Task_Replace'));
+        static::registerCustomTask(array('name' => 'windowseol',
+                                         'class' => 'PEAR2_Pyrus_Task_Windowseol'));
+        static::registerCustomTask(array('name' => 'unixeol',
+                                         'class' => 'PEAR2_Pyrus_Task_Unixeol'));
+        static::registerCustomTask(array('name' => 'postinstallscript',
+                                         'class' => 'PEAR2_Pyrus_Task_Postinstallscript'));
+    }
+
+    static function registerCustomTask($taskinfo)
+    {
+        static::$customtasks[$taskinfo['name']] = $taskinfo;
     }
 }
 ?>

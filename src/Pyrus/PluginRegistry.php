@@ -85,7 +85,7 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                                 $taskinfo = $parser->parse($path, $taskschema);
                                 $taskinfo = $taskinfo['task'];
                                 static::makeAutoloader($taskinfo, 'task');
-                                PEAR2_Pyrus_PackageFile_v2::registerCustomTask($taskinfo);
+                                PEAR2_Pyrus_Task_Common::registerCustomTask($taskinfo);
                                 continue 2;
                             case 'customcommand' :
                                 $commands = $parser->parse($path, $commandschema);

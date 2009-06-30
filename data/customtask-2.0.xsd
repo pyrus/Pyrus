@@ -6,10 +6,10 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element name="name" type="xs:string"/>
-    <xs:element name="classprefix" type="xs:string">
+    <xs:element name="class" type="xs:string">
      <xs:annotation>
       <xs:documentation xml:lang="EN">
-       Prefix to role for proper class name
+       Class implementing custom task
       </xs:documentation>
      </xs:annotation>
     </xs:element>

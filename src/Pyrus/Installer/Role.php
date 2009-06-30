@@ -66,7 +66,7 @@ class PEAR2_Pyrus_Installer_Role
                                                       'requested for package type ' . $packagetype);
         }
 
-        $class = self::$_roles[$role]['classprefix'] . '_' . ucfirst($role);
+        $class = self::$_roles[$role]['class'];
         return new $class(PEAR2_Pyrus_Config::current(), self::$_roles[$role]);
     }
 

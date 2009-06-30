@@ -27,13 +27,13 @@ try {
     $a->php_dir = 'oops';
     throw new Exception('php_dir setting did not fail');
 } catch (PEAR2_Pyrus_Config_Exception $e) {
-    $test->assertEquals('Cannot set php_dir, move the repository to change this value', $e->getMessage(), 'php_dir message');
+    $test->assertEquals('Cannot set php_dir, php_dir is always php/ in the repository', $e->getMessage(), 'php_dir message');
 }
 try {
     $a->data_dir = 'oops';
     throw new Exception('data_dir setting did not fail');
 } catch (PEAR2_Pyrus_Config_Exception $e) {
-    $test->assertEquals('Cannot set data_dir, move the repository to change this value', $e->getMessage(), 'data_dir message');
+    $test->assertEquals('Cannot set data_dir, data_dir is always data/ in the repository', $e->getMessage(), 'data_dir message');
 }
 try {
     $a->gronk = 'oops';

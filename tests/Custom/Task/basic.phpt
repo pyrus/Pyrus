@@ -10,7 +10,7 @@ $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugi
 file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 <task version="2.0" xmlns="http://pear2.php.net/dtd/customtask-2.0">
  <name>burm</name>
- <classprefix>Fronky_Wonky</classprefix>
+ <class>Fronky_Wonky_Burm</class>
  <autoloadpath></autoloadpath>
 </task>');
 define('MYDIR', __DIR__);
@@ -37,8 +37,10 @@ PEAR2_Pyrus_Installer::commit();
 $reg = new PEAR2_Pyrus_PluginRegistry(__DIR__ . '/testit/plugins');
 $reg->scan();
 $test->assertTrue(isset($reg->package['pear2.php.net/testing2']), 'custom task installed');
-$task = $package->getTask('burm');
+$task = PEAR2_Pyrus_Task_Common::getTask('burm');
 $test->assertEquals('Fronky_Wonky_Burm', $task, 'right task class retrieved');
+$task = PEAR2_Pyrus_Task_Common::getTask('foo:burm');
+$test->assertEquals('Fronky_Wonky_Burm', $task, 'right task class retrieved 2');
 ?>
 ===DONE===
 --CLEAN--

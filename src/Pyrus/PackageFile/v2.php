@@ -25,7 +25,6 @@
  */
 class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
 {
-    static protected $customtasks = array();
     public $rootAttributes = array(
                                  'version' => '2.1',
                                  'xmlns' => 'http://pear.php.net/dtd/package-2.1',
@@ -866,39 +865,6 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
             }
         }
         return $this->_tasksNs;
-    }
-
-    /**
-     * Determine whether a task name is a valid task.  Custom tasks may be defined
-     * using subdirectories by putting a "-" in the name, as in <tasks:mycustom-task>
-     *
-     * Note that this method will auto-load the task class file and test for the existence
-     * of the name with "-" replaced by "_" as in PEAR/Task/mycustom/task.php makes class
-     * PEAR_Task_mycustom_task
-     * @param string
-     * @return boolean
-     */
-    function getTask($task)
-    {
-        $this->getTasksNs();
-        // transform all '-' to '/' and 'tasks:' to '' so tasks:replace becomes replace
-        $task = $tasktest = str_replace($this->_tasksNs . ':', '', $task);
-        $task = str_replace('-', ' ', $task);
-        $task = str_replace(' ', '/', ucwords($task));
-        if (isset(static::$customtasks[$tasktest])) {
-            $test = static::$customtasks[$tasktest]['classprefix'] . '_' . str_replace('/', '_', $task);
-        } else {
-            $test = 'PEAR2_Pyrus_Task_' . str_replace('/', '_', $task);
-        }
-        if (class_exists($test, true)) {
-            return $test;
-        }
-        return false;
-    }
-
-    static function registerCustomTask($taskinfo)
-    {
-        static::$customtasks[$taskinfo['name']] = $taskinfo;
     }
 
     function getBaseInstallDir($file)

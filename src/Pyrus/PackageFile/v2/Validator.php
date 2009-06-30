@@ -165,7 +165,7 @@ class PEAR2_Pyrus_PackageFile_v2_Validator
             if (count($file->tasks) && $this->_curState != PEAR2_Pyrus_Validate::DOWNLOADING) { // has tasks
                 $save = $file->getArrayCopy();
                 foreach ($file->tasks as $task => $value) {
-                    if ($tagClass = $this->_pf->getTask($task)) {
+                    if ($tagClass = PEAR2_Pyrus_Task_Common::getTask($task)) {
                         if (!is_array($value) || !isset($value[0])) {
                             $value = array($value);
                         }

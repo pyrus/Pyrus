@@ -10,7 +10,7 @@ $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugi
 file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 <role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
  <name>burm</name>
- <classprefix>Fronky_Wonky</classprefix>
+ <class>Fronky_Wonky_Burm</class>
  <autoloadpath></autoloadpath>
  <releasetypes>php</releasetypes>
  <releasetypes>extsrc</releasetypes>
