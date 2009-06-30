@@ -41,6 +41,8 @@
  * @copyright 2008 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @todo      Add support for restrictive config variable sets
+ * @todo      Add support for documentation for config vars
  */
 class PEAR2_Pyrus_Config
 {
