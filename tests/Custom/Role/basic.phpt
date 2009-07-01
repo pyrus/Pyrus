@@ -21,9 +21,7 @@ file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF
  <locationconfig>www_dir</locationconfig>
  <honorsbaseinstall />
  <unusualbaseinstall>1</unusualbaseinstall>
- <phpfile />
  <executable />
- <phpextension />
  <configvar>
   <name>burm_dir</name>
   <type>string</type>

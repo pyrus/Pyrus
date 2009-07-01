@@ -10,7 +10,5 @@
  <locationconfig>test_dir</locationconfig>
  <honorsbaseinstall />
  <unusualbaseinstall>1</unusualbaseinstall>
- <phpfile />
  <executable />
- <phpextension />
 </role>

@@ -208,6 +208,10 @@ class PEAR2_Pyrus_Package_Creator
                           'to' => 'version',
                           'type' => 'package-info'));
         foreach ($package->packagingcontents as $packageat => $info) {
+            $role =
+                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $info['attribs']['role']);
+            $role->packageTimeValidate($package);
+
             $packageat = str_replace('\\', '/', $packageat);
             $packageat = str_replace('//', '/', $packageat);
             if ($packageat[0] === '/' ||

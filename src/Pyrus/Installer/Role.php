@@ -171,36 +171,6 @@ class PEAR2_Pyrus_Installer_Role
     }
 
     /**
-     * Return an array of file roles that should be analyzed for PHP content at package time,
-     * like the "php" role.
-     * @param bool clear cache
-     * @return array
-     * @static
-     */
-    static function getPhpRoles($clear = false)
-    {
-        if (!isset(self::$_roles)) {
-            self::registerRoles();
-        }
-
-        static $ret;
-        if ($clear) {
-            unset($ret);
-        }
-
-        if (!isset($ret)) {
-            $ret = array();
-            foreach (self::$_roles as $role => $okreleases) {
-                if ($okreleases['phpfile']) {
-                    $ret[] = $role;
-                }
-            }
-        }
-
-        return $ret;
-    }
-
-    /**
      * Scan through the Command directory looking for classes
      * and see what commands they implement.
      * @param string which directory to look for classes, defaults to
@@ -257,7 +227,6 @@ class PEAR2_Pyrus_Installer_Role
         self::$_roles = $roles;
         self::getBaseinstallRoles(true);
         self::getInstallableRoles(true);
-        self::getPhpRoles(true);
         self::getValidRoles('****', true);
         return true;
     }
@@ -270,7 +239,6 @@ class PEAR2_Pyrus_Installer_Role
         self::$_roles = $roles;
         self::getBaseinstallRoles(true);
         self::getInstallableRoles(true);
-        self::getPhpRoles(true);
         self::getValidRoles('****', true);
         if (isset($info['configvar'])) {
             if (!isset($info['configvar'][0])) {

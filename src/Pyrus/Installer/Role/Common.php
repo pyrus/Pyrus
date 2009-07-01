@@ -242,6 +242,20 @@ class PEAR2_Pyrus_Installer_Role_Common
     {
     }
 
+    final function packageTimeValidate(PEAR2_Pyrus_Package $package, array $fileXml)
+    {
+        if (!isset($this->info['validationmethod'])) {
+            return true;
+        }
+        if (!method_exists($this, $this->info['validationmethod'])) {
+            PEAR2_Pyrus_Log::log(0, 'WARNING: custom role ' . $this->info['name'] .
+                                 ' specifies non-existing validation method ' .
+                                 $this->info['validationmethod']);
+            return true;
+        }
+        return $this->{$this->info['validationmethod']}($package, $fileXml);
+    }
+
     function isExecutable()
     {
         return $this->info['executable'];
@@ -250,10 +264,5 @@ class PEAR2_Pyrus_Installer_Role_Common
     function isInstallable()
     {
         return $this->info['installable'];
-    }
-
-    function isExtension()
-    {
-        return $this->info['phpextension'];
     }
 }

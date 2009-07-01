@@ -13,6 +13,14 @@
       </xs:documentation>
      </xs:annotation>
     </xs:element>
+    <xs:element name="validationmethod" type="xs:string" minOccurs="0" maxOccurs="1">
+     <xs:annotation>
+      <xs:documentation xml:lang="EN">
+       A method in the class that implements package-time
+       validation
+      </xs:documentation>
+     </xs:annotation>
+    </xs:element>
     <xs:element name="autoloadpath" type="xs:string" minOccurs="0" maxOccurs="1">
      <xs:annotation>
       <xs:documentation xml:lang="EN">
@@ -26,9 +34,7 @@
     <xs:element name="locationconfig" type="xs:string"/>
     <xs:element name="honorsbaseinstall" type="xs:int" default="0"/>
     <xs:element name="unusualbaseinstall" type="xs:int" default="0"/>
-    <xs:element name="phpfile" type="xs:int" default="0"/>
     <xs:element name="executable" type="xs:int" default="0"/>
-    <xs:element name="phpextension" type="xs:int" default="0"/>
     <xs:element ref="configvar" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="version" type="xs:string" fixed="2.0"/>

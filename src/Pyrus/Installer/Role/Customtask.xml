@@ -1,6 +1,7 @@
 <role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
  <name>customtask</name>
  <class>PEAR2_Pyrus_Installer_Role_Customtask</class>
+ <validationmethod>validate</validationmethod>
  <releasetypes>php</releasetypes>
  <releasetypes>extsrc</releasetypes>
  <releasetypes>extbin</releasetypes>
@@ -10,7 +11,5 @@
  <locationconfig>data_dir</locationconfig>
  <honorsbaseinstall />
  <unusualbaseinstall>1</unusualbaseinstall>
- <phpfile />
  <executable />
- <phpextension />
 </role>

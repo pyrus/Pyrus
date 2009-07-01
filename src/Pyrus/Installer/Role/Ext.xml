@@ -7,7 +7,5 @@
  <locationconfig>ext_dir</locationconfig>
  <honorsbaseinstall>1</honorsbaseinstall>
  <unusualbaseinstall />
- <phpfile />
  <executable />
- <phpextension>1</phpextension>
 </role>

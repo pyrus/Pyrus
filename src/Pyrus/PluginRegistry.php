@@ -141,7 +141,7 @@ class PEAR2_Pyrus_PluginRegistry extends PEAR2_Pyrus_Registry
                 $info['autoloadpath']);
             if (!$fullpath) {
                 throw new PEAR2_Pyrus_PluginRegistry_Exception(
-                    'Unable to create autoloader for custom ' . $type . $info['name'] .
+                    'Unable to create autoloader for custom ' . $type . ' ' . $info['name'] .
                     ', autoload path ' . $info['autoloadpath'] . ' does not exist');
             }
             $autoloader = function($class) use ($fullpath) {
