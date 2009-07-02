@@ -631,6 +631,16 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             }
         };
         foreach ($this->releaseList as $versioninfo) {
+            if (isset(PEAR2_Pyrus::$options['force'])) {
+                // found one
+                if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {
+                    // inform the installer we need to reset dependencies
+                    $this->version['release'] = $versioninfo['v'];
+                    return true;
+                }
+                $this->version['release'] = $versioninfo['v'];
+                return;
+            }
             if (isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
@@ -676,6 +686,78 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
             if ($this->explicitVersion && $versioninfo['v'] != $this->explicitVersion) {
                 continue;
+            }
+
+            $paranoia = PEAR2_Pyrus::getParanoiaLevel();
+            if ($paranoia > 1) {
+                // first, we check to see if we are upgrading
+                if (isset(PEAR2_Pyrus::$options['upgrade'])) {
+                    // now we check to see if we are installed
+                    if (isset(PEAR2_Pyrus_Config::current()->registry->package[$n])) {
+                        $installed = PEAR2_Pyrus_Config::current()
+                                     ->registry->info($this->name, $this->channel, 'apiversion');
+                        $installed = explode('.', $installed);
+                        if (count($installed) == 2) {
+                            $installed[] = '0';
+                        }
+                        if (count($installed) == 1) {
+                            $installed[] = '0';
+                            $installed[] = '0';
+                        }
+                        if (isset($this->parent->protocols->rest['REST1.3'])) {
+                            $api = $this->rest->retrieveCacheFirst(
+                                $this->parent->protocols->rest['REST1.3']->baseurl .
+                                'r/' . strtolower($this->name) . '/v2.' . $versioninfo['v'] . '.xml');
+                        } else {
+                            throw new PEAR2_Pyrus_Channel_Exception('Channel ' .
+                                                                    $this->channel .
+                                                                    ' does not support ' .
+                                                                    'a paranoia greater than 1');
+                        }
+                        $api = explode('.', $api['a']);
+                        if (count($api) == 2) {
+                            $api[] = '0';
+                        }
+                        if (count($api) == 1) {
+                            $api[] = '0';
+                            $api[] = '0';
+                        }
+                        if ($paranoia > 4) {
+                            $paranoia = 4;
+                        }
+                        switch ($paranoia) {
+                            case 4 :
+                                if ($installed != $api) {
+                                    PEAR2_Pyrus_Log::log(0,
+                                        'Skipping ' . $this->channel . '/' .
+                                        $this->package . ' version ' .
+                                        $versioninfo['v'] . ', API has changed');
+                                    continue;
+                                }
+                                break;
+                            case 3 :
+                                if ($installed[0] == $api[0] && $installed[1] != $api[1]) {
+                                    PEAR2_Pyrus_Log::log(0,
+                                        'Skipping ' . $this->channel . '/' .
+                                        $this->package . ' version ' .
+                                        $versioninfo['v'] . ', API has added' .
+                                        ' new features');
+                                    continue;
+                                }
+                                // break intentionally omitted
+                            case 2 :
+                                if ($installed[0] != $api[0]) {
+                                    PEAR2_Pyrus_Log::log(0,
+                                        'Skipping ' . $this->channel . '/' .
+                                        $this->package . ' version ' .
+                                        $versioninfo['v'] . ', API breaks' .
+                                        ' backwards compatibility');
+                                    continue;
+                                }
+                                break;
+                        }
+                    }
+                }
             }
             // found one
             if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {

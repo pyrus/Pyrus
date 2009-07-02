@@ -93,6 +93,12 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
                 'action'      => 'Counter',
                 'description' => 'increase verbosity'
             ));
+            static::$commandParser->addOption('paranoid', array(
+                'short_name'  => '-p',
+                'long_name'   => '--paranoid',
+                'action'      => 'Counter',
+                'description' => 'set or increase paranoia level'
+            ));
             PEAR2_Pyrus_PluginRegistry::registerFrontend($this);
             PEAR2_Pyrus_PluginRegistry::addCommand($commands);
         }
@@ -221,6 +227,9 @@ class PEAR2_Pyrus_ScriptFrontend_Commands implements PEAR2_Pyrus_ILog
             $result = static::$commandParser->parse(count($args) + 1, array_merge(array('cruft'), $args));
             if ($result->options['verbose']) {
                 $this->verbose = $result->options['verbose'];
+            }
+            if ($result->options['paranoid']) {
+                PEAR2_Pyrus::$paranoid = $result->options['paranoid'];
             }
             if ($info = PEAR2_Pyrus_PluginRegistry::getCommandInfo($result->command_name)) {
                 if ($this instanceof $info['class']) {

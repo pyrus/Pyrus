@@ -53,6 +53,7 @@ $help2 =
  . "  download_dir => " . __DIR__ . "${d}testit${d}downloads\n"
  . "  openssl_cert => \n"
  . "  handle => \n"
+ . "  paranoia => 2\n"
  . "Custom User config (from " . __DIR__ . "${d}testit${d}plugins${d}foo.xml):\n"
  . "(variables specific to pear2.php.net):\n";
 

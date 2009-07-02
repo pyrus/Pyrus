@@ -44,6 +44,8 @@ class PEAR2_Pyrus
      */
     static public $downloadClass = 'PEAR2_HTTP_Request';
 
+    static public $paranoid;
+
     static function getDataPath()
     {
         static $val = false;
@@ -154,6 +156,17 @@ class PEAR2_Pyrus
                 "File $url not valid (received: {$response->body})", $response->code);
         }
         return $response;
+    }
+
+    static function getParanoiaLevel(PEAR2_Pyrus_Config $config = null)
+    {
+        if (isset(self::$paranoid)) {
+            return self::$paranoid;
+        }
+        if (null === $config) {
+            $config = PEAR2_Pyrus_Config::current();
+        }
+        return $config->paranoia;
     }
 }
 ?>

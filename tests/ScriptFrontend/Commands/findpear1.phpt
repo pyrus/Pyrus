@@ -24,9 +24,10 @@ Usage:
   php findpear1.php [/path/to/pear] [options] <command> [options] [args]
 
 Options:
-  -v, --verbose  increase verbosity
-  -h, --help     show this help message and exit
-  --version      show the program version and exit
+  -v, --verbose   increase verbosity
+  -p, --paranoid  set or increase paranoia level
+  -h, --help      show this help message and exit
+  --version       show the program version and exit
 
 Commands:
   install           Install a package.  Use install --plugin to install

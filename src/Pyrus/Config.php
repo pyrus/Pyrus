@@ -159,6 +159,7 @@ class PEAR2_Pyrus_Config
             'username' => '',
             'password' => '',
             'verbose' => 1,
+            'paranoia' => 2,
             'preferred_state' => 'stable',
             'umask' => '0022',
             'cache_ttl' => 3600,
@@ -241,6 +242,7 @@ class PEAR2_Pyrus_Config
             'download_dir',
             'openssl_cert',
             'handle',
+            'paranoia',
         );
 
     /**
@@ -357,7 +359,8 @@ class PEAR2_Pyrus_Config
         }
 
         foreach (array_merge(self::$pearConfigNames,
-                             self::$userConfigNames) as $name) {
+                             self::$userConfigNames,
+                             self::$channelSpecificNames) as $name) {
             // make sure we've got valid paths for the underlying OS
             self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
                                                  self::$defaults[$name]);
