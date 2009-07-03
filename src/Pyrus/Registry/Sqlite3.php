@@ -1048,6 +1048,9 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             if ($file['baseinstalldir']) {
                 $ret->setFileAttribute($file['origpath'], 'baseinstalldir', $file['baseinstalldir']);
             }
+            if ($file['md5sum'] != md5('')) {
+                $ret->setFileAttribute($file['origpath'], 'md5sum', $file['md5sum']);
+            }
         }
         $stmt->close();
 

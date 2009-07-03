@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-07-03</date>
- <time>13:27:42</time>
+ <time>16:10:13</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -1007,6 +1007,7 @@ Initial pyrus public API
      <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.remote.signedpackage.phpt"/>
      <file role="test" name="install.verifyfiles.phpt"/>
+     <file role="test" name="install_cfg.phpt"/>
      <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
      <file role="test" name="setup.php.inc"/>
@@ -2606,8 +2607,8 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
@@ -3370,6 +3371,7 @@ Initial pyrus public API
    <install name="tests/Installer/install.remote.packages.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.remote.packages.phpt"/>
    <install name="tests/Installer/install.remote.signedpackage.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.remote.signedpackage.phpt"/>
    <install name="tests/Installer/install.verifyfiles.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.verifyfiles.phpt"/>
+   <install name="tests/Installer/install_cfg.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install_cfg.phpt"/>
    <install name="tests/Installer/install_existing_package.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install_existing_package.phpt"/>
    <install name="tests/Installer/install_script.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install_script.phpt"/>
    <install name="tests/Installer/prepare/install.prepare.dep.versionconflict.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt"/>
@@ -4471,8 +4473,8 @@ Initial pyrus public API
    <install name="tests/Validate/validateversion.failure.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.2decimals.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.2decimals.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>

@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-07-03</date>
- <time>13:27:40</time>
+ <time>16:10:11</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -1007,6 +1007,7 @@ Initial pyrus public API
      <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.remote.signedpackage.phpt"/>
      <file role="test" name="install.verifyfiles.phpt"/>
+     <file role="test" name="install_cfg.phpt"/>
      <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
      <file role="test" name="setup.php.inc"/>
@@ -2606,8 +2607,8 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>

@@ -44,6 +44,15 @@ class PEAR2_Pyrus_Installer
     protected static $installPackages = array();
 
     /**
+     * Packages that were previously installed during an upgrade
+     *
+     * This list is used by the cfg role to check for previous packages'
+     * configuration files
+     * @var array
+     */
+    protected static $wasInstalled = array();
+
+    /**
      * Optional dependencies that won't be installed
      *
      * Informational list of optional depenndencies that
@@ -94,6 +103,7 @@ class PEAR2_Pyrus_Installer
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$removedPackages = array();
+            static::$wasInstalled = array();
             static::$inTransaction = true;
             if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
                 PEAR2_Pyrus_Config::current()->resetForPackagingRoot();
@@ -223,6 +233,7 @@ class PEAR2_Pyrus_Installer
         if (static::$inTransaction) {
             static::$inTransaction = false;
             static::$installPackages = array();
+            static::$wasInstalled = array();
             static::$installedPackages = array();
             static::$registeredPackages = array();
             static::$removedPackages = array();
@@ -292,6 +303,14 @@ class PEAR2_Pyrus_Installer
         }
     }
 
+    function wasInstalled($package, $channel)
+    {
+        if (isset(static::$wasInstalled[$channel . '/' . $package])) {
+            return static::$wasInstalled[$channel . '/' . $package];
+        }
+        return false;
+    }
+
     /**
      * Install packages slated for installation during transaction
      */
@@ -343,6 +362,8 @@ class PEAR2_Pyrus_Installer
                 if (isset(PEAR2_Pyrus::$options['upgrade'])) {
                     foreach ($graph as $package) {
                         if ($reg->exists($package->name, $package->channel)) {
+                            static::$wasInstalled[$package->channel . '/' . $package->name] =
+                                $reg->package[$package->channel . '/' . $package->name];
                             $reg->uninstall($package->name, $package->channel);
                         }
                     }

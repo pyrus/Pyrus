@@ -35,11 +35,9 @@ class PEAR2_Pyrus_Installer_Role_Cfg extends PEAR2_Pyrus_Installer_Role_Common
      */
     function setup($installer, $pkg, $atts, $file)
     {
-        $reg = PEAR2_Pyrus_Config::current()->registry;
-        if (!$reg->exists($pkg->name, $pkg->channel)) {
+        if (!($package = $installer->wasInstalled($pkg->name, $pkg->channel))) {
             return;
         }
-        $package = $reg->package[$pkg->channel . '/' . $pkg->name];
         if (isset($package->files[$file]) && isset($package->files[$file]['attribs']['md5sum'])) {
             $this->md5 = $package->files[$file]['attribs']['md5sum'];
         }
@@ -52,17 +50,17 @@ class PEAR2_Pyrus_Installer_Role_Cfg extends PEAR2_Pyrus_Installer_Role_Common
             return parent::getRelativeLocation($pkg, $file, $retDir);
         }
         $info = parent::getRelativeLocation($pkg, $file, $retDir);
+        $path = PEAR2_Pyrus_Config::current()->cfg_dir .
+                    DIRECTORY_SEPARATOR;
         if ($retDir) {
-            $filepath = PEAR2_Pyrus_Config::current()->cfg_dir .
-                    DIRECTORY_SEPARATOR . $info[1];
+            $filepath = $info[1];
         } else {
-            $filepath = PEAR2_Pyrus_Config::current()->cfg_dir .
-                    DIRECTORY_SEPARATOR . $info;
+            $filepath = $info;
         }
-        if (@file_exists($filepath)) {
+        if (@file_exists($path .$filepath)) {
             // configuration has already been installed, check for modifications
             // made by the user
-            $md5 = md5_file($filepath);
+            $md5 = md5_file($path .$filepath);
             $newmd5 = $pkg->files[$file->packagedname]['attribs'];
             if (!isset($newmd5['md5sum'])) {
                 $newmd5 = md5_file($pkg->getFilePath($file->packagedname));
@@ -76,13 +74,15 @@ class PEAR2_Pyrus_Installer_Role_Cfg extends PEAR2_Pyrus_Installer_Role_Common
                 // configuration has been modified, so save our version as
                 // configfile.new-version
                 $old = $filepath;
-                $filepath .= '.new-' . $pkg->getVersion();
-                PEAR2_Pyrus::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
+                $filepath .= '.new-' . $pkg->version['release'];
+                PEAR2_Pyrus_Log::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
                                     "you should manually merge in changes to the existing configuration file");
             }
         }
         if ($retDir) {
             $info[1] = $filepath;
+        } else {
+            $info = $filepath;
         }
         return $info;
     }
