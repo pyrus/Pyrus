@@ -62,6 +62,7 @@ if (!empty($home)) {
     // for PEAR_Config initialization
     putenv('HOME="'.$temp_path);
 }
+$e = error_reporting(0);
 require_once "PEAR/Installer.php";
 require_once 'PEAR/Frontend/CLI.php';
 $config = &PEAR_Config::singleton($temp_path . '/pear.ini');
@@ -79,6 +80,7 @@ $installer->sortPackagesForInstall($result);
 $installer->setDownloadedPackages($result);
 $ret = $installer->install($result[0], $dp->getOptions());
 unset($ret['dirtree']);
+error_reporting($e);
 $test->assertEquals(array (
   'attribs' =>
   array (

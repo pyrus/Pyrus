@@ -121,11 +121,15 @@ class PEAR2_Pyrus_Registry_Pear1 extends PEAR2_Pyrus_Registry_Base
 
         clearstatcache();
         $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
+        if ($rt) {
+            set_magic_quotes_runtime(0);
+        }
         $fsize = filesize($this->filemap());
         $data = stream_get_contents($fp);
         fclose($fp);
-        set_magic_quotes_runtime($rt);
+        if ($rt) {
+            @set_magic_quotes_runtime($rt);
+        }
         $tmp = unserialize($data);
         if (!$tmp && $fsize > 7) {
             throw new PEAR2_Pyrus_Registry_Exception('Invalid Pear1 registry filemap data');

@@ -376,11 +376,17 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
         }
 
         $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
+        if ($rt) {
+            @set_magic_quotes_runtime(0);
+        }
+
         clearstatcache();
         fclose($fp);
         $data = unserialize(file_get_contents($this->_depdb));
-        set_magic_quotes_runtime($rt);
+
+        if ($rt) {
+            @set_magic_quotes_runtime($rt);
+        }
         return $data;
     }
 
@@ -401,9 +407,13 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
         }
 
         $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
+        if ($rt) {
+            @set_magic_quotes_runtime(0);
+        }
         fwrite($fp, serialize($deps));
-        set_magic_quotes_runtime($rt);
+        if ($rt) {
+            @set_magic_quotes_runtime($rt);
+        }
         fclose($fp);
         $this->_unlock();
     }
