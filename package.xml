@@ -35,7 +35,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-07-03</date>
- <time>13:08:32</time>
+ <time>13:27:40</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -739,12 +739,10 @@ Initial pyrus public API
       <file role="test" name="basic.phpt"/>
       <file role="test" name="bin_dir.env.phpt"/>
       <file role="test" name="bin_dir.env2.phpt"/>
-      <file role="test" name="bin_dir.env2.skipif.php"/>
       <file role="test" name="bin_dir.win.phpt"/>
       <file role="test" name="extension_dir.env.phpt"/>
       <file role="test" name="extension_dir.env2.phpt"/>
       <file role="test" name="extension_dir.ini.phpt"/>
-      <file role="test" name="extension_dir.ini.skipif.php"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <dir name="current">
@@ -963,42 +961,24 @@ Initial pyrus public API
       <file role="test" name="response.ocsp"/>
      </dir>
      <file role="test" name="bitstring.phpt"/>
-     <file role="test" name="bitstring.phpxdebug"/>
      <file role="test" name="boolean.phpt"/>
-     <file role="test" name="boolean.phpxdebug"/>
      <file role="test" name="decodeLength.phpt"/>
-     <file role="test" name="decodeLength.phpxdebug"/>
      <file role="test" name="fanciness.phpt"/>
-     <file role="test" name="fanciness.phpxdebug"/>
      <file role="test" name="fanciness2.phpt"/>
-     <file role="test" name="fanciness2.phpxdebug"/>
      <file role="test" name="generalizedtime.phpt"/>
-     <file role="test" name="generalizedtime.phpxdebug"/>
      <file role="test" name="ia5string.phpt"/>
-     <file role="test" name="ia5string.phpxdebug"/>
      <file role="test" name="integer.phpt"/>
-     <file role="test" name="integer.phpxdebug"/>
      <file role="test" name="null.phpt"/>
-     <file role="test" name="null.phpxdebug"/>
      <file role="test" name="objectidentifier.phpt"/>
-     <file role="test" name="objectidentifier.phpxdebug"/>
      <file role="test" name="octetstring.phpt"/>
-     <file role="test" name="octetstring.phpxdebug"/>
      <file role="test" name="parse.noschema.phpt"/>
-     <file role="test" name="parse.noschema.phpxdebug"/>
      <file role="test" name="parse.ocsp.request.phpt"/>
-     <file role="test" name="parse.ocsp.request.phpxdebug"/>
      <file role="test" name="parse.ocsp.response.phpt"/>
-     <file role="test" name="parse.ocsp.response.phpxdebug"/>
      <file role="test" name="parse.phpt"/>
-     <file role="test" name="parse.phpxdebug"/>
      <file role="test" name="prependTLV.phpt"/>
-     <file role="test" name="prependTLV.phpxdebug"/>
      <file role="test" name="printablestring.phpt"/>
-     <file role="test" name="printablestring.phpxdebug"/>
      <file role="test" name="setup.php.inc"/>
      <file role="test" name="utctime.phpt"/>
-     <file role="test" name="utctime.phpxdebug"/>
     </dir>
     <dir name="DirectedGraph">
      <file role="test" name="basic.phpt"/>
@@ -2560,7 +2540,6 @@ Initial pyrus public API
       <file role="test" name="upgrade.phpt"/>
       <file role="test" name="upgrade2.phpt"/>
       <file role="test" name="upgradeRegistry.phpt"/>
-      <file role="test" name="upgradeRegistry.skipif.php"/>
      </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>
@@ -2627,18 +2606,18 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
