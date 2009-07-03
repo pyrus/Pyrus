@@ -210,7 +210,12 @@ class PEAR2_Pyrus_Package_Creator
         foreach ($package->packagingcontents as $packageat => $info) {
             $role =
                 PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $info['attribs']['role']);
-            $role->packageTimeValidate($package, $info);
+            try {
+                $role->packageTimeValidate($package, $info);
+            } catch (\Exception $e) {
+                throw new PEAR2_Pyrus_Package_Creator_Exception('Invalid file ' .
+                            $packageat . ': ' . $e->getMessage(), $e);
+            }
 
             $packageat = str_replace('\\', '/', $packageat);
             $packageat = str_replace('//', '/', $packageat);
