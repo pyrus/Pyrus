@@ -923,33 +923,38 @@ addchan_success:
             $summaries = array();
             $pnameinfo = array();
             $versions = array();
-            foreach ($category as $package) {
-                $installed = ' ';
-                if ($package->isUpgradeable()) {
-                    $installed = '!';
-                } elseif ($reg->exists($package->name, $args['channel'])) {
-                    $installed = '*';
-                }
-                $found = false;
-                foreach ($package as $version => $latest) {
-                    $found = true;
-                    break;
-                }
-                $pnames[] = $package->name;
-                $summaries[] = $package->summary;
-                if (!$found) {
-                    $versions[] = '--';
+            try {
+                foreach ($category as $package) {
+                    $installed = ' ';
+                    if ($package->isUpgradeable()) {
+                        $installed = '!';
+                    } elseif ($reg->exists($package->name, $args['channel'])) {
+                        $installed = '*';
+                    }
+                    $found = false;
+                    foreach ($package as $version => $latest) {
+                        $found = true;
+                        break;
+                    }
+                    $pnames[] = $package->name;
+                    $summaries[] = $package->summary;
+                    if (!$found) {
+                        $versions[] = '--';
+                        $pnameinfo[$package->name] = array('installed' => $installed,
+                                                           'summary' => $package->summary,
+                                                           'latest' => 'n/a');
+                        continue;
+                    }
+                    $versions[] = $version;
+                    $latest['v'] = $version;
+    
                     $pnameinfo[$package->name] = array('installed' => $installed,
                                                        'summary' => $package->summary,
-                                                       'latest' => 'n/a');
-                    continue;
+                                                       'latest' => $latest);
                 }
-                $versions[] = $version;
-                $latest['v'] = $version;
-
-                $pnameinfo[$package->name] = array('installed' => $installed,
-                                                   'summary' => $package->summary,
-                                                   'latest' => $latest);
+            } catch (\Exception $e) {
+                echo "Error: Category has broken REST (", $e->getMessage(), ")\n";
+                continue;
             }
             // calculate the longest package name
             $longest = array_reduce($pnames, $func = function($last, $current) {
