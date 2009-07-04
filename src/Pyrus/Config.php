@@ -1107,27 +1107,17 @@ class PEAR2_Pyrus_Config
 
     public function defaultValue($key)
     {
-        if (isset(self::$defaults[$key])) {
-            if ($key === 'verbose') {
-                // this prevents a rather nasty loop if logging is checking on verbose
-                return self::$defaults['verbose'];
-            }
-            PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
-                                 $key .
-                ' default value "' . self::$defaults[$key] . '"');
-            $ret = str_replace('@php_dir@', $this->pearDir, self::$defaults[$key]);
-            PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
-                                 $key .
-                ' default value "' . self::$defaults[$key] . '"');
-            return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
+        if ($key === 'verbose') {
+            // this prevents a rather nasty loop if logging is checking on verbose
+            return self::$defaults['verbose'];
         }
         PEAR2_Pyrus_Log::log(5, 'Replacing @php_dir@ for config variable ' .
                              $key .
-            ' default value "' . self::$customDefaults[$key] . '"');
-        $ret = str_replace('@php_dir@', $this->pearDir, self::$customDefaults[$key]);
+            ' default value "' . self::$defaults[$key] . '"');
+        $ret = str_replace('@php_dir@', $this->pearDir, self::$defaults[$key]);
         PEAR2_Pyrus_Log::log(5, 'Replacing @default_config_dir@ for config variable ' .
                              $key .
-            ' default value "' . self::$customDefaults[$key] . '"');
+            ' default value "' . self::$defaults[$key] . '"');
         return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
     }
 
