@@ -184,6 +184,8 @@ http://pear.php.net/dtd/channel-1.0.xsd'
             return new PEAR2_Pyrus_Channel_Remotepackages($this);
         } elseif ($var == 'remotepackage') {
             return new PEAR2_Pyrus_Channel_Remotepackage($this, false);
+        } elseif ($var == 'remotecategories') {
+            return new PEAR2_Pyrus_Channel_Remotecategories($this);
         }
         if (!isset($this->channelInfo[$var])) {
             return null;

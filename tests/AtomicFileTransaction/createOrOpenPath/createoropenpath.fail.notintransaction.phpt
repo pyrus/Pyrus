@@ -13,6 +13,13 @@ try {
 } catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
     $test->assertEquals('Cannot create foo - not in a transaction', $e->getMessage(), 'error');
 }
+
+try {
+    $atomic->openPath('foo');
+    die('should have failed');
+} catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+    $test->assertEquals('Cannot open foo - not in a transaction', $e->getMessage(), 'error');
+}
 ?>
 ===DONE===
 --CLEAN--

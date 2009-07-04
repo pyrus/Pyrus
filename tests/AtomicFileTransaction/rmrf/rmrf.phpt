@@ -19,6 +19,14 @@ $test->assertFileExists(__DIR__ . '/testit/anothernew/dir/file', __DIR__ . '/tes
 
 $atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
+try {
+    $atomic->rmrf(__DIR__ . '/testit', true);
+    throw new Exception('did not fail and should');
+} catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+    $test->assertEquals('Unable to fully remove ' . __DIR__ . '/testit, directory is not empty',
+                        $e->getMessage(), 'removal message');
+}
+
 $atomic->rmrf(__DIR__ . '/testit');
 
 $test->assertFileNotExists(__DIR__ . '/testit', __DIR__ . '/testit');
