@@ -43,6 +43,10 @@ class PEAR2_Pyrus
      * For easy unit testing
      */
     static public $downloadClass = 'PEAR2_HTTP_Request';
+    /**
+     * For frontends to control
+     */
+    static public $downloadListener = 'PEAR2_Pyrus_DownloadProgressListener';
 
     static public $paranoid;
 
@@ -98,7 +102,8 @@ class PEAR2_Pyrus
         $class = static::$downloadClass;
         $request = new $class($url);
         if ($doprogress) {
-            $request->attach(new PEAR2_Pyrus_DownloadProgressListener);
+            $listenerclass = static::$downloadListener;
+            $request->attach(new $listenerclass);
         }
         $host = $info['host'];
         if (!array_key_exists('port', $info)) {

@@ -43,11 +43,7 @@ class PEAR2_Pyrus_DownloadProgressListener extends PEAR2_HTTP_Request_Listener
         switch ($event) {
             case 'connect' :
                 $this->preview = "Connected...\n";
-                break;
-            case 'disconnect' :
-                if (!$this->preview) {
-                    echo "done\n";
-                }
+                $this->done = false;
                 break;
             case 'redirect' :
                 $this->preview .= 'Redirected to ' . $data . "\n";
@@ -61,14 +57,17 @@ class PEAR2_Pyrus_DownloadProgressListener extends PEAR2_HTTP_Request_Listener
             case 'downloadprogress' :
                 // borrowed from fetch.php in php-src
                 if ($data > 0) {
-                    echo $this->preview;
-                    $this->preview = '';
+                    if ($this->preview) {
+                        PEAR2_Pyrus_Log::log(0, $this->preview);
+                       $this->preview = '';
+                    }
                     if (!isset($this->filesize)) {
-                        printf("\rUnknown filesize.. %2d kb done..", $data/1024);
+                        PEAR2_Pyrus_Log::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
                     } else {
                         $length = (int)(($data/$this->filesize)*100);
-                        printf("\r[%-100s] %d%% (%2d/%2d kb)", str_repeat("=", $length). ">", $length,
-                               ($data/1024), $this->filesize/1024);
+                        PEAR2_Pyrus_Log::log(0,
+                                sprintf("[%-100s] %d%% (%2d/%2d kb)\r", str_repeat("=", $length). ">", $length,
+                               ($data/1024), $this->filesize/1024));
                     }
                 }
                 break;

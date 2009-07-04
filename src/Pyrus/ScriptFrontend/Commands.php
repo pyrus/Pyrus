@@ -1163,7 +1163,11 @@ addchan_success:
             }
         }
         if ($level <= $this->verbose) {
-            echo $message, "\n";
+            if ($message[strlen($message)-1] !== "\r") {
+                echo $message, "\n";
+            } else {
+                echo $message;
+            }
         }
     }
 }
