@@ -60,10 +60,12 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
                 $this->_registries[] = new $registry($path, $readonly);
             } catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
                 $exceptions[] = $e;
+            } catch (PEAR2_Pyrus_Registry_Exception $e) {
+                $exceptions[] = $e;
             }
         }
         if (!count($this->_registries)) {
-            throw new PEAR2_Pyrus_Registry_Exception(
+            throw new PEAR2_Pyrus_ChannelRegistry_Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
