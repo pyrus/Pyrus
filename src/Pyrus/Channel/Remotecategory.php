@@ -56,7 +56,7 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
         if ($var == 'basiclist') {
             $ret = array();
             foreach ($this->packagesinfo as $info) {
-                if (!count($info['a'])) {
+                if (isset($info['a']) || !count($info['a'])) {
                     $ret[] = array('package' => $info['p']['n'],
                                    'latest' => array('v' => 'n/a', 's' => 'n/a', 'm' => 'n/a'),
                                    'stable' => 'n/a');
@@ -92,13 +92,16 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
 
     protected function getPackage($package)
     {
-        $releases = $package['a']['r'];
-        if (!isset($releases[0])) {
-            $releases = array($releases);
-        }
-        foreach ($releases as $i => $release) {
-            if (!isset($release['m'])) {
-                $releases[$i]['m'] = '5.2.0';
+        $releases = array();
+        if (isset($package['a'])) {
+            $releases = $package['a']['r'];
+            if (!isset($releases[0])) {
+                $releases = array($releases);
+            }
+            foreach ($releases as $i => $release) {
+                if (!isset($release['m'])) {
+                    $releases[$i]['m'] = '5.2.0';
+                }
             }
         }
         $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);

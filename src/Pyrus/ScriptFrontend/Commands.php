@@ -929,12 +929,21 @@ addchan_success:
                     $installed = '!';
                 } elseif ($reg->exists($package->name, $args['channel'])) {
                     $installed = '*';
-                } 
+                }
+                $found = false;
                 foreach ($package as $version => $latest) {
+                    $found = true;
                     break;
                 }
                 $pnames[] = $package->name;
                 $summaries[] = $package->summary;
+                if (!$found) {
+                    $versions[] = '--';
+                    $pnameinfo[$package->name] = array('installed' => $installed,
+                                                       'summary' => $package->summary,
+                                                       'latest' => 'n/a');
+                    continue;
+                }
                 $versions[] = $version;
                 $latest['v'] = $version;
 
@@ -953,13 +962,23 @@ addchan_success:
             $longestversion = array_reduce($versions, $func, 0) + 1;
             if ($longestsummary-- + $longest-- + $longestversion-- > 80) {
                 foreach ($pnameinfo as $package => $info) {
-                    echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}s\n", $info['installed'],
-                                 $info['latest'], $info['summary']);
+                    if (is_string($info['latest'])) {
+                        echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}s\n", $info['installed'],
+                                 $package, $info['latest'], $info['summary']);
+                    } else {
+                        echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}s\n", $info['installed'],
+                                 $package, $info['latest']['v'], $info['summary']);
+                    }
                 }
             } else {
                 foreach ($pnameinfo as $package => $info) {
-                    echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}s\n", $info['installed'],
+                    if (is_string($info['latest'])) {
+                        echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}s\n", $info['installed'],
+                                 $package, $info['latest'], $info['summary']);
+                    } else {
+                        echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}s\n", $info['installed'],
                                  $package, $info['latest']['v'], $info['summary']);
+                    }
                 }
             }
             echo "Key: * = installed, ! = upgrades available\n";

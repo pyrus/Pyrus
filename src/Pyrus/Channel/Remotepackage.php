@@ -514,7 +514,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     function rewind()
     {
-        if ($this->releaseList) {
+        if (is_array($this->releaseList)) {
             return reset($this->releaseList);
         }
         if (!$this->name) {
