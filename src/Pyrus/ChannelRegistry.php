@@ -187,7 +187,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
 
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->get($offset, false);
     }
 
     public function offsetSet($offset, $value)
