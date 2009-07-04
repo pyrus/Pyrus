@@ -56,7 +56,7 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
         if ($var == 'basiclist') {
             $ret = array();
             foreach ($this->packagesinfo as $info) {
-                if (isset($info['a']) || !count($info['a'])) {
+                if (!isset($info['a']) || !count($info['a'])) {
                     $ret[] = array('package' => $info['p']['n'],
                                    'latest' => array('v' => 'n/a', 's' => 'n/a', 'm' => 'n/a'),
                                    'stable' => 'n/a');
