@@ -1,11 +1,11 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry::delete() delete internal channel
+\pear2\Pyrus\ChannelRegistry::delete() delete internal channel
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 $c->saveConfig();
 foreach (array('pear.php.net',
@@ -18,7 +18,7 @@ foreach (array('pear.php.net',
     try {
         $c->channelregistry->delete($chan);
         throw new Exception('delete succeeded and should have failed');
-    } catch(PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+    } catch(\pear2\Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals('Cannot delete default channel ' . $name, $e->getMessage(), $name . ' message');
     }
     $test->assertEquals(1, $c->channelregistry->exists($name), $name.' channel still exists');

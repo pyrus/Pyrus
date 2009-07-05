@@ -4,7 +4,7 @@
 try {
     $a = $package->compatible['test/test']['oops'];
     throw new Exception('$a = [oops] worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use -> operator to access compatible package properties',
                         $e->getMessage(), '$a = [oops]');
 }
@@ -12,7 +12,7 @@ try {
 try {
     $a = $package->compatible['test'];
     throw new Exception('[test] worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Cannot access "test", must use "channel/package" to specify a compatible package to access',
                         $e->getMessage(), '[test]');
 }
@@ -20,7 +20,7 @@ try {
 try {
     $package->compatible['test/test']['oops'] = 1;
     throw new Exception('[oops] = 1 worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use -> operator to access compatible package properties',
                         $e->getMessage(), '[oops] = 1');
 }
@@ -28,15 +28,15 @@ try {
 try {
     $package->compatible['test'] = 1;
     throw new Exception('[test] = 1 worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
-    $test->assertEquals('Can only set $pf->compatible[\'test\'] to PEAR2_Pyrus_PackageFile_v2_Compatible object',
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
+    $test->assertEquals('Can only set $pf->compatible[\'test\'] to \pear2\Pyrus\PackageFile\v2\Compatible object',
                         $e->getMessage(), '[test] = 1');
 }
 
 try {
     $package->compatible['test'] = $package->compatible['test/test'];
     throw new Exception('[test] = test/test worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Cannot set "test", must use "channel/package" to specify a compatible package to set',
                         $e->getMessage(), '[test] = test/test');
 }
@@ -44,7 +44,7 @@ try {
 try {
     $package->compatible['test/test'] = $package->compatible['test/test1'];
     throw new Exception('[test/test] = test/test1 worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Cannot set test/test to test/test1, use $pf->compatible[] to set a new value',
                         $e->getMessage(), '[test/test] = test/test1');
 }
@@ -52,7 +52,7 @@ try {
 try {
     isset($package->compatible['test/test']['oops']);
     throw new Exception('isset([oops]) worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use -> operator to access compatible package properties',
                         $e->getMessage(), 'isset([oops])');
 }
@@ -60,7 +60,7 @@ try {
 try {
     unset($package->compatible['test/test']['oops']);
     throw new Exception('unset([oops]) worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use -> operator to access compatible package properties',
                         $e->getMessage(), 'unset([oops])');
 }
@@ -68,7 +68,7 @@ try {
 try {
     $a = $package->compatible->test;
     throw new Exception('->test worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use [] operator to access compatible packages',
                         $e->getMessage(), '->test');
 }
@@ -76,7 +76,7 @@ try {
 try {
     $package->compatible->test();
     throw new Exception('->test() worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use [] operator to access compatible packages',
                         $e->getMessage(), '->test()');
 }
@@ -84,7 +84,7 @@ try {
 try {
     $package->compatible['test/test']->foo();
     throw new Exception('->foo() worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Unknown variable foo, should be one of name, channel, min, max, exclude',
                         $e->getMessage(), '->foo()');
 }
@@ -92,7 +92,7 @@ try {
 try {
     $package->compatible['test/test']->name();
     throw new Exception('->name() worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Cannot change compatible package name, use unset() to remove the old compatible package'
 ,
                         $e->getMessage(), '->name()');
@@ -101,7 +101,7 @@ try {
 try {
     $package->compatible['test/test']->channel();
     throw new Exception('->channel() worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Cannot change compatible package name, use unset() to remove the old compatible package'
 ,
                         $e->getMessage(), '->channel()');
@@ -110,7 +110,7 @@ try {
 try {
     isset($package->compatible->oops);
     throw new Exception('isset(->oops) worked and should not');
-} catch (PEAR2_Pyrus_PackageFile_v2_Compatible_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\v2\Compatible\Exception $e) {
     $test->assertEquals('Use [] operator to access compatible packages',
                         $e->getMessage(), 'isset(->oops)');
 }

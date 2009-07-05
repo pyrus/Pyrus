@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_ObjectIdentifier
+ * \pear2\Pyrus\DER\ObjectIdentifier
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_ObjectIdentifier extends PEAR2_Pyrus_DER
+namespace pear2\Pyrus\DER;
+class ObjectIdentifier extends \pear2\Pyrus\DER
 {
     const TAG = 0x06;
     protected $value = '';
@@ -56,12 +57,12 @@ class PEAR2_Pyrus_DER_ObjectIdentifier extends PEAR2_Pyrus_DER
     function setValue($value)
     {
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_DER_Exception('Object Identifier must be a string');
+            throw new \pear2\Pyrus\DER\Exception('Object Identifier must be a string');
         }
         $value = explode('.', $value);
         foreach ($value as $val) {
             if (!preg_match('/[0-9]+/', $val)) {
-                throw new PEAR2_Pyrus_DER_Exception('Object Identifier must be a period-delimited string of numbers');
+                throw new \pear2\Pyrus\DER\Exception('Object Identifier must be a period-delimited string of numbers');
             }
         }
         $this->value = $value;

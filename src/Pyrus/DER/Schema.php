@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_Schema
+ * \pear2\Pyrus\DER\Schema
  *
  * PHP version 5
  *
@@ -25,7 +25,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
+namespace pear2\Pyrus\DER;
+class Schema extends \pear2\Pyrus\DER
 {
     static protected $types = array();
 
@@ -37,7 +38,7 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
     protected $class;
     protected $lastfind = false;
 
-    function __construct(PEAR2_Pyrus_DER_Schema $parent = null, $tag = 0, $type = '')
+    function __construct(\pear2\Pyrus\DER\Schema $parent = null, $tag = 0, $type = '')
     {
         $this->parent = $parent;
         $this->tag = $tag;
@@ -85,20 +86,20 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
     {
         if ($func == 'choice') {
             if (isset($args[0])) {
-                return new PEAR2_Pyrus_DER_SchemaChoice($this, $args[0]);
+                return new \pear2\Pyrus\DER\SchemaChoice($this, $args[0]);
             } else {
-                return new PEAR2_Pyrus_DER_SchemaChoice($this);
+                return new \pear2\Pyrus\DER\SchemaChoice($this);
             }
         }
         if (!isset($args[0])) {
-            throw new PEAR2_Pyrus_DER_Exception('Invalid schema, element must be named');
+            throw new \pear2\Pyrus\DER\Exception('Invalid schema, element must be named');
         }
         $name = $args[0];
         if ($func == 'any') {
             if (isset($args[1])) {
-                $obj = new PEAR2_Pyrus_DER_Schema($this, 0x80 | $args[1], 'any');
+                $obj = new \pear2\Pyrus\DER\Schema($this, 0x80 | $args[1], 'any');
             } else {
-                $obj = new PEAR2_Pyrus_DER_Schema($this, 0, 'any');
+                $obj = new \pear2\Pyrus\DER\Schema($this, 0, 'any');
             }
         } elseif (isset(self::$types[strtolower($func)])) {
             $obj = clone self::$types[strtolower($func)];
@@ -111,9 +112,9 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
                 }
             }
         } else {
-            $class = 'PEAR2_Pyrus_DER_' . ucfirst($func);
+            $class = 'pear2\Pyrus\DER\\' . ucfirst($func);
             if (!class_exists($class, 1)) {
-                throw new PEAR2_Pyrus_DER_Exception('Unknown type ' . $func .
+                throw new \pear2\Pyrus\DER\Exception('Unknown type ' . $func .
                                                     ' at ' . $this->path());
             }
             if (!isset($args[1])) {
@@ -124,7 +125,7 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
                     $tag |= 0x20;
                 }
             }
-            $obj = new PEAR2_Pyrus_DER_Schema($this, $tag, $class);
+            $obj = new \pear2\Pyrus\DER\Schema($this, $tag, $class);
         }
         $this->objs[$name] = $obj;
         $obj->setName($name);
@@ -145,19 +146,19 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
 
     function parentSchema()
     {
-        if ($this instanceof PEAR2_Pyrus_DER_SchemaChoice) {
+        if ($this instanceof \pear2\Pyrus\DER\SchemaChoice) {
             return true;
         }
-        if ($this->class === 'PEAR2_Pyrus_DER_Sequence') {
+        if ($this->class === 'pear2\Pyrus\DER\Sequence') {
             return true;
         }
-        if ($this->class === 'PEAR2_Pyrus_DER_Set') {
+        if ($this->class === 'pear2\Pyrus\DER\Set') {
             return true;
         }
         return false;
     }
 
-    function setParent(PEAR2_Pyrus_DER_Schema $parent)
+    function setParent(\pear2\Pyrus\DER\Schema $parent)
     {
         $this->parent = $parent;
     }
@@ -167,7 +168,7 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
         return $this->parent;
     }
 
-    static function addType($name, PEAR2_Pyrus_DER_Schema $schema)
+    static function addType($name, \pear2\Pyrus\DER\Schema $schema)
     {
         self::$types[strtolower($name)] = $schema;
     }
@@ -194,7 +195,7 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
         if (isset($this->objs[$var])) {
             return $this->objs[$var];
         }
-        throw new PEAR2_Pyrus_DER_Exception('Unknown schema element ' . $var);
+        throw new \pear2\Pyrus\DER\Exception('Unknown schema element ' . $var);
     }
 
 
@@ -230,17 +231,17 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
                 if (($tag & 0x80) === 0x80) {
                     // context-sensitive tag, do best guess
                     if (($tag & 0x20) == 0x20) {
-                        $tag = PEAR2_Pyrus_DER_Sequence::TAG;
+                        $tag = \pear2\Pyrus\DER\Sequence::TAG;
                     } else {
-                        $tag = PEAR2_Pyrus_DER_OctetString::TAG;
+                        $tag = \pear2\Pyrus\DER\OctetString::TAG;
                     }
                 }
                 if (!isset($this->tagMap[$tag])) {
-                    throw new PEAR2_Pyrus_DER_Exception('Unknown tag: ' . dechex($tag) . ' at ' .
+                    throw new \pear2\Pyrus\DER\Exception('Unknown tag: ' . dechex($tag) . ' at ' .
                                                         $this->path());
                 }
                 $type = $this->tagMap[$tag];
-                $ret = new PEAR2_Pyrus_DER_Schema($this->parent, $tag, $type);
+                $ret = new \pear2\Pyrus\DER\Schema($this->parent, $tag, $type);
                 $ret->setName($obj->name);
                 $this->lastfind = $index;
                 return $ret;
@@ -255,23 +256,23 @@ class PEAR2_Pyrus_DER_Schema extends PEAR2_Pyrus_DER
             }
             if (!$obj->optional()) {
                 if (isset($this->tagMap[$tag])) {
-                    $tag = '"' . str_replace('PEAR2_Pyrus_DER_', '', $this->tagMap[$tag]) .
+                    $tag = '"' . str_replace('pear2\Pyrus\DER\\', '', $this->tagMap[$tag]) .
                         '" (0x' . dechex($tag) . ')';
                 } else {
                     $tag = dechex($tag);
                 }
-                throw new PEAR2_Pyrus_DER_Exception('Invalid DER document, required tag ' .
+                throw new \pear2\Pyrus\DER\Exception('Invalid DER document, required tag ' .
                                                     $index . ' not found, instead requested ' .
                                                     'tag value ' . $tag . ' at ' .
                                                     $this->path());
             }
         }
         if (isset($this->tagMap[$tag])) {
-            $tag = '"' . str_replace('PEAR2_Pyrus_DER_', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
+            $tag = '"' . str_replace('pear2\Pyrus\DER\\', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
         } else {
             $tag = dechex($tag);
         }
-        throw new PEAR2_Pyrus_DER_Exception('Invalid DER document, no matching elements for tag ' . $tag .
+        throw new \pear2\Pyrus\DER\Exception('Invalid DER document, no matching elements for tag ' . $tag .
                                             ' at ' . $this->path());
     }
 

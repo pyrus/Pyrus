@@ -3,7 +3,7 @@ PackageFile v2: test package.xml odd orderings (bloomy package)
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$apc = new PEAR2_Pyrus_Package(__DIR__ . '/packages/bloomy/package.xml');
+$apc = new \pear2\Pyrus\Package(__DIR__ . '/packages/bloomy/package.xml');
 $test->assertEquals('bloomy', $apc->name, 'if we get here, all is well unless this part fails');
 
 ?>

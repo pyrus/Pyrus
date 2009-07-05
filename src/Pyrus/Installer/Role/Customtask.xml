@@ -1,6 +1,6 @@
 <role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
  <name>customtask</name>
- <class>PEAR2_Pyrus_Installer_Role_Customtask</class>
+ <class>pear2\Pyrus\Installer\Role\Customtask</class>
  <validationmethod>validate</validationmethod>
  <releasetypes>php</releasetypes>
  <releasetypes>extsrc</releasetypes>

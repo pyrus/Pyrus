@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator
+ * \pear2\Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator
  *
  * PHP version 5
  *
@@ -23,16 +23,17 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator extends FilterIterator
+namespace pear2\Pyrus\PackageFile\v2Iterator;
+class ScriptFileFilterIterator extends \FilterIterator
 {
     private $_inner;
     private $_parent;
     private $_tasksNs;
-    function __construct(array $arr, PEAR2_Pyrus_IPackageFile $parent)
+    function __construct(array $arr, \pear2\Pyrus\IPackageFile $parent)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
-        parent::__construct($this->_inner = new ArrayIterator($arr));
+        parent::__construct($this->_inner = new \ArrayIterator($arr));
     }
 
     function accept()
@@ -47,10 +48,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator extends Filter
                 continue;
             }
 
-            $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), $key);
-            $task = str_replace(' ', '/', ucwords($task));
-            $task = str_replace('/', '_', $task);
-            $class = 'PEAR2_Pyrus_Task_' . $task;
+            $class = \pear2\Pyrus\Task\Common::getTask($key);
             if (!class_exists($class, true)) {
                 continue;
             }

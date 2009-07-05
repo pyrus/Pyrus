@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_Files_File
+ * \pear2\Pyrus\PackageFile\v2\Files\File
  *
  * PHP version 5
  *
@@ -23,13 +23,14 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Files_File extends ArrayObject
+namespace pear2\Pyrus\PackageFile\v2\Files;
+class File extends \ArrayObject
 {
     protected $pkg;
     protected $parent;
     protected $tasksNs;
 
-    function __construct(PEAR2_Pyrus_PackageFile_v2_Files $parent, PEAR2_Pyrus_PackageFile_v2 $ultraparent, array $info)
+    function __construct(\pear2\Pyrus\PackageFile\v2\Files $parent, \pear2\Pyrus\PackageFile\v2 $ultraparent, array $info)
     {
         $this->parent = $parent;
         $this->pkg = $ultraparent;
@@ -42,31 +43,30 @@ class PEAR2_Pyrus_PackageFile_v2_Files_File extends ArrayObject
         $task = str_replace('-', ' ', $var);
         $task = str_replace(' ', '/', ucwords($task));
         $task = str_replace('/', '_', $task);
-        $c = 'PEAR2_Pyrus_Task_' . $task;
+        $c = \pear2\Pyrus\Task\Common::getTask($var);
         if (isset($this[$this->tasksNs . $var])) {
             $inf = $this[$this->tasksNs . $var];
             if (isset($inf[0])) {
                 $ret = array();
                 foreach ($inf as $info) {
-                    $ret[] = new $c($this->pkg, PEAR2_Pyrus_Validate::NORMAL, $info, $this['attribs'], null);
+                    $ret[] = new $c($this->pkg, \pear2\Pyrus\Validate::NORMAL, $info, $this['attribs'], null);
                 }
                 goto return_multi;
             } else {
-                $c = 'PEAR2_Pyrus_Task_' . str_replace('-', '_', $var);
-                $ret = array(new $c($this->pkg, PEAR2_Pyrus_Validate::NORMAL, $inf, $this['attribs'], null));
+                $ret = array(new $c($this->pkg, \pear2\Pyrus\Validate::NORMAL, $inf, $this['attribs'], null));
                 goto return_multi;
             }
         }
         $ret = array();
 return_multi:
-        return new PEAR2_Pyrus_Task_MultipleProxy($this->pkg, $ret, $this['attribs'], $var);
+        return new \pear2\Pyrus\Task\MultipleProxy($this->pkg, $ret, $this['attribs'], $var);
     }
 
     function __set($var, $value)
     {
-        if (!($value instanceof PEAR2_Pyrus_Task_Common) && !($value instanceof PEAR2_Pyrus_Task_MultipleProxy)) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Can only change tasks via __set() to an instance ' .
-                                                        'of PEAR2_Pyrus_Task_Common');
+        if (!($value instanceof \pear2\Pyrus\Task\Common) && !($value instanceof \pear2\Pyrus\Task\MultipleProxy)) {
+            throw new \pear2\Pyrus\PackageFile\Exception('Can only change tasks via __set() to an instance ' .
+                                                        'of \pear2\Pyrus\Task\Common');
         }
         $this[$this->tasksNs . $var] = $value->getInfo();
         $this->pkg->setFilelistFile($this['attribs']['name'], $this->getArrayCopy());

@@ -1,11 +1,11 @@
 --TEST--
-PEAR2_Pyrus_Channel::__construct() basic test
+\pear2\Pyrus\Channel::__construct() basic test
 --FILE--
 <?php
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 try {
-    $channel = new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
+    $channel = new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
     try {
         $channel->validate();
     } catch (Exception $e) {
@@ -25,28 +25,28 @@ try {
     try {
         $a = $channel->protocols->poop['oops'];
         throw new Exception('poop protocol should not work and did');
-    } catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+    } catch (\pear2\Pyrus\ChannelFile\Exception $e) {
         $test->assertEquals('Unknown protocol: poop', $e->getMessage(), 'error');
     }
 
     try {
         $channel->protocols->poop = 'oops';
         throw new Exception('poop protocol set should not work and did');
-    } catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+    } catch (\pear2\Pyrus\ChannelFile\Exception $e) {
         $test->assertEquals('Unknown protocol: poop', $e->getMessage(), 'error set');
     }
     
     $mirrors = $channel->mirrors;
-    $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Servers', $mirrors, 'Mirrors returns object');
+    $test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Servers', $mirrors, 'Mirrors returns object');
     $test->assertEquals(2, count($mirrors), 'Two mirrors returned');
-    $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Mirror', $mirrors['us.pear.php.net'], 'Mirror returned is PEAR2_Pyrus_ChannelFile_v1_Mirror object');
-    $test->assertIsa('PEAR2_Pyrus_ChannelFile_v1_Mirror', $mirrors['de.pear.php.net'], 'Mirror returned is PEAR2_Pyrus_ChannelFile_v1_Mirror object');
+    $test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Mirror', $mirrors['us.pear.php.net'], 'Mirror returned is \pear2\Pyrus\ChannelFile\v1\Mirror object');
+    $test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Mirror', $mirrors['de.pear.php.net'], 'Mirror returned is \pear2\Pyrus\ChannelFile\v1\Mirror object');
     
     $test->assertEquals(array('attribs'=>array(
                                 'version' => 'default'),
-                                '_content'=>'PEAR2_Pyrus_Validate'), $channel->getValidationPackage(), 'getValidationPackage');
+                                '_content'=>'PEAR_Validate'), $channel->getValidationPackage(), 'getValidationPackage');
     
-    $test->assertEquals(true, $channel->getValidationObject() instanceof PEAR2_Pyrus_Validate, 'getValidationObject');
+    $test->assertEquals(true, $channel->getValidationObject() instanceof \pear2\Pyrus\Validate, 'getValidationObject');
     
     // should be moved to a separate test?
     $test->assertEquals(true, $channel->validChannelServer('__uri'), 'validChannelServer(__uri)');

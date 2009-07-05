@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel_Remotepackage
+ * \pear2\Pyrus\Channel\Remotepackage
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 implements ArrayAccess, Iterator
+namespace pear2\Pyrus\Channel;
+class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess, \Iterator
 {
     /**
      * openssl CA authorities whose certs we have
@@ -178,13 +179,13 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         if ($authorities) {
             return $authorities;
         }
-        $d = PEAR2_Pyrus::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
+        $d = \pear2\Pyrus\Main::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
         // for running out of svn
         if (!file_exists($d)) {
             $d = realpath(__DIR__ . '/../../../data/x509rootcerts');
         } else {
             if (strpos($d, 'phar://') === 0) {
-                if (!file_exists($temp = PEAR2_Pyrus_Config::current()->temp_dir .
+                if (!file_exists($temp = \pear2\Pyrus\Config::current()->temp_dir .
                                  DIRECTORY_SEPARATOR . 'x509rootcerts')) {
                     mkdir($temp, 0755, true);
                 }
@@ -203,17 +204,17 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         return $authorities;
     }
 
-    function __construct(PEAR2_Pyrus_IChannelFile $channelinfo, $releases = null)
+    function __construct(\pear2\Pyrus\IChannelFile $channelinfo, $releases = null)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
-            throw new PEAR2_Pyrus_Channel_Exception('Cannot access remote packages without REST1.0 protocol');
+            throw new \pear2\Pyrus\Channel\Exception('Cannot access remote packages without REST1.0 protocol');
         }
         // instruct parent::__set() to call $this->setRawVersion() when setting rawversion
         $this->rawMap['rawversion'] = array('setRawVersion');
-        $this->rest = new PEAR2_Pyrus_REST;
+        $this->rest = new \pear2\Pyrus\REST;
         $this->releaseList = $releases;
-        $this->minimumStability = PEAR2_Pyrus_Config::current()->preferred_state;
+        $this->minimumStability = \pear2\Pyrus\Config::current()->preferred_state;
         $this->explicitVersion = false;
     }
 
@@ -228,8 +229,8 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
      */
     function setExplicitState($stability)
     {
-        $states = PEAR2_Pyrus_Installer::betterStates($this->minimumStability);
-        $newstates = PEAR2_Pyrus_Installer::betterStates($stability);
+        $states = \pear2\Pyrus\Installer::betterStates($this->minimumStability);
+        $newstates = \pear2\Pyrus\Installer::betterStates($stability);
         if (count($newstates) > count($states)) {
             $this->minimumStability = $stability;
         }
@@ -282,7 +283,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         if (!$this->versionSet) {
             // this happens when doing a simple download outside of an install
             $this->rewind();
-            $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
+            $ok = \pear2\Pyrus\Installer::betterStates($this->minimumStability, true);
             foreach ($this->releaseList as $versioninfo) {
                 if (isset($versioninfo['m'])) {
                     // minimum PHP version required
@@ -291,7 +292,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                     }
                 }
 
-                if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus::$options['force'])) {
+                if (!in_array($versioninfo['s'], $ok) && !isset(\pear2\Pyrus\Main::$options['force'])) {
                     // release is not stable enough
                     continue;
                 }
@@ -300,20 +301,20 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             }
         }
         $url = $this->remoteAbridgedInfo['g'];
-        $errs = new PEAR2_MultiErrors;
+        $errs = new \PEAR2_MultiErrors;
 
         $certdownloaded = false;
         if (extension_loaded('openssl')) {
             // try to download openssl x509 signature certificate for our release
             try {
-                $cert = PEAR2_Pyrus::download($url . '.pem');
+                $cert = \pear2\Pyrus\Main::download($url . '.pem');
                 $cert = $cert->body;
                 $certdownloaded = true;
-            } catch (PEAR2_Pyrus_HTTPException $e) {
+            } catch (\pear2\Pyrus\HTTPException $e) {
                 // file does not exist, ignore
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $errs->E_ERROR[] = $e;
-                throw new PEAR2_Pyrus_Package_Exception(
+                throw new \pear2\Pyrus\Package\Exception(
                     'Invalid abstract package ' .
                     $this->channel . '/' .
                     $this->name . ' - certificate is invalid', $errs);
@@ -321,14 +322,14 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             if ($certdownloaded) {
                 $info = openssl_x509_parse($cert);
                 if (!$info) {
-                    throw new PEAR2_Pyrus_Package_Exception(
+                    throw new \pear2\Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is not a certificate');
                 }
                 if (true !== openssl_x509_checkpurpose($cert, X509_PURPOSE_SSL_SERVER,
                                                        self::authorities())) {
-                    throw new PEAR2_Pyrus_Package_Exception(
+                    throw new \pear2\Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is invalid');
@@ -336,7 +337,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 // now verify that this cert is in fact the releasing maintainer's certificate
                 // by verifying that alternate name is the releaser's email address
                 if (!isset($info['subject']) || !isset($info['subject']['emailAddress'])) {
-                    throw new PEAR2_Pyrus_Package_Exception(
+                    throw new \pear2\Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate does not contain' .
@@ -345,7 +346,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 // retrieve releaser's email address
                 
                 if ($info['subject']['emailAddress'] != $this->maintainer[$this->remoteAbridgedInfo['m']]->email) {
-                    throw new PEAR2_Pyrus_Package_Exception(
+                    throw new \pear2\Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate ' .
@@ -363,17 +364,17 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         foreach (array('.phar', '.tgz', '.tar') as $ext) {
             try {
                 if ($certdownloaded) {
-                    if (!file_exists(PEAR2_Pyrus_Config::current()->download_dir)) {
-                        mkdir(PEAR2_Pyrus_Config::current()->download_dir, 0755, true);
+                    if (!file_exists(\pear2\Pyrus\Config::current()->download_dir)) {
+                        mkdir(\pear2\Pyrus\Config::current()->download_dir, 0755, true);
                     }
-                    file_put_contents($pubkey = PEAR2_Pyrus_Config::current()->download_dir .
+                    file_put_contents($pubkey = \pear2\Pyrus\Config::current()->download_dir .
                                       DIRECTORY_SEPARATOR . basename($url) . $ext . '.pubkey', $key);
                 }
-                $ret = new PEAR2_Pyrus_Package_Remote($url . $ext);
+                $ret = new \pear2\Pyrus\Package\Remote($url . $ext);
                 if ($certdownloaded) {
                     if ($ext == '.tar' || $ext == '.tgz') {
                         if (phpversion() == '5.3.0') {
-                            PEAR2_Pyrus_Log::log(0, 'WARNING: ' . $url . $ext . ' may not be installable ' .
+                            \pear2\Pyrus\Logger::log(0, 'WARNING: ' . $url . $ext . ' may not be installable ' .
                                                                     'with PHP version 5.3.0, the PHP extension phar ' .
                                                                     'has a bug verifying openssl signatures for ' .
                                                                     'tar and tgz files.  Either upgrade to PHP 5.3.1 ' .
@@ -382,17 +383,17 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                     }
                 }
                 return $ret;
-            } catch (PEAR2_Pyrus_HTTPException $e) {
+            } catch (\pear2\Pyrus\HTTPException $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
                     unlink($pubkey);
                 }
                 $errs->E_ERROR[] = $e;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
                     unlink($pubkey);
                 }
                 $errs->E_ERROR[] = $e;
-                throw new PEAR2_Pyrus_Package_Exception(
+                throw new \pear2\Pyrus\Package\Exception(
                     'Invalid abstract package ' .
                     $this->channel . '/' .
                     $this->name, $errs);
@@ -401,17 +402,17 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
         try {
             // phar does not support signatures for zip archives
-            $ret = new PEAR2_Pyrus_Package_Remote($url . '.zip');
+            $ret = new \pear2\Pyrus\Package\Remote($url . '.zip');
             return $ret;
-        } catch (PEAR2_Pyrus_HTTPException $e) {
+        } catch (\pear2\Pyrus\HTTPException $e) {
             $errs->E_ERROR[] = $e;
-            throw new PEAR2_Pyrus_Package_Exception(
+            throw new \pear2\Pyrus\Package\Exception(
                 'Could not download abstract package ' .
                 $this->channel . '/' .
                 $this->name, $errs);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $errs->E_ERROR[] = $e;
-            throw new PEAR2_Pyrus_Package_Exception(
+            throw new \pear2\Pyrus\Package\Exception(
                 'Invalid abstract package ' .
                 $this->channel . '/' .
                 $this->name, $errs);
@@ -424,11 +425,11 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         try {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                     'p/' . $lowerpackage . '/info.xml');
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Channel_Exception('package ' . $var . ' does not exist', $e);
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Channel\Exception('package ' . $var . ' does not exist', $e);
         }
         if (is_string($this->releaseList)) {
-            $ok = PEAR2_Pyrus_Installer::betterStates($this->releaseList, true);
+            $ok = \pear2\Pyrus\Installer::betterStates($this->releaseList, true);
             if (isset($this->parent->protocols->rest['REST1.3'])) {
                 $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
                                                         'r/' . $lowerpackage . '/allreleases2.xml');
@@ -462,12 +463,12 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     function offsetSet($var, $value)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     /**
@@ -478,7 +479,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
         try {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                     'p/' . strtolower($var) . '/info.xml');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return true;
@@ -518,7 +519,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             return reset($this->releaseList);
         }
         if (!$this->name) {
-            throw new PEAR2_Pyrus_Channel_Exception('Cannot iterate without first choosing a remote package');
+            throw new \pear2\Pyrus\Channel\Exception('Cannot iterate without first choosing a remote package');
         }
         if (isset($this->parent->protocols->rest['REST1.3'])) {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
@@ -562,7 +563,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             return;
         }
         if (!$this->explicitVersion) {
-            $fakedep = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package(
+            $fakedep = new \pear2\Pyrus\PackageFile\v2\Dependencies\Package(
                 'required', 'package', null, array('name' => $this->name, 'channel' => $this->channel, 'uri' => null,
                                             'min' => null, 'max' => null,
                                             'recommended' => null, 'exclude' => null,
@@ -588,7 +589,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
     {
         // set up release list if not done yet
         $this->rewind();
-        $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
+        $ok = \pear2\Pyrus\Installer::betterStates($this->minimumStability, true);
         $ret = array();
         foreach ($this->releaseList as $versioninfo) {
             if (isset($versioninfo['m'])) {
@@ -612,26 +613,26 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
 
     /**
      * Figure out which version is best, and use this, or error out if none work
-     * @param PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $compositeDep
+     * @param \pear2\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep
      *        the composite of all dependencies on this package, as calculated
-     *        by {@link PEAR2_Pyrus_Package_Dependency::getCompositeDependency()}
+     *        by {@link \pear2\Pyrus\Package\Dependency::getCompositeDependency()}
      */
-    function figureOutBestVersion(PEAR2_Pyrus_PackageFile_v2_Dependencies_Package $compositeDep)
+    function figureOutBestVersion(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep)
     {
         // set up release list if not done yet
         $this->rewind();
-        $ok = PEAR2_Pyrus_Installer::betterStates($this->minimumStability, true);
+        $ok = \pear2\Pyrus\Installer::betterStates($this->minimumStability, true);
         $v = $this->explicitVersion;
         $n = $this->channel . '/' . $this->name;
         $failIfExplicit = function() use ($v, $n) {
             if ($v && $versioninfo['v'] == $v) {
-                throw new PEAR2_Pyrus_Channel_Exception($n .
+                throw new \pear2\Pyrus\Channel\Exception($n .
                                                         ' Cannot be installed, it does not satisfy ' .
                                                         'all dependencies');
             }
         };
         foreach ($this->releaseList as $versioninfo) {
-            if (isset(PEAR2_Pyrus::$options['force'])) {
+            if (isset(\pear2\Pyrus\Main::$options['force'])) {
                 // found one
                 if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {
                     // inform the installer we need to reset dependencies
@@ -649,7 +650,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 }
             }
 
-            if (!in_array($versioninfo['s'], $ok) && !isset(PEAR2_Pyrus::$options['force'])) {
+            if (!in_array($versioninfo['s'], $ok) && !isset(\pear2\Pyrus\Main::$options['force'])) {
                 // release is not stable enough
                 continue;
             }
@@ -688,13 +689,13 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                 continue;
             }
 
-            $paranoia = PEAR2_Pyrus::getParanoiaLevel();
+            $paranoia = \pear2\Pyrus\Main::getParanoiaLevel();
             if ($paranoia > 1) {
                 // first, we check to see if we are upgrading
-                if (isset(PEAR2_Pyrus::$options['upgrade'])) {
+                if (isset(\pear2\Pyrus\Main::$options['upgrade'])) {
                     // now we check to see if we are installed
-                    if (isset(PEAR2_Pyrus_Config::current()->registry->package[$n])) {
-                        $installed = PEAR2_Pyrus_Config::current()
+                    if (isset(\pear2\Pyrus\Config::current()->registry->package[$n])) {
+                        $installed = \pear2\Pyrus\Config::current()
                                      ->registry->info($this->name, $this->channel, 'apiversion');
                         $installed = explode('.', $installed);
                         if (count($installed) == 2) {
@@ -709,7 +710,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                                 $this->parent->protocols->rest['REST1.3']->baseurl .
                                 'r/' . strtolower($this->name) . '/v2.' . $versioninfo['v'] . '.xml');
                         } else {
-                            throw new PEAR2_Pyrus_Channel_Exception('Channel ' .
+                            throw new \pear2\Pyrus\Channel\Exception('Channel ' .
                                                                     $this->channel .
                                                                     ' does not support ' .
                                                                     'a paranoia greater than 1');
@@ -728,7 +729,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                         switch ($paranoia) {
                             case 4 :
                                 if ($installed != $api) {
-                                    PEAR2_Pyrus_Log::log(0,
+                                    \pear2\Pyrus\Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->package . ' version ' .
                                         $versioninfo['v'] . ', API has changed');
@@ -737,7 +738,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                                 break;
                             case 3 :
                                 if ($installed[0] == $api[0] && $installed[1] != $api[1]) {
-                                    PEAR2_Pyrus_Log::log(0,
+                                    \pear2\Pyrus\Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->package . ' version ' .
                                         $versioninfo['v'] . ', API has added' .
@@ -747,7 +748,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
                                 // break intentionally omitted
                             case 2 :
                                 if ($installed[0] != $api[0]) {
-                                    PEAR2_Pyrus_Log::log(0,
+                                    \pear2\Pyrus\Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->package . ' version ' .
                                         $versioninfo['v'] . ', API breaks' .
@@ -768,7 +769,7 @@ class PEAR2_Pyrus_Channel_Remotepackage extends PEAR2_Pyrus_PackageFile_v2 imple
             $this->version['release'] = $versioninfo['v'];
             return;
         }
-        throw new PEAR2_Pyrus_Channel_Exception('Unable to locate a package release for ' .
+        throw new \pear2\Pyrus\Channel\Exception('Unable to locate a package release for ' .
                                                 $this->channel . '/' . $this->name .
                                                 ' that can satisfy all dependencies');
     }

@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), no packages installed
+\pear2\Pyrus\ScriptFrontend\Commands::listPackages(), no packages installed
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -9,10 +9,10 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 mkdir(__DIR__ . '/testit');
 set_include_path(__DIR__ . '/testit');
-PEAR2_Pyrus_Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+\pear2\Pyrus\Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
+$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'list-packages'));
 
 $contents = ob_get_contents();

@@ -23,5 +23,5 @@ $test->assertEquals(false, isset($reg->compatible['test/test']), 'unset 2');
 
 foreach ($reg->compatible as $name => $obj) {
     $test->assertEquals('test/test', $name, 'iteration test');
-    $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Compatible', $obj, 'right class');
+    $test->assertIsa('\pear2\Pyrus\PackageFile\v2\Compatible', $obj, 'right class');
 }

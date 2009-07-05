@@ -4,7 +4,7 @@ Dependency_Validator: subpackage dependency, version valid bounds
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo']->min('1.0.0')->max('1.2.3')->providesextension('foo');
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
@@ -13,13 +13,13 @@ $fake->files['foo'] = array('role' => 'php');
 $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
-PEAR2_Pyrus_Config::current()->registry->install($fake);
+\pear2\Pyrus\Config::current()->registry->install($fake);
 
 $test->assertEquals(true, $validator->validateSubpackageDependency($foo, array()), 'foo max');
 $test->assertEquals(0, count($errs), 'foo count max');
 
 $fake->version['release'] = '1.0.0';
-PEAR2_Pyrus_Config::current()->registry->replace($fake);
+\pear2\Pyrus\Config::current()->registry->replace($fake);
 
 $test->assertEquals(true, $validator->validateSubpackageDependency($foo, array()), 'foo min');
 $test->assertEquals(0, count($errs), 'foo count min');

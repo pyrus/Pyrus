@@ -4,7 +4,7 @@ Dependency_Validator: PHP dependency
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $php = $fake->dependencies['required']->php;
 $php->min('5.3.0')->max('5.4.0')->exclude('5.3.1');
 $test->assertEquals(true, $validator->validatePhpDependency($php), '5.3.0');
@@ -24,7 +24,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->phpversion = '5.4.1';
@@ -39,7 +39,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->phpversion = '5.3.1';
@@ -51,10 +51,10 @@ foreach ($errs->E_ERROR as $error) {
                         '5.3.1 fail message');
 }
 
-PEAR2_Pyrus::$options = array('force' => true);
+\pear2\Pyrus\Main::$options = array('force' => true);
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->phpversion = '5.2.9';
 $test->assertEquals(true, $validator->validatePhpDependency($php), '5.2.9 fail');
@@ -68,7 +68,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->phpversion = '5.4.1';
@@ -83,7 +83,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->phpversion = '5.3.1';
@@ -96,8 +96,8 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
-$validator = new test_Validator($package, PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
+$errs = new \PEAR2_MultiErrors;
+$validator = new test_Validator($package, \pear2\Pyrus\Validate::UNINSTALLING, $errs);
 
 $validator->phpversion = '5.3.1';
 $test->assertEquals(true, $validator->validatePhpDependency($php), 'UNINSTALLING should not fail on conflict');

@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_Developer_PackageFile_v2 extends PEAR2_Pyrus_PackageFile_v2
+namespace pear2\Pyrus\Developer\PackageFile;
+class v2 extends \pear2\Pyrus\PackageFile\v2
 {
     function toArray($forpackaging = false)
     {

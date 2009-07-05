@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_Release_BinaryPackage
+ * \pear2\Pyrus\PackageFile\v2\Release\BinaryPackage
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Release_BinaryPackage implements ArrayAccess, Iterator, Countable
+namespace pear2\Pyrus\PackageFile\v2\Release;
+class BinaryPackage implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
     protected $parent;
@@ -84,7 +85,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release_BinaryPackage implements ArrayAccess, I
     function offsetSet($var, $value)
     {
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Can only set binarypackage to string');
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Can only set binarypackage to string');
         }
         $this->info[$value] = 1;
         $this->save();

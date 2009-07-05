@@ -1,13 +1,13 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), existing PEAR1 registry, packages installed
+\pear2\Pyrus\ScriptFrontend\Commands::listPackages(), existing PEAR1 registry, packages installed
 --FILE--
 <?php
 require __DIR__ . '/setup.minimal.php.inc';
 set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/listPackages.pear1', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \pear2\Pyrus\Config::singleton(__DIR__.'/listPackages.pear1', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
+$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
 
 ob_start();
 set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1');

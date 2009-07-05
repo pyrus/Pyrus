@@ -3,7 +3,7 @@ Pyrus DER: test parsing of complex DER output
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$schema = new PEAR2_Pyrus_DER_Schema;
+$schema = new \pear2\Pyrus\DER\Schema;
 $schema
     ->sequence('first')
         ->boolean('fbool', 0)
@@ -45,7 +45,7 @@ $test->assertEquals(
                     '0203' . // integer, length 3
                     '0707f4', bin2hex($data = $der->serialize()), 'fancy');
 
-$der = new PEAR2_Pyrus_DER;
+$der = new \pear2\Pyrus\DER;
 $der->setSchema($schema);
 $der->parseFromString($data);
 $test->assertEquals(

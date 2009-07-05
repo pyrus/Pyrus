@@ -15,16 +15,17 @@ instantiate a simple script that creates a package and installs it:
 
 &lt;?php
 // use full path if include_path is not set up
+use pear2\Pyrus;
 include 'PEAR2/Autoload.php';
-$config = PEAR2_Pyrus_Config::singleton('/where/to/install');
+$config = Pyrus\Config::singleton('/where/to/install');
 // this can be a url to a remote package, a local .tgz, .zip or package.xml
-$p = new PEAR2_Pyrus_Package('thingtoinstall');
+$p = new Pyrus\Package('thingtoinstall');
 try {
-    PEAR2_Pyrus_Installer::begin();
-    PEAR2_Pyrus_Installer::prepare($p);
-    PEAR2_Pyrus_Installer::commit();
+    Pyrus\Installer::begin();
+    Pyrus\Installer::prepare($p);
+    Pyrus\Installer::commit();
 } catch (Exception $e) {
-    PEAR2_Pyrus_Installer::rollback();
+    Pyrus\Installer::rollback();
     echo $e;
 }
 ?&gt;</description>
@@ -216,7 +217,7 @@ Initial pyrus public API
     <file role="data" name="package-2.0.xsd"/>
     <file role="data" name="package-2.1.xsd"/>
    </dir>
-   <dir name="src">
+   <dir name="src" baseinstalldir="pear2">
     <dir name="Pyrus">
      <dir name="AtomicFileTransaction">
       <file role="php" name="Exception.php"/>
@@ -520,7 +521,8 @@ Initial pyrus public API
      <file role="php" name="IPackage.php"/>
      <file role="php" name="IPackageFile.php"/>
      <file role="php" name="IRegistry.php"/>
-     <file role="php" name="Log.php"/>
+     <file role="php" name="Logger.php"/>
+     <file role="php" name="Main.php"/>
      <file role="php" name="OSGuess.php"/>
      <file role="php" name="Package.php"/>
      <file role="php" name="PackageFile.php"/>
@@ -535,7 +537,6 @@ Initial pyrus public API
      <file role="php" name="XMLParser.php"/>
      <file role="php" name="XMLWriter.php"/>
     </dir>
-    <file role="php" name="Pyrus.php"/>
    </dir>
    <dir name="tests">
     <dir name="AtomicFileTransaction">
@@ -2833,7 +2834,6 @@ Initial pyrus public API
    <install name="data/x509rootcerts/VisaeCommerceRoot" as="pear2.php.net/PEAR2_Pyrus/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
    <install name="data/x509rootcerts/WellsFargoRootCertificateAuthority" as="pear2.php.net/PEAR2_Pyrus/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority"/>
    <install name="data/x509rootcerts/XRampGlobalCertificationAuthority" as="pear2.php.net/PEAR2_Pyrus/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
-   <install name="src/Pyrus.php" as="Pyrus.php"/>
    <install name="src/Pyrus/AtomicFileTransaction.php" as="Pyrus/AtomicFileTransaction.php"/>
    <install name="src/Pyrus/AtomicFileTransaction/Exception.php" as="Pyrus/AtomicFileTransaction/Exception.php"/>
    <install name="src/Pyrus/Channel.php" as="Pyrus/Channel.php"/>
@@ -2938,7 +2938,8 @@ Initial pyrus public API
    <install name="src/Pyrus/IPackage.php" as="Pyrus/IPackage.php"/>
    <install name="src/Pyrus/IPackageFile.php" as="Pyrus/IPackageFile.php"/>
    <install name="src/Pyrus/IRegistry.php" as="Pyrus/IRegistry.php"/>
-   <install name="src/Pyrus/Log.php" as="Pyrus/Log.php"/>
+   <install name="src/Pyrus/Logger.php" as="Pyrus/Logger.php"/>
+   <install name="src/Pyrus/Main.php" as="Pyrus/Main.php"/>
    <install name="src/Pyrus/OSGuess.php" as="Pyrus/OSGuess.php"/>
    <install name="src/Pyrus/Package.php" as="Pyrus/Package.php"/>
    <install name="src/Pyrus/Package/Base.php" as="Pyrus/Package/Base.php"/>

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_REST_11 - implement faster list-all/remote-list command
+ * \pear2\Pyrus\REST_11 - implement faster list-all/remote-list command
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_REST_11 extends PEAR2_Pyrus_REST_10
+namespace pear2\Pyrus;
+class REST_11 extends \pear2\Pyrus\REST_10
 {
 
     function listAll($base, $dostable, $basic = true)

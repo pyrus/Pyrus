@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_Creator_Exception
+ * \pear2\Pyrus\Package\Creator\Exception
  *
  * PHP version 5
  *
@@ -23,4 +23,5 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package_Creator_Exception extends PEAR2_Exception {}
+namespace pear2\Pyrus\Package\Creator;
+class Exception extends \PEAR2_Exception {}

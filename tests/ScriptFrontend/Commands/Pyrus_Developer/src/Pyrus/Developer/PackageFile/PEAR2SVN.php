@@ -26,7 +26,8 @@
  *
  * All maintainers are assumed to be lead maintainers in CREDITS.
  */
-class PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN
+namespace pear2\Pyrus\Developer\PackageFile;
+class PEAR2SVN
 {
     protected $path;
     protected $package;
@@ -50,18 +51,18 @@ class PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN
     {
         if (file_exists($path . DIRECTORY_SEPARATOR . 'package.xml')) {
             try {
-                $this->pxml = new PEAR2_Pyrus_PackageFile(
+                $this->pxml = new \pear2\Pyrus\PackageFile(
                     $path . DIRECTORY_SEPARATOR . 'package.xml',
-                    'PEAR2_Pyrus_Developer_PackageFile_v2');
+                    'pear2\Pyrus\Developer\PackageFile\v2');
                 $this->pxml = $this->pxml->info;
                 $this->pxml->setFilelist(array());
             } catch (Exception $e) {
-                $this->pxml = new PEAR2_Pyrus_Developer_PackageFile_v2;
+                $this->pxml = new \pear2\Pyrus\Developer\PackageFile\v2;
                 $this->pxml->name = $packagename;
                 $this->pxml->channel = $channel;
             }
         } else {
-            $this->pxml = new PEAR2_Pyrus_Developer_PackageFile_v2;
+            $this->pxml = new \pear2\Pyrus\Developer\PackageFile\v2;
             $this->pxml->name = $packagename;
             $this->pxml->channel = $channel;
         }
@@ -122,11 +123,11 @@ class PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN
         foreach ($rolemap as $dir => $role) {
             if (file_exists($this->path . DIRECTORY_SEPARATOR . $dir)) {
                 $basepath = ($dir === 'examples') ? 'examples' : '';
-                foreach (new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN_Filter(
+                foreach (new \pear2\Pyrus\Developer\PackageFile\PEAR2SVN\Filter(
                             $this->path . DIRECTORY_SEPARATOR . $dir,
-                         new RecursiveIteratorIterator(
-                         new RecursiveDirectoryIterator($this->path . DIRECTORY_SEPARATOR . $dir),
-                         RecursiveIteratorIterator::LEAVES_ONLY), $role) as $file) {
+                         new \RecursiveIteratorIterator(
+                         new \RecursiveDirectoryIterator($this->path . DIRECTORY_SEPARATOR . $dir),
+                         \RecursiveIteratorIterator::LEAVES_ONLY), $role) as $file) {
                     $curpath = str_replace($this->path . DIRECTORY_SEPARATOR . $dir, '',
                         $file->getPathName());
                     if ($curpath && $curpath[0] === DIRECTORY_SEPARATOR) {
@@ -152,7 +153,7 @@ class PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN
     {
         $description = '';
         if (file_exists($this->path . DIRECTORY_SEPARATOR . 'README')) {
-            $a = new SplFileInfo($this->path . DIRECTORY_SEPARATOR . 'README');
+            $a = new \SplFileInfo($this->path . DIRECTORY_SEPARATOR . 'README');
             foreach ($a->openFile('r') as $num => $line) {
                 if (!$num) {
                     $this->pxml->summary = $line;
@@ -171,7 +172,7 @@ class PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN
     function parseCREDITS()
     {
         if (file_exists($this->path . DIRECTORY_SEPARATOR . 'CREDITS')) {
-            $a = new SplFileInfo($this->path . DIRECTORY_SEPARATOR . 'CREDITS');
+            $a = new \SplFileInfo($this->path . DIRECTORY_SEPARATOR . 'CREDITS');
             foreach ($a->openFile('r') as $line) {
                 if ($line && $line[0] === ';') {
                     continue;

@@ -3,7 +3,7 @@ Validate::validateVersion(), failure, alpha, version = 0.9.0RC1/beta1/b1/a1/alph
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$pf = new PEAR2_Pyrus_PackageFile_v2;
+$pf = new \pear2\Pyrus\PackageFile\v2;
 $pf->name = 'testing';
 $pf->version['release'] = '1.0.0a1';
 $pf->stability['release'] = 'stable';
@@ -11,10 +11,10 @@ $pf->summary = 'hi';
 $pf->description = 'hi';
 $pf->date = '2009-05-10';
 
-$chan = new PEAR2_Pyrus_ChannelFile_v1;
+$chan = new \pear2\Pyrus\ChannelFile\v1;
 $chan->setValidationPackage('notfoo', '1.2');
 
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 
@@ -25,7 +25,7 @@ $test->assertEquals('Channel validator error: field "version" - version "1.0.0a1
                     $validate->getFailures()->E_WARNING[0]->getMessage(), 'failure message 1');
 
 $pf->version['release'] = '1.0.0b1';
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 
@@ -36,7 +36,7 @@ $test->assertEquals('Channel validator error: field "version" - version "1.0.0b1
                     $validate->getFailures()->E_WARNING[0]->getMessage(), 'failure message 2');
 
 $pf->version['release'] = '1.0.0RC1';
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 
@@ -47,7 +47,7 @@ $test->assertEquals('Channel validator error: field "version" - version "1.0.0RC
                     $validate->getFailures()->E_WARNING[0]->getMessage(), 'failure message 3');
 
 $pf->version['release'] = '1.0.0beta1';
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 
@@ -58,7 +58,7 @@ $test->assertEquals('Channel validator error: field "version" - version "1.0.0be
                     $validate->getFailures()->E_WARNING[0]->getMessage(), 'failure message 4');
 
 $pf->version['release'] = '1.0.0alpha1';
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 

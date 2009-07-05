@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Channel: iteration over remote REST information, package list
+\pear2\Pyrus\Channel: iteration over remote REST information, package list
 --FILE--
 <?php
 
@@ -8,8 +8,8 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.dep.versionconflict',
                        'http://pear2.php.net/');
-PEAR2_Pyrus::$downloadClass = 'Internet';
-$chan = PEAR2_Pyrus_Config::current()->channelregistry['pear2.php.net'];
+\pear2\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 $names = array();
 foreach ($chan->remotepackages as $package) {
     $names[] = $package->name;

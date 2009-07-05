@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Uninstaller
+ * \pear2\Pyrus\Uninstaller
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Uninstaller
-{
+namespace pear2\Pyrus;
+class Uninstaller{
     /**
      * Flag that determines the behavior of {@link begin()}
      *
@@ -68,9 +68,9 @@ class PEAR2_Pyrus_Uninstaller
     static function begin()
     {
         if (!self::$inTransaction) {
-            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
-                self::$lastCurrent = PEAR2_Pyrus_Config::current();
-                PEAR2_Pyrus_Config::setCurrent(PEAR2_Pyrus_Config::current()->plugins_dir);
+            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
+                self::$lastCurrent = \pear2\Pyrus\Config::current();
+                \pear2\Pyrus\Config::setCurrent(\pear2\Pyrus\Config::current()->plugins_dir);
             }
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
@@ -83,14 +83,14 @@ class PEAR2_Pyrus_Uninstaller
      *
      * This function checks to see if an identical package is already being downloaded,
      * and manages removing duplicates or erroring out on a conflict
-     * @param PEAR2_Pyrus_Package $package
+     * @param \pear2\Pyrus\Package $package
      */
     static function prepare($packageName)
     {
         try {
-            $package = PEAR2_Pyrus_Config::current()->registry->package[$packageName];
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Uninstaller_Exception('Invalid package name ' .
+            $package = \pear2\Pyrus\Config::current()->registry->package[$packageName];
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Uninstaller\Exception('Invalid package name ' .
                                                         $packageName, $e);
         }
         if (isset(self::$uninstallPackages[$package->channel . '/' . $package->name])) {
@@ -110,8 +110,8 @@ class PEAR2_Pyrus_Uninstaller
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$registeredPackages = array();
-            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
-                PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
+            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
+                \pear2\Pyrus\Config::setCurrent(self::$lastCurrent->path);
             }
         }
     }
@@ -124,20 +124,20 @@ class PEAR2_Pyrus_Uninstaller
         if (!self::$inTransaction) {
             return false;
         }
-        $installer = new PEAR2_Pyrus_Uninstaller;
+        $installer = new \pear2\Pyrus\Uninstaller;
         // validate dependencies
-        $errs = new PEAR2_MultiErrors;
-        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $errs = new \PEAR2_MultiErrors;
+        $reg = \pear2\Pyrus\Config::current()->registry;
         try {
             foreach (self::$uninstallPackages as $package) {
                 $package->validateUninstallDependencies(self::$uninstallPackages, $errs);
             }
             if (count($errs->E_ERROR)) {
-                throw new PEAR2_Pyrus_Installer_Exception('Dependency validation failed ' .
+                throw new \pear2\Pyrus\Installer\Exception('Dependency validation failed ' .
                     'for some installed packages, installation aborted', $errs);
             }
             // create dependency connections and load them into the directed graph
-            $graph = new PEAR2_Pyrus_DirectedGraph;
+            $graph = new \pear2\Pyrus\DirectedGraph;
             foreach (self::$uninstallPackages as $package) {
                 $package->makeUninstallConnections($graph, self::$uninstallPackages);
             }
@@ -149,7 +149,7 @@ class PEAR2_Pyrus_Uninstaller
             // easy reverse topological sort
             array_reverse($actual);
 
-            PEAR2_Pyrus_AtomicFileTransaction::begin();
+            \pear2\Pyrus\AtomicFileTransaction::begin();
             $reg->begin();
             try {
                 foreach ($actual as $package) {
@@ -164,23 +164,23 @@ class PEAR2_Pyrus_Uninstaller
                     $reg->uninstall($package->name, $package->channel);
                 }
 
-                PEAR2_Pyrus_AtomicFileTransaction::rmEmptyDirs($dirtrees);
-                PEAR2_Pyrus_AtomicFileTransaction::commit();
+                \pear2\Pyrus\AtomicFileTransaction::rmEmptyDirs($dirtrees);
+                \pear2\Pyrus\AtomicFileTransaction::commit();
                 $reg->commit();
-                PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
+                \pear2\Pyrus\AtomicFileTransaction::removeBackups();
             } catch (\Exception $e) {
-                if (PEAR2_Pyrus_AtomicFileTransaction::inTransaction()) {
-                    PEAR2_Pyrus_AtomicFileTransaction::rollback();
+                if (\pear2\Pyrus\AtomicFileTransaction::inTransaction()) {
+                    \pear2\Pyrus\AtomicFileTransaction::rollback();
                 }
                 $reg->rollback();
                 throw $e;
             }
             self::$uninstallPackages = array();
-            PEAR2_Pyrus_Config::current()->saveConfig();
-            if (isset(PEAR2_Pyrus::$options['install-plugins'])) {
-                PEAR2_Pyrus_Config::setCurrent(self::$lastCurrent->path);
+            \pear2\Pyrus\Config::current()->saveConfig();
+            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
+                \pear2\Pyrus\Config::setCurrent(self::$lastCurrent->path);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::rollback();
             throw $e;
         }
@@ -190,31 +190,31 @@ class PEAR2_Pyrus_Uninstaller
      * Uninstall a package
      *
      * Remove files
-     * @param PEAR2_Pyrus_Package $package
+     * @param \pear2\Pyrus\Package $package
      */
-    function uninstall(PEAR2_Pyrus_IPackageFile $package, PEAR2_Pyrus_IRegistry $reg)
+    function uninstall(\pear2\Pyrus\IPackageFile $package, \pear2\Pyrus\IRegistry $reg)
     {
         if (!empty($this->_options['register-only'])) {
             // pretty much nothing happens if we are only registering the install
             return;
         }
         try {
-            $config = new PEAR2_Pyrus_Config_Snapshot($package->date . ' ' . $package->time);
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Installer_Exception('Cannot retrieve files, config ' .
+            $config = new \pear2\Pyrus\Config\Snapshot($package->date . ' ' . $package->time);
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Installer\Exception('Cannot retrieve files, config ' .
                                     'snapshot could not be processed', $e);
         }
         $configpaths = array();
-        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
             $roleobj =
-                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+                \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $role);
             $configpaths[$role] = $config->{$roleobj->getLocationConfig()};
         }
         $ret = array();
         foreach ($reg->info($package->name, $package->channel, 'installedfiles') as $file) {
-            $transact = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject($file['configpath']);
+            $transact = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject($file['configpath']);
             $transact->removePath($file['relativepath']);
         }
     }

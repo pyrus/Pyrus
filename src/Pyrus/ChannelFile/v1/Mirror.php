@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelFile_v1_Mirror
+ * \pear2\Pyrus\ChannelFile\v1\Mirror
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 implements PEAR2_Pyrus_Channel_IMirror
+namespace pear2\Pyrus\ChannelFile\v1;
+class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel\IMirror
 {
     
     /**
@@ -47,7 +48,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 imple
     /**
      * Parent channel object
      *
-     * @var PEAR2_Pyrus_Channel
+     * @var \pear2\Pyrus\Channel
      */
     protected $parentChannel;
     protected $parent;
@@ -109,11 +110,11 @@ class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 imple
     /**
      * Returns the protocols supported by the primary server for this channel
      * 
-     * @return PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
+     * @return \pear2\Pyrus\ChannelFile\v1\Servers\Protocols
      */
     function getProtocols()
     {
-        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols($this->_info, $this);
+        return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols($this->_info, $this);
     }
 
     /**
@@ -141,10 +142,10 @@ class PEAR2_Pyrus_ChannelFile_v1_Mirror extends PEAR2_Pyrus_ChannelFile_v1 imple
     function setName($name)
     {
         if (empty($name)) {
-            throw new PEAR2_Pyrus_Channel_Exception('Mirror server must be non-empty');
+            throw new \pear2\Pyrus\Channel\Exception('Mirror server must be non-empty');
         }
         if (!$this->validChannelServer($name)) {
-            throw new PEAR2_Pyrus_Channel_Exception('Mirror server "' . $name .
+            throw new \pear2\Pyrus\Channel\Exception('Mirror server "' . $name .
                 '" for channel "' . $this->getChannel() . '" is not a valid channel server');
         }
         $this->_info['attribs']['host'] = $name;

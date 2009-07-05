@@ -1,15 +1,15 @@
 --TEST--
-PEAR2_Pyrus_ChannelFile_v1_REST errors
+\pear2\Pyrus\ChannelFile\v1\REST errors
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
-$channel = new PEAR2_Pyrus_ChannelFile_v1;
+$channel = new \pear2\Pyrus\ChannelFile\v1;
 $getassert = function($message) use ($channel, $test) {
     return function($action, $type) use ($channel, $test, $message) {
         try {
             $action();
             throw new Exception($type . ' worked and should not');
-        } catch (PEAR2_Pyrus_ChannelFile_Exception $e) {
+        } catch (\pear2\Pyrus\ChannelFile\Exception $e) {
             $test->assertEquals($message, $e->getMessage(), $type);
         }    
     };
@@ -48,7 +48,7 @@ $assert(function() use ($channel) {$channel->protocols->rest['REST1.0']->oops = 
         '__set oops');
 
 $assert = $getassert('Can only set REST protocol ' .
-                        ' to a PEAR2_Pyrus_ChannelFile_v1_Servers_Protocol_REST object');
+                        ' to a \pear2\Pyrus\ChannelFile\v1\Servers\Protocol\REST object');
 
 $assert(function() use ($channel) {$channel->protocols->rest['REST1.0'] = 1;},
         'offsetSet non-self');

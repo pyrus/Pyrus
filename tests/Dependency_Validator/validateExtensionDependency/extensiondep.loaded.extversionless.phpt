@@ -4,7 +4,7 @@ Dependency_Validator: Extension dependency, extension version, extension has no 
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->min('1.0');
 $validator->extensions['foo'] = true;
 

@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry_Sqlite3::listChannels() default channels
+\pear2\Pyrus\ChannelRegistry\Sqlite3::listChannels() default channels
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

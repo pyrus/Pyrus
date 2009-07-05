@@ -1,8 +1,9 @@
 <?php
-class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable, Iterator
+namespace pear2\Pyrus\ChannelFile\v1;
+class Servers implements \ArrayAccess, \Countable, \Iterator
 {
     /**
-     * @var PEAR2_Pyrus_ChannelFile_v1
+     * @var \pear2\Pyrus\ChannelFile\v1
      */
     protected $parent;
     
@@ -10,7 +11,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable, Iter
     
     protected $type = 'primary';
     
-    function __construct($info, PEAR2_Pyrus_ChannelFile_v1 $parent)
+    function __construct($info, \pear2\Pyrus\ChannelFile\v1 $parent)
     {
         if (isset($info['mirror']) && !isset($info['mirror'][0])) {
             $info['mirror'] = array($info['mirror']);
@@ -22,7 +23,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable, Iter
     function current()
     {
         $info = current($this->info['mirror']);
-        return new PEAR2_Pyrus_ChannelFile_v1_Mirror($info, $this, $this->parent, key($this->info['mirror']));
+        return new \pear2\Pyrus\ChannelFile\v1\Mirror($info, $this, $this->parent, key($this->info['mirror']));
     }
 
     function rewind()
@@ -90,16 +91,16 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable, Iter
     function offsetGet($mirror)
     {
         if (!isset($this->info['mirror'])) {
-            return new PEAR2_Pyrus_ChannelFile_v1_Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, 0);
+            return new \pear2\Pyrus\ChannelFile\v1\Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, 0);
         }
         foreach ($this->info['mirror'] as $i => $details) {
             if (isset($details['attribs']) && isset($details['attribs']['host']) &&
                 $details['attribs']['host'] == $mirror) {
-                return new PEAR2_Pyrus_ChannelFile_v1_Mirror($details, $this, $this->parent, $i);
+                return new \pear2\Pyrus\ChannelFile\v1\Mirror($details, $this, $this->parent, $i);
             }
         }
         
-        return new PEAR2_Pyrus_ChannelFile_v1_Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, count($this->info['mirror']));
+        return new \pear2\Pyrus\ChannelFile\v1\Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, count($this->info['mirror']));
     }
     
     function offsetSet($mirror, $value)
@@ -107,9 +108,9 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers implements ArrayAccess, Countable, Iter
         if ($value === null) {
             return $this->offsetUnset($mirror);
         }
-        if (!($value instanceof PEAR2_Pyrus_ChannelFile_v1_Mirror)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Can only set mirror to a ' .
-                        'PEAR2_Pyrus_ChannelFile_v1_Mirror object');
+        if (!($value instanceof \pear2\Pyrus\ChannelFile\v1\Mirror)) {
+            throw new \pear2\Pyrus\ChannelFile\Exception('Can only set mirror to a ' .
+                        '\pear2\Pyrus\ChannelFile\v1\Mirror object');
         }
         $info = $value->getInfo();
         if ($mirror != $value->server) {

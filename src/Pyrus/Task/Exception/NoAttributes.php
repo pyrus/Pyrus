@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Task_Exception_NoAttributes
+ * \pear2\Pyrus\Task\Exception\NoAttributes
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Exception_NoAttributes extends PEAR2_Exception
+namespace pear2\Pyrus\Task\Exception;
+class NoAttributes extends \PEAR2_Exception
 {
     function __construct($task, $file)
     {

@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_AtomicFileTransaction::commit()
+\pear2\Pyrus\AtomicFileTransaction::commit()
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -27,9 +27,9 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file before');
 
-PEAR2_Pyrus_AtomicFileTransaction::begin();
+\pear2\Pyrus\AtomicFileTransaction::begin();
 
-$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 $test->assertFileExists(__DIR__ . '/testit/src', __DIR__ . '/testit/src after');
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo after');
@@ -62,7 +62,7 @@ $test->assertFileExists(__DIR__ . '/testit/.journal-src/newfile', __DIR__ . '/te
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/.journal-src/foo after erase 2');
 $test->assertFileNotExists(__DIR__ . '/testit/src/newfile', __DIR__ . '/testit/.journal-src/newfile after create 2');
 
-PEAR2_Pyrus_AtomicFileTransaction::commit();
+\pear2\Pyrus\AtomicFileTransaction::commit();
 
 $test->assertFileExists(__DIR__ . '/testit/src', __DIR__ . '/testit/src after commit');
 $test->assertFileNotExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo after commit');
@@ -88,7 +88,7 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir after commit');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file after commit');
 
-PEAR2_Pyrus_AtomicFileTransaction::removeBackups();
+\pear2\Pyrus\AtomicFileTransaction::removeBackups();
 
 $test->assertFileNotExists(__DIR__ . '/testit/.old-src', __DIR__ . '/testit/.old-src after commit');
 $test->assertFileNotExists(__DIR__ . '/testit/.old-src/foo', __DIR__ . '/testit/.old-src/foo after commit');

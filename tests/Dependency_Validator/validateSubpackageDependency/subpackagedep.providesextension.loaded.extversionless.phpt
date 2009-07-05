@@ -4,7 +4,7 @@ Dependency_Validator: PECL subpackage dependency, extension loaded, version vali
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->subpackage['pecl.php.net/foo']->min('1.0.0')->max('1.2.3')->providesextension('foo');
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '1.2.3';

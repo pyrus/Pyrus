@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Installer_Role_Src
+ * \pear2\Pyrus\Installer\Role\Src
  *
  * PHP version 5
  *
@@ -23,5 +23,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Installer_Role_Src extends PEAR2_Pyrus_Installer_Role_Common {}
+namespace pear2\Pyrus\Installer\Role;
+class Src extends \pear2\Pyrus\Installer\Role\Common {}
 ?>

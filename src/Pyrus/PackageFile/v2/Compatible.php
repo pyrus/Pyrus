@@ -33,7 +33,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Countable
+namespace pear2\Pyrus\PackageFile\v2;
+class Compatible implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
     protected $index = null;
@@ -57,7 +58,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function current()
     {
         $i = key($this->info);
-        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this, $this->info[$i], $i);
+        return new \pear2\Pyrus\PackageFile\v2\Compatible($this, $this->info[$i], $i);
     }
 
     function rewind()
@@ -99,13 +100,13 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function offsetGet($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use -> operator to access compatible package properties');
         }
         $i = $this->locateCompatible($var);
         if (false === $i) {
             $i = count($this->info);
             if (!strpos($var, '/')) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Cannot access "' . $var .
+                throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Cannot access "' . $var .
                     '", must use "channel/package" to specify a compatible package to access');
             }
             $stuff = explode('/', $var);
@@ -121,30 +122,30 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
                 }
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Compatible($this, $this->info[$i], $i);
+        return new \pear2\Pyrus\PackageFile\v2\Compatible($this, $this->info[$i], $i);
     }
 
     function offsetSet($var, $value)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use -> operator to access compatible package properties');
         }
         if (!($value instanceof self)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Can only set $pf->compatible[\'' .
-                $var . '\'] to PEAR2_Pyrus_PackageFile_v2_Compatible object');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Can only set $pf->compatible[\'' .
+                $var . '\'] to \pear2\Pyrus\PackageFile\v2\Compatible object');
         }
         if ($var === null) {
             $var = $value->channel . '/' . $value->name;
         }
         if (!strpos($var, '/')) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Cannot set "' . $var .
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Cannot set "' . $var .
                 '", must use "channel/package" to specify a compatible package to set');
         }
         $stuff = explode('/', $var);
         $name = array_pop($stuff);
         $channel = implode('/', $stuff);
         if ($value->name != $name || $value->channel != $channel) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Cannot set ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Cannot set ' .
                 $channel . '/' . $name . ' to ' .
                 $value->channel . '/' . $value->name .
                 ', use $pf->compatible[] to set a new value');
@@ -159,7 +160,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function offsetExists($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use -> operator to access compatible package properties');
         }
         $i = $this->locateCompatible($var);
         return $i !== false;
@@ -168,7 +169,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function offsetUnset($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use -> operator to access compatible package properties');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use -> operator to access compatible package properties');
         }
         $i = $this->locateCompatible($var);
         if ($i === false) {
@@ -182,7 +183,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function __isset($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use [] operator to access compatible packages');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use [] operator to access compatible packages');
         }
         if (!isset($this->info[$var])) {
             return null;
@@ -193,7 +194,7 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use [] operator to access compatible packages');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use [] operator to access compatible packages');
         }
         if (!isset($this->info[$var])) {
             return null;
@@ -215,15 +216,15 @@ class PEAR2_Pyrus_PackageFile_v2_Compatible implements ArrayAccess, Iterator, Co
     function __call($var, $args)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception('Use [] operator to access compatible packages');
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception('Use [] operator to access compatible packages');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
             );
         }
         if ($var === 'name' || $var === 'channel') {
-            throw new PEAR2_Pyrus_PackageFile_v2_Compatible_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Compatible\Exception(
                 'Cannot change compatible package name, use unset() to remove the old compatible package'
             );
         }

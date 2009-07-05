@@ -3,8 +3,8 @@ Dependency_Validator: OS dependency windows --force
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-PEAR2_Pyrus::$options = array('force' => true);
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+\pear2\Pyrus\Main::$options = array('force' => true);
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $os = $fake->dependencies['required']->os;
 $os->name = 'windows';
 $validator->os = 'Windows XP';
@@ -20,7 +20,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->os = 'Linux';
 $test->assertEquals(true, $validator->validateOSDependency($os), 'windows conflicts pass');

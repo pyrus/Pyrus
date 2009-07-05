@@ -31,7 +31,7 @@ $group->hint = null;
 $test->assertEquals(null, $reg->dependencies['group']->groupname->hint, 'hint unset 5');
 $test->assertEquals(null, $group->hint, 'hint unset 6');
 
-$g = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Group(null, array(), 'foo');
+$g = new \pear2\Pyrus\PackageFile\v2\Dependencies\Group(null, array(), 'foo');
 $test->assertEquals(null, $g->name, 'null name');
 
 $test->assertEquals(true, isset($reg->dependencies['group']->groupname), 'groupname isset');

@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
+namespace pear2\Pyrus\PackageFile;
+class v2 implements \pear2\Pyrus\IPackageFile
 {
     public $rootAttributes = array(
                                  'version' => '2.1',
@@ -212,11 +213,11 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         if (!$reset && isset($this->releaseIndex)) {
             return $this->release[$this->releaseIndex];
         }
-        $errs = new PEAR2_MultiErrors;
-        $depchecker = new PEAR2_Pyrus_Dependency_Validator(
+        $errs = new \PEAR2_MultiErrors;
+        $depchecker = new \pear2\Pyrus\Dependency\Validator(
             array('channel' => $this->channel,
                   'package' => $this->name),
-            PEAR2_Pyrus_Validate::INSTALLING, $errs);
+            \pear2\Pyrus\Validate::INSTALLING, $errs);
         foreach ($this->installGroup as $index => $instance) {
             try {
                 if (isset($instance['installconditions'])) {
@@ -227,13 +228,13 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                                 $conditions = array($conditions);
                             }
                             foreach ($conditions as $condition) {
-                                $condition = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep(null, $condition, $type);
+                                $condition = new \pear2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
                             }
                         }
                     }
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // can't use this release
                 continue;
             }
@@ -253,7 +254,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         if (!isset($this->packageInfo['contents']['bundledpackage'])) {
             $this->packageInfo['contents']['bundledpackage'] = array();
         }
-        return new PEAR2_Pyrus_PackageFile_v2_BundledPackage($this, $this->packageInfo['contents']['bundledpackage']);
+        return new \pear2\Pyrus\PackageFile\v2\BundledPackage($this, $this->packageInfo['contents']['bundledpackage']);
     }
 
     function getContents()
@@ -263,31 +264,31 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         //     echo $file->name;
         //     $file->installed_as = 'hi';
         // }
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_File(
-                new PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter(
-                new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents(
+        return new \pear2\Pyrus\PackageFile\v2Iterator\File(
+                new \pear2\Pyrus\PackageFile\v2Iterator\FileAttribsFilter(
+                new \pear2\Pyrus\PackageFile\v2Iterator\FileContents(
                     $this->packageInfo['contents'], 'contents', $this)),
-                    RecursiveIteratorIterator::LEAVES_ONLY);
+                    \RecursiveIteratorIterator::LEAVES_ONLY);
     }
 
     function getInstallContents()
     {
-        PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter::setParent($this);
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter(
-                new ArrayIterator(
+        \pear2\Pyrus\PackageFile\v2Iterator\FileInstallationFilter::setParent($this);
+        return new \pear2\Pyrus\PackageFile\v2Iterator\FileInstallationFilter(
+                new \ArrayIterator(
                     $this->filelist));
     }
 
     function getPackagingContents()
     {
-        PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator(
+        \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator::setParent($this);
+        return new \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator(
                     $this->filelist);
     }
 
     function getScriptFiles()
     {
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_ScriptFileFilterIterator($this->filelist, $this);
+        return new \pear2\Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator($this->filelist, $this);
     }
 
     function getPackageFile()
@@ -391,25 +392,25 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         if (!isset($this->packageInfo['license'])) {
             $this->packageInfo['license'] = array();
         }
-        return new PEAR2_Pyrus_PackageFile_v2_License($this, $this->packageInfo['license']);
+        return new \pear2\Pyrus\PackageFile\v2\License($this, $this->packageInfo['license']);
     }
 
     function getFiles()
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Files($this, $this->filelist);
+        return new \pear2\Pyrus\PackageFile\v2\Files($this, $this->filelist);
     }
 
     function getUsesRoleTask($var)
     {
         if (!isset($this->packageInfo[$var])) {
-            return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, array(),
+            return new \pear2\Pyrus\PackageFile\v2\UsesRoleTask($this, array(),
                                                                str_replace('uses', '', $var));
         }
         $info = $this->packageInfo[$var];
         if (count($info) && !isset($info[0])) {
             $info = array($info);
         }
-        return new PEAR2_Pyrus_PackageFile_v2_UsesRoleTask($this, $info, str_replace('uses', '', $var));
+        return new \pear2\Pyrus\PackageFile\v2\UsesRoleTask($this, $info, str_replace('uses', '', $var));
     }
 
     function getMaintainer()
@@ -425,7 +426,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                 $info[$type] = array();
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Developer($this, $info);
+        return new \pear2\Pyrus\PackageFile\v2\Developer($this, $info);
     }
 
     function getRawDeps()
@@ -439,7 +440,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         if (!isset($this->packageInfo['dependencies'])) {
             $this->packageInfo['dependencies'] = array();
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies(
+        return new \pear2\Pyrus\PackageFile\v2\Dependencies(
             $this,
             $this->packageInfo['dependencies']);
     }
@@ -458,7 +459,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         if (!isset($this->packageInfo[$t]) || !is_array($this->packageInfo[$t])) {
             $this->packageInfo[$t] = array();
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Release(
+        return new \pear2\Pyrus\PackageFile\v2\Release(
             $this, $this->packageInfo[$t], $this->filelist);
     }
 
@@ -469,7 +470,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         } else {
             $compatible = $this->packageInfo['compatible'];
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Compatible(
+        return new \pear2\Pyrus\PackageFile\v2\Compatible(
             $this,
             $compatible);
     }
@@ -484,7 +485,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                 $configureoption = array($configureoption);
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Configureoption($this, $configureoption);
+        return new \pear2\Pyrus\PackageFile\v2\Configureoption($this, $configureoption);
     }
 
     function getSchemaOK()
@@ -510,7 +511,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $this->packageInfo = $pinfo['package'];
     }
 
-    function fromPackageFile(PEAR2_Pyrus_IPackageFile $package)
+    function fromPackageFile(\pear2\Pyrus\IPackageFile $package)
     {
         $this->fromArray($package->toArray());
         $this->setFilelist($package->getFileList());
@@ -579,15 +580,15 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                 }
                 return;
             }
-            throw new PEAR2_Pyrus_PackageFile_Exception(
+            throw new \pear2\Pyrus\PackageFile\Exception(
                 'Cannot set invalid attribute ' . $attr . ' for file ' . $filename);
         }
         if (!isset($this->filelist[$filename])) {
-            throw new PEAR2_Pyrus_PackageFile_Exception(
+            throw new \pear2\Pyrus\PackageFile\Exception(
                 'Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);
         }
         if ($attr == 'name') {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot change name of file ' .
+            throw new \pear2\Pyrus\PackageFile\Exception('Cannot change name of file ' .
                 $filename);
         }
         $this->filelist[$filename]['attribs'][$attr] = $value;
@@ -637,7 +638,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
      * depends on $pf
      * @return boolean
      */
-    function isCompatible(PEAR2_Pyrus_IPackageFile $pf)
+    function isCompatible(\pear2\Pyrus\IPackageFile $pf)
     {
         if (!isset($this->packageInfo['compatible'])) {
             return false;
@@ -671,7 +672,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         return false;
     }
 
-    function isSubpackageOf(PEAR2_Pyrus_IPackageFile $p)
+    function isSubpackageOf(\pear2\Pyrus\IPackageFile $p)
     {
         return $p->isSubpackage($this);
     }
@@ -682,7 +683,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
      * No version checking is done, only name verification.
      * @return bool
      */
-    function isSubpackage(PEAR2_Pyrus_IPackageFile $p)
+    function isSubpackage(\pear2\Pyrus\IPackageFile $p)
     {
         foreach (array('required', 'optional', 'group') as $type) {
             if ($type === 'group') {
@@ -719,7 +720,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         return false;
     }
 
-    function isEqual(PEAR2_Pyrus_IPackageFile $pkg)
+    function isEqual(\pear2\Pyrus\IPackageFile $pkg)
     {
         if ($this->channel === '__uri') {
             return $pkg->name === $this->name && $pkg->uri === $this->uri;
@@ -731,7 +732,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     /**
      * Returns true if any dependency, optional or required, exists on the package specified
      */
-    function dependsOn(PEAR2_Pyrus_IPackageFile $pkg)
+    function dependsOn(\pear2\Pyrus\IPackageFile $pkg)
     {
         $uri = $pkg->uri;
         $package = $pkg->name;
@@ -819,13 +820,13 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
      * validate dependencies against the local registry, packages to be installed,
      * and environment (php version, OS, architecture, enabled extensions)
      *
-     * @param array $toInstall an array of PEAR2_Pyrus_Package objects
+     * @param array $toInstall an array of \pear2\Pyrus\Package objects
      * @param PEAR2_MultiErrors $errs
      */
-    function validateDependencies(array $toInstall, PEAR2_MultiErrors $errs)
+    function validateDependencies(array $toInstall, \PEAR2_MultiErrors $errs)
     {
-        $dep = new PEAR2_Pyrus_Dependency_Validator($this->packageInfo['name'],
-            PEAR2_Pyrus_Validate::DOWNLOADING, $errs);
+        $dep = new \pear2\Pyrus\Dependency\Validator($this->packageInfo['name'],
+            \pear2\Pyrus\Validate::DOWNLOADING, $errs);
         $dep->validatePhpDependency($this->dependencies['required']->php);
         $dep->validatePearinstallerDependency($this->dependencies['required']->pearinstaller);
         foreach (array('required', 'optional') as $required) {
@@ -847,9 +848,9 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         }
     }
 
-    function getValidator($state = PEAR2_Pyrus_Validate::NORMAL)
+    function getValidator($state = \pear2\Pyrus\Validate::NORMAL)
     {
-        return new PEAR2_Pyrus_PackageFile_v2_Validator;
+        return new \pear2\Pyrus\PackageFile\v2\Validator;
     }
 
     function getTasksNs()
@@ -911,7 +912,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
 
     function setLicense($var, $value)
     {
-        if ($value instanceof PEAR2_Pyrus_PackageFile_v2_License) {
+        if ($value instanceof \pear2\Pyrus\PackageFile\v2\License) {
             return $this->rawlicense = $value->getInfo();
         }
         $licensemap =
@@ -941,7 +942,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     function setType($var, $value)
     {
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('package.xml type must be a ' .
+            throw new \pear2\Pyrus\PackageFile\Exception('package.xml type must be a ' .
             'string, was a ' . gettype($value));
         }
         if ($value != 'bundle') {
@@ -1026,7 +1027,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
             }
             return;
         }
-        throw new PEAR2_Pyrus_PackageFile_Exception('Cannot set ' . $var . ' directly');
+        throw new \pear2\Pyrus\PackageFile\Exception('Cannot set ' . $var . ' directly');
     }
 
     /**
@@ -1054,7 +1055,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
                 if (!isset($info['api'])) {
                     $info['api'] = null;
                 }
-                return new PEAR2_Pyrus_PackageFile_v2_SimpleProperty(
+                return new \pear2\Pyrus\PackageFile\v2\SimpleProperty(
                                 $this, $info, $name);
         }
         if (!isset($this->packageInfo[$name])) {
@@ -1069,7 +1070,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
     function updateChangelog()
     {
         $license = $this->license;
-        if ($license instanceof ArrayObject) {
+        if ($license instanceof \ArrayObject) {
             $license = $license->getArrayCopy();
         }
         $info = array(
@@ -1101,7 +1102,7 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         $this->packageInfo['date'] = date('Y-m-d');
         $this->packageInfo['time'] = date('H:i:s');
         $arr = $this->toArray();
-        return (string) new PEAR2_Pyrus_XMLWriter($arr);
+        return (string) new \pear2\Pyrus\XMLWriter($arr);
     }
 
     function toRaw()
@@ -1119,8 +1120,8 @@ class PEAR2_Pyrus_PackageFile_v2 implements PEAR2_Pyrus_IPackageFile
         uksort($this->filelist, 'strnatcasecmp');
         $a = array_reverse($this->filelist, 1);
         if ($forpackaging) {
-            PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator::setParent($this);
-            $a = new PEAR2_Pyrus_PackageFile_v2Iterator_PackagingIterator($a);
+            \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator::setParent($this);
+            $a = new \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator($a);
         }
         $temp = array();
         foreach ($a as $name => $stuff) {

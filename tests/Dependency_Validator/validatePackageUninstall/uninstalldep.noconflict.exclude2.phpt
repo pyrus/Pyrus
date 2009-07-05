@@ -4,7 +4,7 @@ Dependency_Validator: uninstall package dependency, no version conflict because 
 <?php
 require __DIR__ . '/../setup.uninstall.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';

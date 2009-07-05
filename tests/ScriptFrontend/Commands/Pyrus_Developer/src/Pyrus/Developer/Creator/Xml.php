@@ -4,7 +4,8 @@
  * will be.
  *
  */
-class PEAR2_Pyrus_Developer_Creator_Xml implements PEAR2_Pyrus_Package_ICreator
+namespace pear2\Pyrus\Developer\Creator;
+class Xml implements \pear2\Pyrus\Package\ICreator
 {
     private $_done;
     private $_path;
@@ -12,7 +13,7 @@ class PEAR2_Pyrus_Developer_Creator_Xml implements PEAR2_Pyrus_Package_ICreator
     function __construct($path)
     {
         if (!($this->_path = @fopen($path, 'w'))) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception('Cannot open path ' .
+            throw new \pear2\Pyrus\Developer\Creator\Exception('Cannot open path ' .
                 $path . ' for writing');
         }
     }
@@ -38,8 +39,8 @@ class PEAR2_Pyrus_Developer_Creator_Xml implements PEAR2_Pyrus_Package_ICreator
 
     function addDir($path)
     {
-        foreach (new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
+        foreach (new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
             $file = (string) $file;
             $relpath = str_replace($path . DIRECTORY_SEPARATOR, '', $file);
             $this->addFile($relpath, $file);

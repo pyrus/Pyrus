@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter
+ * \pear2\Pyrus\PackageFile\v2Iterator\FileAttribsFilter
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2Iterator_FileAttribsFilter extends RecursiveFilterIterator
+namespace pear2\Pyrus\PackageFile\v2Iterator;
+class FileAttribsFilter extends \RecursiveFilterIterator
 {
     function accept()
     {

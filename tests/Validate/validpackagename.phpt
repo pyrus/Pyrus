@@ -3,7 +3,7 @@ Validate::validPackageName()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $test->assertEquals(false, $validate->validPackageName('55'), '55');
 $test->assertEquals(true, $validate->validPackageName('55', '55'), '55 validate package name');
 $test->assertEquals(false, $validate->validPackageName('5.5'), '5.5');

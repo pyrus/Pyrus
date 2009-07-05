@@ -26,11 +26,11 @@ class PEAR2_SimpleChannelServer_REST_Category extends
     /**
      * Save a package release's REST-related information
      *
-     * @param PEAR2_Pyrus_Package $new Package to save category for
+     * @param \pear2\Pyrus\Package $new Package to save category for
      * 
      * @return void
      */
-    function save(PEAR2_Pyrus_Package $new)
+    function save(\pear2\Pyrus\Package $new)
     {
         $category = PEAR2_SimpleChannelServer_Categories::getPackageCategory($new->name);
         $this->savePackagesInfo($category);
@@ -40,11 +40,11 @@ class PEAR2_SimpleChannelServer_REST_Category extends
     /**
      * Delete a package release's REST-related information
      *
-     * @param PEAR2_Pyrus_Package $new Package to rease rest info for
+     * @param \pear2\Pyrus\Package $new Package to rease rest info for
      * 
      * @return void
      */
-    function erase(PEAR2_Pyrus_Package $new)
+    function erase(\pear2\Pyrus\Package $new)
     {
         $category = PEAR2_SimpleChannelServer_Categories::getPackageCategory($new->name);
         $this->savePackagesInfo($category);
@@ -122,7 +122,7 @@ class PEAR2_SimpleChannelServer_REST_Category extends
         $rdir = $this->rest . DIRECTORY_SEPARATOR . 'r';
 
         $packages = PEAR2_SimpleChannelServer_Categories::packagesInCategory($category);
-        $reader   = new PEAR2_Pyrus_XMLParser;
+        $reader   = new \pear2\Pyrus\XMLParser;
         clearstatcache();
         $xml['pi'] = array();
         foreach ($packages as $package) {

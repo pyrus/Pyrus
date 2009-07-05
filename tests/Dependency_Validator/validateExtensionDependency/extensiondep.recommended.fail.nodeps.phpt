@@ -4,8 +4,8 @@ Dependency_Validator: Extension dependency, recommended failure --nodeps
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-PEAR2_Pyrus::$options['nodeps'] = true;
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+\pear2\Pyrus\Main::$options['nodeps'] = true;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->recommended('2.1.0');
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '2.0.0';

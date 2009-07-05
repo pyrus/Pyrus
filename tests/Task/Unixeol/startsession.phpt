@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Task_Unixeol::startSession()
+\pear2\Pyrus\Task\Unixeol::startSession()
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -11,7 +11,7 @@ $taskxml = array('attribs' =>
 
 file_put_contents(__DIR__ . '/testit/foo.php', "\r\nhi\r\n\r\nthere");
 
-$iterator = new PEAR2_Pyrus_Package_Creator_TaskIterator($taskxml, $package, PEAR2_Pyrus_Task_Common::INSTALL, null);
+$iterator = new \pear2\Pyrus\Package\Creator\TaskIterator($taskxml, $package, \pear2\Pyrus\Task\Common::INSTALL, null);
 
 $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;
@@ -30,7 +30,7 @@ fclose($fp);
 
 file_put_contents(__DIR__ . '/testit/foo.php', "\r\nhi\r\n\r\nthere");
 
-$iterator = new PEAR2_Pyrus_Package_Creator_TaskIterator($taskxml, $package, PEAR2_Pyrus_Task_Common::PACKAGE, null);
+$iterator = new \pear2\Pyrus\Package\Creator\TaskIterator($taskxml, $package, \pear2\Pyrus\Task\Common::PACKAGE, null);
 
 $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;

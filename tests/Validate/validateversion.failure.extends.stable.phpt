@@ -3,14 +3,14 @@ Validate::validatePackageName(), package extends another package, failure, stabl
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$pf = new PEAR2_Pyrus_PackageFile_v2;
+$pf = new \pear2\Pyrus\PackageFile\v2;
 $pf->name = 'testing2';
 $pf->extends = 'testing';
 $pf->version['release'] = '1.0.0';
 $pf->stability['release'] = 'stable';
 $pf->date = '2009-05-10';
 
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $test->assertEquals(true, $validate->validate(), 'test 1');
 $test->assertEquals(2, count($validate->getFailures()), 'failure count');

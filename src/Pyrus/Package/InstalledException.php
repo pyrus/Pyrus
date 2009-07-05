@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_InstalledException
+ * \pear2\Pyrus\Package\InstalledException
  *
  * PHP version 5
  *
@@ -23,4 +23,5 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package_InstalledException extends PEAR2_Pyrus_Package_Exception {}
+namespace pear2\Pyrus\Package;
+class InstalledException extends \pear2\Pyrus\Package\Exception {}

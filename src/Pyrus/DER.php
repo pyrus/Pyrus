@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER
+ * \pear2\Pyrus\DER
  *
  * PHP version 5
  *
@@ -28,7 +28,8 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  * @link      http://www.oss.com/asn1/dubuisson.html
  */
-class PEAR2_Pyrus_DER implements ArrayAccess
+namespace pear2\Pyrus;
+class DER implements \ArrayAccess
 {
     const SEQUENCE = 0x30;
     const SET = 0x31;
@@ -47,24 +48,24 @@ class PEAR2_Pyrus_DER implements ArrayAccess
     protected $value;
     protected $objs = array();
     protected $tagMap = array(
-        PEAR2_Pyrus_DER_BitString::TAG => 'PEAR2_Pyrus_DER_BitString',
-        PEAR2_Pyrus_DER_BMPString::TAG => 'PEAR2_Pyrus_DER_BMPString',
-        PEAR2_Pyrus_DER_Boolean::TAG => 'PEAR2_Pyrus_DER_Boolean',
-        PEAR2_Pyrus_DER_Enumerated::TAG => 'PEAR2_Pyrus_DER_Enumerated',
-        PEAR2_Pyrus_DER_GeneralizedTime::TAG => 'PEAR2_Pyrus_DER_GeneralizedTime',
-        PEAR2_Pyrus_DER_IA5String::TAG => 'PEAR2_Pyrus_DER_IA5String',
-        PEAR2_Pyrus_DER_Integer::TAG => 'PEAR2_Pyrus_DER_Integer',
-        PEAR2_Pyrus_DER_Null::TAG => 'PEAR2_Pyrus_DER_Null',
-        PEAR2_Pyrus_DER_NumericString::TAG => 'PEAR2_Pyrus_DER_NumericString',
-        PEAR2_Pyrus_DER_ObjectIdentifier::TAG => 'PEAR2_Pyrus_DER_ObjectIdentifier',
-        PEAR2_Pyrus_DER_OctetString::TAG => 'PEAR2_Pyrus_DER_OctetString',
-        PEAR2_Pyrus_DER_PrintableString::TAG => 'PEAR2_Pyrus_DER_PrintableString',
-        PEAR2_Pyrus_DER_Sequence::TAG => 'PEAR2_Pyrus_DER_Sequence',
-        PEAR2_Pyrus_DER_Set::TAG => 'PEAR2_Pyrus_DER_Set',
-        PEAR2_Pyrus_DER_UniversalString::TAG => 'PEAR2_Pyrus_DER_UniversalString',
-        PEAR2_Pyrus_DER_UTCTime::TAG => 'PEAR2_Pyrus_DER_UTCTime',
-        PEAR2_Pyrus_DER_UTF8String::TAG => 'PEAR2_Pyrus_DER_UTF8String',
-        PEAR2_Pyrus_DER_VisibleString::TAG => 'PEAR2_Pyrus_DER_VisibleString',
+        \pear2\Pyrus\DER\BitString::TAG => 'pear2\Pyrus\DER\BitString',
+        \pear2\Pyrus\DER\BMPString::TAG => 'pear2\Pyrus\DER\BMPString',
+        \pear2\Pyrus\DER\Boolean::TAG => 'pear2\Pyrus\DER\Boolean',
+        \pear2\Pyrus\DER\Enumerated::TAG => 'pear2\Pyrus\DER\Enumerated',
+        \pear2\Pyrus\DER\GeneralizedTime::TAG => 'pear2\Pyrus\DER\GeneralizedTime',
+        \pear2\Pyrus\DER\IA5String::TAG => 'pear2\Pyrus\DER\IA5String',
+        \pear2\Pyrus\DER\Integer::TAG => 'pear2\Pyrus\DER\Integer',
+        \pear2\Pyrus\DER\Null::TAG => 'pear2\Pyrus\DER\Null',
+        \pear2\Pyrus\DER\NumericString::TAG => 'pear2\Pyrus\DER\NumericString',
+        \pear2\Pyrus\DER\ObjectIdentifier::TAG => 'pear2\Pyrus\DER\ObjectIdentifier',
+        \pear2\Pyrus\DER\OctetString::TAG => 'pear2\Pyrus\DER\OctetString',
+        \pear2\Pyrus\DER\PrintableString::TAG => 'pear2\Pyrus\DER\PrintableString',
+        \pear2\Pyrus\DER\Sequence::TAG => 'pear2\Pyrus\DER\Sequence',
+        \pear2\Pyrus\DER\Set::TAG => 'pear2\Pyrus\DER\Set',
+        \pear2\Pyrus\DER\UniversalString::TAG => 'pear2\Pyrus\DER\UniversalString',
+        \pear2\Pyrus\DER\UTCTime::TAG => 'pear2\Pyrus\DER\UTCTime',
+        \pear2\Pyrus\DER\UTF8String::TAG => 'pear2\Pyrus\DER\UTF8String',
+        \pear2\Pyrus\DER\VisibleString::TAG => 'pear2\Pyrus\DER\VisibleString',
     );
 
     static function factory()
@@ -82,7 +83,7 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         $this->depth = $d;
     }
 
-    function setSchema(PEAR2_Pyrus_DER_Schema $schema)
+    function setSchema(\pear2\Pyrus\DER\Schema $schema)
     {
         $this->schema = $schema;
     }
@@ -114,10 +115,10 @@ class PEAR2_Pyrus_DER implements ArrayAccess
             return $this->offset;
         }
         if (!isset($this->schema)) {
-            throw new PEAR2_Pyrus_DER_Exception('To access objects, use ArrayAccess when schema is not set');
+            throw new \pear2\Pyrus\DER\Exception('To access objects, use ArrayAccess when schema is not set');
         }
         if (!isset($this->schema[$name])) {
-            throw new PEAR2_Pyrus_DER_Exception('schema has no element matching ' . $name .
+            throw new \pear2\Pyrus\DER\Exception('schema has no element matching ' . $name .
                                                 ' at ' . $this->schema->path());
         }
         $info = $this->schema[$name];
@@ -133,10 +134,10 @@ class PEAR2_Pyrus_DER implements ArrayAccess
     function __set($name, $value)
     {
         if (!isset($this->schema)) {
-            throw new PEAR2_Pyrus_DER_Exception('To access objects, use ArrayAccess when schema is not set');
+            throw new \pear2\Pyrus\DER\Exception('To access objects, use ArrayAccess when schema is not set');
         }
         if (!isset($this->schema[$name])) {
-            throw new PEAR2_Pyrus_DER_Exception('schema has no element matching ' . $name .
+            throw new \pear2\Pyrus\DER\Exception('schema has no element matching ' . $name .
                                                 ' at ' . $this->schema->path());
         }
         $info = $this->schema[$name];
@@ -173,14 +174,14 @@ class PEAR2_Pyrus_DER implements ArrayAccess
 
     function _bitString($string = '', $bits = 0)
     {
-        $obj = new PEAR2_Pyrus_DER_BitString($string, $bits);
+        $obj = new \pear2\Pyrus\DER\BitString($string, $bits);
         $this->objs[] = $obj;
         return $this;
     }
 
     function _null()
     {
-        $obj = new PEAR2_Pyrus_DER_Null;
+        $obj = new \pear2\Pyrus\DER\Null;
         $this->objs[] = $obj;
         return $this;
     }
@@ -193,9 +194,9 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         if (strtolower($func) == 'null') {
             return $this->_null();
         }
-        $class = 'PEAR2_Pyrus_DER_' . ucfirst($func);
+        $class = 'pear2\Pyrus\DER\\' . ucfirst($func);
         if (!class_exists($class, 1)) {
-            throw new PEAR2_Pyrus_DER_Exception('Unknown type ' . $func);
+            throw new \pear2\Pyrus\DER\Exception('Unknown type ' . $func);
         }
         if (isset($args[0])) {
             $obj = new $class($args[0]);
@@ -206,7 +207,7 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         return $this;
     }
 
-    function constructed(PEAR2_Pyrus_DER $der)
+    function constructed(\pear2\Pyrus\DER $der)
     {
         $this->objs[] = $der;
         return $this;
@@ -217,9 +218,9 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         if (!isset($this->objs[$index])) {
             // essentially use this as an array of values
             $this->objs[$index] = $obj;
-        } elseif (get_class($this->objs[$index]) != 'PEAR2_Pyrus_DER') {
+        } elseif (get_class($this->objs[$index]) != 'pear2\Pyrus\DER') {
             $current = $this->objs[$index];
-            $this->objs[$index] = new PEAR2_Pyrus_DER;
+            $this->objs[$index] = new \pear2\Pyrus\DER;
             $this->objs[$index]->setDepth($this->depth);
             $this->objs[$index][] = $current;
             $this->objs[$index][] = $obj;
@@ -243,7 +244,7 @@ class PEAR2_Pyrus_DER implements ArrayAccess
 
     function offsetUnset($var)
     {
-        throw new PEAR2_Pyrus_DER_Exception('offsetUnset not possible');
+        throw new \pear2\Pyrus\DER\Exception('offsetUnset not possible');
     }
 
     function offsetExists($var)
@@ -253,7 +254,7 @@ class PEAR2_Pyrus_DER implements ArrayAccess
 
     function type()
     {
-        return substr(get_class($this), strlen('PEAR2_Pyrus_DER_'));
+        return substr(get_class($this), strlen('pear2\Pyrus\DER\\'));
     }
 
     function isType($tag)
@@ -288,7 +289,7 @@ class PEAR2_Pyrus_DER implements ArrayAccess
         return $location;
     }
 
-    function parseFromString($data, PEAR2_Pyrus_DER $parent = null)
+    function parseFromString($data, \pear2\Pyrus\DER $parent = null)
     {
         if (null === $parent) {
             $parent = $this;
@@ -300,7 +301,7 @@ class PEAR2_Pyrus_DER implements ArrayAccess
             $tag = ord($data[$location]);
             if (isset($this->schema)) {
                 if (!($info = $this->schema->find($tag))) {
-                    throw new PEAR2_Pyrus_DER_Exception('schema has no ' .
+                    throw new \pear2\Pyrus\DER\Exception('schema has no ' .
                                                         'tag matching ' . dechex($tag) .
                                                         ' at ' . $this->schema->path());
                 }
@@ -317,13 +318,13 @@ class PEAR2_Pyrus_DER implements ArrayAccess
                 if (($tag & 0x80) === 0x80) {
                     // context-sensitive tag, do best guess
                     if (($tag & 0x20) == 0x20) {
-                        $tag = PEAR2_Pyrus_DER_Sequence::TAG;
+                        $tag = \pear2\Pyrus\DER\Sequence::TAG;
                     } else {
-                        $tag = PEAR2_Pyrus_DER_OctetString::TAG;
+                        $tag = \pear2\Pyrus\DER\OctetString::TAG;
                     }
                 }
                 if (!isset($this->tagMap[$tag])) {
-                    throw new PEAR2_Pyrus_DER_Exception('Unknown tag: ' . dechex($tag));
+                    throw new \pear2\Pyrus\DER\Exception('Unknown tag: ' . dechex($tag));
                 }
                 $type = $this->tagMap[$tag];
                 $parent[$index] = $obj = new $type;
@@ -352,15 +353,15 @@ class PEAR2_Pyrus_DER implements ArrayAccess
                 if ($this->schema->name) {
                     $ret = str_repeat(' ', $this->depth) . $this->schema->name . " [";
                     $ret .=
-                        lcfirst(str_replace('PEAR2_Pyrus_DER_', '', get_class($this))) .
+                        lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) .
                         "]: ";
                 } else {
                     $ret = '';
                 }
-            } elseif (get_class($this) != 'PEAR2_Pyrus_DER') {
+            } elseif (get_class($this) != 'pear2\Pyrus\DER') {
                 $ret = str_repeat(' ', $this->depth);
                 $ret .=
-                    lcfirst(str_replace('PEAR2_Pyrus_DER_', '', get_class($this))) .
+                    lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) .
                     ": ";
             } else {
                 $ret = str_repeat(' ', $this->depth) . '(multiple): ';
@@ -369,30 +370,30 @@ class PEAR2_Pyrus_DER implements ArrayAccess
             foreach ($this->objs as $obj) {
                 $ret .= "\n" . $obj;
             }
-            if (isset($obj) && !($obj instanceof PEAR2_Pyrus_DER_Constructed)) {
+            if (isset($obj) && !($obj instanceof \pear2\Pyrus\DER\Constructed)) {
                 $ret .= "\n";
             }
             if (isset($this->schema)) {
                 $ret .= str_repeat(' ', $this->depth) .
                     "end " . $this->schema->name . "\n";
-            } elseif (get_class($this) === 'PEAR2_Pyrus_DER') {
+            } elseif (get_class($this) === 'pear2\Pyrus\DER') {
                 $ret .= str_repeat(' ', $this->depth) . "end (multiple)\n";
             } else {
                 $ret .= str_repeat(' ', $this->depth) .
-                    "end " . lcfirst(str_replace('PEAR2_Pyrus_DER_', '', get_class($this))) . "\n";
+                    "end " . lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) . "\n";
             }
             return $ret;
         }
         if (isset($this->schema)) {
             return str_repeat(' ', $this->depth) . $this->schema->name . ' [' .
-                lcfirst(str_replace('PEAR2_Pyrus_DER_', '', get_class($this))) . '] ' .
+                lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) . '] ' .
                 '(' . $this->valueToString() . ')';
         }
-        if (get_class($this) === 'PEAR2_Pyrus_DER') {
+        if (get_class($this) === 'pear2\Pyrus\DER') {
             return str_repeat(' ', $this->depth) . '[]';
         }
         return str_repeat(' ', $this->depth) .
-            lcfirst(str_replace('PEAR2_Pyrus_DER_', '', get_class($this))) .
+            lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) .
             '(' . $this->valueToString() . ')';
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_IA5String
+ * \pear2\Pyrus\DER\IA5String
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_DER_String extends PEAR2_Pyrus_DER
+namespace pear2\Pyrus\DER;
+abstract class String extends \pear2\Pyrus\DER
 {
     protected $value;
 

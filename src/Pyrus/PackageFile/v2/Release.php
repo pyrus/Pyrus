@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_Release
+ * \pear2\Pyrus\PackageFile\v2\Release
  *
  * PHP version 5
  *
@@ -53,7 +53,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
+namespace pear2\Pyrus\PackageFile\v2;
+class Release implements \ArrayAccess, \Countable
 {
     private $_parent;
     private $_packageInfo;
@@ -100,7 +101,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                     $info = array($info);
                 }
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption($this, $info);
+            return new \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption($this, $info);
         }
         if ($var === 'binarypackage') {
             if (!isset($this->info['binarypackage'])) {
@@ -111,17 +112,17 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
                     $info = array($info);
                 }
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Release_BinaryPackage($this, $info);
+            return new \pear2\Pyrus\PackageFile\v2\Release\BinaryPackage($this, $info);
         }
         if ($var === 'installconditions') {
             if (!isset($this->info['installcondition'])) {
                 $this->info['installcondition'] = array();
             }
             $conditions =
-                new PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition($this, $this->info['installcondition']);
+                new \pear2\Pyrus\PackageFile\v2\Release\InstallCondition($this, $this->info['installcondition']);
             return $conditions;
         }
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown variable ' . $var .
+        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown variable ' . $var .
             ', installconditions is the only supported variable');
     }
 
@@ -149,21 +150,21 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
             if (isset($this->info[0])) {
                 if (!isset($this->info[$var])) {
                     if ($var != count($this)) {
-                        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+                        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                             'Can only set the ' .
                             'next highest release index ' . count($this) . ', not ' . $var);
                     }
                     $this->info[$var] = array();
                 }
-                return new PEAR2_Pyrus_PackageFile_v2_Release($this,
+                return new \pear2\Pyrus\PackageFile\v2\Release($this,
                            $this->info[$var], $this->_filelist, $var);
             } else {
                 if ($var !== 0) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Can only set the ' .
+                    throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Can only set the ' .
                         'next highest release index 0, not ' . $var);
                 }
                 $this->info[$var] = array();
-                return new PEAR2_Pyrus_PackageFile_v2_Release($this,
+                return new \pear2\Pyrus\PackageFile\v2\Release($this,
                            $this->info[$var], $this->_filelist, $var);
             }
         }
@@ -252,16 +253,16 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
         }
 
         if (is_int($var)) {
-            if ($value instanceof PEAR2_Pyrus_PackageFile_v2_Release) {
+            if ($value instanceof \pear2\Pyrus\PackageFile\v2\Release) {
                 $this->info[$var] = array('installcondition' => $value->getInstallCondition(),
                                           'install' => $value->getInstallAs(),
                                           'ignore' => $value->getIgnore());
                 $this->save();
                 return;
             }
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set ' . $var . ' to non-PEAR2_Pyrus_PackageFile_v2_Release');
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set ' . $var . ' to non-\pear2\Pyrus\PackageFile\v2\Release');
         }
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot set ' . $var);
+        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set ' . $var);
     }
 
     /**
@@ -285,7 +286,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
     function ignore($file)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot ignore ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot ignore ' .
                             'file ' . $file . ' without specifying which release section to ignore it in');
         }
         if (isset($this->_filelist[$file])) {
@@ -304,14 +305,14 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
             return;
         }
 
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
+        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown file ' . $file .
             ' - add to filelist before ignoring');
     }
 
     function installAs($file, $newname)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Cannot install ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot install ' .
                             'file ' . $file . ' to ' . $newname .
                             ' without specifying which release section to install it in');
         }
@@ -334,11 +335,11 @@ class PEAR2_Pyrus_PackageFile_v2_Release implements ArrayAccess, Countable
             return;
         }
 
-        throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown file ' . $file .
+        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown file ' . $file .
             ' - add to filelist before adding install as tag');
     }
 
-    function setInstallCondition(PEAR2_Pyrus_PackageFile_v2_Release_InstallCondition $c)
+    function setInstallCondition(\pear2\Pyrus\PackageFile\v2\Release\InstallCondition $c)
     {
         $this->info['installcondition'] = $c->getInfo();
         $this->save();

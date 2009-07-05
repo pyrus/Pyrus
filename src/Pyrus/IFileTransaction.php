@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_IFileTransaction
+ * \pear2\Pyrus\IFileTransaction
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_IFileTransaction
+namespace pear2\Pyrus;
+interface IFileTransaction
 {
     public function check($data, &$errors);
     public function commit($data, &$errors);

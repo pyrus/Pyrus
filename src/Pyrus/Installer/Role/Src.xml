@@ -1,6 +1,6 @@
 <role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
  <name>src</name>
- <class>PEAR2_Pyrus_Installer_Role_Src</class>
+ <class>pear2\Pyrus\Installer\Role\Src</class>
  <releasetypes>extsrc</releasetypes>
  <releasetypes>zendextsrc</releasetypes>
  <installable>1</installable>

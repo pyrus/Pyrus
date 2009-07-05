@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_License
+ * \pear2\Pyrus\PackageFile\v2\License
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
+namespace pear2\Pyrus\PackageFile\v2;
+class License implements \ArrayAccess
 {
     protected $parent;
     protected $info;
@@ -102,7 +103,7 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
     function offsetSet($var, $value)
     {
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_License_Exception('Can only set license to string');
+            throw new \pear2\Pyrus\PackageFile\v2\License\Exception('Can only set license to string');
         }
 
         if ($var == 'path' || $var == 'uri') {
@@ -123,7 +124,7 @@ class PEAR2_Pyrus_PackageFile_v2_License implements ArrayAccess
                 $this->save();
                 return;
             }
-            throw new PEAR2_Pyrus_PackageFile_v2_License_Exception('Unknown license trait ' . $var . ', cannot set value');
+            throw new \pear2\Pyrus\PackageFile\v2\License\Exception('Unknown license trait ' . $var . ', cannot set value');
         }
         $this->info['attribs'][$var] = $value;
         $this->save();

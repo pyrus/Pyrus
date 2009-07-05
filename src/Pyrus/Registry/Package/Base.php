@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Package_Base
+ * \pear2\Pyrus\Registry\Package\Base
  *
  * PHP version 5
  *
@@ -23,8 +23,9 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile_v2
-                                                 implements ArrayAccess, PEAR2_Pyrus_IPackageFile, Iterator
+namespace pear2\Pyrus\Registry\Package;
+abstract class Base extends \pear2\Pyrus\PackageFile\v2
+                                                 implements \ArrayAccess, \pear2\Pyrus\IPackageFile, \Iterator
 {
 
     protected $packagename;
@@ -34,7 +35,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
     protected $iteratorPackages;
     protected $iteratorChannel;
 
-    function __construct(PEAR2_Pyrus_Registry_Base $cloner)
+    function __construct(\pear2\Pyrus\Registry\Base $cloner)
     {
         $this->reg = $cloner;
     }
@@ -53,7 +54,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
     function rewind()
     {
         if (!$this->iteratorChannel) {
-            $this->iteratorChannel = PEAR2_Pyrus_Config::current()->default_channel;
+            $this->iteratorChannel = \pear2\Pyrus\Config::current()->default_channel;
         }
         $this->iteratorPackages = $this->reg->listPackages($this->iteratorChannel);
     }
@@ -77,7 +78,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
         $this->iteratorChannel = $channel;
     }
 
-    function fromPackageFile(PEAR2_Pyrus_IPackageFile $package)
+    function fromPackageFile(\pear2\Pyrus\IPackageFile $package)
     {
         parent::fromPackageFile($package);
         // reconstruct filelist/baseinstalldirs
@@ -99,14 +100,14 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
 
     function offsetExists($offset)
     {
-        $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
+        $info = \pear2\Pyrus\Config::current()->channelregistry->parseName($offset);
         return $this->reg->exists($info['package'], $info['channel']);
     }
 
     function offsetGet($offset)
     {
         $this->packagename = $offset;
-        $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($this->packagename);
+        $info = \pear2\Pyrus\Config::current()->channelregistry->parseName($this->packagename);
         $this->package = $info['package'];
         $this->channel = $info['channel'];
         $intermediate = $this->reg->toPackageFile($info['package'], $info['channel']);
@@ -125,13 +126,13 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
 
     function offsetUnset($offset)
     {
-        $info = PEAR2_Pyrus_Config::current()->channelregistry->parseName($offset);
+        $info = \pear2\Pyrus\Config::current()->channelregistry->parseName($offset);
         $this->reg->uninstall($info['package'], $info['channel']);
     }
 
     function toRaw()
     {
-        $info = new PEAR2_Pyrus_PackageFile_v2;
+        $info = new \pear2\Pyrus\PackageFile\v2;
         $info->fromArray(array('package' => $this->packageInfo));
         return $info;
     }
@@ -139,7 +140,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
     function __get($var)
     {
         if (!isset($this->packagename)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
+            throw new \pear2\Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
         }
         return parent::__get($var);
@@ -148,7 +149,7 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
     function __set($var, $value)
     {
         if (!isset($this->packagename)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
+            throw new \pear2\Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
         }
         parent::__set($var, $value);
@@ -165,10 +166,10 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
      *
      * Iterate over dependencies and create edges from this package to those it
      * depends upon
-     * @param PEAR2_Pyrus_DirectedGraph $graph
-     * @param array $packages channel/package indexed array of PEAR2_Pyrus_Package objects
+     * @param \pear2\Pyrus\DirectedGraph $graph
+     * @param array $packages channel/package indexed array of \pear2\Pyrus\Package objects
      */
-    function makeUninstallConnections(PEAR2_Pyrus_DirectedGraph $graph, array $packages)
+    function makeUninstallConnections(\pear2\Pyrus\DirectedGraph $graph, array $packages)
     {
         $graph->add($this);
         foreach (array('required', 'optional') as $required) {
@@ -195,14 +196,14 @@ abstract class PEAR2_Pyrus_Registry_Package_Base extends PEAR2_Pyrus_PackageFile
     }
 
     public function validateUninstallDependencies(array $uninstallPackages,
-                                                  PEAR2_MultiErrors $errs)
+                                                  \PEAR2_MultiErrors $errs)
     {
         $ret = true;
         foreach ($uninstallPackages as $package) {
             foreach ($this->reg->getDependentPackages($package) as $deppackage) {
-                $dep = new PEAR2_Pyrus_Dependency_Validator(
+                $dep = new \pear2\Pyrus\Dependency\Validator(
                     array('channel' => $deppackage->channel, 'package' => $deppackage->name),
-                    PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
+                    \pear2\Pyrus\Validate::UNINSTALLING, $errs);
                 foreach ($uninstallPackages as $test) {
                     if ($deppackage->isEqual($test)) {
                         // we are uninstalling both the package that is depended upon

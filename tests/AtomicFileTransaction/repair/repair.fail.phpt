@@ -1,28 +1,28 @@
 --TEST--
-PEAR2_Pyrus_AtomicFileTransaction::repair() fail
+\pear2\Pyrus\AtomicFileTransaction::repair() fail
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.php.inc';
-PEAR2_Pyrus_Config::current()->ext_dir = __DIR__ . '/testit/ext';
+\pear2\Pyrus\Config::current()->ext_dir = __DIR__ . '/testit/ext';
 mkdir(__DIR__ . '/testit/.old-ext');
 touch(__DIR__ . '/testit/php');
 mkdir(__DIR__ . '/testit/.old-php');
 touch(__DIR__ . '/testit/.old-php/foo');
 
-PEAR2_Pyrus_AtomicFileTransaction::begin();
+\pear2\Pyrus\AtomicFileTransaction::begin();
 try {
-    PEAR2_Pyrus_AtomicFileTransaction::repair();
+    \pear2\Pyrus\AtomicFileTransaction::repair();
     throw new Exception('should have failed');
-} catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+} catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Cannot repair while in a transaction', $e->getMessage(), 'error transaction');
 }
-PEAR2_Pyrus_AtomicFileTransaction::rollback();
+\pear2\Pyrus\AtomicFileTransaction::rollback();
 
 try {
-    PEAR2_Pyrus_AtomicFileTransaction::repair();
+    \pear2\Pyrus\AtomicFileTransaction::repair();
     throw new Exception('should have failed');
-} catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+} catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Repair failed - php_dir path ' . __DIR__ . DIRECTORY_SEPARATOR .
                         'testit' . DIRECTORY_SEPARATOR . 'php is not a directory.  ' .
                         'Move this file out of the way and try the repair again', $e->getMessage(), 'error');

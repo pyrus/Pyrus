@@ -23,17 +23,18 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_REST_10
+namespace pear2\Pyrus;
+class REST_10
 {
     /**
-     * @var PEAR2_Pyrus_REST
+     * @var \pear2\Pyrus\REST
      */
     protected $rest;
     protected $options;
     function __construct($options = array())
     {
         $this->options = $options;
-        $this->rest = new PEAR2_Pyrus_REST($this->options);
+        $this->rest = new \pear2\Pyrus\REST($this->options);
     }
 
     /**
@@ -57,16 +58,16 @@ class PEAR2_Pyrus_REST_10
     {
         $channel = $packageinfo['channel'];
         $package = $packageinfo['package'];
-        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
+        $states = \pear2\Pyrus\Installer::betterStates($prefstate, true);
         if (!$states) {
-            throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
+            throw new \pear2\Pyrus\REST\Exception('"' . $prefstate . '" is not a valid state');
         }
         $state   = isset($packageinfo['state'])   ? $packageinfo['state']   : null;
         $version = isset($packageinfo['version']) ? $packageinfo['version'] : null;
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('No releases available for package "' .
+            throw new \pear2\Pyrus\REST\Exception('No releases available for package "' .
                 $channel . '/' . $package . '"', $e);
         }
         if (!isset($info['r'])) {
@@ -89,7 +90,7 @@ class PEAR2_Pyrus_REST_10
                 }
                 // see if there is something newer and more stable
                 // bug #7221
-                if (in_array($release['s'], PEAR2_Pyrus_Installer::betterStates($state), true)) {
+                if (in_array($release['s'], \pear2\Pyrus\Installer::betterStates($state), true)) {
                     $found = true;
                     break;
                 }
@@ -113,16 +114,16 @@ class PEAR2_Pyrus_REST_10
     {
         $channel = $dependency['channel'];
         $package = $dependency['name'];
-        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
+        $states = \pear2\Pyrus\Installer::betterStates($prefstate, true);
         if (!$states) {
-            throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
+            throw new \pear2\Pyrus\REST\Exception('"' . $prefstate . '" is not a valid state');
         }
         $state   = isset($dependency['state'])   ? $dependency['state']   : null;
         $version = isset($dependency['version']) ? $dependency['version'] : null;
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
+            throw new \pear2\Pyrus\REST\Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
                 . '" dependency "' . $channel . '/' . $package . '" has no releases', $e);
         }
         if (!is_array($info) || !isset($info['r'])) {
@@ -224,21 +225,21 @@ class PEAR2_Pyrus_REST_10
             $pinfo = $this->rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' .
             'info.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Package "' . $package .
+            throw new \pear2\Pyrus\REST\Exception('Package "' . $package .
                 '" does not have REST info xml available', $e);
         }
         try {
             $releaseinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
             $release['v'] . '.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Package "' . $package . '" Version "' . $release['v'] .
+            throw new \pear2\Pyrus\REST\Exception('Package "' . $package . '" Version "' . $release['v'] .
                 '" does not have REST xml available', $e);
         }
         try {
             $packagexml = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
             'package.' . $release['v'] . '.xml', false, true);
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Package "' . $package . '" Version "' . $release['v'] .
+            throw new \pear2\Pyrus\REST\Exception('Package "' . $package . '" Version "' . $release['v'] .
                 '" does not have REST dependency information available', $e);
         }
         $allinfo = $this->rest->retrieveData($base . 'r/' . strtolower($package) .
@@ -313,7 +314,7 @@ class PEAR2_Pyrus_REST_10
         try {
             $packagelist = $this->rest->retrieveData($base . 'p/packages.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Cannot list packages', $e);
+            throw new \pear2\Pyrus\REST\Exception('Cannot list packages', $e);
         }
         if (!is_array($packagelist) || !isset($packagelist['p'])) {
             return array();
@@ -340,7 +341,7 @@ class PEAR2_Pyrus_REST_10
         try {
             $packagelist = $this->rest->retrieveData($base . 'p/packages.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Could not list categories', $e);
+            throw new \pear2\Pyrus\REST\Exception('Could not list categories', $e);
         }
         if (!is_array($packagelist) || !isset($packagelist['p'])) {
             $ret = array();
@@ -359,7 +360,7 @@ class PEAR2_Pyrus_REST_10
                 }
             }
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Could not list categories', $e);
+            throw new \pear2\Pyrus\REST\Exception('Could not list categories', $e);
         }
         return array_values($categories);
     }
@@ -377,8 +378,8 @@ class PEAR2_Pyrus_REST_10
         // gives '404 Not Found' error when category doesn't exist
         try {
             $packagelist = $this->rest->retrieveData($base.'c/'.urlencode($category).'/packages.xml');
-        } catch (PEAR2_Pyrus_HTTPException $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Unknown category ' . $category, $e);
+        } catch (\pear2\Pyrus\HTTPException $e) {
+            throw new \pear2\Pyrus\REST\Exception('Unknown category ' . $category, $e);
         }
         if (!is_array($packagelist) || !isset($packagelist['p'])) {
             return array();
@@ -423,7 +424,7 @@ class PEAR2_Pyrus_REST_10
         try {
             $packagelist = $this->rest->retrieveData($base . 'p/packages.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Could not retrieve package list to list all',
+            throw new \pear2\Pyrus\REST\Exception('Could not retrieve package list to list all',
                 $e);
         }
         $ret = array();
@@ -462,7 +463,7 @@ class PEAR2_Pyrus_REST_10
                 try {
                     $inf = $this->rest->retrieveData($base . 'p/' . strtolower($package) . '/info.xml');
                 } catch (Exception $e) {
-                    throw new PEAR2_Pyrus_REST_Exception(
+                    throw new \pear2\Pyrus\REST\Exception(
                         'Cannot list all, can\'t get package info for ' . $package, $e);
                 }
                 if ($searchpackage) {
@@ -534,7 +535,7 @@ class PEAR2_Pyrus_REST_10
                            $latest . '.txt');
                         $d = unserialize($d);
                         if ($d) {
-                            $pf = new PEAR2_Pyrus_PackageFile_v2;
+                            $pf = new \pear2\Pyrus\PackageFile\v2;
                             $deps = $pf->dependencies;
                         }
                     } catch (Exception $e) {
@@ -564,7 +565,7 @@ class PEAR2_Pyrus_REST_10
         try {
             $packagelist = $this->rest->retrieveData($base . 'p/packages.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Could not retrieve latest upgrades', $e);
+            throw new \pear2\Pyrus\REST\Exception('Could not retrieve latest upgrades', $e);
         }
         $ret = array();
         if (!is_array($packagelist) || !isset($packagelist['p'])) {
@@ -608,13 +609,13 @@ class PEAR2_Pyrus_REST_10
                 } else {
                     $new_state = $release['s'];
                     // if new state >= installed state: go
-                    if (in_array($new_state, PEAR2_Pyrus_Installer::betterStates($inst_state, true))) {
+                    if (in_array($new_state, \pear2\Pyrus\Installer::betterStates($inst_state, true))) {
                         $found = true;
                         break;
                     } else {
                         // only allow to lower the state of package,
                         // if new state >= preferred state: go
-                        if (in_array($new_state, PEAR2_Pyrus_Installer::betterStates($pref_state, true))) {
+                        if (in_array($new_state, \pear2\Pyrus\Installer::betterStates($pref_state, true))) {
                             $found = true;
                             break;
                         }
@@ -628,7 +629,7 @@ class PEAR2_Pyrus_REST_10
                 $relinfo = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
                 $release['v'] . '.xml');
             } catch (Exception $e) {
-                throw new PEAR2_Pyrus_REST_Exception('Cannot retrieve latest upgrade release' .
+                throw new \pear2\Pyrus\REST\Exception('Cannot retrieve latest upgrade release' .
                     ' information for package ' . $package, $e);
             }
             $ret[$package] = array(
@@ -645,7 +646,7 @@ class PEAR2_Pyrus_REST_10
         try {
             $pinfo = $this->rest->retrieveData($base . 'p/' . strtolower($package) . '/info.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Unknown package: "' . $package . '"', $e);
+            throw new \pear2\Pyrus\REST\Exception('Unknown package: "' . $package . '"', $e);
         }
         $releases = array();
         try {
@@ -654,7 +655,7 @@ class PEAR2_Pyrus_REST_10
             if (!is_array($allreleases['r']) || !isset($allreleases['r'][0])) {
                 $allreleases['r'] = array($allreleases['r']);
             }
-            $pf = new PEAR2_Pyrus_PackageFile_v2;
+            $pf = new \pear2\Pyrus\PackageFile\v2;
             foreach ($allreleases['r'] as $release) {
                 try {
                     $ds = $this->rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/deps.' .

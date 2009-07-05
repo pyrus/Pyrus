@@ -4,8 +4,8 @@ Dependency_Validator: Extension dependency, extension version, extension not loa
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-PEAR2_Pyrus::$options['nodeps'] = true;
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+\pear2\Pyrus\Main::$options['nodeps'] = true;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->min('1.0')->conflicts(true);
 $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo');
 
@@ -20,7 +20,7 @@ foreach ($errs->E_WARNING as $error) {
 
 $foo = $fake->dependencies['optional']->extension['foo']->min('1.0');
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo optional fail');

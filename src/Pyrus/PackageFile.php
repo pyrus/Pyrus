@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile
+ * \pear2\Pyrus\PackageFile
  *
  * PHP version 5
  *
@@ -23,18 +23,19 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile
+namespace pear2\Pyrus;
+class PackageFile
 {
     public $info;
     public $path;
-    function __construct($package, $class = 'PEAR2_Pyrus_PackageFile_v2', $isstring = false)
+    function __construct($package, $class = 'pear2\Pyrus\PackageFile\v2', $isstring = false)
     {
-        if ($package instanceof PEAR2_Pyrus_IPackageFile) {
+        if ($package instanceof \pear2\Pyrus\IPackageFile) {
             $this->path = $package->getFilePath();
             return $this->info = $package;
         }
         $this->path = $package;
-        $parser = new PEAR2_Pyrus_PackageFile_Parser_v2;
+        $parser = new \pear2\Pyrus\PackageFile\Parser\v2;
         if ($isstring) {
             $data = $package;
         } else {
@@ -45,7 +46,7 @@ class PEAR2_Pyrus_PackageFile
             }
         }
         if ($data === false || empty($data)) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Unable to open package xml file '
+            throw new \pear2\Pyrus\PackageFile\Exception('Unable to open package xml file '
                 . $package . ' or file was empty.');
         }
         $this->info = $parser->parse($data, $package, $class);

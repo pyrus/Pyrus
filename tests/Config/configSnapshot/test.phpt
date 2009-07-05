@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::configSnapshot()
+\pear2\Pyrus\Config::configSnapshot()
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

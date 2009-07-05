@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_IRegistry
+ * \pear2\Pyrus\IRegistry
  *
  * PHP version 5
  *
@@ -23,31 +23,32 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_IRegistry
+namespace pear2\Pyrus;
+interface IRegistry
 {
-    public function install(PEAR2_Pyrus_IPackageFile $info, $replace = false);
+    public function install(\pear2\Pyrus\IPackageFile $info, $replace = false);
     /**
      * Used by the registry package classes to update info in an installed package
      */
-    public function replace(PEAR2_Pyrus_IPackageFile $info);
+    public function replace(\pear2\Pyrus\IPackageFile $info);
     public function uninstall($name, $channel);
     public function exists($package, $channel);
     public function info($package, $channel, $field);
     public function listPackages($channel);
     public function __get($var);
     /**
-     * @return PEAR2_Pyrus_IPackageFile
+     * @return \pear2\Pyrus\IPackageFile
      */
     public function toPackageFile($package, $channel);
     /**
      * Retrieve a list of package objects that depend on this package
      */
-    public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package);
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package);
     /**
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package);
+    public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package);
     /**
      * Returns a list of registries present in the PEAR installation at $path
      * @param string

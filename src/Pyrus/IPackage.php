@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_IPackage
+ * \pear2\Pyrus\IPackage
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_IPackage extends ArrayAccess, PEAR2_Pyrus_IPackageFile
+namespace pear2\Pyrus;
+interface IPackage extends \ArrayAccess, \pear2\Pyrus\IPackageFile
 {
     function getFileContents($file, $asstream = false);
     function getFilePath($file);
@@ -33,7 +34,7 @@ interface PEAR2_Pyrus_IPackage extends ArrayAccess, PEAR2_Pyrus_IPackageFile
     function __call($func, $args);
     /**
      * This allows a package to flexibly access its package.xml and return it
-     * @return PEAR2_Pyrus_IPackageFile
+     * @return \pear2\Pyrus\IPackageFile
      */
     function getPackageFileObject();
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_Boolean
+ * \pear2\Pyrus\DER\Boolean
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_Boolean extends PEAR2_Pyrus_DER
+namespace pear2\Pyrus\DER;
+class Boolean extends \pear2\Pyrus\DER
 {
     const TAG = 0x01;
     protected $value = false;

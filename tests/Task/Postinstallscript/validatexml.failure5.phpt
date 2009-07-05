@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Task_Postinstallscript::validateXml() failures 5
+\pear2\Pyrus\Task\Postinstallscript::validateXml() failures 5
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -7,7 +7,7 @@ include dirname(__DIR__) . '/setup.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        PEAR2_Pyrus_Task_Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
+        \pear2\Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -26,7 +26,7 @@ file_put_contents(__DIR__ . '/testit/glooby', '<?php
 class poo {}
 ');
 
-$xmltest(array(), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Post-install script "glooby" class "poo" must be named "glooby_postinstall""', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
+$xmltest(array(), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Post-install script "glooby" class "poo" must be named "glooby_postinstall""', '\pear2\Pyrus\Task\Exception\Invalidtask');
 
 ?>
 ===DONE===

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_XMLWriter
+ * \pear2\Pyrus\XMLWriter
  *
  * PHP version 5
  *
@@ -24,7 +24,8 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_XMLWriter
+namespace pear2\Pyrus;
+class XMLWriter
 {
     private $_array;
     private $_state;
@@ -44,7 +45,7 @@ class PEAR2_Pyrus_XMLWriter
      * Construct a new xml writer object.
      * <code>
      * $xmlarray = array('channel'=>array('name'=>'pear2.php.net'));
-     * $channel = new PEAR2_Pyrus_XMLWriter($xmlarray);
+     * $channel = new \pear2\Pyrus\XMLWriter($xmlarray);
      * </code>
      * 
      * @param array $array Array representing the XML data.
@@ -52,11 +53,11 @@ class PEAR2_Pyrus_XMLWriter
     function __construct(array $array)
     {
         if (count($array) != 1) {
-            throw new PEAR2_Pyrus_XMLWriter_Exception('Cannot serialize array to' .
+            throw new \pear2\Pyrus\XMLWriter\Exception('Cannot serialize array to' .
                 'XML, array must have exactly 1 element');
         }
         $this->_array  = $array;
-        $this->_writer = new XMLWriter;
+        $this->_writer = new \XMLWriter;
     }
 
     /**
@@ -246,9 +247,9 @@ class PEAR2_Pyrus_XMLWriter
         $this->_expectedDepth = 0;
         $this->_lastkey       = array();
         $lastdepth            = 0;
-        foreach ($this->_iter = new RecursiveIteratorIterator(
-                        new RecursiveArrayIterator($this->_array),
-                        RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
+        foreach ($this->_iter = new \RecursiveIteratorIterator(
+                        new \RecursiveArrayIterator($this->_array),
+                        \RecursiveIteratorIterator::SELF_FIRST) as $key => $values) {
             $depth = $this->_iter->getDepth();
             while ($depth < $this->_expectedDepth) {
                 // finished with this tag
@@ -268,7 +269,7 @@ class PEAR2_Pyrus_XMLWriter
                 }
             }
             $this->_lastkey = array_filter($this->_lastkey,
-                array('PEAR2_Pyrus_XMLWriter', '_filter'));
+                array('pear2\Pyrus\XMLWriter', '_filter'));
             $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {

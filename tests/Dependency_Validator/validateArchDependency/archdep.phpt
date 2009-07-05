@@ -4,7 +4,7 @@ Dependency_Validator: arch dependency
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $arch = $fake->dependencies['required']->arch;
 $arch->pattern = 'foobar';
 $validator->patterns['foobar'] = true;
@@ -20,9 +20,9 @@ foreach ($errs->E_ERROR as $error) {
                         'foobar conflicts fail message');
 }
 
-PEAR2_Pyrus::$options = array('force' => true);
+\pear2\Pyrus\Main::$options = array('force' => true);
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $arch->conflicts = false;
 $test->assertEquals(true, $validator->validateArchDependency($arch), 'foobar pass force');
@@ -37,9 +37,9 @@ foreach ($errs->E_WARNING as $error) {
                         'foobar conflicts fail message force');
 }
 
-PEAR2_Pyrus::$options = array();
+\pear2\Pyrus\Main::$options = array();
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $arch->conflicts = true;
 $arch->pattern = 'barfoo';
@@ -55,9 +55,9 @@ foreach ($errs->E_ERROR as $error) {
                         'barfoo fail message');
 }
 
-PEAR2_Pyrus::$options = array('nodeps' => true);
+\pear2\Pyrus\Main::$options = array('nodeps' => true);
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $arch->conflicts = true;
 $arch->pattern = 'barfoo';

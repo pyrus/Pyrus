@@ -5,7 +5,7 @@ Registry base: test validateUninstallDependenices()
 require __DIR__ . '/setup.php.inc';
 $dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
 
-$p1 = new PEAR2_Pyrus_PackageFile_v2;
+$p1 = new \pear2\Pyrus\PackageFile\v2;
 $p1->name = 'foo';
 $p1->channel = 'pear2.php.net';
 $p1->version['release'] = '1.2.3';
@@ -17,7 +17,7 @@ $p1->dependencies['required']->package['pear2.php.net/test']->min('1.2.4');
 
 $reg->install($p1);
 
-$p2 = new PEAR2_Pyrus_PackageFile_v2;
+$p2 = new \pear2\Pyrus\PackageFile\v2;
 $p2->name = 'foo2';
 $p2->channel = 'pear2.php.net';
 $p2->version['release'] = '1.2.3';
@@ -29,7 +29,7 @@ $p2->dependencies['required']->subpackage['pear2.php.net/test']->min('1.2.4');
 
 $reg->install($p2);
 
-$p3 = new PEAR2_Pyrus_PackageFile_v2;
+$p3 = new \pear2\Pyrus\PackageFile\v2;
 $p3->name = 'test';
 $p3->channel = 'pear2.php.net';
 $p3->version['release'] = '1.2.3';

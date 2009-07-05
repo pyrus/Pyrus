@@ -42,7 +42,7 @@ $reg->license = 'bogus';
 $test->assertEquals('bogus', $reg->license['name'], 'bogus');
 $test->assertEquals(null, $reg->license['uri'], 'bogus uri');
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->license['name'] = 'booboo';
 $fake->license['uri'] = 'http://localhost';
 

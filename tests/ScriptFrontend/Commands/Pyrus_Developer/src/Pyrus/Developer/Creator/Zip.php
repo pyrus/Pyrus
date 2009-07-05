@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_Developer_Creator_Zip implements PEAR2_Pyrus_Package_ICreator
+namespace pear2\Pyrus\Developer\Creator;
+class Zip implements \pear2\Pyrus\Package\ICreator
 {
     /**
      * Path to archive file
@@ -15,7 +16,7 @@ class PEAR2_Pyrus_Developer_Creator_Zip implements PEAR2_Pyrus_Package_ICreator
     function __construct($path)
     {
         if (!class_exists('ZIPArchive')) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception(
+            throw new \pear2\Pyrus\Developer\Creator\Exception(
                 'Zip extension is not available');
         }
         $this->path = $path;
@@ -37,8 +38,8 @@ class PEAR2_Pyrus_Developer_Creator_Zip implements PEAR2_Pyrus_Package_ICreator
 
     function addDir($path)
     {
-        foreach (new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
+        foreach (new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
             $contents = file_get_contents((string)$file);
             $relpath = str_replace($path . DIRECTORY_SEPARATOR, '', $file);
             $this->addFile($relpath, $contents);
@@ -52,7 +53,7 @@ class PEAR2_Pyrus_Developer_Creator_Zip implements PEAR2_Pyrus_Package_ICreator
     {
         $this->zip = new ZipArchive;
         if (true !== $this->zip->open($this->path, ZIPARCHIVE::CREATE)) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception(
+            throw new \pear2\Pyrus\Developer\Creator\Exception(
                 'Cannot open ZIP archive ' . $this->path
             );
         }

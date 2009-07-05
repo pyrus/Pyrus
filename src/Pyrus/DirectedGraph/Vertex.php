@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DirectedGraph_Vertex
+ * \pear2\Pyrus\DirectedGraph\Vertex
  *
  * PHP version 5
  *
@@ -23,11 +23,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterator
+namespace pear2\Pyrus\DirectedGraph;
+class Vertex implements \ArrayAccess, \Countable, \Iterator
 {
-    const WHITE = PEAR2_Pyrus_DirectedGraph::WHITE;
-    const GRAY = PEAR2_Pyrus_DirectedGraph::GRAY;
-    const BLACK = PEAR2_Pyrus_DirectedGraph::BLACK;
+    const WHITE = \pear2\Pyrus\DirectedGraph::WHITE;
+    const GRAY = \pear2\Pyrus\DirectedGraph::GRAY;
+    const BLACK = \pear2\Pyrus\DirectedGraph::BLACK;
     protected $color = self::WHITE;
     public $data;
     protected $connections = array();
@@ -40,7 +41,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
     function __construct($data)
     {
         if (!is_object($data)) {
-            throw new PEAR2_Pyrus_DirectedGraph_Exception('data must be an object, was ' .
+            throw new \pear2\Pyrus\DirectedGraph\Exception('data must be an object, was ' .
                 gettype($data));
         }
 
@@ -50,9 +51,9 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
     /**
      * Connect to another vertex
      *
-     * @param PEAR2_Pyrus_DirectedGraph_Vertex $to
+     * @param \pear2\Pyrus\DirectedGraph\Vertex $to
      */
-    function connect(PEAR2_Pyrus_DirectedGraph_Vertex $to)
+    function connect(\pear2\Pyrus\DirectedGraph\Vertex $to)
     {
         $this->connections[spl_object_hash($to)] = $to;
     }
@@ -93,7 +94,7 @@ class PEAR2_Pyrus_DirectedGraph_Vertex implements ArrayAccess, Countable, Iterat
 
     function offsetSet($var, $value)
     {
-        if ($value instanceof PEAR2_Pyrus_DirectedGraph_Vertex) {
+        if ($value instanceof \pear2\Pyrus\DirectedGraph\Vertex) {
             $this->connect($value);
         }
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * The PEAR2_Pyrus_OSGuess class
+ * The \pear2\Pyrus\OSGuess class
  *
  * PHP versions 4 and 5
  *
@@ -97,7 +97,8 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
-class PEAR2_Pyrus_OSGuess
+namespace pear2\Pyrus;
+class OSGuess
 {
     var $sysname;
     var $nodename;

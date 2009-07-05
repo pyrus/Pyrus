@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ScriptRunner
+ * \pear2\Pyrus\ScriptRunner
  *
  * PHP version 5
  *
@@ -27,8 +27,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ScriptRunner
-{
+namespace pear2\Pyrus;
+class ScriptRunner{
     protected $frontend;
     static protected $skipSections;
 
@@ -37,7 +37,7 @@ class PEAR2_Pyrus_ScriptRunner
         $this->frontend = $frontend;
     }
 
-    function run(PEAR2_Pyrus_IPackageFile $package)
+    function run(\pear2\Pyrus\IPackageFile $package)
     {
         foreach ($package->scriptfiles as $file) {
             $this->runPostinstallScripts($file, $package);
@@ -58,8 +58,8 @@ class PEAR2_Pyrus_ScriptRunner
         self::$skipSections[$id] = true;
     }
 
-    function runPostinstallScripts(PEAR2_Pyrus_PackageFile_v2_Files_File $scriptfile,
-                                   PEAR2_Pyrus_IPackageFile $package)
+    function runPostinstallScripts(\pear2\Pyrus\PackageFile\v2\Files\File $scriptfile,
+                                   \pear2\Pyrus\IPackageFile $package)
     {
         foreach ($scriptfile->postinstallscript as $script) {
             $script->setupPostInstall();
@@ -68,11 +68,11 @@ class PEAR2_Pyrus_ScriptRunner
     }
 
     /**
-     * @param PEAR2_Pyrus_Task_Postinstallscript $info contents of postinstallscript tag
+     * @param \pear2\Pyrus\Task\Postinstallscript $info contents of postinstallscript tag
      * @param object $script post-installation script
      * @param string install|upgrade
      */
-    function runInstallScript(PEAR2_Pyrus_Task_Postinstallscript $info)
+    function runInstallScript(\pear2\Pyrus\Task\Postinstallscript $info)
     {
         self::$skipSections = array();
         if (!count($info->paramgroup)) {
@@ -112,7 +112,7 @@ class PEAR2_Pyrus_ScriptRunner
                     if (method_exists($info->scriptobject, 'postProcessPrompts2')) {
                         $prompts = $info->scriptobject->postProcessPrompts2($group->param->getPrompts(), $group->id);
                         if (!is_array($prompts) || count($prompts) != count($group->param)) {
-                            throw new PEAR2_Pyrus_Task_Exception('Error: post-install script did not ' .
+                            throw new \pear2\Pyrus\Task\Exception('Error: post-install script did not ' .
                                 'return proper post-processed prompts');
                         } else {
                             $testprompts = $group->param->getPrompts();
@@ -122,7 +122,7 @@ class PEAR2_Pyrus_ScriptRunner
                                       ($prompt['name'] != $testprompts[$i]['name']) ||
                                       ($prompt['type'] != $testprompts[$i]['type'])
                                 ) {
-                                    throw new PEAR2_Pyrus_Task_Exception('Error: post-install script ' .
+                                    throw new \pear2\Pyrus\Task\Exception('Error: post-install script ' .
                                         'modified the variables or prompts, severe security risk');
                                 }
                             }

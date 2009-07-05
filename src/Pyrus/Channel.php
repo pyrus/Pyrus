@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel
+ * \pear2\Pyrus\Channel
  *
  * PHP version 5
  *
@@ -23,15 +23,16 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel implements PEAR2_Pyrus_IChannel
+namespace pear2\Pyrus;
+class Channel implements \pear2\Pyrus\IChannel
 {
     protected $internal;
     
     /**
-     * Construct a PEAR2_Pyrus_Channel object
+     * Construct a \pear2\Pyrus\Channel object
      *
      */
-    function __construct(PEAR2_Pyrus_IChannelFile $info)
+    function __construct(\pear2\Pyrus\IChannelFile $info)
     {
         $this->internal = $info;
     }

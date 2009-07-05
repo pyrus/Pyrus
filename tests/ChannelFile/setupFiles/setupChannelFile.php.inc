@@ -1,2 +1,2 @@
 <?php
-$channel = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile(__DIR__.'/../../ChannelRegistry/sample_channel_complex.xml'));
+$channel = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(__DIR__.'/../../ChannelRegistry/sample_channel_complex.xml'));

@@ -25,7 +25,9 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_XMLParser
+namespace pear2\Pyrus;
+use \XMLReader, \DOMDocument;
+class XMLParser
 {
     protected $reader;
     function __construct()
@@ -72,7 +74,7 @@ class PEAR2_Pyrus_XMLParser
     function parse($file, $schema = false)
     {
         if (!$this->reader->open($file)) {
-            throw new PEAR2_Pyrus_XMLParser_Exception('Cannot open ' . $file .
+            throw new \pear2\Pyrus\XMLParser\Exception('Cannot open ' . $file .
                 ' for parsing');
         }
         return $this->_parse($file, $schema, true);
@@ -164,14 +166,14 @@ class PEAR2_Pyrus_XMLParser
         $this->reader->close();
         $causes = array();
         foreach (libxml_get_errors() as $error) {
-            $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .
+            $causes[] = new \pear2\Pyrus\XMLParser\Exception("Line " .
                  $error->line . ': ' . $error->message);
         }
         if (count($causes)) {
-            throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
+            throw new \pear2\Pyrus\XMLParser\Exception('Invalid XML document', $causes);
         }
         if ($schema) {
-            $a = new DOMDocument();
+            $a = new \DOMDocument();
             if ($isfile) {
                 $a->load($file);
             } else {
@@ -188,12 +190,12 @@ class PEAR2_Pyrus_XMLParser
             $a->schemaValidate($schema);
             $causes = array();
             foreach (libxml_get_errors() as $error) {
-                $causes[] = new PEAR2_Pyrus_XMLParser_Exception("Line " .
+                $causes[] = new \pear2\Pyrus\XMLParser\Exception("Line " .
                      $error->line . ': ' . $error->message);
             }
             libxml_clear_errors();
             if (count($causes)) {
-                throw new PEAR2_Pyrus_XMLParser_Exception('Invalid XML document', $causes);
+                throw new \pear2\Pyrus\XMLParser\Exception('Invalid XML document', $causes);
             }
         }
 

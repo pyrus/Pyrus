@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), packages installed
+\pear2\Pyrus\ScriptFrontend\Commands::listPackages(), packages installed
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -9,13 +9,13 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
+$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../../../sandbox/SimpleChannelServer/package.xml'));
 
 $contents = ob_get_contents();
@@ -31,7 +31,7 @@ $test->assertFileExists(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php', '
 $test->assertEquals(file_get_contents(__DIR__.'/../../../../sandbox/SimpleChannelServer/src/SimpleChannelServer.php'),
                     file_get_contents(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
+$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'list-packages'));
 
 $contents = ob_get_contents();

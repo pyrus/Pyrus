@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Task_MultipleProxy, container for multiple tasks to be executed
+ * \pear2\Pyrus\Task\MultipleProxy, container for multiple tasks to be executed
  *
  * PHP version 5
  *
@@ -24,13 +24,14 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObserver
+namespace pear2\Pyrus\Task;
+class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObserver
 {
     protected $name;
     protected $parent;
     protected $fileattribs;
     /**
-     * @param PEAR2_Pyrus_IPackage|PEAR2_Pyrus_IPackageFile
+     * @param \pear2\Pyrus\IPackage|\pear2\Pyrus\IPackageFile
      * @param array a group of tasks
      */
     function __construct($parent, array $tasks, $fileattribs, $name)
@@ -54,7 +55,7 @@ class PEAR2_Pyrus_Task_MultipleProxy extends \ArrayObject implements \IteratorAg
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false false to skip this file, otherwise return the new contents
-     * @throws PEAR2_Pyrus_Task_Exception on errors, throw this exception
+     * @throws \pear2\Pyrus\Task\Exception on errors, throw this exception
      * @abstract
      */
     function startSession($fp, $dest)
@@ -62,7 +63,7 @@ class PEAR2_Pyrus_Task_MultipleProxy extends \ArrayObject implements \IteratorAg
         foreach ($this as $task) {
             $task->startSession($fp, $dest);
             if (!rewind($fp)) {
-                throw new PEAR2_Pyrus_Task_Exception('task ' . $this->name .
+                throw new \pear2\Pyrus\Task\Exception('task ' . $this->name .
                                                           ' closed the file pointer, invalid task');
             }
         }
@@ -96,17 +97,14 @@ class PEAR2_Pyrus_Task_MultipleProxy extends \ArrayObject implements \IteratorAg
 
     function add()
     {
-        $task = str_replace('-', ' ', $this->name);
-        $task = str_replace(' ', '/', ucwords($task));
-        $task = str_replace('/', '_', $task);
-        $c = 'PEAR2_Pyrus_Task_' . $task;
-        $ret = new $c($this->parent, PEAR2_Pyrus_Validate::NORMAL, array(), $this->fileattribs, null);
+        $c = Common::getTask($this->name);
+        $ret = new $c($this->parent, \pear2\Pyrus\Validate::NORMAL, array(), $this->fileattribs, null);
         $this[] = $ret;
         $ret->attach($this);
         return $ret;
     }
 
-    function update(SplSubject $subject)
+    function update(\SplSubject $subject)
     {
         $ret = $subject->getInfo();
         if (empty($ret)) {

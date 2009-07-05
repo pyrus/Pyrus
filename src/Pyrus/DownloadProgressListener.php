@@ -24,7 +24,8 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 
-class PEAR2_Pyrus_DownloadProgressListener extends PEAR2_HTTP_Request_Listener
+namespace pear2\Pyrus;
+class DownloadProgressListener extends \PEAR2_HTTP_Request_Listener
 {
     protected $filesize;
     protected $preview;
@@ -58,14 +59,14 @@ class PEAR2_Pyrus_DownloadProgressListener extends PEAR2_HTTP_Request_Listener
                 // borrowed from fetch.php in php-src
                 if ($data > 0) {
                     if ($this->preview) {
-                        PEAR2_Pyrus_Log::log(0, $this->preview);
+                        \pear2\Pyrus\Logger::log(0, $this->preview);
                        $this->preview = '';
                     }
                     if (!isset($this->filesize)) {
-                        PEAR2_Pyrus_Log::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
+                        \pear2\Pyrus\Logger::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
                     } else {
                         $length = (int)(($data/$this->filesize)*100);
-                        PEAR2_Pyrus_Log::log(0,
+                        \pear2\Pyrus\Logger::log(0,
                                 sprintf("[%-100s] %d%% (%2d/%2d kb)\r", str_repeat("=", $length). ">", $length,
                                ($data/1024), $this->filesize/1024));
                     }

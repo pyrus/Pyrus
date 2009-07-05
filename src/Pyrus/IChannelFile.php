@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_IChannel
+ * \pear2\Pyrus\IChannel
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_IChannelFile
+namespace pear2\Pyrus;
+interface IChannelFile
 {
     function __get($var);
     function __set($var, $value);

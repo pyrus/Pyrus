@@ -18,13 +18,13 @@ class PEAR2_SimpleChannelServer_Get
         }
     }
 
-    function saveRelease(PEAR2_Pyrus_Package $new)
+    function saveRelease(\pear2\Pyrus\Package $new)
     {
         $outfile = $this->get.'/'.$new->name.'-'.$new->version['release'];
         if (!$new->isNewPackage()) {
             // this is a PEAR 1.x package
             $internal = $new->getInternalPackage();
-            if ($internal instanceof PEAR2_Pyrus_Package_Tar || $internal instanceof PEAR2_Pyrus_Package_Phar) {
+            if ($internal instanceof \pear2\Pyrus\Package\Tar || $internal instanceof \pear2\Pyrus\Package\Phar) {
                 $path = $internal->getTarballPath();
                 $fp = fopen($path, 'rb');
                 if (fread($fp, 3) == "\x1f\x8b\x08") {
@@ -48,8 +48,8 @@ class PEAR2_SimpleChannelServer_Get
                 return;
             }
         }
-        $a = new PEAR2_Pyrus_Package_Creator(array(
-                    new PEAR2_Pyrus_Developer_Creator_Phar($outfile.'.tar', false, Phar::TAR, Phar::NONE,
+        $a = new \pear2\Pyrus\Package\Creator(array(
+                    new \pear2\Pyrus\Developer\Creator\Phar($outfile.'.tar', false, Phar::TAR, Phar::NONE,
                                                            array(
                                                                  array('tgz', Phar::TAR, Phar::GZ),
                                                                  array('zip', Phar::ZIP, Phar::NONE),
@@ -60,7 +60,7 @@ class PEAR2_SimpleChannelServer_Get
         return $a->render($new);
     }
 
-    function deleteRelease(PEAR2_Pyrus_Package $release)
+    function deleteRelease(\pear2\Pyrus\Package $release)
     {
 
     }

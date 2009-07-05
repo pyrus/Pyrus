@@ -1,12 +1,12 @@
 --TEST--
-PEAR2_Pyrus_Task_Unixeol::validateXml() failures
+\pear2\Pyrus\Task\Unixeol::validateXml() failures
 --FILE--
 <?php
 include dirname(__DIR__) . '/setup.minimal.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        PEAR2_Pyrus_Task_Unixeol::validateXml($package, $xml, $filexml, 'filename');
+        \pear2\Pyrus\Task\Unixeol::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -15,7 +15,7 @@ $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
     }
 };
 
-$xmltest(array('attribs' => array()), array(), 'task <unixeol> in file filename is invalid because of "no attributes allowed"', 'PEAR2_Pyrus_Task_Exception_Invalidtask');
+$xmltest(array('attribs' => array()), array(), 'task <unixeol> in file filename is invalid because of "no attributes allowed"', '\pear2\Pyrus\Task\Exception\Invalidtask');
 ?>
 ===DONE===
 --EXPECT--

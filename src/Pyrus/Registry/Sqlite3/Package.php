@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Sqlite3_Package
+ * \pear2\Pyrus\Registry\Sqlite3\Package
  *
  * PHP version 5
  *
@@ -23,23 +23,24 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Sqlite3_Package extends PEAR2_Pyrus_Registry_Package_Base
+namespace pear2\Pyrus\Registry\Sqlite3;
+class Package extends \pear2\Pyrus\Registry\Package\Base
 {
     public $dirty = false;
 
     function __set($var, $value)
     {
         if (!isset($this->packagename)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Attempt to retrieve ' . $var .
+            throw new \pear2\Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
         }
-        PEAR2_Pyrus_PackageFile_v2::__set($var, $value);
+        \pear2\Pyrus\PackageFile\v2::__set($var, $value);
         // occasionally, this next line will result in failure to install when incomplete data is there,
         // so we silently skip the save, and mark the packagefile as dirty
         try {
             $this->reg->replace($this);
             $this->dirty = false;
-        } catch (PEAR2_Pyrus_Registry_Exception $e) {
+        } catch (\pear2\Pyrus\Registry\Exception $e) {
             $this->dirty = true;
         }
     }

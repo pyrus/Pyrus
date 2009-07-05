@@ -1,17 +1,17 @@
 --TEST--
-PEAR2_Pyrus_Installer::prepare() installed package is the same or newer version
+\pear2\Pyrus\Installer::prepare() installed package is the same or newer version
 --FILE--
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-$package = new PEAR2_Pyrus_Package(__DIR__.'/../../../sandbox/SimpleChannelServer/package.xml');
+$package = new \pear2\Pyrus\Package(__DIR__.'/../../../sandbox/SimpleChannelServer/package.xml');
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 
-class TestLog implements PEAR2_Pyrus_ILog
+class TestLog implements \pear2\Pyrus\ILog
 {
     protected $messages = array();
     
@@ -26,14 +26,14 @@ class TestLog implements PEAR2_Pyrus_ILog
     }
 }
 
-PEAR2_Pyrus_Installer::begin();
-PEAR2_Pyrus_Installer::prepare($package);
-PEAR2_Pyrus_Installer::commit();
+\pear2\Pyrus\Installer::begin();
+\pear2\Pyrus\Installer::prepare($package);
+\pear2\Pyrus\Installer::commit();
 $observer = new TestLog();
-PEAR2_Pyrus_Log::attach($observer);
-PEAR2_Pyrus_Installer::begin();
-PEAR2_Pyrus_Installer::prepare($package);
-PEAR2_Pyrus_Installer::commit();
+\pear2\Pyrus\Logger::attach($observer);
+\pear2\Pyrus\Installer::begin();
+\pear2\Pyrus\Installer::prepare($package);
+\pear2\Pyrus\Installer::commit();
 $test->assertEquals(true, in_array("Skipping installed package {$package->channel}/{$package->name}", $observer->getMessages()), 'package already installed');
 
 ?>

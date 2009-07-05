@@ -4,9 +4,9 @@ Dependency_Validator: subpackage dependency, installed recommended version
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$validator = new test_Validator($package, PEAR2_Pyrus_Validate::DOWNLOADING, $errs);
+$validator = new test_Validator($package, \pear2\Pyrus\Validate::DOWNLOADING, $errs);
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';
@@ -15,7 +15,7 @@ $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
 $fake->compatible['pear2.php.net/test']->min('1.2.2')->max('1.2.3');
-PEAR2_Pyrus_Config::current()->registry->install($fake);
+\pear2\Pyrus\Config::current()->registry->install($fake);
 
 $fake->name = 'test';
 

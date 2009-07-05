@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel_Remotecategories
+ * \pear2\Pyrus\Channel\Remotecategories
  *
  * PHP version 5
  *
@@ -23,20 +23,21 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Remotecategories implements ArrayAccess, Iterator
+namespace pear2\Pyrus\Channel;
+class Remotecategories implements \ArrayAccess, \Iterator
 {
     protected $parent;
     public $category = null;
     protected $rest;
     protected $categoryList;
 
-    function __construct(PEAR2_Pyrus_IChannel $channelinfo)
+    function __construct(\pear2\Pyrus\IChannel $channelinfo)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.1'])) {
-            throw new PEAR2_Pyrus_Channel_Exception('Cannot access remote categories without REST1.1 protocol');
+            throw new \pear2\Pyrus\Channel\Exception('Cannot access remote categories without REST1.1 protocol');
         }
-        $this->rest = new PEAR2_Pyrus_REST;
+        $this->rest = new \pear2\Pyrus\REST;
     }
 
     function offsetGet($var)
@@ -48,12 +49,12 @@ class PEAR2_Pyrus_Channel_Remotecategories implements ArrayAccess, Iterator
 
     function offsetSet($var, $value)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function offsetExists($var)
@@ -71,7 +72,7 @@ class PEAR2_Pyrus_Channel_Remotecategories implements ArrayAccess, Iterator
         $category = $this->key();
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
                                                 'c/' . urlencode($category) . '/packagesinfo.xml');
-        return new PEAR2_Pyrus_Channel_Remotecategory($this->parent, $category, $info);
+        return new \pear2\Pyrus\Channel\Remotecategory($this->parent, $category, $info);
     }
 
     function key()

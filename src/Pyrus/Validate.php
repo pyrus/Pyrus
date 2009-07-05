@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Validate
+ * \pear2\Pyrus\Validate
  *
  * PHP version 5
  *
@@ -28,8 +28,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Validate
-{
+namespace pear2\Pyrus;
+class Validate{
 /**#@+
  * Constants for install stage
  */
@@ -41,17 +41,17 @@ class PEAR2_Pyrus_Validate
 /**#@-*/
     var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
     /**
-     * @var PEAR2_Pyrus_IPackageFile
+     * @var \pear2\Pyrus\IPackageFile
      */
     var $_packagexml;
     /**
-     * @var PEAR2_Pyrus_IChannelFile
+     * @var \pear2\Pyrus\IChannelFile
      */
     var $channel;
     /**
-     * @var int one of the PEAR2_Pyrus_Validate::* constants
+     * @var int one of the \pear2\Pyrus\Validate::* constants
      */
-    var $_state = PEAR2_Pyrus_Validate::NORMAL;
+    var $_state = \pear2\Pyrus\Validate::NORMAL;
     /**
      * @var PEAR2_MultiErrors
      */
@@ -132,14 +132,14 @@ class PEAR2_Pyrus_Validate
     }
 
     /**
-     * @param PEAR2_Pyrus_IPackageFile
+     * @param \pear2\Pyrus\IPackageFile
      */
-    function setPackageFile(PEAR2_Pyrus_IPackageFile $pf)
+    function setPackageFile(\pear2\Pyrus\IPackageFile $pf)
     {
         $this->_packagexml = $pf;
     }
 
-    function setChannel(PEAR2_Pyrus_IChannelFile $chan)
+    function setChannel(\pear2\Pyrus\IChannelFile $chan)
     {
         $this->channel = $chan;
     }
@@ -150,7 +150,7 @@ class PEAR2_Pyrus_Validate
     protected function _addFailure($field, $reason)
     {
         $this->failures->E_ERROR[] =
-            new PEAR2_Pyrus_Validate_Exception($reason, $field);
+            new \pear2\Pyrus\Validate\Exception($reason, $field);
     }
 
     /**
@@ -159,7 +159,7 @@ class PEAR2_Pyrus_Validate
     protected function _addWarning($field, $reason)
     {
         $this->failures->E_WARNING[] =
-            new PEAR2_Pyrus_Validate_Exception($reason, $field);
+            new \pear2\Pyrus\Validate\Exception($reason, $field);
     }
 
     function getFailures()
@@ -168,7 +168,7 @@ class PEAR2_Pyrus_Validate
     }
 
     /**
-     * @param int one of the PEAR2_Pyrus_Validate::* constants
+     * @param int one of the \pear2\Pyrus\Validate::* constants
      */
     function validate($state = null)
     {
@@ -178,7 +178,7 @@ class PEAR2_Pyrus_Validate
         if ($state !== null) {
             $this->_state = $state;
         }
-        $this->failures = new PEAR2_MultiErrors;
+        $this->failures = new \PEAR2_MultiErrors;
         $this->validatePackageName();
         $this->validateVersion();
         $this->validateMaintainers();
@@ -202,8 +202,8 @@ class PEAR2_Pyrus_Validate
      */
     function validatePackageName()
     {
-        if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING ||
-              $this->_state == PEAR2_Pyrus_Validate::NORMAL) {
+        if ($this->_state == \pear2\Pyrus\Validate::PACKAGING ||
+              $this->_state == \pear2\Pyrus\Validate::NORMAL) {
             if ($this->_packagexml->extends) {
                 $version = $this->_packagexml->version['release'] . '';
                 $name = $this->_packagexml->name;
@@ -250,7 +250,7 @@ class PEAR2_Pyrus_Validate
             // allow any version
             return true;
         }
-        if ($this->_state != PEAR2_Pyrus_Validate::PACKAGING) {
+        if ($this->_state != \pear2\Pyrus\Validate::PACKAGING) {
             if (!$this->validVersion($this->_packagexml->version['release'])) {
                 $this->_addFailure('version',
                     'Invalid version number "' . $this->_packagexml->version['release'] . '"');
@@ -286,7 +286,7 @@ class PEAR2_Pyrus_Validate
             case 'beta' :
                 // check for a package that extends a package,
                 // like Foo and Foo2
-                if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
+                if ($this->_state == \pear2\Pyrus\Validate::PACKAGING) {
                     if (substr($versioncomponents[2], 1, 2) == 'rc') {
                         $this->_addFailure('version', 'Release Candidate versions ' .
                             'must have capital RC, not lower-case rc');
@@ -438,8 +438,8 @@ class PEAR2_Pyrus_Validate
      */
     function validateDate()
     {
-        if ($this->_state == PEAR2_Pyrus_Validate::NORMAL ||
-              $this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
+        if ($this->_state == \pear2\Pyrus\Validate::NORMAL ||
+              $this->_state == \pear2\Pyrus\Validate::PACKAGING) {
 
             if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/',
                   $this->_packagexml->date, $res) ||
@@ -452,7 +452,7 @@ class PEAR2_Pyrus_Validate
             }
 
 
-            if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING &&
+            if ($this->_state == \pear2\Pyrus\Validate::PACKAGING &&
                   $this->_packagexml->date != date('Y-m-d')) {
                 $this->_addWarning('date', 'Release Date "' .
                     $this->_packagexml->date . '" is not today');
@@ -472,7 +472,7 @@ class PEAR2_Pyrus_Validate
         }
         // packager automatically sets time, so only validate if
         // pear validate is called
-        if ($this->_state = PEAR2_Pyrus_Validate::NORMAL) {
+        if ($this->_state = \pear2\Pyrus\Validate::NORMAL) {
             if (!preg_match('/\d\d:\d\d:\d\d/',
                   $this->_packagexml->time)) {
                 $this->_addFailure('time', 'invalid release time "' .

@@ -4,9 +4,9 @@ Dependency_Validator: validate downloaded package, would fail, but new downloade
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$reg = PEAR2_Pyrus_Config::current()->registry;
+$reg = \pear2\Pyrus\Config::current()->registry;
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';
@@ -20,10 +20,10 @@ $reg->install($fake);
 
 $foo = clone $fake;
 $fake->name = 'test';
-PEAR2_Pyrus_Log::$log = array();
+\pear2\Pyrus\Logger::$log = array();
 $test->assertEquals(true, $validator->validateDownloadedPackage($fake, array($fake, $foo)), 'foo');
 $test->assertEquals(0, count($errs), 'foo count');
-$test->assertEquals(array('skipping installed package check of "channel://pear2.php.net/foo", version "1.2.3" will be downloaded and installed'), PEAR2_Pyrus_Log::$log[3], 'log');
+$test->assertEquals(array('skipping installed package check of "channel://pear2.php.net/foo", version "1.2.3" will be downloaded and installed'), \pear2\Pyrus\Logger::$log[3], 'log');
 ?>
 ===DONE===
 --CLEAN--

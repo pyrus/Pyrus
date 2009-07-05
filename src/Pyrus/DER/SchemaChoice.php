@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_SchemaChoice
+ * \pear2\Pyrus\DER\SchemaChoice
  *
  * PHP version 5
  *
@@ -25,11 +25,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_SchemaChoice extends PEAR2_Pyrus_DER_Schema
+namespace pear2\Pyrus\DER;
+class SchemaChoice extends \pear2\Pyrus\DER\Schema
 {
     protected $options = array();
 
-    function __construct(PEAR2_Pyrus_DER_Schema $parent = null, $name = null)
+    function __construct(\pear2\Pyrus\DER\Schema $parent = null, $name = null)
     {
         $this->parent = $parent;
         if ($name !== null) {
@@ -46,7 +47,7 @@ class PEAR2_Pyrus_DER_SchemaChoice extends PEAR2_Pyrus_DER_Schema
             if ($obj instanceof self) {
                 if ($test = $obj->findTag($tag)) {
                     if (!$test->class) {
-                        $test->setClass('PEAR2_Pyrus_DER_Choice');
+                        $test->setClass('pear2\Pyrus\DER\Choice');
                     }
                     return $test;
                 }

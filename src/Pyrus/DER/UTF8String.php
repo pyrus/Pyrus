@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_UTF8String
+ * \pear2\Pyrus\DER\UTF8String
  *
  * PHP version 5
  *
@@ -25,7 +25,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_UTF8String extends PEAR2_Pyrus_DER_String
+namespace pear2\Pyrus\DER;
+class UTF8String extends \pear2\Pyrus\DER\String
 {
     const TAG = 0x0C;
 

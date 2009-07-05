@@ -4,11 +4,11 @@ PackageFile v2: test package.xml dependsOn(), uri-based packages
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$pf1 = new PEAR2_Pyrus_PackageFile_v2;
+$pf1 = new \pear2\Pyrus\PackageFile\v2;
 $pf1->name = 'P1';
 $pf1->channel = 'pear2.php.net';
 
-$pf2 = new PEAR2_Pyrus_PackageFile_v2;
+$pf2 = new \pear2\Pyrus\PackageFile\v2;
 $pf2->name = 'P2';
 $pf2->uri = 'http://pear.example.com';
 

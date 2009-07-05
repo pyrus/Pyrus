@@ -24,7 +24,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
+namespace pear2\Pyrus;
+class REST_13 extends \pear2\Pyrus\REST_10
 {
     /**
      * Retrieve information about a remote package to be downloaded from a REST server
@@ -48,16 +49,16 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
     {
         $channel = $packageinfo['channel'];
         $package = $packageinfo['package'];
-        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
+        $states = \pear2\Pyrus\Installer::betterStates($prefstate, true);
         if (!$states) {
-            throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
+            throw new \pear2\Pyrus\REST\Exception('"' . $prefstate . '" is not a valid state');
         }
         $state   = isset($packageinfo['state'])   ? $packageinfo['state']   : null;
         $version = isset($packageinfo['version']) ? $packageinfo['version'] : null;
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('No releases available for package "' .
+            throw new \pear2\Pyrus\REST\Exception('No releases available for package "' .
                 $channel . '/' . $package . '"', $e);
         }
         if (!isset($info['r'])) {
@@ -86,7 +87,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
                 }
                 // see if there is something newer and more stable
                 // bug #7221
-                if (in_array($release['s'], PEAR2_Pyrus_Installer::betterStates($state), true)) {
+                if (in_array($release['s'], \pear2\Pyrus\Installer::betterStates($state), true)) {
                     if (!isset($version) && version_compare($release['m'], phpversion(), '>')) {
                         // skip releases that require a PHP version newer than our PHP version
                         $skippedphp = $release;
@@ -130,9 +131,9 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
     {
         $channel = $dependency['channel'];
         $package = $dependency['name'];
-        $states = PEAR2_Pyrus_Installer::betterStates($prefstate, true);
+        $states = \pear2\Pyrus\Installer::betterStates($prefstate, true);
         if (!$states) {
-            throw new PEAR2_Pyrus_REST_Exception('"' . $prefstate . '" is not a valid state');
+            throw new \pear2\Pyrus\REST\Exception('"' . $prefstate . '" is not a valid state');
         }
         $state   = isset($dependency['state'])   ? $dependency['state']   : null;
         $version = isset($dependency['version']) ? $dependency['version'] : null;
@@ -141,7 +142,7 @@ class PEAR2_Pyrus_REST_13 extends PEAR2_Pyrus_REST_10
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
-            throw new PEAR2_Pyrus_REST_Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
+            throw new \pear2\Pyrus\REST\Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
                 . '" dependency "' . $channel . '/' . $package . '" has no releases', $e);
         }
         if (!is_array($info) || !isset($info['r'])) {

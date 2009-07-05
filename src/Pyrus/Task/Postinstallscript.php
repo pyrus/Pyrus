@@ -26,10 +26,11 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
+namespace pear2\Pyrus\Task;
+class Postinstallscript extends \pear2\Pyrus\Task\Common
 {
     const TYPE = 'script';
-    const PHASE = PEAR2_Pyrus_Task_Common::POSTINSTALL;
+    const PHASE = \pear2\Pyrus\Task\Common::POSTINSTALL;
     protected $scriptClass;
     protected $obj;
 
@@ -52,19 +53,19 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
+     * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
     {
         if ($fileXml['role'] != 'php') {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] . '" must be role="php"');
         }
         try {
             $filecontents = $pkg->getFileContents($fileXml['name']);
         } catch (\Exception $e) {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] . '" is not valid: ' .
                                                              $e->getMessage(), $e);
@@ -79,13 +80,13 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                 $warnings[] = $warn->getMessage();
             }
             $warnings = implode($warnings);
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file, 
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file, 
                                                              'Analysis of post-install script "' .
                                                              $fileXml['name'] . '" failed: ' . $warnings,
                                                              $validator->getErrors());
         }
         if (count($analysis['declared_classes']) != 1) {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] .
                                                              '" must declare exactly 1 class');
@@ -93,7 +94,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         $class = $analysis['declared_classes'][0];
         if ($class != str_replace(array('/', '.php'), array('_', ''),
               $fileXml['name']) . '_postinstall') {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] . '" class "' .
                                                              $class . '" must be named "' .
@@ -103,7 +104,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                              '_postinstall"');
         }
         if (!isset($analysis['declared_methods'][$class])) {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] .
                                                              '" must declare methods init2() and run2()');
@@ -115,7 +116,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             }
         }
         if (count($methods)) {
-            throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+            throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] .
                                                              '" must declare methods init2() and run2()');
@@ -131,7 +132,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
         }
         foreach ($params as $param) {
             if (!isset($param[$tasksNamespace . 'id'])) {
-                throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                              'Post-install script "' .
                                                              $fileXml['name'] .
                                                              '" <paramgroup> must have ' .
@@ -139,7 +140,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             }
             if (isset($param[$tasksNamespace . 'name'])) {
                 if (!in_array($param[$tasksNamespace . 'name'], $definedparams)) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" ' .
                                                                      '<paramgroup> id "' .
@@ -149,7 +150,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                                      '" has not been previously defined');
                 }
                 if (!isset($param[$tasksNamespace . 'conditiontype'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" ' .
                                                                      '<paramgroup> id "' .
@@ -161,7 +162,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                 }
                 if (!in_array($param[$tasksNamespace . 'conditiontype'],
                       array('=', '!=', 'preg_match'))) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" ' .
                                                                      '<paramgroup> id "' .
@@ -172,7 +173,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                                      '"!=", or "preg_match"');
                 }
                 if (!isset($param[$tasksNamespace . 'value'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" ' .
                                                                      '<paramgroup> id "' .
@@ -184,7 +185,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             }
             if (isset($param[$tasksNamespace . 'instructions'])) {
                 if (!is_string($param[$tasksNamespace . 'instructions'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" ' .
                                                                      '<paramgroup> id "' .
@@ -201,7 +202,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
             }
             foreach ($subparams as $subparam) {
                 if (!isset($subparam[$tasksNamespace . 'name'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" parameter for ' .
                                                                      '<paramgroup> id "' .
@@ -211,7 +212,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                 }
                 if (!preg_match('/[a-zA-Z0-9]+/',
                       $subparam[$tasksNamespace . 'name'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" parameter "' .
                                                                      $subparam[$tasksNamespace . 'name'] .
@@ -222,7 +223,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                                      'contain only alphanumeric characters');
                 }
                 if (!isset($subparam[$tasksNamespace . 'prompt'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" parameter "' .
                                                                      $subparam[$tasksNamespace . 'name'] .
@@ -233,7 +234,7 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                                                                      '<prompt> tag');
                 }
                 if (!isset($subparam[$tasksNamespace . 'type'])) {
-                    throw new PEAR2_Pyrus_Task_Exception_InvalidTask('postinstallscript', $file,
+                    throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
                                                                      'Post-install script "' .
                                                                      $fileXml['name'] . '" parameter "' .
                                                                      $subparam[$tasksNamespace . 'name'] .
@@ -253,37 +254,37 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
     /**
      * Unlike other tasks, the installed file name is passed in instead of the file contents,
      * because this task is handled post-installation
-     * @param PEAR2_Pyrus_IPackage
+     * @param \pear2\Pyrus\IPackage
      * @param string path to the post-install script
      * @return bool false to skip this file
      */
     function setupPostInstall()
     {
-        $files = PEAR2_Pyrus_Config::current()->registry->info($this->pkg->name, $this->pkg->channel,
+        $files = \pear2\Pyrus\Config::current()->registry->info($this->pkg->name, $this->pkg->channel,
                                                                'installedfiles');
         foreach ($files as $path => $info) {
             if ($info['name'] == $this->_filename) {
                 break;
             }
         }
-        PEAR2_Pyrus_Log::log(0, 'Including external post-installation script "' .
+        \pear2\Pyrus\Logger::log(0, 'Including external post-installation script "' .
             $path . '" - any errors are in this script');
         include $path;
         if (class_exists($this->scriptClass)) {
-            PEAR2_Pyrus_Log::log(0, 'Inclusion succeeded');
+            \pear2\Pyrus\Logger::log(0, 'Inclusion succeeded');
         } else {
-            throw new PEAR2_Pyrus_Task_Exception('init of post-install script class "' . $this->scriptClass
+            throw new \pear2\Pyrus\Task\Exception('init of post-install script class "' . $this->scriptClass
                 . '" failed');
         }
         $this->obj = new $this->scriptClass;
-        PEAR2_Pyrus_Log::log(1, 'running post-install script "' . $this->scriptClass . '->init()"');
+        \pear2\Pyrus\Logger::log(1, 'running post-install script "' . $this->scriptClass . '->init()"');
         try {
             $this->obj->init2($this->pkg, $this->lastVersion);
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Task_Exception('init of post-install script "' . $this->scriptClass .
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Task\Exception('init of post-install script "' . $this->scriptClass .
                 '->init()" failed', $e);
         }
-        PEAR2_Pyrus_Log::log(0, 'init succeeded');
+        \pear2\Pyrus\Logger::log(0, 'init succeeded');
         return true;
     }
 
@@ -313,10 +314,10 @@ class PEAR2_Pyrus_Task_Postinstallscript extends PEAR2_Pyrus_Task_Common
                     $params = array($params);
                 }
             }
-            return new PEAR2_Pyrus_Task_Postinstallscript_Paramgroup($this->pkg->getTasksNs(),
+            return new \pear2\Pyrus\Task\Postinstallscript\Paramgroup($this->pkg->getTasksNs(),
                                                                      $this, $params);
         }
-        throw new PEAR2_Pyrus_Task_Exception('Invalid variable ' . $var . ' requested from Post-install script task');
+        throw new \pear2\Pyrus\Task\Exception('Invalid variable ' . $var . ' requested from Post-install script task');
     }
 
     function setParamgroups($info)

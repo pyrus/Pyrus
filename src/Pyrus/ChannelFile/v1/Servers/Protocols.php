@@ -1,6 +1,7 @@
 <?php
 
-class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
+namespace pear2\Pyrus\ChannelFile\v1\Servers;
+class Protocols
 {
     protected $_info;
     
@@ -21,7 +22,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
                 $method = 'get' . $var;
                 return $this->{$method}();
             default:
-                throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown protocol: ' . $var);
+                throw new \pear2\Pyrus\ChannelFile\Exception('Unknown protocol: ' . $var);
         }
     }
 
@@ -34,7 +35,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
                 $method = 'set' . $var;
                 return $this->{$method}($value);
             default:
-                throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown protocol: ' . $var);
+                throw new \pear2\Pyrus\ChannelFile\Exception('Unknown protocol: ' . $var);
         }
     }
 
@@ -44,9 +45,9 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
             $this->parent->rest = null;
             return;
         }
-        if (!($value instanceof PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Can only set REST to ' .
-                        'PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST object');
+        if (!($value instanceof Protocols\REST)) {
+            throw new \pear2\Pyrus\ChannelFile\Exception('Can only set REST to ' .
+                        '\pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object');
         }
         $info = $value->getInfo();
         if (!count($info)) {
@@ -63,7 +64,7 @@ class PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols
         } else {
             $info = array();
         }
-        return new PEAR2_Pyrus_ChannelFile_v1_Servers_Protocols_REST($info, $this->parent);
+        return new Protocols\REST($info, $this->parent);
     }
 }
 

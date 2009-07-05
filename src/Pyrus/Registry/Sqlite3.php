@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Sqlite3
+ * \pear2\Pyrus\Registry\Sqlite3
  *
  * PHP version 5
  *
@@ -31,7 +31,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
+namespace pear2\Pyrus\Registry;
+class Sqlite3 extends \pear2\Pyrus\Registry\Base
 {
     /**
      * The database resources, stored by path
@@ -63,7 +64,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         } else {
             if (!$path || $path == ':memory:') {
                 if ($readonly) {
-                    throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+                    throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 registry, registry is read-only');
                 }
                 $this->_path = ':memory:';
                 $this->_init(':memory:', false);
@@ -74,7 +75,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
                 $file = dirname($file);
             }
             if (!$file || $file == '.') {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+                throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 registry, registry is read-only');
             }
         }
         $this->_path = $path;
@@ -91,8 +92,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         $dbpath = $path;
-        if ($path != ':memory:' && isset(PEAR2_Pyrus::$options['packagingroot'])) {
-            $dbpath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        if ($path != ':memory:' && isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
+            $dbpath = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
         }
 
         if ($path != ':memory:' && file_exists($dbpath)) {
@@ -119,26 +120,26 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         $dbpath = $path;
-        if ($path != ':memory:' && isset(PEAR2_Pyrus::$options['packagingroot'])) {
-            $dbpath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        if ($path != ':memory:' && isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
+            $dbpath = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
         }
 
         if ($path != ':memory:' && !file_exists(dirname($dbpath))) {
             if ($readonly) {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+                throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 registry, registry is read-only');
             }
             @mkdir(dirname($dbpath), 0755, true);
         }
 
         if ($readonly && $path != ':memory:' && !file_exists($dbpath)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 registry, registry is read-only');
         }
 
-        static::$databases[$path] = new SQLite3($dbpath);
+        static::$databases[$path] = new \SQLite3($dbpath);
         // ScottMac needs to fix sqlite3 FIXME
         if (static::$databases[$path]->lastErrorCode()) {
             $error = static::$databases[$path]->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot open SQLite3 registry: ' . $error);
+            throw new \pear2\Pyrus\Registry\Exception('Cannot open SQLite3 registry: ' . $error);
         }
 
         $sql = 'SELECT version FROM pearregistryversion';
@@ -148,14 +149,14 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
 
         if ($readonly) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 registry, registry is read-only');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 registry, registry is read-only');
         }
 
-        $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
+        $a = new Sqlite3\Creator;
         try {
             $a->create(static::$databases[$path]);
             $this->_initialized = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             unset(static::$databases[$path]);
             $a = get_class($e);
             throw new $a('Database initialization failed', 0, $e);
@@ -170,22 +171,22 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     /**
      * Add an installed package to the registry
      *
-     * @param PEAR2_Pyrus_IPackageFile $info
+     * @param \pear2\Pyrus\IPackageFile $info
      */
-    function install(PEAR2_Pyrus_IPackageFile $info, $replace = false)
+    function install(\pear2\Pyrus\IPackageFile $info, $replace = false)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot install package, registry is read-only');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot install package, registry is read-only');
         }
         $this->_prepareWrite();
 
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
+            throw new \pear2\Pyrus\Registry\Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
 
         try {
             $this->uninstall($info->name, $info->channel);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // ignore errors
         }
 
@@ -194,7 +195,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $this->_install($info, $replace);
         } catch (\Exception $e) {
             static::$databases[$this->_path]->enableExceptions(false);
-            throw new PEAR2_Pyrus_Registry_Exception('Error: package ' .
+            throw new \pear2\Pyrus\Registry\Exception('Error: package ' .
                 $info->channel . '/' . $info->name . ' could not be installed in registry: ' .
                 $e->getMessage(), $e);
         }
@@ -254,7 +255,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $v = '@PACKAGE_VERSION@';
         }
         $stmt->bindValue(':lastinstalledp',    $v);
-        $stmt->bindValue(':lastinstalltime',   PEAR2_Pyrus_Config::configSnapshot());
+        $stmt->bindValue(':lastinstalltime',   \pear2\Pyrus\Config::configSnapshot());
 
         $stmt->execute();
         $stmt->close();
@@ -284,7 +285,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
         $stmt->close();
 
-        $curconfig = PEAR2_Pyrus_Config::current();
+        $curconfig = \pear2\Pyrus\Config::current();
         $roles     = array();
 
         $sql = '
@@ -318,11 +319,11 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         $stmt->bindValue(':name',     $n);
         $stmt->bindValue(':channel',  $c);
-        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($info->getPackageType()) as $role) {
+        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($info->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
             $roles[$role] =
-                PEAR2_Pyrus_Installer_Role::factory($info->getPackageType(), $role);
+                \pear2\Pyrus\Installer\Role::factory($info->getPackageType(), $role);
         }
 
         foreach ($info->installcontents as $file) {
@@ -418,7 +419,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         foreach (array('required', 'optional') as $required) {
             foreach ($info->dependencies[$required]->extension as $d) {
-                // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                // $d is a \pear2\Pyrus\PackageFile\v2\Dependencies\Package object
                 $req = ($required == 'required' ? 1 : 0);
                 $stmt->bindValue(':required', $req, SQLITE3_INTEGER);
                 $stmt->bindValue(':name', $n);
@@ -471,7 +472,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($info->dependencies[$required]->$package as $d) {
-                    // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                    // $d is a \pear2\Pyrus\PackageFile\v2\Dependencies\Package object
                     $sub          = $package == 'subpackage';
 
                     if (!$first) {
@@ -670,7 +671,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
             $stmt = static::$databases[$this->_path]->prepare($sql);
             foreach ($group->extension as $d) {
-                // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                // $d is a \pear2\Pyrus\PackageFile\v2\Dependencies\Package object
 
                 $stmt->clear();
                 $stmt->bindValue(':name', $n);
@@ -720,7 +721,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             $stmt = static::$databases[$this->_path]->prepare($sql);
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
-                    // $d is a PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object
+                    // $d is a \pear2\Pyrus\PackageFile\v2\Dependencies\Package object
                     $sub          = $package == 'subpackage';
                     $ext          = $d->providesextension;
 
@@ -779,17 +780,17 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     function uninstall($package, $channel)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot uninstall package, registry is read-only');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot uninstall package, registry is read-only');
         }
         $this->_prepareWrite();
 
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
+            throw new \pear2\Pyrus\Registry\Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
 
-        $channel = PEAR2_Pyrus_Config::current()->channelregistry[$channel]->name;
+        $channel = \pear2\Pyrus\Config::current()->channelregistry[$channel]->name;
         if (!$this->exists($package, $channel)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Unknown package ' . $channel . '/' .
+            throw new \pear2\Pyrus\Registry\Exception('Unknown package ' . $channel . '/' .
                 $package);
         }
 
@@ -801,7 +802,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         try {
             static::$databases[$this->_path]->exec($sql);
         } catch (\Exception $e) {
-            throw new PEAR2_Pyrus_Registry_Exception('uninstalling ' . $channel . '/' . $package . ' failed: ' .
+            throw new \pear2\Pyrus\Registry\Exception('uninstalling ' . $channel . '/' . $package . ' failed: ' .
                                                      $e->getMessage(), $e);
         }
         static::$databases[$this->_path]->enableExceptions(false);
@@ -826,7 +827,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
         if (!$result) {
             $error = static::$databases[$this->_path]->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot search for package ' . $channel . '/' . $package .
+            throw new \pear2\Pyrus\Registry\Exception('Cannot search for package ' . $channel . '/' . $package .
                 ': ' . $error);
         }
         $ret = $result->fetchArray(SQLITE3_NUM);
@@ -836,7 +837,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     function info($package, $channel, $field)
     {
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
+            throw new \pear2\Pyrus\Registry\Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
 
         if ($field == 'api-state') {
@@ -868,7 +869,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
 
             if (!$result) {
                 $error = static::$databases[$this->_path]->lastErrorMsg();
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
+                throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve ' . $field .
                     ': ' . $error);
             }
 
@@ -924,7 +925,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $info = @static::$databases[$this->_path]->querySingle($sql);
         if (static::$databases[$this->_path]->lastErrorCode()) {
             $error = static::$databases[$this->_path]->lastErrorMsg();
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve ' . $field .
+            throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve ' . $field .
                 ': ' . $error);
         }
 
@@ -960,24 +961,24 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
     function __get($var)
     {
         if ($var === 'package') {
-            return new PEAR2_Pyrus_Registry_Sqlite3_Package($this);
+            return new Sqlite3\Package($this);
         }
     }
 
     /**
      * Extract a packagefile object from the registry
-     * @return PEAR2_Pyrus_PackageFile_v2
+     * @return \pear2\Pyrus\PackageFile\v2
      */
     function toPackageFile($package, $channel)
     {
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_Registry_Exception('Error: no existing SQLite3 registry for ' . $this->_path);
+            throw new \pear2\Pyrus\Registry\Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
         if (!$this->exists($package, $channel)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot retrieve package file object ' .
+            throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve package file object ' .
                 'for package ' . $channel . '/' . $package . ', it is not installed');
         }
-        $ret = new PEAR2_Pyrus_PackageFile_v2;
+        $ret = new \pear2\Pyrus\PackageFile\v2;
         $ret->name        = $package;
         $ret->channel     = $channel;
         $ret->summary     = $this->info($package, $channel, 'summary');
@@ -993,7 +994,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $result = @$stmt->execute();
 
         if (!$result) {
-            throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
+            throw new \pear2\Pyrus\Registry\Exception('Could not retrieve package file object' .
                 ' for package ' . $channel . '/' . $package . ', no maintainers registered');
         }
 
@@ -1037,7 +1038,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $result = @$stmt->execute();
 
         if (!$result) {
-            throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
+            throw new \pear2\Pyrus\Registry\Exception('Could not retrieve package file object' .
                 ' for package ' . $channel . '/' . $package . ', no files registered');
         }
 
@@ -1063,7 +1064,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $result = @$stmt->execute();
 
         if (!$result) {
-            throw new PEAR2_Pyrus_Registry_Exception('Could not retrieve package file object' .
+            throw new \pear2\Pyrus\Registry\Exception('Could not retrieve package file object' .
                 ' for package ' . $channel . '/' . $package . ', no files registered');
         }
 
@@ -1089,7 +1090,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         return $ret;
     }
 
-    function fetchCompatible(PEAR2_Pyrus_IPackageFile $ret)
+    function fetchCompatible(\pear2\Pyrus\IPackageFile $ret)
     {
         $package = $ret->name;
         $channel = $ret->channel;
@@ -1118,7 +1119,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         }
     }
 
-    function fetchDeps(PEAR2_Pyrus_IPackageFile $ret)
+    function fetchDeps(\pear2\Pyrus\IPackageFile $ret)
     {
         $package = $ret->name;
         $channel = $ret->channel;
@@ -1251,7 +1252,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         return $ret;
     }
 
-    function fetchDepGroups(PEAR2_Pyrus_IPackageFile $ret)
+    function fetchDepGroups(\pear2\Pyrus\IPackageFile $ret)
     {
         $package = $ret->name;
         $channel = $ret->channel;
@@ -1269,7 +1270,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         return $ret;
     }
 
-    function fetchExtensionDeps(PEAR2_Pyrus_IPackageFile $ret)
+    function fetchExtensionDeps(\pear2\Pyrus\IPackageFile $ret)
     {
         $package = $ret->name;
         $channel = $ret->channel;
@@ -1320,13 +1321,13 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         return $ret;
     }
 
-    public function getDependentPackages(PEAR2_Pyrus_IPackageFile $package)
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package)
     {
         if (!$this->_initialized) {
             return array();
         }
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
 
         $ret = array();
@@ -1346,8 +1347,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         while ($res = $result->fetchArray()) {
             try {
                 $ret[] = $this->package[$res[0] . '/' . $res[1]];
-            } catch (Exception $e) {
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Could not retrieve ' .
+            } catch (\Exception $e) {
+                throw new \pear2\Pyrus\ChannelRegistry\Exception('Could not retrieve ' .
                     'dependent package ' . $res[0] . '/' . $res[1], $e);
             }
         }
@@ -1359,10 +1360,10 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(PEAR2_Pyrus_IPackageFile $package)
+    public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package)
     {
         if (!isset(static::$databases[$this->_path])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
 
         $ret = array();
@@ -1375,14 +1376,14 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         // now iterate over each file in the package, and note all the conflicts
         $roles = array();
-        foreach (PEAR2_Pyrus_Installer_Role::getValidRoles($package->getPackageType()) as $role) {
+        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
             $roles[$role] =
-                PEAR2_Pyrus_Installer_Role::factory($package->getPackageType(), $role);
+                \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $role);
         }
         $ret = array();
-        $config = PEAR2_Pyrus_Config::current();
+        $config = \pear2\Pyrus\Config::current();
         foreach ($package->installcontents as $file) {
             $stmt->reset();
             $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
@@ -1408,8 +1409,8 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
      */
     static public function detectRegistries($path)
     {
-        if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
-            $path = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
+            $path = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
         }
         if (file_exists($path . '/.pear2registry') || is_file($path . '/.pear2registry')) {
             return array('Sqlite3');
@@ -1437,7 +1438,7 @@ class PEAR2_Pyrus_Registry_Sqlite3 extends PEAR2_Pyrus_Registry_Base
             unset(static::$databases[$path]);
         }
         if (!@unlink($path)) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot remove Sqlite3 registry: Unable to remove SQLite database');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot remove Sqlite3 registry: Unable to remove SQLite database');
         }
     }
 

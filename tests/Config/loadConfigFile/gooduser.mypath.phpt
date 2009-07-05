@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::loadConfigFile() good userfile with my_pear_path set
+\pear2\Pyrus\Config::loadConfigFile() good userfile with my_pear_path set
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

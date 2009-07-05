@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_IA5String
+ * \pear2\Pyrus\DER\IA5String
  *
  * PHP version 5
  *
@@ -23,14 +23,15 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_IA5String extends PEAR2_Pyrus_DER_String
+namespace pear2\Pyrus\DER;
+class IA5String extends \pear2\Pyrus\DER\String
 {
     const TAG = 0x16;
 
     function setValue($string)
     {
         if (preg_match('/[^\000-\177]/', $string)) {
-            throw new PEAR2_Pyrus_DER_Exception('Invalid IA5 String value, can only contain ASCII');
+            throw new \pear2\Pyrus\DER\Exception('Invalid IA5 String value, can only contain ASCII');
         }
         $this->value = $string;
     }

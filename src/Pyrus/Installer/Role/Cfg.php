@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Installer_Role_Cfg
+ * \pear2\Pyrus\Installer\Role\Cfg
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Installer_Role_Cfg extends PEAR2_Pyrus_Installer_Role_Common
+namespace pear2\Pyrus\Installer\Role;
+class Cfg extends \pear2\Pyrus\Installer\Role\Common
 {
     protected $md5 = null;
     /**
@@ -43,14 +44,14 @@ class PEAR2_Pyrus_Installer_Role_Cfg extends PEAR2_Pyrus_Installer_Role_Common
         }
     }
 
-    function getRelativeLocation(PEAR2_Pyrus_IPackageFile $pkg, PEAR2_Pyrus_PackageFile_v2Iterator_FileTag $file,
+    function getRelativeLocation(\pear2\Pyrus\IPackageFile $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if ($this->md5 === null) {
             return parent::getRelativeLocation($pkg, $file, $retDir);
         }
         $info = parent::getRelativeLocation($pkg, $file, $retDir);
-        $path = PEAR2_Pyrus_Config::current()->cfg_dir .
+        $path = \pear2\Pyrus\Config::current()->cfg_dir .
                     DIRECTORY_SEPARATOR;
         if ($retDir) {
             $filepath = $info[1];
@@ -75,7 +76,7 @@ class PEAR2_Pyrus_Installer_Role_Cfg extends PEAR2_Pyrus_Installer_Role_Common
                 // configfile.new-version
                 $old = $filepath;
                 $filepath .= '.new-' . $pkg->version['release'];
-                PEAR2_Pyrus_Log::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
+                \pear2\Pyrus\Logger::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
                                     "you should manually merge in changes to the existing configuration file");
             }
         }

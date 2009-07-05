@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Base
+ * \pear2\Pyrus\ChannelRegistry\Base
  *
  * PHP version 5
  *
@@ -23,8 +23,9 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_ChannelRegistry_Base
-    implements PEAR2_Pyrus_IChannelRegistry, Iterator
+namespace pear2\Pyrus\ChannelRegistry;
+abstract class Base
+    implements \pear2\Pyrus\IChannelRegistry, \Iterator
 {
     protected $path;
     protected $readonly;
@@ -59,12 +60,12 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                 $param = array('uri' => $param, 'channel' => '__uri');
                 return $param;
             } elseif($components['scheme'] != 'channel') {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): only channel:// uris may ' .
+                throw new \pear2\Pyrus\ChannelRegistry\ParseException('parsePackageName(): only channel:// uris may ' .
                     'be downloaded, not "' . $param . '"', 'scheme');
             }
         }
         if (!isset($components['path'])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): array $param ' .
+            throw new \pear2\Pyrus\ChannelRegistry\ParseException('parsePackageName(): array $param ' .
                 'must contain a valid package name in "' . $param . '"', 'path');
         }
         if (isset($components['host'])) {
@@ -74,7 +75,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         if (!isset($components['scheme'])) {
             if (strpos($components['path'], '/') !== false) {
                 if ($components['path']{0} == '/') {
-                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parsePackageName(): this is not ' .
+                    throw new \pear2\Pyrus\ChannelRegistry\ParseException('parsePackageName(): this is not ' .
                         'a package name, it begins with "/" in "' . $param . '"', 'invalid');
                 }
                 $parts = explode('/', $components['path']);
@@ -126,7 +127,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         if (strpos($param['package'], '-')) {
             $test = explode('-', $param['package']);
             if (count($test) != 2) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): only one version/state ' .
+                throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): only one version/state ' .
                     'delimiter "-" is allowed in "' . $saveparam . '"', 'invalid');
             }
             list($param['package'], $param['version']) = $test;
@@ -134,13 +135,13 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         // validation
         $info = $this->exists($param['channel'], false);
         if (!$info) {
-            throw new PEAR2_Pyrus_ChannelRegistry_ParseException('unknown channel "' . $param['channel'] .
+            throw new \pear2\Pyrus\ChannelRegistry\ParseException('unknown channel "' . $param['channel'] .
                 '" in "' . $saveparam . '"', 'channel', $param);
         }
         try {
             $chan = $this->get($param['channel'], false);
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_ChannelRegistry_ParseException("Exception: corrupt registry, could not " .
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\ChannelRegistry\ParseException("Exception: corrupt registry, could not " .
                 "retrieve channel " . $param['channel'] . " information", 'other', $e);
         }
         $param['channel'] = $chan->name;
@@ -148,12 +149,12 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         $vpackage = $chan->getValidationPackage();
         // validate package name
         if (!$validate->validPackageName($param['package'], $vpackage['_content'])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): invalid package name "' .
+            throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): invalid package name "' .
                 $param['package'] . '" in "' . $saveparam . '"', 'package');
         }
         if (isset($param['group'])) {
-            if (!PEAR2_Pyrus_Validate::validGroupName($param['group'])) {
-                throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): dependency group "' . $param['group'] .
+            if (!\pear2\Pyrus\Validate::validGroupName($param['group'])) {
+                throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): dependency group "' . $param['group'] .
                     '" is not a valid group name in "' . $saveparam . '"', 'group');
             }
         }
@@ -164,7 +165,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
                 unset($param['version']);
             } else {
                 if (!$validate->validVersion($param['version'])) {
-                    throw new PEAR2_Pyrus_ChannelRegistry_ParseException('parseName(): "' . $param['version'] .
+                    throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"', 'version/state');
                 }
@@ -291,13 +292,13 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
     
     protected function getDefaultChannel($channel)
     {
-        $xml = PEAR2_Pyrus::getDataPath() . '/default_channels/' . $channel . '.xml';
+        $xml = \pear2\Pyrus\Main::getDataPath() . '/default_channels/' . $channel . '.xml';
         if (!file_exists($xml)) {
             $xml = dirname(dirname(dirname(__DIR__))).'/data/default_channels/' . $channel . '.xml';
         }
-        $parser = new PEAR2_Pyrus_ChannelFile_Parser_v1;
+        $parser = new \pear2\Pyrus\ChannelFile\Parser\v1;
         $info = $parser->parse($xml, true);
-        return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $info->getArray());
+        return new \pear2\Pyrus\ChannelRegistry\Channel($this, $info->getArray());
     }
 
     /**
@@ -341,7 +342,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
         if (in_array($alias, $channels)) {
             return $alias;
         }
-        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown channel/alias: ' . $alias);
+        throw new \pear2\Pyrus\ChannelFile\Exception('Unknown channel/alias: ' . $alias);
     }
 
     function getDefaultChannels()
@@ -369,7 +370,7 @@ abstract class PEAR2_Pyrus_ChannelRegistry_Base
     }
 
     /**
-     * @return PEAR2_Pyrus_IRegistry
+     * @return \pear2\Pyrus\IRegistry
      */
     function getRegistry()
     {

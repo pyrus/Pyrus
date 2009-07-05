@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::runScripts
+\pear2\Pyrus\ScriptFrontend\Commands::runScripts
 --FILE--
 <?php
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {

@@ -4,8 +4,8 @@ Dependency_Validator: subpackage dependency, no version, installed failure --nod
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-PEAR2_Pyrus::$options['nodeps'] = true;
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+\pear2\Pyrus\Main::$options['nodeps'] = true;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo'];
 
 $test->assertEquals(true, $validator->validateSubpackageDependency($foo, array()), 'foo');
@@ -14,7 +14,7 @@ $test->assertEquals(1, count($errs), 'foo count 2');
 $test->assertEquals('warning: channel://pear2.php.net/test requires package "channel://pear2.php.net/foo"', $errs->E_WARNING[0]->getMessage(), 'foo error');
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $foo = $fake->dependencies['optional']->subpackage['pear2.php.net/foo'];

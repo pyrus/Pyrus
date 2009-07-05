@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_Xml
+ * \pear2\Pyrus\Package\Xml
  *
  * PHP version 5
  *
@@ -23,13 +23,14 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
+namespace pear2\Pyrus\Package;
+class Xml extends \pear2\Pyrus\Package\Base
 {
-    function __construct($package, PEAR2_Pyrus_Package $parent, PEAR2_Pyrus_PackageFile $info = null)
+    function __construct($package, \pear2\Pyrus\Package $parent, \pear2\Pyrus\PackageFile $info = null)
     {
         $this->archive = $package;
         if ($info === null) {
-            $info = new PEAR2_Pyrus_PackageFile($package);
+            $info = new \pear2\Pyrus\PackageFile($package);
         }
         parent::__construct($info, $parent);
     }
@@ -49,7 +50,7 @@ class PEAR2_Pyrus_Package_Xml extends PEAR2_Pyrus_Package_Base
 
     function copyTo($where)
     {
-        throw new PEAR2_Pyrus_Package_Exception('download/copy not supported for extracted packages');
+        throw new \pear2\Pyrus\Package\Exception('download/copy not supported for extracted packages');
     }
 
     function getFilePath($file)

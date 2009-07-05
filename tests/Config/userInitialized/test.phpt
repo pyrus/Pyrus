@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::userInitialized() basic test
+\pear2\Pyrus\Config::userInitialized() basic test
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

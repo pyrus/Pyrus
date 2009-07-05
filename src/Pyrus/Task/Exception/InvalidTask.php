@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Task_Exception_InvalidTask
+ * \pear2\Pyrus\Task\Exception\InvalidTask
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Exception_InvalidTask extends PEAR2_Pyrus_Task_Exception
+namespace pear2\Pyrus\Task\Exception;
+class InvalidTask extends \pear2\Pyrus\Task\Exception
 {
     function __construct($task, $file, $reason)
     {

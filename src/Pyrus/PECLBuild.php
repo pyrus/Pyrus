@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PECLBuild
+ * \pear2\Pyrus\PECLBuild
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PECLBuild
+namespace pear2\Pyrus;
+class PECLBuild
 {
     protected $ui;
     protected $buildDirectory;
@@ -38,7 +39,7 @@ class PEAR2_Pyrus_PECLBuild
         $this->ui = $ui;
     }
 
-    function installBuiltStuff(PEAR2_Pyrus_Registry_Package_Base $pkg, array $built)
+    function installBuiltStuff(\pear2\Pyrus\Registry\Package\Base $pkg, array $built)
     {
         foreach ($built as $ext) {
             $info = pathinfo($ext['file']);
@@ -56,8 +57,8 @@ class PEAR2_Pyrus_PECLBuild
 
             $copyto = $dest = $ext['dest'];
             $packagingroot = '';
-            if (isset(PEAR2_Pyrus::$options['packagingroot'])) {
-                $packagingroot = PEAR2_Pyrus::$options['packagingroot'];
+            if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
+                $packagingroot = \pear2\Pyrus\Main::$options['packagingroot'];
                 $copyto = $this->_prependPath($dest, $packagingroot);
             }
 
@@ -70,14 +71,14 @@ class PEAR2_Pyrus_PECLBuild
             $copydir = dirname($copyto);
             if (file_exists($copydir)) {
                 if (!is_dir($copydir)) {
-                    throw new PEAR2_Pyrus_PECLBuild_Exception('Cannot install extension, ' .
+                    throw new \pear2\Pyrus\PECLBuild\Exception('Cannot install extension, ' .
                                                               $copydir . ' exists and is a file (should be directory)');
                 }
             } else {
-                $oldmode = umask(PEAR2_Pyrus_Config::current()->umask);
+                $oldmode = umask(\pear2\Pyrus\Config::current()->umask);
                 if (!mkdir($copydir, 0777, true)) {
                     umask($oldmode);
-                    throw new PEAR2_Pyrus_PECLBuild_Exception("failed to mkdir $copydir");
+                    throw new \pear2\Pyrus\PECLBuild\Exception("failed to mkdir $copydir");
                 }
                 umask($oldmode);
 
@@ -85,10 +86,10 @@ class PEAR2_Pyrus_PECLBuild
             }
 
             if (!@copy($ext['file'], $copyto)) {
-                throw new PEAR2_Pyrus_PECLBuild_Exception("failed to write $copyto ($php_errormsg)");
+                throw new \pear2\Pyrus\PECLBuild\Exception("failed to write $copyto ($php_errormsg)");
             }
 
-            $oldmode = umask(PEAR2_Pyrus_Config::current()->umask);
+            $oldmode = umask(\pear2\Pyrus\Config::current()->umask);
             if (!@chmod($copyto, 0777)) {
                 $this->log(0, "failed to change mode of $copyto ($php_errormsg)");
             }
@@ -151,7 +152,7 @@ class PEAR2_Pyrus_PECLBuild
             $perminfo .= (($perms & 0x0001) ?
                         (($perms & 0x0200) ? 't' : 'x' ) :
                         (($perms & 0x0200) ? 'T' : '-'));
-            $date = new DateTime;
+            $date = new \DateTime;
             $date->setTimestamp($info['mtime']);
     
             echo $info['ino'], ' ', str_pad(($info['blocks']/2), 3, ' ', STR_PAD_LEFT), ' ', $perminfo, ' ',
@@ -166,8 +167,8 @@ class PEAR2_Pyrus_PECLBuild
      */
     protected function harvestInstDir($dest_prefix, $dirname, $instroot)
     {
-        $defaultExtDir = PEAR2_Pyrus_Config::current()->defaultValue('ext_dir');
-        $ext_dir = PEAR2_Pyrus_Config::current()->ext_dir;
+        $defaultExtDir = \pear2\Pyrus\Config::current()->defaultValue('ext_dir');
+        $ext_dir = \pear2\Pyrus\Config::current()->ext_dir;
         if ($ext_dir != $defaultExtDir) {
             $extReplace = $defaultExtDir;
         } else {
@@ -199,7 +200,7 @@ class PEAR2_Pyrus_PECLBuild
      * Build an extension from source.  Runs "phpize" in the source
      * directory, and compiles there.
      *
-     * @param PEAR2_Pyrus_IPackage $pkg package object
+     * @param \pear2\Pyrus\IPackage $pkg package object
      *
      * @param mixed $callback callback function used to report output,
      * see PEAR_Builder::_runCommand for details
@@ -216,9 +217,9 @@ class PEAR2_Pyrus_PECLBuild
      *
      * @see PEAR_Builder::_runCommand
      */
-    function build(PEAR2_Pyrus_Registry_Package_Base $pkg, $callback = null)
+    function build(\pear2\Pyrus\Registry\Package\Base $pkg, $callback = null)
     {
-        $config = PEAR2_Pyrus_Config::current();
+        $config = \pear2\Pyrus\Config::current();
         if (preg_match('/(\\/|\\\\|^)([^\\/\\\\]+)?php(.+)?$/',
                        $config->php_bin, $matches)) {
             if (isset($matches[2]) && strlen($matches[2]) &&
@@ -245,10 +246,10 @@ class PEAR2_Pyrus_PECLBuild
         $this->buildDirectory = $dir;
         $old_cwd = getcwd();
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to package directory ' . $dir);
+            throw new \pear2\Pyrus\PECLBuild\Exception('could not chdir to package directory ' . $dir);
         }
         if (!is_writable($dir)) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('cannot build in package directory ' . $dir .
+            throw new \pear2\Pyrus\PECLBuild\Exception('cannot build in package directory ' . $dir .
                                                       ', directory not writable');
         }
         $this->log(0, "cleaning build directory $dir");
@@ -263,7 +264,7 @@ class PEAR2_Pyrus_PECLBuild
                                 $config->php_suffix,
                                 null, /*array($this, 'phpizeCallback'),*/
                                 array('PATH' => $config->php_bin . ':' . getenv('PATH')))) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('phpize failed - if running phpize manually from ' . $dir .
+            throw new \pear2\Pyrus\PECLBuild\Exception('phpize failed - if running phpize manually from ' . $dir .
                                                       ' works, please open a bug for pyrus with details');
         }
 
@@ -285,7 +286,7 @@ class PEAR2_Pyrus_PECLBuild
         $inst_dir = $dir . '/.install';
         $this->log(1, "building in $dir");
         if (!file_exists($inst_dir) && !mkdir($inst_dir, 0755, true) || !is_dir($inst_dir)) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('could not create temporary install dir: ' . $inst_dir);
+            throw new \pear2\Pyrus\PECLBuild\Exception('could not create temporary install dir: ' . $inst_dir);
         }
 
         if (getenv('MAKE')) {
@@ -299,7 +300,7 @@ class PEAR2_Pyrus_PECLBuild
             "$make_command INSTALL_ROOT=\"$inst_dir\" install",
             );
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
-            throw new PEAR2_Pyrus_PECLBuild_Exception('could not chdir to ' . $dir);
+            throw new \pear2\Pyrus\PECLBuild\Exception('could not chdir to ' . $dir);
         }
         $env = $_ENV;
         // this next line is modified by the installer at packaging time
@@ -312,7 +313,7 @@ class PEAR2_Pyrus_PECLBuild
         foreach ($to_run as $cmd) {
             try {
                 if (!$this->_runCommand($cmd, $callback, $env)) {
-                    throw new PEAR2_Pyrus_PECLBuild_Exception("`$cmd' failed");
+                    throw new \pear2\Pyrus\PECLBuild\Exception("`$cmd' failed");
                 }
             } catch (\Exception $e) {
                 chdir($old_cwd);
@@ -324,7 +325,7 @@ class PEAR2_Pyrus_PECLBuild
 
         if (!file_exists('modules') || !is_dir('modules')) {
             chdir($old_cwd);
-            throw new PEAR2_Pyrus_PECLBuild_Exception("no `modules' directory found");
+            throw new \pear2\Pyrus\PECLBuild\Exception("no `modules' directory found");
         }
         $built_files = array();
         $prefix = exec($config->php_prefix
@@ -431,7 +432,7 @@ class PEAR2_Pyrus_PECLBuild
             } else if ($n === 0) {
                 /* timed out */
                 proc_terminate($proc);
-                throw new PEAR2_Pyrus_PECLBuild_Exception('Error: Process timed out');
+                throw new \pear2\Pyrus\PECLBuild\Exception('Error: Process timed out');
             } else if ($n > 0) {
                 $called = false;
                 while ($line = fgets($pipes[1], 1024)) {
@@ -452,7 +453,7 @@ class PEAR2_Pyrus_PECLBuild
 
         if ($stat['signaled']) {
             $code = proc_close($proc);
-            throw new PEAR2_Pyrus_PECLBuild_Exception('Process was stopped with a signal: ' . $stat['stopsig']);
+            throw new \pear2\Pyrus\PECLBuild\Exception('Process was stopped with a signal: ' . $stat['stopsig']);
         }
 
         $code = proc_close($proc);
@@ -466,6 +467,6 @@ class PEAR2_Pyrus_PECLBuild
             call_user_func($this->current_callback, 'output', $msg);
             return;
         }
-        return PEAR2_Pyrus_Log::log($level, $msg);
+        return \pear2\Pyrus\Logger::log($level, $msg);
     }
 }

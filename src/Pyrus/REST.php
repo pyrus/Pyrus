@@ -23,15 +23,15 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_REST
-{
+namespace pear2\Pyrus;
+class REST{
     protected $config;
     protected $_options;
 
     function __construct()
     {
-        $this->config = PEAR2_Pyrus_Config::current();
-        $this->_options = PEAR2_Pyrus::$options;
+        $this->config = \pear2\Pyrus\Config::current();
+        $this->_options = \pear2\Pyrus\Main::$options;
     }
 
     /**
@@ -74,7 +74,7 @@ class PEAR2_Pyrus_REST
             $trieddownload = true;
             try {
                 $file = $this->downloadHttp($url, $cacheId ? $cacheId['lastChange'] : false, $accept);
-            } catch (PEAR2_HTTP_Request_Exception $e) {
+            } catch (\PEAR2_HTTP_Request_Exception $e) {
                 $trieddownload = false;
                 $file = false;
             }
@@ -107,12 +107,12 @@ class PEAR2_Pyrus_REST
             switch ($headers['content-type']) {
                 case 'text/xml' :
                 case 'application/xml' :
-                    $parser = new PEAR2_Pyrus_XMLParser;
+                    $parser = new \pear2\Pyrus\XMLParser;
                     try {
                         $content = $parser->parseString($content);
                         $content = current($content);
-                    } catch (Exception $e) {
-                        throw new PEAR2_Pyrus_REST_Exception(
+                    } catch (\Exception $e) {
+                        throw new \pear2\Pyrus\REST\Exception(
                             'Invalid xml downloaded from "' . $url . '"', $e);
                     }
                 case 'text/html' :
@@ -121,12 +121,12 @@ class PEAR2_Pyrus_REST
             }
         } else {
             // assume XML
-            $parser = new PEAR2_Pyrus_XMLParser;
+            $parser = new \pear2\Pyrus\XMLParser;
             try {
                 $content = $parser->parseString($content);
                 $content = current($content);
-            } catch (Exception $e) {
-                throw new PEAR2_Pyrus_REST_Exception(
+            } catch (\Exception $e) {
+                throw new \pear2\Pyrus\REST\Exception(
                     'Invalid xml downloaded from "' . $url . '"', $e);
             }
         }
@@ -173,7 +173,7 @@ class PEAR2_Pyrus_REST
             return unserialize(implode('', file($cachefile)));
         }
 
-        throw new PEAR2_Pyrus_REST_Exception(
+        throw new \pear2\Pyrus\REST\Exception(
                 'No cached content available for "' . $url . '"');
     }
 
@@ -202,7 +202,7 @@ class PEAR2_Pyrus_REST
             }
 
             if (!@mkdir($cache_dir, 0755, true)) {
-                throw new PEAR2_Pyrus_REST_Exception(
+                throw new \pear2\Pyrus\REST\Exception(
                     'Cannot create REST cache directory ' . $cache_dir);
             }
 
@@ -264,13 +264,13 @@ class PEAR2_Pyrus_REST
     {
         $info = parse_url($url);
         if (!isset($info['scheme']) || !in_array($info['scheme'], array('http', 'https'))) {
-            throw new PEAR2_Pyrus_REST_Exception('Cannot download non-http URL "' . $url . '"');
+            throw new \pear2\Pyrus\REST\Exception('Cannot download non-http URL "' . $url . '"');
         }
         if (!isset($info['host'])) {
-            throw new PEAR2_Pyrus_REST_Exception('Cannot download from non-URL "' . $url . '"');
+            throw new \pear2\Pyrus\REST\Exception('Cannot download from non-URL "' . $url . '"');
         }
 
-        $response = PEAR2_Pyrus::download($url);
+        $response = \pear2\Pyrus\Main::download($url);
         if ($response->code == 304 && ($lastmodified || ($lastmodified === false))) {
             return false;
         }

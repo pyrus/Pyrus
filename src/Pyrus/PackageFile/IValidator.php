@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_IValidator
+ * \pear2\Pyrus\PackageFile\IValidator
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_PackageFile_IValidator
+namespace pear2\Pyrus\PackageFile;
+interface IValidator
 {
     public function extendedValidate(array $packageinfo);
 }

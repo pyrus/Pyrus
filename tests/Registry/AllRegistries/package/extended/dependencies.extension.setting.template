@@ -5,7 +5,7 @@
 $reg->dependencies = null;
 
 // for regular arch deps
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $ext = $fake->dependencies['required']->extension;
 $ext['ext1']->save();
 $ext['ext2']->min('1.0.0');

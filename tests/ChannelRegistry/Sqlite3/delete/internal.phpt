@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry_Sqlite3::delete() delete internal channel
+\pear2\Pyrus\ChannelRegistry\Sqlite3::delete() delete internal channel
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
@@ -13,7 +13,7 @@ foreach (array('pear.php.net',
     try {
         $creg->delete($chan);
         throw new Exception('delete succeeded and should have failed');
-    } catch(PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+    } catch(\pear2\Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals('Cannot delete default channel ' . $name, $e->getMessage(), $name . ' message');
     }
     $test->assertEquals(1, $creg->exists($name), $name.' channel still exists');

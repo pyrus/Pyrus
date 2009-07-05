@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Log
+ * \pear2\Pyrus\Logger
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Log
+namespace pear2\Pyrus;
+class Logger
 {
     static public $log = array();
     static public $maxlevel = 7;
@@ -41,12 +42,12 @@ class PEAR2_Pyrus_Log
         }
     }
 
-    static public function attach(PEAR2_Pyrus_ILog $observer)
+    static public function attach(\pear2\Pyrus\ILog $observer)
     {
         self::$observers[spl_object_hash($observer)] = $observer;
     }
 
-    static public function detach(PEAR2_Pyrus_ILog $observer)
+    static public function detach(\pear2\Pyrus\ILog $observer)
     {
         unset(self::$observers[spl_object_hash($observer)]);
     }

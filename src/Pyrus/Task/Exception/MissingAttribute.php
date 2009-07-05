@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Task_Exception_MissingAttribute
+ * \pear2\Pyrus\Task\Exception\MissingAttribute
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Exception_MissingAttribute extends PEAR2_Exception
+namespace pear2\Pyrus\Task\Exception;
+class MissingAttribute extends \PEAR2_Exception
 {
     function __construct($task, $attribute, $file)
     {

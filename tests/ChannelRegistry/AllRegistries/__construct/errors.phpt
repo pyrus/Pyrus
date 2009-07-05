@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry::__construct() errors test
+\pear2\Pyrus\ChannelRegistry::__construct() errors test
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
@@ -24,9 +24,9 @@ $worked = $killit->exec($query);
 // this will kill the sqlite3 registry
 $killit->exec('BEGIN');
 try {
-    $c = new PEAR2_Pyrus_ChannelRegistry(__DIR__ . '/testit', array('Sqlite3', 'Fubar'));
+    $c = new \pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Sqlite3', 'Fubar'));
     throw new Exception('worked and should not');
-} catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+} catch (\pear2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Unable to initialize registry for path "' . __DIR__ .
                         '/testit"', $e->getMessage(), 'message');
     $causes = array();
@@ -34,7 +34,7 @@ try {
     $test->assertEquals('Cannot initialize SQLite3 registry: table files already exists',
                         $causes[1]['message'], 'message 1');
     $test->assertEquals('table files already exists', $causes[2]['message'], 'message 2');
-    $test->assertEquals('Unknown channel registry type: PEAR2_Pyrus_ChannelRegistry_Fubar', $causes[3]['message'], 'message 3');
+    $test->assertEquals('Unknown channel registry type: pear2\Pyrus\ChannelRegistry\Fubar', $causes[3]['message'], 'message 3');
 }
 
 ?>

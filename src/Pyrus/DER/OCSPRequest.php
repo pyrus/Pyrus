@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_Schema
+ * \pear2\Pyrus\DER\Schema
  *
  * PHP version 5
  *
@@ -25,7 +25,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
+namespace pear2\Pyrus\DER;
+class OCSPRequest extends \pear2\Pyrus\DER
 {
     protected function __construct($developerCert)
     {
@@ -35,17 +36,17 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
         $ocsprequest->hashAlgorithm->parameters = null;
 
         if (!file_exists($developerCert)) {
-            throw new PEAR2_Pyrus_DER_Exception('Developer certificate ' . $developerCert . ' does not exist');
+            throw new \pear2\Pyrus\DER\Exception('Developer certificate ' . $developerCert . ' does not exist');
         }
         $info = openssl_x509_parse(file_get_contents($developerCert));
         if (!isset($info['serialNumber']) || !isset($info['issuer']) || !isset($info['issuer']['OU'])) {
-            throw new PEAR2_Pyrus_DER_Exception('Cannot process developer Certificate ' . $developerCert .
+            throw new \pear2\Pyrus\DER\Exception('Cannot process developer Certificate ' . $developerCert .
                                                 ', missing key fields');
         }
         if ($info['issuer']['OU'] != 'http://www.cacert.org') {
             // other issuers are picky about who they allow to verify,
             // so we only accept certs from cacert
-            throw new PEAR2_Pyrus_DER_Exception('Cannot verify certificate, ' .
+            throw new \pear2\Pyrus\DER\Exception('Cannot verify certificate, ' .
                                                 'it is not from cacert.org');
         }
         $ocsprequest->issuerNameHash =
@@ -65,19 +66,19 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
             return $types['OCSPRequest'];
         }
 
-        $types = PEAR2_Pyrus_DER_Schema::types();
+        $types = \pear2\Pyrus\DER\Schema::types();
 
         if (!isset($types['anothername'])) {
-            PEAR2_Pyrus_DER_Schema::addType('AnotherName',
-                PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('AnotherName',
+                \pear2\Pyrus\DER\Schema::factory()
                 ->sequence('AnotherName')
                     ->objectIdentifier('type-id')
                     ->any('value', 0));
         }
 
         if (!isset($types['generalname'])) {
-            PEAR2_Pyrus_DER_Schema::addType('GeneralName',
-                PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('GeneralName',
+                \pear2\Pyrus\DER\Schema::factory()
                 ->choice('GeneralName')
                     ->option('otherName', 'AnotherName')
                     ->option('rfc822Name', 'IA5String')
@@ -87,16 +88,16 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
         }
 
         if (!isset($types['algorithmidentifier'])) {
-            PEAR2_Pyrus_DER_Schema::addType('AlgorithmIdentifier',
-                PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('AlgorithmIdentifier',
+                \pear2\Pyrus\DER\Schema::factory()
                 ->sequence('AlgorithmIdentifier')
                     ->objectIdentifier('algorithm')
                     ->any('parameters'));
         }
 
         if (!isset($types['certid'])) {
-            PEAR2_Pyrus_DER_Schema::addType('CertID',
-                PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('CertID',
+                \pear2\Pyrus\DER\Schema::factory()
                 ->sequence('CertID')
                     ->algorithmIdentifier('hashAlgorithm')
                     ->octetString('issuerNameHash')
@@ -105,8 +106,8 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
         }
 
         if (!isset($types['extensions'])) {
-            PEAR2_Pyrus_DER_Schema::addType('Extensions',
-                $extensions = PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('Extensions',
+                $extensions = \pear2\Pyrus\DER\Schema::factory()
                 ->sequence('Extensions')
                     ->sequence('Inner')
                         ->sequence('Extension')->setMultiple()
@@ -119,8 +120,8 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
         }
 
         if (!isset($types['request'])) {
-            PEAR2_Pyrus_DER_Schema::addType('Request',
-                $request = PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('Request',
+                $request = \pear2\Pyrus\DER\Schema::factory()
                 ->sequence('Request')
                     ->certID('reqCert')
                     ->extensions('singleRequestExtensions', 0));
@@ -128,8 +129,8 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
         }
 
         if (!isset($types['tbsrequest'])) {
-            PEAR2_Pyrus_DER_Schema::addType('TBSRequest',
-                $tbs = PEAR2_Pyrus_DER_Schema::factory()
+            \pear2\Pyrus\DER\Schema::addType('TBSRequest',
+                $tbs = \pear2\Pyrus\DER\Schema::factory()
                 ->sequence('TBSRequest')
                     ->integer('version', 0)
                     ->generalName('requestorName', 1)
@@ -144,11 +145,11 @@ class PEAR2_Pyrus_DER_OCSPRequest extends PEAR2_Pyrus_DER
             $tbs->requestExtensions->setOptional();
         }
 
-        $schema = new PEAR2_Pyrus_DER_Schema;
+        $schema = new \pear2\Pyrus\DER\Schema;
         $schema
                 ->sequence('OCSPRequest')
                     ->TBSRequest('tbsRequest');
-        PEAR2_Pyrus_DER_Schema::addType('OCSPRequest', $schema);
+        \pear2\Pyrus\DER\Schema::addType('OCSPRequest', $schema);
         return $schema;
     }
 }

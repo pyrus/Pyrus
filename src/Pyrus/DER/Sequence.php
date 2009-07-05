@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_Sequence
+ * \pear2\Pyrus\DER\Sequence
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_Sequence extends PEAR2_Pyrus_DER_Constructed
+namespace pear2\Pyrus\DER;
+class Sequence extends \pear2\Pyrus\DER\Constructed
 {
     const TAG = 0x30;
 

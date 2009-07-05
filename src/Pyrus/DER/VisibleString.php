@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_OctetString
+ * \pear2\Pyrus\DER\OctetString
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_VisibleString extends PEAR2_Pyrus_DER_String
+namespace pear2\Pyrus\DER;
+class VisibleString extends \pear2\Pyrus\DER\String
 {
     const TAG = 0x1A;
 

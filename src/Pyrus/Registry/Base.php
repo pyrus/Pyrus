@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Base
+ * \pear2\Pyrus\Registry\Base
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Registry_Base implements PEAR2_Pyrus_IRegistry
+namespace pear2\Pyrus\Registry;
+abstract class Base implements \pear2\Pyrus\IRegistry
 {
     protected $packagename;
     protected $packageList = array();
@@ -31,16 +32,16 @@ abstract class PEAR2_Pyrus_Registry_Base implements PEAR2_Pyrus_IRegistry
     /**
      * Used by the registry package classes to update info in an installed package
      */
-    public function replace(PEAR2_Pyrus_IPackageFile $info)
+    public function replace(\pear2\Pyrus\IPackageFile $info)
     {
         return $this->install($info, true);
     }
 
-    function cloneRegistry(PEAR2_Pyrus_Registry_Base $registry)
+    function cloneRegistry(\pear2\Pyrus\Registry\Base $registry)
     {
         try {
             $packageiterator = $registry->package;
-            foreach (PEAR2_Pyrus_Config::current()->channelregistry->listChannels() as $channel) {
+            foreach (\pear2\Pyrus\Config::current()->channelregistry->listChannels() as $channel) {
                 $packageiterator->setIteratorChannel($channel);
                 foreach ($packageiterator as $package) {
                     if ($this->exists($package->name, $package->channel)) {
@@ -52,8 +53,8 @@ abstract class PEAR2_Pyrus_Registry_Base implements PEAR2_Pyrus_IRegistry
                     $this->replace($package);
                 }
             }
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot clone registry', $e);
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Registry\Exception('Cannot clone registry', $e);
         }
     }
 }

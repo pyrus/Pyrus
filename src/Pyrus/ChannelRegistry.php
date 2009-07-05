@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry
+ * \pear2\Pyrus\ChannelRegistry
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEAR2_Pyrus_IChannelRegistry
+namespace pear2\Pyrus;
+class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\IChannelRegistry
 {
     /**
      * Class to instantiate for singleton.
@@ -31,12 +32,12 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
      * This is useful for unit-testing and for extending the registry
      * @var string
      */
-    static public $className = 'PEAR2_Pyrus_ChannelRegistry';
+    static public $className = 'pear2\Pyrus\ChannelRegistry';
     /**
      * The parent registry
      *
      * This is used to implement cascading registries
-     * @var PEAR2_Pyrus_ChannelRegistry
+     * @var \pear2\Pyrus\ChannelRegistry
      */
     protected $parent;
     protected $path;
@@ -51,27 +52,27 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
-                $registry = "PEAR2_Pyrus_ChannelRegistry_$registry";
+                $registry = 'pear2\Pyrus\ChannelRegistry\\' . $registry;
                 if (!class_exists($registry, true)) {
-                    $exceptions[] = new PEAR2_Pyrus_ChannelRegistry_Exception(
+                    $exceptions[] = new \pear2\Pyrus\ChannelRegistry\Exception(
                         'Unknown channel registry type: ' . $registry);
                     continue;
                 }
                 $this->_registries[] = new $registry($path, $readonly);
-            } catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+            } catch (\pear2\Pyrus\ChannelRegistry\Exception $e) {
                 $exceptions[] = $e;
-            } catch (PEAR2_Pyrus_Registry_Exception $e) {
+            } catch (\pear2\Pyrus\Registry\Exception $e) {
                 $exceptions[] = $e;
             }
         }
         if (!count($this->_registries)) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception(
+            throw new \pear2\Pyrus\ChannelRegistry\Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
     }
 
-    public function setParent(PEAR2_Pyrus_ChannelRegistry $parent = null)
+    public function setParent(\pear2\Pyrus\ChannelRegistry $parent = null)
     {
         $this->parent = $parent;
     }
@@ -79,35 +80,35 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     /**
      * Add a channel to the registry.
      *
-     * @param PEAR2_Pyrus_IChannel $channel Channel to add.
+     * @param \pear2\Pyrus\IChannel $channel Channel to add.
      */
-    public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
+    public function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
         foreach ($this->_registries as $reg) {
             $reg->add($channel, $update, $lastmodified);
         }
     }
 
-    public function update(PEAR2_Pyrus_IChannel $channel)
+    public function update(\pear2\Pyrus\IChannel $channel)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot update channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
         }
         foreach ($this->_registries as $reg) {
             $reg->update($channel);
         }
     }
 
-    public function delete(PEAR2_Pyrus_IChannel $channel)
+    public function delete(\pear2\Pyrus\IChannel $channel)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
         }
         if (in_array($channel->name, $this->_registries[0]->getDefaultChannels())) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete default channel ' .
                 $channel->name);
         }
         foreach ($this->_registries as $reg) {
@@ -119,7 +120,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     {
         try {
             return $this->_registries[0]->get($channel, $strict);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // don't fail on the default channels, these should always exist
             switch ($channel) {
                 case 'pear.php.net' :
@@ -155,7 +156,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         foreach ($this->_registries as $reg) {
             try {
                 return $reg->parseName($name, $defaultChannel);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 continue;
             }
         }
@@ -163,7 +164,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
             return $this->parent->parseName($name, $defaultChannel);
         }
         // recycle last exception
-        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unable to process package name', $e);
+        throw new \pear2\Pyrus\ChannelRegistry\Exception('Unable to process package name', $e);
     }
 
     public function parsedNameToString($name)
@@ -171,7 +172,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
         foreach ($this->_registries as $reg) {
             try {
                 return $reg->parsedNameToString($name);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 continue;
             }
         }
@@ -179,7 +180,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
             return $this->parent->parsedNameToString($name);
         }
         // recycle last exception
-        throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unable to convert to package name string', $e);
+        throw new \pear2\Pyrus\ChannelRegistry\Exception('Unable to convert to package name string', $e);
     }
 
     public function listChannels()
@@ -195,10 +196,10 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     public function offsetSet($offset, $value)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
-        if ($value instanceof PEAR2_Pyrus_IChannelFile) {
-            $value = new PEAR2_Pyrus_Channel($value);
+        if ($value instanceof \pear2\Pyrus\IChannelFile) {
+            $value = new \pear2\Pyrus\Channel($value);
         }
         foreach ($this->_registries as $reg) {
             $reg->add($value);
@@ -213,7 +214,7 @@ class PEAR2_Pyrus_ChannelRegistry implements ArrayAccess, IteratorAggregate, PEA
     public function offsetUnset($offset)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
         }
         $chan = $this->get($offset, false);
         foreach ($this->_registries as $reg) {

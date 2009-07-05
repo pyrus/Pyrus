@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::loadConfigFile() no configuration found, use defaults
+\pear2\Pyrus\Config::loadConfigFile() no configuration found, use defaults
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_BundledPackage
+ * \pear2\Pyrus\PackageFile\v2\BundledPackage
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_BundledPackage implements ArrayAccess, Countable, Iterator
+namespace pear2\Pyrus\PackageFile\v2;
+class BundledPackage implements \ArrayAccess, \Countable, \Iterator
 {
     protected $info;
     protected $parent;
@@ -102,7 +103,7 @@ class PEAR2_Pyrus_PackageFile_v2_BundledPackage implements ArrayAccess, Countabl
     function offsetSet($var, $value)
     {
         if (!is_string($value)) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Can only set bundledpackage to string');
+            throw new \pear2\Pyrus\PackageFile\Exception('Can only set bundledpackage to string');
         }
         // $var is ignored
         $i = $this->locatePackage($value);

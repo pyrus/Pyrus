@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterator
+namespace pear2\Pyrus\PackageFile\v2\Dependencies;
+class Dep implements \ArrayAccess, \Iterator
 {
     protected $parent;
     protected $info;
@@ -55,7 +56,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep implements ArrayAccess, Iterat
             } else {
                 $keys = array_keys($this->info);
             }
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown variable ' . $var . ', must be one of ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', $keys));
         }
 set_ok:

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter
+ * \pear2\Pyrus\PackageFile\v2Iterator\FileInstallationFilter
  *
  * PHP version 5
  *
@@ -23,18 +23,19 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIterator
+namespace pear2\Pyrus\PackageFile\v2Iterator;
+class FileInstallationFilter extends \FilterIterator
 {
     static private $_parent;
     static private $_installGroup;
-    static function setParent(PEAR2_Pyrus_PackageFile_v2 $parent)
+    static function setParent(\pear2\Pyrus\PackageFile\v2 $parent)
     {
         self::$_parent = $parent;
-        $errs = new PEAR2_MultiErrors;
-        $depchecker = new PEAR2_Pyrus_Dependency_Validator(
+        $errs = new \PEAR2_MultiErrors;
+        $depchecker = new \pear2\Pyrus\Dependency\Validator(
             array('channel' => self::$_parent->channel,
                   'package' => self::$_parent->name),
-            PEAR2_Pyrus_Validate::INSTALLING, $errs);
+            \pear2\Pyrus\Validate::INSTALLING, $errs);
         foreach (self::$_parent->installGroup as $instance) {
             try {
                 if (isset($instance['installconditions'])) {
@@ -45,13 +46,13 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
                                 $conditions = array($conditions);
                             }
                             foreach ($conditions as $condition) {
-                                $condition = new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep(null, $condition, $type);
+                                $condition = new \pear2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
                             }
                         }
                     }
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // can't use this release
                 continue;
             }
@@ -95,7 +96,7 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileInstallationFilter extends FilterIt
         if ($b = self::$_parent->getBaseInstallDir($file)) {
             $curfile['attribs']['baseinstalldir'] = $b;
         }
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileTag($curfile,
+        return new \pear2\Pyrus\PackageFile\v2Iterator\FileTag($curfile,
             '', self::$_parent);
     }
 

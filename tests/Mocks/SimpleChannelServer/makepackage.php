@@ -3,20 +3,20 @@ error_reporting(E_ALL);
 ini_set('display_errors',true);
 require_once dirname(__FILE__).'/../../autoload.php';
 
-$a = new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN(dirname(__FILE__), 'PEAR2_SimpleChannelServer');
+$a = new \pear2\Pyrus\Developer\PackageFile\PEAR2SVN(dirname(__FILE__), 'PEAR2_SimpleChannelServer');
 
-$package = new PEAR2_Pyrus_Package('package.xml');
+$package = new \pear2\Pyrus\Package('package.xml');
 $outfile = $package->name.'-'.$package->version['release'];
-$a = new PEAR2_Pyrus_Package_Creator(array(
-                    //new PEAR2_Pyrus_Developer_Creator_Tar($outfile.'.tar', 'none'),
-                    new PEAR2_Pyrus_Developer_Creator_Phar($outfile.'.tgz', false, Phar::TAR, Phar::GZ),),
+$a = new \pear2\Pyrus\Package\Creator(array(
+                    //new \pear2\Pyrus\Developer\Creator\Tar($outfile.'.tar', 'none'),
+                    new \pear2\Pyrus\Developer\Creator\Phar($outfile.'.tgz', false, Phar::TAR, Phar::GZ),),
                     dirname(__FILE__).'/../../Exception/src',
 					dirname(__FILE__).'/../../Autoload/src',
 					dirname(__FILE__).'/../../MultiErrors/src');
 $a->render($package);
 
-$a = new PEAR2_Pyrus_Package_Creator(array(
-                    new PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive(__DIR__ . '/pearscs.phar', '<?php
+$a = new \pear2\Pyrus\Package\Creator(array(
+                    new \pear2\Pyrus\Developer\Creator\Phar\PHPArchive(__DIR__ . '/pearscs.phar', '<?php
 function __autoload($class)
 {
     include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
@@ -28,7 +28,7 @@ $cli->process();
                     dirname(__FILE__) . '/../../Exception/src',
                     dirname(__FILE__) . '/../../Autoload/src',
                     dirname(__FILE__) . '/../../MultiErrors/src');
-$b = new PEAR2_Pyrus_Package(__DIR__ . '/package.xml');
+$b = new \pear2\Pyrus\Package(__DIR__ . '/package.xml');
 $rp = __DIR__ . '/../../HTTP_Request/src/HTTP';
 
 $additional_files = array(
@@ -41,9 +41,9 @@ $additional_files = array(
     'php/PEAR2/HTTP/Request/Response.php'          => $rp . '/Request/Response.php',
     'php/PEAR2/HTTP/Request/Uri.php'               => $rp . '/Request/Uri.php',
 );
-$pyrus = new PEAR2_Pyrus_Package(__DIR__ . '/../../Pyrus/package.xml');
-$pyrus_developer = new PEAR2_Pyrus_Package(__DIR__ . '/../../Pyrus_Developer/package.xml');
-$exception = new PEAR2_Pyrus_Package(__DIR__ . '/../../Exception/package.xml');
+$pyrus = new \pear2\Pyrus\Package(__DIR__ . '/../../Pyrus/package.xml');
+$pyrus_developer = new \pear2\Pyrus\Package(__DIR__ . '/../../Pyrus_Developer/package.xml');
+$exception = new \pear2\Pyrus\Package(__DIR__ . '/../../Exception/package.xml');
 foreach (array('Pyrus'           => $pyrus,
                'Pyrus_Developer' => $pyrus_developer,
                'Exception'       => $exception) as $add_dir=>$add_package) {

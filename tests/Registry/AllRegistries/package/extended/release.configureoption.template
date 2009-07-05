@@ -43,7 +43,7 @@ $reg->release[0]->configureoption['hi2']->prompt('choose me! choose me!')->defau
 
 $stuff = array();
 foreach ($reg->release[0]->configureoption as $key => $option) {
-    $test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption', $option, 'right class');
+    $test->assertIsa('\pear2\Pyrus\PackageFile\v2\Release\ConfigureOption', $option, 'right class');
     $stuff[$key] = $option->getInfo();
 }
 $test->assertEquals(array (

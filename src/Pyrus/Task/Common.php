@@ -41,7 +41,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubject
+namespace pear2\Pyrus\Task;
+abstract class Common extends \ArrayObject implements \SplSubject
 {
     static protected $customtasks = array();
     const PACKAGE = 1;
@@ -62,7 +63,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
     /**
      * Determines which install phase this task is executed under
      */
-    const PHASE = PEAR2_Pyrus_Task_Common::INSTALL;
+    const PHASE = \pear2\Pyrus\Task\Common::INSTALL;
     /**
      * @param PEAR_Config
      * @param PEAR_Common
@@ -79,7 +80,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
 
     /**
      * Initialize a task instance with the parameters
-     * @param PEAR2_Pyrus_Package|PEAR2_Pyrus_IPackageFile package information
+     * @param \pear2\Pyrus\Package|\pear2\Pyrus\IPackageFile package information
      * @param int install phase
      * @param array raw, parsed xml
      * @param array attributes from the <file> tag containing this task
@@ -100,32 +101,32 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
     /**
      * Validate the basic contents of a task tag.
      *
-     * On error, one of the PEAR2_Pyrus_Task_Exception_* exceptions should be thrown.
+     * On error, one of the \pear2\Pyrus\Task\Exception\* exceptions should be thrown.
      *
-     *  - {@link PEAR2_Pyrus_Task_Exception_NoAttributes}: use this exception for
+     *  - {@link \pear2\Pyrus\Task\Exception\NoAttributes}: use this exception for
      *    missing attributes that should be present.
-     *  - {@link PEAR2_Pyrus_Task_Exception_MissingAttribute}: use this exception
+     *  - {@link \pear2\Pyrus\Task\Exception\MissingAttribute}: use this exception
      *    for a specific missing attribute.
-     *  - {@link PEAR2_Pyrus_Task_Exception_WrongAttributeValue}: use this
+     *  - {@link \pear2\Pyrus\Task\Exception\WrongAttributeValue}: use this
      *    exception for an incorrect value for an attribute.
-     *  - {@link PEAR2_Pyrus_Task_Exception_InvalidTask}: use this exception for
+     *  - {@link \pear2\Pyrus\Task\Exception\InvalidTask}: use this exception for
      *    general validation errors
      *
      * It is also possible to throw multiple validation errors, by using a
      * {@link PEAR2_MultiErrors} object as a cause parameter to
-     * {@link PEAR2_Pyrus_Task_Exception}.
+     * {@link \pear2\Pyrus\Task\Exception}.
      * @param PEAR_Pyrus_IPackageFile
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws PEAR2_Pyrus_Task_Exception
-     * @throws PEAR2_Pyrus_Task_Exception_NoAttributes
-     * @throws PEAR2_Pyrus_Task_Exception_MissingAttribute
-     * @throws PEAR2_Pyrus_Task_Exception_WrongAttributeValue
-     * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
+     * @throws \pear2\Pyrus\Task\Exception
+     * @throws \pear2\Pyrus\Task\Exception\NoAttributes
+     * @throws \pear2\Pyrus\Task\Exception\MissingAttribute
+     * @throws \pear2\Pyrus\Task\Exception\WrongAttributeValue
+     * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      * @abstract
      */
-    static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
     {
     }
 
@@ -139,7 +140,7 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false false to skip this file, otherwise return the new contents
-     * @throws PEAR2_Pyrus_Task_Exception on errors, throw this exception
+     * @throws \pear2\Pyrus\Task\Exception on errors, throw this exception
      * @abstract
      */
     function startSession($fp, $dest)
@@ -185,12 +186,12 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
         return $this->xml;
     }
 
-    function attach(SplObserver $observer)
+    function attach(\SplObserver $observer)
     {
         $this->observers[] = $observer;
     }
 
-    function detach(SplObserver $observed)
+    function detach(\SplObserver $observed)
     {
         foreach ($this->observers as $i => $observer) {
             if ($observer === $observed) {
@@ -238,13 +239,13 @@ abstract class PEAR2_Pyrus_Task_Common extends \ArrayObject implements \SplSubje
     static function registerBuiltinTasks()
     {
         static::registerCustomTask(array('name' => 'replace',
-                                         'class' => 'PEAR2_Pyrus_Task_Replace'));
+                                         'class' => 'pear2\Pyrus\Task\Replace'));
         static::registerCustomTask(array('name' => 'windowseol',
-                                         'class' => 'PEAR2_Pyrus_Task_Windowseol'));
+                                         'class' => 'pear2\Pyrus\Task\Windowseol'));
         static::registerCustomTask(array('name' => 'unixeol',
-                                         'class' => 'PEAR2_Pyrus_Task_Unixeol'));
+                                         'class' => 'pear2\Pyrus\Task\Unixeol'));
         static::registerCustomTask(array('name' => 'postinstallscript',
-                                         'class' => 'PEAR2_Pyrus_Task_Postinstallscript'));
+                                         'class' => 'pear2\Pyrus\Task\Postinstallscript'));
     }
 
     static function registerCustomTask($taskinfo)

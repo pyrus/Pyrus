@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_Dependencies
+ * \pear2\Pyrus\PackageFile\v2\Dependencies
  *
  * PHP version 5
  *
@@ -86,7 +86,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
+namespace pear2\Pyrus\PackageFile\v2;
+class Dependencies implements \ArrayAccess
 {
     protected $parent;
     protected $info = array();
@@ -102,7 +103,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
     function __get($var)
     {
         if ($this->deptype === null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                 'Cannot retrieve dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
@@ -114,7 +115,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                     // break intentionally omitted
                 case 'os' :
                     if ($this->deptype === 'optional' || $this->deptype === 'group') {
-                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                                 $var . ' dependency is not supported as an optional dependency');
                     }
                     $info = array();
@@ -129,9 +130,9 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 case 'subpackage' :
                 case 'extension' :
                     $info = array();
-                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $info);
+                    return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package($this->deptype, $var, $this, $info);
                 default :
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown dependency type: '.
+                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Unknown dependency type: '.
                         $var);
             }
         } else {
@@ -153,7 +154,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                     if (count($info) && !isset($info[0])) {
                         $info = array($info);
                     }
-                    return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package($this->deptype, $var, $this, $info);
+                    return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package($this->deptype, $var, $this, $info);
             }
             foreach ($keys as $key => $null) {
                 if (!array_key_exists($key, $info)) {
@@ -161,13 +162,13 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
                 }
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep($this, $info, $var);
+        return new \pear2\Pyrus\PackageFile\v2\Dependencies\Dep($this, $info, $var);
     }
 
     function __set($var, $value)
     {
         if ($this->deptype === null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                 'Cannot set dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
@@ -191,12 +192,12 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
             case 'arch' :
             case 'os' :
                 if ($this->deptype === 'optional' || $this->deptype === 'group') {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                             $var . ' dependency is not supported as an optional dependency');
                 }
-                if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                        'Can only set ' . $var . ' to PEAR2_Pyrus_PackageFile_v2_Dependencies_Dep object'
+                if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Dep)) {
+                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+                        'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Dep object'
                     );
                 }
                 $this->info[$var] = $value->getInfo();
@@ -205,16 +206,16 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
             case 'package' :
             case 'subpackage' :
             case 'extension' :
-                if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Package)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                        'Can only set ' . $var . ' to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object'
+                if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Package)) {
+                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+                        'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object'
                     );
                 }
                 $this->info[$var] = $value->getInfo();
                 $this->save();
                 return;
             default :
-                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Unknown dependency type: ' . $var);
+                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Unknown dependency type: ' . $var);
         }
         $this->info[$var] = $info;
         $this->save();
@@ -231,48 +232,48 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies implements ArrayAccess
     function offsetGet($var)
     {
         if ($this->deptype !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot access ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot access ' .
                                     '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
         }
         if ($var === 'required' || $var === 'optional') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies($this, $this->info[$var], $var);
+            return new \pear2\Pyrus\PackageFile\v2\Dependencies($this, $this->info[$var], $var);
         }
         if ($var === 'group') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Group($this, $this->info['group']);
+            return new \pear2\Pyrus\PackageFile\v2\Dependencies\Group($this, $this->info['group']);
         }
     }
 
     function offsetSet($var, $value)
     {
         if ($this->deptype !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' .
                                     '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
         }
         if ($var === 'group') {
-            if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Group)) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set group to anything' .
-                            ' but a PEAR2_Pyrus_PackageFile_v2_Dependencies_Group object');
+            if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Group)) {
+                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set group to anything' .
+                            ' but a \pear2\Pyrus\PackageFile\v2\Dependencies\Group object');
             }
             $this->info['group'] = $value->getInfo();
             $this->save();
             return;
         }
         if ($var === 'required' || $var === 'optional') {
-            if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies)) {
-                throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Cannot set ' . $var . ' to anything' .
-                            ' but a PEAR2_Pyrus_PackageFile_v2_Dependencies object');
+            if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies)) {
+                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' . $var . ' to anything' .
+                            ' but a \pear2\Pyrus\PackageFile\v2\Dependencies object');
             }
             $this->info[$var] = $value->getInfo();
             $this->save();
             return;
         }
-        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Only required, optional, or group indices' .
+        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Only required, optional, or group indices' .
                         ' are supported, was passed ' . $var);
     }
 

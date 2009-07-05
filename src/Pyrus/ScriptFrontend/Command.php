@@ -25,7 +25,8 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 
-class PEAR2_Pyrus_ScriptFrontend_Command extends PEAR2_Console_CommandLine_Command
+namespace pear2\Pyrus\ScriptFrontend;
+class Command extends \PEAR2_Console_CommandLine_Command
 {
 
     /**

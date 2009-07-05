@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_UniversalString
+ * \pear2\Pyrus\DER\UniversalString
  *
  * PHP version 5
  *
@@ -25,7 +25,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_UniversalString extends PEAR2_Pyrus_DER_String
+namespace pear2\Pyrus\DER;
+class UniversalString extends \pear2\Pyrus\DER\String
 {
     const TAG = 0x1C;
 

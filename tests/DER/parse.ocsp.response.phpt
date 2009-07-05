@@ -3,14 +3,14 @@ Pyrus DER: parse an actual OCSP request
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-PEAR2_Pyrus_DER_Schema::addType('AnotherName',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('AnotherName',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('AnotherName')
         ->objectIdentifier('type-id')
         ->any('value', 0));
 
-PEAR2_Pyrus_DER_Schema::addType('GeneralName',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('GeneralName',
+    \pear2\Pyrus\DER\Schema::factory()
     ->choice('GeneralName')
         ->option('otherName', 'AnotherName')
         ->option('rfc822Name', 'IA5String')
@@ -18,22 +18,22 @@ PEAR2_Pyrus_DER_Schema::addType('GeneralName',
         ->option('x400Address', 'AnotherName') // ORaddress, I'm lazy
         ->option('dNSName', 'IA5String'));
 
-PEAR2_Pyrus_DER_Schema::addType('AlgorithmIdentifier',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('AlgorithmIdentifier',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('AlgorithmIdentifier')
         ->objectIdentifier('algorithm')
         ->any('parameters'));
 
-PEAR2_Pyrus_DER_Schema::addType('CertID',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('CertID',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('CertID')
         ->algorithmIdentifier('hashAlgorithm')
         ->octetString('issuerNameHash')
         ->octetString('issuerKeyHash')
         ->integer('serialNumber'));
 
-PEAR2_Pyrus_DER_Schema::addType('Extensions',
-    $extensions = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('Extensions',
+    $extensions = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('Extensions')
         ->sequence('Inner')
             ->sequence('Extension')->setMultiple()
@@ -44,24 +44,24 @@ PEAR2_Pyrus_DER_Schema::addType('Extensions',
         ->end());
 $extensions->Inner->Extension->critical->setOptional();
 
-PEAR2_Pyrus_DER_Schema::addType('RevokedInfo',
-    $revoked = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('RevokedInfo',
+    $revoked = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('RevokedInfo')
         ->generalizedTime('revocationTime')
         ->enumerated('revocationReason', 0)
     );
 $revoked->revocationReason->setOptional();
 
-PEAR2_Pyrus_DER_Schema::addType('CertStatus',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('CertStatus',
+    \pear2\Pyrus\DER\Schema::factory()
     ->choice('CertStatus')
         ->option('good', 'null')
         ->option('revoked', 'RevokedInfo')
         ->option('unknown', 'any')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('SingleResponse',
-    $single = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('SingleResponse',
+    $single = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('SingleResponse')
         ->CertID('cert')
         ->CertStatus('status')
@@ -74,46 +74,46 @@ PEAR2_Pyrus_DER_Schema::addType('SingleResponse',
 $single->nextUpdateSeq->setOptional();
 $single->singleExtensions->setOptional();
 
-PEAR2_Pyrus_DER_Schema::addType('AttributeTypeAndValue',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('AttributeTypeAndValue',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('AttributeTypeAndValue')
         ->objectIdentifier('attribute')
         ->any('value')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('RelativeDistinguishedName',
-    $rdn = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('RelativeDistinguishedName',
+    $rdn = \pear2\Pyrus\DER\Schema::factory()
     ->set('RelativeDistinguishedName')
         ->AttributeTypeAndValue('atts')
     );
 $rdn->atts->setMultiple();
 
-PEAR2_Pyrus_DER_Schema::addType('RDNSequence',
-    $rdns = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('RDNSequence',
+    $rdns = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('RDNSequence')
         ->RelativeDistinguishedName('RDN')
     );
 $rdns->RDN->setMultiple();
 
-PEAR2_Pyrus_DER_Schema::addType('NameSeq',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('NameSeq',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('NameSeq')
         ->RDNSequence('Name')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('Name',
+\pear2\Pyrus\DER\Schema::addType('Name',
     $name = clone $rdns
     );
 
-PEAR2_Pyrus_DER_Schema::addType('ResponderID',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('ResponderID',
+    \pear2\Pyrus\DER\Schema::factory()
     ->choice('ResponderID')
         ->option('byName', 'NameSeq', 1)
         ->option('byKey', 'octetString', 2)
     );
 
-PEAR2_Pyrus_DER_Schema::addType('ResponseData',
-    $responsedata = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('ResponseData',
+    $responsedata = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('ResponseData')
         ->integer('version', 0)
         ->ResponderID('responder')
@@ -127,29 +127,29 @@ $responsedata->version->setOptional();
 $responsedata->responseExtensions->setOptional();
 $responsedata->responses->response->setMultiple();
 
-PEAR2_Pyrus_DER_Schema::addType('SubjectPublicKeyInfo',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('SubjectPublicKeyInfo',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('SubjectPublicKeyInfo')
         ->AlgorithmIdentifier('algorithm')
         ->bitString('subjectPublicKey')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('Time',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('Time',
+    \pear2\Pyrus\DER\Schema::factory()
     ->choice('Time')
         ->UTCTime('utc')
         ->generalizedTime('general')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('Validity',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('Validity',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('Validity')
         ->Time('notBefore')
         ->Time('notAfter')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('TBSCertificate',
-    $cert = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('TBSCertificate',
+    $cert = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('TBSCertificate')
         ->sequence('versionSeq', 0)
             ->integer('version')
@@ -169,16 +169,16 @@ $cert->issuerUniqueID->setOptional();
 $cert->subjectUniqueID->setOptional();
 $cert->extensions->setOptional();
 
-PEAR2_Pyrus_DER_Schema::addType('Certificate',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('Certificate',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('Certificate')
         ->TBSCertificate('cert')
         ->AlgorithmIdentifier('signatureAlgorithm')
         ->bitString('signature')
     );
 
-PEAR2_Pyrus_DER_Schema::addType('BasicOCSPResponse',
-    $basic = PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('BasicOCSPResponse',
+    $basic = \pear2\Pyrus\DER\Schema::factory()
     ->sequence('BasicOCSPResponse')
         ->ResponseData('tbsResponseData')
         ->AlgorithmIdentifier('signatureAlgorithm')
@@ -192,8 +192,8 @@ PEAR2_Pyrus_DER_Schema::addType('BasicOCSPResponse',
 $basic->certs->setOptional();
 $basic->certs->certSequence->setMultiple();
 
-PEAR2_Pyrus_DER_Schema::addType('ResponseBytes',
-    PEAR2_Pyrus_DER_Schema::factory()
+\pear2\Pyrus\DER\Schema::addType('ResponseBytes',
+    \pear2\Pyrus\DER\Schema::factory()
     ->sequence('ResponseBytes')
         ->sequence('internal')
             ->objectIdentifier('responseType')
@@ -201,7 +201,7 @@ PEAR2_Pyrus_DER_Schema::addType('ResponseBytes',
         ->end()
     );
 
-$schema = new PEAR2_Pyrus_DER_Schema;
+$schema = new \pear2\Pyrus\DER\Schema;
 $schema
         ->sequence('OCSPResponse')
             ->enumerated('responseStatus')
@@ -209,7 +209,7 @@ $schema
 $schema->OCSPResponse->responseInfo->setOptional();
 $der->setSchema($schema);
 
-$basicschema = new PEAR2_Pyrus_DER_Schema;
+$basicschema = new \pear2\Pyrus\DER\Schema;
 $basicschema
     ->BasicOCSPResponse('basicresponse');
 
@@ -228,7 +228,7 @@ try {
 end 
 ', (string) $der, 'after parsing');
     $data = $der->OCSPResponse->responseInfo->internal->response->getValue();
-    $der = new PEAR2_Pyrus_DER;
+    $der = new \pear2\Pyrus\DER;
     $der->setSchema($basicschema);
     $der->parseFromString($data);
     $test->assertEquals('

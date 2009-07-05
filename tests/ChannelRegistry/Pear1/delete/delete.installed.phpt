@@ -1,10 +1,10 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry_Pear1::delete() delete failure, channel has installed packages
+\pear2\Pyrus\ChannelRegistry\Pear1::delete() delete failure, channel has installed packages
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
 include __DIR__ . '/../../../Registry/AllRegistries/setupPackageFile.php.inc';
-$chan = new PEAR2_Pyrus_Channel(new PEAR2_Pyrus_ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
+$chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 $creg->add($chan);
 $test->assertEquals(true, $creg->exists('pear.unl.edu'), 'successfully added the channel');
 $chan = $creg->get('pear.unl.edu');
@@ -15,7 +15,7 @@ $creg->getRegistry()->install($info);
 try {
     $creg->delete($chan);
     die('Should not have worked');
-} catch (PEAR2_Pyrus_ChannelRegistry_Exception $e) {
+} catch (\pear2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot delete channel pear.unl.edu, packages are installed', $e->getMessage(), 'error');
 }
 $test->assertEquals(true, $creg->exists('pear.unl.edu'), 'not successfully deleted');

@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::setCascading Registries() basic test 2
+\pear2\Pyrus\Config::setCascading Registries() basic test 2
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -11,7 +11,7 @@ require dirname(__FILE__) . '/setup.php.inc';
 $fake = new Sqlite3(__DIR__ . DIRECTORY_SEPARATOR . 'something' . DIRECTORY_SEPARATOR . '.pear2registry');
 $fake->close();
 unset($fake);
-$unused = new PEAR2_Pyrus_Registry(__DIR__ . '/something');
+$unused = new \pear2\Pyrus\Registry(__DIR__ . '/something');
 set_include_path(__DIR__ . DIRECTORY_SEPARATOR . 'something2' .
                  DIRECTORY_SEPARATOR . 'php' . PATH_SEPARATOR . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something/php');
 chdir(__DIR__ . DIRECTORY_SEPARATOR . 'something2');
@@ -36,7 +36,7 @@ if (substr(PHP_OS, 0, 3) != 'WIN') {
         $c = $configclass::singleton('/', __DIR__ . '/something/blah');
         echo "ERROR: no exception thrown\n";
     } catch (Exception $e) {
-        $test->assertEquals($configclass . '_Exception', get_class($e), 'exception class');
+        $test->assertEquals($configclass . '\Exception', get_class($e), 'exception class');
         $test->assertEquals('Cannot initialize primary registry in path /', $e->getMessage(), 'exception message');
     }
 }

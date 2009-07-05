@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_OctetString
+ * \pear2\Pyrus\DER\OctetString
  *
  * PHP version 5
  *
@@ -23,14 +23,15 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_PrintableString extends PEAR2_Pyrus_DER_String
+namespace pear2\Pyrus\DER;
+class PrintableString extends \pear2\Pyrus\DER\String
 {
     const TAG = 0x13;
 
     function setValue($string)
     {
         if (strlen($string) && !preg_match('/^[a-zA-Z0-9\'()+,\-\\.\/:=?]+\\z/', $string)) {
-            throw new PEAR2_Pyrus_DER_Exception('Invalid Printable string value ' . $string .
+            throw new \pear2\Pyrus\DER\Exception('Invalid Printable string value ' . $string .
                                                 ', can only contain letters, digits, space and' .
                                                 ' these punctuations: \' ( ) + , - . / : = ?');
         }

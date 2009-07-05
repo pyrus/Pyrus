@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::__isset() and friends
+\pear2\Pyrus\Config::__isset() and friends
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -32,7 +32,7 @@ foreach (array('registry',
     try {
         unset($a->$var);
         throw new Exception($var . ' unsetting did not fail');
-    } catch (PEAR2_Pyrus_Config_Exception $e) {
+    } catch (\pear2\Pyrus\Config\Exception $e) {
         $test->assertEquals('Cannot unset magic value ' . $var, $e->getMessage(), $var . ' message');
     }
     $test->assertTrue(isset($a->$var), $var . ' isset');
@@ -42,7 +42,7 @@ foreach (array('php_dir', 'data_dir') as $var) {
     try {
         unset($a->$var);
         throw new Exception($var . ' unsetting did not fail');
-    } catch (PEAR2_Pyrus_Config_Exception $e) {
+    } catch (\pear2\Pyrus\Config\Exception $e) {
         $test->assertEquals('Cannot unset ' . $var, $e->getMessage(), $var . ' message');
     }
 }

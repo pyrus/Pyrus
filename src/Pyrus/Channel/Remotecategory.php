@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel_Remotepackage
+ * \pear2\Pyrus\Channel\Remotepackage
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
+namespace pear2\Pyrus\Channel;
+class Remotecategory implements \ArrayAccess, \Iterator
 {
     protected $parent;
     protected $category;
@@ -31,7 +32,7 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
     protected $rest;
     protected $minimumStability;
 
-    function __construct(PEAR2_Pyrus_IChannelFile $channelinfo, $category, $packagesinfo)
+    function __construct(\pear2\Pyrus\IChannelFile $channelinfo, $category, $packagesinfo)
     {
         $this->parent = $channelinfo;
         $this->category = $category;
@@ -44,8 +45,8 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
         usort($this->packagesinfo, function($a, $b) {
             return strnatcasecmp($a['p']['n'], $b['p']['n']);
         });
-        $this->rest = new PEAR2_Pyrus_REST;
-        $this->minimumStability = PEAR2_Pyrus_Config::current()->preferred_state;
+        $this->rest = new \pear2\Pyrus\REST;
+        $this->minimumStability = \pear2\Pyrus\Config::current()->preferred_state;
     }
 
     function __get($var)
@@ -104,13 +105,13 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
                 }
             }
         }
-        $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);
+        $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent, $releases);
         $pxml->channel = $package['p']['c'];
         $pxml->name = $package['p']['n'];
         $pxml->license = $package['p']['l'];
         $pxml->summary = $package['p']['s'];
         $pxml->description = $package['p']['d'];
-        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $reg = \pear2\Pyrus\Config::current()->registry;
         if ($reg->exists($package['p']['n'], $package['p']['c'])) {
             $pxml->setExplicitState($version = $reg->info($package['p']['n'], $package['p']['c'], 'version'));
             $found = false;
@@ -142,12 +143,12 @@ class PEAR2_Pyrus_Channel_Remotecategory implements ArrayAccess, Iterator
 
     function offsetSet($var, $value)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function valid()

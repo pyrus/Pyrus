@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_Tar
+ * \pear2\Pyrus\Package\Tar
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
+namespace pear2\Pyrus\Package;
+class Tar extends \pear2\Pyrus\Package\Base
 {
     private $_fp;
     private $_internalFileLength;
@@ -35,7 +36,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     /**
      * @param string $package path to package file
      */
-    function __construct($package, PEAR2_Pyrus_Package $parent)
+    function __construct($package, \pear2\Pyrus\Package $parent)
     {
         $this->archive = $package;
         $info = pathinfo($package);
@@ -46,7 +47,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 if ($this->_fp) {
                     fclose($this->_fp);
                     if (!function_exists('gzopen')) {
-                        throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot extract package '.
+                        throw new \pear2\Pyrus\Package\Tar\Exception('Cannot extract package '.
                             $package . ', PHP must have the zlib extension enabled --with-zlib.');
                     } else {
                         $this->_fp = gzopen($package, 'rb');
@@ -55,23 +56,23 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 break;
             case 'tbz' :
                 if (!in_array('bzip2.*', $streamfilters)) {
-                    throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package' .
+                    throw new \pear2\Pyrus\Package\Tar\Exception('Cannot open package' .
                         $package . ', bzip2 decompression is not available');
                 }
                 stream_filter_append($this->_fp, 'bzip2.decompress');
         }
 
         if (!$this->_fp) {
-            throw new PEAR2_Pyrus_Package_Tar_Exception('Cannot open package ' . $package);
+            throw new \pear2\Pyrus\Package\Tar\Exception('Cannot open package ' . $package);
         }
 
         $packagexml = $this->_extract();
-        parent::__construct(new PEAR2_Pyrus_PackageFile($packagexml), $parent);
+        parent::__construct(new \pear2\Pyrus\PackageFile($packagexml), $parent);
     }
 
     function __destruct()
     {
-        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
+        usort(self::$_tempfiles, array('pear2\Pyrus\Package\Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
             if (!file_exists($fileOrDir)) {
                 continue;
@@ -117,7 +118,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
-            throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
+            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in package.xml');
         }
 
         $extract = '';
@@ -138,7 +139,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     private function _processHeader($rawHeader)
     {
         if (strlen($rawHeader) < 512 || $rawHeader == pack("a512", "")) {
-            throw new PEAR2_Pyrus_Package_Tar_Exception(
+            throw new \pear2\Pyrus\Package\Tar\Exception(
                 'Error: "' . $this->archive . '" has corrupted tar header');
         }
 
@@ -164,7 +165,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         }
 
         if (strlen($rawHeader) != 512) {
-            throw new PEAR2_Pyrus_Package_Tar_Exception(
+            throw new \pear2\Pyrus\Package\Tar\Exception(
                 'Invalid block size : ' . strlen($rawHeader));
         }
         $header = $this->_processHeader($rawHeader);
@@ -188,7 +189,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
             $rawHeader = $newHeader;
         }
         if ($this->_maliciousFilename($header['filename'])) {
-            throw new PEAR2_Pyrus_Package_Tar_Exception('Malicious .tar detected, file "' .
+            throw new \pear2\Pyrus\Package\Tar\Exception('Malicious .tar detected, file "' .
                 $header['filename'] .
                 '" will not install in desired directory tree');
         }
@@ -211,7 +212,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
                 return true;
             }
 
-            throw new PEAR2_Pyrus_Package_Tar_Exception(
+            throw new \pear2\Pyrus\Package\Tar\Exception(
                 'Invalid checksum for header of file "' . $header['filename'] .
                 '" : ' . $checksum . ' calculated, ' .
                 $header['checksum'] . ' expected');
@@ -255,7 +256,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
     private function _extract()
     {
         $packagexml = false;
-        $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
+        $where = (string) \pear2\Pyrus\Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
         $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
@@ -290,7 +291,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
             $fp = fopen($extract, 'wb');
             $amount = stream_copy_to_stream($this->_fp, $fp, $this->_internalFileLength);
             if ($amount != $this->_internalFileLength) {
-                throw new PEAR2_Pyrus_Package_Tar_Exception(
+                throw new \pear2\Pyrus\Package\Tar\Exception(
                     'Unable to fully extract ' . $header['filename'] . ' from ' .
                     $this->archive);
             }
@@ -317,7 +318,7 @@ class PEAR2_Pyrus_Package_Tar extends PEAR2_Pyrus_Package_Base
         fclose($fp);
         fclose($this->_fp);
         if (!$packagexml) {
-            throw new PEAR2_Pyrus_Package_Tar_Exception('Archive ' . $this->archive .
+            throw new \pear2\Pyrus\Package\Tar\Exception('Archive ' . $this->archive .
                 ' does not contain a package.xml file');
         }
 

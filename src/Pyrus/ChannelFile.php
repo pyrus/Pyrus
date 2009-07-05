@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelFile
+ * \pear2\Pyrus\ChannelFile
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
+namespace pear2\Pyrus;
+class ChannelFile implements \pear2\Pyrus\IChannelFile
 {
     protected $info;
     public $path;
@@ -35,7 +36,7 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
     function __construct($file, $isxml = false, $isremote = false)
     {
         $this->path = $file;
-        $parser = new PEAR2_Pyrus_ChannelFile_Parser_v1;
+        $parser = new \pear2\Pyrus\ChannelFile\Parser\v1;
         if ($isxml) {
             $data = $file;
         } elseif ($isremote) {
@@ -61,7 +62,7 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
             $data = @file_get_contents($file);
         }
         if ($data === false || empty($data)) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Unable to open channel xml file '
+            throw new \pear2\Pyrus\ChannelFile\Exception('Unable to open channel xml file '
                 . $file . ' or file was empty.');
         }
         $this->info = $parser->parse($data);
@@ -81,7 +82,7 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
     {
         // delegate to the internal object
         if (!is_callable(array($this->info, $func))) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('unknown method: ' . @get_class($this->info) . '::' .
+            throw new \pear2\Pyrus\ChannelFile\Exception('unknown method: ' . @get_class($this->info) . '::' .
                                                         $func);
         }
         return call_user_func_array(array($this->info, $func), $args);
@@ -101,8 +102,7 @@ class PEAR2_Pyrus_ChannelFile implements PEAR2_Pyrus_IChannelFile
      */
     protected function _fromURL($xml_url)
     {
-        $http = new PEAR2_HTTP_Request($xml_url);
-        $response = $http->sendRequest();
+        $response = \pear2\Pyrus\Main::download($xml_url);
         return $response->body;
     }
 }

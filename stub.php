@@ -21,12 +21,13 @@ try {
 }
 function pyrus_autoload($class)
 {
-    if (file_exists('phar://' . __FILE__ . '/php/' . implode('/', explode('_', $class)) . '.php')) {
-        include 'phar://' . __FILE__ . '/php/' . implode('/', explode('_', $class)) . '.php';
+    $class = str_replace('_', '\\', $class);
+    if (file_exists('phar://' . __FILE__ . '/php/' . implode('/', explode('\\', $class)) . '.php')) {
+        include 'phar://' . __FILE__ . '/php/' . implode('/', explode('\\', $class)) . '.php';
     }
 }
 spl_autoload_register("pyrus_autoload");
-$frontend = new PEAR2_Pyrus_ScriptFrontend_Commands;
+$frontend = new \pear2\Pyrus\ScriptFrontend\Commands;
 @array_shift($_SERVER['argv']);
 $frontend->run($_SERVER['argv']);
 __HALT_COMPILER();

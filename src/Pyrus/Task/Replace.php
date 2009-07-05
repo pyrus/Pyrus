@@ -23,10 +23,11 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
+namespace pear2\Pyrus\Task;
+class Replace extends \pear2\Pyrus\Task\Common
 {
     const TYPE = 'simple';
-    const PHASE = PEAR2_Pyrus_Task_Common::PACKAGEANDINSTALL;
+    const PHASE = \pear2\Pyrus\Task\Common::PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
@@ -47,18 +48,18 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws PEAR2_Pyrus_Task_Exception_InvalidTask
+     * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(PEAR2_Pyrus_IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
     {
         if (!isset($xml['attribs'])) {
-            throw new PEAR2_Pyrus_Task_Exception_NoAttributes('replace', $file);
+            throw new \pear2\Pyrus\Task\Exception\NoAttributes('replace', $file);
         }
-        $errs = new PEAR2_MultiErrors;
+        $errs = new \PEAR2_MultiErrors;
         foreach (array('type', 'to', 'from') as $attrib) {
             if (!isset($xml['attribs'][$attrib])) {
                 $errs->E_ERROR[] =
-                    new PEAR2_Pyrus_Task_Exception_MissingAttribute('replace',
+                    new \pear2\Pyrus\Task\Exception\MissingAttribute('replace',
                                                                     $attrib, $file);
             }
         }
@@ -66,12 +67,12 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
             if ($count == 1) {
                 throw $errs->E_ERROR[0];
             }
-            throw new PEAR2_Pyrus_Task_Exception('Invalid replace task, multiple missing attributes', $errs);
+            throw new \pear2\Pyrus\Task\Exception('Invalid replace task, multiple missing attributes', $errs);
         }
         if ($xml['attribs']['type'] == 'pear-config') {
-            $config = PEAR2_Pyrus_Config::current();
+            $config = \pear2\Pyrus\Config::current();
             if (!in_array($xml['attribs']['to'], $config->systemvars)) {
-                throw new PEAR2_Pyrus_Task_Exception_WrongAttributeValue('replace',
+                throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
                                                                          'to', $xml['attribs']['to'],
                                                                          $file,
                                                                          $config->systemvars);
@@ -80,7 +81,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
             if (defined($xml['attribs']['to'])) {
                 return true;
             } else {
-                throw new PEAR2_Pyrus_Task_Exception_WrongAttributeValue('replace',
+                throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
                                                                          'to', $xml['attribs']['to'],
                                                                          $file,
                                                                          array('valid PHP constant'));
@@ -93,7 +94,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                     'date', 'time'))) {
                 return true;
             } else {
-                throw new PEAR2_Pyrus_Task_Exception_WrongAttributeValue('replace',
+                throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
                                                                          'to', $xml['attribs']['to'],
                                                                          $file,
                     array('name', 'summary', 'channel', 'notes', 'extends', 'description',
@@ -102,7 +103,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                     'date', 'time'));
             }
         } else {
-            throw new PEAR2_Pyrus_Task_Exception_WrongAttributeValue('replace',
+            throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
                                                                      'type', $xml['attribs']['type'],
                                                                      $file,
                                                                      array('pear-config',
@@ -116,7 +117,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
      * Do a package.xml 1.0 replacement, with additional package-info fields available
      *
      * See validateXml() source for the complete list of allowed fields
-     * @param PEAR2_Pyrus_IPackage
+     * @param \pear2\Pyrus\IPackage
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false
@@ -129,22 +130,22 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
             $a = $a['attribs'];
             $to = '';
             if ($a['type'] == 'pear-config') {
-                if ($this->installphase == PEAR2_Pyrus_Task_Common::PACKAGE) {
+                if ($this->installphase == \pear2\Pyrus\Task\Common::PACKAGE) {
                     return false;
                 }
-                $to = PEAR2_Pyrus_Config::current()->{$a['to']};
+                $to = \pear2\Pyrus\Config::current()->{$a['to']};
                 if (is_null($to)) {
-                    PEAR2_Pyrus_Log::log(0, "$dest: invalid pear-config replacement: $a[to]");
+                    \pear2\Pyrus\Logger::log(0, "$dest: invalid pear-config replacement: $a[to]");
                     return false;
                 }
             } elseif ($a['type'] == 'php-const') {
-                if ($this->installphase == PEAR2_Pyrus_Task_Common::PACKAGE) {
+                if ($this->installphase == \pear2\Pyrus\Task\Common::PACKAGE) {
                     return false;
                 }
                 if (defined($a['to'])) {
                     $to = constant($a['to']);
                 } else {
-                    PEAR2_Pyrus_Log::log(0, "$dest: invalid php-const replacement: $a[to]");
+                    \pear2\Pyrus\Logger::log(0, "$dest: invalid php-const replacement: $a[to]");
                     return false;
                 }
             } else {
@@ -154,7 +155,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                     }
                     $to = $t;
                 } else {
-                    PEAR2_Pyrus_Log::log(0, "$dest: invalid package-info replacement: $a[to]");
+                    \pear2\Pyrus\Logger::log(0, "$dest: invalid package-info replacement: $a[to]");
                     return false;
                 }
             }
@@ -163,7 +164,7 @@ class PEAR2_Pyrus_Task_Replace extends PEAR2_Pyrus_Task_Common
                 $subst_to[] = $to;
             }
         }
-        PEAR2_Pyrus_Log::log(3, "doing " . sizeof($subst_from) .
+        \pear2\Pyrus\Logger::log(3, "doing " . sizeof($subst_from) .
             " substitution(s) for $dest");
         if (sizeof($subst_from)) {
             $contents = str_replace($subst_from, $subst_to, $contents);

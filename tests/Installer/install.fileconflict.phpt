@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Installer: install failure: file conflict between 2 downloaded packages
+\pear2\Pyrus\Installer: install failure: file conflict between 2 downloaded packages
 --FILE--
 <?php
 
@@ -9,14 +9,14 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/upgrade.packagesplitting',
                        'http://pear2.php.net/');
-PEAR2_Pyrus::$downloadClass = 'Internet';
-PEAR2_Pyrus_Installer::begin();
-PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P1-1.0.0'));
-PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P2'));
+\pear2\Pyrus\Main::$downloadClass = 'Internet';
+\pear2\Pyrus\Installer::begin();
+\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P1-1.0.0'));
+\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P2'));
 try {
-    PEAR2_Pyrus_Installer::commit();
+    \pear2\Pyrus\Installer::commit();
     throw new Exception('passed and should have failed');
-} catch (PEAR2_Pyrus_Installer_Exception $e) {
+} catch (\pear2\Pyrus\Installer\Exception $e) {
     $test->assertEquals('File conflicts detected:
  Package pear2.php.net/P1:
   php/glooby2 (conflicts with package pear2.php.net/P2)

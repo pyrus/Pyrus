@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Sqlite3
+ * \pear2\Pyrus\ChannelRegistry\Sqlite3
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Base
+namespace pear2\Pyrus\ChannelRegistry;
+class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
 {
     /**
      * The database resource
@@ -55,7 +56,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
                     $file = dirname($file);
                 }
                 if (!$file || $file == '.') {
-                    throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                    throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
             }
         }
@@ -79,29 +80,29 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         }
 
         $dbpath = $path;
-        if ($path != ':memory:' && isset(PEAR2_Pyrus::$options['packagingroot'])) {
-            $dbpath = PEAR2_Pyrus::prepend(PEAR2_Pyrus::$options['packagingroot'], $path);
+        if ($path != ':memory:' && isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
+            $dbpath = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
         }
 
         if (!$path) {
             $path = ':memory:';
         } elseif ($path != ':memory:' && !file_exists(dirname($dbpath))) {
             if ($readonly) {
-                throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
             }
             @mkdir(dirname($dbpath), 0755, true);
         }
 
         if ($readonly && $path != ':memory:' && !file_exists(dirname($dbpath))) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
-        static::$databases[$path] = new SQLite3($dbpath);
+        static::$databases[$path] = new \SQLite3($dbpath);
         // hopefully this works
         if (static::$databases[$path]->lastErrorCode()) {
             $temp = static::$databases[$path];
             unset(static::$databases[$path]);
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
         }
         $this->initialized = true;
 
@@ -110,7 +111,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             $sql = 'SELECT COUNT(*) FROM channels';
             if (!static::$databases[$path]->querySingle($sql)) {
                 if ($readonly) {
-                    throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                    throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
                 return;
             }
@@ -118,10 +119,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         }
 
         if ($readonly) {
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot create SQLite3 channel registry, registry is read-only');
+            throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
-        $a = new PEAR2_Pyrus_Registry_Sqlite3_Creator;
+        $a = new \pear2\Pyrus\Registry\Sqlite3\Creator;
         $a->create(static::$databases[$path]);
         $this->initDefaultChannels();
     }
@@ -145,10 +146,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         return parent::exists($channel, $strict);
     }
 
-    function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false)
+    function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot add channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
 
         $this->lazyInit();
@@ -156,13 +157,13 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         $sql = 'SELECT channel FROM channels WHERE channel = "' . static::$databases[$this->path]->escapeString($channel->name) . '"';
         if (static::$databases[$this->path]->querySingle($sql)) {
             if (!$update) {
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
+                throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
                     $channel->name . ' has already been discovered');
             }
             static::$databases[$this->path]->exec('BEGIN');
             $this->delete($channel, true);
         } elseif ($update) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: channel ' .
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
                 $channel->name . ' is unknown');
         } else {
             static::$databases[$this->path]->exec('BEGIN');
@@ -174,7 +175,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         } catch (\Exception $e) {
             static::$databases[$this->path]->enableExceptions(false);
             @static::$databases[$this->path]->exec('ROLLBACK');
-            throw new PEAR2_Pyrus_Registry_Exception('Error: channel ' . $channel->name .
+            throw new \pear2\Pyrus\Registry\Exception('Error: channel ' . $channel->name .
                 ' could not be added to the SQLite3 registry', $e);
         }
         static::$databases[$this->path]->enableExceptions(false);
@@ -288,10 +289,10 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         static::$databases[$this->path]->exec('COMMIT');
     }
 
-    function update(PEAR2_Pyrus_IChannel $channel)
+    function update(\pear2\Pyrus\IChannel $channel)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot update channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
         }
 
         return $this->add($channel, true);
@@ -301,11 +302,11 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
     {
         $exists = $this->exists($channel, $strict);
         if (!$exists) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Unknown channel: ' . $channel);
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Unknown channel: ' . $channel);
         }
 
         $chan = $this->getChannelObject($this->channelFromAlias($channel));
-        return new PEAR2_Pyrus_ChannelRegistry_Channel($this, $chan->getArray());
+        return new \pear2\Pyrus\ChannelRegistry\Channel($this, $chan->getArray());
     }
 
     function channelFromAlias($alias)
@@ -323,7 +324,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         if ($chan = static::$databases[$this->path]->querySingle($sql)) {
             return $chan;
         }
-        throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown channel/alias: ' . $alias);
+        throw new \pear2\Pyrus\ChannelFile\Exception('Unknown channel/alias: ' . $alias);
     }
 
     /**
@@ -336,20 +337,20 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             if (in_array($channel, $this->getDefaultChannels())) {
                 return $this->getDefaultChannel($channel);
             }
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Unknown channel ' . $channel);
+            throw new \pear2\Pyrus\ChannelFile\Exception('Unknown channel ' . $channel);
         }
         $sql = 'SELECT * FROM channels WHERE channel = "' .
             static::$databases[$this->path]->escapeString($channel) . '"';
 
         $result = static::$databases[$this->path]->query($sql);
         if (!$result) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Failed to query channels table');
+            throw new \pear2\Pyrus\ChannelFile\Exception('Failed to query channels table');
         }
 
         while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
             break;
         }
-        $ret = new PEAR2_Pyrus_ChannelFile_v1;
+        $ret = new \pear2\Pyrus\ChannelFile\v1;
         $ret->name = $channel;
         $ret->suggestedalias = $res['suggestedalias'];
         if ($res['alias']) {
@@ -364,7 +365,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             static::$databases[$this->path]->escapeString($channel) . '"';
         $result = static::$databases[$this->path]->query($sql);
         if (!$result) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Failed to query mirrors table');
+            throw new \pear2\Pyrus\ChannelFile\Exception('Failed to query mirrors table');
         }
 
         while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -382,7 +383,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             static::$databases[$this->path]->escapeString($channel) . '"';
         $result = static::$databases[$this->path]->query($sql);
         if (!$result) {
-            throw new PEAR2_Pyrus_ChannelFile_Exception('Failed to query rest table');
+            throw new \pear2\Pyrus\ChannelFile\Exception('Failed to query rest table');
         }
 
         while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -395,16 +396,16 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         return $ret;
     }
 
-    function delete(PEAR2_Pyrus_IChannel $channel, $inupdate = false)
+    function delete(\pear2\Pyrus\IChannel $channel, $inupdate = false)
     {
         if ($this->readonly) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel, registry is read-only');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
         }
 
         $name = $channel->name;
         if (in_array($name, $this->getDefaultChannels())) {
             if (!$inupdate) {
-                throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete default channel ' .
+                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete default channel ' .
                     $channel->name);
             }
         }
@@ -412,13 +413,13 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
         $this->lazyInit();
 
         if (!isset(static::$databases[$this->path])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
         $sql = 'SELECT count(*) FROM packages WHERE channel = "' .
             static::$databases[$this->path]->escapeString($channel->name) . '"';
         if (static::$databases[$this->path]->querySingle($sql)) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('Cannot delete channel ' .
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel ' .
                 $channel->name . ', packages are installed');
         }
 
@@ -430,7 +431,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             static::$databases[$this->path]->exec($sql);
         } catch (\Exception $e) {
             static::$databases[$this->path]->enableExceptions(false);
-            throw new PEAR2_Pyrus_Registry_Exception('Error: Deleting channel ' .
+            throw new \pear2\Pyrus\Registry\Exception('Error: Deleting channel ' .
                 $channel->name . ' failed: ' . $e->getMessage(), $e);
         }
         static::$databases[$this->path]->enableExceptions(false);
@@ -442,7 +443,7 @@ class PEAR2_Pyrus_ChannelRegistry_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Ba
             return $this->getDefaultChannels();
         }
         if (!isset(static::$databases[$this->path])) {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception(
+            throw new \pear2\Pyrus\ChannelRegistry\Exception(
                 'Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 

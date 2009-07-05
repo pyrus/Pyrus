@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Installer::prepare(), composite dep conflict 4
+\pear2\Pyrus\Installer::prepare(), composite dep conflict 4
 --FILE--
 <?php
 /**
@@ -21,20 +21,20 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.depconflict4',
                        'http://pear2.php.net/');
-PEAR2_Pyrus::$downloadClass = 'Internet';
-PEAR2_Pyrus_Installer::begin();
-PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P3-1.0.0'));
-PEAR2_Pyrus_Installer::prepare(new PEAR2_Pyrus_Package('pear2/P1-1.0.0'));
+\pear2\Pyrus\Main::$downloadClass = 'Internet';
+\pear2\Pyrus\Installer::begin();
+\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P3-1.0.0'));
+\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P1-1.0.0'));
 try {
-    PEAR2_Pyrus_Installer::preCommitDependencyResolve();
+    \pear2\Pyrus\Installer::preCommitDependencyResolve();
     throw new Exception('should have failed, did not');
-} catch (PEAR2_Pyrus_Installer_Exception $e) {
+} catch (\pear2\Pyrus\Installer\Exception $e) {
     $test->assertEquals('Dependency validation failed for some packages to install, installation aborted', $e->getMessage(),
                         'right error message');
-    $test->assertIsa('PEAR2_Pyrus_Channel_Exception', $e->getCause(), 'cause class');
+    $test->assertIsa('\pear2\Pyrus\Channel\Exception', $e->getCause(), 'cause class');
     $test->assertEquals('Unable to locate a package release for pear2.php.net/P2 that can satisfy all dependencies', $e->getCause()->getMessage(), 'cause message');
 }
-PEAR2_Pyrus_Installer::rollback();
+\pear2\Pyrus\Installer::rollback();
 ?>
 ===DONE===
 --CLEAN--

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Channel_Remotepackages
+ * \pear2\Pyrus\Channel\Remotepackages
  *
  * PHP version 5
  *
@@ -23,26 +23,27 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
+namespace pear2\Pyrus\Channel;
+class Remotepackages implements \ArrayAccess, \Iterator
 {
     protected $parent;
     public $stability = null;
     protected $rest;
     protected $packageList;
 
-    function __construct(PEAR2_Pyrus_IChannel $channelinfo)
+    function __construct(\pear2\Pyrus\IChannel $channelinfo)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
-            throw new PEAR2_Pyrus_Channel_Exception('Cannot access remote packages without REST1.0 protocol');
+            throw new \pear2\Pyrus\Channel\Exception('Cannot access remote packages without REST1.0 protocol');
         }
-        $this->rest = new PEAR2_Pyrus_REST;
+        $this->rest = new \pear2\Pyrus\REST;
     }
 
     function offsetGet($var)
     {
         if ($var !== 'devel' && $var !== 'alpha' && $var !== 'beta' && $var !== 'stable') {
-            throw new PEAR2_Pyrus_Channel_Exception('Invalid stability requested, must be one of ' .
+            throw new \pear2\Pyrus\Channel\Exception('Invalid stability requested, must be one of ' .
                                                     'devel, alpha, beta, stable');
         }
         $a = clone $this;
@@ -52,12 +53,12 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
 
     function offsetSet($var, $value)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new PEAR2_Pyrus_Channel_Exception('remote channel info is read-only');
+        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
     }
 
     function offsetExists($var)
@@ -82,9 +83,9 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
         if (isset($releases)) {
-            $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);
+            $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent, $releases);
         } else {
-            $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent);
+            $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent);
         }
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
@@ -108,7 +109,7 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
             $info['r'] = array($info['r']);
         }
         // filter the package list for packages of this stability or better
-        $ok = PEAR2_Pyrus_Installer::betterStates($this->stability, true);
+        $ok = \pear2\Pyrus\Installer::betterStates($this->stability, true);
         $releases = array();
         foreach ($info['r'] as $release) {
             if (!in_array($release['s'], $ok)) {
@@ -121,7 +122,7 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
         }
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
-        $pxml = new PEAR2_Pyrus_Channel_Remotepackage($this->parent, $releases);
+        $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent, $releases);
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
         $pxml->license = $info['l'];
@@ -150,7 +151,7 @@ class PEAR2_Pyrus_Channel_Remotepackages implements ArrayAccess, Iterator
         }
         if (isset($this->stability)) {
             // filter the package list for packages of this stability or better
-            $ok = PEAR2_Pyrus_Installer::betterStates($this->stability, true);
+            $ok = \pear2\Pyrus\Installer::betterStates($this->stability, true);
             $filtered = array();
             foreach ($this->packageList as $lowerpackage) {
                 if (isset($this->parent->protocols->rest['REST1.3'])) {

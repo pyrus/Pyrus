@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Pear1_Package
+ * \pear2\Pyrus\Registry\Pear1\Package
  *
  * PHP version 5
  *
@@ -23,11 +23,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Pear1_Package extends PEAR2_Pyrus_Registry_Package_Base
+namespace pear2\Pyrus\Registry\Pear1;
+class Package extends \pear2\Pyrus\Registry\Package\Base
 {
-    function fromPackageFile(PEAR2_Pyrus_IPackageFile $package)
+    function fromPackageFile(\pear2\Pyrus\IPackageFile $package)
     {
-        PEAR2_Pyrus_PackageFile_v2::fromPackageFile($package);
+        \pear2\Pyrus\PackageFile\v2::fromPackageFile($package);
         if (isset($this->packageInfo['contents']['dir']['attribs']['baseinstalldir'])) {
             $this->baseinstalldirs = array('/' => $this->packageInfo['contents']['dir']['attribs']['baseinstalldir']);
         }

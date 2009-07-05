@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Sqlite3_Creator
+ * \pear2\Pyrus\Registry\Sqlite3\Creator
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Sqlite3_Creator
+namespace pear2\Pyrus\Registry\Sqlite3;
+class Creator
 {
     /**
      * Initialize the database for the registry
@@ -34,7 +35,7 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
      * - the files in each package
      * - known channels
      */
-    function create(SQLite3 $database)
+    function create(\SQLite3 $database)
     {
         $database->enableExceptions(true);
         try {
@@ -42,12 +43,12 @@ class PEAR2_Pyrus_Registry_Sqlite3_Creator
         } catch (\Exception $e) {
             $database->enableExceptions(false);
             @$database->exec('ROLLBACK');
-            throw new PEAR2_Pyrus_Registry_Exception('Cannot initialize SQLite3 registry: ' . $e->getMessage(), $e);
+            throw new \pear2\Pyrus\Registry\Exception('Cannot initialize SQLite3 registry: ' . $e->getMessage(), $e);
         }
         $database->enableExceptions(false);
     }
 
-    function _create(SQLite3 $database)
+    function _create(\SQLite3 $database)
     {
         $database->exec('BEGIN');
 

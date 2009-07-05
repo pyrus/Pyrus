@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_IChannelRegistry
+ * \pear2\Pyrus\IChannelRegistry
  *
  * PHP version 5
  *
@@ -23,11 +23,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_IChannelRegistry
+namespace pear2\Pyrus;
+interface IChannelRegistry
 {
-    public function add(PEAR2_Pyrus_IChannel $channel, $update = false, $lastmodified = false);
-    public function update(PEAR2_Pyrus_IChannel $channel);
-    public function delete(PEAR2_Pyrus_IChannel $channel);
+    public function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false);
+    public function update(\pear2\Pyrus\IChannel $channel);
+    public function delete(\pear2\Pyrus\IChannel $channel);
     public function get($channel, $strict = true);
     public function exists($channel, $strict = true);
     public function parseName($name);

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_Exception
+ * \pear2\Pyrus\DER\Exception
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_Exception extends PEAR2_Exception
+namespace pear2\Pyrus\DER;
+class Exception extends \PEAR2_Exception
 {
     
 }

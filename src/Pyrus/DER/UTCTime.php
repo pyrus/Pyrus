@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_UTCTime
+ * \pear2\Pyrus\DER\UTCTime
  *
  * PHP version 5
  *
@@ -23,22 +23,23 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_UTCTime extends PEAR2_Pyrus_DER
+namespace pear2\Pyrus\DER;
+class UTCTime extends \pear2\Pyrus\DER
 {
     const TAG = 0x17;
     protected $value;
 
-    function __construct(DateTime $date = null)
+    function __construct(\DateTime $date = null)
     {
         $this->setValue($date);
     }
 
-    function setValue(DateTime $date = null)
+    function setValue(\DateTime $date = null)
     {
         if ($date === null) {
             $date = date_create();
         }
-        $date->setTimezone(new DateTimeZone('UTC'));
+        $date->setTimezone(new \DateTimeZone('UTC'));
         $this->value = $date;
     }
 
@@ -59,13 +60,13 @@ class PEAR2_Pyrus_DER_UTCTime extends PEAR2_Pyrus_DER
         } else {
             $this->value = '19' . $this->value;
         }
-        $this->value = new DateTime($this->value);
+        $this->value = new \DateTime($this->value);
         return $ret;
     }
 
     function valueToString()
     {
-        if ($this->value instanceof DateTime) {
+        if ($this->value instanceof \DateTime) {
             return $this->value->format('ymdHis') . 'Z';
         } else {
             return '<Uninitialized UTCTime>';

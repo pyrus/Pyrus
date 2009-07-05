@@ -4,7 +4,7 @@ Dependency_Validator: OS dependency extra tidbits
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $os = $fake->dependencies['required']->os;
 $os->name = '*';
 $validator = new test_Validator($package, $state, $errs);
@@ -12,7 +12,7 @@ $validator->os = $validator->sysname = 'Linux';
 $test->assertEquals(true, $validator->validateOSDependency($os), '* pass');
 
 $os->name = 'windows';
-$validator = new test_Validator($package, PEAR2_Pyrus_Validate::UNINSTALLING, $errs);
+$validator = new test_Validator($package, \pear2\Pyrus\Validate::UNINSTALLING, $errs);
 $validator->os = $validator->sysname = 'Linux';
 // verify that we pass even with a conflict if we aren't installing or downloading
 $test->assertEquals(true, $validator->validateOSDependency($os), 'UNINSTALLING');

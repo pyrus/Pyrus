@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DirectedGraph
+ * \pear2\Pyrus\DirectedGraph
  *
  * PHP version 5
  *
@@ -26,7 +26,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DirectedGraph implements Iterator
+namespace pear2\Pyrus;
+class DirectedGraph implements \Iterator
 {
     const WHITE = 0;
     const GRAY = 1;
@@ -48,11 +49,11 @@ class PEAR2_Pyrus_DirectedGraph implements Iterator
      * Add a data vertex
      *
      * @param object $data
-     * @return PEAR2_Pyrus_DirectedGraph_Vertex
+     * @return \pear2\Pyrus\DirectedGraph\Vertex
      */
     function add($data)
     {
-        $vertex = new PEAR2_Pyrus_DirectedGraph_Vertex($data);
+        $vertex = new \pear2\Pyrus\DirectedGraph\Vertex($data);
         $this->vertices[spl_object_hash($vertex)] = $vertex;
         $this->map[spl_object_hash($data)] = spl_object_hash($vertex);
         return $vertex;
@@ -62,13 +63,13 @@ class PEAR2_Pyrus_DirectedGraph implements Iterator
      * Connect two vertices in a directed graph
      *
      * This can be used with a fluent interface
-     * @param object|PEAR2_Pyrus_DirectedGraph_Vertex $from
-     * @param object|PEAR2_Pyrus_DirectedGraph_Vertex $to
-     * @return PEAR2_Pyrus_DirectedGraph
+     * @param object|\pear2\Pyrus\DirectedGraph\Vertex $from
+     * @param object|\pear2\Pyrus\DirectedGraph\Vertex $to
+     * @return \pear2\Pyrus\DirectedGraph
      */
     function connect($from, $to)
     {
-        if ($from instanceof PEAR2_Pyrus_DirectedGraph_Vertex) {
+        if ($from instanceof \pear2\Pyrus\DirectedGraph\Vertex) {
             $a = spl_object_hash($from);
         } else {
             if (!isset($this->map[spl_object_hash($from)])) {
@@ -77,7 +78,7 @@ class PEAR2_Pyrus_DirectedGraph implements Iterator
                 $a = $this->vertices[$this->map[spl_object_hash($from)]];
             }
         }
-        if ($to instanceof PEAR2_Pyrus_DirectedGraph_Vertex) {
+        if ($to instanceof \pear2\Pyrus\DirectedGraph\Vertex) {
             $b = spl_object_hash($to);
         } else {
             if (!isset($this->map[spl_object_hash($to)])) {

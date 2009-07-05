@@ -23,7 +23,7 @@ class fake2 extends fake
     function run2(array $answers, $section)
     {
         // for coverage, also test skipParamgroup
-        PEAR2_Pyrus_ScriptRunner::skipParamgroup('third');
+        \pear2\Pyrus\ScriptRunner::skipParamgroup('third');
         return parent::run2($answers, $section);
     }
 }
@@ -42,7 +42,7 @@ $postinstall->paramgroup['third']->param['paramname2']->type('string')->prompt('
 $postinstall->paramgroup['fourth']->param['paramname']->type('string')->prompt('paramname');
 $postinstall->paramgroup['fourth']->param['paramname2']->type('string')->prompt('paramname');
 
-PEAR2_Pyrus_Config::current()->registry->package[] = $package;
+\pear2\Pyrus\Config::current()->registry->package[] = $package;
 
 $frontend = new fakefrontend;
 
@@ -50,7 +50,7 @@ $frontend->addPrompts(array('paramname' => 'first thingy', 'paramname2' => 'seco
 $frontend->addPrompts(array('paramname' => 'first thingy 2', 'paramname2' => 'second thingy 2'));
 $frontend->addPrompts(array('paramname' => 'first thingy 4', 'paramname2' => 'second thingy 4'));
 
-$runner = new PEAR2_Pyrus_ScriptRunner($frontend);
+$runner = new \pear2\Pyrus\ScriptRunner($frontend);
 $runner->run($package);
 
 $test->assertEquals(array (

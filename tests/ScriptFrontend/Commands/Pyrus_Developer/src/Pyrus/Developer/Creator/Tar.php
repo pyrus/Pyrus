@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_Developer_Creator_Tar implements PEAR2_Pyrus_Package_ICreator
+namespace pear2\Pyrus\Developer\Creator;
+class Tar implements \pear2\Pyrus\Package\ICreator
 {
     /**
      * Path to archive file
@@ -19,11 +20,11 @@ class PEAR2_Pyrus_Developer_Creator_Tar implements PEAR2_Pyrus_Package_ICreator
     {
         $this->compress = $compress;
         if ($compress === 'bz2' && !function_exists('bzopen')) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception(
+            throw new \pear2\Pyrus\Developer\Creator\Exception(
                 'bzip2 extension not available');
         }
         if ($compress === 'zlib' && !function_exists('gzopen')) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception(
+            throw new \pear2\Pyrus\Developer\Creator\Exception(
                 'zlib extension not available');
         }
         $this->path = $path;
@@ -66,7 +67,7 @@ class PEAR2_Pyrus_Developer_Creator_Tar implements PEAR2_Pyrus_Package_ICreator
 
         $filePrefix = '';
         if (strlen($path) > 255) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception(
+            throw new \pear2\Pyrus\Developer\Creator\Exception(
                 "$path is too long, must be 255 characters or less"
             );
         } else if (strlen($path) > 100) {
@@ -120,8 +121,8 @@ class PEAR2_Pyrus_Developer_Creator_Tar implements PEAR2_Pyrus_Package_ICreator
 
     function addDir($path)
     {
-        foreach (new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
+        foreach (new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
             $contents = file_get_contents((string)$file);
             $relpath = str_replace($path . DIRECTORY_SEPARATOR, '', $file);
             $this->addFile($relpath, $contents);
@@ -144,7 +145,7 @@ class PEAR2_Pyrus_Developer_Creator_Tar implements PEAR2_Pyrus_Package_ICreator
                 $this->tmp = fopen($this->path, 'wb');
                 break;
             default :
-                throw new PEAR2_Pyrus_Developer_Creator_Exception(
+                throw new \pear2\Pyrus\Developer\Creator\Exception(
                     'unknown compression type ' . $this->compress);
         }
     }

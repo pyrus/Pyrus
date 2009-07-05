@@ -3,12 +3,12 @@ Validate::validatePackageName(), package extends another package
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$pf = new PEAR2_Pyrus_PackageFile_v2;
+$pf = new \pear2\Pyrus\PackageFile\v2;
 $pf->name = 'testing2$';
 $pf->version['release'] = '2.0.0';
-$chan = new PEAR2_Pyrus_ChannelFile_v1;
+$chan = new \pear2\Pyrus\ChannelFile\v1;
 $chan->setValidationPackage('notfoo', '1.2');
-$validate = new PEAR2_Pyrus_Validate;
+$validate = new \pear2\Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 $test->assertEquals(false, $validate->validatePackageName(), 'test 1');

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2Iterator_FileContents
+ * \pear2\Pyrus\PackageFile\v2Iterator\FileContents
  *
  * PHP version 5
  *
@@ -23,17 +23,18 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2Iterator_FileContents extends RecursiveArrayIterator
+namespace pear2\Pyrus\PackageFile\v2Iterator;
+class FileContents extends \RecursiveArrayIterator
 {
     protected $tag;
     protected $dir = '';
     private $_packagefile;
-    function __construct($arr, $tag, PEAR2_Pyrus_PackageFile_v2 $parent, $dir = '')
+    function __construct($arr, $tag, \pear2\Pyrus\PackageFile\v2 $parent, $dir = '')
     {
         $this->tag = $tag;
         $this->dir = $dir;
         $this->_packagefile = $parent;
-        if ($arr instanceof PEAR2_Pyrus_PackageFile_v2Iterator_FileTag) {
+        if ($arr instanceof \pear2\Pyrus\PackageFile\v2Iterator\FileTag) {
             $arr = $arr->getArrayCopy();
         }
         parent::__construct($arr);
@@ -57,17 +58,17 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileContents extends RecursiveArrayIter
         }
         if (isset($arr['attribs'])) unset($arr['attribs']);
         if (isset($arr[0])) {
-            return new PEAR2_Pyrus_PackageFile_v2Iterator_FileContentsMulti($arr, $this->key(),
+            return new \pear2\Pyrus\PackageFile\v2Iterator\FileContentsMulti($arr, $this->key(),
                 $this->_packagefile, $dir . $now);
         }
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileContents($arr, $this->key(),
+        return new \pear2\Pyrus\PackageFile\v2Iterator\FileContents($arr, $this->key(),
             $this->_packagefile, $dir . $now);
     }
 
     function hasChildren()
     {
         $arr = $this->current();
-        if (!($arr instanceof PEAR2_Pyrus_PackageFile_v2Iterator_FileTag) && !is_array($arr)) {
+        if (!($arr instanceof \pear2\Pyrus\PackageFile\v2Iterator\FileTag) && !is_array($arr)) {
             return false;
         }
         if (isset($arr['file']) || isset($arr['dir']) || isset($arr[0])) {
@@ -79,6 +80,6 @@ class PEAR2_Pyrus_PackageFile_v2Iterator_FileContents extends RecursiveArrayIter
     function current()
     {
         $x = parent::current();
-        return new PEAR2_Pyrus_PackageFile_v2Iterator_FileTag($x, $this->dir, $this->_packagefile);
+        return new \pear2\Pyrus\PackageFile\v2Iterator\FileTag($x, $this->dir, $this->_packagefile);
     }
 }

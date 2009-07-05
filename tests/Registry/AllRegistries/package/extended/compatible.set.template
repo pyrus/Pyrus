@@ -1,7 +1,7 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->compatible['test/test']->min('1.2.3')->max('1.4.5');
 $fake->compatible['test/test2']->min('1.2.4')->max('1.4.3');
 

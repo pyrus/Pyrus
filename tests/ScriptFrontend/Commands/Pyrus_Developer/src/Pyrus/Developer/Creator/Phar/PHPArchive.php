@@ -2,7 +2,8 @@
 /**
  * Create a phar with PHP_Archive embedded
  */
-class PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive extends PEAR2_Pyrus_Developer_Creator_Phar
+namespace pear2\Pyrus\Developer\Creator\Phar;
+class PHPArchive extends \pear2\Pyrus\Developer\Creator\Phar
 {
     /**
      * @var Phar
@@ -17,11 +18,11 @@ class PEAR2_Pyrus_Developer_Creator_Phar_PHPArchive extends PEAR2_Pyrus_Develope
         parent::__construct($path, false, $fileformat, $compression, $others);
         $phparchive = @file_get_contents('PHP/Archive.php', true);
         if (!$phparchive) {
-            throw new PEAR2_Pyrus_Developer_Creator_Exception('Could not locate' .
+            throw new \pear2\Pyrus\Developer\Creator\Exception('Could not locate' .
                 ' PHP_Archive class for phar creation');
         }
         $phparchive = '?>' . $phparchive . '<?php';
-        $template = @file_get_contents(dirname(__FILE__) . '/../../../../../../data/pear2.php.net/PEAR2_Pyrus_Developer/phartemplate.php');
+        $template = @file_get_contents(dirname(__FILE__) . '/../../../../../../data/pear2.php.net/\pear2\Pyrus\Developer/phartemplate.php');
         if (!$template) {
             $template = file_get_contents(__DIR__ . '/../../../../../data/phartemplate.php');
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package
+ * \pear2\Pyrus\Package
  *
  * PHP version 5
  *
@@ -30,12 +30,13 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
+namespace pear2\Pyrus;
+class Package implements \pear2\Pyrus\IPackage
 {
     /**
      * The actual package representation
      *
-     * @var PEAR2_Pyrus_Package_Xml|PEAR2_Pyrus_Package_Tar|PEAR2_Pyrus_Package_Phar
+     * @var \pear2\Pyrus\Package\Xml|\pear2\Pyrus\Package\Tar|\pear2\Pyrus\Package\Phar
      */
     protected $internal;
     protected $from;
@@ -50,7 +51,7 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
             return;
         }
         if ($forceremote) {
-            $this->internal = new PEAR2_Pyrus_Package_Remote($packagedescription);
+            $this->internal = new \pear2\Pyrus\Package\Remote($packagedescription);
         } else {
             $class = $this->parsePackageDescription($packagedescription);
             $this->internal = new $class($packagedescription, $this);
@@ -143,7 +144,7 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
         return $this->internal;
     }
 
-    function setInternalPackage(PEAR2_Pyrus_IPackage $internal)
+    function setInternalPackage(\pear2\Pyrus\IPackage $internal)
     {
         $this->internal = $internal;
     }
@@ -180,14 +181,14 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
 
     function isRemote()
     {
-        return $this->internal instanceof PEAR2_Pyrus_Package_Remote ||
-                    $this->internal instanceof PEAR2_Pyrus_Channel_Remotepackage || (
-                    $this->internal instanceof PEAR2_Pyrus_Package && $this->internal->isRemote());
+        return $this->internal instanceof \pear2\Pyrus\Package\Remote ||
+                    $this->internal instanceof \pear2\Pyrus\Channel\Remotepackage || (
+                    $this->internal instanceof \pear2\Pyrus\Package && $this->internal->isRemote());
     }
 
     function download()
     {
-        if ($this->internal instanceof PEAR2_Pyrus_Package_Remote) {
+        if ($this->internal instanceof \pear2\Pyrus\Package\Remote) {
             $this->internal = $this->internal->download();
         }
     }
@@ -200,7 +201,7 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
     static function parsePackageDescription($package)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
-            return 'PEAR2_Pyrus_Package_Remote';
+            return 'pear2\Pyrus\Package\Remote';
         }
         try {
             if (@file_exists($package) && @is_file($package)) {
@@ -212,26 +213,26 @@ class PEAR2_Pyrus_Package implements PEAR2_Pyrus_IPackage
                         $first5 = fread($f, 5);
                         fclose($f);
                         if ($first5 == '<?xml') {
-                            return 'PEAR2_Pyrus_Package_Xml';
+                            return 'pear2\Pyrus\Package\Xml';
                         }
-                        return 'PEAR2_Pyrus_Package_Phar';
+                        return 'pear2\Pyrus\Package\Phar';
                     }
                 } else {
                     if (extension_loaded('phar') && strtolower($info['extension']) != 'xml') {
-                        return 'PEAR2_Pyrus_Package_Phar';
+                        return 'pear2\Pyrus\Package\Phar';
                     }
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
-                            return 'PEAR2_Pyrus_Package_Xml';
+                            return 'pear2\Pyrus\Package\Xml';
                         default:
-                            throw new PEAR2_Pyrus_Package_Exception('Cannot read archives with phar extension');
+                            throw new \pear2\Pyrus\Package\Exception('Cannot read archives with phar extension');
                     }
                 }
             }
-            $info = PEAR2_Pyrus_Config::parsePackageName($package);
-            return 'PEAR2_Pyrus_Package_Remote';
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Package_Exception('package "' . $package . '" is unknown', $e);
+            $info = \pear2\Pyrus\Config::parsePackageName($package);
+            return 'pear2\Pyrus\Package\Remote';
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Package\Exception('package "' . $package . '" is unknown', $e);
         }
     }
 }

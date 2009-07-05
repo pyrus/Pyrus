@@ -4,9 +4,9 @@ Dependency_Validator: validate downloaded subpackage, simple case, required depe
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$reg = PEAR2_Pyrus_Config::current()->registry;
+$reg = \pear2\Pyrus\Config::current()->registry;
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->name = 'test';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';

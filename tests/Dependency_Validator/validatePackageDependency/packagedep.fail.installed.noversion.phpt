@@ -4,7 +4,7 @@ Dependency_Validator: package dependency, no version, installed failure
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->package['pear2.php.net/foo'];
 
 $test->assertEquals(false, $validator->validatePackageDependency($foo, array()), 'foo');
@@ -13,7 +13,7 @@ $test->assertEquals(1, count($errs), 'foo count 2');
 $test->assertEquals('channel://pear2.php.net/test requires package "channel://pear2.php.net/foo"', $errs->E_ERROR[0]->getMessage(), 'foo error');
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $foo = $fake->dependencies['optional']->package['pear2.php.net/foo'];

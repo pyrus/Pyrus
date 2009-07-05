@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::listPackages(), cascading include_path
+\pear2\Pyrus\ScriptFrontend\Commands::listPackages(), cascading include_path
 --FILE--
 <?php
 require __DIR__ . '/setup.minimal.php.inc';
@@ -12,11 +12,11 @@ mkdir(__DIR__ . '/testit/php');
 chdir(__DIR__ . '/testit');
 
 set_include_path(__DIR__ . '/testit/php' . PATH_SEPARATOR . __DIR__ . '/listPackages.pear1');
-PEAR2_Pyrus_Config::singleton(false, __DIR__ . '/testit/plugins/pearconfig.xml');
+\pear2\Pyrus\Config::singleton(false, __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
+$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array ('list-packages'));
 
 $contents = ob_get_contents();

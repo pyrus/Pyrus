@@ -27,7 +27,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Installer_Role_Common
+namespace pear2\Pyrus\Installer\Role;
+class Common
 {
     /**
      * @var PEAR_Config
@@ -40,9 +41,9 @@ class PEAR2_Pyrus_Installer_Role_Common
     protected $info;
 
     /**
-     * @param PEAR2_Pyrus_Config
+     * @param \pear2\Pyrus\Config
      */
-    function __construct(PEAR2_Pyrus_Config $config, $info)
+    function __construct(\pear2\Pyrus\Config $config, $info)
     {
         $this->config = $config;
         $this->info = $info;
@@ -56,17 +57,17 @@ class PEAR2_Pyrus_Installer_Role_Common
      */
     static function getInfo($role)
     {
-        return PEAR2_Pyrus_Installer_Role::getInfo($role);
+        return \pear2\Pyrus\Installer\Role::getInfo($role);
     }
 
     /**
      * Retrieve the location a packaged file should be placed in a package
      *
-     * @param PEAR2_Pyrus_Package $pkg
+     * @param \pear2\Pyrus\Package $pkg
      * @param array $atts
      * @return string
      */
-    function getPackagingLocation(PEAR2_Pyrus_IPackageFile $pkg, $atts)
+    function getPackagingLocation(\pear2\Pyrus\IPackageFile $pkg, $atts)
     {
         if (!$pkg->isNewPackage()) {
             return $atts['name'];
@@ -130,7 +131,7 @@ class PEAR2_Pyrus_Installer_Role_Common
         return $dest_dir . $file;
     }
 
-    function getRelativeLocation(PEAR2_Pyrus_IPackageFile $pkg, PEAR2_Pyrus_PackageFile_v2Iterator_FileTag $file,
+    function getRelativeLocation(\pear2\Pyrus\IPackageFile $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if (!$this->info['locationconfig']) {
@@ -164,7 +165,7 @@ class PEAR2_Pyrus_Installer_Role_Common
                 // strip role from file path
                 // so php/Path/To/File.php becomes Path/To/File.php,
                 // data/package.xsd becomes package.xsd
-                $r = strtolower(str_replace('PEAR2_Pyrus_Installer_Role_', '',
+                $r = strtolower(str_replace('pear2\Pyrus\Installer\Role\\', '',
                       get_class($this)));
                 if ($r === 'php') {
                     if (strpos($newpath, 'src') === 0) {
@@ -242,13 +243,13 @@ class PEAR2_Pyrus_Installer_Role_Common
     {
     }
 
-    final function packageTimeValidate(PEAR2_Pyrus_Package $package, array $fileXml)
+    final function packageTimeValidate(\pear2\Pyrus\Package $package, array $fileXml)
     {
         if (!isset($this->info['validationmethod'])) {
             return true;
         }
         if (!method_exists($this, $this->info['validationmethod'])) {
-            PEAR2_Pyrus_Log::log(0, 'WARNING: custom role ' . $this->info['name'] .
+            \pear2\Pyrus\Logger::log(0, 'WARNING: custom role ' . $this->info['name'] .
                                  ' specifies non-existing validation method ' .
                                  $this->info['validationmethod']);
             return true;

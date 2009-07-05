@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Task_Replace::startSession()
+\pear2\Pyrus\Task\Replace::startSession()
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -15,7 +15,7 @@ $taskxml = array('attribs' =>
 
 file_put_contents(__DIR__ . '/testit/foo.php', "@DIR@\n@data_dir@\n@version@");
 
-$iterator = new PEAR2_Pyrus_Package_Creator_TaskIterator($taskxml, $package, PEAR2_Pyrus_Task_Common::INSTALL, null);
+$iterator = new \pear2\Pyrus\Package\Creator\TaskIterator($taskxml, $package, \pear2\Pyrus\Task\Common::INSTALL, null);
 
 $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;
@@ -26,13 +26,13 @@ foreach ($iterator as $task) {
 }
 $test->assertEquals(1, $runcount, 'Iterator did not run replace install');
 $contents = stream_get_contents($fp);
-$result = DIRECTORY_SEPARATOR . "\n" . PEAR2_Pyrus_Config::current()->data_dir . "\n" .$package->version['release'];
+$result = DIRECTORY_SEPARATOR . "\n" . \pear2\Pyrus\Config::current()->data_dir . "\n" .$package->version['release'];
 $test->assertEquals($result, $contents, 'contents differ install');
 fclose($fp);
 
 file_put_contents(__DIR__ . '/testit/foo.php', "@DIR@\n@data_dir@\n@version@");
 
-$iterator = new PEAR2_Pyrus_Package_Creator_TaskIterator($taskxml, $package, PEAR2_Pyrus_Task_Common::PACKAGE, null);
+$iterator = new \pear2\Pyrus\Package\Creator\TaskIterator($taskxml, $package, \pear2\Pyrus\Task\Common::PACKAGE, null);
 
 $fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
 $runcount = 0;

@@ -1,7 +1,7 @@
 <?php
 define('MYDIR', __DIR__);
 require __DIR__ . '/setup.php.inc';
-$pf = new PEAR2_Pyrus_PackageFile_v2;
+$pf = new \pear2\Pyrus\PackageFile\v2;
 
 mkdir(__DIR__ . '/testit/php');
 file_put_contents(__DIR__ . '/testit/php/foobar', '<?php
@@ -20,9 +20,9 @@ $pf->files['foobar'] = array(
 $pf->files['glooby'] = array('role' => 'php');
 $pf->setPackagefile(__DIR__ . '/testit/package.xml');
 
-$package = new PEAR2_Pyrus_Package(false);
-$xmlcontainer = new PEAR2_Pyrus_PackageFile($pf);
-$xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$package = new \pear2\Pyrus\Package(false);
+$xmlcontainer = new \pear2\Pyrus\PackageFile($pf);
+$xml = new \pear2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 class fake
@@ -59,4 +59,4 @@ $postinstall->paramgroup['third']->param['paramname2']->type('string')->prompt('
 $postinstall->paramgroup['fourth']->param['paramname']->type('string')->prompt('3 paramname');
 $postinstall->paramgroup['fourth']->param['paramname2']->type('string')->prompt('3 paramname2');
 
-PEAR2_Pyrus_Config::current()->registry->package[] = $package;
+\pear2\Pyrus\Config::current()->registry->package[] = $package;

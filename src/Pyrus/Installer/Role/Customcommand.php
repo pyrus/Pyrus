@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Installer_Role_Customcommand
+ * \pear2\Pyrus\Installer\Role\Customcommand
  *
  * PHP version 5
  *
@@ -23,20 +23,21 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Installer_Role_Customcommand extends PEAR2_Pyrus_Installer_Role_Data
+namespace pear2\Pyrus\Installer\Role;
+class Customcommand extends \pear2\Pyrus\Installer\Role\Data
 {
-    function validate(PEAR2_Pyrus_IPackage $package, array $file)
+    function validate(\pear2\Pyrus\IPackage $package, array $file)
     {
-        $parser = new PEAR2_Pyrus_XMLParser;
-        $schemapath = PEAR2_Pyrus::getDataPath();
-        if (!file_exists(PEAR2_Pyrus::getDataPath() . '/customcommand-2.0.xsd')) {
+        $parser = new \pear2\Pyrus\XMLParser;
+        $schemapath = \pear2\Pyrus\Main::getDataPath();
+        if (!file_exists(\pear2\Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd')) {
             $schemapath = realpath(__DIR__ . '/../../../../data');
         }
         $taskschema = $schemapath . '/customcommand-2.0.xsd';
         try {
             $taskinfo = $parser->parse($package->getFilePath($file['attribs']['name']), $taskschema);
         } catch (\Exception $e) {
-            throw new PEAR2_Pyrus_Installer_Role_Exception('Invalid custom command definition file,' .
+            throw new \pear2\Pyrus\Installer\Role\Exception('Invalid custom command definition file,' .
                                                            ' file does not conform to the schema', $e);
         }
     }

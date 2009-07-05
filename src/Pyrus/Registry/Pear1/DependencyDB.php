@@ -25,7 +25,8 @@
  * @version   SVN: $Id$
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Pear1_DependencyDB
+namespace pear2\Pyrus\Registry\Pear1;
+class DependencyDB
 {
     /**
      * Filename of the dependency DB (usually .depdb)
@@ -81,7 +82,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
      * Get a list of installed packages that depend on this package
      * @return array
      */
-    function getDependentPackages(PEAR2_Pyrus_IPackageFile $pkg)
+    function getDependentPackages(\pear2\Pyrus\IPackageFile $pkg)
     {
         $data = $this->_getDepDB();
 
@@ -96,7 +97,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
      * a package.
      * @return array
      */
-    function getDependentPackageDependencies(PEAR2_Pyrus_IPackageFile $pkg)
+    function getDependentPackageDependencies(\pear2\Pyrus\IPackageFile $pkg)
     {
         $data = $this->_getDepDB();
         $channel = $pkg->channel;
@@ -134,7 +135,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
      * Get a list of dependencies of this installed package
      * @return array
      */
-    function getDependencies(PEAR2_Pyrus_IPackageFile $pkg)
+    function getDependencies(\pear2\Pyrus\IPackageFile $pkg)
     {
         $channel = $pkg->channel;
         $package = strtolower($pkg->name);
@@ -150,7 +151,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
     /**
      * Determine whether $parent depends on $child, near or deep
      */
-    function dependsOn(PEAR2_Pyrus_IPackageFile $parent, PEAR2_Pyrus_IPackageFile $child)
+    function dependsOn(\pear2\Pyrus\IPackageFile $parent, \pear2\Pyrus\IPackageFile $child)
     {
         $c = array();
         return $this->_dependsOn($parent, $child, $c);
@@ -210,7 +211,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
     /**
      * Register dependencies of a package that is being installed or upgraded
      */
-    function installPackage(PEAR2_Pyrus_IPackageFile $package)
+    function installPackage(\pear2\Pyrus\IPackageFile $package)
     {
         $data = $this->_getDepDB();
         $this->_setPackageDeps($data, $package);
@@ -284,9 +285,9 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
             // allow startup for read-only with older Registry
             return $depdb;
         }
-        $reg = PEAR2_Pyrus_Config::current()->registry;
+        $reg = \pear2\Pyrus\Config::current()->registry;
 
-        foreach (PEAR2_Pyrus_Config::current()->channelregistry as $channel) {
+        foreach (\pear2\Pyrus\Config::current()->channelregistry as $channel) {
             foreach ($reg->listPackages($channel->name) as $package) {
                 $this->_setPackageDeps($depdb, $package);
             }
@@ -316,7 +317,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
             if (!file_exists($this->_lockfile)) {
                 touch($this->_lockfile);
             } elseif (!is_file($this->_lockfile)) {
-                throw new PEAR2_Pyrus_Registry_Exception('could not create Dependency lock file, ' .
+                throw new \pear2\Pyrus\Registry\Exception('could not create Dependency lock file, ' .
                     'it exists and is not a regular file');
             }
             $open_mode = 'r';
@@ -327,7 +328,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
         }
 
         if (!is_resource($this->_lockFp)) {
-            throw new PEAR2_Pyrus_Registry_Exception("could not create Dependency lock file" .
+            throw new \pear2\Pyrus\Registry\Exception("could not create Dependency lock file" .
                                      (isset($php_errormsg) ? ": " . $php_errormsg : ""));
         }
 
@@ -339,7 +340,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
                 default:      $str = 'unknown';   break;
             }
 
-            throw new PEAR2_Pyrus_Registry_Exception("could not acquire $str lock ($this->_lockfile)");
+            throw new \pear2\Pyrus\Registry\Exception("could not acquire $str lock ($this->_lockfile)");
         }
     }
 
@@ -371,7 +372,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
         }
 
         if (!$fp = fopen($this->_depdb, 'r')) {
-            throw new PEAR2_Pyrus_Registry_Exception("Could not open dependencies file `" .
+            throw new \pear2\Pyrus\Registry\Exception("Could not open dependencies file `" .
                                                      $this->_depdb . "'");
         }
 
@@ -402,7 +403,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
 
         if (!$fp = fopen($this->_depdb, 'wb')) {
             $this->_unlock();
-            throw new PEAR2_Pyrus_Registry_Exception("Could not open dependencies file `" .
+            throw new \pear2\Pyrus\Registry\Exception("Could not open dependencies file `" .
                                                      $this->_depdb . "' for writing");
         }
 
@@ -425,7 +426,7 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
      * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
      * @access private
      */
-    function _setPackageDeps(&$data, PEAR2_Pyrus_IPackageFile $pkg)
+    function _setPackageDeps(&$data, \pear2\Pyrus\IPackageFile $pkg)
     {
         $deps = $pkg->rawdeps;
 
@@ -529,12 +530,12 @@ class PEAR2_Pyrus_Registry_Pear1_DependencyDB
 
     /**
      * @param array the database
-     * @param PEAR2_Pyrus_IPackageFile
+     * @param \pear2\Pyrus\IPackageFile
      * @param array the specific dependency
      * @param required|optional whether this is a required or an optional dep
      * @param string|false dependency group this dependency is from, or false for ordinary dep
      */
-    function _registerDep(&$data, PEAR2_Pyrus_IPackageFile $pkg, $dep, $type, $group = false)
+    function _registerDep(&$data, \pear2\Pyrus\IPackageFile $pkg, $dep, $type, $group = false)
     {
         $info = array(
             'dep'   => $dep,

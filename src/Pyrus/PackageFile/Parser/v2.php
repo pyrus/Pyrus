@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
+namespace pear2\Pyrus\PackageFile\Parser;
+class v2 extends \pear2\Pyrus\XMLParser
 {
     private $_inContents = false;
     private $_path = '';
@@ -81,9 +82,9 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
      * @param string|false name of the archive this package.xml came from, if any
      * @param string class name to instantiate and return.  This must be PEAR_PackageFile_v2 or
      *               a subclass
-     * @return PEAR2_Pyrus_PackageFile_v2
+     * @return \pear2\Pyrus\PackageFile\v2
      */
-    function parse($data, $file = false, $class = 'PEAR2_Pyrus_PackageFile_v2', $state = PEAR2_Pyrus_Validate::NORMAL)
+    function parse($data, $file = false, $class = 'pear2\Pyrus\PackageFile\v2', $state = \pear2\Pyrus\Validate::NORMAL)
     {
         $this->_inContents = false;
         $this->_path = '';
@@ -91,30 +92,30 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
         $this->_lastDepth = $this->_lastFileDepth = 0;
         $this->_inFile = 0;
         $ret = new $class;
-        if (!$ret instanceof PEAR2_Pyrus_PackageFile_v2) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Class ' . $class .
-                ' passed to parse() must be a child class of PEAR2_Pyrus_PackageFile_v2');
+        if (!$ret instanceof \pear2\Pyrus\PackageFile\v2) {
+            throw new \pear2\Pyrus\PackageFile\Exception('Class ' . $class .
+                ' passed to parse() must be a child class of \pear2\Pyrus\PackageFile\v2');
         }
 
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
-            $schema = PEAR2_Pyrus::getDataPath() . '/package-2.1.xsd';
+            $schema = \pear2\Pyrus\Main::getDataPath() . '/package-2.1.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
             }
         } elseif (preg_match('/<package[^>]+version="2.0"/', $data)) {
-            $schema = PEAR2_Pyrus::getDataPath() . '/package-2.0.xsd';
+            $schema = \pear2\Pyrus\Main::getDataPath() . '/package-2.0.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
             }
         } else {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Cannot process package.xml version 1.0', -3);
+            throw new \pear2\Pyrus\PackageFile\Exception('Cannot process package.xml version 1.0', -3);
         }
         try {
             $ret->fromArray(parent::parseString($data, $schema));
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_PackageFile_Exception('Invalid package.xml', $e);
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\PackageFile\Exception('Invalid package.xml', $e);
         }
         $ret->setFileList($this->_files);
         $ret->setBaseInstallDirs($this->_baseinstalldirs);
@@ -124,7 +125,7 @@ class PEAR2_Pyrus_PackageFile_Parser_v2 extends PEAR2_Pyrus_XMLParser
 
     /**
      * Merge a tag into the array
-     * @see PEAR2_Pyrus_XMLParser::mergeTag()
+     * @see \pear2\Pyrus\XMLParser::mergeTag()
      *
      * @param array  $arr     The array representation of the XML
      * @param string $tag     The tag name

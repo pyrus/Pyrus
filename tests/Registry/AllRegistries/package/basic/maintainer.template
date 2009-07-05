@@ -3,7 +3,7 @@
 
 $greg = $reg->maintainer['cellog'];
 
-$test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Developer', $greg, 'check class');
+$test->assertIsa('\pear2\Pyrus\PackageFile\v2\Developer', $greg, 'check class');
 $test->assertEquals('cellog', $greg->user, 'user');
 $test->assertEquals('Gregory Beaver', $greg->name, 'name');
 $test->assertEquals('cellog@php.net', $greg->email, 'email');
@@ -23,7 +23,7 @@ $test->assertEquals(false, isset($reg->maintainer['saltybeagle']), 'isset 5');
 $reg->maintainer['cellog'] = $greg;
 
 $greg2 = $reg->maintainer['cellog'];
-$test->assertIsa('PEAR2_Pyrus_PackageFile_v2_Developer', $greg2, 'check class 2');
+$test->assertIsa('\pear2\Pyrus\PackageFile\v2\Developer', $greg2, 'check class 2');
 $test->assertEquals('cellog', $greg2->user, 'user 2');
 $test->assertEquals('Gregory Beaver', $greg2->name, 'name 2');
 $test->assertEquals('cellog@php.net', $greg2->email, 'email 2');
@@ -42,7 +42,7 @@ $test->assertEquals('cellog@php.net', $greg3->email, 'email 3');
 $test->assertEquals('yes', $greg3->active, 'active 3');
 $test->assertEquals('developer', $greg3->role, 'role 3');
 
-$reg->maintainer['foo'] = new PEAR2_Pyrus_PackageFile_v2_Developer(null, array('name' => 'Foo Bar', 'email' => 'foo@example.com', 'active' => 'yes'), 'lead');
+$reg->maintainer['foo'] = new \pear2\Pyrus\PackageFile\v2\Developer(null, array('name' => 'Foo Bar', 'email' => 'foo@example.com', 'active' => 'yes'), 'lead');
 
 $foo = $reg->maintainer['foo'];
 $test->assertEquals('foo', $foo->user, 'user 4');
@@ -51,7 +51,7 @@ $test->assertEquals('foo@example.com', $foo->email, 'email 4');
 $test->assertEquals('yes', $foo->active, 'active 4');
 $test->assertEquals('lead', $foo->role, 'role 4');
 
-$reg->maintainer['doink'] = new PEAR2_Pyrus_PackageFile_v2_Developer(null, array('name' => 'Foo Doink', 'email' => 'foo1@example.com', 'active' => 'no'), 'developer');;
+$reg->maintainer['doink'] = new \pear2\Pyrus\PackageFile\v2\Developer(null, array('name' => 'Foo Doink', 'email' => 'foo1@example.com', 'active' => 'no'), 'developer');;
 
 $doink = $reg->maintainer['doink'];
 $test->assertEquals('doink', $doink->user, 'user 5');
@@ -63,6 +63,6 @@ $test->assertEquals('developer', $doink->role, 'role 5');
 try {
     $reg->maintainer['oops'] = array('blah' => 'blah');
     throw new Exception('oops 1');
-} catch (PEAR2_Pyrus_PackageFile_v2_Developer_Exception $e) {
-    $test->assertEquals('Can only set a developer to a PEAR2_Pyrus_PackageFile_v2_Developer object', $e->getMessage(), 'oops 1');
+} catch (\pear2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+    $test->assertEquals('Can only set a developer to a \pear2\Pyrus\PackageFile\v2\Developer object', $e->getMessage(), 'oops 1');
 }

@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::setCascading Registries() basic test
+\pear2\Pyrus\Config::setCascading Registries() basic test
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_Developer_PackageFile_Commands
+namespace pear2\Pyrus\Developer\PackageFile;
+class Commands
 {
     function makePackageXml($args, $options)
     {
@@ -12,7 +13,7 @@ class PEAR2_Pyrus_Developer_PackageFile_Commands
             $dir = getcwd();
         }
         echo "Creating package.xml...";
-        new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN($dir, $args['packagename']);
+        new \pear2\Pyrus\Developer\PackageFile\PEAR2SVN($dir, $args['packagename']);
         echo "done\n";
     }
 
@@ -27,7 +28,7 @@ class PEAR2_Pyrus_Developer_PackageFile_Commands
             $dir = getcwd();
         }
         echo "Creating package.xml...";
-        new PEAR2_Pyrus_Developer_PackageFile_PEAR2SVN($dir, $args['packagename']);
+        new \pear2\Pyrus\Developer\PackageFile\PEAR2SVN($dir, $args['packagename']);
         echo "done\n";
     }
 }

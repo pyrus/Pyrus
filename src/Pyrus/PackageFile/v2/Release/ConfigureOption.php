@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess, Iterator, Countable
+namespace pear2\Pyrus\PackageFile\v2\Release;
+class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
 {
     protected $parent;
     protected $info;
@@ -19,7 +20,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
                 $info[$key] = null;
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption($this, $info, key($this->info));
+        return new \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption($this, $info, key($this->info));
     }
 
     function count()
@@ -62,7 +63,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function offsetGet($var)
     {
         if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use -> operator to access properties of a configureoption');
         }
         $i = $this->locateConfigureOption($var);
@@ -77,21 +78,21 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
                 }
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption($this, $info, $i);
+        return new \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption($this, $info, $i);
     }
 
     function offsetSet($var, $value)
     {
         if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use -> operator to access properties of a configureoption');
         }
-        if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
-                'Can only set configureoption to a PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption object');
+        if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption)) {
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
+                'Can only set configureoption to a \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption object');
         }
         if ($var !== null && $var !== $value->name) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use [] or [\'' . $value->name . '\'] to set this configureoption');
         }
         $i = $this->locateConfigureOption($var);
@@ -107,7 +108,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function offsetExists($var)
     {
         if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use -> operator to access properties of a configureoption');
         }
         $i = $this->locateConfigureOption($var);
@@ -117,7 +118,7 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function offsetUnset($var)
     {
         if ($this->index !== null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use -> operator to access properties of a configureoption');
         }
         $i = $this->locateConfigureOption($var);
@@ -132,11 +133,11 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function __unset($var)
     {
         if ($this->index === null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'Unknown variable ' . $var . ', must be one of ' .
                 implode(', ', array_keys($this->info))
             );
@@ -148,11 +149,11 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function __isset($var)
     {
         if ($this->index === null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'Unknown variable ' . $var . ', must be one of ' .
                 implode(', ', array_keys($this->info))
             );
@@ -168,11 +169,11 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function __call($var, $args)
     {
         if ($this->index === null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown variable ' . $var . ', must be one of ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
         if ($args[0] === null) {
@@ -188,11 +189,11 @@ class PEAR2_Pyrus_PackageFile_v2_Release_ConfigureOption implements ArrayAccess,
     function __get($var)
     {
         if ($this->index === null) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
                 'use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Release_Exception('Unknown variable ' . $var . ', must be one of ' .
+            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
         if (!isset($this->info[$var])) {

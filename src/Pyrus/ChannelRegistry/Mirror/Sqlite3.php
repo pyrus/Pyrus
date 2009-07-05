@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite3
+ * \pear2\Pyrus\ChannelRegistry\Mirror\Sqlite3
  *
  * PHP version 5
  *
@@ -23,15 +23,17 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_ChannelRegistry_Mirror_Sqlite3 extends PEAR2_Pyrus_ChannelRegistry_Channel_Sqlite3 implements PEAR2_Pyrus_Channel_IMirror
+namespace pear2\Pyrus\ChannelRegistry\Mirror;
+class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Channel\Sqlite3
+    implements \pear2\Pyrus\Channel\IMirror
 {
     private $_channel;
     private $_parent;
 
-    function __construct(SQLite3 $db, $mirror, PEAR2_Pyrus_IChannel $parent)
+    function __construct(SQLite3 $db, $mirror, \pear2\Pyrus\IChannel $parent)
     {
         if ($parent->name == '__uri') {
-            throw new PEAR2_Pyrus_ChannelRegistry_Exception('__uri channel cannot have mirrors');
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('__uri channel cannot have mirrors');
         }
 
         $this->_channel = $parent->name;

@@ -1,13 +1,13 @@
 --TEST--
-PEAR2_Pyrus_AtomicFileTransaction::createOrOpenPath(), return open file pointer
+\pear2\Pyrus\AtomicFileTransaction::createOrOpenPath(), return open file pointer
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
-PEAR2_Pyrus_AtomicFileTransaction::begin();
+\pear2\Pyrus\AtomicFileTransaction::begin();
 
 $fp = $atomic->createOrOpenPath('foo', false, 0646);
 fwrite($fp, 'hi');

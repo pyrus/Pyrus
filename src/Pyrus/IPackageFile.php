@@ -2,7 +2,8 @@
 /**
  * Basic requirement for implementing a packagefile
  */
-interface PEAR2_Pyrus_IPackageFile
+namespace pear2\Pyrus;
+interface IPackageFile
 {
     function __get($var);
     function __set($var, $value);

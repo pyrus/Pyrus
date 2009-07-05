@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_ICreator
+ * \pear2\Pyrus\Package\ICreator
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-interface PEAR2_Pyrus_Package_ICreator
+namespace pear2\Pyrus\Package;
+interface ICreator
 {
     /**
      * save a file inside this package

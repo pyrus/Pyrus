@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_OctetString
+ * \pear2\Pyrus\DER\OctetString
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_GeneralizedTime extends PEAR2_Pyrus_DER_UTCTime
+namespace pear2\Pyrus\DER;
+class GeneralizedTime extends \pear2\Pyrus\DER\UTCTime
 {
     const TAG = 0x18;
 
@@ -37,7 +38,7 @@ class PEAR2_Pyrus_DER_GeneralizedTime extends PEAR2_Pyrus_DER_UTCTime
 
     function valueToString()
     {
-        if ($this->value instanceof DateTime) {
+        if ($this->value instanceof \DateTime) {
             return $this->value->format('YmdHis') . 'Z';
         } else {
             return '<Uninitialized GeneralizedTime>';
@@ -46,8 +47,8 @@ class PEAR2_Pyrus_DER_GeneralizedTime extends PEAR2_Pyrus_DER_UTCTime
 
     function parse($data, $location)
     {
-        $ret = PEAR2_Pyrus_DER::parse($data, $location);
-        $this->value = new DateTime($this->value);
+        $ret = \pear2\Pyrus\DER::parse($data, $location);
+        $this->value = new \DateTime($this->value);
         return $ret;
     }
 }

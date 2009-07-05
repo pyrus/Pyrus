@@ -23,11 +23,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Validator_PECL extends PEAR2_Pyrus_Validate
+namespace pear2\Pyrus\Validator;
+class PECL extends \pear2\Pyrus\Validate
 {
     function validateVersion()
     {
-        if ($this->_state == PEAR2_Pyrus_Validate::PACKAGING) {
+        if ($this->_state == \pear2\Pyrus\Validate::PACKAGING) {
             $version = $this->_packagexml->version['release'];
             $versioncomponents = explode('.', $version);
             $last = array_pop($versioncomponents);

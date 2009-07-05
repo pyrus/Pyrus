@@ -5,7 +5,7 @@
 $reg->dependencies = null;
 
 // for regular arch deps
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $package = $fake->dependencies['required']->subpackage;
 $package['channel/Package1']->save();
 $package['channel/Package2']->min('1.0.0');

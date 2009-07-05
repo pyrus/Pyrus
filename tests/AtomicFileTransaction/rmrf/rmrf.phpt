@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_AtomicFileTransaction::rmrf()
+\pear2\Pyrus\AtomicFileTransaction::rmrf()
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -17,12 +17,12 @@ $test->assertFileExists(__DIR__ . '/testit/sub/deep/deep/thing', __DIR__ . '/tes
 $test->assertFileExists(__DIR__ . '/testit/anothernew/dir', __DIR__ . '/testit/another/dir');
 $test->assertFileExists(__DIR__ . '/testit/anothernew/dir/file', __DIR__ . '/testit/another/dir/file');
 
-$atomic = PEAR2_Pyrus_AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 try {
     $atomic->rmrf(__DIR__ . '/testit', true);
     throw new Exception('did not fail and should');
-} catch (PEAR2_Pyrus_AtomicFileTransaction_Exception $e) {
+} catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Unable to fully remove ' . __DIR__ . '/testit, directory is not empty',
                         $e->getMessage(), 'removal message');
 }

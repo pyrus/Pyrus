@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_ScriptFrontend_Commands::download()
+\pear2\Pyrus\ScriptFrontend\Commands::download()
 --FILE--
 <?php
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
@@ -8,7 +8,7 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 require __DIR__ . '/setup.php.inc';
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = PEAR2_Pyrus_Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
@@ -17,12 +17,12 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-PEAR2_Pyrus::$downloadClass = 'Internet';
+\pear2\Pyrus\Main::$downloadClass = 'Internet';
 
 mkdir(__DIR__ . '/testit/oksavehere');
 chdir(__DIR__ . '/testit/oksavehere');
 ob_start();
-$cli = new PEAR2_Pyrus_ScriptFrontend_Commands(true);
+$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'download', __DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P1-1.1.0RC1.tar',
                                 'P2-beta', 'P1', 'unknown', 'P3-1.1.0RC2'));

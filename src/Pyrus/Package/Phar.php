@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_Phar
+ * \pear2\Pyrus\Package\Phar
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
+namespace pear2\Pyrus\Package;
+class Phar extends \pear2\Pyrus\Package\Base
 {
     static private $_tempfiles = array();
     private $_tmpdir;
@@ -32,30 +33,30 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
     /**
      * @param string $package path to package file
      */
-    function __construct($package, PEAR2_Pyrus_Package $parent)
+    function __construct($package, \pear2\Pyrus\Package $parent)
     {
         $package = realpath($package);
         if (!$package) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception(
+            throw new \pear2\Pyrus\Package\Phar\Exception(
                 'Phar package ' . $package . ' does not exist');
         }
 
         if (!class_exists('Phar')) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception(
+            throw new \pear2\Pyrus\Package\Phar\Exception(
                 'Phar extension is not available');
         }
 
         $this->archive = $package;
         try {
-            if (Phar::isValidPharFilename($package, 1)) {
-                $phar = new Phar($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+            if (\Phar::isValidPharFilename($package, 1)) {
+                $phar = new \Phar($package, \RecursiveDirectoryIterator::KEY_AS_FILENAME);
                 $pxml = 'phar://' . $package . '/' . $phar->getMetaData();
             } else {
-                $phar = new PharData($package, RecursiveDirectoryIterator::KEY_AS_FILENAME);
+                $phar = new \PharData($package, \RecursiveDirectoryIterator::KEY_AS_FILENAME);
                 $pxml = false;
             }
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception('Could not open Phar archive ' .
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Package\Phar\Exception('Could not open Phar archive ' .
                 $package, $e);
         }
 
@@ -63,13 +64,13 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
         try {
             if ($pxml === false) {
                 if (isset($phar['.xmlregistry'])) {
-                    if ($phar instanceof PharData) {
-                        $iterate = new PharData('phar://' . $package . '/.xmlregistry');
+                    if ($phar instanceof \PharData) {
+                        $iterate = new \PharData('phar://' . $package . '/.xmlregistry');
                     } else {
-                        $iterate = new Phar('phar://' . $package . '/.xmlregistry');
+                        $iterate = new \Phar('phar://' . $package . '/.xmlregistry');
                     }
-                    foreach (new RecursiveIteratorIterator($iterate,
-                                RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+                    foreach (new \RecursiveIteratorIterator($iterate,
+                                \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
                         $filename = $file->getFileName();
                         // default to new package.xml
                         if (preg_match('@^(.+)\-package.xml$@', $filename)) {
@@ -88,15 +89,15 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
             }
             
             if ($pxml === false) {
-                throw new PEAR2_Pyrus_Package_Phar_Exception('No package.xml in archive');
+                throw new \pear2\Pyrus\Package\Phar\Exception('No package.xml in archive');
             }
-        } catch (Exception $e) {
-            throw new PEAR2_Pyrus_Package_Phar_Exception('Could not extract Phar archive ' .
+        } catch (\Exception $e) {
+            throw new \pear2\Pyrus\Package\Phar\Exception('Could not extract Phar archive ' .
                 $package, $e);
         }
 
-        parent::__construct(new PEAR2_Pyrus_PackageFile($pxml,
-                                                       'PEAR2_Pyrus_PackageFile_v2'),
+        parent::__construct(new \pear2\Pyrus\PackageFile($pxml,
+                                                       'pear2\Pyrus\PackageFile\v2'),
                             $parent);
     }
 
@@ -119,7 +120,7 @@ class PEAR2_Pyrus_Package_Phar extends PEAR2_Pyrus_Package_Base
     function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
-            throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
+            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in package.xml');
         }
         
         $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' . $file;

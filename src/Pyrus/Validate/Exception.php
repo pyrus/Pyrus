@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Validate_Exception
+ * \pear2\Pyrus\Validate\Exception
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Validate_Exception extends PEAR2_Exception
+namespace pear2\Pyrus\Validate;
+class Exception extends \PEAR2_Exception
 {
     /**
      * package.xml field that failed channel-specific validation

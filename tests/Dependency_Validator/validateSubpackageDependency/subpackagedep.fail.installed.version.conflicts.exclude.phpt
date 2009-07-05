@@ -4,7 +4,7 @@ Dependency_Validator: subpackage dependency, conflicts, installed exclude fail
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';
@@ -12,7 +12,7 @@ $fake->files['foo'] = array('role' => 'php');
 $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
-PEAR2_Pyrus_Config::current()->registry->install($fake);
+\pear2\Pyrus\Config::current()->registry->install($fake);
 
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo']->exclude('1.2.0')->exclude('1.2.1')->conflicts(true);
 

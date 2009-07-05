@@ -1,10 +1,10 @@
 --TEST--
-PEAR2_Pyrus_ChannelRegistry_Base::parseName()
+\pear2\Pyrus\ChannelRegistry\Base::parseName()
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$creg = new PEAR2_Pyrus_ChannelRegistry(__DIR__ . '/testit');
+$creg = new \pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit');
 
 $test->assertEquals(array(
     'package' => 'foo',

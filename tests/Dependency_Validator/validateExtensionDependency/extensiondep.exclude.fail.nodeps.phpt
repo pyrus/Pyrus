@@ -4,8 +4,8 @@ Dependency_Validator: Extension dependency, exclude failure --nodeps
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-PEAR2_Pyrus::$options['nodeps'] = true;
-$fake = new PEAR2_Pyrus_PackageFile_v2;
+\pear2\Pyrus\Main::$options['nodeps'] = true;
+$fake = new \pear2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->exclude('2.0.0');
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '2.0.0';
@@ -21,7 +21,7 @@ foreach ($errs->E_WARNING as $error) {
 $foo->conflicts(true);
 
 // reset multierrors
-$errs = new PEAR2_MultiErrors;
+$errs = new \PEAR2_MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '2.0.1';

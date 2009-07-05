@@ -1,5 +1,6 @@
 <?php
-class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
+namespace pear2\Pyrus\PackageFile\v2\Dependencies;
+class Group implements \Iterator
 {
     protected $parent;
     protected $info = array();
@@ -29,7 +30,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
     function current()
     {
         $i = key($this->info);
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Group($this, $this->info[$i], $i);
+        return new \pear2\Pyrus\PackageFile\v2\Dependencies\Group($this, $this->info[$i], $i);
     }
 
     function rewind()
@@ -80,7 +81,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                         $this->info[$var] = array();
                         break;
                     default :
-                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                                         'Only package, subpackage, and ' .
                                         'extension dependencies are supported in dependency groups, asked for ' .
                                         $var);
@@ -96,14 +97,14 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                         break;
                 }
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Package('group', $var, $this, $this->info[$var]);
+            return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package('group', $var, $this, $this->info[$var]);
         }
         $i = $this->locateGroup($group);
         if (false === $i) {
             $i = count($this->info);
             $this->info[] = array('attribs' => array('hint' => null, 'name' => $group));
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Dependencies_Group($this, $this->info[$i], $i);
+        return new \pear2\Pyrus\PackageFile\v2\Dependencies\Group($this, $this->info[$i], $i);
     }
 
     function __set($group, $value)
@@ -125,7 +126,7 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                     return $this;
                 }
                 if (!is_string($value)) {
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('hint must be a string, was ' . gettype($value));
+                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('hint must be a string, was ' . gettype($value));
                 }
                 if (!isset($this->info['attribs'])) {
                     $this->info['attribs'] = array();
@@ -144,16 +145,16 @@ class PEAR2_Pyrus_PackageFile_v2_Dependencies_Group implements Iterator
                         $this->save();
                         return $this;
                     }
-                    if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Dependencies_Package)) {
-                        throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
-                            'Can only set ' . $group . ' to PEAR2_Pyrus_PackageFile_v2_Dependencies_Package object'
+                    if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Package)) {
+                        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+                            'Can only set ' . $group . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object'
                         );
                     }
                     $this->info[$group] = $value->getInfo();
                     $this->save();
                     break;
                 default :
-                    throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception(
+                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                                     'Only package, subpackage, and ' .
                                     'extension dependencies are supported in dependency groups, asked for ' .
                                     $group);

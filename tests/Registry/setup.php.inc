@@ -1,3 +1,3 @@
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-$registryclass = 'PEAR2_Pyrus_Registry';
+$registryclass = 'pear2\Pyrus\Registry';

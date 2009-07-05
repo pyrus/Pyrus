@@ -1,5 +1,5 @@
 --TEST--
-PEAR2_Pyrus_Config::__get() and friends
+\pear2\Pyrus\Config::__get() and friends
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -13,8 +13,8 @@ $a->addConfigValue('foo2', 'booya2', false);
 $test->assertEquals('pear2.php.net', $a->default_channel, 'get user config var');
 $test->assertEquals('booya', $a->foo, 'get custom system config var');
 $test->assertEquals('booya2', $a->foo2, 'get custom user config var');
-$test->assertEquals('PEAR2_Pyrus_Registry', get_class($a->registry), 'registry');
-$test->assertEquals('PEAR2_Pyrus_ChannelRegistry', get_class($a->channelregistry), 'channelregistry');
+$test->assertEquals('pear2\Pyrus\Registry', get_class($a->registry), 'registry');
+$test->assertEquals('pear2\Pyrus\ChannelRegistry', get_class($a->channelregistry), 'channelregistry');
 $test->assertEquals(array_merge($a->mainsystemvars, array('foo')), $a->systemvars, 'systemvars');
 $test->assertEquals(array_merge($a->mainuservars, array('foo2'), $a->mainchannelvars), $a->uservars, 'uservars');
 $test->assertEquals($testpath, $a->location, 'location');

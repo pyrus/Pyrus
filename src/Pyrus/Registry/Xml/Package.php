@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Registry_Xml_Package
+ * \pear2\Pyrus\Registry\Xml\Package
  *
  * PHP version 5
  *
@@ -23,6 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Registry_Xml_Package extends PEAR2_Pyrus_Registry_Package_Base
+namespace pear2\Pyrus\Registry\Xml;
+class Package extends \pear2\Pyrus\Registry\Package\Base
 {
 }

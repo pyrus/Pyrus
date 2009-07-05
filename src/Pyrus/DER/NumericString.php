@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_DER_IA5String
+ * \pear2\Pyrus\DER\IA5String
  *
  * PHP version 5
  *
@@ -23,14 +23,15 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_DER_NumericString extends PEAR2_Pyrus_DER_String
+namespace pear2\Pyrus\DER;
+class NumericString extends \pear2\Pyrus\DER\String
 {
     const TAG = 0x12;
 
     function setValue($string)
     {
         if (!preg_match('/^[0-9 ]\\z/', $string)) {
-            throw new PEAR2_Pyrus_DER_Exception('Invalid Numeric String value, can only contain digits and space');
+            throw new \pear2\Pyrus\DER\Exception('Invalid Numeric String value, can only contain digits and space');
         }
         $this->value = $string;
     }

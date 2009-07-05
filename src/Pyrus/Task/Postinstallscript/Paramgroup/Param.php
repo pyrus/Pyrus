@@ -31,7 +31,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess, Iterator, Countable
+namespace pear2\Pyrus\Task\Postinstallscript\Paramgroup;
+class Param implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
     protected $index = null;
@@ -104,7 +105,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function offsetGet($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access param properties');
+            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access param properties');
         }
         $i = $this->locateParam($var);
         if (false === $i) {
@@ -126,18 +127,18 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function offsetSet($var, $value)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Dependencies_Exception('Use -> operator to access param properties');
+            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access param properties');
         }
         if (!($value instanceof self)) {
-            throw new PEAR2_Pyrus_Task_Exception('Can only set $param[\'' .
+            throw new \pear2\Pyrus\Task\Exception('Can only set $param[\'' .
                 $var .
-                '\'] to PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param object');
+                '\'] to \pear2\Pyrus\Task\Postinstallscript\Paramgroup\Param object');
         }
         if ($var === null) {
             $var = $value->id;
         }
         if ($value->id != $var) {
-            throw new PEAR2_Pyrus_Task_Exception('Cannot set ' .
+            throw new \pear2\Pyrus\Task\Exception('Cannot set ' .
                 $var . ' to ' .
                 $value->id .
                 ', use $param[] to set a new value');
@@ -152,7 +153,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function offsetExists($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access param properties');
+            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access param properties');
         }
         $i = $this->locateParam($var);
         return $i !== false;
@@ -161,7 +162,7 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function offsetUnset($var)
     {
         if (isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use -> operator to access param properties');
+            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access param properties');
         }
         $i = $this->locateParam($var);
         if ($i === false) {
@@ -181,13 +182,13 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
             return $this->parent;
         }
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
+            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access params');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new PEAR2_Pyrus_Task_Exception(
+            throw new \pear2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -197,13 +198,13 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function __isset($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access paramgroups');
+            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new PEAR2_Pyrus_Task_Exception(
+            throw new \pear2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -213,13 +214,13 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function __unset($var)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
+            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access params');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new PEAR2_Pyrus_Task_Exception(
+            throw new \pear2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -235,13 +236,13 @@ class PEAR2_Pyrus_Task_Postinstallscript_Paramgroup_Param implements ArrayAccess
     function __call($var, $args)
     {
         if (!isset($this->index)) {
-            throw new PEAR2_Pyrus_Task_Exception('Use [] operator to access params');
+            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access params');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new PEAR2_Pyrus_Task_Exception(
+            throw new \pear2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }

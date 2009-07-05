@@ -10,16 +10,17 @@ instantiate a simple script that creates a package and installs it:
 
 <?php
 // use full path if include_path is not set up
+use pear2\Pyrus
 include 'PEAR2/Autoload.php';
-$config = PEAR2_Pyrus_Config::singleton('/where/to/install');
+$config = Pyrus\Config::singleton('/where/to/install');
 // this can be a url to a remote package, a local .tgz, .zip or package.xml
-$p = new PEAR2_Pyrus_Package('thingtoinstall');
+$p = new Pyrus\Package('thingtoinstall');
 try {
-    PEAR2_Pyrus_Installer::begin();
-    PEAR2_Pyrus_Installer::prepare($p);
-    PEAR2_Pyrus_Installer::commit();
+    Pyrus\Installer::begin();
+    Pyrus\Installer::prepare($p);
+    Pyrus\Installer::commit();
 } catch (Exception $e) {
-    PEAR2_Pyrus_Installer::rollback();
+    Pyrus\Installer::rollback();
     echo $e;
 }
 ?>

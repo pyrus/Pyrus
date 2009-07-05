@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_Package_Zip
+ * \pear2\Pyrus\Package\Zip
  *
  * PHP version 5
  *
@@ -23,7 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
+namespace pear2\Pyrus\Package;
+class Zip extends \pear2\Pyrus\Package\Base
 {
     static private $_tempfiles = array();
     private $_tmpdir;
@@ -31,29 +32,29 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
     /**
      * @param string $package path to package file
      */
-    function __construct($package, PEAR2_Pyrus_Package $parent)
+    function __construct($package, \pear2\Pyrus\Package $parent)
     {
         if (!class_exists('ZIPArchive')) {
-            throw new PEAR2_Pyrus_Package_Zip_Exception(
+            throw new \pear2\Pyrus\Package\Zip\Exception(
                 'Zip extension is not available');
         }
 
         $this->archive = $package;
         $zip = new ZIPArchive;
         if (true !== ($zip->open($package))) {
-            throw new PEAR2_Pyrus_Package_Zip_Exception('Could not open ZIP archive ' .
+            throw new \pear2\Pyrus\Package\Zip\Exception('Could not open ZIP archive ' .
                 $package);
         }
 
         if (false !== ($pxml = $zip->getNameIndex(0))) {
             if (!preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
                       $pxml)) {
-                throw new PEAR2_Pyrus_Package_Zip_Exception('First file in ZIP archive ' .
+                throw new \pear2\Pyrus\Package\Zip\Exception('First file in ZIP archive ' .
                     'is not package.xml, cannot process');
             }
         }
 
-        $where = (string) PEAR2_Pyrus_Config::current()->temp_dir;
+        $where = (string) \pear2\Pyrus\Config::current()->temp_dir;
         $where = str_replace('\\', '/', $where);
         $where = str_replace('//', '/', $where);
         $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
@@ -68,13 +69,13 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
 
         $this->_tmpdir = $where;
         $zip->extractTo($where);
-        parent::__construct(new PEAR2_Pyrus_PackageFile($where . DIRECTORY_SEPARATOR . $pxml),
+        parent::__construct(new \pear2\Pyrus\PackageFile($where . DIRECTORY_SEPARATOR . $pxml),
             $parent);
     }
 
     function __destruct()
     {
-        usort(self::$_tempfiles, array('PEAR2_Pyrus_Package_Base', 'sortstuff'));
+        usort(self::$_tempfiles, array('pear2\Pyrus\Package\Base', 'sortstuff'));
         foreach (self::$_tempfiles as $fileOrDir) {
             if (!file_exists($fileOrDir)) {
                 continue;
@@ -104,7 +105,7 @@ class PEAR2_Pyrus_Package_Zip extends PEAR2_Pyrus_Package_Base
     function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
-            throw new PEAR2_Pyrus_Package_Exception('file ' . $file . ' is not in package.xml');
+            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in package.xml');
         }
 
         $extract = $this->_tmpdir . DIRECTORY_SEPARATOR . $file;

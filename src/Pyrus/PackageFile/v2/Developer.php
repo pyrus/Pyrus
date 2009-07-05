@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_Developer
+ * \pear2\Pyrus\PackageFile\v2\Developer
  *
  * PHP version 5
  *
@@ -37,7 +37,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
+namespace pear2\Pyrus\PackageFile\v2;
+class Developer implements \ArrayAccess, \Iterator
 {
     protected $parent;
     protected $role;
@@ -61,7 +62,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
                 $info[$key] = null;
             }
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Developer($this, $info, current($this->_curRole),
+        return new \pear2\Pyrus\PackageFile\v2\Developer($this, $info, current($this->_curRole),
                                                         key($this->info[current($this->_curRole)]));
     }
 
@@ -128,7 +129,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
     function __get($var)
     {
         if (!isset($this->info['user']) || !is_string($this->info['user'])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Cannot access developer info for unknown developer');
         }
         if ($var === 'role') {
@@ -139,7 +140,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
                 $keys = $this->info;
                 unset($keys['user']);
                 $keys = array_keys($keys);
-                throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+                throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                     'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys));
             }
             return null;
@@ -150,7 +151,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
     function __call($var, $args)
     {
         if (!isset($this->info['user']) || !is_string($this->info['user'])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Cannot set developer info for unknown developer');
         }
         if ($var == 'role') {
@@ -160,15 +161,15 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
             return $this;
         }
         if (!array_key_exists($var, $this->info) || $var == 'user') {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Cannot set unknown value ' . $var);
         }
         if (count($args) != 1) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Can only set ' . $var . ' to 1 value');
         }
         if (!is_string($args[0])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Invalid value for ' . $var . ', must be a string');
         }
         $this->info[$var] = $args[0];
@@ -179,11 +180,11 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
     function offsetGet($var)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Use -> to access properties of a developer');
         }
         if (!is_string($var)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception('Developer handle cannot be numeric');
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception('Developer handle cannot be numeric');
         }
         $developer = $var;
         if ($role = $this->locateMaintainerRole($developer)) {
@@ -193,24 +194,24 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
                     $info[$key] = null;
                 }
             }
-            return new PEAR2_Pyrus_PackageFile_v2_Developer($this, $info, $role[0], $role[1]);
+            return new \pear2\Pyrus\PackageFile\v2\Developer($this, $info, $role[0], $role[1]);
         }
-        return new PEAR2_Pyrus_PackageFile_v2_Developer($this,
+        return new \pear2\Pyrus\PackageFile\v2\Developer($this,
             array('name' => null, 'user' => $var, 'email' => null, 'active' => 'yes'), null, null);
     }
 
     function offsetSet($var, $value)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Use -> to access properties of a developer');
         }
         if (!is_string($var)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception('Developer handle cannot be numeric');
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception('Developer handle cannot be numeric');
         }
-        if (!($value instanceof PEAR2_Pyrus_PackageFile_v2_Developer)) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
-                'Can only set a developer to a PEAR2_Pyrus_PackageFile_v2_Developer object'
+        if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Developer)) {
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+                'Can only set a developer to a \pear2\Pyrus\PackageFile\v2\Developer object'
             );
         }
         if (false !== ($i = $this->locateMaintainerRole($var))) {
@@ -230,7 +231,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
     function offsetUnset($var)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Use -> to retrieve properties of a developer');
         }
         // remove developer
@@ -251,7 +252,7 @@ class PEAR2_Pyrus_PackageFile_v2_Developer implements ArrayAccess, Iterator
     function offsetExists($var)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new PEAR2_Pyrus_PackageFile_v2_Developer_Exception(
+            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
                 'Use -> to retrieve properties of a developer');
         }
         return (bool) $this->locateMaintainerRole($var);

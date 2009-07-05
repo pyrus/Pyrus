@@ -1,7 +1,7 @@
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-$parser = new PEAR2_Pyrus_PackageFile_Parser_v2;
-class Mockv2 extends PEAR2_Pyrus_PackageFile_v2
+$parser = new \pear2\Pyrus\PackageFile\Parser\v2;
+class Mockv2 extends \pear2\Pyrus\PackageFile\v2
 {
     public $arr;
     public $filelist;

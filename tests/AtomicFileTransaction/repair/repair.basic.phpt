@@ -1,16 +1,16 @@
 --TEST--
-PEAR2_Pyrus_AtomicFileTransaction::repair()
+\pear2\Pyrus\AtomicFileTransaction::repair()
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.php.inc';
-PEAR2_Pyrus_Config::current()->ext_dir = __DIR__ . '/testit/ext';
+\pear2\Pyrus\Config::current()->ext_dir = __DIR__ . '/testit/ext';
 mkdir(__DIR__ . '/testit/.old-ext');
 mkdir(__DIR__ . '/testit/src');
 mkdir(__DIR__ . '/testit/.old-src');
 touch(__DIR__ . '/testit/.old-src/foo');
 
-PEAR2_Pyrus_AtomicFileTransaction::repair();
+\pear2\Pyrus\AtomicFileTransaction::repair();
 
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo');
 $test->assertFileExists(__DIR__ . '/testit/ext', __DIR__ . '/testit/ext');

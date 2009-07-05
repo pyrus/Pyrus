@@ -4,7 +4,7 @@ package.xml v2.0 validator: validating, fail because of custom task not known
 <?php
 require __DIR__ . '/setup.php.inc';
 @mkdir(__DIR__ . '/testit');
-$pf = new PEAR2_Pyrus_PackageFile_v2;
+$pf = new \pear2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing';
 $pf->channel = 'pear2.php.net';
@@ -20,15 +20,15 @@ $pf->files['foobar'] = array(
 $pf->usestask['foo']->package('Foo')->channel('pear2.php.net');
 $pf->setPackagefile(__DIR__ . '/testit/package.xml');
 
-$package = new PEAR2_Pyrus_Package(false);
-$xmlcontainer = new PEAR2_Pyrus_PackageFile($pf);
-$xml = new PEAR2_Pyrus_Package_Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$package = new \pear2\Pyrus\Package(false);
+$xmlcontainer = new \pear2\Pyrus\PackageFile($pf);
+$xml = new \pear2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 try {
     $pf->getValidator()->validate($package);
     throw new Exception('passed and should have failed');
-} catch (PEAR2_Pyrus_PackageFile_Exception $e) {
+} catch (\pear2\Pyrus\PackageFile\Exception $e) {
     $test->assertEquals('Invalid package.xml', $e->getMessage(), 'basic message');
     $causes = array();
     $e->getCauseMessage($causes);

@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR2_Pyrus_PackageFile_v2_License_Exception
+ * \pear2\Pyrus\PackageFile\v2\License\Exception
  *
  * PHP version 5
  *
@@ -23,4 +23,5 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
-class PEAR2_Pyrus_PackageFile_v2_License_Exception extends PEAR2_Exception {}
+namespace pear2\Pyrus\PackageFile\v2\License;
+class Exception extends \PEAR2_Exception {}
