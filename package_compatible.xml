@@ -15,7 +15,7 @@ instantiate a simple script that creates a package and installs it:
 
 &lt;?php
 // use full path if include_path is not set up
-use pear2\Pyrus;
+use pear2\Pyrus
 include 'PEAR2/Autoload.php';
 $config = Pyrus\Config::singleton('/where/to/install');
 // this can be a url to a remote package, a local .tgz, .zip or package.xml
@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-03</date>
- <time>16:10:13</time>
+ <date>2009-07-05</date>
+ <time>16:50:15</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -70,7 +70,7 @@ Initial pyrus public API
 </notes>
  <contents>
   <dir name="/">
-   <dir name="data">
+   <dir name="data" baseinstalldir="/">
     <dir name="default_channels">
      <file role="data" name="doc.php.net.xml"/>
      <file role="data" name="pear.php.net.xml"/>
@@ -538,7 +538,7 @@ Initial pyrus public API
      <file role="php" name="XMLWriter.php"/>
     </dir>
    </dir>
-   <dir name="tests">
+   <dir name="tests" baseinstalldir="/">
     <dir name="AtomicFileTransaction">
      <dir name="begin">
       <file role="test" name="begin.copy.phpt"/>
@@ -653,11 +653,15 @@ Initial pyrus public API
        <file role="test" name="default.phpt"/>
       </dir>
       <dir name="parseName">
+       <file role="test" name="errors.phpt"/>
        <file role="test" name="parsename.phpt"/>
       </dir>
       <dir name="update">
        <file role="test" name="update.phpt"/>
        <file role="test" name="update.readonly.phpt"/>
+      </dir>
+      <dir name="__construct">
+       <file role="test" name="errors.phpt"/>
       </dir>
      </dir>
      <dir name="Pear1">
@@ -984,6 +988,10 @@ Initial pyrus public API
     <dir name="DirectedGraph">
      <file role="test" name="basic.phpt"/>
      <file role="test" name="cycles.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="DownloadProgressListener">
+     <file role="test" name="progress.phpt"/>
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Installer">
@@ -1939,10 +1947,10 @@ Initial pyrus public API
       <dir name="examples">
        <file role="test" name="update_channel.php"/>
       </dir>
-      <dir name="scripts">
+      <dir name="scripts" baseinstalldir="/">
        <file role="test" name="pearscs"/>
       </dir>
-      <dir name="src">
+      <dir name="src" baseinstalldir="pear2">
        <dir name="SimpleChannelServer">
         <dir name="Categories">
          <file role="test" name="Exception.php"/>
@@ -2447,13 +2455,13 @@ Initial pyrus public API
        <file role="test" name="Net_URL-1.0.15.tar"/>
       </dir>
       <dir name="Pyrus_Developer">
-       <dir name="customcommand">
+       <dir name="customcommand" baseinstalldir="/">
         <file role="test" name="commands.xml"/>
        </dir>
-       <dir name="data">
+       <dir name="data" baseinstalldir="/">
         <file role="test" name="phartemplate.php"/>
        </dir>
-       <dir name="src">
+       <dir name="src" baseinstalldir="pear2">
         <dir name="Pyrus">
          <dir name="Developer">
           <dir name="CoverageAnalyzer">
@@ -2610,16 +2618,16 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
@@ -3117,9 +3125,11 @@ Initial pyrus public API
    <install name="tests/ChannelRegistry/AllRegistries/info/mirrors.template" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/mirrors.template"/>
    <install name="tests/ChannelRegistry/AllRegistries/info/rest.template" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/rest.template"/>
    <install name="tests/ChannelRegistry/AllRegistries/listChannels/default.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/listChannels/ChannelRegistry/AllRegistries/listChannels/default.phpt"/>
+   <install name="tests/ChannelRegistry/AllRegistries/parseName/errors.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/errors.phpt"/>
    <install name="tests/ChannelRegistry/AllRegistries/parseName/parsename.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename.phpt"/>
    <install name="tests/ChannelRegistry/AllRegistries/update/update.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt"/>
    <install name="tests/ChannelRegistry/AllRegistries/update/update.readonly.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt"/>
+   <install name="tests/ChannelRegistry/AllRegistries/__construct/errors.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt"/>
    <install name="tests/ChannelRegistry/Pear1/add/add.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.phpt"/>
    <install name="tests/ChannelRegistry/Pear1/add/add.readonly.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.readonly.phpt"/>
    <install name="tests/ChannelRegistry/Pear1/delete/delete.installed.phpt" as="pear2.php.net/PEAR2_Pyrus/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.installed.phpt"/>
@@ -3365,6 +3375,8 @@ Initial pyrus public API
    <install name="tests/DirectedGraph/basic.phpt" as="pear2.php.net/PEAR2_Pyrus/DirectedGraph/DirectedGraph/basic.phpt"/>
    <install name="tests/DirectedGraph/cycles.phpt" as="pear2.php.net/PEAR2_Pyrus/DirectedGraph/DirectedGraph/cycles.phpt"/>
    <install name="tests/DirectedGraph/setup.php.inc" as="pear2.php.net/PEAR2_Pyrus/DirectedGraph/DirectedGraph/setup.php.inc"/>
+   <install name="tests/DownloadProgressListener/progress.phpt" as="pear2.php.net/PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/progress.phpt"/>
+   <install name="tests/DownloadProgressListener/setup.php.inc" as="pear2.php.net/PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/setup.php.inc"/>
    <install name="tests/ignorexdebug.php" as="pear2.php.net/PEAR2_Pyrus/ignorexdebug.php"/>
    <install name="tests/Installer/install.fileconflict.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.fileconflict.phpt"/>
    <install name="tests/Installer/install.fileconflict2.phpt" as="pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.fileconflict2.phpt"/>
@@ -4476,16 +4488,16 @@ Initial pyrus public API
    <install name="tests/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
-   <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
+   <install name="tests/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="tests/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
-   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
+   <install name="tests/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
    <install name="tests/Validate/validateversion.failure.extends.stable.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.extends.stable.phpt"/>
    <install name="tests/Validate/validateversion.failure.invalidversion.phpt" as="pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.invalidversion.phpt"/>

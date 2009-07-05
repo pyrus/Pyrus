@@ -15,7 +15,7 @@ instantiate a simple script that creates a package and installs it:
 
 &lt;?php
 // use full path if include_path is not set up
-use pear2\Pyrus;
+use pear2\Pyrus
 include 'PEAR2/Autoload.php';
 $config = Pyrus\Config::singleton('/where/to/install');
 // this can be a url to a remote package, a local .tgz, .zip or package.xml
@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-03</date>
- <time>16:10:11</time>
+ <date>2009-07-05</date>
+ <time>16:50:12</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -653,11 +653,15 @@ Initial pyrus public API
        <file role="test" name="default.phpt"/>
       </dir>
       <dir name="parseName">
+       <file role="test" name="errors.phpt"/>
        <file role="test" name="parsename.phpt"/>
       </dir>
       <dir name="update">
        <file role="test" name="update.phpt"/>
        <file role="test" name="update.readonly.phpt"/>
+      </dir>
+      <dir name="__construct">
+       <file role="test" name="errors.phpt"/>
       </dir>
      </dir>
      <dir name="Pear1">
@@ -984,6 +988,10 @@ Initial pyrus public API
     <dir name="DirectedGraph">
      <file role="test" name="basic.phpt"/>
      <file role="test" name="cycles.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="DownloadProgressListener">
+     <file role="test" name="progress.phpt"/>
      <file role="test" name="setup.php.inc"/>
     </dir>
     <dir name="Installer">
@@ -1942,7 +1950,7 @@ Initial pyrus public API
       <dir name="scripts" baseinstalldir="/">
        <file role="test" name="pearscs"/>
       </dir>
-      <dir name="src">
+      <dir name="src" baseinstalldir="pear2">
        <dir name="SimpleChannelServer">
         <dir name="Categories">
          <file role="test" name="Exception.php"/>
@@ -2453,7 +2461,7 @@ Initial pyrus public API
        <dir name="data" baseinstalldir="/">
         <file role="test" name="phartemplate.php"/>
        </dir>
-       <dir name="src">
+       <dir name="src" baseinstalldir="pear2">
         <dir name="Pyrus">
          <dir name="Developer">
           <dir name="CoverageAnalyzer">
@@ -2610,16 +2618,16 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
