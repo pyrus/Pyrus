@@ -1128,6 +1128,9 @@ class v2 implements \pear2\Pyrus\IPackageFile
             if ($forpackaging) {
                 // map old to new name
                 $temp[$stuff['attribs']['name']] = $name;
+                if (isset($stuff['attribs']['baseinstalldir'])) {
+                    unset($stuff['attribs']['baseinstalldir']);
+                }
             }
             // if we are packaging, $name is the new name
             $stuff['attribs']['name'] = $name;

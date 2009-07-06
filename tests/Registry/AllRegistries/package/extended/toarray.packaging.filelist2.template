@@ -84,7 +84,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/REST/Release.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           1 => 
@@ -93,7 +92,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/REST/Package.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           2 => 
@@ -102,7 +100,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/REST/Manager.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           3 => 
@@ -111,7 +108,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/REST/Maintainer.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           4 => 
@@ -120,7 +116,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/REST/Category.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           5 => 
@@ -129,7 +124,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/Get.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           6 => 
@@ -138,7 +132,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/Exception.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           7 => 
@@ -147,7 +140,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/CLI.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           8 => 
@@ -156,7 +148,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/Channel.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           9 => 
@@ -165,7 +156,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/Categories/Exception.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           10 => 
@@ -174,7 +164,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer/Categories.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           11 => 
@@ -183,7 +172,6 @@ bin_dir setting within Pyrus.
             array (
               'role' => 'php',
               'name' => 'php/PEAR2/SimpleChannelServer.php',
-              'baseinstalldir' => 'PEAR2',
             ),
           ),
           12 => 

@@ -252,7 +252,7 @@ class Commands implements \pear2\Pyrus\ILog
                     case 'pickle' :
                         if ('yes' === $this->ask('The "' . $arg . '" command is in the developer tools.  Install developer tools?',
                                     array('yes', 'no'), 'no')) {
-                            return $this->upgrade(array('package' => array('pear2.php.net/\pear2\Pyrus\Developer-alpha')),
+                            return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
                                            array('plugin' => true, 'force' => false, 'optionaldeps' => false));
                         }
                     default :
@@ -374,6 +374,23 @@ previous:
         } else {
             $info = \pear2\Pyrus\PluginRegistry::getCommandInfo($args['command']);
             if (!$info) {
+                foreach ($args as $arg) {
+                    switch ($arg) {
+                        case 'package' :
+                        case 'make' :
+                        case 'run-phpt' :
+                        case 'pickle' :
+                            if ('yes' === $this->ask('The "' . $arg .
+                                                     '" command is in the developer tools.  Install developer tools?',
+                                        array('yes', 'no'), 'no')) {
+                                return $this->upgrade(array('package' =>
+                                                            array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
+                                               array('plugin' => true, 'force' => false, 'optionaldeps' => false));
+                            }
+                        default :
+                            break;
+                    }
+                }
                 echo "Unknown command: $args[command]\n";
                 static::$commandParser->displayUsage();
             } else {

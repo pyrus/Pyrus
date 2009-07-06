@@ -161,9 +161,6 @@ class Creator
             if ($package->isOldAndCrustyCompatible()) {
                 $packagexml = 'package2.xml';
                 $old = file_get_contents('package.xml');
-                foreach ($this->_creators as $creator) {
-                    $creator->addFile('package.xml', $old);
-                }
             } else {
                 $packagexml = 'package.xml';
             }
@@ -179,6 +176,11 @@ class Creator
         $packageingstr = (string) new \pear2\Pyrus\XMLWriter($package->toArray(true));
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
+        }
+        if ($package->isOldAndCrustyCompatible()) {
+            foreach ($this->_creators as $creator) {
+                $creator->addFile('package.xml', $old);
+            }
         }
         if ($package->getInternalPackage() instanceof \pear2\Pyrus\Package\Xml) {
             // check for package_compatible.xml
