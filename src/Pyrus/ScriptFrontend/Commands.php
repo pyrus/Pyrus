@@ -776,20 +776,15 @@ addchan_success:
 
     function info($args, $options)
     {
-        try {
-            if (!$options['forceremote']) {
-                if (isset(\pear2\Pyrus\Config::current()->registry->package[$args['package']])) {
-                    $package = \pear2\Pyrus\Config::current()->registry->package[$args['package']];
-                    $installed = true;
-                }
+        if (!$options['forceremote']) {
+            if (isset(\pear2\Pyrus\Config::current()->registry->package[$args['package']])) {
+                $package = \pear2\Pyrus\Config::current()->registry->package[$args['package']];
+                $installed = true;
             }
-            if (!isset($package)) {
-                $installed = false;
-                $package = new \pear2\Pyrus\Package($args['package'], $options['forceremote']);
-            }
-        } catch (\Exception $e) {
-            echo "Error, invalid package: ", $e->getMessage();
-            return;
+        }
+        if (!isset($package)) {
+            $installed = false;
+            $package = new \pear2\Pyrus\Package($args['package'], $options['forceremote']);
         }
         echo $this->wrap($package->name . ' (' . $package->channel . ' Channel)'), "\n";
         echo str_repeat('-', 80), "\n";
