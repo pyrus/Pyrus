@@ -36,7 +36,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-07-07</date>
- <time>16:23:39</time>
+ <time>17:26:58</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -1891,6 +1891,7 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/AddTrustClass1CARoot"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ABA.ECOMRootCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/AAACertificateServices"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/scscommands.xml"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/package-2.1.xsd"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/package-2.0.xsd"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/developercommands.xml"/>
@@ -1943,6 +1944,7 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/developercommands.xml" as="pear2.php.net/developercommands.xml"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/package-2.0.xsd" as="pear2.php.net/package-2.0.xsd"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/package-2.1.xsd" as="pear2.php.net/package-2.1.xsd"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/scscommands.xml" as="pear2.php.net/scscommands.xml"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/AAACertificateServices" as="pear2.php.net/x509rootcerts/x509rootcerts/AAACertificateServices"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ABA.ECOMRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/ABA.ECOMRootCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/AddTrustClass1CARoot" as="pear2.php.net/x509rootcerts/x509rootcerts/AddTrustClass1CARoot"/>

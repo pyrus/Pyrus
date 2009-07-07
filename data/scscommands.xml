@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commands version="2.0" xmlns="http://pear2.php.net/dtd/customcommand-2.0">
+ <command>
+  <name>scs-update</name>
+  <class>pear2\Pyrus\ScriptFrontend\Commands</class>
+  <function>scsDummyStub</function>
+  <summary>Simple channel server: Update all releases of a within the get/ directory.</summary>
+  <shortcut>su</shortcut>
+  <options/>
+  <arguments/>
+  <doc>
+This command scans all existing .tar and .tgz files within the get/ directory,
+and then uses them to re-generate the REST files in the rest/ directory.
+
+It must be executed from the channel root directory, the directory must
+contain the get/ directory with all releases, and must contain channel.xml.
+
+In addition, the handle configuration variable must be set to your handle
+  </doc>
+ </command>
+ <command>
+  <name>scs-create</name>
+  <class>pear2\Pyrus\ScriptFrontend\Commands</class>
+  <function>scsDummyStub</function>
+  <summary>Simple channel server: Create a channel.xml, get/ and rest/ directory for a channel</summary>
+  <shortcut>sc</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>name</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Name of the channel to create.  This should be the full name, such as pear2.php.net or pear.example.com/path</doc>
+   </argument>
+   <argument>
+    <name>summary</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Short, 1-line description of the channnel</doc>
+   </argument>
+   <argument>
+    <name>alias</name>
+    <multiple>0</multiple>
+    <optional>1</optional>
+    <doc>Channel alias, such as pear2 for pear2.php.net</doc>
+   </argument>
+   <argument>
+    <name>file</name>
+    <multiple>0</multiple>
+    <optional>1</optional>
+    <doc>full path to the channel.xml to create.  Default is channel.xml in the working directory</doc>
+   </argument>
+  </arguments>
+  <doc>
+This command creates a new channel in the current directory, or the directory
+specified by the location of the channel.xml file.
+  </doc>
+ </command>
+ <command>
+  <name>scs-add-maintainer</name>
+  <class>pear2\Pyrus\ScriptFrontend\Commands</class>
+  <function>scsDummyStub</function>
+  <summary>Simple Channel Server: Add a new maintaing developer to the channel</summary>
+  <shortcut>sam</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>handle</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Developer handle as used in package.xml</doc>
+   </argument>
+   <argument>
+    <name>name</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Developer name</doc>
+   </argument>
+   <argument>
+    <name>uri</name>
+    <multiple>0</multiple>
+    <optional>1</optional>
+    <doc>Developer homepage</doc>
+   </argument>
+  </arguments>
+  <doc>
+This command adds a developer to the channel, and is useful for adding developers
+to be listed prior to making their first release.
+  </doc>
+ </command>
+ <command>
+  <name>scs-add-category</name>
+  <class>pear2\Pyrus\ScriptFrontend\Commands</class>
+  <function>scsDummyStub</function>
+  <summary>Simple Channel Server: Add a new category to the channel</summary>
+  <shortcut>sac</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>category</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Name of the category.  This may contain spaces (use &quot;&quot; to contain them)</doc>
+   </argument>
+   <argument>
+    <name>description</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Short description of the category's packages</doc>
+   </argument>
+  </arguments>
+  <doc>
+Categories are used to organize channels with large numbers of packages.  Use this
+command to create a new category.
+  </doc>
+ </command>
+ <command>
+  <name>scs-release</name>
+  <class>pear2\Pyrus\ScriptFrontend\Commands</class>
+  <function>scsDummyStub</function>
+  <summary>Simple Channel Server: Release a package</summary>
+  <shortcut>sr</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>path</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>path to the release tarball</doc>
+   </argument>
+  </arguments>
+  <doc>
+Release a package.  This command uses the handle configuration variable as the
+releasing maintainer's handle, and generates REST files for the release in the
+rest/ directory as well as the released tarballs in the get/ directory.
+  </doc>
+ </command>
+</commands>

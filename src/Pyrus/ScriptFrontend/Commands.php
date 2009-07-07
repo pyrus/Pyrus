@@ -202,13 +202,13 @@ class Commands implements \pear2\Pyrus\ILog
         return $this->term['bold'] . $text . $this->term['normal'];
     }
 
-    function addDeveloperCommands()
+    function addDeveloperCommands($type)
     {
         $schemapath = \pear2\Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
-        $defaultcommands = \pear2\Pyrus\Main::getDataPath() . '/developercommands.xml';
+        $defaultcommands = \pear2\Pyrus\Main::getDataPath() . '/' . $type . 'commands.xml';
         if (!file_exists($schemapath)) {
             $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
-            $defaultcommands = realpath(__DIR__ . '/../../../data/developercommands.xml');
+            $defaultcommands = realpath(__DIR__ . '/../../../data/' . $type . 'commands.xml');
         }
         $parser = new \pear2\Pyrus\XMLParser;
         $commands = $parser->parse($defaultcommands, $schemapath);
@@ -240,7 +240,10 @@ class Commands implements \pear2\Pyrus\ILog
             // scan for custom commands/roles/tasks
             \pear2\Pyrus\Config::current()->pluginregistry->scan();
             if (!isset(static::$commandParser->commands['make'])) {
-                $this->addDeveloperCommands();
+                $this->addDeveloperCommands('developer');
+            }
+            if (!isset(static::$commandParser->commands['scs-update'])) {
+                $this->addDeveloperCommands('scs');
             }
             $result = static::$commandParser->parse(count($args) + 1, array_merge(array('cruft'), $args));
             if ($result->options['verbose']) {
@@ -251,8 +254,8 @@ class Commands implements \pear2\Pyrus\ILog
             }
             if ($info = \pear2\Pyrus\PluginRegistry::getCommandInfo($result->command_name)) {
                 if ($this instanceof $info['class']) {
-                    if ($info['function'] == 'dummyStub') {
-                        $this->dummyStub($result);
+                    if ($info['function'] == 'dummyStub' || $info['function'] == 'scsDummyStub') {
+                        $this->{$info['function']}($result);
                     } else {
                         $this->{$info['function']}($result->command->args, $result->command->options);
                     }
@@ -373,6 +376,17 @@ previous:
                                  '" command is in the developer tools.  Install developer tools?',
                     array('yes', 'no'), 'no')) {
             return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
+                           array('plugin' => true, 'force' => false, 'optionaldeps' => false));
+        }
+    }
+
+    function scsDummyStub($command)
+    {
+        if ('yes' === $this->ask('The "' . $command->command_name .
+                                 '" command is in the simple channel server tools.  ' .
+                                 'Install simple channel server tools?',
+                    array('yes', 'no'), 'no')) {
+            return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_SimpleChannelServer-alpha')),
                            array('plugin' => true, 'force' => false, 'optionaldeps' => false));
         }
     }

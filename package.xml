@@ -36,7 +36,7 @@ try {
   <active>yes</active>
  </lead>
  <date>2009-07-07</date>
- <time>16:23:37</time>
+ <time>17:26:56</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -217,6 +217,7 @@ Initial pyrus public API
     <file role="data" name="developercommands.xml"/>
     <file role="data" name="package-2.0.xsd"/>
     <file role="data" name="package-2.1.xsd"/>
+    <file role="data" name="scscommands.xml"/>
    </dir>
    <dir name="src" baseinstalldir="pear2">
     <dir name="Pyrus">

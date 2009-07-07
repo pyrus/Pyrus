@@ -152,8 +152,10 @@ class Snapshot extends \pear2\Pyrus\Config
 
     function datediff($a, $b)
     {
+        $a = str_replace(array('configsnapshot-', '.xml'), '', $a->getFileName());
+        $b = str_replace(array('configsnapshot-', '.xml'), '', $b->getFileName());
         $us = new \DateTime($a);
-        $diff = $us->diff(new \DateTime($match))->format("%r%s");
+        $diff = $us->diff(new \DateTime($b))->format("%r%s");
         if (!$diff) return 0;
         if ($diff > 0) return 1;
         return -1;
