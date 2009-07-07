@@ -152,10 +152,11 @@ class Remote extends \pear2\Pyrus\Package
         $dir = \pear2\Pyrus\Config::current()->download_dir;
         try {
             $response = \pear2\Pyrus\Main::downloadWithProgress($param);
-            $name = 'unknown.tgz';
             if ($response->code != '200') {
                 throw new \pear2\Pyrus\Package\Exception('Download failed, received ' . $response->code);
             }
+            $info = parse_url($param);
+            $name = urldecode(basename($info['path']));
 
             if (isset($response->headers['content-disposition'])) {
                 if (preg_match('/filename="(.+)"/', $response->headers['content-disposition'], $match)) {

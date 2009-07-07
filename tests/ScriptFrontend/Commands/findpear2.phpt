@@ -106,6 +106,13 @@ Commands:
   mypear            Set a configuration value (alias: m)
   help              Get help on a particular command, or all commands
                     (alias: h)
+  make              Create or update a package.xml from a standard PEAR2
+                    directory layout (alias: mk)
+  pickle            Create or update a package.xml and then package a PECL
+                    extension release (alias: pi)
+  package           Create a release from an existing package.xml (alias:
+                    p)
+  run-phpt          Run PHPT tests (alias: rp)
 
 ';
 $test->assertEquals($help1 . $help2,

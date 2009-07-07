@@ -202,6 +202,20 @@ class Commands implements \pear2\Pyrus\ILog
         return $this->term['bold'] . $text . $this->term['normal'];
     }
 
+    function addDeveloperCommands()
+    {
+        $schemapath = \pear2\Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
+        $defaultcommands = \pear2\Pyrus\Main::getDataPath() . '/developercommands.xml';
+        if (!file_exists($schemapath)) {
+            $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
+            $defaultcommands = realpath(__DIR__ . '/../../../data/developercommands.xml');
+        }
+        $parser = new \pear2\Pyrus\XMLParser;
+        $commands = $parser->parse($defaultcommands, $schemapath);
+        $commands = $commands['commands']['command'];
+        \pear2\Pyrus\PluginRegistry::addCommand($commands);
+    }
+
     /**
      * This method acts as a controller which dispatches the request to the
      * correct command/method.
@@ -225,6 +239,9 @@ class Commands implements \pear2\Pyrus\ILog
             $this->verbose = \pear2\Pyrus\Config::current()->verbose;
             // scan for custom commands/roles/tasks
             \pear2\Pyrus\Config::current()->pluginregistry->scan();
+            if (!isset(static::$commandParser->commands['make'])) {
+                $this->addDeveloperCommands();
+            }
             $result = static::$commandParser->parse(count($args) + 1, array_merge(array('cruft'), $args));
             if ($result->options['verbose']) {
                 $this->verbose = $result->options['verbose'];
@@ -234,7 +251,11 @@ class Commands implements \pear2\Pyrus\ILog
             }
             if ($info = \pear2\Pyrus\PluginRegistry::getCommandInfo($result->command_name)) {
                 if ($this instanceof $info['class']) {
-                    $this->{$info['function']}($result->command->args, $result->command->options);
+                    if ($info['function'] == 'dummyStub') {
+                        $this->dummyStub($result);
+                    } else {
+                        $this->{$info['function']}($result->command->args, $result->command->options);
+                    }
                 } else {
                     $class = new $info['class'];
                     $class->{$info['function']}($this, $result->command->args, $result->command->options);
@@ -243,22 +264,6 @@ class Commands implements \pear2\Pyrus\ILog
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
             }
         } catch (PEAR2_Console_CommandLine_Exception $e) {
-            // look for developer commands
-            foreach ($args as $arg) {
-                switch ($arg) {
-                    case 'package' :
-                    case 'make' :
-                    case 'run-phpt' :
-                    case 'pickle' :
-                        if ('yes' === $this->ask('The "' . $arg . '" command is in the developer tools.  Install developer tools?',
-                                    array('yes', 'no'), 'no')) {
-                            return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
-                                           array('plugin' => true, 'force' => false, 'optionaldeps' => false));
-                        }
-                    default :
-                        break;
-                }
-            }
             static::$commandParser->displayError($e->getMessage());
         }
     }
@@ -359,6 +364,16 @@ previous:
             echo "Using PEAR installations found at $path\n";
         } else {
             echo "Using PEAR installation found at $path\n";
+        }
+    }
+
+    function dummyStub($command)
+    {
+        if ('yes' === $this->ask('The "' . $command->command_name .
+                                 '" command is in the developer tools.  Install developer tools?',
+                    array('yes', 'no'), 'no')) {
+            return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
+                           array('plugin' => true, 'force' => false, 'optionaldeps' => false));
         }
     }
 

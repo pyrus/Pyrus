@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-05</date>
- <time>23:02:08</time>
+ <date>2009-07-07</date>
+ <time>16:23:37</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -214,6 +214,7 @@ Initial pyrus public API
     <file role="data" name="customcommand-2.0.xsd"/>
     <file role="data" name="customrole-2.0.xsd"/>
     <file role="data" name="customtask-2.0.xsd"/>
+    <file role="data" name="developercommands.xml"/>
     <file role="data" name="package-2.0.xsd"/>
     <file role="data" name="package-2.1.xsd"/>
    </dir>
@@ -457,6 +458,7 @@ Initial pyrus public API
      <dir name="ScriptFrontend">
       <file role="php" name="Command.php"/>
       <file role="php" name="Commands.php"/>
+      <file role="php" name="Exception.php"/>
       <file role="php" name="Renderer.php"/>
      </dir>
      <dir name="Task">
@@ -1767,6 +1769,7 @@ Initial pyrus public API
        <dir name="get">
         <file role="test" name="GetMaintainers_Test-1.0.0.tar"/>
         <file role="test" name="GetMaintainers_Test-1.0.0.tgz"/>
+        <file role="test" name="GetMaintainers_Test-1.0.0.zip"/>
        </dir>
        <dir name="rest">
         <dir name="c">
@@ -2616,8 +2619,8 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
