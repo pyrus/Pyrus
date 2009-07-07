@@ -16,9 +16,9 @@ if (substr(PHP_OS, 0, 3) == 'WIN') {
       $dir . 'php/PEAR2/SimpleChannelServer',
       $dir . 'php/PEAR2',
       $dir . 'php',
-      $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer/examples',
-      $dir . 'docs/pear2.php.net/PEAR2_SimpleChannelServer',
-      $dir . 'docs/pear2.php.net',
+      $dir . 'docs/PEAR2_SimpleChannelServer/pear2.php.net/examples',
+      $dir . 'docs/PEAR2_SimpleChannelServer/pear2.php.net',
+      $dir . 'docs/PEAR2_SimpleChannelServer',
       $dir . 'docs',
       $dir . 'bin',
     ), $result, 'dirtree');

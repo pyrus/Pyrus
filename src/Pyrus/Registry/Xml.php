@@ -57,7 +57,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         $package = $info !== null ? $info->name : $package;
         $path = $this->_namePath($channel, $package);
         $version = $info !== null ? $info->version['release'] : $version;
-        return $path . DIRECTORY_SEPARATOR . $version . '-package.xml';
+        return $path . DIRECTORY_SEPARATOR . $version . '-info.xml';
     }
 
     private function _getPath()

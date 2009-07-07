@@ -29,6 +29,7 @@ class Creator
     const VERSION = '@PACKAGE_VERSION@';
     private $_creators;
     private $_handles = array();
+    protected $prepend;
     /**
      * Begin package creation
      *
@@ -153,10 +154,11 @@ class Creator
             $creator->init();
         }
 
+        $this->prepend = $prepend = $package->name . '-' . $package->version['release'];
         if ($package->isNewPackage()) {
-            $packagexml = '.xmlregistry/packages/' .
+            $packagexml = $prepend . '/.xmlregistry/packages/' .
                 str_replace('/', '!', $package->channel) . '/' . $package->name . '/' .
-                $package->version['release'] . '-package.xml';
+                $package->version['release'] . '-info.xml';
         } else {
             if ($package->isOldAndCrustyCompatible()) {
                 $packagexml = 'package2.xml';
@@ -185,7 +187,10 @@ class Creator
         if ($package->getInternalPackage() instanceof \pear2\Pyrus\Package\Xml) {
             // check for package_compatible.xml
             if ($package->isNewPackage() && file_exists($package->getFilePath('package_compatible.xml'))) {
-                $creator->addFile('package.xml', $package->getFilePath('package_compatible.xml'));
+                foreach ($this->_creators as $creator) {
+                    $creator->addFile('package.xml',
+                                      file_get_contents($package->getFilePath('package_compatible.xml')));
+                }
             }
         }
         $packagingloc = \pear2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
@@ -234,6 +239,7 @@ class Creator
             }
 
             $alreadyPackaged[$packageat] = true;
+            $packageat = $prepend . '/' . $packageat;
             $contents = $package->getFileContents($info['attribs']['name'], true);
             if (!file_exists(dirname($packagingloc . DIRECTORY_SEPARATOR . $packageat))) {
                 mkdir(dirname($packagingloc . DIRECTORY_SEPARATOR . $packageat), 0777, true);
@@ -298,7 +304,7 @@ class Creator
     protected function addPEAR2Stuff($alreadyPackaged, $extrafiles)
     {
         foreach ($this->_creators as $creator) {
-            $creator->mkdir('php/PEAR2');
+            $creator->mkdir($this->prepend . '/php/PEAR2');
         }
         foreach ($this->_handles as $path => $stream) {
             if (isset($alreadyPackaged[$path])) {
@@ -306,7 +312,7 @@ class Creator
             }
 
             foreach ($this->_creators as $creator) {
-                $creator->addFile($path, $stream);
+                $creator->addFile($this->prepend . '/' . $path, $stream);
             }
 
             fclose($stream);
@@ -317,8 +323,8 @@ class Creator
                 continue; // we're packaging MultiErrors package
             }
 
-            $creator->mkdir('php/PEAR2/MultiErrors');
-            $creator->addFile('php/PEAR2/MultiErrors/Exception.php',
+            $creator->mkdir($this->prepend . '/php/PEAR2/MultiErrors');
+            $creator->addFile($this->prepend . '/php/PEAR2/MultiErrors/Exception.php',
                 "<?php\nclass PEAR2_MultiErrors_Exception extends \PEAR2_Exception {}");
         }
 
@@ -348,8 +354,8 @@ class Creator
             }
 
             foreach ($this->_creators as $creator) {
-                $creator->mkdir(dirname($path));
-                $creator->addFile($path, $fp);
+                $creator->mkdir(dirname($this->prepend . '/' . $path));
+                $creator->addFile($this->prepend . '/' . $path, $fp);
             }
 
             fclose($fp);

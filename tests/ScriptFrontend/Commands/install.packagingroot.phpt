@@ -34,12 +34,12 @@ $test->assertEquals(file_get_contents(__DIR__.'/../../Mocks/SimpleChannelServer/
                     file_get_contents(__DIR__ . '/testit/' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' => 
   array (
     'role' => 'doc',
     'name' => 'examples/update_channel.php',
-    'installed_as' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
-    'relativepath' => 'pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
+    'installed_as' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
+    'relativepath' => 'PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs',
   ),
   __DIR__ . '/testit/bin/pearscs' => 

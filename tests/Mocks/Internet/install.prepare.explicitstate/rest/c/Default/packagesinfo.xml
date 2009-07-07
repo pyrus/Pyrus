@@ -1,4 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackageinfo http://pear.php.net/dtd/rest.categorypackageinfo.xsd">
- <pi/>
+ <pi>
+  <p>
+   <n>P1</n>
+   <c>pear2.php.net</c>
+   <ca xmlns:xlink="rest/c/Default" xlink:href="rest/c/Default">Default</ca>
+   <l>New BSD License</l>
+   <s>testing</s>
+   <d>hi description</d>
+   <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
+  </p>
+  <a>
+   <r>
+    <v>1.1.0RC1</v>
+    <s>beta</s>
+   </r>
+   <r>
+    <v>1.0.0</v>
+    <s>stable</s>
+   </r>
+  </a>
+  <deps>
+   <v>1.1.0RC1</v>
+   <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:7:&quot;2.0.0a1&quot;;}s:7:&quot;package&quot;;a:2:{s:4:&quot;name&quot;;s:2:&quot;P2&quot;;s:7:&quot;channel&quot;;s:13:&quot;pear2.php.net&quot;;}}}</d>
+  </deps>
+ </pi>
+ <pi>
+  <p>
+   <n>P2</n>
+   <c>pear2.php.net</c>
+   <ca xmlns:xlink="rest/c/Default" xlink:href="rest/c/Default">Default</ca>
+   <l>New BSD License</l>
+   <s>testing</s>
+   <d>hi description</d>
+   <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
+  </p>
+  <a>
+   <r>
+    <v>1.2.0a1</v>
+    <s>alpha</s>
+   </r>
+   <r>
+    <v>1.1.0RC3</v>
+    <s>beta</s>
+   </r>
+   <r>
+    <v>1.0.0</v>
+    <s>stable</s>
+   </r>
+  </a>
+  <deps>
+   <v>1.0.0</v>
+   <d>a:1:{s:8:&quot;required&quot;;a:2:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:7:&quot;2.0.0a1&quot;;}}}</d>
+  </deps>
+ </pi>
+ <pi>
+  <p>
+   <n>P3</n>
+   <c>pear2.php.net</c>
+   <ca xmlns:xlink="rest/c/Default" xlink:href="rest/c/Default">Default</ca>
+   <l>New BSD License</l>
+   <s>testing</s>
+   <d>hi description</d>
+   <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
+  </p>
+  <a>
+   <r>
+    <v>1.1.0</v>
+    <s>stable</s>
+   </r>
+   <r>
+    <v>1.1.0RC1</v>
+    <s>beta</s>
+   </r>
+   <r>
+    <v>1.1.0RC2</v>
+    <s>beta</s>
+   </r>
+   <r>
+    <v>1.0.0</v>
+    <s>stable</s>
+   </r>
+  </a>
+  <deps>
+   <v>1.1.0RC1</v>
+   <d>a:1:{s:8:&quot;required&quot;;a:2:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:7:&quot;2.0.0a1&quot;;}}}</d>
+  </deps>
+ </pi>
 </f>

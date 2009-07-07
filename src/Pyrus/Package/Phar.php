@@ -53,7 +53,11 @@ class Phar extends \pear2\Pyrus\Package\Base
                 $pxml = 'phar://' . $package . '/' . $phar->getMetaData();
             } else {
                 $phar = new \PharData($package, \RecursiveDirectoryIterator::KEY_AS_FILENAME);
-                $pxml = false;
+                if ($phar->getMetaData()) {
+                    $pxml = 'phar://' . $package . '/' . $phar->getMetaData();
+                } else {
+                    $pxml = false;
+                }
             }
         } catch (\Exception $e) {
             throw new \pear2\Pyrus\Package\Phar\Exception('Could not open Phar archive ' .
@@ -63,11 +67,13 @@ class Phar extends \pear2\Pyrus\Package\Base
         $package = str_replace('\\', '/', $package);
         try {
             if ($pxml === false) {
-                if (isset($phar['.xmlregistry'])) {
+                $info = pathinfo($package);
+                $internal = $info['filename'];
+                if (isset($phar[$internal . '/.xmlregistry'])) {
                     if ($phar instanceof \PharData) {
-                        $iterate = new \PharData('phar://' . $package . '/.xmlregistry');
+                        $iterate = new \PharData('phar://' . $package . '/' . $internal . '/.xmlregistry');
                     } else {
-                        $iterate = new \Phar('phar://' . $package . '/.xmlregistry');
+                        $iterate = new \Phar('phar://' . $package . '/' . $internal . '/.xmlregistry');
                     }
                     foreach (new \RecursiveIteratorIterator($iterate,
                                 \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {

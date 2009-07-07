@@ -61,6 +61,25 @@ class Common
     }
 
     /**
+     * Get a location that can be used in an <install as=""/> tag to work with
+     * the PEAR Installer.
+     * @param \pear2\Pyrus\Package $pkg
+     * @param array $atts
+     * @return string
+     */
+    function getCompatibleInstallAs(\pear2\Pyrus\IPackageFile $pkg, $atts)
+    {
+        $location = $this->getPackagingLocation($pkg, $atts);
+        $location = explode('/', $location);
+        array_shift($location);
+        if (!$this->info['honorsbaseinstall']) {
+            array_shift($location);
+        }
+        $location = implode('/', $location);
+        return $location;
+    }
+
+    /**
      * Retrieve the location a packaged file should be placed in a package
      *
      * @param \pear2\Pyrus\Package $pkg
@@ -111,7 +130,7 @@ class Common
                 $dest_dir .= '/';
             }
         } elseif ($this->info['unusualbaseinstall']) {
-            $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name . '/';
+            $dest_dir = $role . '/' . $pkg->name . '/' . $pkg->channel  . '/';
             if (array_key_exists('baseinstalldir', $atts)) {
                 if (strlen($atts['baseinstalldir']) && $atts['baseinstalldir'] != '/') {
                     $dest_dir .= $atts['baseinstalldir'];
@@ -125,7 +144,7 @@ class Common
                 }
             }
         } else {
-            $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name . '/';
+            $dest_dir = $role  . '/' . $pkg->name. '/' . $pkg->channel . '/';
         }
 
         return $dest_dir . $file;
@@ -149,14 +168,14 @@ class Common
         		$dest_dir = $save_destdir = $pkg->name;
         	} else {
 	            $dest_dir = $save_destdir =
-	                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+	                $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
         	}
             if ($file->baseinstalldir) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $file->baseinstalldir;
             }
         } else {
             $dest_dir = $save_destdir =
-                $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
+                $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
         }
 
         if (dirname($file->name) != '.' && empty($file['install-as'])) {

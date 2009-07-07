@@ -26,8 +26,8 @@ $package = new \pear2\Pyrus\Package(__DIR__ . '/package.xml');
 
 $creator = new pear2\Pyrus\Package\Creator(array(
             new pear2\Pyrus\Developer\Creator\Phar(
-                'PEAR2_Pyrus-2.0.0a1.phar',
-                file_get_contents(__DIR__ . '/stub.php'),
+                'PEAR2_Pyrus-' . $package->version['release'] . '.phar',
+                str_replace('@PACKAGE_VERSION@', $package->version['release'], file_get_contents(__DIR__ . '/stub.php')),
                 Phar::PHAR, PHAR::NONE,
                 array(), null, $package, null, null)),
                                         dirname(__FILE__) . '/../Exception/src',

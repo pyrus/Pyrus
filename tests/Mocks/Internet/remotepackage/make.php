@@ -12,7 +12,7 @@ restore_include_path();
 $c->saveConfig();
 
 $chan = new PEAR2_SimpleChannelServer_Channel('pear2.php.net', 'unit test channel');
-$scs = new PEAR2_SimpleChannelServer($chan, __DIR__, dirname(__DIR__));
+$scs = new PEAR2_SimpleChannelServer($chan, __DIR__, dirname(__DIR__) . '/PEAR2');
 
 $scs->saveChannel();
 

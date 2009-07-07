@@ -50,12 +50,8 @@ class Package implements \pear2\Pyrus\IPackage
         if (!$packagedescription) {
             return;
         }
-        if ($forceremote) {
-            $this->internal = new \pear2\Pyrus\Package\Remote($packagedescription);
-        } else {
-            $class = $this->parsePackageDescription($packagedescription);
-            $this->internal = new $class($packagedescription, $this);
-        }
+        $class = $this->parsePackageDescription($packagedescription, $forceremote);
+        $this->internal = new $class($packagedescription, $this);
     }
 
     function isOldAndCrustyCompatible()
@@ -198,13 +194,13 @@ class Package implements \pear2\Pyrus\IPackage
         $this->internal->copyTo($where);
     }
 
-    static function parsePackageDescription($package)
+    static function parsePackageDescription($package, $forceremote = false)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
             return 'pear2\Pyrus\Package\Remote';
         }
         try {
-            if (@file_exists($package) && @is_file($package)) {
+            if (!$forceremote && @file_exists($package) && @is_file($package)) {
                 $info = pathinfo($package);
                 if (!isset($info['extension']) || !strlen($info['extension'])) {
                     // guess based on first 4 characters

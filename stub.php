@@ -22,8 +22,8 @@ try {
 function pyrus_autoload($class)
 {
     $class = str_replace('_', '\\', $class);
-    if (file_exists('phar://' . __FILE__ . '/php/' . implode('/', explode('\\', $class)) . '.php')) {
-        include 'phar://' . __FILE__ . '/php/' . implode('/', explode('\\', $class)) . '.php';
+    if (file_exists('phar://' . __FILE__ . '/PEAR2_Pyrus-@PACKAGE_VERSION@/php/' . implode('/', explode('\\', $class)) . '.php')) {
+        include 'phar://' . __FILE__ . '/PEAR2_Pyrus-@PACKAGE_VERSION@/php/' . implode('/', explode('\\', $class)) . '.php';
     }
 }
 spl_autoload_register("pyrus_autoload");
