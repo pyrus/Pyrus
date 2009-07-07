@@ -610,7 +610,7 @@ previous:
         try {
             $response = \pear2\Pyrus\Main::download($chan);
             if ($response->code != 200) {
-                throw new Exception('Download of channel.xml failed');
+                throw new \pear2\Pyrus\Exception('Download of channel.xml failed');
             }
 addchan_success:    
             $chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile($response->body, true));
@@ -621,7 +621,7 @@ addchan_success:
                 $chan = 'http://' . $args['channel'] . '/channel.xml';
                 $response = \pear2\Pyrus\Main::download($chan);
                 if ($response->code != 200) {
-                    throw new Exception('Download of channel.xml failed');
+                    throw new \pear2\Pyrus\Exception('Download of channel.xml failed');
                 }
                 goto addchan_success;
             } catch (\Exception $e) {
