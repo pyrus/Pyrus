@@ -284,8 +284,9 @@ class Creator
         }
 
         if ($package->isNewPackage()) {
-            $this->addPEAR2Stuff($alreadyPackaged, $extrafiles);
+            $this->addPEAR2Stuff($alreadyPackaged);
         }
+        $this->addExtraFiles($extrafiles);
 
         foreach ($this->_creators as $creator) {
             $creator->close();
@@ -301,7 +302,7 @@ class Creator
         rmdir($packagingloc);
     }
 
-    protected function addPEAR2Stuff($alreadyPackaged, $extrafiles)
+    protected function addPEAR2Stuff($alreadyPackaged)
     {
         foreach ($this->_creators as $creator) {
             $creator->mkdir($this->prepend . '/php/PEAR2');
@@ -327,8 +328,27 @@ class Creator
             $creator->addFile($this->prepend . '/php/PEAR2/MultiErrors/Exception.php',
                 "<?php\nclass PEAR2_MultiErrors_Exception extends \PEAR2_Exception {}");
         }
+    }
 
+    function addExtraFiles($extrafiles)
+    {
         foreach ($extrafiles as $path => $filename) {
+            if (is_object($filename)) {
+                if ($filename instanceof \pear2\Pyrus\Package) {
+                    foreach ($filename->packagingcontents as $path => $info) {
+                        foreach ($this->_creators as $creator) {
+                            $creator->mkdir(dirname($this->prepend . '/' . $path));
+                            $fp = $filename->getFileContents($info['attribs']['name'], true);
+                            $creator->addFile($this->prepend . '/' . $path, $fp);
+                            fclose($fp);
+                        }
+                    }
+                    continue;
+                } else {
+                    throw new Exception('Invalid extra file object, must be ' .
+                                        'a \pear2\Pyrus\Package object');
+                }
+            }
             $path = str_replace('\\', '/', $path);
             $path = str_replace('//', '/', $path);
             if ($path[0] === '/' ||
