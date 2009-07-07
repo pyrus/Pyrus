@@ -113,6 +113,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
                 if ($readonly) {
                     throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
+                $this->initDefaultChannels();
                 return;
             }
             return;
