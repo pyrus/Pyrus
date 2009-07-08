@@ -14,7 +14,7 @@ $test->assertEquals(1, count($errs), 'foo count 2');
 $test->assertEquals('warning: channel://pear2.php.net/test requires package "channel://pear2.php.net/foo"', $errs->E_WARNING[0]->getMessage(), 'foo error');
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $foo = $fake->dependencies['optional']->subpackage['pear2.php.net/foo'];

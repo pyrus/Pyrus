@@ -19,7 +19,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->os = 'Linux';
 $test->assertEquals(true, $validator->validateOSDependency($os), 'windows conflicts pass');

@@ -3,7 +3,7 @@
 --FILE--
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-$package = new \pear2\Pyrus\Package(__DIR__.'/../../../sandbox/SimpleChannelServer/package.xml');
+$package = new \pear2\Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');

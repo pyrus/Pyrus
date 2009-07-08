@@ -126,7 +126,7 @@ class Uninstaller{
         }
         $installer = new \pear2\Pyrus\Uninstaller;
         // validate dependencies
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         $reg = \pear2\Pyrus\Config::current()->registry;
         try {
             foreach (self::$uninstallPackages as $package) {

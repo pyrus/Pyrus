@@ -25,7 +25,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.4.1';
@@ -40,7 +40,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.3.1';
@@ -55,7 +55,7 @@ foreach ($errs->E_ERROR as $error) {
 \pear2\Pyrus\Main::$options = array('force' => true);
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->pearversion = '5.2.9';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.2.9 fail');
@@ -69,7 +69,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.4.1';
@@ -84,7 +84,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.3.1';

@@ -7,7 +7,7 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/validator.php.inc';
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 if (!isset($state)) {
     $state = 'INSTALLING';
 }

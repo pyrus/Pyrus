@@ -31,7 +31,7 @@ class FileInstallationFilter extends \FilterIterator
     static function setParent(\pear2\Pyrus\PackageFile\v2 $parent)
     {
         self::$_parent = $parent;
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         $depchecker = new \pear2\Pyrus\Dependency\Validator(
             array('channel' => self::$_parent->channel,
                   'package' => self::$_parent->name),

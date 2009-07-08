@@ -22,7 +22,7 @@ $test->assertEquals(1, count($errs), 'foo count 2');
 $test->assertEquals('channel://pear2.php.net/test conflicts with package "channel://pear2.php.net/foo", installed version is 1.2.3', $errs->E_ERROR[0]->getMessage(), 'foo error');
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, \pear2\Pyrus\Validate::DOWNLOADING, $errs);
 
 \pear2\Pyrus\Config::current()->registry->uninstall('foo', 'pear2.php.net');

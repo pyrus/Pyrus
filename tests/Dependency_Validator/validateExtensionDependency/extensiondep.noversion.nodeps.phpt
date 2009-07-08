@@ -20,7 +20,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo conflicts');

@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Task;
-class Exception extends \PEAR2_Exception
+class Exception extends \pear2\Exception
 {
     /**#@+
      * Error codes for task validation routines

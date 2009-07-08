@@ -196,7 +196,7 @@ abstract class Base extends \pear2\Pyrus\PackageFile\v2
     }
 
     public function validateUninstallDependencies(array $uninstallPackages,
-                                                  \PEAR2_MultiErrors $errs)
+                                                  \pear2\MultiErrors $errs)
     {
         $ret = true;
         foreach ($uninstallPackages as $package) {

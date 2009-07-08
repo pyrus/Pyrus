@@ -301,7 +301,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             }
         }
         $url = $this->remoteAbridgedInfo['g'];
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
 
         $certdownloaded = false;
         if (extension_loaded('openssl')) {

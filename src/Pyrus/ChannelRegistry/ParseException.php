@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ChannelRegistry;
-class ParseException extends \PEAR2_Exception
+class ParseException extends \pear2\Exception
 {
     public $why;
     public $params;

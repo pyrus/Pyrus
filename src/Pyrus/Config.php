@@ -678,7 +678,7 @@ class Config
         $x = simplexml_load_file($userfile);
         if (!$x) {
             $errors = libxml_get_errors();
-            $e = new \PEAR2_MultiErrors;
+            $e = new \pear2\MultiErrors;
             foreach ($errors as $err) {
                 $e->E_ERROR[] = new \pear2\Pyrus\Config\Exception(trim($err->message));
             }
@@ -817,7 +817,7 @@ class Config
         $x = simplexml_load_file($file);
         if (!$x) {
             $errors = libxml_get_errors();
-            $e = new \PEAR2_MultiErrors;
+            $e = new \pear2\MultiErrors;
             foreach ($errors as $err) {
                 $e->E_ERROR[] = new \pear2\Pyrus\Config\Exception(trim($err->message));
             }

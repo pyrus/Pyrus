@@ -20,7 +20,7 @@ foreach ($errs->E_ERROR as $error) {
 $foo->conflicts(true);
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '2.0.0';

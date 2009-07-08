@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Validate;
-class Exception extends \PEAR2_Exception
+class Exception extends \pear2\Exception
 {
     /**
      * package.xml field that failed channel-specific validation

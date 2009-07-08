@@ -20,7 +20,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->os = $validator->sysname = 'Linux';
 $os->name = 'linux';
@@ -37,7 +37,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $os->name = 'unix';
 $os->conflicts = true;
@@ -54,7 +54,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $os->name = 'linux';
 $os->conflicts = true;

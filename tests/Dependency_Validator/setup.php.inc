@@ -1,7 +1,7 @@
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
 require __DIR__ . '/validator.php.inc';
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 if (!isset($state)) {
     $state = 'INSTALLING';
 }

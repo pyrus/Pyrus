@@ -66,7 +66,7 @@ class Validator
      */
     function validate(\pear2\Pyrus\IPackage $pf, $state = \pear2\Pyrus\Validate::NORMAL)
     {
-        $this->errors = new \PEAR2_MultiErrors;
+        $this->errors = new \pear2\MultiErrors;
         if (!$pf->schemaOK) {
             // this package.xml was created from scratch, not loaded from an existing
             // package.xml
@@ -426,8 +426,8 @@ class Validator
             throw new \pear2\Pyrus\PackageFile\Exception(
                 'Parser error: token_get_all() function must exist to analyze source code');
         }
-        if (!($this->errors instanceof \PEAR2_MultiErrors)) {
-            $this->errors = new \PEAR2_MultiErrors;
+        if (!($this->errors instanceof \pear2\MultiErrors)) {
+            $this->errors = new \pear2\MultiErrors;
         }
         if ($string) {
             $contents = $file;

@@ -7,4 +7,4 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 $reg = new \pear2\Pyrus\Registry\Sqlite3(__DIR__.'/testit');
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;

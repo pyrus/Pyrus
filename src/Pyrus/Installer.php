@@ -324,7 +324,7 @@ class Installer
             static::preCommitDependencyResolve();
             $installer = new \pear2\Pyrus\Installer;
             // validate dependencies
-            $errs = new \PEAR2_MultiErrors;
+            $errs = new \pear2\MultiErrors;
             foreach (static::$installPackages as $package) {
                 $package->validateDependencies(static::$installPackages, $errs);
             }

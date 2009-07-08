@@ -1,3 +1,3 @@
 <?php
 namespace pear2\Pyrus\ChannelFile;
-class Exception extends \PEAR2_Exception {}
+class Exception extends \pear2\Exception {}

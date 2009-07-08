@@ -55,7 +55,7 @@ class Replace extends \pear2\Pyrus\Task\Common
         if (!isset($xml['attribs'])) {
             throw new \pear2\Pyrus\Task\Exception\NoAttributes('replace', $file);
         }
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         foreach (array('type', 'to', 'from') as $attrib) {
             if (!isset($xml['attribs'][$attrib])) {
                 $errs->E_ERROR[] =

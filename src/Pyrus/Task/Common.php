@@ -113,7 +113,7 @@ abstract class Common extends \ArrayObject implements \SplSubject
      *    general validation errors
      *
      * It is also possible to throw multiple validation errors, by using a
-     * {@link PEAR2_MultiErrors} object as a cause parameter to
+     * {@link \pear2\MultiErrors} object as a cause parameter to
      * {@link \pear2\Pyrus\Task\Exception}.
      * @param PEAR_Pyrus_IPackageFile
      * @param array

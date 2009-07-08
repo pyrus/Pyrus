@@ -13,7 +13,7 @@ $test->assertEquals(1, count($errs), 'foo count 2');
 $test->assertEquals('channel://pear2.php.net/test requires package "channel://pear2.php.net/foo" (version >= 1.2.0)', $errs->E_ERROR[0]->getMessage(), 'foo error');
 
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $foo = $fake->dependencies['optional']->package['pear2.php.net/foo']->min('1.2.0');

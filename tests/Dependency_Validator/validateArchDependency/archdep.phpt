@@ -22,7 +22,7 @@ foreach ($errs->E_ERROR as $error) {
 
 \pear2\Pyrus\Main::$options = array('force' => true);
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $arch->conflicts = false;
 $test->assertEquals(true, $validator->validateArchDependency($arch), 'foobar pass force');
@@ -39,7 +39,7 @@ foreach ($errs->E_WARNING as $error) {
 
 \pear2\Pyrus\Main::$options = array();
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $arch->conflicts = true;
 $arch->pattern = 'barfoo';
@@ -57,7 +57,7 @@ foreach ($errs->E_ERROR as $error) {
 
 \pear2\Pyrus\Main::$options = array('nodeps' => true);
 // reset multierrors
-$errs = new \PEAR2_MultiErrors;
+$errs = new \pear2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $arch->conflicts = true;
 $arch->pattern = 'barfoo';

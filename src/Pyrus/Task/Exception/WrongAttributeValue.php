@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Task\Exception;
-class WrongAttributeValue extends \PEAR2_Exception
+class WrongAttributeValue extends \pear2\Exception
 {
     function __construct($task, $attribute, $wrongvalue, $file, array $validvalues)
     {

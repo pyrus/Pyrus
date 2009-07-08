@@ -44,7 +44,7 @@ class Commands implements \pear2\Pyrus\ILog
         if ($this->verbose > 3) {
             echo $e;
         }
-        if ($e instanceof \PEAR2_Exception) {
+        if ($e instanceof \pear2\Exception) {
             $causes = array();
             $e->getCauseMessage($causes);
             $causeMsg = '';

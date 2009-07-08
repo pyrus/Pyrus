@@ -27,7 +27,7 @@ namespace pear2\Pyrus\Dependency;
 class Validator
 {
     /**
-     * @var PEAR2_MultiErrors
+     * @var \pear2\MultiErrors
      */
     protected $errs;
     /**
@@ -48,10 +48,10 @@ class Validator
     /**
      * @param \pear2\Pyrus\Package
      * @param int installation state (one of \pear2\Pyrus\Validate::*)
-     * @param PEAR2_MultiErrors
+     * @param \pear2\MultiErrors
      */
     function __construct($package, $state = \pear2\Pyrus\Validate::INSTALLING,
-                         \PEAR2_MultiErrors $errs)
+                         \pear2\MultiErrors $errs)
     {
         $this->_state = $state;
         $this->_currentPackage = $package;

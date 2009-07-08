@@ -24,6 +24,6 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ChannelRegistry;
-class Exception extends \PEAR2_Exception
+class Exception extends \pear2\Exception
 {
 }

@@ -53,7 +53,7 @@ class Validate{
      */
     var $_state = \pear2\Pyrus\Validate::NORMAL;
     /**
-     * @var PEAR2_MultiErrors
+     * @var \pear2\MultiErrors
      */
     protected $failures;
 
@@ -178,7 +178,7 @@ class Validate{
         if ($state !== null) {
             $this->_state = $state;
         }
-        $this->failures = new \PEAR2_MultiErrors;
+        $this->failures = new \pear2\MultiErrors;
         $this->validatePackageName();
         $this->validateVersion();
         $this->validateMaintainers();

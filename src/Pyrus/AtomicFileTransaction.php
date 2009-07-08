@@ -43,7 +43,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-use \PEAR2_MultiErrors;
+use \pear2\MultiErrors;
 class AtomicFileTransaction
 {
     static protected $allTransactObjects = array();
@@ -129,7 +129,7 @@ class AtomicFileTransaction
 
         if (static::$intransaction) {
             // start the transaction process for this atomic transaction object
-            $errs =  new \PEAR2_MultiErrors;
+            $errs =  new \pear2\MultiErrors;
             try {
                 $ret->beginTransaction();
             } catch (\Exception $e) {
@@ -382,7 +382,7 @@ class AtomicFileTransaction
         if (static::$intransaction) {
             throw new \pear2\Pyrus\AtomicFileTransaction\Exception('Cannot begin - already in a transaction');
         }
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         try {
             foreach (static::$allTransactObjects as $path => $transact) {
                 $transact->beginTransaction();
@@ -445,7 +445,7 @@ create_journal:
             $transaction->restoreBackup();
         }
         $failed = array();
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         foreach (static::$allTransactObjects as $path => $transaction) {
             try {
                 // ... and then delete the transaction
@@ -490,7 +490,7 @@ create_journal:
         if (!static::$intransaction) {
             throw new \pear2\Pyrus\AtomicFileTransaction\Exception('Cannot commit - not in a transaction');
         }
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         try {
             foreach (static::$allTransactObjects as $transaction) {
                 $transaction->backupAndCommit();
@@ -513,7 +513,7 @@ create_journal:
         if (!static::$intransaction) {
             throw new \pear2\Pyrus\AtomicFileTransaction\Exception('Cannot remove backups - not in a transaction');
         }
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         foreach (static::$allTransactObjects as $path => $transaction) {
             try {
                 $transaction->removeBackup();

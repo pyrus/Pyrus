@@ -213,7 +213,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
         if (!$reset && isset($this->releaseIndex)) {
             return $this->release[$this->releaseIndex];
         }
-        $errs = new \PEAR2_MultiErrors;
+        $errs = new \pear2\MultiErrors;
         $depchecker = new \pear2\Pyrus\Dependency\Validator(
             array('channel' => $this->channel,
                   'package' => $this->name),
@@ -821,9 +821,9 @@ class v2 implements \pear2\Pyrus\IPackageFile
      * and environment (php version, OS, architecture, enabled extensions)
      *
      * @param array $toInstall an array of \pear2\Pyrus\Package objects
-     * @param PEAR2_MultiErrors $errs
+     * @param \pear2\MultiErrors $errs
      */
-    function validateDependencies(array $toInstall, \PEAR2_MultiErrors $errs)
+    function validateDependencies(array $toInstall, \pear2\MultiErrors $errs)
     {
         $dep = new \pear2\Pyrus\Dependency\Validator($this->packageInfo['name'],
             \pear2\Pyrus\Validate::DOWNLOADING, $errs);
