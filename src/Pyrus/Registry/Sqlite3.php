@@ -219,12 +219,12 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
         $sql = '
             INSERT INTO packages
-              (name, channel, version, apiversion, summary, packagetype,
+              (lcname, name, channel, version, apiversion, summary, packagetype,
                description, stability, apistability, releasedate,
                releasetime, license, licenseuri, licensepath,
                releasenotes, lastinstalledversion, installedwithpear,
                installtimeconfig)
-            VALUES(:name, :channel, :versionrelease, :versionapi, :summary,
+            VALUES(:lcname, :name, :channel, :versionrelease, :versionapi, :summary,
                 :packagetype, :description, :stabilityrelease, :stabilityapi,
                 :date, :time, :license, :licenseuri, :licensepath, :notes,
                 :lastinstalledv, :lastinstalledp, :lastinstalltime
@@ -233,6 +233,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
         $stmt = static::$databases[$this->_path]->prepare($sql);
         $n = $info->name;
         $c = $info->channel;
+        $stmt->bindValue(':lcname',              strtolower($n));
         $stmt->bindValue(':name',              $n);
         $stmt->bindValue(':channel',           $c);
         $stmt->bindValue(':versionrelease',    $info->version['release']);
@@ -259,6 +260,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
         $stmt->execute();
         $stmt->close();
+        $n = strtolower($n);
 
         $sql = '
             INSERT INTO maintainers
@@ -267,8 +269,6 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                 (:name, :channel, :role, :m_name, :m_user, :m_email, :m_active)';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $n = $info->name;
-        $c = $info->channel;
         foreach ($info->allmaintainers as $role => $maintainers) {
             foreach ($maintainers as $maintainer) {
                 $stmt->clear();
@@ -794,8 +794,8 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                 $package);
         }
 
-        $sql = 'DELETE FROM packages WHERE name = "' .
-              static::$databases[$this->_path]->escapeString($package) . '" AND channel = "' .
+        $sql = 'DELETE FROM packages WHERE lcname = "' .
+              static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND channel = "' .
               static::$databases[$this->_path]->escapeString($channel) . '"';
 
         static::$databases[$this->_path]->enableExceptions(true);
@@ -815,13 +815,13 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
         }
 
         $sql = 'SELECT
-                    COUNT(name)
+                    COUNT(lcname)
                 FROM packages
                 WHERE
-                    name = :name AND channel = :channel
+                    lcname = :name AND channel = :channel
             ';
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $stmt->bindValue(':name',    $package);
+        $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
 
@@ -863,7 +863,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                         packages_name = :name AND packages_channel = :channel';
 
             $stmt = static::$databases[$this->_path]->prepare($sql);
-            $stmt->bindValue(':name',    $package);
+            $stmt->bindValue(':name',    strtolower($package));
             $stmt->bindValue(':channel', $channel);
             $result = @$stmt->execute();
 
@@ -919,7 +919,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
         }
 
         $sql = ' SELECT ' . $field . ' FROM packages WHERE
-            name = \'' . static::$databases[$this->_path]->escapeString($package) . '\' AND
+            lcname = \'' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '\' AND
             channel = \'' . static::$databases[$this->_path]->escapeString($channel) . '\'';
 
         $info = @static::$databases[$this->_path]->querySingle($sql);
@@ -979,7 +979,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                 'for package ' . $channel . '/' . $package . ', it is not installed');
         }
         $ret = new \pear2\Pyrus\PackageFile\v2;
-        $ret->name        = $package;
+        $ret->name        = $this->info($package, $channel, 'name');
         $ret->channel     = $channel;
         $ret->summary     = $this->info($package, $channel, 'summary');
         $ret->description = $this->info($package, $channel, 'description');
@@ -989,13 +989,13 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                 WHERE packages_name = :name AND packages_channel = :channel';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $stmt->bindValue(':name',    $package);
+        $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
 
         if (!$result) {
             throw new \pear2\Pyrus\Registry\Exception('Could not retrieve package file object' .
-                ' for package ' . $channel . '/' . $package . ', no maintainers registered');
+                ' for package ' . $channel . '/' . $ret->name . ', no maintainers registered');
         }
 
         while ($maintainer = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -1033,13 +1033,13 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                 WHERE packages_name = :name AND packages_channel = :channel';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $stmt->bindValue(':name',    $package);
+        $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
 
         if (!$result) {
             throw new \pear2\Pyrus\Registry\Exception('Could not retrieve package file object' .
-                ' for package ' . $channel . '/' . $package . ', no files registered');
+                ' for package ' . $channel . '/' . $ret->name . ', no files registered');
         }
 
         while ($file = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -1059,13 +1059,13 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                 WHERE packages_name = :name AND packages_channel = :channel';
 
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $stmt->bindValue(':name',    $package);
+        $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
 
         if (!$result) {
             throw new \pear2\Pyrus\Registry\Exception('Could not retrieve package file object' .
-                ' for package ' . $channel . '/' . $package . ', no files registered');
+                ' for package ' . $channel . '/' . $ret->name . ', no files registered');
         }
 
         $dirs = array();
@@ -1080,12 +1080,14 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
         $ret->release = null;
         $sql = 'SELECT * FROM configureoptions
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_name = "' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
         $a = static::$databases[$this->_path]->query($sql);
 
         while ($option = $a->fetchArray(SQLITE3_ASSOC)) {
-            $ret->installrelease->configureoption[$option['name']]->prompt($option['prompt'])->default($option['defaultValue']);
+            $ret->installrelease->configureoption[$option['name']]
+                                ->prompt($option['prompt'])
+                                ->default($option['defaultValue']);
         }
         return $ret;
     }
@@ -1096,7 +1098,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
         $channel = $ret->channel;
         $sql = 'SELECT * FROM compatible_releases
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_name = "' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
         $a = static::$databases[$this->_path]->query($sql);
 
@@ -1109,7 +1111,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM compatible_releases_exclude
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
+                    packages_name = "' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND
                     packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
         $a = static::$databases[$this->_path]->query($sql);
 
@@ -1121,7 +1123,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
     function fetchDeps(\pear2\Pyrus\IPackageFile $ret)
     {
-        $package = $ret->name;
+        $package = strtolower($ret->name);
         $channel = $ret->channel;
         $sql = 'SELECT * FROM php_dependencies
                 WHERE
@@ -1254,7 +1256,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
     function fetchDepGroups(\pear2\Pyrus\IPackageFile $ret)
     {
-        $package = $ret->name;
+        $package = strtolower($ret->name);
         $channel = $ret->channel;
 
         $sql = 'SELECT * FROM dep_groups
@@ -1272,7 +1274,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
     function fetchExtensionDeps(\pear2\Pyrus\IPackageFile $ret)
     {
-        $package = $ret->name;
+        $package = strtolower($ret->name);
         $channel = $ret->channel;
         $sql = 'SELECT * FROM extension_dependencies
                 WHERE
@@ -1338,10 +1340,8 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
                     deppackage = :name AND depchannel = :channel
                 ORDER BY packages_channel, packages_name';
         $stmt = static::$databases[$this->_path]->prepare($sql);
-        $pn = $package->name;
-        $stmt->bindValue(':name', $pn, SQLITE3_TEXT);
-        $pp = $package->channel;
-        $stmt->bindValue(':channel', $pp, SQLITE3_TEXT);
+        $stmt->bindValue(':name', $package->name, SQLITE3_TEXT);
+        $stmt->bindValue(':channel', $package->channel, SQLITE3_TEXT);
         $result = @$stmt->execute();
 
         while ($res = $result->fetchArray()) {
@@ -1396,7 +1396,8 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
             $result = $stmt->execute();
 
             while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
-                $ret[] = array($relativepath => $res['packages_channel'] . '/' . $res['packages_name']);
+                $pn = $this->info($res['packages_name'], $res['packages_channel'], 'name');
+                $ret[] = array($relativepath => $res['packages_channel'] . '/' . $pn);
             }
         }
         return $ret;

@@ -55,6 +55,7 @@ class Creator
         $query = '
           CREATE TABLE packages (
            name TEXT(80) NOT NULL,
+           lcname TEXT(80) NOT NULL,
            packagetype TEXT(15) NOT NULL,
            channel TEXT(255) NOT NULL,
            version TEXT(20) NOT NULL,
@@ -72,7 +73,7 @@ class Creator
            lastinstalledversion TEXT(20),
            installedwithpear TEXT(20),
            installtimeconfig TEXT(50),
-           PRIMARY KEY (name, channel)
+           PRIMARY KEY (lcname, channel)
           );';
         $database->exec($query);
 
@@ -335,63 +336,63 @@ class Creator
               FOR EACH ROW BEGIN
                 DELETE FROM maintainers
                 WHERE
-                  maintainers.packages_name = old.name AND
+                  maintainers.packages_name = old.lcname AND
                   maintainers.packages_channel = old.channel;
                 DELETE FROM files
                 WHERE
-                  files.packages_name = old.name AND
+                  files.packages_name = old.lcname AND
                   files.packages_channel = old.channel;
                 DELETE FROM baseinstalldirs
                 WHERE
-                  baseinstalldirs.packages_name = old.name AND
+                  baseinstalldirs.packages_name = old.lcname AND
                   baseinstalldirs.packages_channel = old.channel;
                 DELETE FROM package_dependencies
                 WHERE
-                  package_dependencies.packages_name = old.name AND
+                  package_dependencies.packages_name = old.lcname AND
                   package_dependencies.packages_channel = old.channel;
                 DELETE FROM package_dependencies_exclude
                 WHERE
-                  package_dependencies_exclude.packages_name = old.name AND
+                  package_dependencies_exclude.packages_name = old.lcname AND
                   package_dependencies_exclude.packages_channel = old.channel;
                 DELETE FROM os_dependencies
                 WHERE
-                  os_dependencies.packages_name = old.name AND
+                  os_dependencies.packages_name = old.lcname AND
                   os_dependencies.packages_channel = old.channel;
                 DELETE FROM arch_dependencies
                 WHERE
-                  arch_dependencies.packages_name = old.name AND
+                  arch_dependencies.packages_name = old.lcname AND
                   arch_dependencies.packages_channel = old.channel;
                 DELETE FROM php_dependencies
                 WHERE
-                  php_dependencies.packages_name = old.name AND
+                  php_dependencies.packages_name = old.lcname AND
                   php_dependencies.packages_channel = old.channel;
                 DELETE FROM php_dependencies_exclude
                 WHERE
-                  php_dependencies_exclude.packages_name = old.name AND
+                  php_dependencies_exclude.packages_name = old.lcname AND
                   php_dependencies_exclude.packages_channel = old.channel;
                 DELETE FROM pearinstaller_dependencies
                 WHERE
-                  pearinstaller_dependencies.packages_name = old.name AND
+                  pearinstaller_dependencies.packages_name = old.lcname AND
                   pearinstaller_dependencies.packages_channel = old.channel;
                 DELETE FROM pearinstaller_dependencies_exclude
                 WHERE
-                  pearinstaller_dependencies_exclude.packages_name = old.name AND
+                  pearinstaller_dependencies_exclude.packages_name = old.lcname AND
                   pearinstaller_dependencies_exclude.packages_channel = old.channel;
                 DELETE FROM extension_dependencies
                 WHERE
-                  extension_dependencies.packages_name = old.name AND
+                  extension_dependencies.packages_name = old.lcname AND
                   extension_dependencies.packages_channel = old.channel;
                 DELETE FROM extension_dependencies_exclude
                 WHERE
-                  extension_dependencies_exclude.packages_name = old.name AND
+                  extension_dependencies_exclude.packages_name = old.lcname AND
                   extension_dependencies_exclude.packages_channel = old.channel;
                 DELETE FROM dep_groups
                 WHERE
-                  dep_groups.packages_name = old.name AND
+                  dep_groups.packages_name = old.lcname AND
                   dep_groups.packages_channel = old.channel;
                 DELETE FROM configureoptions
                 WHERE
-                  configureoptions.packages_name = old.name AND
+                  configureoptions.packages_name = old.lcname AND
                   configureoptions.packages_channel = old.channel;
               END;
         ';
