@@ -24,10 +24,10 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Task;
-class Replace extends \pear2\Pyrus\Task\Common
+class Replace extends Common
 {
     const TYPE = 'simple';
-    const PHASE = \pear2\Pyrus\Task\Common::PACKAGEANDINSTALL;
+    const PHASE = Common::PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
@@ -48,43 +48,44 @@ class Replace extends \pear2\Pyrus\Task\Common
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws \pear2\Pyrus\Task\Exception\InvalidTask
+     * @throws \pear2\Pyrus\Task\Exception\MissingAttribute
+     * @throws \pear2\Pyrus\Task\Exception\WrongAttributeValue
      */
     static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
     {
         if (!isset($xml['attribs'])) {
-            throw new \pear2\Pyrus\Task\Exception\NoAttributes('replace', $file);
+            throw new Exception\NoAttributes('replace', $file);
         }
         $errs = new \pear2\MultiErrors;
         foreach (array('type', 'to', 'from') as $attrib) {
             if (!isset($xml['attribs'][$attrib])) {
                 $errs->E_ERROR[] =
-                    new \pear2\Pyrus\Task\Exception\MissingAttribute('replace',
-                                                                    $attrib, $file);
+                    new Exception\MissingAttribute('replace',
+                                                   $attrib, $file);
             }
         }
         if ($count = count($errs->E_ERROR)) {
             if ($count == 1) {
                 throw $errs->E_ERROR[0];
             }
-            throw new \pear2\Pyrus\Task\Exception('Invalid replace task, multiple missing attributes', $errs);
+            throw new Exception('Invalid replace task, multiple missing attributes', $errs);
         }
         if ($xml['attribs']['type'] == 'pear-config') {
             $config = \pear2\Pyrus\Config::current();
             if (!in_array($xml['attribs']['to'], $config->systemvars)) {
-                throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
-                                                                         'to', $xml['attribs']['to'],
-                                                                         $file,
-                                                                         $config->systemvars);
+                throw new Exception\WrongAttributeValue('replace',
+                                                        'to', $xml['attribs']['to'],
+                                                        $file,
+                                                        $config->systemvars);
             }
         } elseif ($xml['attribs']['type'] == 'php-const') {
             if (defined($xml['attribs']['to'])) {
                 return true;
             } else {
-                throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
-                                                                         'to', $xml['attribs']['to'],
-                                                                         $file,
-                                                                         array('valid PHP constant'));
+                throw new Exception\WrongAttributeValue('replace',
+                                                        'to', $xml['attribs']['to'],
+                                                        $file,
+                                                        array('valid PHP constant'));
             }
         } elseif ($xml['attribs']['type'] == 'package-info') {
             if (in_array($xml['attribs']['to'],
@@ -94,21 +95,21 @@ class Replace extends \pear2\Pyrus\Task\Common
                     'date', 'time'))) {
                 return true;
             } else {
-                throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
-                                                                         'to', $xml['attribs']['to'],
-                                                                         $file,
+                throw new Exception\WrongAttributeValue('replace',
+                                                        'to', $xml['attribs']['to'],
+                                                        $file,
                     array('name', 'summary', 'channel', 'notes', 'extends', 'description',
                     'release_notes', 'license', 'release-license', 'license-uri',
                     'version', 'api-version', 'state', 'api-state', 'release_date',
                     'date', 'time'));
             }
         } else {
-            throw new \pear2\Pyrus\Task\Exception\WrongAttributeValue('replace',
-                                                                     'type', $xml['attribs']['type'],
-                                                                     $file,
-                                                                     array('pear-config',
-                                                                           'package-info',
-                                                                           'php-const'));
+            throw new Exception\WrongAttributeValue('replace',
+                                                    'type', $xml['attribs']['type'],
+                                                    $file,
+                                                    array('pear-config',
+                                                          'package-info',
+                                                          'php-const'));
         }
         return true;
     }
@@ -130,7 +131,7 @@ class Replace extends \pear2\Pyrus\Task\Common
             $a = $a['attribs'];
             $to = '';
             if ($a['type'] == 'pear-config') {
-                if ($this->installphase == \pear2\Pyrus\Task\Common::PACKAGE) {
+                if ($this->installphase == Common::PACKAGE) {
                     return false;
                 }
                 $to = \pear2\Pyrus\Config::current()->{$a['to']};
@@ -139,7 +140,7 @@ class Replace extends \pear2\Pyrus\Task\Common
                     return false;
                 }
             } elseif ($a['type'] == 'php-const') {
-                if ($this->installphase == \pear2\Pyrus\Task\Common::PACKAGE) {
+                if ($this->installphase == Common::PACKAGE) {
                     return false;
                 }
                 if (defined($a['to'])) {
@@ -181,6 +182,13 @@ class Replace extends \pear2\Pyrus\Task\Common
             return true;
         }
         return false;
+    }
+
+    function setReplacement($type, $from, $to)
+    {
+        $info = array('attribs' => array('type' => $type, 'from' => $from, 'to' => $to));
+        self::validateXml($this->pkg, $info, array(), $this->attribs['name']);
+        $this->xml = $info;
     }
 }
 ?>

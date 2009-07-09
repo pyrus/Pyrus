@@ -570,6 +570,9 @@ class v2 implements \pear2\Pyrus\IPackageFile
         if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as', 'md5sum'), true)) {
             // check to see if this is a task
             if ($this->isValidTask($attr)) {
+                if ($value instanceof \pear2\Pyrus\Task\Common) {
+                    $value = $value->getInfo();
+                }
                 if (!isset($this->filelist[$filename][$attr])) {
                     $this->filelist[$filename][$attr] = $value;
                 } else {

@@ -268,4 +268,16 @@ abstract class Base implements \pear2\Pyrus\IPackage
             return $ret;
         }
     }
+
+    function getTask($file, $name)
+    {
+        if (is_string($file)) {
+            $fileAttribs = $this->files[$file];
+        } elseif (is_array($file)) {
+            $fileAttribs = $file;
+        }
+        $taskclass = \pear2\Pyrus\Task\Common::getTask($name);
+        return new $taskclass($this, \pear2\Pyrus\Task\Common::PACKAGE, $fileAttribs,
+                              $fileAttribs['attribs'], null);
+    }
 }

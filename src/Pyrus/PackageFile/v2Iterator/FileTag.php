@@ -109,7 +109,7 @@ class FileTag extends \ArrayObject
             // setting a file task
             if ($value instanceof \pear2\Pyrus\Task\Common) {
                 $this->_packagefile->setFileAttribute($this->dir .
-                    $this['attribs']['name'], $var, $value->getInfo());
+                    $this['attribs']['name'], $var, $value);
                 return;
             }
             throw new \pear2\Pyrus\PackageFile\Exception('Cannot set ' . $var . ' to non-' .
