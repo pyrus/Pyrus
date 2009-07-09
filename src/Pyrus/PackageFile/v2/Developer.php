@@ -68,7 +68,8 @@ class Developer implements \ArrayAccess, \Iterator
 
     function key()
     {
-        return key($this->info[current($this->_curRole)]);
+        $info = current($this->info[current($this->_curRole)]);
+        return $info['user'];
     }
 
     function next()
