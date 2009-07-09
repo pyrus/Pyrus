@@ -491,32 +491,27 @@ previous:
             \pear2\Pyrus\Main::$options['install-plugins'] = true;
         }
         \pear2\Pyrus\Uninstaller::begin();
-        try {
-            $packages = $non = $failed = array();
-            foreach ($args['package'] as $arg) {
-                try {
-                    if (!isset(\pear2\Pyrus\Config::current()->registry->package[$arg])) {
-                        $non[] = $arg;
-                        continue;
-                    }
-                    $packages[] = \pear2\Pyrus\Uninstaller::prepare($arg);
-                } catch (\Exception $e) {
-                    $failed[] = $arg;
+        $packages = $non = $failed = array();
+        foreach ($args['package'] as $arg) {
+            try {
+                if (!isset(\pear2\Pyrus\Config::current()->registry->package[$arg])) {
+                    $non[] = $arg;
+                    continue;
                 }
+                $packages[] = \pear2\Pyrus\Uninstaller::prepare($arg);
+            } catch (\Exception $e) {
+                $failed[] = $arg;
             }
-            \pear2\Pyrus\Uninstaller::commit();
-            foreach ($non as $package) {
-                echo "Package $package not installed, cannot uninstall\n";
-            }
-            foreach ($packages as $package) {
-                echo 'Uninstalled ', $package->channel, '/', $package->name, "\n";
-            }
-            foreach ($failed as $package) {
-                echo "Package $package could not be uninstalled\n";
-            }
-        } catch (\Exception $e) {
-            echo $e;
-            exit -1;
+        }
+        \pear2\Pyrus\Uninstaller::commit();
+        foreach ($non as $package) {
+            echo "Package $package not installed, cannot uninstall\n";
+        }
+        foreach ($packages as $package) {
+            echo 'Uninstalled ', $package->channel, '/', $package->name, "\n";
+        }
+        foreach ($failed as $package) {
+            echo "Package $package could not be uninstalled\n";
         }
     }
 
