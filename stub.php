@@ -27,6 +27,10 @@ function pyrus_autoload($class)
     }
 }
 spl_autoload_register("pyrus_autoload");
+$phar = new Phar(__FILE__);
+$sig = $phar->getSignature();
+define('PYRUS_SIG', $sig['hash']);
+define('PYRUS_SIGTYPE', $sig['hash_type']);
 $frontend = new \pear2\Pyrus\ScriptFrontend\Commands;
 @array_shift($_SERVER['argv']);
 $frontend->run($_SERVER['argv']);

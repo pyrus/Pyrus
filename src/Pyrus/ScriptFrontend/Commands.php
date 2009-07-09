@@ -235,6 +235,11 @@ class Commands implements \pear2\Pyrus\ILog
     function run($args)
     {
         try {
+            $sig = \pear2\Pyrus\Main::getSignature();
+            if ($sig) {
+                echo "Pyrus version ", \pear2\Pyrus\Main::VERSION, ' ',
+                     $sig['hash_type'], ': ', $sig['hash'], "\n";
+            }
             $this->_findPEAR($args);
             $this->verbose = \pear2\Pyrus\Config::current()->verbose;
             // scan for custom commands/roles/tasks

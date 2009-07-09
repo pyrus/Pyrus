@@ -26,7 +26,7 @@
 namespace pear2\Pyrus;
 class Main
 {
-
+    const VERSION = '@PACKAGE_VERSION@';
     /**
      * Installer options.  Valid indices are:
      *
@@ -62,6 +62,15 @@ class Main
     static function getSourcePath()
     {
         return dirname(__DIR__);
+    }
+
+    static function getSignature()
+    {
+        if (defined('PYRUS_SIG')) {
+            // this is defined in the phar stub
+            return array('hash' => PYRUS_SIG, 'hash_type' => PYRUS_SIGTYPE);
+        }
+        return false;
     }
 
     static function prepend($prepend, $path)
