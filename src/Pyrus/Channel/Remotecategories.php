@@ -27,7 +27,6 @@ namespace pear2\Pyrus\Channel;
 class Remotecategories implements \ArrayAccess, \Iterator
 {
     protected $parent;
-    public $category = null;
     protected $rest;
     protected $categoryList;
 
@@ -42,9 +41,9 @@ class Remotecategories implements \ArrayAccess, \Iterator
 
     function offsetGet($var)
     {
-        $a = clone $this;
-        $a->category = $var;
-        return $a;
+        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
+                                                'c/' . urlencode($var) . '/packagesinfo.xml');
+        return new \pear2\Pyrus\Channel\Remotecategory($this->parent, $var, $info);
     }
 
     function offsetSet($var, $value)
