@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackageinfo http://pear.php.net/dtd/rest.categorypackageinfo.xsd">
+ <pi>
+  <p>
+   <n>GetMaintainers_Test</n>
+   <c>pear2.php.net</c>
+   <ca xmlns:xlink="rest/c/Default" xlink:href="rest/c/Default">Default</ca>
+   <l>New BSD License</l>
+   <s>testing</s>
+   <d>hi description</d>
+   <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
+  </p>
+  <a/>
+  <deps/>
+ </pi>
+</f>

@@ -57,7 +57,7 @@ class Remotecategory implements \ArrayAccess, \Iterator
         if ($var == 'basiclist') {
             $ret = array();
             foreach ($this->packagesinfo as $info) {
-                if (!isset($info['a']) || !count($info['a'])) {
+                if (!isset($info['a']) || !$info['a']) {
                     $ret[] = array('package' => $info['p']['n'],
                                    'latest' => array('v' => 'n/a', 's' => 'n/a', 'm' => 'n/a'),
                                    'stable' => 'n/a');
@@ -89,12 +89,13 @@ class Remotecategory implements \ArrayAccess, \Iterator
             }
             return $this->getPackage($package);
         }
+        throw new Exception('Unknown remote package in ' .  $this->category . ' category: "' . $var . '"');
     }
 
     protected function getPackage($package)
     {
         $releases = array();
-        if (isset($package['a'])) {
+        if (isset($package['a']) && $package['a']) {
             $releases = $package['a']['r'];
             if (!isset($releases[0])) {
                 $releases = array($releases);
@@ -138,17 +139,24 @@ class Remotecategory implements \ArrayAccess, \Iterator
 
     function offsetExists($var)
     {
-        return isset($this->parent->remotepackage[$var]);
+        $lowerpackage = strtolower($var);
+        foreach ($this->packagesinfo as $package) {
+            if (strtolower($package['p']['n']) != $lowerpackage) {
+                continue;
+            }
+            return true;
+        }
+        return false;
     }
 
     function offsetSet($var, $value)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function valid()
