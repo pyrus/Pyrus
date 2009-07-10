@@ -312,12 +312,6 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 $certdownloaded = true;
             } catch (\pear2\Pyrus\HTTPException $e) {
                 // file does not exist, ignore
-            } catch (\Exception $e) {
-                $errs->E_ERROR[] = $e;
-                throw new \pear2\Pyrus\Package\Exception(
-                    'Invalid abstract package ' .
-                    $this->channel . '/' .
-                    $this->name . ' - certificate is invalid', $errs);
             }
             if ($certdownloaded) {
                 $info = openssl_x509_parse($cert);
@@ -350,7 +344,8 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate ' .
-                        'alternate name does not match the releaser\'s email address ' . $this->maintainer[$this->remoteAbridgedInfo['m']]->email);
+                        'alternate name does not match the releaser\'s email address ' .
+                        $this->maintainer[$this->remoteAbridgedInfo['m']]->email);
                 }
                 $key = openssl_pkey_get_public($cert);
                 $key = openssl_pkey_get_details($key);
