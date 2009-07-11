@@ -636,7 +636,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 $this->version['release'] = $versioninfo['v'];
                 return;
             }
-            if (isset($versioninfo['m'])) {
+            if (!isset(\pear2\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
                     $failIfExplicit();

@@ -22,7 +22,7 @@ function __autoload($class)
     include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
 }
 set_include_path(\'phar://\' . PYRUS_PHAR_FILE . \'/php/\'.PATH_SEPARATOR.get_include_path());
-$cli = new PEAR2_SimpleChannelServer_CLI();
+$cli = new pear\SimpleChannelServer\CLI();
 $cli->process();
 '),),
                     dirname(__FILE__) . '/../../Exception/src',
