@@ -20,8 +20,8 @@ $c->bin_dir = __DIR__ . '/bin';
 restore_include_path();
 $c->saveConfig();
 
-$chan = new PEAR2_SimpleChannelServer_Channel('pear2.php.net', 'unit test channel');
-$scs = new PEAR2_SimpleChannelServer($chan, __DIR__, dirname(__DIR__) . '/PEAR2');
+$chan = new pear2\SimpleChannelServer\Channel('pear2.php.net', 'unit test channel');
+$scs = new pear2\SimpleChannelServer\Main($chan, __DIR__, dirname(__DIR__) . '/PEAR2');
 
 $scs->saveChannel();
 

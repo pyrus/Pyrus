@@ -31,8 +31,8 @@ $c->bin_dir = __DIR__ . '/bin';
 restore_include_path();
 $c->saveConfig();
 
-$chan = new PEAR2_SimpleChannelServer_Channel('pear2.php.net', 'unit test channel');
-$scs = new PEAR2_SimpleChannelServer($chan, __DIR__, dirname(__DIR__) . '/PEAR2');
+$chan = new pear2\SimpleChannelServer\Channel('pear2.php.net', 'unit test channel');
+$scs = new pear2\SimpleChannelServer\Main($chan, __DIR__, dirname(__DIR__) . '/PEAR2');
 
 $scs->saveChannel();
 
@@ -94,7 +94,7 @@ $p5->files['glooby5'] =  array('role' => 'php');
 
 file_put_contents(__DIR__ . '/package.xml', $pf);
 
-$cat = PEAR2_SimpleChannelServer_Categories::create('Category 1', 'First Category')
+$cat = pear2\SimpleChannelServer\Categories::create('Category 1', 'First Category')
                                            ->create('Category 2', 'Second Category');
 
 $cat->link('P1', 'Category 1');
