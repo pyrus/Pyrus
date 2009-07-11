@@ -618,7 +618,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         $ok = \pear2\Pyrus\Installer::betterStates($this->minimumStability, true);
         $v = $this->explicitVersion;
         $n = $this->channel . '/' . $this->name;
-        $failIfExplicit = function() use ($v, $n) {
+        $failIfExplicit = function($versioninfo) use ($v, $n) {
             if ($v && $versioninfo['v'] == $v) {
                 throw new \pear2\Pyrus\Channel\Exception($n .
                                                         ' Cannot be installed, it does not satisfy ' .
@@ -639,7 +639,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             if (!isset(\pear2\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
-                    $failIfExplicit();
+                    $failIfExplicit($versioninfo);
                     continue;
                 }
             }
@@ -652,21 +652,21 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             // now check for versions satisfying the dependency
             if (isset($compositeDep->min)) {
                 if (version_compare($versioninfo['v'], $compositeDep->min, '<')) {
-                    $failIfExplicit();
+                    $failIfExplicit($versioninfo);
                     continue;
                 }
             }
             if (isset($compositeDep->exclude)) {
                 foreach ($compositeDep->exclude as $exclude) {
                     if ($versioninfo['v'] == $exclude) {
-                        $failIfExplicit();
+                        $failIfExplicit($versioninfo);
                         continue 2;
                     }
                 }
             }
             if (isset($compositeDep->max)) {
                 if (version_compare($versioninfo['v'], $compositeDep->max, '>')) {
-                    $failIfExplicit();
+                    $failIfExplicit($versioninfo);
                     continue;
                 }
             }

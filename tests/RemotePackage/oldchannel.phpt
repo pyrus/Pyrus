@@ -19,6 +19,12 @@ unset($chan->protocols->rest['REST1.3']);
 $remote = new \pear2\Pyrus\Channel\Remotepackage($chan,
                                                 'stable');
 $remote->name = 'GetMaintainers_Test';
+$remote = $remote['GetMaintainers_Test'];
+$test->assertEquals('pear2\Pyrus\Channel\Remotepackage', get_class($remote), 'right class');
+
+$remote = new \pear2\Pyrus\Channel\Remotepackage($chan,
+                                                'stable');
+$remote->name = 'GetMaintainers_Test';
 
 $versions = array();
 foreach ($remote as $version => $info) {
