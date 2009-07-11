@@ -727,7 +727,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->package . ' version ' .
                                         $versioninfo['v'] . ', API has changed');
-                                    continue;
+                                    continue 2;
                                 }
                                 break;
                             case 3 :
@@ -737,7 +737,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                         $this->package . ' version ' .
                                         $versioninfo['v'] . ', API has added' .
                                         ' new features');
-                                    continue;
+                                    continue 2;
                                 }
                                 // break intentionally omitted
                             case 2 :
@@ -747,7 +747,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                         $this->package . ' version ' .
                                         $versioninfo['v'] . ', API breaks' .
                                         ' backwards compatibility');
-                                    continue;
+                                    continue 2;
                                 }
                                 break;
                         }
