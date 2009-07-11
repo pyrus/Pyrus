@@ -806,7 +806,10 @@ addchan_success:
     function info($args, $options)
     {
         if (!$options['forceremote']) {
-            if (isset(\pear2\Pyrus\Config::current()->registry->package[$args['package']])) {
+            if (file_exists($args['package'])) {
+                $package = new \pear2\Pyrus\Package($args['package']);
+                $installed = false;
+            } elseif (isset(\pear2\Pyrus\Config::current()->registry->package[$args['package']])) {
                 $package = \pear2\Pyrus\Config::current()->registry->package[$args['package']];
                 $installed = true;
             }

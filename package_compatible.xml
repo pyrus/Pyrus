@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-07</date>
- <time>17:26:58</time>
+ <date>2009-07-10</date>
+ <time>23:16:24</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -104,18 +104,18 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.invalidversion.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.stable.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.2decimals.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
@@ -257,8 +257,125 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/RemotePackage/wrongemailcert/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tgz.pubkey"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tar.pubkey"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.pem"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/RemotePackage/validzip/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/get/RemotePackage/validzip/get/GetMaintainers_Test-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/wrongemailcert.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/validzip.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/remotepackage.getmaintainers.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/oldchannel.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/nonauthoritative.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidzip.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidpackage.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidcert.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/getAllUpgrades.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/exceptions.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/RemotePackage/nonauthoritative/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tgz.pubkey"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tar.pubkey"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.pem"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/RemotePackage/invalidzip/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/get/RemotePackage/invalidzip/get/GetMaintainers_Test-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/RemotePackage/invalidpackage/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/get/RemotePackage/invalidpackage/get/GetMaintainers_Test-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/get/RemotePackage/invalidpackage/get/GetMaintainers_Test-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/RemotePackage/invalidcert/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tgz.pubkey"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar.pubkey"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.pem"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/noreleases.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/exceptions.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/emptycategory.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/arrayaccess.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Remotecategory/noreleases/rest/c/categories.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/packagesinfo.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Remotecategory/empty/rest/c/categories.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/packagesinfo.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/remotecategories.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/test.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/package/basic/Registry/Xml/package/basic/setup.php.inc"/>
@@ -1201,6 +1318,50 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.zip"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tgz"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/v2.1.1.0a1.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/package.1.1.0a1.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/deps.1.1.0a1.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/alpha.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/1.1.0a1.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/Mocks/Internet/install.force/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/m/Mocks/Internet/install.force/rest/m/allmaintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/m/cellog/Mocks/Internet/install.force/rest/m/cellog/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/c/Mocks/Internet/install.force/rest/c/categories.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/c/Default/Mocks/Internet/install.force/rest/c/Default/packagesinfo.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/c/Default/Mocks/Internet/install.force/rest/c/Default/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/Mocks/Internet/install.force/make.php"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/Mocks/Internet/install.force/channel.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.tar"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/pearconfig.xml"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict4.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict3.phpt"/>
@@ -1223,6 +1384,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.signedpackage.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.packages.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.packagingroot.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.force.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ignorexdebug.php"/>
@@ -2613,6 +2775,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/ignorexdebug.php" as="pear2.php.net/ignorexdebug.php"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict.phpt" as="pear2.php.net/Installer/Installer/install.fileconflict.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict2.phpt" as="pear2.php.net/Installer/Installer/install.fileconflict2.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.force.phpt" as="pear2.php.net/Installer/Installer/install.force.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.packagingroot.phpt" as="pear2.php.net/Installer/Installer/install.packagingroot.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.packages.phpt" as="pear2.php.net/Installer/Installer/install.remote.packages.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.signedpackage.phpt" as="pear2.php.net/Installer/Installer/install.remote.signedpackage.phpt"/>
@@ -2635,6 +2798,50 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict3.phpt" as="pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict3.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict4.phpt" as="pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.fail.depconflict4.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/pearconfig.xml" as="pear2.php.net/Installer/prepare/Installer/prepare/pearconfig.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.tar" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.tgz" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.zip" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.tar" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.tgz" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.zip" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P1-1.1.0a1.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.tar" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.tgz" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.zip" as="pear2.php.net/Mocks/Internet/install.force/get/Mocks/Internet/install.force/get/P2-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/Mocks/Internet/install.force/channel.xml" as="pear2.php.net/Mocks/Internet/install.force/Mocks/Internet/install.force/channel.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/Mocks/Internet/install.force/make.php" as="pear2.php.net/Mocks/Internet/install.force/Mocks/Internet/install.force/make.php"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/c/Default/Mocks/Internet/install.force/rest/c/Default/info.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/c/Default/Mocks/Internet/install.force/rest/c/Default/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/c/Default/Mocks/Internet/install.force/rest/c/Default/packagesinfo.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/c/Default/Mocks/Internet/install.force/rest/c/Default/packagesinfo.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/c/Mocks/Internet/install.force/rest/c/categories.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/c/Mocks/Internet/install.force/rest/c/categories.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/m/cellog/Mocks/Internet/install.force/rest/m/cellog/info.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/m/cellog/Mocks/Internet/install.force/rest/m/cellog/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/m/Mocks/Internet/install.force/rest/m/allmaintainers.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/m/Mocks/Internet/install.force/rest/m/allmaintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/Mocks/Internet/install.force/rest/p/packages.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/Mocks/Internet/install.force/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/info.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/maintainers.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/maintainers2.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/p1/Mocks/Internet/install.force/rest/p/p1/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/info.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/maintainers.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/maintainers2.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/p/p2/Mocks/Internet/install.force/rest/p/p2/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/1.0.0.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/1.1.0a1.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/1.1.0a1.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/allreleases.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/allreleases2.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/alpha.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/alpha.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/deps.1.1.0a1.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/deps.1.1.0a1.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/latest.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/package.1.1.0a1.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/package.1.1.0a1.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/stable.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/v2.1.1.0a1.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p1/Mocks/Internet/install.force/rest/r/p1/v2.1.1.0a1.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/1.0.0.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/allreleases.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/allreleases2.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/deps.1.0.0.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/latest.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/package.1.0.0.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/stable.txt" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/v2.1.0.0.xml" as="pear2.php.net/Mocks/Internet/install.force/rest/r/p2/Mocks/Internet/install.force/rest/r/p2/v2.1.0.0.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tar" as="pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tar"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tgz" as="pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.tgz"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.zip" as="pear2.php.net/Mocks/Internet/install.optionaldeps/get/Mocks/Internet/install.optionaldeps/get/P1-1.0.0.zip"/>
@@ -3577,8 +3784,125 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/package/basic/Registry/Xml/package/basic/setup.php.inc" as="pear2.php.net/Registry/Xml/package/basic/Registry/Xml/package/basic/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/setup.php.inc" as="pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/test.phpt" as="pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/test.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/exceptions.phpt" as="pear2.php.net/Remotecategories/Remotecategories/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/remotecategories.phpt" as="pear2.php.net/Remotecategories/Remotecategories/remotecategories.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/setup.php.inc" as="pear2.php.net/Remotecategories/Remotecategories/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/info.xml" as="pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/packagesinfo.xml" as="pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/packagesinfo.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Remotecategory/empty/rest/c/categories.xml" as="pear2.php.net/Remotecategory/empty/rest/c/Remotecategory/empty/rest/c/categories.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/info.xml" as="pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/packagesinfo.xml" as="pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/packagesinfo.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Remotecategory/noreleases/rest/c/categories.xml" as="pear2.php.net/Remotecategory/noreleases/rest/c/Remotecategory/noreleases/rest/c/categories.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/arrayaccess.phpt" as="pear2.php.net/Remotecategory/Remotecategory/arrayaccess.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/emptycategory.phpt" as="pear2.php.net/Remotecategory/Remotecategory/emptycategory.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/exceptions.phpt" as="pear2.php.net/Remotecategory/Remotecategory/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/noreleases.phpt" as="pear2.php.net/Remotecategory/Remotecategory/noreleases.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/setup.php.inc" as="pear2.php.net/Remotecategory/Remotecategory/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.pem" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.pem"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar.pubkey" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar.pubkey"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tgz" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tgz.pubkey" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tgz.pubkey"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.zip" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/info.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/maintainers.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/maintainers2.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/p/p1/RemotePackage/invalidcert/rest/p/p1/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/p/RemotePackage/invalidcert/rest/p/packages.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/p/RemotePackage/invalidcert/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/1.0.0.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/allreleases.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/allreleases2.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/latest.txt" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/stable.txt" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/invalidcert/rest/r/p1/RemotePackage/invalidcert/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/get/RemotePackage/invalidpackage/get/GetMaintainers_Test-1.0.0.tar" as="pear2.php.net/RemotePackage/invalidpackage/get/RemotePackage/invalidpackage/get/GetMaintainers_Test-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/get/RemotePackage/invalidpackage/get/GetMaintainers_Test-1.0.0.tgz" as="pear2.php.net/RemotePackage/invalidpackage/get/RemotePackage/invalidpackage/get/GetMaintainers_Test-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/info.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/maintainers.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/maintainers2.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/p/getmaintainers_test/RemotePackage/invalidpackage/rest/p/getmaintainers_test/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/p/RemotePackage/invalidpackage/rest/p/packages.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/p/RemotePackage/invalidpackage/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/1.0.0.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/allreleases.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/allreleases2.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/deps.1.0.0.txt" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/latest.txt" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/package.1.0.0.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/stable.txt" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/invalidpackage/rest/r/getmaintainers_test/RemotePackage/invalidpackage/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/get/RemotePackage/invalidzip/get/GetMaintainers_Test-1.0.0.zip" as="pear2.php.net/RemotePackage/invalidzip/get/RemotePackage/invalidzip/get/GetMaintainers_Test-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/info.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/maintainers.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/maintainers2.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/p/getmaintainers_test/RemotePackage/invalidzip/rest/p/getmaintainers_test/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/p/RemotePackage/invalidzip/rest/p/packages.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/p/RemotePackage/invalidzip/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/1.0.0.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/allreleases.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/allreleases2.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/deps.1.0.0.txt" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/latest.txt" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/package.1.0.0.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/stable.txt" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/invalidzip/rest/r/getmaintainers_test/RemotePackage/invalidzip/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.pem" as="pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.pem"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tar" as="pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tar.pubkey" as="pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tar.pubkey"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tgz" as="pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tgz.pubkey" as="pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.tgz.pubkey"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.zip" as="pear2.php.net/RemotePackage/nonauthoritative/get/RemotePackage/nonauthoritative/get/P1-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/info.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/maintainers.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/maintainers2.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/p/p1/RemotePackage/nonauthoritative/rest/p/p1/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/p/RemotePackage/nonauthoritative/rest/p/packages.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/p/RemotePackage/nonauthoritative/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/1.0.0.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/allreleases.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/allreleases2.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/latest.txt" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/stable.txt" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/nonauthoritative/rest/r/p1/RemotePackage/nonauthoritative/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/exceptions.phpt" as="pear2.php.net/RemotePackage/RemotePackage/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/getAllUpgrades.phpt" as="pear2.php.net/RemotePackage/RemotePackage/getAllUpgrades.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidcert.phpt" as="pear2.php.net/RemotePackage/RemotePackage/invalidcert.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidpackage.phpt" as="pear2.php.net/RemotePackage/RemotePackage/invalidpackage.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidzip.phpt" as="pear2.php.net/RemotePackage/RemotePackage/invalidzip.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/nonauthoritative.phpt" as="pear2.php.net/RemotePackage/RemotePackage/nonauthoritative.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/oldchannel.phpt" as="pear2.php.net/RemotePackage/RemotePackage/oldchannel.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/remotepackage.getmaintainers.phpt" as="pear2.php.net/RemotePackage/RemotePackage/remotepackage.getmaintainers.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/setup.php.inc" as="pear2.php.net/RemotePackage/RemotePackage/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/validzip.phpt" as="pear2.php.net/RemotePackage/RemotePackage/validzip.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/wrongemailcert.phpt" as="pear2.php.net/RemotePackage/RemotePackage/wrongemailcert.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/get/RemotePackage/validzip/get/GetMaintainers_Test-1.0.0.zip" as="pear2.php.net/RemotePackage/validzip/get/RemotePackage/validzip/get/GetMaintainers_Test-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/info.xml" as="pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/maintainers.xml" as="pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/maintainers2.xml" as="pear2.php.net/RemotePackage/validzip/rest/p/getmaintainers_test/RemotePackage/validzip/rest/p/getmaintainers_test/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/p/RemotePackage/validzip/rest/p/packages.xml" as="pear2.php.net/RemotePackage/validzip/rest/p/RemotePackage/validzip/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/1.0.0.xml" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/allreleases.xml" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/allreleases2.xml" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/deps.1.0.0.txt" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/latest.txt" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/package.1.0.0.xml" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/stable.txt" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/validzip/rest/r/getmaintainers_test/RemotePackage/validzip/rest/r/getmaintainers_test/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.pem" as="pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.pem"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tar" as="pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tar.pubkey" as="pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tar.pubkey"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tgz" as="pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tgz.pubkey" as="pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.tgz.pubkey"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.zip" as="pear2.php.net/RemotePackage/wrongemailcert/get/RemotePackage/wrongemailcert/get/P1-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/info.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/maintainers.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/maintainers2.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/p/p1/RemotePackage/wrongemailcert/rest/p/p1/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/p/RemotePackage/wrongemailcert/rest/p/packages.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/p/RemotePackage/wrongemailcert/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/allreleases.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/allreleases2.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/latest.txt" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt" as="pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc" as="pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar" as="pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
@@ -3722,16 +4046,16 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.stable.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.stable.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.invalidversion.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.invalidversion.phpt"/>
