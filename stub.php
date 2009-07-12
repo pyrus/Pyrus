@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 if (version_compare(phpversion(), '5.3.0', '<')) {
     if (substr(phpversion(), 0, 5) != '5.3.0') {
