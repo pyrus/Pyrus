@@ -43,7 +43,7 @@ class Remotepackages implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         if ($var !== 'devel' && $var !== 'alpha' && $var !== 'beta' && $var !== 'stable') {
-            throw new \pear2\Pyrus\Channel\Exception('Invalid stability requested, must be one of ' .
+            throw new \pear2\Pyrus\Channel\Exception('Invalid stability ' . $var . ' requested, must be one of ' .
                                                     'devel, alpha, beta, stable');
         }
         $a = clone $this;
@@ -112,8 +112,10 @@ class Remotepackages implements \ArrayAccess, \Iterator
         $ok = \pear2\Pyrus\Installer::betterStates($this->stability, true);
         $releases = array();
         foreach ($info['r'] as $release) {
-            if (!in_array($release['s'], $ok)) {
-                continue;
+            if ($this->stability) {
+                if (!in_array($release['s'], $ok)) {
+                    continue;
+                }
             }
             if (!isset($release['m'])) {
                 $release['m'] = '5.2.0';
