@@ -162,7 +162,13 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
                     $channel->name . ' has already been discovered');
             }
             static::$databases[$this->path]->exec('BEGIN');
-            $this->delete($channel, true);
+            static::$databases[$this->path]->exec('DELETE FROM channel_servers
+              WHERE
+                channel = "'
+                . static::$databases[$this->path]->escapeString($channel->name) . '";
+              DELETE FROM channel_server_rest
+              WHERE
+                channel = "' . static::$databases[$this->path]->escapeString($channel->name) . '"');
         } elseif ($update) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
                 $channel->name . ' is unknown');
@@ -172,7 +178,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
 
         static::$databases[$this->path]->enableExceptions(true);
         try {
-            $this->_add($channel, $lastmodified);
+            $this->_add($channel, $lastmodified, $update);
         } catch (\Exception $e) {
             static::$databases[$this->path]->enableExceptions(false);
             @static::$databases[$this->path]->exec('ROLLBACK');
@@ -182,18 +188,31 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         static::$databases[$this->path]->enableExceptions(false);
     }
 
-    private function _add($channel, $lastmodified)
+    private function _add($channel, $lastmodified, $update)
     {
         $validate = $channel->getValidationPackage();
 
-        $sql = '
-            INSERT INTO channels
-            (channel, summary, suggestedalias, alias, validatepackageversion,
-            validatepackage, lastmodified)
-            VALUES(
-                :name, :summary, :suggestedalias,
-                :alias, :version, :package, :lastmodified
-            )';
+        if ($update) {
+            $sql = '
+                UPDATE channels set
+                    summary=:summary,
+                    suggestedalias=:suggestedalias,
+                    alias=:alias,
+                    validatepackageversion=:version,
+                    validatepackage=:package,
+                    lastmodified=:lastmodified
+                WHERE
+                    channel=:name';
+        } else {
+            $sql = '
+                INSERT INTO channels
+                (channel, summary, suggestedalias, alias, validatepackageversion,
+                validatepackage, lastmodified)
+                VALUES(
+                    :name, :summary, :suggestedalias,
+                    :alias, :version, :package, :lastmodified
+                )';
+        }
 
         $stmt = static::$databases[$this->path]->prepare($sql);
 
@@ -397,7 +416,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         return $ret;
     }
 
-    function delete(\pear2\Pyrus\IChannel $channel, $inupdate = false)
+    function delete(\pear2\Pyrus\IChannel $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
@@ -405,10 +424,8 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
 
         $name = $channel->name;
         if (in_array($name, $this->getDefaultChannels())) {
-            if (!$inupdate) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete default channel ' .
-                    $channel->name);
-            }
+            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete default channel ' .
+                $channel->name);
         }
 
         $this->lazyInit();

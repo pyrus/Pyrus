@@ -684,7 +684,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             }
 
             $paranoia = \pear2\Pyrus\Main::getParanoiaLevel();
-            if ($paranoia > 1) {
+            if (!$this->explicitVersion && $paranoia > 1) {
                 // first, we check to see if we are upgrading
                 if (isset(\pear2\Pyrus\Main::$options['upgrade'])) {
                     // now we check to see if we are installed
@@ -725,7 +725,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                 if ($installed != $api) {
                                     \pear2\Pyrus\Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
-                                        $this->package . ' version ' .
+                                        $this->name . ' version ' .
                                         $versioninfo['v'] . ', API has changed');
                                     continue 2;
                                 }
@@ -734,7 +734,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                 if ($installed[0] == $api[0] && $installed[1] != $api[1]) {
                                     \pear2\Pyrus\Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
-                                        $this->package . ' version ' .
+                                        $this->name . ' version ' .
                                         $versioninfo['v'] . ', API has added' .
                                         ' new features');
                                     continue 2;
@@ -744,7 +744,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                 if ($installed[0] != $api[0]) {
                                     \pear2\Pyrus\Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
-                                        $this->package . ' version ' .
+                                        $this->name . ' version ' .
                                         $versioninfo['v'] . ', API breaks' .
                                         ' backwards compatibility');
                                     continue 2;

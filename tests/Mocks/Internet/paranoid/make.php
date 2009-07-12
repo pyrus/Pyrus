@@ -83,7 +83,7 @@ $package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');
 
 $pf->version['release'] = '2.0.0';
-$pf->version['api'] = '2.0.0';
+$pf->version['api'] = '2';
 file_put_contents(__DIR__ . '/package.xml', $pf);
 $package1 = new \pear2\Pyrus\Package(false);
 $xmlcontainer = new \pear2\Pyrus\PackageFile($pf);
