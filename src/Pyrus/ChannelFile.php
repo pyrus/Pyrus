@@ -70,6 +70,9 @@ class ChannelFile implements \pear2\Pyrus\IChannelFile
 
     function __get($var)
     {
+        if ($var === 'internal') {
+            return $this->info;
+        }
         return $this->info->$var;
     }
     

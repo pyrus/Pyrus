@@ -337,9 +337,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (empty($summary)) {
             throw new \pear2\Pyrus\Channel\Exception('Channel summary cannot be empty');
         } elseif (strpos(trim($summary), "\n") !== false) {
-            // not sure what to do about this yet
-            $this->_validateWarning(PEAR_CHANNELFILE_ERROR_MULTILINE_SUMMARY,
-                array('summary' => $summary));
+            throw new \pear2\Pyrus\Channel\Exception('Channel summary cannot be multi-line');
         }
         $this->channelInfo['summary'] = $summary;
         return true;
