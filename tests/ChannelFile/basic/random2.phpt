@@ -31,6 +31,20 @@ $test->assertEquals(array('attribs' => array('version' => 'default'), '_content'
                     $c->getValidationPackage(), 'validatepackage');
 $test->assertEquals('hi', $c->lastModified(), 'lastmodified');
 $test->assertSame($c->internal, $c->toChannelFile(), 'toChannelFile');
+
+foreach ($c->protocols->rest as $type => $url) {
+    throw new Exception('should have failed, did not');
+}
+$c->protocols->rest['TEST']->baseurl = 'hi';
+$test->assertEquals('hi/', $c->protocols->rest['TEST']->baseurl, 'adds trailing slash');
+foreach ($c->protocols->rest as $type => $url) {
+    if ($type === 'TEST') {
+        $test->assertEquals('hi/', $url, 'iteration adds trailing slash');
+        goto nofail;
+    }
+}
+echo "TEST was not found on line ", __LINE__ , "\n";
+nofail:
 ?>
 ===DONE===
 --EXPECT--

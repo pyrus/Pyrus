@@ -27,7 +27,9 @@ class REST implements \ArrayAccess, \Countable, \Iterator
 
     function rewind()
     {
-        reset($this->info['baseurl']);
+        if (isset($this->info['baseurl'])) {
+            reset($this->info['baseurl']);
+        }
     }
 
     function key()
@@ -63,6 +65,10 @@ class REST implements \ArrayAccess, \Countable, \Iterator
                     . 'REST protocols, use []');
         }
         if ($var === 'baseurl') {
+            if (isset($this->info['_content']) &&
+                    $this->info['_content'][strlen($this->info['_content'])-1] != '/') {
+                return $this->info['_content'] . '/';
+            }
             return $this->info['_content'];
         }
         throw new \pear2\Pyrus\ChannelFile\Exception('Unknown variable ' . $var);
