@@ -169,18 +169,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
 
     public function parsedNameToString($name)
     {
-        foreach ($this->_registries as $reg) {
-            try {
-                return $reg->parsedNameToString($name);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
-        if ($this->parent) {
-            return $this->parent->parsedNameToString($name);
-        }
-        // recycle last exception
-        throw new \pear2\Pyrus\ChannelRegistry\Exception('Unable to convert to package name string', $e);
+        return $this->_registries[0]->parsedNameToString($name);
     }
 
     public function listChannels()

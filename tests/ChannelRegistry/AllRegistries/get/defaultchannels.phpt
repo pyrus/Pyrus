@@ -16,6 +16,14 @@ $test->assertEquals('pear2.php.net', $chan->get('pear2.php.net')->name, 'pear2')
 $test->assertEquals('pecl.php.net', $chan->get('pecl.php.net')->name, 'pecl');
 $test->assertEquals('doc.php.net', $chan->get('doc.php.net')->name, 'doc');
 $test->assertEquals('__uri', $chan->get('__uri')->name, '__uri');
+
+pear2\Pyrus\ChannelRegistry\Foo::$throw = true;
+try {
+    $chan = new pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Foo'));
+} catch (pear2\Pyrus\ChannelRegistry\Exception $e) {
+    $test->assertEquals('Unable to initialize registry for path "' . __DIR__ . '/testit' . '"',
+                        $e->getMessage(), 'message');
+}
 ?>
 ===DONE===
 --CLEAN--
