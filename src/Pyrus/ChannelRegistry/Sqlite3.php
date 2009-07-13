@@ -41,12 +41,14 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
     function __construct($path, $readonly = false)
     {
         $this->readonly = $readonly;
+        $this->path = $path;
         if ($path && $path != ':memory:') {
             if (dirname($path . '.pear2registry') != $path) {
                 $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
+            } else {
+                $this->path = dirname($path);
             }
         }
-        $this->path = $path;
         if ($path != ':memory:') {
             if (file_exists($path)) {
                 $this->_init($path, $readonly);
@@ -66,7 +68,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
     {
         // lazy initialization
         if (!$this->initialized) {
-            $this->_init($this->path, $this->readonly);
+            $this->_init($this->path . '/.pear2registry', $this->readonly);
         }
 
         return parent::lazyInit();
@@ -74,7 +76,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
 
     private function _init($path, $readonly)
     {
-        if (isset(static::$databases[$path]) && static::$databases[$path]) {
+        if (isset(static::$databases[$this->path]) && static::$databases[$this->path]) {
             $this->initialized = true;
             return;
         }
@@ -97,19 +99,19 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
             throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
-        static::$databases[$path] = new \SQLite3($dbpath);
+        static::$databases[$this->path] = new \SQLite3($dbpath);
         // hopefully this works
-        if (static::$databases[$path]->lastErrorCode()) {
-            $temp = static::$databases[$path];
-            unset(static::$databases[$path]);
+        if (static::$databases[$this->path]->lastErrorCode()) {
+            $temp = static::$databases[$this->path];
+            unset(static::$databases[$this->path]);
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
         }
         $this->initialized = true;
 
         $sql = 'SELECT version FROM pearregistryversion';
-        if (@static::$databases[$path]->querySingle($sql) == '1.0.0') {
+        if (@static::$databases[$this->path]->querySingle($sql) == '1.0.0') {
             $sql = 'SELECT COUNT(*) FROM channels';
-            if (!static::$databases[$path]->querySingle($sql)) {
+            if (!static::$databases[$this->path]->querySingle($sql)) {
                 if ($readonly) {
                     throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
@@ -124,7 +126,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         }
 
         $a = new \pear2\Pyrus\Registry\Sqlite3\Creator;
-        $a->create(static::$databases[$path]);
+        $a->create(static::$databases[$this->path]);
         $this->initDefaultChannels();
     }
 

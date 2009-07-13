@@ -185,17 +185,23 @@ abstract class Base
         }
         if (is_object($parsed)) {
             $p = $parsed;
-            $parsed = array(
-                'package' => $p->getPackage(),
-                'channel' => $p->getChannel(),
-                'version' => $p->getVersion(),
-            );
+            if ($p->channel == '__uri') {
+                $parsed = array(
+                    'uri' => $p->uri,
+                );
+            } else {
+                $parsed = array(
+                    'package' => $p->name,
+                    'channel' => $p->channel,
+                    'version' => $p->version['release'],
+                );
+            }
         }
         if (isset($parsed['uri'])) {
             return $parsed['uri'];
         }
         if ($brief) {
-            if ($channel = $this->getAlias($parsed['channel'])) {
+            if ($channel = $this->get($parsed['channel'])->alias) {
                 return $channel . '/' . $parsed['package'];
             }
         }
@@ -219,7 +225,7 @@ abstract class Base
         if (isset($parsed['opts'])) {
             $ret .= '?';
             foreach ($parsed['opts'] as $name => $value) {
-                $parsed['opts'][$name] = "$name=$value";
+                $parsed['opts'][$name] = urlencode($name) . '=' . urlencode($value);
             }
             $ret .= implode('&', $parsed['opts']);
         }
@@ -231,22 +237,16 @@ abstract class Base
 
     function current()
     {
-        if (!isset($this->channelList)) {
-            $this->rewind();
-        }
         return $this->get(current($this->channelList));
     }
 
     function key()
     {
-        return key($this->channelList);
+        return current($this->channelList);
     }
 
     function valid()
     {
-        if (!isset($this->channelList)) {
-            $this->rewind();
-        }
         return current($this->channelList);
     }
 
@@ -258,11 +258,6 @@ abstract class Base
     function rewind()
     {
         $this->channelList = $this->listChannels();
-        if (!count($this->channelList)) {
-            // this only happens if we were never properly initialized
-            $this->initialized = false;
-            $this->lazyInit();
-        }
     }
 
     public function getPearChannel()

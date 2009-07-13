@@ -167,9 +167,9 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         throw new \pear2\Pyrus\ChannelRegistry\Exception('Unable to process package name', $e);
     }
 
-    public function parsedNameToString($name)
+    public function parsedNameToString($name, $brief = false)
     {
-        return $this->_registries[0]->parsedNameToString($name);
+        return $this->_registries[0]->parsedNameToString($name, $brief);
     }
 
     public function listChannels()
