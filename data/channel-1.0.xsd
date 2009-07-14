@@ -157,6 +157,7 @@
      </xs:complexType>
     </xs:element>
     <xs:element name="servers" type="ch:server"/>
+    <xs:element name="_lastmodified" type="xs:string" minOccurs="0" maxOccurs="1"/>
    </xs:sequence>
    <xs:attribute name="version" use="required">
     <xs:simpleType>
