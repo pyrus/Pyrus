@@ -65,7 +65,7 @@ class AtomicFileTransaction
             '.old-' . basename($rolepath);
         $this->journalpath = dirname($rolepath) . DIRECTORY_SEPARATOR .
             '.journal-' . basename($rolepath);
-        $this->defaultMode = \pear2\Pyrus\Config::current()->umask;
+        $this->defaultMode = 0777 & ~octdec(\pear2\Pyrus\Config::current()->umask);
     }
 
     /**
@@ -159,6 +159,8 @@ class AtomicFileTransaction
         if (!file_exists($path)) {
             return;
         }
+        // ensure permissions don't prevent removal
+        chmod($path, 0777);
         if (is_dir($path)) {
             if (!@rmdir($path) && $strict) {
                 throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
@@ -192,11 +194,11 @@ class AtomicFileTransaction
         }
         if ($mode === null) {
             $mode = $this->defaultMode;
+        } else {
+            $mode &= 0777;
         }
         if ($mode) {
-            $old = umask(0);
             chmod($path, $mode);
-            umask($old);
         }
     }
 
@@ -226,6 +228,8 @@ class AtomicFileTransaction
         }
         if ($mode === null) {
             $mode = $this->defaultMode;
+        } else {
+            $mode &= 0777;
         }
         $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
         if ($contents) {
@@ -248,9 +252,7 @@ class AtomicFileTransaction
                 }
             }
             if ($mode) {
-                $old = umask(0);
                 chmod($path, $mode);
-                umask($old);
             }
             return $path;
         } else {
@@ -260,9 +262,7 @@ class AtomicFileTransaction
                     $relativepath . ' for writing in ' . $this->journalpath);
             }
             if ($mode) {
-                $old = umask(0);
                 chmod($path, $mode);
-                umask($old);
             }
             return $fp;
         }
@@ -288,6 +288,35 @@ class AtomicFileTransaction
 
     static function rmrf($path, $onlyEmptyDirs = false, $strict = true)
     {
+        if ($strict) {
+            $oldperms = array();
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
+                                                   \RecursiveIteratorIterator::SELF_FIRST)
+                     as $file) {
+                if ($file->getFilename() == '.' || $file->getFilename() == '..') {
+                    continue;
+                }
+                $oldperms[$file->getPathName()] = fileperms($file->getPathName());
+                if (is_dir($file->getPathName())) {
+                    chmod($file->getPathName(), 0777);
+                } else {
+                    chmod($file->getPathName(), 0666);
+                }
+            }
+        } else {
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
+                                                   \RecursiveIteratorIterator::SELF_FIRST)
+                     as $file) {
+                if ($file->getFilename() == '.' || $file->getFilename() == '..') {
+                    continue;
+                }
+                if (is_dir($file->getPathName())) {
+                    chmod($file->getPathName(), 0777);
+                } else {
+                    chmod($file->getPathName(), 0666);
+                }
+            }
+        }
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
                                                \RecursiveIteratorIterator::CHILD_FIRST)
                  as $file) {
@@ -299,6 +328,12 @@ class AtomicFileTransaction
                     if (!$strict) {
                         return;
                     }
+                    // restore original permissions
+                    foreach ($oldperms as $file => $perms) {
+                        if (file_exists($file)) {
+                            chmod($file, $perms);
+                        }
+                    }
                     throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                         'Unable to fully remove ' . $path);
                 }
@@ -306,6 +341,12 @@ class AtomicFileTransaction
                 if ($onlyEmptyDirs) {
                     if (!$strict) {
                         return;
+                    }
+                    // restore original permissions
+                    foreach ($oldperms as $file => $perms) {
+                        if (file_exists($file)) {
+                            chmod($file, $perms);
+                        }
                     }
                     throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                         'Unable to fully remove ' . $path . ', directory is not empty');
@@ -317,14 +358,17 @@ class AtomicFileTransaction
                 }
             }
         }
+        // ensure rmdir works
+        chmod($path, 0777);
         rmdir($path);
     }
 
     function copyToJournal()
     {
+        if (!file_exists($this->rolepath)) {
+            return;
+        }
         try {
-            $oldumask = umask();
-            umask(000);
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->rolepath),
                                                    \RecursiveIteratorIterator::SELF_FIRST)
                      as $file) {
@@ -337,38 +381,32 @@ class AtomicFileTransaction
                 $src = str_replace($this->rolepath . DIRECTORY_SEPARATOR, '', $file->getPathname());
                 if (is_dir($file->getPathname())) {
                     if (!mkdir($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms)) {
-                        umask($oldumask);
                         throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                             'Unable to complete journal creation for transaction');
                     }
+                    chmod($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms);
                     if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
-                        umask($oldumask);
                         throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                             'Unable to complete journal creation for transaction');
                     }
                     continue;
                 }
                 if (!copy($file->getPathName(), $this->journalpath . DIRECTORY_SEPARATOR . $src)) {
-                    umask($oldumask);
                     throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                         'Unable to complete journal creation for transaction');
                 }
                 if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
-                    umask($oldumask);
                     throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                         'Unable to complete journal creation for transaction');
                 }
                 if (!chmod($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms)) {
-                    umask($oldumask);
                     throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                         'Unable to complete journal creation for transaction');
                 }
             }
-            umask($oldumask);
         } catch (\UnexpectedValueException $e) {
-            // directory does not exist, so we ignore the exception and reset umask
-            umask($oldumask);
-            return;
+            throw new AtomicFileTransaction\Exception('journal creation failed: ' .
+                                                      $e->getMessage(), $e);
         }
     }
 
@@ -423,6 +461,11 @@ create_journal:
             if (!file_exists($this->journalpath)) {
                 throw new \pear2\Pyrus\AtomicFileTransaction\Exception(
                     'unrecoverable transaction error: cannot create journal path ' . $this->journalpath);
+            }
+            if (file_exists($this->rolepath)) {
+                chmod($this->journalpath, fileperms($this->rolepath));
+            } else {
+                chmod($this->journalpath, $this->defaultMode);
             }
             $this->copyToJournal();
         } elseif (!is_dir($this->journalpath)) {

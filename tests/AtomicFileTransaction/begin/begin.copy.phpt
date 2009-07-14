@@ -23,11 +23,15 @@ $test->assertFileExists(__DIR__ . '/testit/php/anothernew/dir/file', __DIR__ . '
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-php', __DIR__ . '/testit/.journal-php before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/foo', __DIR__ . '/testit/.journal-php/foo before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/another', __DIR__ . '/testit/.journal-php/another before');
-$test->assertFileNotExists(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing', __DIR__ . '/testit/.journal-php/sub/deep/deep/thing before');
-$test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir', __DIR__ . '/testit/.journal-php/another/dir before');
-$test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir/file', __DIR__ . '/testit/.journal-php/another/dir/file before');
+$test->assertFileNotExists(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing',
+                           __DIR__ . '/testit/.journal-php/sub/deep/deep/thing before');
+$test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir',
+                           __DIR__ . '/testit/.journal-php/another/dir before');
+$test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir/file',
+                           __DIR__ . '/testit/.journal-php/another/dir/file before');
 
-$role = new \pear2\Pyrus\Installer\Role\Php(\pear2\Pyrus\Config::current(), \pear2\Pyrus\Installer\Role::getInfo('php'));
+$role = new \pear2\Pyrus\Installer\Role\Php(\pear2\Pyrus\Config::current(),
+                                            \pear2\Pyrus\Installer\Role::getInfo('php'));
 $atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject($role);
 
 \pear2\Pyrus\AtomicFileTransaction::begin();
@@ -37,20 +41,28 @@ $test->assertFileExists(__DIR__ . '/testit/php/foo', __DIR__ . '/testit/php/foo 
 $test->assertFileExists(__DIR__ . '/testit/php/another', __DIR__ . '/testit/php/another after');
 $test->assertFileExists(__DIR__ . '/testit/php/sub/deep/deep/thing', __DIR__ . '/testit/php/sub/deep/deep/thing after');
 $test->assertFileExists(__DIR__ . '/testit/php/anothernew/dir', __DIR__ . '/testit/php/another/dir after');
-$test->assertFileExists(__DIR__ . '/testit/php/anothernew/dir/file', __DIR__ . '/testit/php/another/dir/file after');
+$test->assertFileExists(__DIR__ . '/testit/php/anothernew/dir/file',
+                        __DIR__ . '/testit/php/another/dir/file after');
 
 $test->assertFileExists(__DIR__ . '/testit/.journal-php', __DIR__ . '/testit/.journal-php after');
 $test->assertFileExists(__DIR__ . '/testit/.journal-php/foo', __DIR__ . '/testit/.journal-php/foo after');
 $test->assertFileExists(__DIR__ . '/testit/.journal-php/another', __DIR__ . '/testit/.journal-php/another after');
-$test->assertFileExists(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing', __DIR__ . '/testit/.journal-php/sub/deep/deep/thing after');
-$test->assertFileExists(__DIR__ . '/testit/.journal-php/anothernew/dir', __DIR__ . '/testit/.journal-php/another/dir after');
-$test->assertFileExists(__DIR__ . '/testit/.journal-php/anothernew/dir/file', __DIR__ . '/testit/.journal-php/another/dir/file after');
+$test->assertFileExists(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing',
+                        __DIR__ . '/testit/.journal-php/sub/deep/deep/thing after');
+$test->assertFileExists(__DIR__ . '/testit/.journal-php/anothernew/dir',
+                        __DIR__ . '/testit/.journal-php/another/dir after');
+$test->assertFileExists(__DIR__ . '/testit/.journal-php/anothernew/dir/file',
+                        __DIR__ . '/testit/.journal-php/another/dir/file after');
 
-$test->assertEquals(decoct(0777), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing')), 'perms ' . __DIR__ . '/testit/.journal-php/sub/deep/deep/thing');
-$test->assertEquals(decoct(0755), decoct(0755 & fileperms(__DIR__ . '/testit/.journal-php/anothernew')), 'perms ' . __DIR__ . '/testit/.journal-php/anothernew');
-$test->assertEquals(decoct(0777), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-php/anothernew/dir')), 'perms ' . __DIR__ . '/testit/.journal-php/anothernew/dir');
+$test->assertEquals(decoct(0777), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-php/sub/deep/deep/thing')),
+                    'perms ' . __DIR__ . '/testit/.journal-php/sub/deep/deep/thing');
+$test->assertEquals(decoct(0755), decoct(0755 & fileperms(__DIR__ . '/testit/.journal-php/anothernew')),
+                    'perms ' . __DIR__ . '/testit/.journal-php/anothernew');
+$test->assertEquals(decoct(0777), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-php/anothernew/dir')),
+                    'perms ' . __DIR__ . '/testit/.journal-php/anothernew/dir');
 
-$test->assertEquals(filemtime(__DIR__ . '/testit/php/another'), filemtime(__DIR__ . '/testit/.journal-php/another'), 'mtime 1');
+$test->assertEquals(filemtime(__DIR__ . '/testit/php/another'),
+                    filemtime(__DIR__ . '/testit/.journal-php/another'), 'mtime 1');
 $test->assertEquals(1234567, filemtime(__DIR__ . '/testit/.journal-php/foo'), 'foo mtime');
 ?>
 ===DONE===
