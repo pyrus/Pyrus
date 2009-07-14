@@ -20,6 +20,9 @@ try {
 }
 $test->assertEquals(true, $creg->exists('pear.unl.edu'), 'not successfully deleted');
 
+$chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
+$chan->name = 'foo';
+$test->assertEquals(true, $creg->delete($chan), 'non-existing');
 ?>
 ===DONE===
 --CLEAN--

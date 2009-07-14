@@ -69,19 +69,13 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         }
     }
 
-    private function _channelFileName($channel, $noaliases = false)
+    protected function channelFileName($channel)
     {
-        if (!$noaliases) {
-            $c = $this->_channelAliasFileName($channel);
-            if (file_exists($c)) {
-                $channel = implode('', file($c));
-            }
-        }
         return $this->_channelPath . DIRECTORY_SEPARATOR . str_replace('/', '_',
             strtolower($channel)) . '.reg';
     }
 
-    private function _channelAliasFileName($alias)
+    protected function channelAliasFileName($alias)
     {
         return $this->_channelPath . DIRECTORY_SEPARATOR . '.alias' .
               DIRECTORY_SEPARATOR . str_replace('/', '_', strtolower($alias)) . '.txt';
@@ -92,7 +86,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         if (!$this->initialized) {
             return parent::channelFromAlias($alias);
         }
-        $file = $this->_channelAliasFileName($alias);
+        $file = $this->channelAliasFileName($alias);
         if (file_exists($file)) {
             return file_get_contents($file);
         }
@@ -104,9 +98,9 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
-        if (!is_writeable($this->_channelPath)) {
+        if (!is_writable($this->_channelPath)) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel ' .
-                $channel->name . ', channel registry path is not writeable');
+                $channel->name . ', channel registry path is not writable');
         }
 
         $this->lazyInit();
@@ -120,8 +114,8 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
             }
             $checker = $this->get($channel->name);
             if ($channel->alias != $checker->alias) {
-                if (file_exists($this->_channelAliasFileName($checker->alias))) {
-                    @unlink($this->_channelAliasFileName($checker->alias));
+                if (file_exists($this->channelAliasFileName($checker->alias))) {
+                    @unlink($this->channelAliasFileName($checker->alias));
                 }
             }
         } elseif ($update) {
@@ -129,19 +123,19 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
                 $channel->name . ' is unknown');
         }
         if ($channel->alias != $channel->name) {
-            if (file_exists($this->_channelAliasFileName($channel->alias)) &&
+            if (file_exists($this->channelAliasFileName($channel->alias)) &&
                   $this->channelFromAlias($channel->alias) != $channel->name) {
                 $channel->alias = $channel->name;
             }
-            $fp = @fopen($this->_channelAliasFileName($channel->alias), 'w');
+            $fp = @fopen($this->channelAliasFileName($channel->alias), 'w');
             if (!$fp) {
                 throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add/update channel ' .
-                    $channel->name . ', unable to open PEAR1 alias file');
+                    $channel->name . ', unable to open PEAR1 channel alias file');
             }
             fwrite($fp, $channel->name);
             fclose($fp);
         }
-        $fp = @fopen($this->_channelFileName($channel->name), 'wb');
+        $fp = @fopen($this->channelFileName($channel->name), 'wb');
         if (!$fp) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add/update channel ' .
                 $channel->name . ', unable to open PEAR1 channel registry file');
@@ -188,8 +182,8 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel ' .
                 $name . ', packages are installed');
         }
-        @unlink($this->_channelFileName($name));
-        @unlink($this->_channelAliasFileName($channel->alias));
+        @unlink($this->channelFileName($name));
+        @unlink($this->channelAliasFileName($channel->alias));
     }
 
     public function get($channel, $strict = true)
@@ -203,7 +197,8 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
             // is a default channel not installed
             return $this->getDefaultChannel($channel);
         }
-        $cont = file_get_contents($this->_channelFileName($channel, $strict));
+        $channel = $this->channelFromAlias($channel);
+        $cont = file_get_contents($this->channelFileName($channel));
         $a = @unserialize($cont);
         if (!$a || !is_array($a)) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Channel ' . $channel .
@@ -211,6 +206,9 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         }
         try {
             $chan = new \pear2\Pyrus\ChannelRegistry\Channel($this, $a);
+            if ($channel != '__uri') {
+                $chan->validate();
+            }
             return $chan;
         } catch (\Exception $e) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Channel ' . $channel .
@@ -220,7 +218,10 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
 
     public function exists($channel, $strict = true)
     {
-        $chan = $this->_channelFileName($channel);
+        if (!$strict) {
+            $channel = $this->channelFromAlias($channel);
+        }
+        $chan = $this->channelFileName($channel);
         if (file_exists($chan)) {
             return true;
         }
@@ -235,7 +236,11 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         $ret = array();
         foreach (new \RegexIterator(new \DirectoryIterator($this->_channelPath),
                                 '/^(.+?)\.reg/', \RegexIterator::GET_MATCH) as $file) {
-            $ret[] = $this->get(str_replace('_', '/', $file[1]))->name;
+            if ($file[1] == '__uri') {
+                $ret[] = '__uri';
+            } else {
+                $ret[] = $this->get(str_replace('_', '/', $file[1]))->name;
+            }
         }
         return $ret;
     }

@@ -347,7 +347,7 @@ abstract class Base
 
     function getDefaultChannelAliases()
     {
-        return array('__uri', 'pear2', 'pear', 'pecl', 'doc');
+        return array('__uri', 'pear2', 'pear', 'pecl', 'phpdocs');
     }
 
     public function getPath()

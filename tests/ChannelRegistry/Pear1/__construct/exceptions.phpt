@@ -4,7 +4,7 @@
 <?php
 require __DIR__ . '/../setup.php.inc';
 try {
-    $creg = new pear2\Pyrus\ChannelRegistry\Pear1(__DIR__ . '/testit/non/existing/dir', true);
+    $creg = new pear2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit/non/existing/dir', true);
 } catch (\pear2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot initialize PEAR1 channel registry, directory does not exist and registry is read-only',
                         $e->getMessage(), 'readonly test');

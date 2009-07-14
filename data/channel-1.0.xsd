@@ -136,7 +136,7 @@
  <xs:element name="channel">
   <xs:complexType>
    <xs:sequence>
-     <xs:element name="name" type="ch:channelname"/>
+    <xs:element name="name" type="ch:channelname"/>
     <xs:choice>
      <xs:sequence minOccurs="1" maxOccurs="1">
       <xs:element name="suggestedalias" type="ch:channelname"/>
@@ -157,7 +157,23 @@
      </xs:complexType>
     </xs:element>
     <xs:element name="servers" type="ch:server"/>
-    <xs:element name="_lastmodified" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="validatepackage" minOccurs="0">
+     <xs:complexType>
+      <xs:simpleContent>
+       <xs:restriction base="ch:validatepackage">
+        <xs:pattern value="[A-Za-z][a-zA-Z0-9_]+"/>
+       </xs:restriction>
+      </xs:simpleContent>
+     </xs:complexType>
+    </xs:element>
+    <xs:element name="_lastmodified" minOccurs="0" maxOccurs="1">
+     <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="1">
+       <xs:element name="ETag" minOccurs="0" type="xs:string"/>
+       <xs:element name="Last-Modified" minOccurs="0" type="xs:string"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
    </xs:sequence>
    <xs:attribute name="version" use="required">
     <xs:simpleType>

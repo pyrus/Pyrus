@@ -29,6 +29,9 @@ class Channel extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\IChann
     private $_parent;
     function __construct(\pear2\Pyrus\IChannelRegistry $parent, $data)
     {
+        if (is_array($data) && !isset($data['channel']) && !isset($data['attribs'])) {
+            $data = array_merge(array('attribs' =>  $this->rootAttributes), $data);
+        }
         $this->_parent = $parent;
         parent::__construct($data);
     }
