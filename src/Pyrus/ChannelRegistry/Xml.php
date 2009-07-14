@@ -104,7 +104,7 @@ class Xml extends \pear2\Pyrus\ChannelRegistry\Base
         if (file_exists($this->getChannelFile($alias))) {
             return $alias;
         }
-        throw new \pear2\Pyrus\ChannelFile\Exception('Unknown channel/alias: ' . $alias);
+        throw new \pear2\Pyrus\ChannelRegistry\Exception('Unknown channel/alias: ' . $alias);
     }
 
     /**
@@ -142,7 +142,7 @@ class Xml extends \pear2\Pyrus\ChannelRegistry\Base
         $file = $this->getChannelFile($channel);
         if (@file_exists($file)) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
-                $channel->alias . ' has already been discovered');
+                $channel->name . ' has already been discovered');
         }
         if (!@is_dir(dirname($file))) {
             mkdir(dirname($file), 0755, true);
