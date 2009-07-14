@@ -95,7 +95,7 @@ class Config
      */
     protected $values;
 
-    protected $hasPackagingRoot = false;
+    protected $packagingRoot = false;
 
     static protected $explicitUserConfig = false;
 
@@ -368,11 +368,7 @@ class Config
         }
 
         self::$defaults['php_ini'] = php_ini_loaded_file();
-        if (self::$defaults['php_ini']) {
-            \pear2\Pyrus\Logger::log(5, 'Used ' . self::$defaults['php_ini'] . ' for php.ini location');
-        } else {
-            \pear2\Pyrus\Logger::log(5, 'Could not find php.ini');
-        }
+        \pear2\Pyrus\Logger::log(5, 'Used ' . self::$defaults['php_ini'] . ' for php.ini location');
     }
 
     /**
@@ -402,7 +398,9 @@ class Config
         }
 
         // Always set the current config to the most recently created one.
-        $this->hasPackagingRoot = isset(\pear2\Pyrus\Main::$options['packagingroot']);
+        $this->packagingRoot = isset(\pear2\Pyrus\Main::$options['packagingroot']) ?
+            \pear2\Pyrus\Main::$options['packagingroot'] :
+            false;
         self::$initializing = false;
     }
 
@@ -413,7 +411,12 @@ class Config
 
     function hasPackagingRoot()
     {
-        return $this->hasPackagingRoot;
+        return (bool) $this->packagingRoot;
+    }
+
+    function packagingRoot()
+    {
+        return $this->packagingRoot;
     }
 
     /**
@@ -510,7 +513,7 @@ class Config
 
                 $last  = $registry;
                 $lastc = $channel_registry;
-                if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
+                if ($this->packagingRoot) {
                     break; // no cascading registries allowed for packaging
                 }
             } catch (\Exception $e) {
@@ -609,7 +612,7 @@ class Config
     static protected function locateLocalSettingsDirectory()
     {
         if (class_exists('COM', false)) {
-            $shell = new COM('Wscript.Shell');
+            $shell = new \COM('Wscript.Shell');
             $value = $shell->SpecialFolders('MyDocuments');
             return $value;
         }
@@ -878,8 +881,8 @@ class Config
         }
 
         $test = $this->pearDir . '.config';
-        if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-            $test = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $test);
+        if ($this->packagingRoot) {
+            $test = \pear2\Pyrus\Main::prepend($this->packagingRoot, $test);
         }
         while ($test && !file_exists($test)) {
             $test = dirname($test);
@@ -934,8 +937,8 @@ class Config
         if (dirname($system) != $this->pearDir) {
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
         }
-        if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-            $system = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $system);
+        if ($this->packagingRoot) {
+            $system = \pear2\Pyrus\Main::prepend($this->packagingRoot, $system);
         }
         if (!file_exists(dirname($system)) && !@mkdir(dirname($system), 0777, true)) {
             throw new \pear2\Pyrus\Config\Exception(
@@ -972,8 +975,8 @@ class Config
     {
         $conf = self::current();
         $snapshotdir = $conf->pearDir . DIRECTORY_SEPARATOR . '.configsnapshots';
-        if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-            $snapshotdir = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $snapshotdir);
+        if ($conf->hasPackagingRoot()) {
+            $snapshotdir = \pear2\Pyrus\Main::prepend($conf->packagingRoot(), $snapshotdir);
         }
         if (!file_exists($snapshotdir)) {
             // this will be simple - no snapshots exist yet
