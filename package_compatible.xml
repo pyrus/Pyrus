@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-10</date>
- <time>23:16:24</time>
+ <date>2009-07-14</date>
+ <time>17:59:47</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -106,8 +106,8 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
@@ -257,6 +257,10 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/singlerelease.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/oldchannel.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml"/>
@@ -292,6 +296,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/validzip.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/remotepackage.getmaintainers.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/paranoia.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/oldchannel.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/nonauthoritative.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidzip.phpt"/>
@@ -810,6 +815,63 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Autoload.php"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.2.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.1.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.3.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.1.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/stable.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.2.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.1.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.3.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.1.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/latest.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.2.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.1.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.3.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.2.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.1.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.0.txt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/allreleases2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/allreleases.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/2.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.1.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.3.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.1.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.0.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/maintainers2.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/maintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/Mocks/Internet/paranoid/rest/p/packages.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/m/Mocks/Internet/paranoid/rest/m/allmaintainers.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/m/cellog/Mocks/Internet/paranoid/rest/m/cellog/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/c/Mocks/Internet/paranoid/rest/c/categories.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/c/Default/Mocks/Internet/paranoid/rest/c/Default/packagesinfo.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/c/Default/Mocks/Internet/paranoid/rest/c/Default/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/Mocks/Internet/paranoid/make.php"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/Mocks/Internet/paranoid/channel.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.zip"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.tgz"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.tar"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/Mocks/Internet/README"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/v2.1.0.0.xml"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/stable.txt"/>
@@ -1376,6 +1438,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.depinstalled.notupgrading.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.packagesplitting.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.configsnapshot.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_script.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_existing_package.phpt"/>
@@ -1384,6 +1447,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.signedpackage.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.packages.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.packagingroot.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.minphpfail.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.force.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict.phpt"/>
@@ -1569,6 +1633,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/__get__set__unset__isset/Config/__get__set__unset__isset/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/userInitialized/Config/userInitialized/test.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/userInitialized/Config/userInitialized/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/singleton/Config/singleton/packagingroot.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt"/>
@@ -1592,6 +1657,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/constructDefaults/Config/constructDefaults/bin_dir.env2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/constructDefaults/Config/constructDefaults/bin_dir.env.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/constructDefaults/Config/constructDefaults/basic.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/configSnapshot/Config/configSnapshot/test2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/configSnapshot/Config/configSnapshot/test.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/configSnapshot/Config/configSnapshot/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Config/Config/setup.php.inc"/>
@@ -1602,6 +1668,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/clean.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/update/ChannelRegistry/Xml/update/update.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/update/ChannelRegistry/Xml/update/update.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/listChannels/ChannelRegistry/Xml/listChannels/installed.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/listChannels/ChannelRegistry/Xml/listChannels/default.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/delete/ChannelRegistry/Xml/delete/internal.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/delete/ChannelRegistry/Xml/delete/external.phpt"/>
@@ -1620,14 +1687,19 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Sqlite3/ChannelRegistry/Sqlite3/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Sqlite3/add/ChannelRegistry/Sqlite3/add/add.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Sqlite3/add/ChannelRegistry/Sqlite3/add/add.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/__construct/ChannelRegistry/Pear1/__construct/test.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/__construct/ChannelRegistry/Pear1/__construct/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/update/ChannelRegistry/Pear1/update/update.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/update/ChannelRegistry/Pear1/update/update.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/listChannels/ChannelRegistry/Pear1/listChannels/default.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/get/ChannelRegistry/Pear1/get/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/internal.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/external.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.installed.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/ChannelRegistry/Pear1/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/channelFromAlias/ChannelRegistry/Pear1/channelFromAlias/uninitialized.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/ChannelRegistry/setup.php.inc"/>
@@ -1638,12 +1710,17 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parent.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/errors.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parsedNameToString/ChannelRegistry/AllRegistries/parsedNameToString/basic.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/listChannels/ChannelRegistry/AllRegistries/listChannels/default.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/rest.template"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/mirrors.template"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/basic.template"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/get/ChannelRegistry/AllRegistries/get/defaultchannels.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/get/ChannelRegistry/AllRegistries/get/defaultchannels.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/strict_internal.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/strict_external.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/internal.phpt"/>
@@ -1652,6 +1729,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/external.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/delete.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/delete.installed.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/ChannelRegistry/AllRegistries/coverage.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.readonly.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile_Parser_v1/ChannelFile_Parser_v1/setup.php.inc"/>
@@ -1659,6 +1737,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/setupFiles/ChannelFile/setupFiles/setupChannelFile.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/ChannelFile/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/basic/ChannelFile/basic/simpleproperties.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/basic/ChannelFile/basic/random2.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/basic/ChannelFile/basic/random.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Channel/remoteiteration/Channel/remoteiteration/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Channel/remoteiteration/Channel/remoteiteration/pearconfig.xml"/>
@@ -2089,6 +2168,10 @@ Initial pyrus public API
     <name>PEAR2_MultiErrors</name>
     <channel>pear2.php.net</channel>
    </package>
+   <package>
+    <name>PEAR2_HTTP_Request</name>
+    <channel>pear2.php.net</channel>
+   </package>
   </required>
  </dependencies>
  <phprelease>
@@ -2501,6 +2584,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Channel/remoteiteration/Channel/remoteiteration/pearconfig.xml" as="pear2.php.net/Channel/remoteiteration/Channel/remoteiteration/pearconfig.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Channel/remoteiteration/Channel/remoteiteration/setup.php.inc" as="pear2.php.net/Channel/remoteiteration/Channel/remoteiteration/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/basic/ChannelFile/basic/random.phpt" as="pear2.php.net/ChannelFile/basic/ChannelFile/basic/random.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/basic/ChannelFile/basic/random2.phpt" as="pear2.php.net/ChannelFile/basic/ChannelFile/basic/random2.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/basic/ChannelFile/basic/simpleproperties.phpt" as="pear2.php.net/ChannelFile/basic/ChannelFile/basic/simpleproperties.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/ChannelFile/setup.php.inc" as="pear2.php.net/ChannelFile/ChannelFile/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile/setupFiles/ChannelFile/setupFiles/setupChannelFile.php.inc" as="pear2.php.net/ChannelFile/setupFiles/ChannelFile/setupFiles/setupChannelFile.php.inc"/>
@@ -2508,6 +2592,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelFile_Parser_v1/ChannelFile_Parser_v1/setup.php.inc" as="pear2.php.net/ChannelFile_Parser_v1/ChannelFile_Parser_v1/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.readonly.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.readonly.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/ChannelRegistry/AllRegistries/coverage.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/ChannelRegistry/AllRegistries/coverage.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/delete.installed.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/delete.installed.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/delete.readonly.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/delete.readonly.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/external.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/delete/ChannelRegistry/AllRegistries/delete/external.phpt"/>
@@ -2516,12 +2601,17 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/internal.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/internal.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/strict_external.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/strict_external.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/strict_internal.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/exists/ChannelRegistry/AllRegistries/exists/strict_internal.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/get/ChannelRegistry/AllRegistries/get/defaultchannels.php.inc" as="pear2.php.net/ChannelRegistry/AllRegistries/get/ChannelRegistry/AllRegistries/get/defaultchannels.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/get/ChannelRegistry/AllRegistries/get/defaultchannels.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/get/ChannelRegistry/AllRegistries/get/defaultchannels.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/basic.template" as="pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/basic.template"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/mirrors.template" as="pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/mirrors.template"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/rest.template" as="pear2.php.net/ChannelRegistry/AllRegistries/info/ChannelRegistry/AllRegistries/info/rest.template"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/listChannels/ChannelRegistry/AllRegistries/listChannels/default.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/listChannels/ChannelRegistry/AllRegistries/listChannels/default.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parsedNameToString/ChannelRegistry/AllRegistries/parsedNameToString/basic.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/parsedNameToString/ChannelRegistry/AllRegistries/parsedNameToString/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/errors.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/errors.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parent.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parent.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename2.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/parseName/ChannelRegistry/AllRegistries/parseName/parsename2.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt" as="pear2.php.net/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt"/>
@@ -2532,14 +2622,19 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/ChannelRegistry/setup.php.inc" as="pear2.php.net/ChannelRegistry/ChannelRegistry/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.phpt" as="pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.readonly.phpt" as="pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/add.readonly.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/exceptions.phpt" as="pear2.php.net/ChannelRegistry/Pear1/add/ChannelRegistry/Pear1/add/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/channelFromAlias/ChannelRegistry/Pear1/channelFromAlias/uninitialized.phpt" as="pear2.php.net/ChannelRegistry/Pear1/channelFromAlias/ChannelRegistry/Pear1/channelFromAlias/uninitialized.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/ChannelRegistry/Pear1/setup.php.inc" as="pear2.php.net/ChannelRegistry/Pear1/ChannelRegistry/Pear1/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.installed.phpt" as="pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.installed.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.readonly.phpt" as="pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/delete.readonly.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/external.phpt" as="pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/external.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/internal.phpt" as="pear2.php.net/ChannelRegistry/Pear1/delete/ChannelRegistry/Pear1/delete/internal.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/get/ChannelRegistry/Pear1/get/exceptions.phpt" as="pear2.php.net/ChannelRegistry/Pear1/get/ChannelRegistry/Pear1/get/exceptions.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/listChannels/ChannelRegistry/Pear1/listChannels/default.phpt" as="pear2.php.net/ChannelRegistry/Pear1/listChannels/ChannelRegistry/Pear1/listChannels/default.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/update/ChannelRegistry/Pear1/update/update.phpt" as="pear2.php.net/ChannelRegistry/Pear1/update/ChannelRegistry/Pear1/update/update.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/update/ChannelRegistry/Pear1/update/update.readonly.phpt" as="pear2.php.net/ChannelRegistry/Pear1/update/ChannelRegistry/Pear1/update/update.readonly.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/__construct/ChannelRegistry/Pear1/__construct/exceptions.phpt" as="pear2.php.net/ChannelRegistry/Pear1/__construct/ChannelRegistry/Pear1/__construct/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Pear1/__construct/ChannelRegistry/Pear1/__construct/test.phpt" as="pear2.php.net/ChannelRegistry/Pear1/__construct/ChannelRegistry/Pear1/__construct/test.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Sqlite3/add/ChannelRegistry/Sqlite3/add/add.phpt" as="pear2.php.net/ChannelRegistry/Sqlite3/add/ChannelRegistry/Sqlite3/add/add.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Sqlite3/add/ChannelRegistry/Sqlite3/add/add.readonly.phpt" as="pear2.php.net/ChannelRegistry/Sqlite3/add/ChannelRegistry/Sqlite3/add/add.readonly.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Sqlite3/ChannelRegistry/Sqlite3/setup.php.inc" as="pear2.php.net/ChannelRegistry/Sqlite3/ChannelRegistry/Sqlite3/setup.php.inc"/>
@@ -2558,6 +2653,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/delete/ChannelRegistry/Xml/delete/external.phpt" as="pear2.php.net/ChannelRegistry/Xml/delete/ChannelRegistry/Xml/delete/external.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/delete/ChannelRegistry/Xml/delete/internal.phpt" as="pear2.php.net/ChannelRegistry/Xml/delete/ChannelRegistry/Xml/delete/internal.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/listChannels/ChannelRegistry/Xml/listChannels/default.phpt" as="pear2.php.net/ChannelRegistry/Xml/listChannels/ChannelRegistry/Xml/listChannels/default.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/listChannels/ChannelRegistry/Xml/listChannels/installed.phpt" as="pear2.php.net/ChannelRegistry/Xml/listChannels/ChannelRegistry/Xml/listChannels/installed.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/update/ChannelRegistry/Xml/update/update.phpt" as="pear2.php.net/ChannelRegistry/Xml/update/ChannelRegistry/Xml/update/update.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ChannelRegistry/Xml/update/ChannelRegistry/Xml/update/update.readonly.phpt" as="pear2.php.net/ChannelRegistry/Xml/update/ChannelRegistry/Xml/update/update.readonly.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/clean.php.inc" as="pear2.php.net/clean.php.inc"/>
@@ -2568,6 +2664,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/Config/setup.php.inc" as="pear2.php.net/Config/Config/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/configSnapshot/Config/configSnapshot/setup.php.inc" as="pear2.php.net/Config/configSnapshot/Config/configSnapshot/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/configSnapshot/Config/configSnapshot/test.phpt" as="pear2.php.net/Config/configSnapshot/Config/configSnapshot/test.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Config/configSnapshot/Config/configSnapshot/test2.phpt" as="pear2.php.net/Config/configSnapshot/Config/configSnapshot/test2.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/constructDefaults/Config/constructDefaults/basic.phpt" as="pear2.php.net/Config/constructDefaults/Config/constructDefaults/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/constructDefaults/Config/constructDefaults/bin_dir.env.phpt" as="pear2.php.net/Config/constructDefaults/Config/constructDefaults/bin_dir.env.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/constructDefaults/Config/constructDefaults/bin_dir.env2.phpt" as="pear2.php.net/Config/constructDefaults/Config/constructDefaults/bin_dir.env2.phpt"/>
@@ -2591,6 +2688,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt" as="pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt" as="pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/setup.php.inc" as="pear2.php.net/Config/setCascadingRegistries/Config/setCascadingRegistries/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Config/singleton/Config/singleton/packagingroot.phpt" as="pear2.php.net/Config/singleton/Config/singleton/packagingroot.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/userInitialized/Config/userInitialized/setup.php.inc" as="pear2.php.net/Config/userInitialized/Config/userInitialized/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/userInitialized/Config/userInitialized/test.phpt" as="pear2.php.net/Config/userInitialized/Config/userInitialized/test.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Config/__get__set__unset__isset/Config/__get__set__unset__isset/setup.php.inc" as="pear2.php.net/Config/__get__set__unset__isset/Config/__get__set__unset__isset/setup.php.inc"/>
@@ -2776,6 +2874,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict.phpt" as="pear2.php.net/Installer/Installer/install.fileconflict.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.fileconflict2.phpt" as="pear2.php.net/Installer/Installer/install.fileconflict2.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.force.phpt" as="pear2.php.net/Installer/Installer/install.force.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.minphpfail.phpt" as="pear2.php.net/Installer/Installer/install.minphpfail.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.packagingroot.phpt" as="pear2.php.net/Installer/Installer/install.packagingroot.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.packages.phpt" as="pear2.php.net/Installer/Installer/install.remote.packages.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install.remote.signedpackage.phpt" as="pear2.php.net/Installer/Installer/install.remote.signedpackage.phpt"/>
@@ -2784,6 +2883,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_existing_package.phpt" as="pear2.php.net/Installer/Installer/install_existing_package.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_script.phpt" as="pear2.php.net/Installer/Installer/install_script.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/setup.php.inc" as="pear2.php.net/Installer/Installer/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.configsnapshot.phpt" as="pear2.php.net/Installer/Installer/upgrade.configsnapshot.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.packagesplitting.phpt" as="pear2.php.net/Installer/Installer/upgrade.packagesplitting.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt" as="pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.depinstalled.notupgrading.phpt" as="pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.depinstalled.notupgrading.phpt"/>
@@ -3350,6 +3450,63 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/stable.txt" as="pear2.php.net/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/stable.txt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/v2.1.0.0.xml" as="pear2.php.net/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/Mocks/Internet/installer.prepare.depconflict4/rest/r/p3/v2.1.0.0.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/Mocks/Internet/README" as="pear2.php.net/Mocks/Internet/Mocks/Internet/README"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.tar" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.tgz" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.zip" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.tar" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.tgz" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.zip" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.1.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.tar" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.tgz" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.zip" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.2.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.tar" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.tgz" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.zip" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.0.3.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.tar" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.tgz" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.zip" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-1.1.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.tar" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.tar"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.tgz" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.tgz"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.zip" as="pear2.php.net/Mocks/Internet/paranoid/get/Mocks/Internet/paranoid/get/P1-2.0.0.zip"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/Mocks/Internet/paranoid/channel.xml" as="pear2.php.net/Mocks/Internet/paranoid/Mocks/Internet/paranoid/channel.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/Mocks/Internet/paranoid/make.php" as="pear2.php.net/Mocks/Internet/paranoid/Mocks/Internet/paranoid/make.php"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/c/Default/Mocks/Internet/paranoid/rest/c/Default/info.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/c/Default/Mocks/Internet/paranoid/rest/c/Default/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/c/Default/Mocks/Internet/paranoid/rest/c/Default/packagesinfo.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/c/Default/Mocks/Internet/paranoid/rest/c/Default/packagesinfo.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/c/Mocks/Internet/paranoid/rest/c/categories.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/c/Mocks/Internet/paranoid/rest/c/categories.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/m/cellog/Mocks/Internet/paranoid/rest/m/cellog/info.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/m/cellog/Mocks/Internet/paranoid/rest/m/cellog/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/m/Mocks/Internet/paranoid/rest/m/allmaintainers.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/m/Mocks/Internet/paranoid/rest/m/allmaintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/Mocks/Internet/paranoid/rest/p/packages.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/p/Mocks/Internet/paranoid/rest/p/packages.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/info.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/maintainers.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/maintainers.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/maintainers2.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/p/p1/Mocks/Internet/paranoid/rest/p/p1/maintainers2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.1.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.1.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.2.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.3.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.0.3.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.1.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/1.1.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/2.0.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/2.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/allreleases.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/allreleases.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/allreleases2.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/allreleases2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.0.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.1.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.1.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.2.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.2.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.3.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.0.3.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.1.0.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.1.1.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.2.0.0.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/deps.2.0.0.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/latest.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/latest.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.1.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.1.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.2.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.3.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.0.3.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.1.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.1.1.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.2.0.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/package.2.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/stable.txt" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/stable.txt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.1.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.1.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.2.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.2.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.3.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.0.3.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.1.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.1.1.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.2.0.0.xml" as="pear2.php.net/Mocks/Internet/paranoid/rest/r/p1/Mocks/Internet/paranoid/rest/r/p1/v2.2.0.0.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Autoload.php" as="pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Autoload.php"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php" as="pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php" as="pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php"/>
@@ -3868,6 +4025,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/invalidzip.phpt" as="pear2.php.net/RemotePackage/RemotePackage/invalidzip.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/nonauthoritative.phpt" as="pear2.php.net/RemotePackage/RemotePackage/nonauthoritative.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/oldchannel.phpt" as="pear2.php.net/RemotePackage/RemotePackage/oldchannel.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/paranoia.phpt" as="pear2.php.net/RemotePackage/RemotePackage/paranoia.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/remotepackage.getmaintainers.phpt" as="pear2.php.net/RemotePackage/RemotePackage/remotepackage.getmaintainers.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/setup.php.inc" as="pear2.php.net/RemotePackage/RemotePackage/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/RemotePackage/validzip.phpt" as="pear2.php.net/RemotePackage/RemotePackage/validzip.phpt"/>
@@ -3903,6 +4061,10 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/exceptions.phpt" as="pear2.php.net/Remotepackages/Remotepackages/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/oldchannel.phpt" as="pear2.php.net/Remotepackages/Remotepackages/oldchannel.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/setup.php.inc" as="pear2.php.net/Remotepackages/Remotepackages/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/singlerelease.phpt" as="pear2.php.net/Remotepackages/Remotepackages/singlerelease.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt" as="pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc" as="pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar" as="pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>

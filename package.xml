@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-10</date>
- <time>23:16:20</time>
+ <date>2009-07-14</date>
+ <time>17:59:45</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -618,6 +618,7 @@ Initial pyrus public API
     <dir name="ChannelFile">
      <dir name="basic">
       <file role="test" name="random.phpt"/>
+      <file role="test" name="random2.phpt"/>
       <file role="test" name="simpleproperties.phpt"/>
      </dir>
      <dir name="setupFiles">
@@ -647,6 +648,10 @@ Initial pyrus public API
        <file role="test" name="strict_external.phpt"/>
        <file role="test" name="strict_internal.phpt"/>
       </dir>
+      <dir name="get">
+       <file role="test" name="defaultchannels.php.inc"/>
+       <file role="test" name="defaultchannels.phpt"/>
+      </dir>
       <dir name="info">
        <file role="test" name="basic.template"/>
        <file role="test" name="mirrors.template"/>
@@ -655,9 +660,14 @@ Initial pyrus public API
       <dir name="listChannels">
        <file role="test" name="default.phpt"/>
       </dir>
+      <dir name="parsedNameToString">
+       <file role="test" name="basic.phpt"/>
+      </dir>
       <dir name="parseName">
        <file role="test" name="errors.phpt"/>
+       <file role="test" name="parent.phpt"/>
        <file role="test" name="parsename.phpt"/>
+       <file role="test" name="parsename2.phpt"/>
       </dir>
       <dir name="update">
        <file role="test" name="update.phpt"/>
@@ -666,11 +676,16 @@ Initial pyrus public API
       <dir name="__construct">
        <file role="test" name="errors.phpt"/>
       </dir>
+      <file role="test" name="coverage.phpt"/>
      </dir>
      <dir name="Pear1">
       <dir name="add">
        <file role="test" name="add.phpt"/>
        <file role="test" name="add.readonly.phpt"/>
+       <file role="test" name="exceptions.phpt"/>
+      </dir>
+      <dir name="channelFromAlias">
+       <file role="test" name="uninitialized.phpt"/>
       </dir>
       <dir name="delete">
        <file role="test" name="delete.installed.phpt"/>
@@ -678,12 +693,19 @@ Initial pyrus public API
        <file role="test" name="external.phpt"/>
        <file role="test" name="internal.phpt"/>
       </dir>
+      <dir name="get">
+       <file role="test" name="exceptions.phpt"/>
+      </dir>
       <dir name="listChannels">
        <file role="test" name="default.phpt"/>
       </dir>
       <dir name="update">
        <file role="test" name="update.phpt"/>
        <file role="test" name="update.readonly.phpt"/>
+      </dir>
+      <dir name="__construct">
+       <file role="test" name="exceptions.phpt"/>
+       <file role="test" name="test.phpt"/>
       </dir>
       <file role="test" name="setup.php.inc"/>
      </dir>
@@ -720,6 +742,7 @@ Initial pyrus public API
       </dir>
       <dir name="listChannels">
        <file role="test" name="default.phpt"/>
+       <file role="test" name="installed.phpt"/>
       </dir>
       <dir name="update">
        <file role="test" name="update.phpt"/>
@@ -742,6 +765,7 @@ Initial pyrus public API
      <dir name="configSnapshot">
       <file role="test" name="setup.php.inc"/>
       <file role="test" name="test.phpt"/>
+      <file role="test" name="test2.phpt"/>
      </dir>
      <dir name="constructDefaults">
       <file role="test" name="basic.phpt"/>
@@ -773,6 +797,9 @@ Initial pyrus public API
       <file role="test" name="basic.phpt"/>
       <file role="test" name="basic2.phpt"/>
       <file role="test" name="setup.php.inc"/>
+     </dir>
+     <dir name="singleton">
+      <file role="test" name="packagingroot.phpt"/>
      </dir>
      <dir name="userInitialized">
       <file role="test" name="setup.php.inc"/>
@@ -1016,6 +1043,7 @@ Initial pyrus public API
      <file role="test" name="install.fileconflict.phpt"/>
      <file role="test" name="install.fileconflict2.phpt"/>
      <file role="test" name="install.force.phpt"/>
+     <file role="test" name="install.minphpfail.phpt"/>
      <file role="test" name="install.packagingroot.phpt"/>
      <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.remote.signedpackage.phpt"/>
@@ -1024,6 +1052,7 @@ Initial pyrus public API
      <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
      <file role="test" name="setup.php.inc"/>
+     <file role="test" name="upgrade.configsnapshot.phpt"/>
      <file role="test" name="upgrade.packagesplitting.phpt"/>
     </dir>
     <dir name="Mocks">
@@ -1823,6 +1852,85 @@ Initial pyrus public API
           <file role="test" name="package.1.0.0.xml"/>
           <file role="test" name="stable.txt"/>
           <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="paranoid">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P1-1.0.1.tar"/>
+        <file role="test" name="P1-1.0.1.tgz"/>
+        <file role="test" name="P1-1.0.1.zip"/>
+        <file role="test" name="P1-1.0.2.tar"/>
+        <file role="test" name="P1-1.0.2.tgz"/>
+        <file role="test" name="P1-1.0.2.zip"/>
+        <file role="test" name="P1-1.0.3.tar"/>
+        <file role="test" name="P1-1.0.3.tgz"/>
+        <file role="test" name="P1-1.0.3.zip"/>
+        <file role="test" name="P1-1.1.0.tar"/>
+        <file role="test" name="P1-1.1.0.tgz"/>
+        <file role="test" name="P1-1.1.0.zip"/>
+        <file role="test" name="P1-2.0.0.tar"/>
+        <file role="test" name="P1-2.0.0.tgz"/>
+        <file role="test" name="P1-2.0.0.zip"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="1.0.1.xml"/>
+          <file role="test" name="1.0.2.xml"/>
+          <file role="test" name="1.0.3.xml"/>
+          <file role="test" name="1.1.0.xml"/>
+          <file role="test" name="2.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="deps.1.0.1.txt"/>
+          <file role="test" name="deps.1.0.2.txt"/>
+          <file role="test" name="deps.1.0.3.txt"/>
+          <file role="test" name="deps.1.1.0.txt"/>
+          <file role="test" name="deps.2.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="package.1.0.1.xml"/>
+          <file role="test" name="package.1.0.2.xml"/>
+          <file role="test" name="package.1.0.3.xml"/>
+          <file role="test" name="package.1.1.0.xml"/>
+          <file role="test" name="package.2.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+          <file role="test" name="v2.1.0.1.xml"/>
+          <file role="test" name="v2.1.0.2.xml"/>
+          <file role="test" name="v2.1.0.3.xml"/>
+          <file role="test" name="v2.1.1.0.xml"/>
+          <file role="test" name="v2.2.0.0.xml"/>
          </dir>
         </dir>
        </dir>
@@ -2704,10 +2812,17 @@ Initial pyrus public API
      <file role="test" name="invalidzip.phpt"/>
      <file role="test" name="nonauthoritative.phpt"/>
      <file role="test" name="oldchannel.phpt"/>
+     <file role="test" name="paranoia.phpt"/>
      <file role="test" name="remotepackage.getmaintainers.phpt"/>
      <file role="test" name="setup.php.inc"/>
      <file role="test" name="validzip.phpt"/>
      <file role="test" name="wrongemailcert.phpt"/>
+    </dir>
+    <dir name="Remotepackages">
+     <file role="test" name="exceptions.phpt"/>
+     <file role="test" name="oldchannel.phpt"/>
+     <file role="test" name="setup.php.inc"/>
+     <file role="test" name="singlerelease.phpt"/>
     </dir>
     <dir name="ScriptFileFilterIterator">
      <file role="test" name="basic.phpt"/>
@@ -2914,16 +3029,16 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
@@ -2991,6 +3106,10 @@ Initial pyrus public API
    </package>
    <package>
     <name>PEAR2_MultiErrors</name>
+    <channel>pear2.php.net</channel>
+   </package>
+   <package>
+    <name>PEAR2_HTTP_Request</name>
     <channel>pear2.php.net</channel>
    </package>
   </required>
