@@ -110,7 +110,7 @@ class Snapshot extends \pear2\Pyrus\Config
                         break;
                     }
                     if (!isset($last)) {
-                        if ($diff > 0) {
+                        if ($diff < 0) {
                             // oldest snapshot is newer than us, resort to default config
                             return parent::loadConfigFile($pearDirectory);
                         }
@@ -118,7 +118,7 @@ class Snapshot extends \pear2\Pyrus\Config
                         continue;
                     }
 
-                    if ($diff < 0) {
+                    if ($diff > 0) {
                         $last = $match;
                         continue;
                     }
@@ -133,10 +133,6 @@ class Snapshot extends \pear2\Pyrus\Config
                 }
                 $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . 'configsnapshot-' .
                     $match . '.xml';
-            }
-            if (!file_exists($snapshotfile)) {
-                throw new \pear2\Pyrus\Config\Exception('Cannot retrieve non-existent config ' .
-                                                   'snapshot ' . $snapshot);
             }
         }
 
