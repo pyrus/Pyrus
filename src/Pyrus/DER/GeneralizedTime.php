@@ -38,11 +38,7 @@ class GeneralizedTime extends \pear2\Pyrus\DER\UTCTime
 
     function valueToString()
     {
-        if ($this->value instanceof \DateTime) {
-            return $this->value->format('YmdHis') . 'Z';
-        } else {
-            return '<Uninitialized GeneralizedTime>';
-        }
+        return $this->value->format('YmdHis') . 'Z';
     }
 
     function parse($data, $location)

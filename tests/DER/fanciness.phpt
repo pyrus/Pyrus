@@ -31,6 +31,7 @@ $test->assertEquals(
                     '83' . // context tag value 3 (visibleString)
                     '0c' . // length followed by "www.asn1.com"
                     '7777772e61736e312e636f6d', bin2hex($der->serialize()), 'fancy');
+$test->assertEquals('', (string) $der->first->valueToString(), 'content');
 ?>
 ===DONE===
 --EXPECT--

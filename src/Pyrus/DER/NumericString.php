@@ -30,7 +30,7 @@ class NumericString extends \pear2\Pyrus\DER\String
 
     function setValue($string)
     {
-        if (!preg_match('/^[0-9 ]\\z/', $string)) {
+        if (!preg_match('/^[0-9 ]+\\z/', $string)) {
             throw new \pear2\Pyrus\DER\Exception('Invalid Numeric String value, can only contain digits and space');
         }
         $this->value = $string;
