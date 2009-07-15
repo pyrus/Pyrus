@@ -585,7 +585,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             return;
         }
         try {
-            \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
+            \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.registry'));
         } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
             throw new \pear2\Pyrus\Registry\Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
