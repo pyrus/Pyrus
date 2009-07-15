@@ -26,13 +26,20 @@
 namespace pear2\Pyrus;
 class ScriptFrontend extends \PEAR2_Console_CommandLine
 {
-    public function addCommand($name, $params=array())
+    public function addCommand($name, $params = array(), $overrideOK = false)
     {
-        if ($name instanceof \pear2\Pyrus\ScriptFrontend\Command) {
+        if ($name instanceof \PEAR2_Console_CommandLine_Command) {
+            $testname = $name->name;
             $command = $name;
         } else {
             $params['name'] = $name;
             $command        = new \pear2\Pyrus\ScriptFrontend\Command($params);
+            $testname = $name;
+        }
+        if (isset($this->commands[$testname])) {
+            if (!$overrideOK) {
+                throw new ScriptFrontend\Exception('Cannot override existing command ' . $testname);
+            }
         }
         $command->parent                = $this;
         $this->commands[$command->name] = $command;

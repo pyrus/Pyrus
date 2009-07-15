@@ -41,19 +41,4 @@ class Command extends \PEAR2_Console_CommandLine_Command
     {
         echo "\n", $this->renderer->usage();
     }
-
-    public function addCommand($name, $params = array(), $overrideOK = false)
-    {
-        if ($name instanceof \PEAR2_Console_CommandLine_Command) {
-            $testname = $name->name;
-        } else {
-            $testname = $name;
-        }
-        if (isset($this->commands[$testname])) {
-            if (!$overrideOK) {
-                throw new Exception('Cannot override existing command ' . $testname);
-            }
-        }
-        return parent::addCommand($name, $params);
-    }
 }
