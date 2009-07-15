@@ -89,11 +89,18 @@ class Snapshot extends \pear2\Pyrus\Config
         $snapshotdir = $pearDirectory . DIRECTORY_SEPARATOR . '.configsnapshots';
         $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . $snapshot;
         if (!file_exists($snapshotfile)) {
-            if (preg_match('/^\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}:\\d{2}:\\d{2}$/', $snapshot)) {
+            if (preg_match('/^\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}[-:]\\d{2}[-:]\\d{2}$/', $snapshot)) {
                 // passed a date, locate a matching snapshot
+                if (!strpos($snapshot, ':')) {
+                    // change YYYY-MM-DD HH-MM-SS to YYYY-MM-DD HH:MM:SS
+                    $snapshot = explode(' ', $snapshot);
+                    $snapshot[1] = str_replace('-', ':', $snapshot[1]);
+                    $snapshot = implode(' ', $snapshot);
+                }
                 $us = new \DateTime($snapshot);
                 $dir = new \RegexIterator(
-                    new \RecursiveDirectoryIterator($snapshotdir), '/configsnapshot\\-\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}:\\d{2}:\\d{2}.xml/',
+                    new \RecursiveDirectoryIterator($snapshotdir),
+                    '/configsnapshot\\-\\d{4}\\-\\d{2}\\-\\d{2} \\d{2}\\-\\d{2}\\-\\d{2}.xml/',
                     \RegexIterator::MATCH,
                     \RegexIterator::USE_KEY);
                 foreach ($dir as $match) {
@@ -104,6 +111,9 @@ class Snapshot extends \pear2\Pyrus\Config
                 foreach ($matches as $match) {
                     $match = substr($match->getFileName(), strlen('configsnapshot-'));
                     $match = str_replace('.xml', '', $match);
+                    $match = explode(' ', $match);
+                    $match[1] = str_replace('-', ':', $match[1]);
+                    $match = implode(' ', $match);
                     $diff = $us->diff(new \DateTime($match))->format("%r%s");
                     if (!$diff) {
                         // found a snapshot match
@@ -132,7 +142,7 @@ class Snapshot extends \pear2\Pyrus\Config
                     return parent::loadConfigFile($pearDirectory);
                 }
                 $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . 'configsnapshot-' .
-                    $match . '.xml';
+                    str_replace(':', '-', $match) . '.xml';
             }
         }
 
@@ -149,7 +159,11 @@ class Snapshot extends \pear2\Pyrus\Config
     function datediff($a, $b)
     {
         $a = str_replace(array('configsnapshot-', '.xml'), '', $a->getFileName());
+        $inf = explode(' ', $a);
+        $a = str_replace($inf[1], str_replace('-', ':', $inf[1]), $a);
         $b = str_replace(array('configsnapshot-', '.xml'), '', $b->getFileName());
+        $inf = explode(' ', $b);
+        $b = str_replace(' ' . $inf[1], ' ' . str_replace('-', ':', $inf[1]), $b);
         $us = new \DateTime($a);
         $diff = $us->diff(new \DateTime($b))->format("%r%s");
         if (!$diff) return 0;
