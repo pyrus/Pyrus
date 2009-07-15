@@ -259,7 +259,7 @@ class DER implements \ArrayAccess
 
     function isType($tag)
     {
-        return $this::tag === $tag;
+        return $this::TAG === $tag;
     }
 
     function decodeLength($data, $location)
@@ -300,11 +300,7 @@ class DER implements \ArrayAccess
         do {
             $tag = ord($data[$location]);
             if (isset($this->schema)) {
-                if (!($info = $this->schema->find($tag))) {
-                    throw new \pear2\Pyrus\DER\Exception('schema has no ' .
-                                                        'tag matching ' . dechex($tag) .
-                                                        ' at ' . $this->schema->path());
-                }
+                $info = $this->schema->find($tag);
                 $class = $info->type;
                 $index = $info->name;
                 if ($info->multiple()) {
@@ -324,7 +320,7 @@ class DER implements \ArrayAccess
                     }
                 }
                 if (!isset($this->tagMap[$tag])) {
-                    throw new \pear2\Pyrus\DER\Exception('Unknown tag: ' . dechex($tag));
+                    throw new \pear2\Pyrus\DER\Exception('Unknown tag: 0x' . dechex($tag));
                 }
                 $type = $this->tagMap[$tag];
                 $parent[$index] = $obj = new $type;
