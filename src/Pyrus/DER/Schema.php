@@ -86,7 +86,13 @@ class Schema extends \pear2\Pyrus\DER
     {
         if ($func == 'choice') {
             if (isset($args[0])) {
-                return new \pear2\Pyrus\DER\SchemaChoice($this, $args[0]);
+                if (isset($args[1])) {
+                    $obj = new \pear2\Pyrus\DER\SchemaChoice($this, $args[0], $args[1]);
+                } else {
+                    $obj = new \pear2\Pyrus\DER\SchemaChoice($this, $args[0]);
+                }
+                $this->objs[$args[0]] = $obj;
+                return $obj;
             } else {
                 return new \pear2\Pyrus\DER\SchemaChoice($this);
             }

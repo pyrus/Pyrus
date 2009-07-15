@@ -37,6 +37,12 @@ try {
     $test->assertEquals('Unknown tag: 64 at ',
                         $e->getMessage(), 'error');
 }
+
+$schema = new pear2\Pyrus\DER\Schema;
+$choice = $schema->choice('hi', 0);
+$choice->choice('inner', 1);
+
+$test->assertEquals('inner', $choice->findTag(0x81)->name, 'findTag');
 ?>
 ===DONE===
 --EXPECT--

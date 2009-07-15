@@ -30,11 +30,14 @@ class SchemaChoice extends \pear2\Pyrus\DER\Schema
 {
     protected $options = array();
 
-    function __construct(\pear2\Pyrus\DER\Schema $parent = null, $name = null)
+    function __construct(\pear2\Pyrus\DER\Schema $parent = null, $name = null, $tag = null)
     {
         $this->parent = $parent;
         if ($name !== null) {
             $this->name = $name;
+        }
+        if ($tag !== null) {
+            $this->tag = 0x80 | $tag;
         }
     }
 
