@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-14</date>
- <time>17:59:47</time>
+ <date>2009-07-15</date>
+ <time>13:02:59</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -112,8 +112,8 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
@@ -1438,7 +1438,6 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.depinstalled.notupgrading.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.packagesplitting.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.configsnapshot.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_script.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_existing_package.phpt"/>
@@ -1454,21 +1453,31 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ignorexdebug.php"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DownloadProgressListener/DownloadProgressListener/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DownloadProgressListener/DownloadProgressListener/progress.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/vertex.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/cycles.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/basic.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/ocsp/DER/ocsp/response.ocsp"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/ocsp/DER/ocsp/request.ocsp"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/__set.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/__get.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/__call.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/utf8string.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/utctime.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/universalstring.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/schemafind.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/schemaedgecases.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/printablestring.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/prependTLV.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parseedgecases.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.ocsp.response.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.ocsp.request.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.noschema.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/octetstring.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/objectidentifier.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/numericstring.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/null.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/integer.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/ia5string.phpt"/>
@@ -1477,6 +1486,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/fanciness.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/decodeLength.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/boolean.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/bmpstring.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/bitstring.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Dependency_Validator/validateSubpackageDependency/Dependency_Validator/validateSubpackageDependency/subpackagedep.providesextension.notinstalled.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Dependency_Validator/validateSubpackageDependency/Dependency_Validator/validateSubpackageDependency/subpackagedep.providesextension.loaded.extversionless.phpt"/>
@@ -2008,10 +2018,18 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignTimeStampingAuthorityCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass4PublicPrimaryCertificationAuthority-G3"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass4PublicPrimaryCertificationAuthority-G2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass3PublicPrimaryCertificationAuthority-G5"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass3PublicPrimaryCertificationAuthority-G3"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass3PublicPrimaryCertificationAuthority-G2"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass3PublicPrimaryCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass2PublicPrimaryCertificationAuthority-G3"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass2PublicPrimaryCertificationAuthority-G2"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass2PublicPrimaryCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass1PublicPrimaryCertificationAuthority-G3"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass1PublicPrimaryCertificationAuthority-G2"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass1PublicPrimaryCertificationAuthority"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/Verisign-RSASecureServerCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/valicert.com3"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/valicert.com2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/valicert.com"/>
@@ -2032,17 +2050,25 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ThawtePersonalFreemailCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ThawtePersonalBasicCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TDCOCESCA"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TDCInternetRootCA"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TCTrustCenter,Germany,Class3CA"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TCTrustCenter,Germany,Class2CA"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TaiwanGRCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwissSignSilverCA-G2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwissSignPlatinumCA-G2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwissSignGoldCA-G2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwisscomRootCA1"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/StartComCertificationAuthority"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/StarfieldClass2CA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/StaatderNederlandenRootCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SoneraClass2CA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SoneraClass1CA"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecurityCommunicationRootCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecureTrustCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecureGlobalCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecureCertificateServices"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/RSASecurity2048v3"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/RSASecurity1024v3"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCA3"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCA2"/>
@@ -2062,6 +2088,7 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GTECyberTrustGlobalRoot"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GPRoot2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GoDaddySecureCertificationAuthority"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GoDaddyClass2CA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GlobalSignRootCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GlobalSignExtendedValidationCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GlobalSign2"/>
@@ -2074,7 +2101,9 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GeoTrustGlobalCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/FreeSSLCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureGlobaleBusinessCA-1"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureeBusinessCA2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureeBusinessCA-1"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EntrustRootCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/Entrust.netSecureServerCertificationAuthority2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/Entrust.netSecureServerCertificationAuthority"/>
@@ -2085,6 +2114,8 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DSTRootCAX2"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DSTRootCAX1"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DSTACESCAX6"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigitalSignatureTrustCo.GlobalCA3"/>
+   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigitalSignatureTrustCo.GlobalCA1"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigiNotarRootCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigiCertHighAssuranceEVRootCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigiCertGlobalRootCA"/>
@@ -2094,27 +2125,6 @@ Initial pyrus public API
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ChambersofCommerceRoot"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/CertumCA"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/CACertSigningAuthority"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass4PublicPrimaryCertificationAuthority-G2"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority-G2"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority-G2"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority-G2"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:Verisign-RSASecureServerCA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TDCInternetRootCA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TCTrustCenter,Germany,Class3CA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TCTrustCenter,Germany,Class2CA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TaiwanGRCA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:StarfieldClass2CA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:SecurityCommunicationRootCA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:RSASecurity2048v3"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:RSASecurity1024v3"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:GoDaddyClass2CA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:EquifaxSecureeBusinessCA2"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:EquifaxSecureCA"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA3"/>
-   <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA1"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/blah.php"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/beTRUSTedRootCA-RSAImplementation"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/beTRUSTedRootCA-EntrustImplementation"/>
@@ -2207,27 +2217,6 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/beTRUSTedRootCA-EntrustImplementation" as="pear2.php.net/x509rootcerts/x509rootcerts/beTRUSTedRootCA-EntrustImplementation"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/beTRUSTedRootCA-RSAImplementation" as="pear2.php.net/x509rootcerts/x509rootcerts/beTRUSTedRootCA-RSAImplementation"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/blah.php" as="pear2.php.net/x509rootcerts/x509rootcerts/blah.php"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA1" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA1"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA3" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA3"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:EquifaxSecureCA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:EquifaxSecureCA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:EquifaxSecureeBusinessCA2" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:EquifaxSecureeBusinessCA2"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:GoDaddyClass2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:GoDaddyClass2CA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:RSASecurity1024v3" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:RSASecurity1024v3"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:RSASecurity2048v3" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:RSASecurity2048v3"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:SecurityCommunicationRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:SecurityCommunicationRootCA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:StarfieldClass2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:StarfieldClass2CA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TaiwanGRCA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TaiwanGRCA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TCTrustCenter,Germany,Class2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TCTrustCenter,Germany,Class2CA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TCTrustCenter,Germany,Class3CA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TCTrustCenter,Germany,Class3CA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TDCInternetRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:TDCInternetRootCA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:Verisign-RSASecureServerCA" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:Verisign-RSASecureServerCA"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority-G2"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority-G2"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority-G2"/>
-   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass4PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/BuiltinObjectToken:VerisignClass4PublicPrimaryCertificationAuthority-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/CACertSigningAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/CACertSigningAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/CertumCA" as="pear2.php.net/x509rootcerts/x509rootcerts/CertumCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ChambersofCommerceRoot" as="pear2.php.net/x509rootcerts/x509rootcerts/ChambersofCommerceRoot"/>
@@ -2237,6 +2226,8 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigiCertGlobalRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/DigiCertGlobalRootCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigiCertHighAssuranceEVRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/DigiCertHighAssuranceEVRootCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigiNotarRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/DigiNotarRootCA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigitalSignatureTrustCo.GlobalCA1" as="pear2.php.net/x509rootcerts/x509rootcerts/DigitalSignatureTrustCo.GlobalCA1"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DigitalSignatureTrustCo.GlobalCA3" as="pear2.php.net/x509rootcerts/x509rootcerts/DigitalSignatureTrustCo.GlobalCA3"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DSTACESCAX6" as="pear2.php.net/x509rootcerts/x509rootcerts/DSTACESCAX6"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DSTRootCAX1" as="pear2.php.net/x509rootcerts/x509rootcerts/DSTRootCAX1"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/DSTRootCAX2" as="pear2.php.net/x509rootcerts/x509rootcerts/DSTRootCAX2"/>
@@ -2247,7 +2238,9 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/Entrust.netSecureServerCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/Entrust.netSecureServerCertificationAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/Entrust.netSecureServerCertificationAuthority2" as="pear2.php.net/x509rootcerts/x509rootcerts/Entrust.netSecureServerCertificationAuthority2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EntrustRootCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/EntrustRootCertificationAuthority"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureCA" as="pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureeBusinessCA-1" as="pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureeBusinessCA-1"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureeBusinessCA2" as="pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureeBusinessCA2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureGlobaleBusinessCA-1" as="pear2.php.net/x509rootcerts/x509rootcerts/EquifaxSecureGlobaleBusinessCA-1"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/FreeSSLCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/FreeSSLCertificationAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GeoTrustGlobalCA" as="pear2.php.net/x509rootcerts/x509rootcerts/GeoTrustGlobalCA"/>
@@ -2260,6 +2253,7 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GlobalSign2" as="pear2.php.net/x509rootcerts/x509rootcerts/GlobalSign2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GlobalSignExtendedValidationCA" as="pear2.php.net/x509rootcerts/x509rootcerts/GlobalSignExtendedValidationCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GlobalSignRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/GlobalSignRootCA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GoDaddyClass2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/GoDaddyClass2CA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GoDaddySecureCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/GoDaddySecureCertificationAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GPRoot2" as="pear2.php.net/x509rootcerts/x509rootcerts/GPRoot2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/GTECyberTrustGlobalRoot" as="pear2.php.net/x509rootcerts/x509rootcerts/GTECyberTrustGlobalRoot"/>
@@ -2279,17 +2273,25 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCA2" as="pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCA2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCA3" as="pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCA3"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/QuoVadisRootCertificationAuthority"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/RSASecurity1024v3" as="pear2.php.net/x509rootcerts/x509rootcerts/RSASecurity1024v3"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/RSASecurity2048v3" as="pear2.php.net/x509rootcerts/x509rootcerts/RSASecurity2048v3"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecureCertificateServices" as="pear2.php.net/x509rootcerts/x509rootcerts/SecureCertificateServices"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecureGlobalCA" as="pear2.php.net/x509rootcerts/x509rootcerts/SecureGlobalCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecureTrustCA" as="pear2.php.net/x509rootcerts/x509rootcerts/SecureTrustCA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SecurityCommunicationRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/SecurityCommunicationRootCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SoneraClass1CA" as="pear2.php.net/x509rootcerts/x509rootcerts/SoneraClass1CA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SoneraClass2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/SoneraClass2CA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/StaatderNederlandenRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/StaatderNederlandenRootCA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/StarfieldClass2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/StarfieldClass2CA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/StartComCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/StartComCertificationAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwisscomRootCA1" as="pear2.php.net/x509rootcerts/x509rootcerts/SwisscomRootCA1"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwissSignGoldCA-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/SwissSignGoldCA-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwissSignPlatinumCA-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/SwissSignPlatinumCA-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/SwissSignSilverCA-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/SwissSignSilverCA-G2"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TaiwanGRCA" as="pear2.php.net/x509rootcerts/x509rootcerts/TaiwanGRCA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TCTrustCenter,Germany,Class2CA" as="pear2.php.net/x509rootcerts/x509rootcerts/TCTrustCenter,Germany,Class2CA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TCTrustCenter,Germany,Class3CA" as="pear2.php.net/x509rootcerts/x509rootcerts/TCTrustCenter,Germany,Class3CA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TDCInternetRootCA" as="pear2.php.net/x509rootcerts/x509rootcerts/TDCInternetRootCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/TDCOCESCA" as="pear2.php.net/x509rootcerts/x509rootcerts/TDCOCESCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ThawtePersonalBasicCA" as="pear2.php.net/x509rootcerts/x509rootcerts/ThawtePersonalBasicCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/ThawtePersonalFreemailCA" as="pear2.php.net/x509rootcerts/x509rootcerts/ThawtePersonalFreemailCA"/>
@@ -2310,10 +2312,18 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/valicert.com" as="pear2.php.net/x509rootcerts/x509rootcerts/valicert.com"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/valicert.com2" as="pear2.php.net/x509rootcerts/x509rootcerts/valicert.com2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/valicert.com3" as="pear2.php.net/x509rootcerts/x509rootcerts/valicert.com3"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/Verisign-RSASecureServerCA" as="pear2.php.net/x509rootcerts/x509rootcerts/Verisign-RSASecureServerCA"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass1PublicPrimaryCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass1PublicPrimaryCertificationAuthority"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass1PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass1PublicPrimaryCertificationAuthority-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass1PublicPrimaryCertificationAuthority-G3" as="pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass1PublicPrimaryCertificationAuthority-G3"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass2PublicPrimaryCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass2PublicPrimaryCertificationAuthority"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass2PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass2PublicPrimaryCertificationAuthority-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass2PublicPrimaryCertificationAuthority-G3" as="pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass2PublicPrimaryCertificationAuthority-G3"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass3PublicPrimaryCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass3PublicPrimaryCertificationAuthority"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass3PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass3PublicPrimaryCertificationAuthority-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass3PublicPrimaryCertificationAuthority-G3" as="pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass3PublicPrimaryCertificationAuthority-G3"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass3PublicPrimaryCertificationAuthority-G5" as="pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass3PublicPrimaryCertificationAuthority-G5"/>
+   <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass4PublicPrimaryCertificationAuthority-G2" as="pear2.php.net/x509rootcerts/x509rootcerts/VerisignClass4PublicPrimaryCertificationAuthority-G2"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass4PublicPrimaryCertificationAuthority-G3" as="pear2.php.net/x509rootcerts/x509rootcerts/VeriSignClass4PublicPrimaryCertificationAuthority-G3"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VeriSignTimeStampingAuthorityCA" as="pear2.php.net/x509rootcerts/x509rootcerts/VeriSignTimeStampingAuthorityCA"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot" as="pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
@@ -2845,6 +2855,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Dependency_Validator/validateSubpackageDependency/Dependency_Validator/validateSubpackageDependency/subpackagedep.providesextension.loaded.extversionless.phpt" as="pear2.php.net/Dependency_Validator/validateSubpackageDependency/Dependency_Validator/validateSubpackageDependency/subpackagedep.providesextension.loaded.extversionless.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Dependency_Validator/validateSubpackageDependency/Dependency_Validator/validateSubpackageDependency/subpackagedep.providesextension.notinstalled.phpt" as="pear2.php.net/Dependency_Validator/validateSubpackageDependency/Dependency_Validator/validateSubpackageDependency/subpackagedep.providesextension.notinstalled.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/bitstring.phpt" as="pear2.php.net/DER/DER/bitstring.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/bmpstring.phpt" as="pear2.php.net/DER/DER/bmpstring.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/boolean.phpt" as="pear2.php.net/DER/DER/boolean.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/decodeLength.phpt" as="pear2.php.net/DER/DER/decodeLength.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/fanciness.phpt" as="pear2.php.net/DER/DER/fanciness.phpt"/>
@@ -2853,21 +2864,31 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/ia5string.phpt" as="pear2.php.net/DER/DER/ia5string.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/integer.phpt" as="pear2.php.net/DER/DER/integer.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/null.phpt" as="pear2.php.net/DER/DER/null.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/numericstring.phpt" as="pear2.php.net/DER/DER/numericstring.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/objectidentifier.phpt" as="pear2.php.net/DER/DER/objectidentifier.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/octetstring.phpt" as="pear2.php.net/DER/DER/octetstring.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.noschema.phpt" as="pear2.php.net/DER/DER/parse.noschema.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.ocsp.request.phpt" as="pear2.php.net/DER/DER/parse.ocsp.request.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.ocsp.response.phpt" as="pear2.php.net/DER/DER/parse.ocsp.response.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parse.phpt" as="pear2.php.net/DER/DER/parse.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/parseedgecases.phpt" as="pear2.php.net/DER/DER/parseedgecases.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/prependTLV.phpt" as="pear2.php.net/DER/DER/prependTLV.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/printablestring.phpt" as="pear2.php.net/DER/DER/printablestring.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/schemaedgecases.phpt" as="pear2.php.net/DER/DER/schemaedgecases.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/schemafind.phpt" as="pear2.php.net/DER/DER/schemafind.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/setup.php.inc" as="pear2.php.net/DER/DER/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/universalstring.phpt" as="pear2.php.net/DER/DER/universalstring.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/utctime.phpt" as="pear2.php.net/DER/DER/utctime.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/utf8string.phpt" as="pear2.php.net/DER/DER/utf8string.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/__call.phpt" as="pear2.php.net/DER/DER/__call.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/__get.phpt" as="pear2.php.net/DER/DER/__get.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DER/DER/__set.phpt" as="pear2.php.net/DER/DER/__set.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/ocsp/DER/ocsp/request.ocsp" as="pear2.php.net/DER/ocsp/DER/ocsp/request.ocsp"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DER/ocsp/DER/ocsp/response.ocsp" as="pear2.php.net/DER/ocsp/DER/ocsp/response.ocsp"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/basic.phpt" as="pear2.php.net/DirectedGraph/DirectedGraph/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/cycles.phpt" as="pear2.php.net/DirectedGraph/DirectedGraph/cycles.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/setup.php.inc" as="pear2.php.net/DirectedGraph/DirectedGraph/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/DirectedGraph/DirectedGraph/vertex.phpt" as="pear2.php.net/DirectedGraph/DirectedGraph/vertex.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DownloadProgressListener/DownloadProgressListener/progress.phpt" as="pear2.php.net/DownloadProgressListener/DownloadProgressListener/progress.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/DownloadProgressListener/DownloadProgressListener/setup.php.inc" as="pear2.php.net/DownloadProgressListener/DownloadProgressListener/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ignorexdebug.php" as="pear2.php.net/ignorexdebug.php"/>
@@ -2883,7 +2904,6 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_existing_package.phpt" as="pear2.php.net/Installer/Installer/install_existing_package.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/install_script.phpt" as="pear2.php.net/Installer/Installer/install_script.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/setup.php.inc" as="pear2.php.net/Installer/Installer/setup.php.inc"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.configsnapshot.phpt" as="pear2.php.net/Installer/Installer/upgrade.configsnapshot.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/Installer/upgrade.packagesplitting.phpt" as="pear2.php.net/Installer/Installer/upgrade.packagesplitting.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt" as="pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.dep.versionconflict.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.depinstalled.notupgrading.phpt" as="pear2.php.net/Installer/prepare/Installer/prepare/install.prepare.depinstalled.notupgrading.phpt"/>
@@ -4208,16 +4228,16 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.stable.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.stable.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.invalidversion.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.invalidversion.phpt"/>

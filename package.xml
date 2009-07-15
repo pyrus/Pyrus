@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-14</date>
- <time>17:59:45</time>
+ <date>2009-07-15</date>
+ <time>13:02:52</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -96,27 +96,6 @@ Initial pyrus public API
      <file role="data" name="beTRUSTedRootCA-EntrustImplementation"/>
      <file role="data" name="beTRUSTedRootCA-RSAImplementation"/>
      <file role="data" name="blah.php"/>
-     <file role="data" name="BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA1"/>
-     <file role="data" name="BuiltinObjectToken:DigitalSignatureTrustCo.GlobalCA3"/>
-     <file role="data" name="BuiltinObjectToken:EquifaxSecureCA"/>
-     <file role="data" name="BuiltinObjectToken:EquifaxSecureeBusinessCA2"/>
-     <file role="data" name="BuiltinObjectToken:GoDaddyClass2CA"/>
-     <file role="data" name="BuiltinObjectToken:RSASecurity1024v3"/>
-     <file role="data" name="BuiltinObjectToken:RSASecurity2048v3"/>
-     <file role="data" name="BuiltinObjectToken:SecurityCommunicationRootCA"/>
-     <file role="data" name="BuiltinObjectToken:StarfieldClass2CA"/>
-     <file role="data" name="BuiltinObjectToken:TaiwanGRCA"/>
-     <file role="data" name="BuiltinObjectToken:TCTrustCenter,Germany,Class2CA"/>
-     <file role="data" name="BuiltinObjectToken:TCTrustCenter,Germany,Class3CA"/>
-     <file role="data" name="BuiltinObjectToken:TDCInternetRootCA"/>
-     <file role="data" name="BuiltinObjectToken:Verisign-RSASecureServerCA"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass1PublicPrimaryCertificationAuthority-G2"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass2PublicPrimaryCertificationAuthority-G2"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass3PublicPrimaryCertificationAuthority-G2"/>
-     <file role="data" name="BuiltinObjectToken:VerisignClass4PublicPrimaryCertificationAuthority-G2"/>
      <file role="data" name="CACertSigningAuthority"/>
      <file role="data" name="CertumCA"/>
      <file role="data" name="ChambersofCommerceRoot"/>
@@ -126,6 +105,8 @@ Initial pyrus public API
      <file role="data" name="DigiCertGlobalRootCA"/>
      <file role="data" name="DigiCertHighAssuranceEVRootCA"/>
      <file role="data" name="DigiNotarRootCA"/>
+     <file role="data" name="DigitalSignatureTrustCo.GlobalCA1"/>
+     <file role="data" name="DigitalSignatureTrustCo.GlobalCA3"/>
      <file role="data" name="DSTACESCAX6"/>
      <file role="data" name="DSTRootCAX1"/>
      <file role="data" name="DSTRootCAX2"/>
@@ -136,7 +117,9 @@ Initial pyrus public API
      <file role="data" name="Entrust.netSecureServerCertificationAuthority"/>
      <file role="data" name="Entrust.netSecureServerCertificationAuthority2"/>
      <file role="data" name="EntrustRootCertificationAuthority"/>
+     <file role="data" name="EquifaxSecureCA"/>
      <file role="data" name="EquifaxSecureeBusinessCA-1"/>
+     <file role="data" name="EquifaxSecureeBusinessCA2"/>
      <file role="data" name="EquifaxSecureGlobaleBusinessCA-1"/>
      <file role="data" name="FreeSSLCertificationAuthority"/>
      <file role="data" name="GeoTrustGlobalCA"/>
@@ -149,6 +132,7 @@ Initial pyrus public API
      <file role="data" name="GlobalSign2"/>
      <file role="data" name="GlobalSignExtendedValidationCA"/>
      <file role="data" name="GlobalSignRootCA"/>
+     <file role="data" name="GoDaddyClass2CA"/>
      <file role="data" name="GoDaddySecureCertificationAuthority"/>
      <file role="data" name="GPRoot2"/>
      <file role="data" name="GTECyberTrustGlobalRoot"/>
@@ -168,17 +152,25 @@ Initial pyrus public API
      <file role="data" name="QuoVadisRootCA2"/>
      <file role="data" name="QuoVadisRootCA3"/>
      <file role="data" name="QuoVadisRootCertificationAuthority"/>
+     <file role="data" name="RSASecurity1024v3"/>
+     <file role="data" name="RSASecurity2048v3"/>
      <file role="data" name="SecureCertificateServices"/>
      <file role="data" name="SecureGlobalCA"/>
      <file role="data" name="SecureTrustCA"/>
+     <file role="data" name="SecurityCommunicationRootCA"/>
      <file role="data" name="SoneraClass1CA"/>
      <file role="data" name="SoneraClass2CA"/>
      <file role="data" name="StaatderNederlandenRootCA"/>
+     <file role="data" name="StarfieldClass2CA"/>
      <file role="data" name="StartComCertificationAuthority"/>
      <file role="data" name="SwisscomRootCA1"/>
      <file role="data" name="SwissSignGoldCA-G2"/>
      <file role="data" name="SwissSignPlatinumCA-G2"/>
      <file role="data" name="SwissSignSilverCA-G2"/>
+     <file role="data" name="TaiwanGRCA"/>
+     <file role="data" name="TCTrustCenter,Germany,Class2CA"/>
+     <file role="data" name="TCTrustCenter,Germany,Class3CA"/>
+     <file role="data" name="TDCInternetRootCA"/>
      <file role="data" name="TDCOCESCA"/>
      <file role="data" name="ThawtePersonalBasicCA"/>
      <file role="data" name="ThawtePersonalFreemailCA"/>
@@ -199,10 +191,18 @@ Initial pyrus public API
      <file role="data" name="valicert.com"/>
      <file role="data" name="valicert.com2"/>
      <file role="data" name="valicert.com3"/>
+     <file role="data" name="Verisign-RSASecureServerCA"/>
+     <file role="data" name="VerisignClass1PublicPrimaryCertificationAuthority"/>
+     <file role="data" name="VerisignClass1PublicPrimaryCertificationAuthority-G2"/>
      <file role="data" name="VeriSignClass1PublicPrimaryCertificationAuthority-G3"/>
+     <file role="data" name="VerisignClass2PublicPrimaryCertificationAuthority"/>
+     <file role="data" name="VerisignClass2PublicPrimaryCertificationAuthority-G2"/>
      <file role="data" name="VeriSignClass2PublicPrimaryCertificationAuthority-G3"/>
+     <file role="data" name="VerisignClass3PublicPrimaryCertificationAuthority"/>
+     <file role="data" name="VerisignClass3PublicPrimaryCertificationAuthority-G2"/>
      <file role="data" name="VeriSignClass3PublicPrimaryCertificationAuthority-G3"/>
      <file role="data" name="VeriSignClass3PublicPrimaryCertificationAuthority-G5"/>
+     <file role="data" name="VerisignClass4PublicPrimaryCertificationAuthority-G2"/>
      <file role="data" name="VeriSignClass4PublicPrimaryCertificationAuthority-G3"/>
      <file role="data" name="VeriSignTimeStampingAuthorityCA"/>
      <file role="data" name="VisaeCommerceRoot"/>
@@ -996,6 +996,7 @@ Initial pyrus public API
       <file role="test" name="response.ocsp"/>
      </dir>
      <file role="test" name="bitstring.phpt"/>
+     <file role="test" name="bmpstring.phpt"/>
      <file role="test" name="boolean.phpt"/>
      <file role="test" name="decodeLength.phpt"/>
      <file role="test" name="fanciness.phpt"/>
@@ -1004,21 +1005,31 @@ Initial pyrus public API
      <file role="test" name="ia5string.phpt"/>
      <file role="test" name="integer.phpt"/>
      <file role="test" name="null.phpt"/>
+     <file role="test" name="numericstring.phpt"/>
      <file role="test" name="objectidentifier.phpt"/>
      <file role="test" name="octetstring.phpt"/>
      <file role="test" name="parse.noschema.phpt"/>
      <file role="test" name="parse.ocsp.request.phpt"/>
      <file role="test" name="parse.ocsp.response.phpt"/>
      <file role="test" name="parse.phpt"/>
+     <file role="test" name="parseedgecases.phpt"/>
      <file role="test" name="prependTLV.phpt"/>
      <file role="test" name="printablestring.phpt"/>
+     <file role="test" name="schemaedgecases.phpt"/>
+     <file role="test" name="schemafind.phpt"/>
      <file role="test" name="setup.php.inc"/>
+     <file role="test" name="universalstring.phpt"/>
      <file role="test" name="utctime.phpt"/>
+     <file role="test" name="utf8string.phpt"/>
+     <file role="test" name="__call.phpt"/>
+     <file role="test" name="__get.phpt"/>
+     <file role="test" name="__set.phpt"/>
     </dir>
     <dir name="DirectedGraph">
      <file role="test" name="basic.phpt"/>
      <file role="test" name="cycles.phpt"/>
      <file role="test" name="setup.php.inc"/>
+     <file role="test" name="vertex.phpt"/>
     </dir>
     <dir name="DownloadProgressListener">
      <file role="test" name="progress.phpt"/>
@@ -1052,7 +1063,6 @@ Initial pyrus public API
      <file role="test" name="install_existing_package.phpt"/>
      <file role="test" name="install_script.phpt"/>
      <file role="test" name="setup.php.inc"/>
-     <file role="test" name="upgrade.configsnapshot.phpt"/>
      <file role="test" name="upgrade.packagesplitting.phpt"/>
     </dir>
     <dir name="Mocks">
@@ -3033,12 +3043,12 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
