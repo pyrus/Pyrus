@@ -22,7 +22,7 @@ fix error message if no releases within stability/dependencies to be MUCH cleare
  [X] Implement displaying of optional deps and dep groups not installed if --optionaldeps isn't specified,
       by aggregating all of them and displaying all at once prior to install
  
-Implement custom validation support for role files
+ [X] Implement custom validation support for role files
 
 Implement deploy as a creation of a local copy of the remote repository that can be rsync/copied as the user
 sees fit
