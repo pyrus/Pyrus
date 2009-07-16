@@ -7,21 +7,26 @@ mkdir($d = __DIR__ . '/testit');
 file_put_contents($d . '/foob', '<?xml version="1.0" ?>
                   <package version="2.0">');
 
-$test->assertEquals('pear2\Pyrus\Package\Xml', \pear2\Pyrus\Package::parsePackageDescription($d . '/foob'),
+$test->assertEquals(array('pear2\Pyrus\Package\Xml', $d . '/foob', false),
+                    \pear2\Pyrus\Package::parsePackageDescription($d . '/foob'),
                     'no extension, xml');
 
 file_put_contents($d . '/foob', 'not xml');
 
-$test->assertEquals('pear2\Pyrus\Package\Phar', \pear2\Pyrus\Package::parsePackageDescription($d . '/foob'),
+$test->assertEquals(array('pear2\Pyrus\Package\Phar', $d . '/foob', false),
+                    \pear2\Pyrus\Package::parsePackageDescription($d . '/foob'),
                     'no extension, not xml');
 
-$test->assertEquals('pear2\Pyrus\Package\Remote', \pear2\Pyrus\Package::parsePackageDescription('http://blah'),
+$test->assertEquals(array('pear2\Pyrus\Package\Remote', 'http://blah', false),
+                    \pear2\Pyrus\Package::parsePackageDescription('http://blah'),
                     'http');
 
-$test->assertEquals('pear2\Pyrus\Package\Remote', \pear2\Pyrus\Package::parsePackageDescription('https://blah'),
+$test->assertEquals(array('pear2\Pyrus\Package\Remote', 'https://blah', false),
+                    \pear2\Pyrus\Package::parsePackageDescription('https://blah'),
                     'https');
 
-$test->assertEquals('pear2\Pyrus\Package\Remote', \pear2\Pyrus\Package::parsePackageDescription('foob', true),
+$test->assertEquals(array('pear2\Pyrus\Package\Remote', 'foob', false),
+                    \pear2\Pyrus\Package::parsePackageDescription('foob', true),
                     'force remote');
 
 try {

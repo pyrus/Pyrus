@@ -50,8 +50,11 @@ class Package implements \pear2\Pyrus\IPackage
         if (!$packagedescription) {
             return;
         }
-        $class = $this->parsePackageDescription($packagedescription, $forceremote);
+        list($class, $packagedescription, $depgroup) = $this->parsePackageDescription($packagedescription, $forceremote);
         $this->internal = new $class($packagedescription, $this);
+        if ($depgroup) {
+            $this->internal->requestedGroup = $depgroup;
+        }
     }
 
     function isOldAndCrustyCompatible()
@@ -194,12 +197,22 @@ class Package implements \pear2\Pyrus\IPackage
         $this->internal->copyTo($where);
     }
 
-    static function parsePackageDescription($package, $forceremote = false)
+    function parsePackageDescription($package, $forceremote = false)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
-            return 'pear2\Pyrus\Package\Remote';
+            return array('pear2\Pyrus\Package\Remote', $package, false);
         }
         try {
+            $test = parse_url($package);
+            $depgroup = false;
+            if (!$forceremote && count($test) == 2 && isset($test['fragment']) && isset($test['path'])) {
+                // local path with dependency group?
+                if (file_exists($test['path'])) {
+                    // yes
+                    $package = $test['path'];
+                    $depgroup = $test['fragment'];
+                }
+            }
             if (!$forceremote && @file_exists($package) && @is_file($package)) {
                 $info = pathinfo($package);
                 if (!isset($info['extension']) || !strlen($info['extension'])) {
@@ -209,24 +222,24 @@ class Package implements \pear2\Pyrus\IPackage
                         $first5 = fread($f, 5);
                         fclose($f);
                         if ($first5 == '<?xml') {
-                            return 'pear2\Pyrus\Package\Xml';
+                            return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
                         }
-                        return 'pear2\Pyrus\Package\Phar';
+                        return array('pear2\Pyrus\Package\Phar', $package, $depgroup);
                     }
                 } else {
                     if (extension_loaded('phar') && strtolower($info['extension']) != 'xml') {
-                        return 'pear2\Pyrus\Package\Phar';
+                        return array('pear2\Pyrus\Package\Phar', $package, $depgroup);
                     }
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
-                            return 'pear2\Pyrus\Package\Xml';
+                            return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
                         default:
                             throw new \pear2\Pyrus\Package\Exception('Cannot read archives with phar extension');
                     }
                 }
             }
             $info = \pear2\Pyrus\Config::parsePackageName($package);
-            return 'pear2\Pyrus\Package\Remote';
+            return array('pear2\Pyrus\Package\Remote', $package, $depgroup);
         } catch (\Exception $e) {
             throw new \pear2\Pyrus\Package\Exception('package "' . $package . '" is unknown', $e);
         }

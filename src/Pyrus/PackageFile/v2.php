@@ -117,6 +117,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
         'release' => 'getRelease',
         'release-version' => 'getReleaseVersion',
         'releases' => 'getReleases',
+        'requestedGroup' => 'getRequestedGroup',
         'schemaOK' => 'getSchemaOK',
         'scriptfiles' => 'getScriptFiles',
         'sourcepackage' => 'getSourcePackage',
@@ -155,7 +156,8 @@ class v2 implements \pear2\Pyrus\IPackageFile
         'notes' => 'setTag',
         'extends' => 'setTag',
         'type' => 'setType',
-        'packagerversion' => 'setPackagerVersion'
+        'packagerversion' => 'setPackagerVersion',
+        'requestedGroup' => 'setRequestedGroup',
     );
 
     protected $rawMap = array(
@@ -193,9 +195,8 @@ class v2 implements \pear2\Pyrus\IPackageFile
     /**
      * Optional Dependency group requested for installation
      * @var string
-     * @access private
      */
-    var $_requestedGroup = false;
+    protected $requestedGroup = false;
 
     /**
      * Namespace prefix used for tasks in this package.xml - use tasks: whenever possible
@@ -496,6 +497,16 @@ class v2 implements \pear2\Pyrus\IPackageFile
     function getArchiveFile()
     {
         return $this->_archiveFile;
+    }
+
+    function getRequestedGroup()
+    {
+        return $this->requestedGroup;
+    }
+
+    function setRequestedGroup($var, $value)
+    {
+        $this->requestedGroup = $value;
     }
 
     /**
