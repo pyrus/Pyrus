@@ -1,6 +1,9 @@
 TODO:
 
-Add support for channel aliases to remote-list
+ [X] Add support for channel aliases to remote-list
+
+Add validation of packages to install against installed packages that depend on them,
+and add this to pre-download dependency resolution
 
 Add dependencies listing to info command
 
