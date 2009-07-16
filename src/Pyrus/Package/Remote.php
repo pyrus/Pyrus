@@ -66,6 +66,27 @@ class Remote extends \pear2\Pyrus\Package
         $this->isUpgradeable = true;
     }
 
+    function __get($var)
+    {
+        if ($var === 'requestedGroup') {
+            return $this->requestedGroup();
+        }
+        return parent::__get($var);
+    }
+
+    function requestedGroup()
+    {
+        if ($this->explicitGroup) {
+            return $this->parsedname['group'];
+        }
+        // default install group is installed if no other group requested and
+        // it exists
+        if (isset($this->dependencies['group']->default)) {
+            return 'default';
+        }
+        return false;
+    }
+
     function isUpgradeable()
     {
         if ($this->isUpgradeable === null) {
