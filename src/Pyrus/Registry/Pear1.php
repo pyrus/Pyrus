@@ -55,6 +55,9 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
 
     protected function rebuildFileMap()
     {
+        $depdb = static::$dependencyDBClass;
+        $depdb = new $depdb($this->path);
+        $depdb->rebuildDB();
         $config = \pear2\Pyrus\Config::current();
         $channels = array();
         foreach ($config->channelregistry as $channel) {
