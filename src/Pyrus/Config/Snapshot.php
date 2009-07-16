@@ -108,36 +108,29 @@ class Snapshot extends \pear2\Pyrus\Config
                 }
                 usort($matches, array($this, 'datediff'));
                 unset($match);
+                $found = false;
                 foreach ($matches as $match) {
                     $match = substr($match->getFileName(), strlen('configsnapshot-'));
                     $match = str_replace('.xml', '', $match);
                     $match = explode(' ', $match);
                     $match[1] = str_replace('-', ':', $match[1]);
                     $match = implode(' ', $match);
-                    $diff = $us->diff(new \DateTime($match))->format("%r%s");
-                    if (!$diff) {
+                    $testdate = new \DateTime($match);
+                    if ($testdate > $us) {
+                        continue;
+                    }
+                    if ($testdate == $us) {
                         // found a snapshot match
+                        $found = true;
                         break;
                     }
-                    if (!isset($last)) {
-                        if ($diff < 0) {
-                            // oldest snapshot is newer than us, resort to default config
-                            return parent::loadConfigFile($pearDirectory);
-                        }
-                        $last = $match;
-                        continue;
+                    if ($us > $testdate) {
+                        // we fall between these two snapshots, so use this one
+                        $found = true;
+                        break;
                     }
-
-                    if ($diff > 0) {
-                        $last = $match;
-                        continue;
-                    }
-                    // the current snapshot is newer than our install
-                    // the last snapshot was the one we used
-                    $match = $last;
-                    break;
                 }
-                if (!isset($match)) {
+                if (!$found) {
                     // no config snapshots
                     return parent::loadConfigFile($pearDirectory);
                 }
