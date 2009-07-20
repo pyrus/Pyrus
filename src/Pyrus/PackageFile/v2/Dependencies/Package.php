@@ -10,6 +10,7 @@ class Package implements \ArrayAccess, \Iterator
     protected $parent;
     protected $type;
     protected $deptype;
+    protected $sources;
 
     function __construct($deptype, $type, $parent, array $info, $index = null)
     {
@@ -254,6 +255,11 @@ class Package implements \ArrayAccess, \Iterator
         $this->save();
     }
 
+    function getPackageFile()
+    {
+        return $this->parent->getPackageFile();
+    }
+
     function __get($var)
     {
         if (!isset($this->index)) {
@@ -379,6 +385,81 @@ class Package implements \ArrayAccess, \Iterator
         return $this;
     }
 
+    /**
+     * Informs this dependency what dependencies were used to create it
+     */
+    function setCompositeSources(array $sources)
+    {
+        $this->sources = $sources;
+    }
+
+    /**
+     * Get a list of dependencies that fail on the version passed in
+     * @return array
+     */
+    function getUnsatisfiedSources($version)
+    {
+        $ret = array();
+        foreach ($this->sources as $source) {
+            if (!$source->satisfied($version)) {
+                $ret[] = $source;
+            }
+        }
+        return $ret;
+    }
+
+    function equals(Package $test)
+    {
+        $info = $test->getInfo();
+        foreach ($this->info as $key => $value) {
+            if (is_array($value)) {
+                sort($value);
+                sort($info[$key]);
+            }
+            if ($value !== $info[$key]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if the version specified satisfies this dependency
+     * 
+     * @return bool
+     */
+    function satisfied($version)
+    {
+        // now check for versions satisfying the dependency
+        if (isset($this->min)) {
+            if (version_compare($version, $this->min, '<')) {
+                return $this->conflicts ? true : false;
+            }
+        }
+        if (isset($this->exclude)) {
+            foreach ($this->exclude as $exclude) {
+                if ($version == $exclude) {
+                    return $this->conflicts ? true : false;
+                }
+            }
+        }
+        if (isset($this->max)) {
+            if (version_compare($version, $this->max, '>')) {
+                return $this->conflicts ? true : false;
+            }
+        }
+        if (isset($this->recommended)) {
+            if ($this->conflicts) {
+                throw new Exception('Invalid conflicts dependency, recommended cannot be set');
+            }
+            if ($version == $this->recommended) {
+                return true;
+            }
+            return false;
+        }
+        return $this->conflicts ? false : true;
+    }
+
     function getInfo()
     {
         return $this->info;
@@ -410,6 +491,55 @@ class Package implements \ArrayAccess, \Iterator
             $this->parent->setInfo($this->type, $info);
         }
         $this->parent->save();
+    }
+
+    /**
+     * This is useful for debugging purposes
+     */
+    function __toString()
+    {
+        if (isset($this->info['conflicts'])) {
+            $ret = ' conflicts with ';
+        } else {
+            $ret = '';
+        }
+        if ($this->type == 'extension') {
+            $ret .= 'ext ' . $this->info['name'];
+        } else {
+            if (isset($this->info['channel'])) {
+                $ret .= $this->info['channel'] . '/' . $this->info['name'];
+            } else {
+                $ret .= '__uri/' . $this->info['name'];
+            }
+        }
+        if (!isset($this->info['min'])
+            && !isset($this->info['max'])
+            && !isset($this->info['exclude'])
+            && !isset($this->info['recommended'])) {
+            return $ret;
+        }
+        $ret .= ' (';
+        $comma = '';
+        if (isset($this->info['min'])) {
+            $ret .= '>= ' . $this->info['min'];
+            $comma = ',';
+        }
+        if (isset($this->info['max'])) {
+            $ret .= $comma . '<= ' . $this->info['max'];
+            $comma = ',';
+        }
+        if (isset($this->info['exclude'])) {
+            $exclude = $this->info['exclude'];
+            if (!is_array($exclude)) {
+                $exclude = array($exclude);
+            }
+            $ret .= $comma . '!= [' . implode(',',$exclude) . ']';
+            $comma = ',';
+        }
+        if (isset($this->info['recommended'])) {
+            $ret .= $comma . 'recommends ' . $this->info['recommended'];
+        }
+        return $ret . ')';
     }
 }
 ?>

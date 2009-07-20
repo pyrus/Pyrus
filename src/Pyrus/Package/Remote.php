@@ -48,6 +48,11 @@ class Remote extends \pear2\Pyrus\Package
         $this->from = $parent;
     }
 
+    function isAbstract()
+    {
+        return $this->type == 'abstract';
+    }
+
     function isStatic()
     {
         if ($this->type == 'url') {

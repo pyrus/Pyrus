@@ -270,9 +270,9 @@ class Registry implements \pear2\Pyrus\IRegistry, \IteratorAggregate
         return $this->path;
     }
 
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package)
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
     {
-        return $this->registries[0]->getDependentPackages($package);
+        return $this->registries[0]->getDependentPackages($package, $minimal);
     }
 
     public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package)

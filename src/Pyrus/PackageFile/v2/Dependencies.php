@@ -100,8 +100,26 @@ class Dependencies implements \ArrayAccess
         $this->deptype = $deptype;
     }
 
+    function getPackageFile()
+    {
+        if ($this->parent instanceof self) {
+            return $this->parent->getPackageFile();
+        }
+        return $this->parent;
+    }
+
     function __get($var)
     {
+        if ($var === 'parent') {
+            if ($this->parent) {
+                if ($this->parent instanceof self) {
+                    return $this->parent->parent;
+                }
+                return $this->parent;
+            } else {
+                return null;
+            }
+        }
         if ($this->deptype === null) {
             throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
                 'Cannot retrieve dependency type, choose $pf->dependencies[\'required\']->' .

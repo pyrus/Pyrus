@@ -42,8 +42,11 @@ interface IRegistry
     public function toPackageFile($package, $channel);
     /**
      * Retrieve a list of package objects that depend on this package
+     * @param \pear2\Pyrus\IPackageFile package that is depended on
+     * @param bool if true, a lean package with only name and dependencies is returned
      */
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package);
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true);
+    
     /**
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package

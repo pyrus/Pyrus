@@ -143,9 +143,6 @@ class Installer
                 }
             }
             static::$installPackages[$package->channel . '/' . $package->name] = $package;
-            if (isset(static::$optionalDeps[$package->channel . '/' . $package->name])) {
-                unset(static::$optionalDeps[$package->channel . '/' . $package->name]);
-            }
             return;
         }
         $clone = static::$installPackages[$package->channel . '/' . $package->name];
@@ -175,50 +172,6 @@ class Installer
             $package->channel . '/' . $package->name .
             ' are required by packages that depend on it (' .
             $package->version['release'] . ' and ' . $clone->version['release']);
-    }
-
-    /**
-     * Download and prepare all dependencies
-     *
-     * @param \pear2\Pyrus\Package $package
-     */
-    static function prepareDependencies(\pear2\Pyrus\IPackage $package)
-    {
-        foreach (array('package', 'subpackage') as $p) {
-            foreach ($package->dependencies['required']->$p as $dep) {
-                if ($dep->conflicts) {
-                    continue;
-                }
-                \pear2\Pyrus\Package\Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
-            }
-        }
-        if ($package->requestedGroup) {
-            foreach (array('package', 'subpackage') as $p) {
-                foreach ($package->dependencies['group']->{$package->requestedGroup}->$p as $dep) {
-                    if ($dep->conflicts) {
-                        continue;
-                    }
-                    \pear2\Pyrus\Package\Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
-                }
-            }
-        }
-        foreach (array('package', 'subpackage') as $p) {
-            foreach ($package->dependencies['optional']->$p as $dep) {
-                if ($dep->conflicts) {
-                    continue;
-                }
-                if (!isset(\pear2\Pyrus\Main::$options['optionaldeps']) && !isset(static::$installPackages
-                                                                            [$dep->channel . '/' . $dep->name])) {
-                    if (!isset(static::$optionalDeps[$dep->channel . '/' . $dep->name])) {
-                        static::$optionalDeps[$dep->channel . '/' . $dep->name] = array();
-                    }
-                    static::$optionalDeps[$dep->channel . '/' . $dep->name][$package->channel . '/' .$package->name]
-                        = 1;
-                    continue;
-                }
-                \pear2\Pyrus\Package\Dependency::retrieve(get_called_class(), static::$installPackages, $dep, $package);
-            }
-        }
     }
 
     static function getIgnoredOptionalDeps()
@@ -257,51 +210,16 @@ class Installer
         if (!count(static::$installPackages)) {
             return;
         }
-        $done = true;
-        $allpackages = $packages = static::$installPackages;
-        do {
-            foreach ($allpackages as $package => $info) {
-                if (!$info->isRemote()) {
-                    // anything downloaded or local is good
-                    static::prepareDependencies($info);
-                    continue;
-                }
-                $dep = \pear2\Pyrus\Package\Dependency::getCompositeDependency($info);
-                try {
-                    if (true === $info->figureOutBestVersion($dep)) {
-                        // we just changed version from a previously calculated version,
-                        // so restart
-                        $unset = \pear2\Pyrus\Package\Dependency::removePackage($info);
-                        foreach ($unset as $p) {
-                            unset(static::$installPackages[$p]);
-                        }
-                        // just added some new packages that affect dependencies
-                        $done = false;
-                        continue 2;
-                    }
-                    static::prepareDependencies($info);
-                } catch (\pear2\Pyrus\Channel\Exception $e) {
-                    throw new \pear2\Pyrus\Installer\Exception('Dependency validation failed ' .
-                        'for some packages to install, installation aborted', $e);
-                }
-            }
-            $packages = array();
-            foreach (array_diff(array_keys(static::$installPackages), array_keys($allpackages)) as $package) {
-                $packages[$package] = static::$installPackages[$package];
-            }
-            $allpackages = static::$installPackages;
-            $done = !count($packages);
-        } while (!$done);
-        if (!isset(\pear2\Pyrus\Main::$options['force'])) {
-            // now iterate over the list and remove any packages that are installed with this version
-            $packages = static::$installPackages;
-            $reg = \pear2\Pyrus\Config::current()->registry;
-            foreach ($packages as $key => $package) {
-                if ($reg->info($package->name, $package->channel, 'version') === $package->version['release']) {
-                    unset(static::$installPackages[$key]);
-                }
-            }
+        try {
+            $set = new \pear2\Pyrus\Package\Dependency\Set(static::$installPackages);
+            $set->synchronizeDeps();
+            $set->resolveDuplicates();
+        } catch (\pear2\Pyrus\Package\Dependency\Set\Exception $e) {
+            throw new Installer\Exception(
+                    'Dependency validation failed for some packages to install, installation aborted', $e);
         }
+        static::$installPackages = $set->retrieveAllPackages();
+        static::$optionalDeps = $set->getIgnoredOptionalDeps();
     }
 
     function wasInstalled($package, $channel)
@@ -355,13 +273,15 @@ class Installer
             foreach (static::$installPackages as $package) {
                 $package->makeConnections($graph, static::$installPackages);
             }
+
             // topologically sort packages and install them via iterating over the graph
+            $packages = $graph->topologicalSort();
             $reg = \pear2\Pyrus\Config::current()->registry;
             try {
                 \pear2\Pyrus\AtomicFileTransaction::begin();
                 $reg->begin();
                 if (isset(\pear2\Pyrus\Main::$options['upgrade'])) {
-                    foreach ($graph as $package) {
+                    foreach ($packages as $package) {
                         if ($reg->exists($package->name, $package->channel)) {
                             static::$wasInstalled[$package->channel . '/' . $package->name] =
                                 $reg->package[$package->channel . '/' . $package->name];
@@ -369,8 +289,8 @@ class Installer
                         }
                     }
                 }
-                static::detectDownloadConflicts($graph, $reg);
-                foreach ($graph as $package) {
+                static::detectDownloadConflicts($packages, $reg);
+                foreach ($packages as $package) {
                     if (isset(static::$installedPackages[$package->channel . '/' . $package->name])) {
                         continue;
                     }
@@ -407,12 +327,12 @@ class Installer
         }
     }
 
-    static protected function detectDownloadConflicts($graph, $reg)
+    static protected function detectDownloadConflicts($packages, $reg)
     {
         // check conflicts with packages already installed
         $conflicts = array();
         $checked = array();
-        foreach ($graph as $package) {
+        foreach ($packages as $package) {
             if (isset($checked[$package->channel . '/' . $package->name])) {
                 continue;
             }
@@ -427,7 +347,7 @@ class Installer
         $filelist = array();
         $checked = array();
         $dupes = array();
-        foreach ($graph as $package) {
+        foreach ($packages as $package) {
             if (isset($checked[$package->channel . '/' . $package->name])) {
                 continue;
             }

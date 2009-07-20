@@ -42,7 +42,7 @@ foreach ($chan->remotepackages['stable'] as $package) {
 }
 sort($names);
 
-$test->assertEquals(array('P1', 'P2', 'P3', 'P4'), $names, 'package names stable');
+$test->assertEquals(array('P1', 'P2', 'P3', 'P4', 'P5'), $names, 'package names stable');
 
 $releases = array();
 foreach ($testp as $version => $release) {

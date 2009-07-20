@@ -49,7 +49,7 @@ $test->assertEquals('Using PEAR installation found at ' . __DIR__ . DIRECTORY_SE
 Category 1:
   *P1 latest stable: 1.0.0, latest release: 1.0.0 (stable)
   *P3 latest stable: 1.0.0, latest release: 1.0.0 (stable)
-   P5 latest stable: n/a, latest release: 0.9.0 (beta)
+   P5 latest stable: 1.0.0, latest release: 1.0.0 (stable)
 Category 2:
   *P2 latest stable: 1.2.3, latest release: 1.2.3 (stable)
   *P4 latest stable: 1.0.0, latest release: 1.0.0 (stable)

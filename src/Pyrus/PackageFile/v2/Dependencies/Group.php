@@ -57,6 +57,11 @@ class Group implements \Iterator
         return current($this->info);
     }
 
+    function getPackageFile()
+    {
+        return $this->parent->getPackageFile();
+    }
+
     function __get($group)
     {
         if (isset($this->index)) {

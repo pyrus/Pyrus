@@ -166,7 +166,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
     protected $remoteAbridgedInfo;
     protected $versionSet = false;
     protected $minimumStability;
-    protected $explicitVersion;
+    protected $explicitVersion = false;
     protected $fullPackagexml = false;
     /**
      * Flag used to determine whether this package has been tested for upgradeability
@@ -239,6 +239,21 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
     function setExplicitVersion($version)
     {
         $this->explicitVersion = $version;
+    }
+
+    function getExplicitVersion()
+    {
+        return $this->explicitVersion;
+    }
+
+    function resetConcreteVersion()
+    {
+        $this->versionSet = false;
+    }
+
+    function hasConcreteVersion()
+    {
+        return $this->versionSet;
     }
 
     function setUpgradeable()
@@ -529,6 +544,12 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         }
     }
 
+    function getReleaseList()
+    {
+        $this->rewind();
+        return $this->releaseList;
+    }
+
     function getDependencies()
     {
         // dynamically retrieve the dependencies from the remote server when requested
@@ -546,6 +567,11 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         // can't get email addresses from REST, have to grab the entire package.xml
         $this->grabEntirePackagexml();
         return parent::getMaintainer();
+    }
+
+    function getPackagefileObject()
+    {
+        return $this;
     }
 
     /**
@@ -611,7 +637,9 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
      *        the composite of all dependencies on this package, as calculated
      *        by {@link \pear2\Pyrus\Package\Dependency::getCompositeDependency()}
      */
-    function figureOutBestVersion(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep)
+    function figureOutBestVersion(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep,
+                                  $versions = null,
+                                  \pear2\Pyrus\PackageFile\v2\Dependencies\Package $compositeConflictingDep = null)
     {
         // set up release list if not done yet
         $this->rewind();
@@ -636,6 +664,9 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 $this->version['release'] = $versioninfo['v'];
                 return;
             }
+            if ($versions && !in_array($versioninfo['v'], $versions)) {
+                continue;
+            }
             if (!isset(\pear2\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
@@ -649,37 +680,17 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 continue;
             }
 
-            // now check for versions satisfying the dependency
-            if (isset($compositeDep->min)) {
-                if (version_compare($versioninfo['v'], $compositeDep->min, '<')) {
-                    $failIfExplicit($versioninfo);
-                    continue;
-                }
-            }
-            if (isset($compositeDep->exclude)) {
-                foreach ($compositeDep->exclude as $exclude) {
-                    if ($versioninfo['v'] == $exclude) {
-                        $failIfExplicit($versioninfo);
-                        continue 2;
-                    }
-                }
-            }
-            if (isset($compositeDep->max)) {
-                if (version_compare($versioninfo['v'], $compositeDep->max, '>')) {
-                    $failIfExplicit($versioninfo);
-                    continue;
-                }
-            }
-            if (isset($compositeDep->recommended)) {
-                if ($versioninfo['v'] == $compositeDep->recommended) {
-                    // we're done.  That was easy.
-                    $this->version['release'] = $versioninfo['v'];
-                    return;
-                }
+            if ($this->explicitVersion && $versioninfo['v'] != $this->explicitVersion) {
                 continue;
             }
 
-            if ($this->explicitVersion && $versioninfo['v'] != $this->explicitVersion) {
+            if (!$compositeDep->satisfied($versioninfo['v'])) {
+                $failIfExplicit($versioninfo);
+                continue;
+            }
+
+            if ($compositeConflictingDep && !$compositeConflictingDep->satisfied($versioninfo['v'])) {
+                $failIfExplicit($versioninfo);
                 continue;
             }
 

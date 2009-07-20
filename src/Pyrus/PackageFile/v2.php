@@ -839,7 +839,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
      */
     function validateDependencies(array $toInstall, \pear2\MultiErrors $errs)
     {
-        $dep = new \pear2\Pyrus\Dependency\Validator($this->packageInfo['name'],
+        $dep = new \pear2\Pyrus\Dependency\Validator($this->packageInfo['channel'] . '/' . $this->packageInfo['name'],
             \pear2\Pyrus\Validate::DOWNLOADING, $errs);
         $dep->validatePhpDependency($this->dependencies['required']->php);
         $dep->validatePearinstallerDependency($this->dependencies['required']->pearinstaller);

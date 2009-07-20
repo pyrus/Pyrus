@@ -504,7 +504,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         }
     }
 
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package)
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
     {
         $class = self::$dependencyDBClass;
         $dep = new $class($this->_getPath());

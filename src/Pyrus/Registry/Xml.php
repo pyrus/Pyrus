@@ -252,7 +252,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
      * This is EXTREMELY inefficient, and should only be used
      * if an Sqlite3 registry is unavailable
      */
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package)
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
     {
         // first construct a list of all installed packages
         $all = array();

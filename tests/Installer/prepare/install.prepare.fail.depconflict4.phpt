@@ -31,8 +31,11 @@ try {
 } catch (\pear2\Pyrus\Installer\Exception $e) {
     $test->assertEquals('Dependency validation failed for some packages to install, installation aborted', $e->getMessage(),
                         'right error message');
-    $test->assertIsa('\pear2\Pyrus\Channel\Exception', $e->getCause(), 'cause class');
-    $test->assertEquals('Unable to locate a package release for pear2.php.net/P2 that can satisfy all dependencies', $e->getCause()->getMessage(), 'cause message');
+    $test->assertIsa('\pear2\Pyrus\Package\Dependency\Set\Exception', $e->getCause(), 'cause class');
+    $test->assertEquals('No versions of pear2.php.net/P1 or of its dependencies that can be installed because of:
+pear2.php.net/P3 depends on: pear2.php.net/P2 (>= 1.0.0,<= 1.3.0,!= [1.2.3])
+pear2.php.net/P1 depends on: pear2.php.net/P2 (>= 1.1.0,<= 2.0.0,!= [1.2.0,1.2.3],recommends 1.3.1)
+', $e->getCause()->getMessage(), 'cause message');
 }
 \pear2\Pyrus\Installer::rollback();
 ?>

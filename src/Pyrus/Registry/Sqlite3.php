@@ -1323,7 +1323,7 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
         return $ret;
     }
 
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package)
+    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
     {
         if (!$this->_initialized) {
             return array();
@@ -1346,7 +1346,16 @@ class Sqlite3 extends \pear2\Pyrus\Registry\Base
 
         while ($res = $result->fetchArray()) {
             try {
-                $ret[] = $this->package[$res[0] . '/' . $res[1]];
+                if ($minimal) {
+                    // only retrieve package name and dependencies
+                    $pf = new \pear2\Pyrus\PackageFile\v2;
+                    $pf->name        = $this->info($res[1], $res[0], 'name');
+                    $pf->channel     = $res[0];
+                    $this->fetchDeps($pf);
+                    $ret[] = $pf;
+                } else {
+                    $ret[] = $this->package[$res[0] . '/' . $res[1]];
+                }
             } catch (\Exception $e) {
                 throw new \pear2\Pyrus\ChannelRegistry\Exception('Could not retrieve ' .
                     'dependent package ' . $res[0] . '/' . $res[1], $e);

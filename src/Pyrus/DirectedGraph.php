@@ -123,7 +123,7 @@ class DirectedGraph implements \Iterator
     {
         $this->blackVertices = array();
         if (!count($this->vertices)) {
-            return;
+            return array();
         }
         foreach ($this->vertices as $vertex) {
             $vertex->color(self::WHITE);
@@ -176,5 +176,6 @@ class DirectedGraph implements \Iterator
                 }
             } while (!$black);
         }
+        return array_map(function($a){return $a->data;}, $this->blackVertices);
     }
 }
