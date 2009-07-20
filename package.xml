@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-07-15</date>
- <time>13:02:52</time>
+ <date>2009-07-20</date>
+ <time>18:10:45</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -340,6 +340,13 @@ Initial pyrus public API
        <file role="php" name="Exception.php"/>
        <file role="php" name="TaskIterator.php"/>
       </dir>
+      <dir name="Dependency">
+       <dir name="Set">
+        <file role="php" name="Exception.php"/>
+        <file role="php" name="PackageTree.php"/>
+       </dir>
+       <file role="php" name="Set.php"/>
+      </dir>
       <dir name="Phar">
        <file role="php" name="Exception.php"/>
       </dir>
@@ -352,6 +359,7 @@ Initial pyrus public API
       <file role="php" name="Base.php"/>
       <file role="php" name="Creator.php"/>
       <file role="php" name="Dependency.php"/>
+      <file role="php" name="DuplicateDependency.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="ICreator.php"/>
       <file role="php" name="InstalledException.php"/>
@@ -598,7 +606,6 @@ Initial pyrus public API
     <dir name="Channel">
      <dir name="remoteiteration">
       <file role="test" name="channel.packages.phpt"/>
-      <file role="test" name="pearconfig.xml"/>
       <file role="test" name="setup.php.inc"/>
      </dir>
      <file role="test" name="basic.phpt"/>
@@ -1037,6 +1044,7 @@ Initial pyrus public API
     </dir>
     <dir name="Installer">
      <dir name="prepare">
+      <file role="test" name="install.prepare.dep.versionconflict.installed.phpt"/>
       <file role="test" name="install.prepare.dep.versionconflict.phpt"/>
       <file role="test" name="install.prepare.depinstalled.notupgrading.phpt"/>
       <file role="test" name="install.prepare.depinstalled.noupgrade.phpt"/>
@@ -1049,13 +1057,15 @@ Initial pyrus public API
       <file role="test" name="install.prepare.fail.depconflict2.phpt"/>
       <file role="test" name="install.prepare.fail.depconflict3.phpt"/>
       <file role="test" name="install.prepare.fail.depconflict4.phpt"/>
-      <file role="test" name="pearconfig.xml"/>
      </dir>
+     <file role="test" name="install.depgroup.phpt"/>
      <file role="test" name="install.fileconflict.phpt"/>
      <file role="test" name="install.fileconflict2.phpt"/>
      <file role="test" name="install.force.phpt"/>
+     <file role="test" name="install.localdepgroup.phpt"/>
      <file role="test" name="install.minphpfail.phpt"/>
      <file role="test" name="install.packagingroot.phpt"/>
+     <file role="test" name="install.pear1.phpt"/>
      <file role="test" name="install.remote.packages.phpt"/>
      <file role="test" name="install.remote.signedpackage.phpt"/>
      <file role="test" name="install.verifyfiles.phpt"/>
@@ -1067,6 +1077,104 @@ Initial pyrus public API
     </dir>
     <dir name="Mocks">
      <dir name="Internet">
+      <dir name="install.depgroup">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P2-1.0.0.tar"/>
+        <file role="test" name="P2-1.0.0.tgz"/>
+        <file role="test" name="P2-1.0.0.zip"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
+        <file role="test" name="P4-1.0.0.tar"/>
+        <file role="test" name="P4-1.0.0.tgz"/>
+        <file role="test" name="P4-1.0.0.zip"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Default">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
       <dir name="install.force">
        <dir name="get">
         <file role="test" name="P1-1.0.0.tar"/>
@@ -1461,10 +1569,9 @@ Initial pyrus public API
         <file role="test" name="P4-1.0.0.tar"/>
         <file role="test" name="P4-1.0.0.tgz"/>
         <file role="test" name="P4-1.0.0.zip"/>
-        <file role="test" name="P5-0.9.0.tar"/>
-        <file role="test" name="P5-0.9.0.tgz"/>
-        <file role="test" name="P5-0.9.0.zip"/>
+        <file role="test" name="P5-1.0.0.tar"/>
         <file role="test" name="P5-1.0.0.tgz"/>
+        <file role="test" name="P5-1.0.0.zip"/>
        </dir>
        <dir name="rest">
         <dir name="c">
@@ -1573,16 +1680,157 @@ Initial pyrus public API
           <file role="test" name="v2.1.0.0.xml"/>
          </dir>
          <dir name="p5">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+        </dir>
+       </dir>
+       <file role="test" name="channel.xml"/>
+       <file role="test" name="make.php"/>
+      </dir>
+      <dir name="installer.prepare.dep.versionconflict.installed">
+       <dir name="get">
+        <file role="test" name="P1-1.0.0.tar"/>
+        <file role="test" name="P1-1.0.0.tgz"/>
+        <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P2-0.9.0.tar"/>
+        <file role="test" name="P2-0.9.0.tgz"/>
+        <file role="test" name="P2-0.9.0.zip"/>
+        <file role="test" name="P2-1.2.2.tar"/>
+        <file role="test" name="P2-1.2.2.tgz"/>
+        <file role="test" name="P2-1.2.2.zip"/>
+        <file role="test" name="P2-1.2.3.tar"/>
+        <file role="test" name="P2-1.2.3.tgz"/>
+        <file role="test" name="P2-1.2.3.zip"/>
+        <file role="test" name="P3-1.0.0.tar"/>
+        <file role="test" name="P3-1.0.0.tgz"/>
+        <file role="test" name="P3-1.0.0.zip"/>
+        <file role="test" name="P4-1.0.0.tar"/>
+        <file role="test" name="P4-1.0.0.tgz"/>
+        <file role="test" name="P4-1.0.0.zip"/>
+        <file role="test" name="P5-0.9.0.tar"/>
+        <file role="test" name="P5-0.9.0.tgz"/>
+        <file role="test" name="P5-0.9.0.zip"/>
+        <file role="test" name="P5-1.0.0.tar"/>
+        <file role="test" name="P5-1.0.0.tgz"/>
+        <file role="test" name="P5-1.0.0.zip"/>
+       </dir>
+       <dir name="rest">
+        <dir name="c">
+         <dir name="Category+1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <dir name="Category+2">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="packagesinfo.xml"/>
+         </dir>
+         <file role="test" name="categories.xml"/>
+        </dir>
+        <dir name="m">
+         <dir name="cellog">
+          <file role="test" name="info.xml"/>
+         </dir>
+         <file role="test" name="allmaintainers.xml"/>
+        </dir>
+        <dir name="p">
+         <dir name="p1">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p2">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="info.xml"/>
+          <file role="test" name="maintainers.xml"/>
+          <file role="test" name="maintainers2.xml"/>
+         </dir>
+         <file role="test" name="packages.xml"/>
+        </dir>
+        <dir name="r">
+         <dir name="p1">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p2">
           <file role="test" name="0.9.0.xml"/>
+          <file role="test" name="1.2.2.xml"/>
+          <file role="test" name="1.2.3.xml"/>
           <file role="test" name="allreleases.xml"/>
           <file role="test" name="allreleases2.xml"/>
           <file role="test" name="beta.txt"/>
           <file role="test" name="deps.0.9.0.txt"/>
+          <file role="test" name="deps.1.2.2.txt"/>
+          <file role="test" name="deps.1.2.3.txt"/>
           <file role="test" name="latest.txt"/>
-          <file role="test" name="maintainers.xml"/>
-          <file role="test" name="maintainers2.xml"/>
           <file role="test" name="package.0.9.0.xml"/>
+          <file role="test" name="package.1.2.2.xml"/>
+          <file role="test" name="package.1.2.3.xml"/>
+          <file role="test" name="stable.txt"/>
           <file role="test" name="v2.0.9.0.xml"/>
+          <file role="test" name="v2.1.2.2.xml"/>
+          <file role="test" name="v2.1.2.3.xml"/>
+         </dir>
+         <dir name="p3">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p4">
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.0.0.xml"/>
+         </dir>
+         <dir name="p5">
+          <file role="test" name="0.9.0.xml"/>
+          <file role="test" name="1.0.0.xml"/>
+          <file role="test" name="allreleases.xml"/>
+          <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="beta.txt"/>
+          <file role="test" name="deps.0.9.0.txt"/>
+          <file role="test" name="deps.1.0.0.txt"/>
+          <file role="test" name="latest.txt"/>
+          <file role="test" name="package.0.9.0.xml"/>
+          <file role="test" name="package.1.0.0.xml"/>
+          <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.0.9.0.xml"/>
+          <file role="test" name="v2.1.0.0.xml"/>
          </dir>
         </dir>
        </dir>
@@ -1680,6 +1928,12 @@ Initial pyrus public API
         <file role="test" name="P1-1.0.0.tar"/>
         <file role="test" name="P1-1.0.0.tgz"/>
         <file role="test" name="P1-1.0.0.zip"/>
+        <file role="test" name="P2-1.1.0.tar"/>
+        <file role="test" name="P2-1.1.0.tgz"/>
+        <file role="test" name="P2-1.1.0.zip"/>
+        <file role="test" name="P2-1.2.0.tar"/>
+        <file role="test" name="P2-1.2.0.tgz"/>
+        <file role="test" name="P2-1.2.0.zip"/>
         <file role="test" name="P2-1.2.1.tar"/>
         <file role="test" name="P2-1.2.1.tgz"/>
         <file role="test" name="P2-1.2.1.zip"/>
@@ -1733,15 +1987,23 @@ Initial pyrus public API
           <file role="test" name="v2.1.0.0.xml"/>
          </dir>
          <dir name="p2">
+          <file role="test" name="1.1.0.xml"/>
+          <file role="test" name="1.2.0.xml"/>
           <file role="test" name="1.2.1.xml"/>
           <file role="test" name="allreleases.xml"/>
           <file role="test" name="allreleases2.xml"/>
+          <file role="test" name="deps.1.1.0.txt"/>
+          <file role="test" name="deps.1.2.0.txt"/>
           <file role="test" name="deps.1.2.1.txt"/>
           <file role="test" name="latest.txt"/>
           <file role="test" name="maintainers.xml"/>
           <file role="test" name="maintainers2.xml"/>
+          <file role="test" name="package.1.1.0.xml"/>
+          <file role="test" name="package.1.2.0.xml"/>
           <file role="test" name="package.1.2.1.xml"/>
           <file role="test" name="stable.txt"/>
+          <file role="test" name="v2.1.1.0.xml"/>
+          <file role="test" name="v2.1.2.0.xml"/>
           <file role="test" name="v2.1.2.1.xml"/>
          </dir>
          <dir name="p3">
@@ -2134,6 +2396,7 @@ Initial pyrus public API
        <file role="test" name="channel.xml"/>
        <file role="test" name="make.php"/>
       </dir>
+      <file role="test" name="InternetMaker.php"/>
       <file role="test" name="README"/>
      </dir>
      <dir name="SimpleChannelServer">
@@ -2497,6 +2760,10 @@ Initial pyrus public API
         <file role="test" name="release3.phpt"/>
         <file role="test" name="setup.php.inc"/>
        </dir>
+      </dir>
+      <dir name="removeregistry">
+       <file role="test" name="removeregistry.phpt"/>
+       <file role="test" name="setup.php.inc"/>
       </dir>
       <dir name="uninstall">
        <file role="test" name="setup.php.inc"/>
@@ -3037,18 +3304,18 @@ Initial pyrus public API
      <file role="test" name="validateversion.failure.00.0.0.phpt"/>
      <file role="test" name="validateversion.failure.2decimals.phpt"/>
      <file role="test" name="validateversion.failure.alpha.00.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.000.phpt"/>
      <file role="test" name="validateversion.failure.alpha.1.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.alpha.1.0.0001.phpt"/>
      <file role="test" name="validateversion.failure.alpha.2.0.0.phpt"/>
      <file role="test" name="validateversion.failure.devel.1.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.0.1.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.00.1.0.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0.phpt"/>
-     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.000.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.2.0.0001.phpt"/>
+     <file role="test" name="validateversion.failure.extends.alpha.2.0.1.phpt"/>
      <file role="test" name="validateversion.failure.extends.alpha.phpt"/>
      <file role="test" name="validateversion.failure.extends.stable.phpt"/>
      <file role="test" name="validateversion.failure.invalidversion.phpt"/>
