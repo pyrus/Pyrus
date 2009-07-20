@@ -33,12 +33,20 @@
   </p>
   <a>
    <r>
+    <v>1.2.0</v>
+    <s>stable</s>
+   </r>
+   <r>
+    <v>1.1.0</v>
+    <s>stable</s>
+   </r>
+   <r>
     <v>1.2.1</v>
     <s>stable</s>
    </r>
   </a>
   <deps>
-   <v>1.2.1</v>
+   <v>1.1.0</v>
    <d>a:1:{s:8:&quot;required&quot;;a:2:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:7:&quot;2.0.0a1&quot;;}}}</d>
   </deps>
  </pi>

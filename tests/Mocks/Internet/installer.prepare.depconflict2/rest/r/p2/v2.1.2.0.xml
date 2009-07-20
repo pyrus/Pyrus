@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
- <p xlink:href="rest/p/p1">P1</p>
+ <p xlink:href="rest/p/p2">P2</p>
  <c>pear2.php.net</c>
- <v>1.0.0</v>
+ <v>1.2.0</v>
  <a>0.1.0</a>
  <mp>5.2.0</mp>
  <st>stable</st>
@@ -10,9 +10,9 @@
  <m>cellog</m>
  <s>testing</s>
  <d>hi description</d>
- <da>2009-07-20 15:21:50</da>
+ <da>2009-07-20 15:21:51</da>
  <n>my notes</n>
- <f>1339</f>
- <g>http://pear2.php.net/get/P1-1.0.0</g>
- <x xlink:href="package.1.0.0.xml"/>
+ <f>1218</f>
+ <g>http://pear2.php.net/get/P2-1.2.0</g>
+ <x xlink:href="package.1.2.0.xml"/>
 </r>
