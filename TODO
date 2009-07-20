@@ -2,8 +2,8 @@ TODO:
 
  [X] Add support for channel aliases to remote-list
 
-Add validation of packages to install against installed packages that depend on them,
-and add this to pre-download dependency resolution
+ [X] Add validation of packages to install against installed packages that depend on them,
+     and add this to pre-download dependency resolution
 
 Add dependencies listing to info command
 
@@ -13,7 +13,7 @@ fix exception handler to not show trace unless verbose >= 5
 
 fix error message if unknown channel is chosen
 
-fix error message if no releases within stability/dependencies to be MUCH clearer
+ [X] fix error message if no releases within stability/dependencies to be MUCH clearer
 
  [X] If a path is explicit to find Config, don't cascade include_path.
 
