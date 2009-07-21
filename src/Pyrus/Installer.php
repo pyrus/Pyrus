@@ -146,6 +146,10 @@ class Installer
             return;
         }
         $clone = static::$installPackages[$package->channel . '/' . $package->name];
+        if (!$package->isStatic() && $clone->isStatic()) {
+            // always prefer explicitly versioned over abstract
+            return;
+        }
         if ($package->isStatic() && !$clone->isStatic()) {
             // always prefer explicitly versioned over abstract
             static::$installPackages[$package->channel . '/' . $package->name] = $package;
@@ -160,18 +164,11 @@ class Installer
             // identical, ignore this package
             return;
         }
-        if (!\pear2\Pyrus\Main::$options['force']) {
-            //
-            static::rollback();
-            throw new \pear2\Pyrus\Installer\Exception('Cannot install ' .
-                $package->channel . '/' . $package->name . ', two conflicting' .
-                ' versions are required by packages that depend on it (' .
-                $package->version['release'] . ' and ' . $clone->version['release']);
-        }
-        \pear2\Pyrus\Logger::log(0, 'Warning: two conflicting versions of ' .
-            $package->channel . '/' . $package->name .
-            ' are required by packages that depend on it (' .
-            $package->version['release'] . ' and ' . $clone->version['release']);
+        static::rollback();
+        throw new \pear2\Pyrus\Installer\Exception('Cannot install ' .
+            $package->channel . '/' . $package->name . ', two conflicting' .
+            ' versions were requested (' .
+            $package->version['release'] . ' and ' . $clone->version['release'] . ')');
     }
 
     static function getIgnoredOptionalDeps()
