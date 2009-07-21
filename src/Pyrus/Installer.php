@@ -439,21 +439,12 @@ class Installer
                 if (strtolower($md5sum) == strtolower($file->md5sum)) {
                     \pear2\Pyrus\Logger::log(2, "md5sum ok: $dest_file");
                 } else {
-                    if (empty($options['force'])) {
-                        if (!isset($options['ignore-errors'])) {
-                            throw new \pear2\Pyrus\Installer\Exception(
-                                "bad md5sum for file $file");
-                        } else {
-                            if (!isset($options['soft'])) {
-                                \pear2\Pyrus\Logger::log(0,
-                                    "warning : bad md5sum for file $dest_file");
-                            }
-                        }
+                    if (!isset(\pear2\Pyrus\Main::$options['force'])) {
+                        throw new \pear2\Pyrus\Installer\Exception(
+                            "bad md5sum for file " . $file->name);
                     } else {
-                        if (!isset($options['soft'])) {
-                            \pear2\Pyrus\Logger::log(0,
-                                "warning : bad md5sum for file $dest_file");
-                        }
+                        \pear2\Pyrus\Logger::log(0,
+                            "warning : bad md5sum for file " . $file->name);
                     }
                 }
             } else {
