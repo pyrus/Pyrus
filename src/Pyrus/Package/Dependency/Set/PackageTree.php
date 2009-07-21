@@ -265,7 +265,7 @@ class PackageTree
         return ":\n$fullinfo";
     }
 
-    function determineInitialVersion()
+    protected function determineInitialVersion($returnFalseOnVersionChange = false)
     {
         if (!$this->node->isRemote()) {
             // anything downloaded or local is good
@@ -281,7 +281,10 @@ class PackageTree
                                                            $conflicting)) {
                 // we just changed version from a previously calculated version,
                 // so restart
-                return false;
+                if ($returnFalseOnVersionChange) {
+                    return false;
+                }
+                return true;
             }
         } catch (\pear2\Pyrus\Channel\Exception $e) {
             if ($this->parent) {
@@ -321,7 +324,7 @@ class PackageTree
     {
         $this->populateBranch();
         foreach ($this->children as $child) {
-            if (!$child->determineInitialVersion()) {
+            if (!$child->determineInitialVersion(true)) {
                 $this->removeThisVersion();
                 return false;
             }
@@ -607,16 +610,16 @@ class PackageTree
         $ret = $pad . $this->name . '-' . $this->version['release'] . ":\n";
         $deps = '';
         foreach ($this->node->dependencies['required']->package as $dep) {
-            $deps .= " $pad$dep\n";
+            $deps .= " ${pad}dep: $dep\n";
         }
         foreach ($this->node->dependencies['required']->subpackage as $dep) {
-            $deps .= " $pad$dep\n";
+            $deps .= " ${pad}dep: $dep\n";
         }
         foreach ($this->node->dependencies['optional']->package as $dep) {
-            $deps .= " $pad$dep\n";
+            $deps .= " ${pad}dep: $dep\n";
         }
         foreach ($this->node->dependencies['optional']->subpackage as $dep) {
-            $deps .= " $pad$dep\n";
+            $deps .= " ${pad}dep: $dep\n";
         }
         foreach ($this->children as $child) {
             $deps .= $child->toString("$pad  ");

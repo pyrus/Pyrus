@@ -213,7 +213,6 @@ class Installer
         try {
             $set = new \pear2\Pyrus\Package\Dependency\Set(static::$installPackages);
             $set->synchronizeDeps();
-            $set->resolveDuplicates();
         } catch (\pear2\Pyrus\Package\Dependency\Set\Exception $e) {
             throw new Installer\Exception(
                     'Dependency validation failed for some packages to install, installation aborted', $e);

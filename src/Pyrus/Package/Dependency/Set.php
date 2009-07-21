@@ -53,11 +53,7 @@ class Set
         $this->optionalDeps = Set\PackageTree::getUnusedOptionalDeps();
         foreach ($this->packageTrees as $tree) {
             foreach ($tree->getPackageSet() as $package) {
-                if (isset($this->duplicates[$package->name()])) {
-                    $ret[$package->name()] = $this->duplicates[$package->name()]->primaryNode()->node;
-                } else {
-                    $ret[$package->name()] = $package->node;
-                }
+                $ret[$package->name()] = $package->node;
                 if (isset($this->optionalDeps[$package->name()])) {
                     unset($this->optionalDeps[$package->name()]);
                 }
@@ -70,6 +66,7 @@ class Set
     {
         foreach ($this->packageTrees as $tree) {
             $tree->synchronize();
+            //echo $tree; // uncomment to get a map of each separate dep tree
         }
     }
 
@@ -90,92 +87,9 @@ class Set
         }
     }
 
-    /**
-     * Merge all duplicate packages in each tree into 1 release version, if possible.
-     *
-     * This is a 4-step process
-     *
-     *  1. find duplicates
-     *  2. if explicitly requested version, resolve in favor of an
-     *     explicitly requested version and jump to step 4
-     *  3. if no explicit version, resolve in favor of the newest version
-     *  4. re-process composite dependencies.  On fail, either go to
-     *     step 3 if we came from step 3, or fail
-     */
-    function resolveDuplicates()
-    {
-        $duplicates = $this->findDuplicates();
-        $this->duplicates = $duplicates;
-        foreach ($duplicates as $name => $dupes) {
-            if ($dupes->allSameVersion()) {
-                // all deps resolved to the same version, we're good to go
-                continue;
-            }
-            // $dupes is a pear2\Pyrus\Package\DuplicateDependency
-            if ($dupes->isExplicitVersion()) {
-                foreach ($this->packageTrees as $package) {
-                    if (!$package->has($dupes->primaryNode())) {
-                        continue;
-                    }
-                    $package->rebuildIfNecessary($dupes->primaryNode());
-                    continue 2;
-                }
-            } else {
-                do {
-                    try {
-                        foreach ($this->packageTrees as $package) {
-                            if (!$package->has($dupes->primaryNode())) {
-                                continue;
-                            }
-                            $package->rebuildIfNecessary($dupes->primaryNode());
-                            continue 3;
-                        }
-                    } catch (Set\Exception $e) {
-                        $dupes->failCurrent();
-                    }
-                } while ($dupes->possible());
-                // XX TODO: make this error message smarter
-                throw new Set\Exception('Impossible dependency conflict');
-            }
-        }
-    }
-
     function getIgnoredOptionalDeps()
     {
         return $this->optionalDeps;
-    }
-
-    function findDuplicates()
-    {
-        $sets = array();
-        foreach ($this->packageTrees as $tree) {
-            $sets[] = $tree->getPackageSet();
-        }
-        if (!count($sets)) {
-            return $sets;
-        }
-        $keys = array_map('array_keys', $sets);
-        $merged = call_user_func_array('array_merge', $keys);
-        $count = array_count_values($merged);
-        $dupenames = array_keys(array_filter($count,
-                              function ($a) {return $a > 1;}));
-        $dupes = array();
-        foreach ($sets as $tree) {
-            foreach ($tree as $name => $package) {
-                if (!in_array($name, $dupenames)) {
-                    continue;
-                }
-                if (!isset($dupes[$name])) {
-                    $dupes[$name] = array();
-                }
-                $dupes[$name][] = $package;
-            }
-        }
-        $ret = array();
-        foreach ($dupes as $name => $packages) {
-            $ret[$name] = new \pear2\Pyrus\Package\DuplicateDependency($packages);
-        }
-        return $ret;
     }
 
     function getDependencies(\pear2\Pyrus\Package $info)
