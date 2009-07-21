@@ -358,7 +358,6 @@ Initial pyrus public API
       </dir>
       <file role="php" name="Base.php"/>
       <file role="php" name="Creator.php"/>
-      <file role="php" name="Dependency.php"/>
       <file role="php" name="DuplicateDependency.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="ICreator.php"/>

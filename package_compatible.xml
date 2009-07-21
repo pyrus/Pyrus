@@ -2087,7 +2087,6 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Package/Dependency/Set/PackageTree.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Dependency/Set/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Dependency/Set.php"/>
-   <file role="php" name="php/pear2/Pyrus/Package/Dependency.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Creator/TaskIterator.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Creator/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Creator.php"/>
@@ -2628,7 +2627,6 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Package/Creator.php" as="pear2/Pyrus/Package/Creator.php"/>
    <install name="php/pear2/Pyrus/Package/Creator/Exception.php" as="pear2/Pyrus/Package/Creator/Exception.php"/>
    <install name="php/pear2/Pyrus/Package/Creator/TaskIterator.php" as="pear2/Pyrus/Package/Creator/TaskIterator.php"/>
-   <install name="php/pear2/Pyrus/Package/Dependency.php" as="pear2/Pyrus/Package/Dependency.php"/>
    <install name="php/pear2/Pyrus/Package/Dependency/Set.php" as="pear2/Pyrus/Package/Dependency/Set.php"/>
    <install name="php/pear2/Pyrus/Package/Dependency/Set/Exception.php" as="pear2/Pyrus/Package/Dependency/Set/Exception.php"/>
    <install name="php/pear2/Pyrus/Package/Dependency/Set/PackageTree.php" as="pear2/Pyrus/Package/Dependency/Set/PackageTree.php"/>
