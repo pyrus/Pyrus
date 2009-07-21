@@ -98,7 +98,7 @@ class DependencyDB
     function installPackage(\pear2\Pyrus\IPackageFile $package)
     {
         $data = $this->_getDepDB();
-        $this->_setPackageDeps($data, $package);
+        $data = $this->_setPackageDeps($data, $package);
         $this->_writeDepDB($data);
     }
 
@@ -173,7 +173,8 @@ class DependencyDB
 
         foreach (\pear2\Pyrus\Config::current()->channelregistry as $channel) {
             foreach ($reg->listPackages($channel->name) as $package) {
-                $this->_setPackageDeps($depdb, $package);
+                $package = $reg->package[$channel->name . '/' . $package];
+                $depdb = $this->_setPackageDeps($depdb, $package);
             }
         }
 
@@ -310,7 +311,7 @@ class DependencyDB
      * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
      * @access private
      */
-    function _setPackageDeps(&$data, \pear2\Pyrus\IPackageFile $pkg)
+    function _setPackageDeps(array $data, \pear2\Pyrus\IPackageFile $pkg)
     {
         $deps = $pkg->rawdeps;
 
@@ -340,7 +341,7 @@ class DependencyDB
             }
 
             foreach ($deps['required']['package'] as $dep) {
-                $this->_registerDep($data, $pkg, $dep, 'required');
+                $data = $this->_registerDep($data, $pkg, $dep, 'required');
             }
         }
 
@@ -350,7 +351,7 @@ class DependencyDB
             }
 
             foreach ($deps['optional']['package'] as $dep) {
-                $this->_registerDep($data, $pkg, $dep, 'optional');
+                $data = $this->_registerDep($data, $pkg, $dep, 'optional');
             }
         }
 
@@ -360,7 +361,7 @@ class DependencyDB
             }
 
             foreach ($deps['required']['subpackage'] as $dep) {
-                $this->_registerDep($data, $pkg, $dep, 'required');
+                $data = $this->_registerDep($data, $pkg, $dep, 'required');
             }
         }
 
@@ -370,7 +371,7 @@ class DependencyDB
             }
 
             foreach ($deps['optional']['subpackage'] as $dep) {
-                $this->_registerDep($data, $pkg, $dep, 'optional');
+                $data = $this->_registerDep($data, $pkg, $dep, 'optional');
             }
         }
 
@@ -386,7 +387,7 @@ class DependencyDB
                     }
 
                     foreach ($group['package'] as $dep) {
-                        $this->_registerDep($data, $pkg, $dep, 'optional',
+                        $data = $this->_registerDep($data, $pkg, $dep, 'optional',
                             $group['attribs']['name']);
                     }
                 }
@@ -397,7 +398,7 @@ class DependencyDB
                     }
 
                     foreach ($group['subpackage'] as $dep) {
-                        $this->_registerDep($data, $pkg, $dep, 'optional',
+                        $data = $this->_registerDep($data, $pkg, $dep, 'optional',
                             $group['attribs']['name']);
                     }
                 }
@@ -410,6 +411,7 @@ class DependencyDB
                 unset($data['dependencies'][$channel]);
             }
         }
+        return $data;
     }
 
     /**
@@ -419,7 +421,7 @@ class DependencyDB
      * @param required|optional whether this is a required or an optional dep
      * @param string|false dependency group this dependency is from, or false for ordinary dep
      */
-    function _registerDep(&$data, \pear2\Pyrus\IPackageFile $pkg, $dep, $type, $group = false)
+    function _registerDep(array $data, \pear2\Pyrus\IPackageFile $pkg, $dep, $type, $group = false)
     {
         $info = array(
             'dep'   => $dep,
@@ -480,5 +482,6 @@ class DependencyDB
                 'package' => $package
             );
         }
+        return $data;
     }
 }

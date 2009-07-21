@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class PackageFile
+class PackageFile implements IPackageFile
 {
     public $info;
     public $path;
@@ -65,5 +65,25 @@ class PackageFile
     function getPackageFileObject()
     {
         return $this->info;
+    }
+
+    function __get($var)
+    {
+        return $this->info->__get($var);
+    }
+
+    function __set($var, $value)
+    {
+        return $this->info->__set($var, $value);
+    }
+
+    function __call($func, $args)
+    {
+        return call_user_func_array(array($this->info, $func), $args);
+    }
+
+    function toArray($forpackaging = false)
+    {
+        return $this->info->toArray($forpackaging);
     }
 }
