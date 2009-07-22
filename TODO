@@ -1,5 +1,7 @@
 TODO:
 
+Make default bin_dir for plugins inside the plugins_dir
+
  [X] Add support for channel aliases to remote-list
 
  [X] Add validation of packages to install against installed packages that depend on them,
