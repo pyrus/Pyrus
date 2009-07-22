@@ -244,7 +244,7 @@ class Cloner
             if ($this->outfile) {
                 copy($this->file . '.phar', $this->outfile . '.phar');
             }
-            $this->tar = new PharData($this->file . '.tar');
+            $this->tar = new \PharData($this->file . '.tar');
             return;
         }
         if (isset($this->tgz)) {
