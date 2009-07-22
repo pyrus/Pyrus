@@ -66,6 +66,7 @@ class Cloner
         if ($outdirectory) {
             $this->outfile = realpath($outdirectory) . DIRECTORY_SEPARATOR .
                 $info['filename'];
+            copy($base, $this->outfile . '.' . $info['extension']);
         }
     }
 
@@ -102,6 +103,9 @@ class Cloner
             return;
         }
         // by process of elimination, the phar is in zip format
+        if (file_exists($this->file . '.tgz')) {
+            unlink($this->file . '.tgz');
+        }
         $this->tgz = $this->zip->convertToData(\Phar::TAR, \Phar::GZ, $this->ext . '.tgz');
         if ($this->outfile) {
             copy($this->file . '.tgz', $this->outfile . '.tgz');
@@ -139,6 +143,9 @@ class Cloner
             return;
         }
         if (isset($this->zip)) {
+            if (file_exists($this->file . '.tar')) {
+                unlink($this->file . '.tar');
+            }
             $this->tar = $this->zip->convertToData(\Phar::TAR, \Phar::NONE, $this->ext . '.tar');
             if ($this->outfile) {
                 copy($this->file . '.tar', $this->outfile . '.tar');
@@ -147,6 +154,9 @@ class Cloner
             return;
         }
         // by process of elimination, the phar is in phar format
+        if (file_exists($this->file . '.tar')) {
+            unlink($this->file . '.tar');
+        }
         $this->tar = $this->phar->convertToData(\Phar::TAR, \Phar::NONE, $this->ext . '.tar');
         if ($this->outfile) {
             copy($this->file . '.tar', $this->outfile . '.tar');
@@ -192,6 +202,9 @@ class Cloner
             \Phar::unlinkArchive($this->file . '.zip');
         }
         if (isset($this->tar)) {
+            if (file_exists($this->file . '.zip')) {
+                unlink($this->file . '.zip');
+            }
             $this->zip = $this->tar->convertToData(\Phar::ZIP, \Phar::NONE, $this->ext . '.zip');
             if ($this->outfile) {
                 copy($this->file . '.zip', $this->outfile . '.zip');
@@ -200,6 +213,9 @@ class Cloner
             return;
         }
         if (isset($this->tgz)) {
+            if (file_exists($this->file . '.zip')) {
+                unlink($this->file . '.zip');
+            }
             $this->zip = $this->tgz->convertToData(\Phar::ZIP, \Phar::NONE, $this->ext . '.zip');
             if ($this->outfile) {
                 copy($this->file . '.zip', $this->outfile . '.zip');
@@ -208,6 +224,9 @@ class Cloner
             return;
         }
         // by process of elimination, the phar is in phar format
+        if (file_exists($this->file . '.zip')) {
+            unlink($this->file . '.zip');
+        }
         $this->zip = $this->phar->convertToData(\Phar::ZIP, \Phar::NONE, $this->ext . '.zip');
         if ($this->outfile) {
             copy($this->file . '.zip', $this->outfile . '.zip');
@@ -240,6 +259,9 @@ class Cloner
                 throw new Exception('Cannot create tar archive, signature is OpenSSL, ' .
                                     'you must directly create it using the package command');
             }
+            if (file_exists($this->file . '.phar')) {
+                unlink($this->file . '.phar');
+            }
             $this->phar = $this->tar->convertToExecutable(\Phar::PHAR, \Phar::NONE, $this->ext . '.phar');
             if ($this->outfile) {
                 copy($this->file . '.phar', $this->outfile . '.phar');
@@ -252,6 +274,9 @@ class Cloner
                 throw new Exception('Cannot create tar archive, signature is OpenSSL, ' .
                                     'you must directly create it using the package command');
             }
+            if (file_exists($this->file . '.phar')) {
+                unlink($this->file . '.phar');
+            }
             $this->phar = $this->tar->convertToExecutable(\Phar::PHAR, \Phar::NONE, $this->ext . '.phar');
             if ($this->outfile) {
                 copy($this->file . '.phar', $this->outfile . '.phar');
@@ -260,6 +285,9 @@ class Cloner
             return;
         }
         // by process of elimination, the phar is in zip format
+        if (file_exists($this->file . '.phar')) {
+            unlink($this->file . '.phar');
+        }
         $this->phar = $this->tar->convertToExecutable(\Phar::PHAR, \Phar::NONE, $this->ext . '.phar');
         if ($this->outfile) {
             copy($this->file . '.phar', $this->outfile . '.phar');
