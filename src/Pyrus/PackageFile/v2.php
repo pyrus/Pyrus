@@ -203,6 +203,8 @@ class v2 implements \pear2\Pyrus\IPackageFile
      */
     var $_tasksNs;
 
+    static protected $packagingFilterPrototype = array();
+
     function setPackagefile($file, $archive = false)
     {
         $this->_packageFile = $file;
@@ -280,9 +282,27 @@ class v2 implements \pear2\Pyrus\IPackageFile
                     $this->filelist));
     }
 
+    function setPackagingFilter($filter)
+    {
+        if (is_string($filter)) {
+            $filter = new $filter(new \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator(
+                        $this->filelist));
+        }
+        if (!($filter instanceof v2Iterator\PackagingFilterBase)) {
+            throw new Exception('Can only set packaging filter to a child of ' .
+                                'pear2\Pyrus\PackageFile\v2Iterator\PackagingFilterBase');
+        }
+        self::$packagingFilterPrototype[$this->channel . '/' . $this->name] = $filter;
+    }
+
     function getPackagingContents()
     {
         \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator::setParent($this);
+        if (isset(self::$packagingFilterPrototype[$this->channel . '/' . $this->name])) {
+            $iterator = new \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator(
+                        $this->filelist);
+            return self::$packagingFilterPrototype[$this->channel . '/' . $this->name]->getIterator($iterator);
+        }
         return new \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator(
                     $this->filelist);
     }
