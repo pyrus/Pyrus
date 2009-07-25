@@ -104,6 +104,7 @@ class Cloner
         }
         // by process of elimination, the phar is in zip format
         if (file_exists($this->file . '.tgz')) {
+            \Phar::unlinkArchive($this->file . '.tgz');
             unlink($this->file . '.tgz');
         }
         $this->tgz = $this->zip->convertToData(\Phar::TAR, \Phar::GZ, $this->ext . '.tgz');
@@ -144,9 +145,11 @@ class Cloner
         }
         if (isset($this->zip)) {
             if (file_exists($this->file . '.tar')) {
+                \Phar::unlinkArchive($this->file . '.tar');
                 unlink($this->file . '.tar');
             }
             $this->tar = $this->zip->convertToData(\Phar::TAR, \Phar::NONE, $this->ext . '.tar');
+            $this->tar->setSignatureAlgorithm(\Phar::SHA1);
             if ($this->outfile) {
                 copy($this->file . '.tar', $this->outfile . '.tar');
             }
@@ -155,9 +158,11 @@ class Cloner
         }
         // by process of elimination, the phar is in phar format
         if (file_exists($this->file . '.tar')) {
+            \Phar::unlinkArchive($this->file . '.tar');
             unlink($this->file . '.tar');
         }
         $this->tar = $this->phar->convertToData(\Phar::TAR, \Phar::NONE, $this->ext . '.tar');
+        $this->tar->setSignatureAlgorithm(\Phar::SHA1);
         if ($this->outfile) {
             copy($this->file . '.tar', $this->outfile . '.tar');
         }
@@ -203,6 +208,7 @@ class Cloner
         }
         if (isset($this->tar)) {
             if (file_exists($this->file . '.zip')) {
+                \Phar::unlinkArchive($this->file . '.zip');
                 unlink($this->file . '.zip');
             }
             $this->zip = $this->tar->convertToData(\Phar::ZIP, \Phar::NONE, $this->ext . '.zip');
@@ -214,6 +220,7 @@ class Cloner
         }
         if (isset($this->tgz)) {
             if (file_exists($this->file . '.zip')) {
+                \Phar::unlinkArchive($this->file . '.zip');
                 unlink($this->file . '.zip');
             }
             $this->zip = $this->tgz->convertToData(\Phar::ZIP, \Phar::NONE, $this->ext . '.zip');
@@ -225,6 +232,7 @@ class Cloner
         }
         // by process of elimination, the phar is in phar format
         if (file_exists($this->file . '.zip')) {
+            \Phar::unlinkArchive($this->file . '.zip');
             unlink($this->file . '.zip');
         }
         $this->zip = $this->phar->convertToData(\Phar::ZIP, \Phar::NONE, $this->ext . '.zip');
@@ -260,6 +268,7 @@ class Cloner
                                     'you must directly create it using the package command');
             }
             if (file_exists($this->file . '.phar')) {
+                \Phar::unlinkArchive($this->file . '.phar');
                 unlink($this->file . '.phar');
             }
             $this->phar = $this->tar->convertToExecutable(\Phar::PHAR, \Phar::NONE, $this->ext . '.phar');
@@ -275,6 +284,7 @@ class Cloner
                                     'you must directly create it using the package command');
             }
             if (file_exists($this->file . '.phar')) {
+                \Phar::unlinkArchive($this->file . '.phar');
                 unlink($this->file . '.phar');
             }
             $this->phar = $this->tar->convertToExecutable(\Phar::PHAR, \Phar::NONE, $this->ext . '.phar');
@@ -286,6 +296,7 @@ class Cloner
         }
         // by process of elimination, the phar is in zip format
         if (file_exists($this->file . '.phar')) {
+            \Phar::unlinkArchive($this->file . '.phar');
             unlink($this->file . '.phar');
         }
         $this->phar = $this->tar->convertToExecutable(\Phar::PHAR, \Phar::NONE, $this->ext . '.phar');
