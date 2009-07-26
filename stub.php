@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
-if (version_compare(phpversion(), '5.3.0', '<')) {
-    if (substr(phpversion(), 0, 5) != '5.3.0') {
-        // this small hack is because of running RCs of 5.3.0
-        echo "Pyrus requires PHP 5.3.0 or newer.\n";
+if (version_compare(phpversion(), '5.3.1', '<')) {
+    if (substr(phpversion(), 0, 5) != '5.3.1') {
+        // this small hack is because of running RCs of 5.3.1
+        echo "Pyrus requires PHP 5.3.1 or newer.\n";
         exit -1;
     }
 }
