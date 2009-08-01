@@ -253,7 +253,7 @@ class Installer
                     // check for downloaded packages
                     if (!isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
                         \pear2\Pyrus\Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
-                                             ', use plugin-install/plugin-upgrade to manage plugins');
+                                             ', use install -p/upgrade -p to manage plugins');
                         unset(static::$installPackages[$package->channel . '/' . $package->name]);
                     }
                 }
