@@ -158,24 +158,22 @@ class Common
         }
 
         if ($this->info['honorsbaseinstall']) {
-            $dest_dir = $save_destdir = '';
+            $dest_dir = '';
             if ($file->baseinstalldir) {
                 $dest_dir .= $file->baseinstalldir;
             }
         } elseif ($this->info['unusualbaseinstall']) {
         	if (!$pkg->isNewPackage()) {
         		// Place files using the old doc dir structure
-        		$dest_dir = $save_destdir = $pkg->name;
+        		$dest_dir = $pkg->name;
         	} else {
-	            $dest_dir = $save_destdir =
-	                $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+	            $dest_dir = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
         	}
             if ($file->baseinstalldir) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $file->baseinstalldir;
             }
         } else {
-            $dest_dir = $save_destdir =
-                $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+            $dest_dir = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
         }
 
         if (dirname($file->name) != '.' && empty($file['install-as'])) {
@@ -195,6 +193,14 @@ class Common
                     }
                 }
                 if (strpos($newpath, $r) === 0) {
+                    $newpath = substr($newpath, strlen($r) + 1);
+                    if ($newpath === false) {
+                        $newpath = '';
+                    }
+                }
+                $r = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+                if (strpos($newpath, $r) === 0) {
+                    // Trim off extra channel and package name directories
                     $newpath = substr($newpath, strlen($r) + 1);
                     if ($newpath === false) {
                         $newpath = '';
