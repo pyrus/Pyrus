@@ -62,6 +62,10 @@ Commands:
   package             Create a release from an existing package.xml (alias:
                       p)
   run-phpt            Run PHPT tests (alias: rp)
+  generate-pear2      Generate the subversion source layout for a new PEAR2
+                      package (alias: gp)
+  generate-ext        Generate the subversion source layout for a new PHP
+                      extension that is PECL-ready (alias: es)
   scs-update          Simple channel server: Update all releases of a
                       within the get/ directory. (alias: su)
   scs-create          Simple channel server: Create a channel.xml, get/ and

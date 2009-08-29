@@ -1001,35 +1001,14 @@ addchan_success:
                 echo "Error: Category has broken REST (", $e->getMessage(), ")\n";
                 continue;
             }
-            // calculate the longest package name
-            $longest = array_reduce($pnames, $func = function($last, $current) {
-                if (strlen($current) > $last) {
-                    return strlen($current);
+            $widths = array(1, 25, 8, 51);
+            foreach ($pnameinfo as $package => $info) {
+                if (is_string($info['latest'])) {
+                    $text = array($info['installed'], $package, $info['latest'], $info['summary']);
+                } else {
+                    $text = array($info['installed'], $package, $info['latest']['v'], $info['summary']);
                 }
-                return $last;
-            }, 0) + 1;
-            $longestsummary = array_reduce($summaries, $func, 0) + 1;
-            $longestversion = array_reduce($versions, $func, 0) + 1;
-            if ($longestsummary-- + $longest-- + $longestversion-- > 80) {
-                foreach ($pnameinfo as $package => $info) {
-                    if (is_string($info['latest'])) {
-                        echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}s\n", $info['installed'],
-                                 $package, $info['latest'], $info['summary']);
-                    } else {
-                        echo sprintf("%s%${longest}s %${longestversion}s\n %${longestsummary}s\n", $info['installed'],
-                                 $package, $info['latest']['v'], $info['summary']);
-                    }
-                }
-            } else {
-                foreach ($pnameinfo as $package => $info) {
-                    if (is_string($info['latest'])) {
-                        echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}s\n", $info['installed'],
-                                 $package, $info['latest'], $info['summary']);
-                    } else {
-                        echo sprintf("%s%${longest}s %${longestversion}s %${longestsummary}s\n", $info['installed'],
-                                 $package, $info['latest']['v'], $info['summary']);
-                    }
-                }
+                echo $this->wrapMultiColumns($text, $widths) . "\n";
             }
             echo "Key: * = installed, ! = upgrades available\n";
         }
@@ -1047,8 +1026,7 @@ addchan_success:
     {
         $tokens = explode("\n", $this->wrap($text));
         $ret    = $tokens[0];
-        $chunks = $this->wrap(trim(substr($text, strlen($ret))), 
-            80 - $cw);
+        $chunks = $this->wrap(trim(substr($text, strlen($ret))), 80 - $cw);
         $tokens = explode("\n", $chunks);
         foreach ($tokens as $token) {
             if (!empty($token)) {
@@ -1057,12 +1035,56 @@ addchan_success:
         }
         return $ret;
     }
+    static function wrapMultiColumns($text, $widths)
+    {
+        $max = 0;
+        foreach ($text as $col => $cell) {
+            $text[$col] = explode("\n", wordwrap($cell, $widths[$col], "\n", false));
+            $newtext = array();
+            foreach ($text[$col] as $subcell) {
+                if (strlen($subcell) > $widths[$col]) {
+                    $split = explode("\n", wordwrap($subcell, $widths[$col], "\\\n", true));
+                    foreach ($split as $subcell) {
+                        $newtext[] = $subcell;
+                    }
+                } else {
+                    $newtext[] = $subcell;
+                }
+                $text[$col] = $newtext;
+            }
+            if (count($text[$col]) > $max) {
+                $max = count($text[$col]);
+            }
+        }
 
-    /**
-     * This is why we need to move to a better CLI system...
-     *
-     * make it possible to call confirmDialog() without it showing up as a command
-     */
+        $ret = '';
+        for ($i = 0; $i < $max; $i++) {
+            if ($ret) {
+                $ret .= "\n";
+            }
+            foreach ($text as $col => $cell) {
+                if ($col && !$previousWasLong) {
+                    $ret .= ' ';
+                }
+                if ($col) {
+                    $ret .= ' ';
+                }
+                if (isset($cell[$i])) {
+                    $ret .= str_pad($cell[$i], $widths[$col], ' ');
+                    if (strlen($cell[$i]) > $widths[$col]) {
+                        $previousWasLong = true;
+                    } else {
+                        $previousWasLong = false;
+                    }
+                } else {
+                    $ret .= str_repeat(' ', $widths[$col]);
+                    $previousWasLong = false;
+                }
+            }
+        }
+        return $ret;
+    }
+
     function __call($func, $params)
     {
         if ($func === 'confirmDialog') {

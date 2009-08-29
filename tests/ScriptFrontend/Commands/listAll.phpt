@@ -47,13 +47,13 @@ ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" .
 'Remote packages for channel pear2.php.net:
 Category 1:
-*P1 1.0.0 testing
-*P3 1.0.0 testing
- P5 1.0.0 testing
+*  P1                         1.0.0     testing                                            
+*  P3                         1.0.0     testing                                            
+   P5                         1.0.0     testing                                            
 Key: * = installed, ! = upgrades available
 Category 2:
-!P2 1.2.3 testing
-*P4 1.0.0 testing
+!  P2                         1.2.3     testing                                            
+*  P4                         1.0.0     testing                                            
 Key: * = installed, ! = upgrades available
 ', $contents, 'output');
 ?>

@@ -90,19 +90,19 @@ class Registry implements \pear2\Pyrus\IRegistry, \IteratorAggregate
     {
         $this->path     = $path;
         $this->readonly = $readonly;
-        $exceptions     = array();
+        $exceptions     = new \pear2\MultiErrors;
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
                 $registry = 'pear2\Pyrus\Registry\\' . $registry;
                 if (!class_exists($registry, true)) {
-                    $exceptions[] = new \pear2\Pyrus\Registry\Exception(
+                    $exceptions->E_ERROR[] = new \pear2\Pyrus\Registry\Exception(
                         'Unknown registry type: ' . $registry);
                     continue;
                 }
                 $this->registries[] = new $registry($path, $readonly);
             } catch (\Exception $e) {
-                $exceptions[] = $e;
+                $exceptions->E_ERROR[] = $e;
             }
         }
 

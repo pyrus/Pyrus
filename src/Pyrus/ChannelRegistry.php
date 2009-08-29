@@ -48,21 +48,21 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
     {
         $this->path = $path;
         $this->readonly = $readonly;
-        $exceptions = array();
+        $exceptions = new \pear2\MultiErrors;
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
                 $registry = 'pear2\Pyrus\ChannelRegistry\\' . $registry;
                 if (!class_exists($registry, true)) {
-                    $exceptions[] = new \pear2\Pyrus\ChannelRegistry\Exception(
+                    $exceptions->E_ERROR[] = new \pear2\Pyrus\ChannelRegistry\Exception(
                         'Unknown channel registry type: ' . $registry);
                     continue;
                 }
                 $this->_registries[] = new $registry($path, $readonly);
             } catch (\pear2\Pyrus\ChannelRegistry\Exception $e) {
-                $exceptions[] = $e;
+                $exceptions->E_ERROR[] = $e;
             } catch (\pear2\Pyrus\Registry\Exception $e) {
-                $exceptions[] = $e;
+                $exceptions->E_ERROR[] = $e;
             }
         }
         if (!count($this->_registries)) {
