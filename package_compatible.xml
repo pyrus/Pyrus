@@ -35,8 +35,8 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-08-03</date>
- <time>15:32:57</time>
+ <date>2009-09-09</date>
+ <time>15:41:21</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -106,16 +106,16 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.2decimals.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
@@ -2134,6 +2134,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/AtomicFileTransaction/AtomicFileTransaction/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/AtomicFileTransaction/AtomicFileTransaction/setup.empty.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/.cvsignore"/>
+   <file role="script" name="script/pyrus"/>
    <file role="php" name="php/pear2/Pyrus/XMLWriter/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/XMLWriter.php"/>
    <file role="php" name="php/pear2/Pyrus/XMLParser/Exception.php"/>
@@ -2501,7 +2502,7 @@ Initial pyrus public API
  <dependencies>
   <required>
    <php>
-    <min>5.2.0</min>
+    <min>5.3.1RC1</min>
    </php>
    <pearinstaller>
     <min>1.4.8</min>
@@ -2888,6 +2889,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/XMLParser/Exception.php" as="pear2/Pyrus/XMLParser/Exception.php"/>
    <install name="php/pear2/Pyrus/XMLWriter.php" as="pear2/Pyrus/XMLWriter.php"/>
    <install name="php/pear2/Pyrus/XMLWriter/Exception.php" as="pear2/Pyrus/XMLWriter/Exception.php"/>
+   <install name="script/pyrus" as="pyrus"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/.cvsignore" as="pear2.php.net/.cvsignore"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/AtomicFileTransaction/AtomicFileTransaction/setup.empty.php.inc" as="pear2.php.net/AtomicFileTransaction/AtomicFileTransaction/setup.empty.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/AtomicFileTransaction/AtomicFileTransaction/setup.php.inc" as="pear2.php.net/AtomicFileTransaction/AtomicFileTransaction/setup.php.inc"/>
@@ -4906,16 +4908,16 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.00.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.2decimals.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.2decimals.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.00.0.0.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.000.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.1.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.1.0.0001.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.alpha.2.0.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.devel.1.0.0.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.0.1.0.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.00.1.0.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.000.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.1.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.2.0.0001.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt" as="pear2.php.net/Validate/Validate/validateversion.failure.extends.alpha.phpt"/>
