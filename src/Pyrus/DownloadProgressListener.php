@@ -62,7 +62,7 @@ class DownloadProgressListener extends \PEAR2_HTTP_Request_Listener
                         \pear2\Pyrus\Logger::log(0, $this->preview);
                        $this->preview = '';
                     }
-                    if (!isset($this->filesize)) {
+                    if (!isset($this->filesize) || $this->filesize==0) {
                         \pear2\Pyrus\Logger::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
                     } else {
                         $length = (int)(($data/$this->filesize)*100);
