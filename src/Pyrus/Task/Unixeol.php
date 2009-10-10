@@ -43,15 +43,17 @@ class Unixeol extends \pear2\Pyrus\Task\Common
 
     /**
      * Validate the basic contents of a <unixeol> tag
+     * 
      * @param PEAR_Pyrus_IPackageFile
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
+     * 
      * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      */
     static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
     {
-        if (is_array($xml) && count($xml) || $xml === '') {
+        if (is_array($xml) && count($xml) || $xml !== '') {
             throw new \pear2\Pyrus\Task\Exception\InvalidTask('unixeol', $file, 'no attributes allowed');
         }
         return true;

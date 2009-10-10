@@ -475,7 +475,7 @@ previous:
                 echo $dep, ' depended on by ', implode(', ', array_keys($packages)), "\n";
             }
         } catch (\Exception $e) {
-            echo $e;
+            $this->exceptionHandler($e);
             exit -1;
         }
     }
