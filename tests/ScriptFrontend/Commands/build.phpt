@@ -8,6 +8,7 @@ if (substr(PHP_OS, 0, 3) === 'WIN') {
 ?>
 --FILE--
 <?php
+var_dump(getenv('PATH'));
 require __DIR__ . '/setup.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';

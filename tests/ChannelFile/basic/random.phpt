@@ -15,9 +15,11 @@ try {
 }
 
 try {
+    ob_start();
     $c = new \pear2\Pyrus\ChannelFile('greg.chiaraquartet.net/poop', false, true);
     $test->assertEquals(false, true, 'succeeded where it should fail');
 } catch (Exception $e) {
+    ob_end_clean();
 }
 
 $c->name = 'test';
@@ -26,7 +28,7 @@ $test->assertEquals('test', $c->name, '__set');
 try {
     $c->foo();
 } catch (Exception $e) {
-    $test->assertEquals('unknown method: ::foo', $e->getMessage(), 'error 2');
+    $test->assertEquals('unknown method: pear2\\Pyrus\\ChannelFile::foo', $e->getMessage(), 'error 2');
 }
 
 ?>

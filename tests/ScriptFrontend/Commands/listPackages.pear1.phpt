@@ -19,14 +19,14 @@ ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'listPackages.pear1' . "\n"
                     . 'Listing installed packages [' . __DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1]:' . "\n"
                     . "[channel pear.php.net]:\n"
-                    . " PEAR\n"
-                    . " PHP_Archive\n"
-                    . " Console_Getopt\n"
-                    . " xdebug\n"
-                    . " Structures_Graph\n"
-                    . " Archive_Tar\n"
-                    . " XML_Util\n"
-                    . " Text_Diff\n",
+                    . ' Archive_Tar
+ Console_Getopt
+ PEAR
+ PHP_Archive
+ Structures_Graph
+ Text_Diff
+ xdebug
+ XML_Util',
                     $contents,
                     'list packages');
 ?>

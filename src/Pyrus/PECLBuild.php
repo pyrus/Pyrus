@@ -252,18 +252,22 @@ class PECLBuild
             throw new \pear2\Pyrus\PECLBuild\Exception('cannot build in package directory ' . $dir .
                                                       ', directory not writable');
         }
+        $path = $config->bin_dir;
+        if ($env_path = getenv('PATH')) {
+            $path .= ':' . $env_path;
+        } 
         $this->log(0, "cleaning build directory $dir");
         $this->_runCommand($config->php_prefix
                                 . "phpize" .
                                 $config->php_suffix . ' --clean',
                                 null,
-                                array('PATH' => $config->php_bin . ':' . getenv('PATH')));
+                                array('PATH' => $path));
         $this->log(0, "building in $dir");
         if (!$this->_runCommand($config->php_prefix
                                 . "phpize" .
                                 $config->php_suffix,
                                 null, /*array($this, 'phpizeCallback'),*/
-                                array('PATH' => $config->php_bin . ':' . getenv('PATH')))) {
+                                array('PATH' => $path))) {
             throw new \pear2\Pyrus\PECLBuild\Exception('phpize failed - if running phpize manually from ' . $dir .
                                                       ' works, please open a bug for pyrus with details');
         }
