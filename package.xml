@@ -35,8 +35,14 @@ try {
   <email>cellog@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-10-21</date>
- <time>23:36:24</time>
+ <lead>
+  <name>Brett Bieber</name>
+  <user>saltybeagle</user>
+  <email>saltybeagle@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-10-27</date>
+ <time>11:13:52</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
