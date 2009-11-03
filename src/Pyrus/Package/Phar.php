@@ -84,13 +84,17 @@ class Phar extends \pear2\Pyrus\Package\Base
                             break;
                         }
                     }
-                }
-                if (false === $pxml && isset($phar['package2.xml'])) {
-                    $this->_BCpackage = true;
-                    $pxml = $phar['package2.xml']->getPathName();
-                } elseif (false === $pxml && isset($phar['package.xml'])) {
-                    $this->_BCpackage = true;
-                    $pxml = $phar['package.xml']->getPathName();
+                } else {
+                    foreach (array('package2.xml',
+                                   $internal . '/' . 'package2.xml',
+                                   'package.xml',
+                                   $internal . '/' . 'package.xml') as $checkfile) {
+                        if (isset($phar[$checkfile])) {
+                            $this->_BCpackage = true;
+                            $pxml = $phar[$checkfile]->getPathName();
+                            break;
+                        }
+                    }
                 }
             }
             
