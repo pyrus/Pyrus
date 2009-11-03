@@ -2,6 +2,9 @@
 \pear2\Pyrus\ScriptFrontend\Commands::build(), basic test (this actually builds an extension)
 --SKIPIF--
 <?php
+if (!is_writable(ini_get('extension_dir'))) {
+    die('skip extension dir must be writable');
+}
 if (substr(PHP_OS, 0, 3) === 'WIN') {
     die('skip requires unix to work');
 }
