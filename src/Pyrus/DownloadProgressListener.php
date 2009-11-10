@@ -25,7 +25,7 @@
  */
 
 namespace pear2\Pyrus;
-class DownloadProgressListener extends \PEAR2_HTTP_Request_Listener
+class DownloadProgressListener extends \pear2\HTTP\Request\Listener
 {
     protected $filesize;
     protected $preview;

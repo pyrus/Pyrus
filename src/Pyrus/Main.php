@@ -43,7 +43,7 @@ class Main
     /**
      * For easy unit testing
      */
-    static public $downloadClass = 'PEAR2_HTTP_Request';
+    static public $downloadClass = 'pear2\HTTP\Request';
     /**
      * For frontends to control
      */

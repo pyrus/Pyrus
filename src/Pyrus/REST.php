@@ -74,7 +74,7 @@ class REST{
             $trieddownload = true;
             try {
                 $file = $this->downloadHttp($url, $cacheId ? $cacheId['lastChange'] : false, $accept);
-            } catch (\PEAR2_HTTP_Request_Exception $e) {
+            } catch (\pear2\HTTP\Request\Exception $e) {
                 $trieddownload = false;
                 $file = false;
             }
