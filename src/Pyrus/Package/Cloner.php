@@ -146,7 +146,6 @@ class Cloner
         if (isset($this->zip)) {
             if (file_exists($this->file . '.tar')) {
                 \Phar::unlinkArchive($this->file . '.tar');
-                unlink($this->file . '.tar');
             }
             $this->tar = $this->zip->convertToData(\Phar::TAR, \Phar::NONE, $this->ext . '.tar');
             $this->tar->setSignatureAlgorithm(\Phar::SHA1);
@@ -159,7 +158,6 @@ class Cloner
         // by process of elimination, the phar is in phar format
         if (file_exists($this->file . '.tar')) {
             \Phar::unlinkArchive($this->file . '.tar');
-            unlink($this->file . '.tar');
         }
         $this->tar = $this->phar->convertToData(\Phar::TAR, \Phar::NONE, $this->ext . '.tar');
         $this->tar->setSignatureAlgorithm(\Phar::SHA1);
