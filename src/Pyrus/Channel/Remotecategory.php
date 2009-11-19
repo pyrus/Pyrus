@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
-class Remotecategory implements \ArrayAccess, \Iterator
+class Remotecategory implements \ArrayAccess, \Iterator, \Countable
 {
     protected $parent;
     protected $category;
@@ -147,6 +147,11 @@ class Remotecategory implements \ArrayAccess, \Iterator
             return true;
         }
         return false;
+    }
+    
+    function count()
+    {
+        return count($this->packagesinfo);
     }
 
     function offsetSet($var, $value)
