@@ -292,8 +292,8 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         $this->notes = $a['n'];
         $this->versionSet = true;
     }
-
-    function download()
+    
+    function getDownloadURL($ext = '')
     {
         if (!$this->versionSet) {
             // this happens when doing a simple download outside of an install
@@ -315,7 +315,13 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 break;
             }
         }
-        $url = $this->remoteAbridgedInfo['g'];
+        return $this->remoteAbridgedInfo['g'] . $ext;
+    }
+
+    function download()
+    {
+        
+        $url = $this->getDownloadURL();
         $errs = new \pear2\MultiErrors;
 
         $certdownloaded = false;
