@@ -163,12 +163,12 @@ class Common
                 $dest_dir .= $file->baseinstalldir;
             }
         } elseif ($this->info['unusualbaseinstall']) {
-        	if (!$pkg->isNewPackage()) {
-        		// Place files using the old doc dir structure
-        		$dest_dir = $pkg->name;
-        	} else {
-	            $dest_dir = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
-        	}
+            if (!$pkg->isNewPackage()) {
+                // Place files using the old doc dir structure
+                $dest_dir = $pkg->name;
+            } else {
+                $dest_dir = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+            }
             if ($file->baseinstalldir) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $file->baseinstalldir;
             }
