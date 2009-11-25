@@ -470,7 +470,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         $ret = array();
         $sql = 'SELECT channel FROM channels ORDER BY channel';
         $res = static::$databases[$this->path]->query($sql);
-        while ($chan = $res->fetchArray(SQLITE_ASSOC)) {
+        while ($chan = $res->fetchArray(SQLITE3_ASSOC)) {
             $ret[] = $chan['channel'];
         }
 
