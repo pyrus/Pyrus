@@ -20,8 +20,14 @@
   
   <target name="phar">
     <exec executable="php" dir="${basedir}" failonerror="on">
-        <arg line="makepackage.php" />
-    </exec> 
+        <arg line="pyrus.phar make" />
+    </exec>
+    <exec executable="php" dir="${basedir}" failonerror="on">
+        <arg line="-dphar.readonly=0 pyrus.phar package --phar -o newpyrus.phar" />
+    </exec>
+    <exec executable="mv" dir="${basedir}" failonerror="on">
+        <arg line="newpyrus.phar pyrus.phar" />
+    </exec>
   </target>
   
   <target name="checkout">
@@ -31,8 +37,8 @@
   </target>
   
   <target name="phpt">
-    <exec executable="pear" dir="${basedir}" failonerror="on">
-        <arg line="run-tests -r ${basedir}/tests" />
+    <exec executable="php" dir="${basedir}" failonerror="on">
+        <arg line="pyrus.phar run-phpt -m" />
     </exec>
   </target>
   
