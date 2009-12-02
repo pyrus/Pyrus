@@ -28,6 +28,9 @@
     <exec executable="mv" dir="${basedir}" failonerror="on">
         <arg line="newpyrus.phar pyrus.phar" />
     </exec>
+    <exec executable="chmod" dir="${basedir}" failonerror="on">
+        <arg line="+x pyrus.phar" />
+    </exec>
   </target>
   
   <target name="checkout">
