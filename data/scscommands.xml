@@ -118,7 +118,6 @@ command to create a new category.
   <name>scs-categorize</name>
   <class>pear2\Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
-  <autoloadpath/>
   <summary>Simple Channel Server: Categorize a package</summary>
   <shortcut>scat</shortcut>
   <options/>
