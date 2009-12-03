@@ -431,7 +431,14 @@ based on the answers provided.</doc>
   <function>configShow</function>
   <summary>Show all configuration values</summary>
   <shortcut>cs</shortcut>
-  <options/>
+  <options>
+   <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type><bool/></type>
+    <doc>List plugin configuration only</doc>
+   </option>
+  </options>
   <arguments/>
   <doc>List all configuration values.
 
@@ -444,7 +451,14 @@ user configuration settings.</doc>
   <function>set</function>
   <summary>Set a configuration value</summary>
   <shortcut>set</shortcut>
-  <options/>
+  <options>
+   <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type><bool/></type>
+    <doc>Manage plugin configuration only</doc>
+   </option>
+  </options>
   <arguments>
    <argument>
     <name>variable</name>

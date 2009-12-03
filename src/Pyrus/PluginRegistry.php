@@ -44,7 +44,6 @@ class PluginRegistry extends \pear2\Pyrus\Registry
         }
         $current = \pear2\Pyrus\Config::current();
         self::$config = \pear2\Pyrus\Config::singleton($this->pluginRegistryPath);
-        self::$config->bin_dir = $current->bin_dir;
         \pear2\Pyrus\Config::setCurrent($current->path);
         parent::__construct($this->pluginRegistryPath, array('Sqlite3', 'Xml'));
     }

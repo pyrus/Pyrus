@@ -729,9 +729,13 @@ addchan_success:
      * Display pyrus configuration vars
      *
      */
-    function configShow()
+    function configShow($args, $options)
     {
-        $conf = \pear2\Pyrus\Config::current();
+        $conf = $current = \pear2\Pyrus\Config::current();
+        if ($options['plugin']) {
+            echo "Plugin configuration:\n";
+            $conf = \pear2\Pyrus\Config::singleton(\pear2\Pyrus\Config::current()->plugins_dir);
+        }
         echo "System paths:\n";
         foreach ($conf->mainsystemvars as $var) {
             echo "  $var => " . $conf->$var . "\n";
@@ -763,9 +767,12 @@ addchan_success:
      *
      * @param array $args
      */
-    function set($args)
+    function set($args, $options)
     {
-        $conf = \pear2\Pyrus\Config::current();
+        $conf = $current = \pear2\Pyrus\Config::current();
+        if ($options['plugin']) {
+            $conf = \pear2\Pyrus\Config::singleton(\pear2\Pyrus\Config::current()->plugins_dir);
+        }
         if (in_array($args['variable'], $conf->uservars)) {
             echo "Setting $args[variable] in " . $conf->userfile . "\n";
             $conf->{$args['variable']} = $args['value'];
@@ -777,6 +784,9 @@ addchan_success:
             exit -1;
         }
         $conf->saveConfig();
+        if ($options['plugin']) {
+            \pear2\Pyrus\Config::setCurrent($current->path);
+        }
     }
 
     /**
