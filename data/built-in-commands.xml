@@ -479,6 +479,33 @@ For example:
 php pyrus.phar set download_dir /home/blah/downloads</doc>
  </command>
  <command>
+  <name>get</name>
+  <class>pear2\Pyrus\ScriptFrontend\Commands</class>
+  <function>get</function>
+  <summary>Get a configuration value</summary>
+  <shortcut>get</shortcut>
+  <options>
+   <option>
+    <name>plugin</name>
+    <shortopt>p</shortopt>
+    <type><bool/></type>
+    <doc>Get plugin configuration only</doc>
+   </option>
+  </options>
+  <arguments>
+   <argument>
+    <name>variable</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Configuration variable name.  This can be a system or user variable.</doc>
+   </argument>
+  </arguments>
+  <doc>Get a configuration variable.
+
+For example:
+php pyrus.phar get download_dir</doc>
+ </command>
+ <command>
   <name>mypear</name>
   <class>pear2\Pyrus\ScriptFrontend\Commands</class>
   <function>mypear</function>

@@ -761,6 +761,29 @@ addchan_success:
             echo "  $var => " . $conf->$var . "\n";
         }
     }
+    
+    /**
+     * Get a configuration option.
+     *
+     * @param array $args
+     */
+    function get($args, $options)
+    {
+        $conf = $current = \pear2\Pyrus\Config::current();
+        if ($options['plugin']) {
+            $conf = \pear2\Pyrus\Config::singleton(\pear2\Pyrus\Config::current()->plugins_dir);
+        }
+        if (in_array($args['variable'], $conf->uservars)
+            || in_array($args['variable'], $conf->systemvars)) {
+            echo $conf->{$args['variable']} . PHP_EOL;
+        } else {
+            echo "Unknown config variable: $args[variable]\n";
+            exit -1;
+        }
+        if ($options['plugin']) {
+            \pear2\Pyrus\Config::setCurrent($current->path);
+        }
+    }
 
     /**
      * Set a configuration option.
