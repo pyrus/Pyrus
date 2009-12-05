@@ -52,6 +52,7 @@ Commands:
   run-scripts         Run all post-install scripts for a package (alias: r)
   config-show         Show all configuration values (alias: cs)
   set                 Set a configuration value (alias: set)
+  get                 Get a configuration value (alias: get)
   mypear              Set a configuration value (alias: m)
   help                Get help on a particular command, or all commands
                       (alias: h)
@@ -74,6 +75,8 @@ Commands:
                       to the channel (alias: sam)
   scs-add-category    Simple Channel Server: Add a new category to the
                       channel (alias: sac)
+  scs-categorize      Simple Channel Server: Categorize a package (alias:
+                      scat)
   scs-release         Simple Channel Server: Release a package (alias: sr)
 
 ';
