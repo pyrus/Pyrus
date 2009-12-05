@@ -61,19 +61,19 @@ Configuring for:';
 $end = '@running: make INSTALL_ROOT="' . __DIR__ . '/testit/src/docblock/\.install" install 2>&1
 Installing shared extensions:     ' . __DIR__ . '/testit/src/docblock/\.install' .
     \pear2\Pyrus\Config::current()->defaultValue('ext_dir') . '/
-\d+   4 drwxr\-xr\-x 3 user user       4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr
-\d+   4 drwxr\-xr\-x 3 user user       4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr/local
-\d+   4 drwxr\-xr\-x 3 user user       4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr/local/lib
-\d+   4 drwxr\-xr\-x 3 user user       4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr/local/lib/php
-\d+   4 drwxr\-xr\-x 3 user user       4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr/local/lib/php/extensions
-\d+   4 drwxr\-xr\-x 2 user user       4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+   \d drwxr\-xr\-x 2 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr/local/lib/php/extensions/[^/]+
-\d+ 156 \-rwxr\-xr\-x 1 user user\s+\d+ \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
+\d+ \d+ \-rwxr\-xr\-x 1 \w+ \w+\s+\d+ \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr/local/lib/php/extensions/[^/]+/docblock\.so
 Installing \'' . __DIR__ . '/testit/ext/docblock\.so\'
 @';
