@@ -889,10 +889,10 @@ addchan_success:
             echo "Package Summary: ", $this->columnWrap($package->summary, strlen("Package Summary: ")), "\n";
             echo "Package Description Excerpt:\n   ",
                  $this->columnWrap(substr(rtrim($package->description), 0, 171) . '...', 3), "\n";
-            echo '(info ' . $args['package'] . " description for full description)\n";
+            echo '(`php pyrus.phar info ' . $args['package'] . " description` for full description)\n";
             echo "Release Notes Excerpt:\n   ",
                 $this->columnWrap(substr(rtrim($package->notes), 0, 171) . '...', 3), "\n";
-            echo '(info ' . $args['package'] . " notes for full release notes)\n";
+            echo '(`php pyrus.phar info ' . $args['package'] . " notes` for full release notes)\n";
             if ($installed) {
                 // check for upgrades
                 try {
