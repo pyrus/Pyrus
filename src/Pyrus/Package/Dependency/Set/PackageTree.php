@@ -56,10 +56,10 @@ class PackageTree
     function __construct(\pear2\Pyrus\Package\Dependency\Set $set,
                          \pear2\Pyrus\Package $node, PackageTree $parent = null)
     {
-        $this->set = $set;
-        $this->node = $node;
+        $this->set    = $set;
+        $this->node   = $node;
         $this->parent = $parent;
-        $this->name = $node->channel . '/' . $node->name;
+        $this->name   = $node->channel . '/' . $node->name;
         if ($node->isRemote() && $node->isAbstract()) {
             if ($node->getExplicitVersion()) {
                 $this->firstVersion = $node->getExplicitVersion();
@@ -123,11 +123,11 @@ class PackageTree
 
     static function setLocalPackages(array $packages)
     {
-        self::$optionalDeps = array();
-        self::$errors = array();
-        self::$localPackages = array();
+        self::$optionalDeps         = array();
+        self::$errors               = array();
+        self::$localPackages        = array();
         self::$availableVersionsMap = array();
-        self::$localPackages = $packages;
+        self::$localPackages        = $packages;
     }
 
     function synchronize()
@@ -191,13 +191,23 @@ class PackageTree
         return array_keys(self::$dirtyMap);
     }
 
+    /**
+     * Rebuild if necessary
+     * 
+     * @param string $nodename eg: pear.php.net/Spreadsheet_Excel_Writer
+     */
     function rebuildIfNecessary($nodename)
     {
         if ($this->name == $nodename) {
             if ($this->versionsAvailable != self::$availableVersionsMap[$this->name]) {
                 $this->prune();
                 $this->versionsAvailable = self::$availableVersionsMap[$this->name];
-                $this->node->resetConcreteVersion();
+                if (!count($this->versionsAvailable)) {
+                    $this->throwDepFailException();
+                }
+                if ($this->node->isRemote()) {
+                    $this->node->resetConcreteVersion();
+                }
                 if (!$this->determineInitialVersion()) {
                     $this->throwDepFailException();
                 }
