@@ -48,12 +48,12 @@ $test->assertEquals(array (
         'name' => 'src/Pyrus/Channel/Exception.php',
       ),
     ),
-    'src/Pyrus/Channel/IMirror.php' => 
+    'src/Pyrus/Channel/MirrorInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/Channel/IMirror.php',
+        'name' => 'src/Pyrus/Channel/MirrorInterface.php',
       ),
     ),
     'src/Pyrus/Channel/Mirror.php' => 
@@ -1266,7 +1266,7 @@ try {
                       'attribs' => 
                       array (
                         'role' => 'php',
-                        'name' => 'IMirror.php',
+                        'name' => 'MirrorInterface.php',
                       ),
                     ),
                     3 => 

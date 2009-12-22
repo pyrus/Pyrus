@@ -58,7 +58,7 @@ try {
      <dir name="Channel">
       <file role="php" name="Base.php"/>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="IMirror.php"/>
+      <file role="php" name="MirrorInterface.php"/>
       <file role="php" name="Mirror.php"/>
      </dir>
      <dir name="ChannelRegistry">

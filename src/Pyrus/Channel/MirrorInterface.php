@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Channel\IMirror
+ * \pear2\Pyrus\Channel\MirrorInterface
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
-interface IMirror
+interface MirrorInterface
 {
     public function getChannel();
 }

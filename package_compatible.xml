@@ -28,7 +28,7 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <active>yes</active>
  </lead>
  <date>2009-12-22</date>
- <time>17:38:23</time>
+ <time>17:49:51</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -2341,7 +2341,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Channel/Remotepackage.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel/Remotecategory.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel/Remotecategories.php"/>
-   <file role="php" name="php/pear2/Pyrus/Channel/IMirror.php"/>
+   <file role="php" name="php/pear2/Pyrus/Channel/MirrorInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel.php"/>
    <file role="php" name="php/pear2/Pyrus/AtomicFileTransaction/Exception.php"/>
@@ -2666,7 +2666,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/AtomicFileTransaction/Exception.php" as="pear2/Pyrus/AtomicFileTransaction/Exception.php"/>
    <install name="php/pear2/Pyrus/Channel.php" as="pear2/Pyrus/Channel.php"/>
    <install name="php/pear2/Pyrus/Channel/Exception.php" as="pear2/Pyrus/Channel/Exception.php"/>
-   <install name="php/pear2/Pyrus/Channel/IMirror.php" as="pear2/Pyrus/Channel/IMirror.php"/>
+   <install name="php/pear2/Pyrus/Channel/MirrorInterface.php" as="pear2/Pyrus/Channel/MirrorInterface.php"/>
    <install name="php/pear2/Pyrus/Channel/Remotecategories.php" as="pear2/Pyrus/Channel/Remotecategories.php"/>
    <install name="php/pear2/Pyrus/Channel/Remotecategory.php" as="pear2/Pyrus/Channel/Remotecategory.php"/>
    <install name="php/pear2/Pyrus/Channel/Remotepackage.php" as="pear2/Pyrus/Channel/Remotepackage.php"/>

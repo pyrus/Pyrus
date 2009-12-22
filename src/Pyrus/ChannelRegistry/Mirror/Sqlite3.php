@@ -25,7 +25,7 @@
  */
 namespace pear2\Pyrus\ChannelRegistry\Mirror;
 class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Channel\Sqlite3
-    implements \pear2\Pyrus\Channel\IMirror
+    implements \pear2\Pyrus\Channel\MirrorInterface
 {
     private $_channel;
     private $_parent;

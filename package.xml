@@ -28,7 +28,7 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <active>yes</active>
  </lead>
  <date>2009-12-22</date>
- <time>17:38:21</time>
+ <time>17:49:50</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -221,7 +221,7 @@ Initial pyrus public API
      </dir>
      <dir name="Channel">
       <file role="php" name="Exception.php"/>
-      <file role="php" name="IMirror.php"/>
+      <file role="php" name="MirrorInterface.php"/>
       <file role="php" name="Remotecategories.php"/>
       <file role="php" name="Remotecategory.php"/>
       <file role="php" name="Remotepackage.php"/>

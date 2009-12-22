@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ChannelFile\v1;
-class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel\IMirror
+class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel\MirrorInterface
 {
     
     /**
