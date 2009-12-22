@@ -37,7 +37,7 @@ file_put_contents(__DIR__ . '/testit/Fronky/Wonky/Burm.php', '<?php
 class Fronky_Wonky_Burm extends \pear2\Pyrus\Task\Common {
     const TYPE = "simple";
     const PHASE = \pear2\Pyrus\Task\Common::PACKAGEANDINSTALL;
-    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         return true;
     }
@@ -53,7 +53,7 @@ class b extends \pear2\Pyrus\Installer
     static $installPackages = array();
 }
 
-class mylog implements pear2\Pyrus\ILog
+class mylog implements pear2\Pyrus\LogInterface
 {
     static $log = array();
     function log($level, $message)

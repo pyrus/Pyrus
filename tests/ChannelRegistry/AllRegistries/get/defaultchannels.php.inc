@@ -9,9 +9,9 @@ class Foo extends Base
             throw new \pear2\Pyrus\ChannelRegistry\Exception('foo');
         }
     }
-    public function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false){}
-    public function update(\pear2\Pyrus\IChannel $channel){}
-    public function delete(\pear2\Pyrus\IChannel $channel){}
+    public function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false){}
+    public function update(\pear2\Pyrus\ChannelInterface $channel){}
+    public function delete(\pear2\Pyrus\ChannelInterface $channel){}
     public function get($channel, $strict = true)
     {
         throw new Exception('buh');

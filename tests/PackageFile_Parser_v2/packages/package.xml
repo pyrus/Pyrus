@@ -248,12 +248,12 @@ try {
      <file role="php" name="Downloader.php"/>
      <file role="php" name="Exception.php"/>
      <file role="php" name="FileTransactions.php"/>
-     <file role="php" name="IChannel.php"/>
-     <file role="php" name="IChannelRegistry.php"/>
-     <file role="php" name="IFileTransaction.php"/>
+     <file role="php" name="ChannelInterface.php"/>
+     <file role="php" name="ChannelRegistryInterface.php"/>
+     <file role="php" name="FileTransactionInterface.php"/>
      <file role="php" name="Installer.php"/>
-     <file role="php" name="IPackage.php"/>
-     <file role="php" name="IRegistry.php"/>
+     <file role="php" name="PackageInterface.php"/>
+     <file role="php" name="RegistryInterface.php"/>
      <file role="php" name="Log.php"/>
      <file role="php" name="OSGuess.php"/>
      <file role="php" name="Package.php"/>

@@ -32,7 +32,7 @@ $info->name = 'PEAR2_SimpleChannelServer';
 $packages = $reg->getDependentPackages($info);
 $names = array();
 foreach ($packages as $i => $package) {
-    $test->assertIsa('\pear2\Pyrus\IPackageFile', $package, 'class ' . $i);
+    $test->assertIsa('\pear2\Pyrus\PackageFileInterface', $package, 'class ' . $i);
     $names[] = $package->channel . '/' . $package->name;
 }
 sort($names);

@@ -976,28 +976,28 @@ $test->assertEquals(array (
         'name' => 'src/Pyrus/FileTransactions.php',
       ),
     ),
-    'src/Pyrus/IChannel.php' => 
+    'src/Pyrus/ChannelInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/IChannel.php',
+        'name' => 'src/Pyrus/ChannelInterface.php',
       ),
     ),
-    'src/Pyrus/IChannelRegistry.php' => 
+    'src/Pyrus/ChannelRegistryInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/IChannelRegistry.php',
+        'name' => 'src/Pyrus/ChannelRegistryInterface.php',
       ),
     ),
-    'src/Pyrus/IFileTransaction.php' => 
+    'src/Pyrus/FileTransactionInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/IFileTransaction.php',
+        'name' => 'src/Pyrus/FileTransactionInterface.php',
       ),
     ),
     'src/Pyrus/Installer.php' => 
@@ -1008,20 +1008,20 @@ $test->assertEquals(array (
         'name' => 'src/Pyrus/Installer.php',
       ),
     ),
-    'src/Pyrus/IPackage.php' => 
+    'src/Pyrus/PackageInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/IPackage.php',
+        'name' => 'src/Pyrus/PackageInterface.php',
       ),
     ),
-    'src/Pyrus/IRegistry.php' => 
+    'src/Pyrus/RegistryInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/IRegistry.php',
+        'name' => 'src/Pyrus/RegistryInterface.php',
       ),
     ),
     'src/Pyrus/Log.php' => 
@@ -2519,7 +2519,7 @@ try {
                   'attribs' => 
                   array (
                     'role' => 'php',
-                    'name' => 'IChannel.php',
+                    'name' => 'ChannelInterface.php',
                   ),
                 ),
                 8 => 
@@ -2527,7 +2527,7 @@ try {
                   'attribs' => 
                   array (
                     'role' => 'php',
-                    'name' => 'IChannelRegistry.php',
+                    'name' => 'ChannelRegistryInterface.php',
                   ),
                 ),
                 9 => 
@@ -2535,7 +2535,7 @@ try {
                   'attribs' => 
                   array (
                     'role' => 'php',
-                    'name' => 'IFileTransaction.php',
+                    'name' => 'FileTransactionInterface.php',
                   ),
                 ),
                 10 => 
@@ -2551,7 +2551,7 @@ try {
                   'attribs' => 
                   array (
                     'role' => 'php',
-                    'name' => 'IPackage.php',
+                    'name' => 'PackageInterface.php',
                   ),
                 ),
                 12 => 
@@ -2559,7 +2559,7 @@ try {
                   'attribs' => 
                   array (
                     'role' => 'php',
-                    'name' => 'IRegistry.php',
+                    'name' => 'RegistryInterface.php',
                   ),
                 ),
                 13 => 

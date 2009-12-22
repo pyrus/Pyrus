@@ -11,7 +11,7 @@ $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 
-class TestLog implements \pear2\Pyrus\ILog
+class TestLog implements \pear2\Pyrus\LogInterface
 {
     protected $messages = array();
     

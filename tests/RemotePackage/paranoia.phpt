@@ -13,7 +13,7 @@ require __DIR__ . '/../Mocks/Internet.php';
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/paranoid',
                        'http://pear2.php.net/');
 \pear2\Pyrus\Main::$downloadClass = 'Internet';
-class Logger implements pear2\Pyrus\ILog
+class Logger implements pear2\Pyrus\LogInterface
 {
     public $log = array();
     function log($level, $message)
