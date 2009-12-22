@@ -180,7 +180,7 @@ class OSGuess
                 $release = preg_replace('/^([0-9]+\.[0-9]+).*/', '\1', $parts[2]);
                 break;
             default:
-                $release = preg_replace('-.*', '', $parts[2]);
+                $release = preg_replace('/-.*/', '', $parts[2]);
                 break;
         }
 
@@ -258,7 +258,7 @@ class OSGuess
         } // features.h
         if (!($major && $minor) && @is_link('/lib/libc.so.6')) {
             // Let's try reading the libc.so.6 symlink
-            if (ereg('^libc-(.*)\.so$', basename(readlink('/lib/libc.so.6')), $matches)) {
+            if (preg_match('/^libc-(.*)\.so$/', basename(readlink('/lib/libc.so.6')), $matches)) {
                 list($major, $minor) = explode('.', $matches[1]);
             }
         }
@@ -303,11 +303,7 @@ class OSGuess
 
     function matchSignature($match)
     {
-        if (is_array($match)) {
-            $fragments = $match;
-        } else {
-            $fragments = explode('-', $match);
-        }
+        $fragments = is_array($match) ? $match : explode('-', $match);
         $n = count($fragments);
         $matches = 0;
         if ($n > 0) {
@@ -341,4 +337,3 @@ class OSGuess
  * c-basic-offset: 4
  * End:
  */
-?>
