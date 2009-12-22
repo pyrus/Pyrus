@@ -10,25 +10,11 @@ packages built using package.xml version 2.0 or newer.  Pyrus is
 redesigned from the ground up for PHP 5.3 or newer, and provides
 significant improvements over the older PEAR Installer.
 
-To use Pyrus, in this development series of releases, you need to
-instantiate a simple script that creates a package and installs it:
+To use Pyrus, execute it from the command line:
+$ php pyrus.phar install PEAR2_Templates_Savant-0.1.0
 
-&lt;?php
-// use full path if include_path is not set up
-use pear2\Pyrus
-include 'PEAR2/Autoload.php';
-$config = Pyrus\Config::singleton('/where/to/install');
-// this can be a url to a remote package, a local .tgz, .zip or package.xml
-$p = new Pyrus\Package('thingtoinstall');
-try {
-    Pyrus\Installer::begin();
-    Pyrus\Installer::prepare($p);
-    Pyrus\Installer::commit();
-} catch (Exception $e) {
-    Pyrus\Installer::rollback();
-    echo $e;
-}
-?&gt;</description>
+For more information, view the documentation at:
+http://pear.php.net/manual/en/pyrus.php</description>
  <lead>
   <name>Gregory Beaver</name>
   <user>cellog</user>
@@ -41,8 +27,8 @@ try {
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-12-02</date>
- <time>16:12:11</time>
+ <date>2009-12-22</date>
+ <time>17:38:23</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -2176,6 +2162,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/REST/11.php"/>
    <file role="php" name="php/pear2/Pyrus/REST/10.php"/>
    <file role="php" name="php/pear2/Pyrus/REST.php"/>
+   <file role="php" name="php/pear2/Pyrus/RegistryInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Registry/Xml/Package.php"/>
    <file role="php" name="php/pear2/Pyrus/Registry/Xml.php"/>
    <file role="php" name="php/pear2/Pyrus/Registry/Sqlite3/Package.php"/>
@@ -2192,6 +2179,8 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/PluginRegistry.php"/>
    <file role="php" name="php/pear2/Pyrus/PECLBuild/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/PECLBuild.php"/>
+   <file role="php" name="php/pear2/Pyrus/PackageInterface.php"/>
+   <file role="php" name="php/pear2/Pyrus/PackageFileInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2Iterator/ScriptFileFilterIterator.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingFilterBase.php"/>
@@ -2255,10 +2244,8 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Package.php"/>
    <file role="php" name="php/pear2/Pyrus/OSGuess.php"/>
    <file role="php" name="php/pear2/Pyrus/Main.php"/>
+   <file role="php" name="php/pear2/Pyrus/LogInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Logger.php"/>
-   <file role="php" name="php/pear2/Pyrus/IRegistry.php"/>
-   <file role="php" name="php/pear2/Pyrus/IPackageFile.php"/>
-   <file role="php" name="php/pear2/Pyrus/IPackage.php"/>
    <file role="php" name="php/pear2/Pyrus/Installer/Role/Www.xml"/>
    <file role="php" name="php/pear2/Pyrus/Installer/Role/Www.php"/>
    <file role="php" name="php/pear2/Pyrus/Installer/Role/Test.xml"/>
@@ -2288,13 +2275,9 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Installer/Role.php"/>
    <file role="php" name="php/pear2/Pyrus/Installer/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Installer.php"/>
-   <file role="php" name="php/pear2/Pyrus/ILog.php"/>
-   <file role="php" name="php/pear2/Pyrus/IFileTransaction.php"/>
-   <file role="php" name="php/pear2/Pyrus/IChannelRegistry.php"/>
-   <file role="php" name="php/pear2/Pyrus/IChannelFile.php"/>
-   <file role="php" name="php/pear2/Pyrus/IChannel.php"/>
    <file role="php" name="php/pear2/Pyrus/HTTPException.php"/>
    <file role="php" name="php/pear2/Pyrus/FileTransactions.php"/>
+   <file role="php" name="php/pear2/Pyrus/FileTransactionInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/DownloadProgressListener.php"/>
    <file role="php" name="php/pear2/Pyrus/DirectedGraph/Vertex.php"/>
@@ -2333,6 +2316,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Config/Snapshot.php"/>
    <file role="php" name="php/pear2/Pyrus/Config/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Config.php"/>
+   <file role="php" name="php/pear2/Pyrus/ChannelRegistryInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelRegistry/Xml.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelRegistry/Sqlite3.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelRegistry/Pear1.php"/>
@@ -2343,6 +2327,8 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/ChannelRegistry/Channel.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelRegistry/Base.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelRegistry.php"/>
+   <file role="php" name="php/pear2/Pyrus/ChannelInterface.php"/>
+   <file role="php" name="php/pear2/Pyrus/ChannelFileInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelFile/v1/Servers/Protocols/REST.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelFile/v1/Servers/Protocols.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelFile/v1/Servers.php"/>
@@ -2693,6 +2679,8 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/ChannelFile/v1/Servers.php" as="pear2/Pyrus/ChannelFile/v1/Servers.php"/>
    <install name="php/pear2/Pyrus/ChannelFile/v1/Servers/Protocols.php" as="pear2/Pyrus/ChannelFile/v1/Servers/Protocols.php"/>
    <install name="php/pear2/Pyrus/ChannelFile/v1/Servers/Protocols/REST.php" as="pear2/Pyrus/ChannelFile/v1/Servers/Protocols/REST.php"/>
+   <install name="php/pear2/Pyrus/ChannelFileInterface.php" as="pear2/Pyrus/ChannelFileInterface.php"/>
+   <install name="php/pear2/Pyrus/ChannelInterface.php" as="pear2/Pyrus/ChannelInterface.php"/>
    <install name="php/pear2/Pyrus/ChannelRegistry.php" as="pear2/Pyrus/ChannelRegistry.php"/>
    <install name="php/pear2/Pyrus/ChannelRegistry/Base.php" as="pear2/Pyrus/ChannelRegistry/Base.php"/>
    <install name="php/pear2/Pyrus/ChannelRegistry/Channel.php" as="pear2/Pyrus/ChannelRegistry/Channel.php"/>
@@ -2703,6 +2691,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/ChannelRegistry/Pear1.php" as="pear2/Pyrus/ChannelRegistry/Pear1.php"/>
    <install name="php/pear2/Pyrus/ChannelRegistry/Sqlite3.php" as="pear2/Pyrus/ChannelRegistry/Sqlite3.php"/>
    <install name="php/pear2/Pyrus/ChannelRegistry/Xml.php" as="pear2/Pyrus/ChannelRegistry/Xml.php"/>
+   <install name="php/pear2/Pyrus/ChannelRegistryInterface.php" as="pear2/Pyrus/ChannelRegistryInterface.php"/>
    <install name="php/pear2/Pyrus/Config.php" as="pear2/Pyrus/Config.php"/>
    <install name="php/pear2/Pyrus/Config/Exception.php" as="pear2/Pyrus/Config/Exception.php"/>
    <install name="php/pear2/Pyrus/Config/Snapshot.php" as="pear2/Pyrus/Config/Snapshot.php"/>
@@ -2741,13 +2730,9 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/DirectedGraph/Vertex.php" as="pear2/Pyrus/DirectedGraph/Vertex.php"/>
    <install name="php/pear2/Pyrus/DownloadProgressListener.php" as="pear2/Pyrus/DownloadProgressListener.php"/>
    <install name="php/pear2/Pyrus/Exception.php" as="pear2/Pyrus/Exception.php"/>
+   <install name="php/pear2/Pyrus/FileTransactionInterface.php" as="pear2/Pyrus/FileTransactionInterface.php"/>
    <install name="php/pear2/Pyrus/FileTransactions.php" as="pear2/Pyrus/FileTransactions.php"/>
    <install name="php/pear2/Pyrus/HTTPException.php" as="pear2/Pyrus/HTTPException.php"/>
-   <install name="php/pear2/Pyrus/IChannel.php" as="pear2/Pyrus/IChannel.php"/>
-   <install name="php/pear2/Pyrus/IChannelFile.php" as="pear2/Pyrus/IChannelFile.php"/>
-   <install name="php/pear2/Pyrus/IChannelRegistry.php" as="pear2/Pyrus/IChannelRegistry.php"/>
-   <install name="php/pear2/Pyrus/IFileTransaction.php" as="pear2/Pyrus/IFileTransaction.php"/>
-   <install name="php/pear2/Pyrus/ILog.php" as="pear2/Pyrus/ILog.php"/>
    <install name="php/pear2/Pyrus/Installer.php" as="pear2/Pyrus/Installer.php"/>
    <install name="php/pear2/Pyrus/Installer/Exception.php" as="pear2/Pyrus/Installer/Exception.php"/>
    <install name="php/pear2/Pyrus/Installer/Role.php" as="pear2/Pyrus/Installer/Role.php"/>
@@ -2777,10 +2762,8 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Installer/Role/Test.xml" as="pear2/Pyrus/Installer/Role/Test.xml"/>
    <install name="php/pear2/Pyrus/Installer/Role/Www.php" as="pear2/Pyrus/Installer/Role/Www.php"/>
    <install name="php/pear2/Pyrus/Installer/Role/Www.xml" as="pear2/Pyrus/Installer/Role/Www.xml"/>
-   <install name="php/pear2/Pyrus/IPackage.php" as="pear2/Pyrus/IPackage.php"/>
-   <install name="php/pear2/Pyrus/IPackageFile.php" as="pear2/Pyrus/IPackageFile.php"/>
-   <install name="php/pear2/Pyrus/IRegistry.php" as="pear2/Pyrus/IRegistry.php"/>
    <install name="php/pear2/Pyrus/Logger.php" as="pear2/Pyrus/Logger.php"/>
+   <install name="php/pear2/Pyrus/LogInterface.php" as="pear2/Pyrus/LogInterface.php"/>
    <install name="php/pear2/Pyrus/Main.php" as="pear2/Pyrus/Main.php"/>
    <install name="php/pear2/Pyrus/OSGuess.php" as="pear2/Pyrus/OSGuess.php"/>
    <install name="php/pear2/Pyrus/Package.php" as="pear2/Pyrus/Package.php"/>
@@ -2844,6 +2827,8 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingFilterBase.php" as="pear2/Pyrus/PackageFile/v2Iterator/PackagingFilterBase.php"/>
    <install name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php" as="pear2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php"/>
    <install name="php/pear2/Pyrus/PackageFile/v2Iterator/ScriptFileFilterIterator.php" as="pear2/Pyrus/PackageFile/v2Iterator/ScriptFileFilterIterator.php"/>
+   <install name="php/pear2/Pyrus/PackageFileInterface.php" as="pear2/Pyrus/PackageFileInterface.php"/>
+   <install name="php/pear2/Pyrus/PackageInterface.php" as="pear2/Pyrus/PackageInterface.php"/>
    <install name="php/pear2/Pyrus/PECLBuild.php" as="pear2/Pyrus/PECLBuild.php"/>
    <install name="php/pear2/Pyrus/PECLBuild/Exception.php" as="pear2/Pyrus/PECLBuild/Exception.php"/>
    <install name="php/pear2/Pyrus/PluginRegistry.php" as="pear2/Pyrus/PluginRegistry.php"/>
@@ -2860,6 +2845,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Registry/Sqlite3/Package.php" as="pear2/Pyrus/Registry/Sqlite3/Package.php"/>
    <install name="php/pear2/Pyrus/Registry/Xml.php" as="pear2/Pyrus/Registry/Xml.php"/>
    <install name="php/pear2/Pyrus/Registry/Xml/Package.php" as="pear2/Pyrus/Registry/Xml/Package.php"/>
+   <install name="php/pear2/Pyrus/RegistryInterface.php" as="pear2/Pyrus/RegistryInterface.php"/>
    <install name="php/pear2/Pyrus/REST.php" as="pear2/Pyrus/REST.php"/>
    <install name="php/pear2/Pyrus/REST/10.php" as="pear2/Pyrus/REST/10.php"/>
    <install name="php/pear2/Pyrus/REST/11.php" as="pear2/Pyrus/REST/11.php"/>
