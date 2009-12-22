@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\IFileTransaction
+ * \pear2\Pyrus\ChannelInterface
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Interface for file transactions
+ * Interface for channels
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -24,10 +24,9 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface IFileTransaction
+interface ChannelFileInterface
 {
-    public function check($data, &$errors);
-    public function commit($data, &$errors);
-    public function rollback($data, &$errors);
-    public function cleanup();
+    function __get($var);
+    function __set($var, $value);
+    function __toString();
 }

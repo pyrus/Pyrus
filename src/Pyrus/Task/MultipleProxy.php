@@ -31,7 +31,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
     protected $parent;
     protected $fileattribs;
     /**
-     * @param \pear2\Pyrus\IPackage|\pear2\Pyrus\IPackageFile
+     * @param \pear2\Pyrus\PackageInterface|\pear2\Pyrus\PackageFileInterface
      * @param array a group of tasks
      */
     function __construct($parent, array $tasks, $fileattribs, $name)
@@ -51,7 +51,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
      * return any errors using the custom throwError() method to allow forward compatibility
      *
      * This method MUST NOT write out any changes to disk
-     * @param PEAR_Pyrus_IPackageFile
+     * @param PEAR_Pyrus_PackageFileInterface
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false false to skip this file, otherwise return the new contents

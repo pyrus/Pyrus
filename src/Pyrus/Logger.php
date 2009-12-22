@@ -42,12 +42,12 @@ class Logger
         }
     }
 
-    static public function attach(\pear2\Pyrus\ILog $observer)
+    static public function attach(\pear2\Pyrus\LogInterface $observer)
     {
         self::$observers[spl_object_hash($observer)] = $observer;
     }
 
-    static public function detach(\pear2\Pyrus\ILog $observer)
+    static public function detach(\pear2\Pyrus\LogInterface $observer)
     {
         unset(self::$observers[spl_object_hash($observer)]);
     }

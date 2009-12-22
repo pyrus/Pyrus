@@ -31,7 +31,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class Package implements \pear2\Pyrus\IPackage
+class Package implements \pear2\Pyrus\PackageInterface
 {
     /**
      * The actual package representation
@@ -143,7 +143,7 @@ class Package implements \pear2\Pyrus\IPackage
         return $this->internal;
     }
 
-    function setInternalPackage(\pear2\Pyrus\IPackage $internal)
+    function setInternalPackage(\pear2\Pyrus\PackageInterface $internal)
     {
         $this->internal = $internal;
     }

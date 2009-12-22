@@ -397,7 +397,7 @@ class PackageTree
      * Check to see if any packages in the list of packages to be installed
      * satisfy this dependency, and return one if found, otherwise
      * instantiate a new dependency package object
-     * @return \pear2\Pyrus\IPackage|NULL
+     * @return \pear2\Pyrus\PackageInterface|NULL
      */
     function retrieve(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $info)
     {

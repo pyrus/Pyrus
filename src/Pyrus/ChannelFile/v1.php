@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ChannelFile;
-class v1 extends \pear2\Pyrus\ChannelFile implements \pear2\Pyrus\IChannelFile
+class v1 extends \pear2\Pyrus\ChannelFile implements \pear2\Pyrus\ChannelFileInterface
 {
     /**
      * Supported channel.xml versions, for parsing

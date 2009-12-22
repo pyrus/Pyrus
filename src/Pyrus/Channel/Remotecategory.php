@@ -32,7 +32,7 @@ class Remotecategory implements \ArrayAccess, \Iterator, \Countable
     protected $rest;
     protected $minimumStability;
 
-    function __construct(\pear2\Pyrus\IChannelFile $channelinfo, $category, $packagesinfo)
+    function __construct(\pear2\Pyrus\ChannelFileInterface $channelinfo, $category, $packagesinfo)
     {
         $this->parent = $channelinfo;
         $this->category = $category;

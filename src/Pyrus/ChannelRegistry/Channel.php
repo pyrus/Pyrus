@@ -24,10 +24,10 @@
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
 namespace pear2\Pyrus\ChannelRegistry;
-class Channel extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\IChannel
+class Channel extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\ChannelInterface
 {
     private $_parent;
-    function __construct(\pear2\Pyrus\IChannelRegistry $parent, $data)
+    function __construct(\pear2\Pyrus\ChannelRegistryInterface $parent, $data)
     {
         if (is_array($data) && !isset($data['channel']) && !isset($data['attribs'])) {
             $data = array_merge(array('attribs' =>  $this->rootAttributes), $data);

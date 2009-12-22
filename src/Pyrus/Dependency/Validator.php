@@ -801,7 +801,7 @@ nofail:
      * @param array $params full list of packages to install
      * @return bool
      */
-    function validateDownloadedPackage(\pear2\Pyrus\IPackageFile $pkg, $params = array())
+    function validateDownloadedPackage(\pear2\Pyrus\PackageFileInterface $pkg, $params = array())
     {
         $me = $pkg->channel . '/' . $pkg->name;
         $reg = \pear2\Pyrus\Config::current()->registry;

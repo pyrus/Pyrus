@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class Channel implements \pear2\Pyrus\IChannel
+class Channel implements \pear2\Pyrus\ChannelInterface
 {
     protected $internal;
     
@@ -32,7 +32,7 @@ class Channel implements \pear2\Pyrus\IChannel
      * Construct a \pear2\Pyrus\Channel object
      *
      */
-    function __construct(\pear2\Pyrus\IChannelFile $info)
+    function __construct(\pear2\Pyrus\ChannelFileInterface $info)
     {
         $this->internal = $info;
     }

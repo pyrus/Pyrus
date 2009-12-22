@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\IChannelRegistry
+ * \pear2\Pyrus\FileTransactionInterface
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Interface for PEAR2 channel registry.
+ * Interface for file transactions
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -24,14 +24,10 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface IChannelRegistry
+interface FileTransactionInterface
 {
-    public function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false);
-    public function update(\pear2\Pyrus\IChannel $channel);
-    public function delete(\pear2\Pyrus\IChannel $channel);
-    public function get($channel, $strict = true);
-    public function exists($channel, $strict = true);
-    public function parseName($name);
-    public function parsedNameToString($name);
-    public function listChannels();
+    public function check($data, &$errors);
+    public function commit($data, &$errors);
+    public function rollback($data, &$errors);
+    public function cleanup();
 }

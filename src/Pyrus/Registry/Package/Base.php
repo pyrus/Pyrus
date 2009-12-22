@@ -25,7 +25,7 @@
  */
 namespace pear2\Pyrus\Registry\Package;
 abstract class Base extends \pear2\Pyrus\PackageFile\v2
-                                                 implements \ArrayAccess, \pear2\Pyrus\IPackageFile, \Iterator
+                                                 implements \ArrayAccess, \pear2\Pyrus\PackageFileInterface, \Iterator
 {
 
     protected $packagename;
@@ -78,7 +78,7 @@ abstract class Base extends \pear2\Pyrus\PackageFile\v2
         $this->iteratorChannel = $channel;
     }
 
-    function fromPackageFile(\pear2\Pyrus\IPackageFile $package)
+    function fromPackageFile(\pear2\Pyrus\PackageFileInterface $package)
     {
         parent::fromPackageFile($package);
         // reconstruct filelist/baseinstalldirs

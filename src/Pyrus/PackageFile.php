@@ -24,13 +24,13 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class PackageFile implements IPackageFile
+class PackageFile implements PackageFileInterface
 {
     public $info;
     public $path;
     function __construct($package, $class = 'pear2\Pyrus\PackageFile\v2', $isstring = false)
     {
-        if ($package instanceof \pear2\Pyrus\IPackageFile) {
+        if ($package instanceof \pear2\Pyrus\PackageFileInterface) {
             $this->path = $package->getFilePath();
             return $this->info = $package;
         }

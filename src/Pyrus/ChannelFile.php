@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class ChannelFile implements \pear2\Pyrus\IChannelFile
+class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
 {
     protected $info;
     public $path;

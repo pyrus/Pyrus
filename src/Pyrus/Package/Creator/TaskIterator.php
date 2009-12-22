@@ -32,7 +32,7 @@ class TaskIterator extends \FilterIterator
     private $_installphase;
     protected $lastversion;
 
-    function __construct(array $arr, \pear2\Pyrus\IPackage $parent, $phase, $lastversion = null)
+    function __construct(array $arr, \pear2\Pyrus\PackageInterface $parent, $phase, $lastversion = null)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();

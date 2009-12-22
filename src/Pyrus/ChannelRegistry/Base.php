@@ -25,7 +25,7 @@
  */
 namespace pear2\Pyrus\ChannelRegistry;
 abstract class Base
-    implements \pear2\Pyrus\IChannelRegistry, \Iterator
+    implements \pear2\Pyrus\ChannelRegistryInterface, \Iterator
 {
     protected $path;
     protected $readonly;
@@ -365,7 +365,7 @@ abstract class Base
     }
 
     /**
-     * @return \pear2\Pyrus\IRegistry
+     * @return \pear2\Pyrus\RegistryInterface
      */
     function getRegistry()
     {

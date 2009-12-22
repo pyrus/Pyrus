@@ -82,7 +82,7 @@ class DependencyDB
      * Get a list of installed packages that depend on this package
      * @return array
      */
-    function getDependentPackages(\pear2\Pyrus\IPackageFile $pkg)
+    function getDependentPackages(\pear2\Pyrus\PackageFileInterface $pkg)
     {
         $data = $this->_getDepDB();
 
@@ -95,7 +95,7 @@ class DependencyDB
     /**
      * Register dependencies of a package that is being installed or upgraded
      */
-    function installPackage(\pear2\Pyrus\IPackageFile $package)
+    function installPackage(\pear2\Pyrus\PackageFileInterface $package)
     {
         $data = $this->_getDepDB();
         $data = $this->_setPackageDeps($data, $package);
@@ -311,7 +311,7 @@ class DependencyDB
      * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
      * @access private
      */
-    function _setPackageDeps(array $data, \pear2\Pyrus\IPackageFile $pkg)
+    function _setPackageDeps(array $data, \pear2\Pyrus\PackageFileInterface $pkg)
     {
         $deps = $pkg->rawdeps;
 
@@ -416,12 +416,12 @@ class DependencyDB
 
     /**
      * @param array the database
-     * @param \pear2\Pyrus\IPackageFile
+     * @param \pear2\Pyrus\PackageFileInterface
      * @param array the specific dependency
      * @param required|optional whether this is a required or an optional dep
      * @param string|false dependency group this dependency is from, or false for ordinary dep
      */
-    function _registerDep(array $data, \pear2\Pyrus\IPackageFile $pkg, $dep, $type, $group = false)
+    function _registerDep(array $data, \pear2\Pyrus\PackageFileInterface $pkg, $dep, $type, $group = false)
     {
         $info = array(
             'dep'   => $dep,

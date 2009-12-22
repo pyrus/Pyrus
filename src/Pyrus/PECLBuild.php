@@ -200,7 +200,7 @@ class PECLBuild
      * Build an extension from source.  Runs "phpize" in the source
      * directory, and compiles there.
      *
-     * @param \pear2\Pyrus\IPackage $pkg package object
+     * @param \pear2\Pyrus\PackageInterface $pkg package object
      *
      * @param mixed $callback callback function used to report output,
      * see PEAR_Builder::_runCommand for details

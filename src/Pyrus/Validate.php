@@ -41,11 +41,11 @@ class Validate{
 /**#@-*/
     var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
     /**
-     * @var \pear2\Pyrus\IPackageFile
+     * @var \pear2\Pyrus\PackageFileInterface
      */
     var $_packagexml;
     /**
-     * @var \pear2\Pyrus\IChannelFile
+     * @var \pear2\Pyrus\ChannelFileInterface
      */
     var $channel;
     /**
@@ -132,14 +132,14 @@ class Validate{
     }
 
     /**
-     * @param \pear2\Pyrus\IPackageFile
+     * @param \pear2\Pyrus\PackageFileInterface
      */
-    function setPackageFile(\pear2\Pyrus\IPackageFile $pf)
+    function setPackageFile(\pear2\Pyrus\PackageFileInterface $pf)
     {
         $this->_packagexml = $pf;
     }
 
-    function setChannel(\pear2\Pyrus\IChannelFile $chan)
+    function setChannel(\pear2\Pyrus\ChannelFileInterface $chan)
     {
         $this->channel = $chan;
     }

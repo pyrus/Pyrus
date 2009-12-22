@@ -192,7 +192,7 @@ class Uninstaller{
      * Remove files
      * @param \pear2\Pyrus\Package $package
      */
-    function uninstall(\pear2\Pyrus\IPackageFile $package, \pear2\Pyrus\IRegistry $reg)
+    function uninstall(\pear2\Pyrus\PackageFileInterface $package, \pear2\Pyrus\RegistryInterface $reg)
     {
         if (!empty($this->_options['register-only'])) {
             // pretty much nothing happens if we are only registering the install

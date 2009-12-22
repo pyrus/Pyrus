@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\IRegistry
+ * \pear2\Pyrus\RegistryInterface
  *
  * PHP version 5
  *
@@ -24,34 +24,34 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface IRegistry
+interface RegistryInterface
 {
-    public function install(\pear2\Pyrus\IPackageFile $info, $replace = false);
+    public function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false);
     /**
      * Used by the registry package classes to update info in an installed package
      */
-    public function replace(\pear2\Pyrus\IPackageFile $info);
+    public function replace(\pear2\Pyrus\PackageFileInterface $info);
     public function uninstall($name, $channel);
     public function exists($package, $channel);
     public function info($package, $channel, $field);
     public function listPackages($channel);
     public function __get($var);
     /**
-     * @return \pear2\Pyrus\IPackageFile
+     * @return \pear2\Pyrus\PackageFileInterface
      */
     public function toPackageFile($package, $channel);
     /**
      * Retrieve a list of package objects that depend on this package
-     * @param \pear2\Pyrus\IPackageFile package that is depended on
+     * @param \pear2\Pyrus\PackageFileInterface package that is depended on
      * @param bool if true, a lean package with only name and dependencies is returned
      */
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true);
+    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true);
     
     /**
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package);
+    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package);
     /**
      * Returns a list of registries present in the PEAR installation at $path
      * @param string

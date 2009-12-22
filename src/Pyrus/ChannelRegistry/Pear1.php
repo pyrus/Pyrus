@@ -93,7 +93,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         return $alias;
     }
 
-    public function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false)
+    public function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
@@ -154,7 +154,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         return true;
     }
 
-    public function update(\pear2\Pyrus\IChannel $channel)
+    public function update(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
@@ -162,7 +162,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         return $this->add($channel, true);
     }
 
-    public function delete(\pear2\Pyrus\IChannel $channel)
+    public function delete(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');

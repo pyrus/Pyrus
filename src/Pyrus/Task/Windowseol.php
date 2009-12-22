@@ -44,14 +44,14 @@ class Windowseol extends \pear2\Pyrus\Task\Common
     /**
      * Validate the basic contents of a <windowseol> tag
      * 
-     * @param PEAR_Pyrus_IPackageFile
+     * @param PEAR_Pyrus_PackageFileInterface
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
      * 
      * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if (is_array($xml) && count($xml) || $xml !== '') {
             throw new \pear2\Pyrus\Task\Exception\InvalidTask('windowseol', $file, 'no attributes allowed');
@@ -63,7 +63,7 @@ class Windowseol extends \pear2\Pyrus\Task\Common
      * Replace all line endings with windows line endings
      *
      * See validateXml() source for the complete list of allowed fields
-     * @param \pear2\Pyrus\IPackage
+     * @param \pear2\Pyrus\PackageInterface
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string

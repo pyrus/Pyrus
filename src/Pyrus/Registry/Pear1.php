@@ -141,7 +141,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         return $tmp;
     }
 
-    private function _nameRegistryPath(\pear2\Pyrus\IPackageFile $info = null,
+    private function _nameRegistryPath(\pear2\Pyrus\PackageFileInterface $info = null,
                                      $channel = null, $package = null, $version = null)
     {
         $channel = $info !== null ? $info->channel : $channel;
@@ -174,9 +174,9 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
     /**
      * Create the .registry/package.reg or file
      *
-     * @param \pear2\Pyrus\IPackageFile $pf
+     * @param \pear2\Pyrus\PackageFileInterface $pf
      */
-    function install(\pear2\Pyrus\IPackageFile $info, $replace = false)
+    function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false)
     {
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
@@ -504,7 +504,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         }
     }
 
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
+    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true)
     {
         $class = self::$dependencyDBClass;
         $dep = new $class($this->_getPath());
@@ -519,7 +519,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package)
+    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
     {
         $filemap = $this->readFileMap();
         if (!$filemap) {

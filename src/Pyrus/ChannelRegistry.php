@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\IChannelRegistry
+class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\ChannelRegistryInterface
 {
     /**
      * Class to instantiate for singleton.
@@ -80,9 +80,9 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
     /**
      * Add a channel to the registry.
      *
-     * @param \pear2\Pyrus\IChannel $channel Channel to add.
+     * @param \pear2\Pyrus\ChannelInterface $channel Channel to add.
      */
-    public function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false)
+    public function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
@@ -92,7 +92,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         }
     }
 
-    public function update(\pear2\Pyrus\IChannel $channel)
+    public function update(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
@@ -102,7 +102,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         }
     }
 
-    public function delete(\pear2\Pyrus\IChannel $channel)
+    public function delete(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
@@ -187,7 +187,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
-        if ($value instanceof \pear2\Pyrus\IChannelFile) {
+        if ($value instanceof \pear2\Pyrus\ChannelFileInterface) {
             $value = new \pear2\Pyrus\Channel($value);
         }
         foreach ($this->_registries as $reg) {

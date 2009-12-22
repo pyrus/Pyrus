@@ -49,13 +49,13 @@ class Postinstallscript extends \pear2\Pyrus\Task\Common
 
     /**
      * Validate the basic contents of a <postinstallscript> tag
-     * @param PEAR_Pyrus_IPackageFile
+     * @param PEAR_Pyrus_PackageFileInterface
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
      * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if ($fileXml['role'] != 'php') {
             throw new \pear2\Pyrus\Task\Exception\InvalidTask('postinstallscript', $file,
@@ -254,7 +254,7 @@ class Postinstallscript extends \pear2\Pyrus\Task\Common
     /**
      * Unlike other tasks, the installed file name is passed in instead of the file contents,
      * because this task is handled post-installation
-     * @param \pear2\Pyrus\IPackage
+     * @param \pear2\Pyrus\PackageInterface
      * @param string path to the post-install script
      * @return bool false to skip this file
      */

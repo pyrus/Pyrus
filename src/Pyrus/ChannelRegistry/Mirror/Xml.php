@@ -27,7 +27,7 @@ namespace pear2\Pyrus\ChannelRegistry\Mirror;
 class Xml extends \pear2\Pyrus\Channel\Mirror
 {
     private $_parent;
-    function __construct(&$mirrorarray, \pear2\Pyrus\IChannel $parent,
+    function __construct(&$mirrorarray, \pear2\Pyrus\ChannelInterface $parent,
                          \pear2\Pyrus\ChannelRegistry $reg)
     {
         parent::__construct($mirrorarray, $parent);

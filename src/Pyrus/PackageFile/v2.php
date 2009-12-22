@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\PackageFile;
-class v2 implements \pear2\Pyrus\IPackageFile
+class v2 implements \pear2\Pyrus\PackageFileInterface
 {
     public $rootAttributes = array(
                                  'version' => '2.1',
@@ -542,7 +542,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
         $this->packageInfo = $pinfo['package'];
     }
 
-    function fromPackageFile(\pear2\Pyrus\IPackageFile $package)
+    function fromPackageFile(\pear2\Pyrus\PackageFileInterface $package)
     {
         $this->fromArray($package->toArray());
         $this->setFilelist($package->getFileList());
@@ -672,7 +672,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
      * depends on $pf
      * @return boolean
      */
-    function isCompatible(\pear2\Pyrus\IPackageFile $pf)
+    function isCompatible(\pear2\Pyrus\PackageFileInterface $pf)
     {
         if (!isset($this->packageInfo['compatible'])) {
             return false;
@@ -706,7 +706,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
         return false;
     }
 
-    function isSubpackageOf(\pear2\Pyrus\IPackageFile $p)
+    function isSubpackageOf(\pear2\Pyrus\PackageFileInterface $p)
     {
         return $p->isSubpackage($this);
     }
@@ -717,7 +717,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
      * No version checking is done, only name verification.
      * @return bool
      */
-    function isSubpackage(\pear2\Pyrus\IPackageFile $p)
+    function isSubpackage(\pear2\Pyrus\PackageFileInterface $p)
     {
         foreach (array('required', 'optional', 'group') as $type) {
             if ($type === 'group') {
@@ -754,7 +754,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
         return false;
     }
 
-    function isEqual(\pear2\Pyrus\IPackageFile $pkg)
+    function isEqual(\pear2\Pyrus\PackageFileInterface $pkg)
     {
         if ($this->channel === '__uri') {
             return $pkg->name === $this->name && $pkg->uri === $this->uri;
@@ -766,7 +766,7 @@ class v2 implements \pear2\Pyrus\IPackageFile
     /**
      * Returns true if any dependency, optional or required, exists on the package specified
      */
-    function dependsOn(\pear2\Pyrus\IPackageFile $pkg)
+    function dependsOn(\pear2\Pyrus\PackageFileInterface $pkg)
     {
         $uri = $pkg->uri;
         $package = $pkg->name;

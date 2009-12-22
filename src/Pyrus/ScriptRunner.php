@@ -37,7 +37,7 @@ class ScriptRunner{
         $this->frontend = $frontend;
     }
 
-    function run(\pear2\Pyrus\IPackageFile $package)
+    function run(\pear2\Pyrus\PackageFileInterface $package)
     {
         foreach ($package->scriptfiles as $file) {
             $this->runPostinstallScripts($file, $package);
@@ -59,7 +59,7 @@ class ScriptRunner{
     }
 
     function runPostinstallScripts(\pear2\Pyrus\PackageFile\v2\Files\File $scriptfile,
-                                   \pear2\Pyrus\IPackageFile $package)
+                                   \pear2\Pyrus\PackageFileInterface $package)
     {
         foreach ($scriptfile->postinstallscript as $script) {
             $script->setupPostInstall();

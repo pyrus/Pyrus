@@ -44,7 +44,7 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
         }
     }
 
-    function getRelativeLocation(\pear2\Pyrus\IPackageFile $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
+    function getRelativeLocation(\pear2\Pyrus\PackageFileInterface $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if ($this->md5 === null) {

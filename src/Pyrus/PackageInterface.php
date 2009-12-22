@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\IPackage
+ * \pear2\Pyrus\PackageInterface
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface IPackage extends \ArrayAccess, \pear2\Pyrus\IPackageFile
+interface PackageInterface extends \ArrayAccess, \pear2\Pyrus\PackageFileInterface
 {
     function getFileContents($file, $asstream = false);
     function getFilePath($file);
@@ -34,7 +34,7 @@ interface IPackage extends \ArrayAccess, \pear2\Pyrus\IPackageFile
     function __call($func, $args);
     /**
      * This allows a package to flexibly access its package.xml and return it
-     * @return \pear2\Pyrus\IPackageFile
+     * @return \pear2\Pyrus\PackageFileInterface
      */
     function getPackageFileObject();
     /**

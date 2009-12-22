@@ -29,7 +29,7 @@ class ScriptFileFilterIterator extends \FilterIterator
     private $_inner;
     private $_parent;
     private $_tasksNs;
-    function __construct(array $arr, \pear2\Pyrus\IPackageFile $parent)
+    function __construct(array $arr, \pear2\Pyrus\PackageFileInterface $parent)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();

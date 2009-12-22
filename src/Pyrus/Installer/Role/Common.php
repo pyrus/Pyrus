@@ -67,7 +67,7 @@ class Common
      * @param array $atts
      * @return string
      */
-    function getCompatibleInstallAs(\pear2\Pyrus\IPackageFile $pkg, $atts)
+    function getCompatibleInstallAs(\pear2\Pyrus\PackageFileInterface $pkg, $atts)
     {
         $location = $this->getPackagingLocation($pkg, $atts);
         $location = explode('/', $location);
@@ -86,7 +86,7 @@ class Common
      * @param array $atts
      * @return string
      */
-    function getPackagingLocation(\pear2\Pyrus\IPackageFile $pkg, $atts)
+    function getPackagingLocation(\pear2\Pyrus\PackageFileInterface $pkg, $atts)
     {
         if (!$pkg->isNewPackage()) {
             return $atts['name'];
@@ -150,7 +150,7 @@ class Common
         return $dest_dir . $file;
     }
 
-    function getRelativeLocation(\pear2\Pyrus\IPackageFile $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
+    function getRelativeLocation(\pear2\Pyrus\PackageFileInterface $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if (!$this->info['locationconfig']) {

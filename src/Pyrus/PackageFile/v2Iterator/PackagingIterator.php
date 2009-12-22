@@ -27,7 +27,7 @@ namespace pear2\Pyrus\PackageFile\v2Iterator;
 class PackagingIterator extends \ArrayIterator
 {
     static private $_parent;
-    static function setParent(\pear2\Pyrus\IPackageFile $parent)
+    static function setParent(\pear2\Pyrus\PackageFileInterface $parent)
     {
         self::$_parent = $parent;
     }

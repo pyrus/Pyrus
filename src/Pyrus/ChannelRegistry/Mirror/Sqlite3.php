@@ -30,7 +30,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Channel\Sqlite3
     private $_channel;
     private $_parent;
 
-    function __construct(SQLite3 $db, $mirror, \pear2\Pyrus\IChannel $parent)
+    function __construct(SQLite3 $db, $mirror, \pear2\Pyrus\ChannelInterface $parent)
     {
         if ($parent->name == '__uri') {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('__uri channel cannot have mirrors');

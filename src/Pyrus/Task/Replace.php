@@ -44,14 +44,14 @@ class Replace extends Common
 
     /**
      * Validate the basic contents of a <replace> tag
-     * @param PEAR_Pyrus_IPackageFile
+     * @param PEAR_Pyrus_PackageFileInterface
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
      * @throws \pear2\Pyrus\Task\Exception\MissingAttribute
      * @throws \pear2\Pyrus\Task\Exception\WrongAttributeValue
      */
-    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if (!isset($xml['attribs'])) {
             throw new Exception\NoAttributes('replace', $file);
@@ -118,7 +118,7 @@ class Replace extends Common
      * Do a package.xml 1.0 replacement, with additional package-info fields available
      *
      * See validateXml() source for the complete list of allowed fields
-     * @param \pear2\Pyrus\IPackage
+     * @param \pear2\Pyrus\PackageInterface
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false

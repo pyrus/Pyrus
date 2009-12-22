@@ -50,7 +50,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         $this->readonly = $readonly;
     }
 
-    private function _nameRegistryPath(\pear2\Pyrus\IPackageFile $info = null,
+    private function _nameRegistryPath(\pear2\Pyrus\PackageFileInterface $info = null,
                                      $channel = null, $package = null, $version = null)
     {
         $channel = $info !== null ? $info->channel : $channel;
@@ -79,9 +79,9 @@ class Xml extends \pear2\Pyrus\Registry\Base
     /**
      * Create the Channel!PackageName-Version-package.xml file
      *
-     * @param \pear2\Pyrus\IPackageFile $pf
+     * @param \pear2\Pyrus\PackageFileInterface $pf
      */
-    function install(\pear2\Pyrus\IPackageFile $info, $replace = false)
+    function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\Registry\Exception('Cannot install package, registry is read-only');
@@ -252,7 +252,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
      * This is EXTREMELY inefficient, and should only be used
      * if an Sqlite3 registry is unavailable
      */
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
+    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true)
     {
         // first construct a list of all installed packages
         $all = array();
@@ -280,7 +280,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package)
+    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
     {
         // construct list of all installed files
         $allfiles = array();

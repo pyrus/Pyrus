@@ -204,7 +204,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         return $authorities;
     }
 
-    function __construct(\pear2\Pyrus\IChannelFile $channelinfo, $releases = null)
+    function __construct(\pear2\Pyrus\ChannelFileInterface $channelinfo, $releases = null)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {

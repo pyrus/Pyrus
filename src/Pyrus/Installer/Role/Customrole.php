@@ -26,7 +26,7 @@
 namespace pear2\Pyrus\Installer\Role;
 class Customrole extends \pear2\Pyrus\Installer\Role\Data
 {
-    function validate(\pear2\Pyrus\IPackage $package, array $file)
+    function validate(\pear2\Pyrus\PackageInterface $package, array $file)
     {
         $parser = new \pear2\Pyrus\XMLParser;
         $schemapath = \pear2\Pyrus\Main::getDataPath();

@@ -149,7 +149,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         return parent::exists($channel, $strict);
     }
 
-    function add(\pear2\Pyrus\IChannel $channel, $update = false, $lastmodified = false)
+    function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
@@ -311,7 +311,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         static::$databases[$this->path]->exec('COMMIT');
     }
 
-    function update(\pear2\Pyrus\IChannel $channel)
+    function update(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
@@ -418,7 +418,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         return $ret;
     }
 
-    function delete(\pear2\Pyrus\IChannel $channel)
+    function delete(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');

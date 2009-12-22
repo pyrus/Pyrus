@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Package;
-abstract class Base implements \pear2\Pyrus\IPackage
+abstract class Base implements \pear2\Pyrus\PackageInterface
 {
     protected $archive;
     protected $packagefile;
@@ -33,7 +33,7 @@ abstract class Base implements \pear2\Pyrus\IPackage
      *
      * This is a chain documenting the steps it took to get this
      * package instantiated, for instance Tar->Abstract
-     * @var \pear2\Pyrus\IPackage
+     * @var \pear2\Pyrus\PackageInterface
      */
     protected $from;
 
@@ -96,7 +96,7 @@ abstract class Base implements \pear2\Pyrus\IPackage
         return true;
     }
 
-    function setFrom(\pear2\Pyrus\IPackage $from)
+    function setFrom(\pear2\Pyrus\PackageInterface $from)
     {
         $this->from = $from;
     }

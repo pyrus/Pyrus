@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\IChannel
+ * \pear2\Pyrus\LogInterface
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Interface for channels
+ * Interface for loggin in Pyrus
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -24,9 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface IChannelFile
+interface LogInterface
 {
-    function __get($var);
-    function __set($var, $value);
-    function __toString();
+    public function log($level, $message);
 }

@@ -31,7 +31,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class Registry implements \pear2\Pyrus\IRegistry, \IteratorAggregate
+class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
 {
     static protected $allRegistries = array();
     /**
@@ -117,7 +117,7 @@ class Registry implements \pear2\Pyrus\IRegistry, \IteratorAggregate
             $registries, $readonly);
     }
 
-    public function replace(\pear2\Pyrus\IPackageFile $info)
+    public function replace(\pear2\Pyrus\PackageFileInterface $info)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\Registry\Exception('Cannot install packages, registry is read-only');
@@ -128,7 +128,7 @@ class Registry implements \pear2\Pyrus\IRegistry, \IteratorAggregate
         }
     }
 
-    public function install(\pear2\Pyrus\IPackageFile $info, $replace = false)
+    public function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false)
     {
         if ($this->readonly) {
             throw new \pear2\Pyrus\Registry\Exception('Cannot install packages, registry is read-only');
@@ -270,12 +270,12 @@ class Registry implements \pear2\Pyrus\IRegistry, \IteratorAggregate
         return $this->path;
     }
 
-    public function getDependentPackages(\pear2\Pyrus\IPackageFile $package, $minimal = true)
+    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true)
     {
         return $this->registries[0]->getDependentPackages($package, $minimal);
     }
 
-    public function detectFileConflicts(\pear2\Pyrus\IPackageFile $package)
+    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
     {
         return $this->registries[0]->detectFileConflicts($package);
     }

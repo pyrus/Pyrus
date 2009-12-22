@@ -26,7 +26,7 @@
 namespace pear2\Pyrus\Registry\Pear1;
 class Package extends \pear2\Pyrus\Registry\Package\Base
 {
-    function fromPackageFile(\pear2\Pyrus\IPackageFile $package)
+    function fromPackageFile(\pear2\Pyrus\PackageFileInterface $package)
     {
         \pear2\Pyrus\PackageFile\v2::fromPackageFile($package);
         if (isset($this->packageInfo['contents']['dir']['attribs']['baseinstalldir'])) {

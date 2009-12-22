@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\IChannel
+ * \pear2\Pyrus\ChannelInterface
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface IChannel
+interface ChannelInterface
 {
     function __get($var);
     function __toString();

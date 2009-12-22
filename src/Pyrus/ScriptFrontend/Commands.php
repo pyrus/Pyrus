@@ -27,7 +27,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ScriptFrontend;
-class Commands implements \pear2\Pyrus\ILog
+class Commands implements \pear2\Pyrus\LogInterface
 {
     public $commands = array();
     // for unit-testing ease

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ILog
+ * \pear2\Pyrus\ChannelRegistryInterface
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Interface for loggin in Pyrus
+ * Interface for PEAR2 channel registry.
  *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
@@ -24,7 +24,14 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-interface ILog
+interface ChannelRegistryInterface
 {
-    public function log($level, $message);
+    public function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false);
+    public function update(\pear2\Pyrus\ChannelInterface $channel);
+    public function delete(\pear2\Pyrus\ChannelInterface $channel);
+    public function get($channel, $strict = true);
+    public function exists($channel, $strict = true);
+    public function parseName($name);
+    public function parsedNameToString($name);
+    public function listChannels();
 }

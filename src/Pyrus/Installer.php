@@ -119,7 +119,7 @@ class Installer
      * and manages removing duplicates or erroring out on a conflict
      * @param \pear2\Pyrus\Package $package
      */
-    static function prepare(\pear2\Pyrus\IPackage $package)
+    static function prepare(\pear2\Pyrus\PackageInterface $package)
     {
         if ($package->isPlugin()) {
             if (!isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
@@ -390,7 +390,7 @@ class Installer
      * \pear2\Pyrus\Config will update the install-time snapshots of configuration
      * @param \pear2\Pyrus\Package $package
      */
-    function install(\pear2\Pyrus\IPackage $package)
+    function install(\pear2\Pyrus\PackageInterface $package)
     {
         $this->_options = array();
         $lastversion = \pear2\Pyrus\Config::current()->registry->info(

@@ -64,7 +64,7 @@ class Validator
      * @param \pear2\Pyrus\PackageFile\v2
      * @param int
      */
-    function validate(\pear2\Pyrus\IPackage $pf, $state = \pear2\Pyrus\Validate::NORMAL)
+    function validate(\pear2\Pyrus\PackageInterface $pf, $state = \pear2\Pyrus\Validate::NORMAL)
     {
         $this->errors = new \pear2\MultiErrors;
         if (!$pf->schemaOK) {

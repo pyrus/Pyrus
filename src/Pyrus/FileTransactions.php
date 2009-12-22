@@ -189,7 +189,7 @@ class FileTransactions
         return true;
     }
 
-    function registerTransaction($name, \pear2\Pyrus\IFileTransaction $callback)
+    function registerTransaction($name, \pear2\Pyrus\FileTransactionInterface $callback)
     {
         if (in_array($name, array_keys(self::$_registeredTransactions), true)) {
             throw new \pear2\Pyrus\FileTransactions\Exception('transaction type ' . $name .

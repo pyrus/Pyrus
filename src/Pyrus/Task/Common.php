@@ -80,7 +80,7 @@ abstract class Common extends \ArrayObject implements \SplSubject
 
     /**
      * Initialize a task instance with the parameters
-     * @param \pear2\Pyrus\Package|\pear2\Pyrus\IPackageFile package information
+     * @param \pear2\Pyrus\Package|\pear2\Pyrus\PackageFileInterface package information
      * @param int install phase
      * @param array raw, parsed xml
      * @param array attributes from the <file> tag containing this task
@@ -115,7 +115,7 @@ abstract class Common extends \ArrayObject implements \SplSubject
      * It is also possible to throw multiple validation errors, by using a
      * {@link \pear2\MultiErrors} object as a cause parameter to
      * {@link \pear2\Pyrus\Task\Exception}.
-     * @param PEAR_Pyrus_IPackageFile
+     * @param PEAR_Pyrus_PackageFileInterface
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
@@ -126,7 +126,7 @@ abstract class Common extends \ArrayObject implements \SplSubject
      * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      * @abstract
      */
-    static function validateXml(\pear2\Pyrus\IPackage $pkg, $xml, $fileXml, $file)
+    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
     }
 
@@ -136,7 +136,7 @@ abstract class Common extends \ArrayObject implements \SplSubject
      * return any errors using the custom throwError() method to allow forward compatibility
      *
      * This method MUST NOT write out any changes to disk
-     * @param PEAR_Pyrus_IPackageFile
+     * @param PEAR_Pyrus_PackageFileInterface
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false false to skip this file, otherwise return the new contents

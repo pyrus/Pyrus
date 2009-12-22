@@ -31,7 +31,7 @@ class Remotepackages implements \ArrayAccess, \Iterator
     protected $rest;
     protected $packageList;
 
-    function __construct(\pear2\Pyrus\IChannel $channelinfo)
+    function __construct(\pear2\Pyrus\ChannelInterface $channelinfo)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {

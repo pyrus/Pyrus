@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Registry;
-abstract class Base implements \pear2\Pyrus\IRegistry
+abstract class Base implements \pear2\Pyrus\RegistryInterface
 {
     protected $packagename;
     protected $packageList = array();
@@ -32,7 +32,7 @@ abstract class Base implements \pear2\Pyrus\IRegistry
     /**
      * Used by the registry package classes to update info in an installed package
      */
-    public function replace(\pear2\Pyrus\IPackageFile $info)
+    public function replace(\pear2\Pyrus\PackageFileInterface $info)
     {
         return $this->install($info, true);
     }
