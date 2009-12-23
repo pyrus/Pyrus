@@ -36,7 +36,7 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
     function __construct($file, $isxml = false, $isremote = false)
     {
         $this->path = $file;
-        $parser = new \pear2\Pyrus\ChannelFile\Parser\v1;
+        $parser = new ChannelFile\Parser\v1;
         if ($isxml) {
             $data = $file;
         } elseif ($isremote) {
@@ -62,7 +62,7 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
             $data = @file_get_contents($file);
         }
         if ($data === false || empty($data)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Unable to open channel xml file '
+            throw new ChannelFile\Exception('Unable to open channel xml file '
                 . $file . ' or file was empty.');
         }
         $this->info = $parser->parse($data);
@@ -85,7 +85,7 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
     {
         // delegate to the internal object
         if (!is_callable(array($this->info, $func))) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('unknown method: ' . @get_class($this->info) . '::' .
+            throw new ChannelFile\Exception('unknown method: ' . @get_class($this->info) . '::' .
                                                         $func);
         }
         return call_user_func_array(array($this->info, $func), $args);
@@ -105,7 +105,7 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
      */
     protected function _fromURL($xml_url)
     {
-        $response = \pear2\Pyrus\Main::download($xml_url);
+        $response = Main::download($xml_url);
         return $response->body;
     }
 }
