@@ -1,15 +1,13 @@
 --TEST--
 \pear2\Pyrus\Channel Remote channel retrieval
---SKIPIF--
-<?php
-$connection = @file_get_contents('http://pear.php.net/channel.xml');
-if (!$connection) {
-	echo 'Must have Internet access to test remote channel info retrieval.';
-}
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/../Mocks/Internet.php';
 
+Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotechannel',
+                       'http://pear.php.net/');
+\pear2\Pyrus\Main::$downloadClass = 'Internet';
 // From file_get_contents
 $channel = new \pear2\Pyrus\ChannelFile('http://pear.php.net/channel.xml');
 // $channel should be set up!
