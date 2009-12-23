@@ -7,17 +7,20 @@ if (version_compare(phpversion(), '5.3.1', '<')) {
         exit -1;
     }
 }
+
 foreach (array('phar', 'spl', 'pcre', 'simplexml') as $ext) {
     if (!extension_loaded($ext)) {
         echo 'Extension ', $ext, " is required\n";
         exit -1;
     }
 }
-if (file_exists(dirname(__FILE__).'/../../autoload.php')) {
-    $autoload =  dirname(__FILE__).'/../../autoload.php';
+
+if (file_exists(__DIR__ . '/../../autoload.php')) {
+    $autoload =  __DIR__ . '/../../autoload.php';
 } else {
     $autoload = '@php_dir@/PEAR2/Autoload.php';
 }
+
 require_once $autoload;
 $frontend = new \pear2\Pyrus\ScriptFrontend\Commands;
 @array_shift($_SERVER['argv']);
