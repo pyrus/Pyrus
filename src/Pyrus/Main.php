@@ -125,8 +125,8 @@ class Main
         $port = $info['port'];
         $path = $info['path'];
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
-        if (\pear2\Pyrus\Config::current()->http_proxy) {
-            $request->proxy = \pear2\Pyrus\Config::current()->http_proxy;
+        if (Config::current()->http_proxy) {
+            $request->proxy = Config::current()->http_proxy;
             $proxy_user = isset($proxy['user']) ? urldecode($proxy['user']) : null;
             $proxy_pass = isset($proxy['pass']) ? urldecode($proxy['pass']) : null;
         }
@@ -149,8 +149,8 @@ class Main
             $request->setHeader('If-Modified-Since', $lastmodified);
         }
         $request->setHeader('User-Agent', 'PEAR2_Pyrus/@PACKAGE_VERSION@/PHP/' . PHP_VERSION);
-        $username = \pear2\Pyrus\Config::current()->username;
-        $password = \pear2\Pyrus\Config::current()->password;
+        $username = Config::current()->username;
+        $password = Config::current()->password;
         if ($username && $password) {
             $tmp = base64_encode("$username:$password");
             $request->setHeader('Authorization', 'Basic ' . $tmp);
@@ -164,24 +164,23 @@ class Main
         $response = $request->sendRequest();
         if ($response->code >= 400) {
             if ($response->code == 404) {
-                throw new \pear2\Pyrus\HTTPException(
+                throw new HTTPException(
                     "Download of $url failed, file does not exist", $response->code);
             }
-            throw new \pear2\Pyrus\HTTPException(
+            throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
         }
         return $response;
     }
 
-    static function getParanoiaLevel(\pear2\Pyrus\Config $config = null)
+    static function getParanoiaLevel(Config $config = null)
     {
         if (isset(self::$paranoid)) {
             return self::$paranoid;
         }
         if (null === $config) {
-            $config = \pear2\Pyrus\Config::current();
+            $config = Config::current();
         }
         return $config->paranoia;
     }
 }
-?>

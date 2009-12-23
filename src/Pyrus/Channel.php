@@ -27,12 +27,12 @@ namespace pear2\Pyrus;
 class Channel implements \pear2\Pyrus\ChannelInterface
 {
     protected $internal;
-    
+
     /**
      * Construct a \pear2\Pyrus\Channel object
      *
      */
-    function __construct(\pear2\Pyrus\ChannelFileInterface $info)
+    function __construct(ChannelFileInterface $info)
     {
         $this->internal = $info;
     }
@@ -41,28 +41,28 @@ class Channel implements \pear2\Pyrus\ChannelInterface
     {
         return $this->internal->$var;
     }
-    
+
     function __set($var, $value)
     {
         $this->internal->$var = $value;
     }
-    
+
     function __toString()
     {
         return $this->internal->__toString();
     }
-    
+
     function __call($func, $args)
     {
         // delegate to the internal object
         return call_user_func_array(array($this->internal, $func), $args);
     }
-    
+
     public function getValidationObject($package = false)
     {
         return $this->internal->getValidationObject($package);
     }
-    
+
     public function getValidationPackage()
     {
         return $this->internal->getValidationPackage();
