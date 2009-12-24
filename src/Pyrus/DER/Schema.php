@@ -17,7 +17,7 @@
  * Represents a Distinguished Encoding Rule IASN.1 schema
  *
  * This is used to name components and to retrieve context-specific types
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -38,7 +38,7 @@ class Schema extends \pear2\Pyrus\DER
     protected $class;
     protected $lastfind = false;
 
-    function __construct(\pear2\Pyrus\DER\Schema $parent = null, $tag = 0, $type = '')
+    function __construct(Schema $parent = null, $tag = 0, $type = '')
     {
         $this->parent = $parent;
         $this->tag = $tag;
@@ -87,25 +87,25 @@ class Schema extends \pear2\Pyrus\DER
         if ($func == 'choice') {
             if (isset($args[0])) {
                 if (isset($args[1])) {
-                    $obj = new \pear2\Pyrus\DER\SchemaChoice($this, $args[0], $args[1]);
+                    $obj = new SchemaChoice($this, $args[0], $args[1]);
                 } else {
-                    $obj = new \pear2\Pyrus\DER\SchemaChoice($this, $args[0]);
+                    $obj = new SchemaChoice($this, $args[0]);
                 }
                 $this->objs[$args[0]] = $obj;
                 return $obj;
-            } else {
-                return new \pear2\Pyrus\DER\SchemaChoice($this);
             }
+
+            return new SchemaChoice($this);
         }
         if (!isset($args[0])) {
-            throw new \pear2\Pyrus\DER\Exception('Invalid schema, element must be named');
+            throw new Exception('Invalid schema, element must be named');
         }
         $name = $args[0];
         if ($func == 'any') {
             if (isset($args[1])) {
-                $obj = new \pear2\Pyrus\DER\Schema($this, 0x80 | $args[1], 'any');
+                $obj = new Schema($this, 0x80 | $args[1], 'any');
             } else {
-                $obj = new \pear2\Pyrus\DER\Schema($this, 0, 'any');
+                $obj = new Schema($this, 0, 'any');
             }
         } elseif (isset(self::$types[strtolower($func)])) {
             $obj = clone self::$types[strtolower($func)];
@@ -120,8 +120,7 @@ class Schema extends \pear2\Pyrus\DER
         } else {
             $class = 'pear2\Pyrus\DER\\' . ucfirst($func);
             if (!class_exists($class, 1)) {
-                throw new \pear2\Pyrus\DER\Exception('Unknown type ' . $func .
-                                                    ' at ' . $this->path());
+                throw new Exception('Unknown type ' . $func . ' at ' . $this->path());
             }
             if (!isset($args[1])) {
                 $tag = $class::TAG;
@@ -131,7 +130,7 @@ class Schema extends \pear2\Pyrus\DER
                     $tag |= 0x20;
                 }
             }
-            $obj = new \pear2\Pyrus\DER\Schema($this, $tag, $class);
+            $obj = new Schema($this, $tag, $class);
         }
         $this->objs[$name] = $obj;
         $obj->setName($name);
@@ -152,7 +151,7 @@ class Schema extends \pear2\Pyrus\DER
 
     function parentSchema()
     {
-        if ($this instanceof \pear2\Pyrus\DER\SchemaChoice) {
+        if ($this instanceof SchemaChoice) {
             return true;
         }
         if ($this->class === 'pear2\Pyrus\DER\Sequence') {
@@ -164,7 +163,7 @@ class Schema extends \pear2\Pyrus\DER
         return false;
     }
 
-    function setParent(\pear2\Pyrus\DER\Schema $parent)
+    function setParent(Schema $parent)
     {
         $this->parent = $parent;
     }
@@ -174,7 +173,7 @@ class Schema extends \pear2\Pyrus\DER
         return $this->parent;
     }
 
-    static function addType($name, \pear2\Pyrus\DER\Schema $schema)
+    static function addType($name, Schema $schema)
     {
         self::$types[strtolower($name)] = $schema;
     }
@@ -201,7 +200,7 @@ class Schema extends \pear2\Pyrus\DER
         if (isset($this->objs[$var])) {
             return $this->objs[$var];
         }
-        throw new \pear2\Pyrus\DER\Exception('Unknown schema element ' . $var);
+        throw new Exception('Unknown schema element ' . $var);
     }
 
 
@@ -237,17 +236,16 @@ class Schema extends \pear2\Pyrus\DER
                 if (($tag & 0x80) === 0x80) {
                     // context-sensitive tag, do best guess
                     if (($tag & 0x20) == 0x20) {
-                        $tag = \pear2\Pyrus\DER\Sequence::TAG;
+                        $tag = Sequence::TAG;
                     } else {
-                        $tag = \pear2\Pyrus\DER\OctetString::TAG;
+                        $tag = OctetString::TAG;
                     }
                 }
                 if (!isset($this->tagMap[$tag])) {
-                    throw new \pear2\Pyrus\DER\Exception('Unknown tag: ' . dechex($tag) . ' at ' .
-                                                        $this->path());
+                    throw new Exception('Unknown tag: ' . dechex($tag) . ' at ' . $this->path());
                 }
                 $type = $this->tagMap[$tag];
-                $ret = new \pear2\Pyrus\DER\Schema($this->parent, $tag, $type);
+                $ret = new Schema($this->parent, $tag, $type);
                 $ret->setName($obj->name);
                 $this->lastfind = $index;
                 return $ret;
@@ -267,7 +265,7 @@ class Schema extends \pear2\Pyrus\DER
                 } else {
                     $tag = dechex($tag);
                 }
-                throw new \pear2\Pyrus\DER\Exception('Invalid DER document, required tag ' .
+                throw new Exception('Invalid DER document, required tag ' .
                                                     $index . ' not found, instead requested ' .
                                                     'tag value ' . $tag . ' at ' .
                                                     $this->path());
@@ -278,7 +276,7 @@ class Schema extends \pear2\Pyrus\DER
         } else {
             $tag = dechex($tag);
         }
-        throw new \pear2\Pyrus\DER\Exception('Invalid DER document, no matching elements for tag ' . $tag .
+        throw new Exception('Invalid DER document, no matching elements for tag ' . $tag .
                                             ' at ' . $this->path());
     }
 

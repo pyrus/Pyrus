@@ -32,10 +32,12 @@ class FileAttribsFilter extends \RecursiveFilterIterator
         if (!$it->valid()) {
             return false;
         }
+
         $key = $it->key();
         if ($key === 'attribs') {
             return false;
         }
+
         return true;
     }
 }

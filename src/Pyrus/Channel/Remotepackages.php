@@ -35,7 +35,7 @@ class Remotepackages implements \ArrayAccess, \Iterator
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
-            throw new \pear2\Pyrus\Channel\Exception('Cannot access remote packages without REST1.0 protocol');
+            throw new Exception('Cannot access remote packages without REST1.0 protocol');
         }
         $this->rest = new \pear2\Pyrus\REST;
     }
@@ -43,7 +43,7 @@ class Remotepackages implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         if ($var !== 'devel' && $var !== 'alpha' && $var !== 'beta' && $var !== 'stable') {
-            throw new \pear2\Pyrus\Channel\Exception('Invalid stability ' . $var . ' requested, must be one of ' .
+            throw new Exception('Invalid stability ' . $var . ' requested, must be one of ' .
                                                     'devel, alpha, beta, stable');
         }
         $a = clone $this;
@@ -53,12 +53,12 @@ class Remotepackages implements \ArrayAccess, \Iterator
 
     function offsetSet($var, $value)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function offsetExists($var)
@@ -83,9 +83,9 @@ class Remotepackages implements \ArrayAccess, \Iterator
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
         if (isset($releases)) {
-            $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent, $releases);
+            $pxml = new Remotepackage($this->parent, $releases);
         } else {
-            $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent);
+            $pxml = new Remotepackage($this->parent);
         }
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
@@ -124,7 +124,7 @@ class Remotepackages implements \ArrayAccess, \Iterator
         }
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
-        $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent, $releases);
+        $pxml = new Remotepackage($this->parent, $releases);
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
         $pxml->license = $info['l'];

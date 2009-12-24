@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule Octet String
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class GeneralizedTime extends \pear2\Pyrus\DER\UTCTime
+class GeneralizedTime extends UTCTime
 {
     const TAG = 0x18;
 

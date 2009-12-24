@@ -3,7 +3,7 @@
 namespace pear2\Pyrus\ChannelFile\Parser;
 class v1 extends \pear2\Pyrus\XMLParser
 {
-    
+
     /**
      * @param string
      * @param string file name of the channel.xml
@@ -20,7 +20,7 @@ class v1 extends \pear2\Pyrus\XMLParser
         $schema = \pear2\Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
-            $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/channel-1.0.xsd';
         }
         try {
             if ($file) {

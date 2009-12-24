@@ -275,4 +275,3 @@ class Compatible implements \ArrayAccess, \Iterator, \Countable
         }
     }
 }
-?>

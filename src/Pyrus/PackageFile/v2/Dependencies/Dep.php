@@ -56,8 +56,7 @@ class Dep implements \ArrayAccess, \Iterator
             } else {
                 $keys = array_keys($this->info);
             }
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Unknown variable ' . $var . ', must be one of ' .
-                            implode(', ', $keys));
+            throw new Exception('Unknown variable ' . $var . ', must be one of ' . implode(', ', $keys));
         }
 set_ok:
         if ($args[0] === null) {
@@ -198,4 +197,3 @@ set_ok:
         return $this;
     }
 }
-?>

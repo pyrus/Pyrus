@@ -29,14 +29,16 @@ class FileContents extends \RecursiveArrayIterator
     protected $tag;
     protected $dir = '';
     private $_packagefile;
+
     function __construct($arr, $tag, \pear2\Pyrus\PackageFile\v2 $parent, $dir = '')
     {
         $this->tag = $tag;
         $this->dir = $dir;
         $this->_packagefile = $parent;
-        if ($arr instanceof \pear2\Pyrus\PackageFile\v2Iterator\FileTag) {
+        if ($arr instanceof FileTag) {
             $arr = $arr->getArrayCopy();
         }
+
         parent::__construct($arr);
     }
 
@@ -50,36 +52,39 @@ class FileContents extends \RecursiveArrayIterator
                 $now = '';
             }
         }
+
         $dir = $this->dir;
         if ($now && $dir) {
             if ($dir[strlen($dir) - 1] != '/') {
                 $dir .= '/';
             }
         }
+
         if (isset($arr['attribs'])) unset($arr['attribs']);
         if (isset($arr[0])) {
-            return new \pear2\Pyrus\PackageFile\v2Iterator\FileContentsMulti($arr, $this->key(),
-                $this->_packagefile, $dir . $now);
+            return new FileContentsMulti($arr, $this->key(), $this->_packagefile, $dir . $now);
         }
-        return new \pear2\Pyrus\PackageFile\v2Iterator\FileContents($arr, $this->key(),
-            $this->_packagefile, $dir . $now);
+
+        return new FileContents($arr, $this->key(), $this->_packagefile, $dir . $now);
     }
 
     function hasChildren()
     {
         $arr = $this->current();
-        if (!($arr instanceof \pear2\Pyrus\PackageFile\v2Iterator\FileTag) && !is_array($arr)) {
+        if (!($arr instanceof FileTag) && !is_array($arr)) {
             return false;
         }
+
         if (isset($arr['file']) || isset($arr['dir']) || isset($arr[0])) {
             return true;
         }
+
         return false;
     }
 
     function current()
     {
         $x = parent::current();
-        return new \pear2\Pyrus\PackageFile\v2Iterator\FileTag($x, $this->dir, $this->_packagefile);
+        return new FileTag($x, $this->dir, $this->_packagefile);
     }
 }

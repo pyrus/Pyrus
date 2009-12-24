@@ -83,7 +83,7 @@ class Package implements \pear2\Pyrus\PackageInterface
     {
         return $this->internal->$var;
     }
- 
+
     function __set($var, $value)
     {
         return $this->internal->__set($var, $value);
@@ -143,7 +143,7 @@ class Package implements \pear2\Pyrus\PackageInterface
         return $this->internal;
     }
 
-    function setInternalPackage(\pear2\Pyrus\PackageInterface $internal)
+    function setInternalPackage(PackageInterface $internal)
     {
         $this->internal = $internal;
     }
@@ -180,14 +180,14 @@ class Package implements \pear2\Pyrus\PackageInterface
 
     function isRemote()
     {
-        return $this->internal instanceof \pear2\Pyrus\Package\Remote ||
-                    $this->internal instanceof \pear2\Pyrus\Channel\Remotepackage || (
-                    $this->internal instanceof \pear2\Pyrus\Package && $this->internal->isRemote());
+        return $this->internal instanceof Package\Remote ||
+                    $this->internal instanceof Channel\Remotepackage || (
+                    $this->internal instanceof Package && $this->internal->isRemote());
     }
 
     function download()
     {
-        if ($this->internal instanceof \pear2\Pyrus\Package\Remote) {
+        if ($this->internal instanceof Package\Remote) {
             $this->internal = $this->internal->download();
         }
     }
@@ -234,14 +234,14 @@ class Package implements \pear2\Pyrus\PackageInterface
                         case 'xml' :
                             return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
                         default:
-                            throw new \pear2\Pyrus\Package\Exception('Cannot read archives with phar extension');
+                            throw new Package\Exception('Cannot read archives with phar extension');
                     }
                 }
             }
-            $info = \pear2\Pyrus\Config::parsePackageName($package);
+            $info = Config::parsePackageName($package);
             return array('pear2\Pyrus\Package\Remote', $package, $depgroup);
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Package\Exception('package "' . $package . '" is unknown', $e);
+            throw new Package\Exception('package "' . $package . '" is unknown', $e);
         }
     }
 }

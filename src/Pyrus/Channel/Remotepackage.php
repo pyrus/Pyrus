@@ -208,7 +208,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
-            throw new \pear2\Pyrus\Channel\Exception('Cannot access remote packages without REST1.0 protocol');
+            throw new Exception('Cannot access remote packages without REST1.0 protocol');
         }
         // instruct parent::__set() to call $this->setRawVersion() when setting rawversion
         $this->rawMap['rawversion'] = array('setRawVersion');
@@ -292,7 +292,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         $this->notes = $a['n'];
         $this->versionSet = true;
     }
-    
+
     function getDownloadURL($ext = '')
     {
         if (!$this->versionSet) {
@@ -320,7 +320,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
     function download()
     {
-        
+
         $url = $this->getDownloadURL();
         $errs = new \pear2\MultiErrors;
 
@@ -359,7 +359,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                         ' an alternate name corresponding to the releaser\'s email address');
                 }
                 // retrieve releaser's email address
-                
+
                 if ($info['subject']['emailAddress'] != $this->maintainer[$this->remoteAbridgedInfo['m']]->email) {
                     throw new \pear2\Pyrus\Package\Exception(
                         'Invalid abstract package ' .
@@ -442,7 +442,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                     'p/' . $lowerpackage . '/info.xml');
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Channel\Exception('package ' . $var . ' does not exist', $e);
+            throw new Exception('package ' . $var . ' does not exist', $e);
         }
         if (is_string($this->releaseList)) {
             $ok = \pear2\Pyrus\Installer::betterStates($this->releaseList, true);
@@ -479,12 +479,12 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
     function offsetSet($var, $value)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     /**
@@ -535,7 +535,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             return reset($this->releaseList);
         }
         if (!$this->name) {
-            throw new \pear2\Pyrus\Channel\Exception('Cannot iterate without first choosing a remote package');
+            throw new Exception('Cannot iterate without first choosing a remote package');
         }
         if (isset($this->parent->protocols->rest['REST1.3'])) {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
@@ -654,9 +654,8 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         $n = $this->channel . '/' . $this->name;
         $failIfExplicit = function($versioninfo) use ($v, $n) {
             if ($v && $versioninfo['v'] == $v) {
-                throw new \pear2\Pyrus\Channel\Exception($n .
-                                                        ' Cannot be installed, it does not satisfy ' .
-                                                        'all dependencies');
+                throw new Exception($n . ' Cannot be installed, it does not satisfy ' .
+                                         'all dependencies');
             }
         };
         foreach ($this->releaseList as $versioninfo) {
@@ -721,10 +720,9 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                 $this->parent->protocols->rest['REST1.3']->baseurl .
                                 'r/' . strtolower($this->name) . '/v2.' . $versioninfo['v'] . '.xml');
                         } else {
-                            throw new \pear2\Pyrus\Channel\Exception('Channel ' .
-                                                                    $this->channel .
-                                                                    ' does not support ' .
-                                                                    'a paranoia greater than 1');
+                            throw new Exception('Channel ' . $this->channel .
+                                                ' does not support ' .
+                                                'a paranoia greater than 1');
                         }
                         $api = explode('.', $api['a']);
                         if (count($api) == 2) {
@@ -780,7 +778,7 @@ class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             $this->version['release'] = $versioninfo['v'];
             return;
         }
-        throw new \pear2\Pyrus\Channel\Exception('Unable to locate a package release for ' .
+        throw new Exception('Unable to locate a package release for ' .
                                                 $this->channel . '/' . $this->name .
                                                 ' that can satisfy all dependencies');
     }

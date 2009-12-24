@@ -30,12 +30,12 @@ class PackageFile implements PackageFileInterface
     public $path;
     function __construct($package, $class = 'pear2\Pyrus\PackageFile\v2', $isstring = false)
     {
-        if ($package instanceof \pear2\Pyrus\PackageFileInterface) {
+        if ($package instanceof PackageFileInterface) {
             $this->path = $package->getFilePath();
             return $this->info = $package;
         }
         $this->path = $package;
-        $parser = new \pear2\Pyrus\PackageFile\Parser\v2;
+        $parser = new PackageFile\Parser\v2;
         if ($isstring) {
             $data = $package;
         } else {
@@ -46,7 +46,7 @@ class PackageFile implements PackageFileInterface
             }
         }
         if ($data === false || empty($data)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Unable to open package xml file '
+            throw new PackageFile\Exception('Unable to open package xml file '
                 . $package . ' or file was empty.');
         }
         $this->info = $parser->parse($data, $package, $class);

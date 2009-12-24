@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule Object identifier
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -57,12 +57,12 @@ class ObjectIdentifier extends \pear2\Pyrus\DER
     function setValue($value)
     {
         if (!is_string($value)) {
-            throw new \pear2\Pyrus\DER\Exception('Object Identifier must be a string');
+            throw new Exception('Object Identifier must be a string');
         }
         $value = explode('.', $value);
         foreach ($value as $val) {
             if (!preg_match('/[0-9]+/', $val)) {
-                throw new \pear2\Pyrus\DER\Exception('Object Identifier must be a period-delimited string of numbers');
+                throw new Exception('Object Identifier must be a period-delimited string of numbers');
             }
         }
         $this->value = $value;

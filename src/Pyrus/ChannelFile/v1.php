@@ -47,12 +47,12 @@ class v1 extends \pear2\Pyrus\ChannelFile implements \pear2\Pyrus\ChannelFileInt
             'version' => '1.0',
             'xmlns' => 'http://pear.php.net/channel-1.0',
             'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-            'xsi:schemaLocation' => 'http://pear.php.net/channel-1.0 
+            'xsi:schemaLocation' => 'http://pear.php.net/channel-1.0
 http://pear.php.net/dtd/channel-1.0.xsd'
         );
 
     private $_xml;
-    
+
     /**
      * Mapping of __get variables to method handlers
      * @var array
@@ -67,7 +67,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         'mirrors' => 'getServers',
         'protocols' => 'getProtocols'
     );
-    
+
     protected $setMap = array(
         'name' => 'setName',
         'ssl' => 'setSSL',
@@ -85,8 +85,8 @@ http://pear.php.net/dtd/channel-1.0.xsd'
             $this->fromArray($data);
         }
     }
-    
-    
+
+
     /**
      * Directly set the channel info.
      *
@@ -116,7 +116,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         $schema = \pear2\Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
-            $schema = dirname(dirname(dirname(dirname(__FILE__)))) . '/data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(__DIR__))) . '/data/channel-1.0.xsd';
         }
         try {
             $a->parseString($this->_xml, $schema);
@@ -209,7 +209,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         }
         return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols($this->channelInfo['servers']['primary'], $this);
     }
-    
+
     protected function getServers()
     {
         if ($this->channelInfo['name'] == '__uri') {
@@ -222,7 +222,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         }
         return new \pear2\Pyrus\ChannelFile\v1\Servers($servers, $this);
     }
-    
+
     /**
      * Determines whether a channel supports Representational State Transfer (REST) protocols
      * for retrieving channel information

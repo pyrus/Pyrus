@@ -37,7 +37,7 @@ class ScriptRunner{
         $this->frontend = $frontend;
     }
 
-    function run(\pear2\Pyrus\PackageFileInterface $package)
+    function run(PackageFileInterface $package)
     {
         foreach ($package->scriptfiles as $file) {
             $this->runPostinstallScripts($file, $package);
@@ -58,8 +58,8 @@ class ScriptRunner{
         self::$skipSections[$id] = true;
     }
 
-    function runPostinstallScripts(\pear2\Pyrus\PackageFile\v2\Files\File $scriptfile,
-                                   \pear2\Pyrus\PackageFileInterface $package)
+    function runPostinstallScripts(PackageFile\v2\Files\File $scriptfile,
+                                   PackageFileInterface $package)
     {
         foreach ($scriptfile->postinstallscript as $script) {
             $script->setupPostInstall();
@@ -72,7 +72,7 @@ class ScriptRunner{
      * @param object $script post-installation script
      * @param string install|upgrade
      */
-    function runInstallScript(\pear2\Pyrus\Task\Postinstallscript $info)
+    function runInstallScript(Task\Postinstallscript $info)
     {
         self::$skipSections = array();
         if (!count($info->paramgroup)) {
@@ -88,7 +88,7 @@ class ScriptRunner{
                     // the post-install script chose to skip this section dynamically
                     continue;
                 }
-    
+
                 if (isset($lastgroup)) {
                     if (!isset($answers)) {
                         $answers = null;
@@ -97,7 +97,7 @@ class ScriptRunner{
                         continue;
                     }
                 }
-    
+
                 if (isset($group->instructions)) {
                     $this->frontend->display($group->instructions);
                 }
@@ -112,7 +112,7 @@ class ScriptRunner{
                     if (method_exists($info->scriptobject, 'postProcessPrompts2')) {
                         $prompts = $info->scriptobject->postProcessPrompts2($group->param->getPrompts(), $group->id);
                         if (!is_array($prompts) || count($prompts) != count($group->param)) {
-                            throw new \pear2\Pyrus\Task\Exception('Error: post-install script did not ' .
+                            throw new Task\Exception('Error: post-install script did not ' .
                                 'return proper post-processed prompts');
                         } else {
                             $testprompts = $group->param->getPrompts();
@@ -122,23 +122,23 @@ class ScriptRunner{
                                       ($prompt['name'] != $testprompts[$i]['name']) ||
                                       ($prompt['type'] != $testprompts[$i]['type'])
                                 ) {
-                                    throw new \pear2\Pyrus\Task\Exception('Error: post-install script ' .
+                                    throw new Task\Exception('Error: post-install script ' .
                                         'modified the variables or prompts, severe security risk');
                                 }
                             }
                         }
-    
+
                         $answers = $this->frontend->confirmDialog($prompts);
                     } else {
                         $answers = $this->frontend->confirmDialog($group->param->getPrompts());
                     }
                 }
-    
+
                 if ((isset($answers) && $answers) || !isset($group->param)) {
                     if (!isset($answers)) {
                         $answers = array();
                     }
-    
+
                     array_unshift($completedPhases, $group->id);
                     // script should throw an exception on failure
                     $info->scriptobject->run2(array_merge($answers, $oldanswers), $group->id);

@@ -44,7 +44,7 @@ class Files implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         if (isset($this->info[$var])) {
-            return new \pear2\Pyrus\PackageFile\v2\Files\File($this, $this->parent, $this->info[$var]);
+            return new Files\File($this, $this->parent, $this->info[$var]);
         }
         return null;
     }
@@ -55,8 +55,7 @@ class Files implements \ArrayAccess, \Iterator
             $value = $value->getArrayCopy();
         }
         if (!is_array($value)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Files\Exception('File must be an array of '
-                . 'attributes and tasks');
+            throw new Files\Exception('File must be an array of attributes and tasks');
         }
 
         if (!isset($value['attribs'])) {
@@ -66,8 +65,7 @@ class Files implements \ArrayAccess, \Iterator
 
         $value['attribs']['name'] = $var;
         if (!isset($value['attribs']['role'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Files\Exception('File role must be set for' .
-                ' file ' . $var);
+            throw new Files\Exception('File role must be set for file ' . $var);
         }
 
         $this->info[$var] = $value;

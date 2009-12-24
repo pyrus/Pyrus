@@ -59,13 +59,16 @@ class FileTag extends \ArrayObject
             if (isset($ret['install-as'])) {
                 unset($ret['install-as']);
             }
+
             return $ret;
         }
+
         if ($offset == 'install-as') {
             $ret = parent::offsetGet('attribs');
             if (!isset($ret['install-as'])) {
                 return null;
             }
+
             return $ret['install-as'];
         }
     }
@@ -75,25 +78,31 @@ class FileTag extends \ArrayObject
         if ($var == 'packagedname') {
             return $this->dir . $this['attribs']['name'];
         }
+
         if ($var == 'name') {
             $attribs = parent::offsetGet('attribs');
             if (isset($attribs['install-as'])) {
                 return $attribs['install-as'];
             }
+
             return $this->dir . $this['attribs']['name'];
         }
+
         if ($var == 'tasks') {
             $ret = $this->getArrayCopy();
             unset($ret['attribs']);
             return $ret;
         }
+
         if ($var == 'install-as') {
             $attribs = parent::offsetGet('attribs');
             return $attribs['install-as'];
         }
+
         if (!isset($this['attribs'][$var])) {
             return null;
         }
+
         return $this['attribs'][$var];
     }
 
@@ -108,16 +117,16 @@ class FileTag extends \ArrayObject
         if (strpos($var, $this->_packagefile->getTasksNs()) === 0) {
             // setting a file task
             if ($value instanceof \pear2\Pyrus\Task\Common) {
-                $this->_packagefile->setFileAttribute($this->dir .
-                    $this['attribs']['name'], $var, $value);
+                $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'], $var, $value);
                 return;
             }
+
             throw new \pear2\Pyrus\PackageFile\Exception('Cannot set ' . $var . ' to non-' .
                 '\pear2\Pyrus\Task\Common object in file ' . $this->dir .
                 $this['attribs']['name']);
         }
-        $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'],
-            $var, $value);
+
+        $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'], $var, $value);
         parent::__construct($this->_packagefile->files[$this->dir . $this['attribs']['name']]);
     }
 

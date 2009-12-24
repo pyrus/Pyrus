@@ -71,7 +71,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
      */
     protected $channelRegistry;
 
-    public function setChannelRegistry(\pear2\Pyrus\ChannelRegistry $reg)
+    public function setChannelRegistry(ChannelRegistry $reg)
     {
         $this->channelRegistry = $reg;
     }
@@ -81,7 +81,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         return $this->channelRegistry;
     }
 
-    public function setParent(\pear2\Pyrus\Registry $parent = null)
+    public function setParent(Registry $parent = null)
     {
         $this->parent = $parent;
     }
@@ -96,7 +96,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
                 $registry = ucfirst($registry);
                 $registry = 'pear2\Pyrus\Registry\\' . $registry;
                 if (!class_exists($registry, true)) {
-                    $exceptions->E_ERROR[] = new \pear2\Pyrus\Registry\Exception(
+                    $exceptions->E_ERROR[] = new Registry\Exception(
                         'Unknown registry type: ' . $registry);
                     continue;
                 }
@@ -107,20 +107,20 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         }
 
         if (!count($this->registries)) {
-            throw new \pear2\Pyrus\Registry\Exception(
+            throw new Registry\Exception(
                 'Unable to initialize registry for path "' . $path . '"',
                 $exceptions);
         }
 
-        $channelregistry_class = \pear2\Pyrus\ChannelRegistry::$className;
+        $channelregistry_class = ChannelRegistry::$className;
         $this->channelRegistry = new $channelregistry_class($path,
             $registries, $readonly);
     }
 
-    public function replace(\pear2\Pyrus\PackageFileInterface $info)
+    public function replace(PackageFileInterface $info)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot install packages, registry is read-only');
+            throw new Registry\Exception('Cannot install packages, registry is read-only');
         }
 
         foreach ($this->registries as $reg) {
@@ -128,10 +128,10 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         }
     }
 
-    public function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false)
+    public function install(PackageFileInterface $info, $replace = false)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot install packages, registry is read-only');
+            throw new Registry\Exception('Cannot install packages, registry is read-only');
         }
 
         foreach ($this->registries as $reg) {
@@ -142,7 +142,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
     public function uninstall($name, $channel)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot uninstall packages, registry is read-only');
+            throw new Registry\Exception('Cannot uninstall packages, registry is read-only');
         }
 
         foreach ($this->registries as $reg) {
@@ -156,7 +156,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
      * @param string $package
      * @param string $channel
      * @param bool   $onlyMain if true, only check the primary registry
-     * 
+     *
      * @return bool
      */
     public function exists($package, $channel, $onlyMain = false)
@@ -227,7 +227,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
     {
         if ($this->exists($package, $channel, true)) {
             foreach ($this->registries as $reg) {
-                if ($reg instanceof \pear2\Pyrus\Registry\Xml) {
+                if ($reg instanceof Registry\Xml) {
                     // prefer xml for retrieving packagefile object
                     try {
                         return $reg->toPackageFile($package, $channel);
@@ -240,7 +240,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
 
             return $this->registries[0]->toPackageFile($package, $channel);
         } elseif ($onlyMain || !$this->exists($package, $channel, false)) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve package file object ' .
+            throw new Registry\Exception('Cannot retrieve package file object ' .
                 'for package ' . $channel . '/' . $package . ', it is not installed');
         }
 
@@ -270,12 +270,12 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         return $this->path;
     }
 
-    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true)
+    public function getDependentPackages(PackageFileInterface $package, $minimal = true)
     {
         return $this->registries[0]->getDependentPackages($package, $minimal);
     }
 
-    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
+    public function detectFileConflicts(PackageFileInterface $package)
     {
         return $this->registries[0]->detectFileConflicts($package);
     }
@@ -291,9 +291,9 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         if (!file_exists($path) || !is_dir($path)) {
             return array();
         }
-        return array_merge(\pear2\Pyrus\Registry\Sqlite3::detectRegistries($path),
-                           \pear2\Pyrus\Registry\Xml::detectRegistries($path),
-                           \pear2\Pyrus\Registry\Pear1::detectRegistries($path));
+        return array_merge(Registry\Sqlite3::detectRegistries($path),
+                           Registry\Xml::detectRegistries($path),
+                           Registry\Pear1::detectRegistries($path));
     }
 
     /**

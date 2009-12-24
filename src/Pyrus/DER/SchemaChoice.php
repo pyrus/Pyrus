@@ -17,7 +17,7 @@
  * Represents a Distinguished Encoding Rule IASN.1 schema Choice
  *
  * This is used to name components and to retrieve context-specific types
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -26,11 +26,11 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class SchemaChoice extends \pear2\Pyrus\DER\Schema
+class SchemaChoice extends Schema
 {
     protected $options = array();
 
-    function __construct(\pear2\Pyrus\DER\Schema $parent = null, $name = null, $tag = null)
+    function __construct(Schema $parent = null, $name = null, $tag = null)
     {
         $this->parent = $parent;
         if ($name !== null) {

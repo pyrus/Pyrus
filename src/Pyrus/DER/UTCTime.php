@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule UTC Time
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -68,8 +68,8 @@ class UTCTime extends \pear2\Pyrus\DER
     {
         if ($this->value instanceof \DateTime) {
             return $this->value->format('ymdHis') . 'Z';
-        } else {
-            return '<Uninitialized UTCTime>';
         }
+
+        return '<Uninitialized UTCTime>';
     }
 }

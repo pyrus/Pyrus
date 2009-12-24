@@ -191,4 +191,3 @@ class Replace extends Common
         $this->xml = $info;
     }
 }
-?>

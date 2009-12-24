@@ -59,14 +59,14 @@ class DownloadProgressListener extends \pear2\HTTP\Request\Listener
                 // borrowed from fetch.php in php-src
                 if ($data > 0) {
                     if ($this->preview) {
-                        \pear2\Pyrus\Logger::log(0, $this->preview);
-                       $this->preview = '';
+                        Logger::log(0, $this->preview);
+                        $this->preview = '';
                     }
                     if (!isset($this->filesize) || $this->filesize==0) {
-                        \pear2\Pyrus\Logger::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
+                        Logger::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
                     } else {
                         $length = (int)(($data/$this->filesize)*100);
-                        \pear2\Pyrus\Logger::log(0,
+                        Logger::log(0,
                                 sprintf("[%-100s] %d%% (%2d/%2d kb)\r", str_repeat("=", $length). ">", $length,
                                ($data/1024), $this->filesize/1024));
                     }
@@ -76,4 +76,3 @@ class DownloadProgressListener extends \pear2\HTTP\Request\Listener
     }
 }
 ?>
-

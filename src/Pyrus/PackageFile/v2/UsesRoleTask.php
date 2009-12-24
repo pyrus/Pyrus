@@ -22,7 +22,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
                 $info[$key] = null;
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\UsesRoleTask($this, $info, $this->type, key($this->info));
+        return new UsesRoleTask($this, $info, $this->type, key($this->info));
     }
 
     function count()
@@ -65,7 +65,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function offsetGet($var)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
         $i = $this->locateRoleTask($var);
@@ -80,21 +80,21 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
                 }
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\UsesRoleTask($this, $info, $this->type, $i);
+        return new UsesRoleTask($this, $info, $this->type, $i);
     }
 
     function offsetSet($var, $value)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
-        if (!($value instanceof \pear2\Pyrus\PackageFile\v2\UsesRoleTask)) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+        if (!($value instanceof UsesRoleTask)) {
+            throw new UsesRoleTask\Exception(
                 'Can only set uses' . $this->type . ' to a \pear2\Pyrus\PackageFile\v2\UsesRoleTask object');
         }
         if ($value->type != $this->type) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'Cannot set uses' . $this->type . ' to a uses' . $value->type . ' object');
         }
         $i = $this->locateRoleTask($var);
@@ -111,7 +111,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function offsetExists($var)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
         $i = $this->locateRoleTask($var);
@@ -121,7 +121,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function offsetUnset($var)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
         $i = $this->locateRoleTask($var);
@@ -136,11 +136,11 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __unset($var)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use [] operator to access uses' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'Unknown variable ' . $var . ' requested, should be one of ' .
                 implode(', ', array_keys($this->info))
             );
@@ -152,11 +152,11 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __isset($var)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use [] operator to access uses' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'Unknown variable ' . $var . ' requested, should be one of ' .
                 implode(', ', array_keys($this->info))
             );
@@ -172,11 +172,11 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __call($var, $args)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
+            throw new UsesRoleTask\Exception(
                 'use [] operator to access uses' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception('Unknown variable ' . $var . ', must be one of ' .
+            throw new UsesRoleTask\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
         if ($args[0] === null) {
@@ -198,14 +198,13 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __get($var)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception(
-                'use [] operator to access uses' . $this->type . 's');
+            throw new UsesRoleTask\Exception('use [] operator to access uses' . $this->type . 's');
         }
         if ($var === 'type') {
             return 'uses' . $this->type;
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\UsesRoleTask\Exception('Unknown variable ' . $var . ', must be one of ' .
+            throw new UsesRoleTask\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
         if (!isset($this->info[$var])) {
@@ -243,4 +242,3 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
         $this->parent->{'rawuses' . $this->type} = $info;
     }
 }
-?>

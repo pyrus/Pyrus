@@ -1,11 +1,12 @@
 <?php
 namespace pear2\Pyrus\ChannelFile\v1\Servers\Protocols;
+use \pear2\Pyrus\ChannelFile as ChannelFile;
 class REST implements \ArrayAccess, \Countable, \Iterator
 {
     protected $info;
     protected $parent;
     protected $index;
-    
+
     function __construct($info, $parent, $index = null)
     {
         if (isset($info['baseurl']) && !isset($info['baseurl'][0])) {
@@ -57,11 +58,11 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         }
         return count($this->info['baseurl']);
     }
-    
+
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Cannot use -> to access '
+            throw new ChannelFile\Exception('Cannot use -> to access '
                     . 'REST protocols, use []');
         }
         if ($var === 'baseurl') {
@@ -71,54 +72,45 @@ class REST implements \ArrayAccess, \Countable, \Iterator
             }
             return $this->info['_content'];
         }
-        throw new \pear2\Pyrus\ChannelFile\Exception('Unknown variable ' . $var);
+        throw new ChannelFile\Exception('Unknown variable ' . $var);
     }
 
     function __set($var, $value)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Cannot use -> to access '
-                    . 'REST protocols, use []');
+            throw new ChannelFile\Exception('Cannot use -> to access REST protocols, use []');
         }
         if ($var === 'baseurl') {
             $this->info['_content'] = $value;
             return $this->save();
         }
-        throw new \pear2\Pyrus\ChannelFile\Exception('Unknown variable ' . $var);
+        throw new ChannelFile\Exception('Unknown variable ' . $var);
     }
-    
+
     function offsetGet($protocol)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Cannot use [] to access '
-                    . 'baseurl, use ->');
+            throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
         if (!isset($this->info['baseurl'])) {
-            return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST(
-                array('attribs' => array('type' => $protocol), '_content' => null),
-                $this, 0);
+            return new REST(array('attribs' => array('type' => $protocol), '_content' => null), $this, 0);
         }
         foreach ($this->info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
-                $ret = new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST(
-                    $baseurl, $this, $protocol
-                );
+                $ret = new REST($baseurl, $this, $protocol);
                 return $ret;
             }
         }
-        return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST(
-            array('attribs' => array('type' => $protocol), '_content' => null),
-            $this, count($this->info['baseurl']));
+        return new REST(array('attribs' => array('type' => $protocol), '_content' => null), $this, count($this->info['baseurl']));
     }
-    
+
     function offsetSet($protocol, $value)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Cannot use [] to access '
-                    . 'baseurl, use ->');
+            throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
         if (!($value instanceof self)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Can only set REST protocol ' .
+            throw new ChannelFile\Exception('Can only set REST protocol ' .
                         ' to a \pear2\Pyrus\ChannelFile\v1\Servers\Protocol\REST object');
         }
         if (!isset($this->info['baseurl'])) {
@@ -134,12 +126,11 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         $this->info['baseurl'][] = $value->getInfo();
         return $this->save();
     }
-    
+
     function offsetExists($protocol)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Cannot use [] to access '
-                    . 'baseurl, use ->');
+            throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
         foreach ($this->info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
@@ -148,12 +139,11 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         }
         return false;
     }
-    
+
     function offsetUnset($protocol)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Cannot use [] to access '
-                    . 'baseurl, use ->');
+            throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
         foreach ($this->info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
@@ -182,4 +172,3 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         $this->parent->rawrest = $info;
     }
 }
-?>

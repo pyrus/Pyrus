@@ -63,7 +63,7 @@ abstract class Common extends \ArrayObject implements \SplSubject
     /**
      * Determines which install phase this task is executed under
      */
-    const PHASE = \pear2\Pyrus\Task\Common::INSTALL;
+    const PHASE = Common::INSTALL;
     /**
      * @param PEAR_Config
      * @param PEAR_Common
@@ -253,4 +253,3 @@ abstract class Common extends \ArrayObject implements \SplSubject
         static::$customtasks[$taskinfo['name']] = $taskinfo;
     }
 }
-?>

@@ -24,9 +24,10 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ChannelFile\v1;
+use \pear2\Pyrus\Channel as Channel;
 class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel\MirrorInterface
 {
-    
+
     /**
      * Mapping of __get variables to method handlers
      * @var array
@@ -44,7 +45,7 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
     );
 
     private $_info;
-    
+
     /**
      * Parent channel object
      *
@@ -106,15 +107,15 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
 
         return false;
     }
-    
+
     /**
      * Returns the protocols supported by the primary server for this channel
-     * 
+     *
      * @return \pear2\Pyrus\ChannelFile\v1\Servers\Protocols
      */
     function getProtocols()
     {
-        return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols($this->_info, $this);
+        return new Servers\Protocols($this->_info, $this);
     }
 
     /**
@@ -142,11 +143,11 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
     function setName($name)
     {
         if (empty($name)) {
-            throw new \pear2\Pyrus\Channel\Exception('Mirror server must be non-empty');
+            throw new Channel\Exception('Mirror server must be non-empty');
         }
         if (!$this->validChannelServer($name)) {
-            throw new \pear2\Pyrus\Channel\Exception('Mirror server "' . $name .
-                '" for channel "' . $this->getChannel() . '" is not a valid channel server');
+            throw new Channel\Exception('Mirror server "' . $name . '" for channel "' .
+                                        $this->getChannel() . '" is not a valid channel server');
         }
         $this->_info['attribs']['host'] = $name;
         $this->save();

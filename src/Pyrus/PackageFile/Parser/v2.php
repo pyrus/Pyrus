@@ -101,13 +101,13 @@ class v2 extends \pear2\Pyrus\XMLParser
             $schema = \pear2\Pyrus\Main::getDataPath() . '/package-2.1.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
-                $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.1.xsd';
+                $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/package-2.1.xsd';
             }
         } elseif (preg_match('/<package[^>]+version="2.0"/', $data)) {
             $schema = \pear2\Pyrus\Main::getDataPath() . '/package-2.0.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
-                $schema = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/data/package-2.0.xsd';
+                $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/package-2.0.xsd';
             }
         } else {
             throw new \pear2\Pyrus\PackageFile\Exception('Cannot process package.xml version 1.0', -3);
@@ -202,4 +202,3 @@ class v2 extends \pear2\Pyrus\XMLParser
         return $arr;
     }
 }
-?>

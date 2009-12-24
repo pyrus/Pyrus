@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule IA5String
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -24,14 +24,14 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class IA5String extends \pear2\Pyrus\DER\String
+class IA5String extends String
 {
     const TAG = 0x16;
 
     function setValue($string)
     {
         if (preg_match('/[^\000-\177]/', $string)) {
-            throw new \pear2\Pyrus\DER\Exception('Invalid IA5 String value, can only contain ASCII');
+            throw new Exception('Invalid IA5 String value, can only contain ASCII');
         }
         $this->value = $string;
     }

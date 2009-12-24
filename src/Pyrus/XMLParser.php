@@ -74,7 +74,7 @@ class XMLParser
     function parse($file, $schema = false)
     {
         if (!$this->reader->open($file)) {
-            throw new \pear2\Pyrus\XMLParser\Exception('Cannot open ' . $file .
+            throw new XMLParser\Exception('Cannot open ' . $file .
                 ' for parsing');
         }
         return $this->_parse($file, $schema, true);
@@ -166,11 +166,11 @@ class XMLParser
         $this->reader->close();
         $causes = array();
         foreach (libxml_get_errors() as $error) {
-            $causes[] = new \pear2\Pyrus\XMLParser\Exception("Line " .
+            $causes[] = new XMLParser\Exception("Line " .
                  $error->line . ': ' . $error->message);
         }
         if (count($causes)) {
-            throw new \pear2\Pyrus\XMLParser\Exception('Invalid XML document', $causes);
+            throw new XMLParser\Exception('Invalid XML document', $causes);
         }
         if ($schema) {
             $a = new \DOMDocument();
@@ -190,12 +190,12 @@ class XMLParser
             $a->schemaValidate($schema);
             $causes = array();
             foreach (libxml_get_errors() as $error) {
-                $causes[] = new \pear2\Pyrus\XMLParser\Exception("Line " .
+                $causes[] = new XMLParser\Exception("Line " .
                      $error->line . ': ' . $error->message);
             }
             libxml_clear_errors();
             if (count($causes)) {
-                throw new \pear2\Pyrus\XMLParser\Exception('Invalid XML document', $causes);
+                throw new XMLParser\Exception('Invalid XML document', $causes);
             }
         }
 

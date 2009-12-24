@@ -63,8 +63,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
         foreach ($this as $task) {
             $task->startSession($fp, $dest);
             if (!rewind($fp)) {
-                throw new \pear2\Pyrus\Task\Exception('task ' . $this->name .
-                                                          ' closed the file pointer, invalid task');
+                throw new Exception('task ' . $this->name . ' closed the file pointer, invalid task');
             }
         }
     }
@@ -76,6 +75,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
                 return false;
             }
         }
+
         return true;
     }
 
@@ -89,9 +89,11 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
         foreach ($this as $task) {
             $ret[] = $task->getInfo();
         }
+
         if (count($ret) == 1) {
             $ret = $ret[0];
         }
+
         return $ret;
     }
 
@@ -116,7 +118,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
                 }
             }
         }
+
         $this->parent->files[$this->fileattribs['name']]->{$this->name} = $this;
     }
 }
-?>

@@ -33,7 +33,7 @@ class ScriptFrontend extends \PEAR2_Console_CommandLine
             $command = $name;
         } else {
             $params['name'] = $name;
-            $command        = new \pear2\Pyrus\ScriptFrontend\Command($params);
+            $command        = new ScriptFrontend\Command($params);
             $testname = $name;
         }
         if (isset($this->commands[$testname])) {

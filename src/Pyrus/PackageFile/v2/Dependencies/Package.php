@@ -48,7 +48,7 @@ class Package implements \ArrayAccess, \Iterator
                 $this->info[$i][$key] = null;
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package($this->deptype, $this->type, $this, $this->info[$i], $i);
+        return new Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
     function rewind()
@@ -109,7 +109,7 @@ class Package implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access dependency properties');
+            throw new Exception('Use -> operator to access dependency properties');
         }
         $i = $this->locateDep($var);
         if (false === $i) {
@@ -118,7 +118,7 @@ class Package implements \ArrayAccess, \Iterator
                 case 'package' :
                 case 'subpackage' :
                     if (!strpos($var, '/')) {
-                        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot access "' . $var .
+                        throw new Exception('Cannot access "' . $var .
                             '", must use "channel/package" to specify a package dependency to access');
                     }
                     $stuff = explode('/', $var);
@@ -174,23 +174,23 @@ class Package implements \ArrayAccess, \Iterator
                 }
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package($this->deptype, $this->type, $this, $this->info[$i], $i);
+        return new Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
     function offsetSet($var, $value)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access dependency properties');
+            throw new Exception('Use -> operator to access dependency properties');
         }
         if (!($value instanceof self)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Can only set $pf->dependencies[\'' .
+            throw new Exception('Can only set $pf->dependencies[\'' .
                 $this->deptype . '\']->' . $this->type . '[\'' . $var .
                 '\'] to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object');
         }
         if ($this->type !== $value->type) {
             if (!(($this->type === 'package' && $value->type === 'subpackage') ||
                 ($this->type === 'subpackage' && $value->type === 'package'))) {
-                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' . $this->type .
+                throw new Exception('Cannot set ' . $this->type .
                     ' dependency to ' . $value->type . ' dependency');
             }
         }
@@ -202,12 +202,12 @@ class Package implements \ArrayAccess, \Iterator
             }
         }
         if ($this->type !== 'extension' && !strpos($var, '/')) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set "' . $var .
+            throw new Exception('Cannot set "' . $var .
                 '", must use "channel/package" to specify a package dependency to set');
         }
         if ($this->type === 'extension') {
             if ($value->name != $var) {
-                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' .
+                throw new Exception('Cannot set ' .
                     $var . ' to ' .
                     $value->name .
                     ', use $pf->dependencies[\'' .
@@ -218,7 +218,7 @@ class Package implements \ArrayAccess, \Iterator
             $name = array_pop($stuff);
             $channel = implode('/', $stuff);
             if ($value->name != $name || $value->channel != $channel) {
-                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' .
+                throw new Exception('Cannot set ' .
                     $channel . '/' . $name . ' to ' .
                     $value->channel . '/' . $value->name .
                     ', use $pf->dependencies[\'' .
@@ -235,7 +235,7 @@ class Package implements \ArrayAccess, \Iterator
     function offsetExists($var)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access dependency properties');
+            throw new Exception('Use -> operator to access dependency properties');
         }
         $i = $this->locateDep($var);
         return $i !== false;
@@ -244,7 +244,7 @@ class Package implements \ArrayAccess, \Iterator
     function offsetUnset($var)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access dependency properties');
+            throw new Exception('Use -> operator to access dependency properties');
         }
         $i = $this->locateDep($var);
         if ($i === false) {
@@ -263,8 +263,7 @@ class Package implements \ArrayAccess, \Iterator
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use [] operator to access ' . $this->type .
-                                                                        's');
+            throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
         if ($var == 'conflicts') {
             return isset($this->info[$var]);
@@ -293,13 +292,11 @@ class Package implements \ArrayAccess, \Iterator
     function __isset($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use [] operator to access ' . $this->type .
-                                                                        's');
+            throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
-            );
+            throw new Exception('Unknown variable ' . $var . ', should be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         return isset($this->info[$var]);
     }
@@ -307,13 +304,11 @@ class Package implements \ArrayAccess, \Iterator
     function __unset($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use [] operator to access ' . $this->type .
-                                                                        's');
+            throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
-            );
+            throw new Exception('Unknown variable ' . $var . ', should be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         $this->info[$var] = null;
     }
@@ -326,13 +321,11 @@ class Package implements \ArrayAccess, \Iterator
     function __call($var, $args)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Use [] operator to access ' . $this->type .
-                                                                        's');
+            throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
-                'Unknown variable ' . $var . ', should be one of ' . implode(', ', array_keys($this->info))
-            );
+            throw new Exception('Unknown variable ' . $var . ', should be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         if (count($args) && $args[0] !== null && $var === 'channel' && isset($this->info['uri'])) {
             $this->info['uri'] = null;
@@ -347,9 +340,7 @@ class Package implements \ArrayAccess, \Iterator
             return;
         }
         if ($var === 'name' || $var === 'channel') {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
-                'Cannot change dependency name, use unset() to remove the old dependency'
-            );
+            throw new Exception('Cannot change dependency name, use unset() to remove the old dependency');
         }
         if ($var == 'conflicts') {
             if (count($args)) {
@@ -425,7 +416,7 @@ class Package implements \ArrayAccess, \Iterator
 
     /**
      * Returns true if the version specified satisfies this dependency
-     * 
+     *
      * @return bool
      */
     function satisfied($version)
@@ -542,4 +533,3 @@ class Package implements \ArrayAccess, \Iterator
         return $ret . ')';
     }
 }
-?>

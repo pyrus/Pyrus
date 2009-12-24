@@ -24,6 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\ChannelRegistry;
+use \pear2\Pyrus\Main as Main, \pear2\Pyrus\Registry as Registry;
 class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
 {
     /**
@@ -58,7 +59,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
                     $file = dirname($file);
                 }
                 if (!$file || $file == '.') {
-                    throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                    throw new Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
             }
         }
@@ -82,21 +83,21 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         }
 
         $dbpath = $path;
-        if ($path != ':memory:' && isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-            $dbpath = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
+        if ($path != ':memory:' && isset(Main::$options['packagingroot'])) {
+            $dbpath = Main::prepend(Main::$options['packagingroot'], $path);
         }
 
         if (!$path) {
             $path = ':memory:';
         } elseif ($path != ':memory:' && !file_exists(dirname($dbpath))) {
             if ($readonly) {
-                throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                throw new Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
             }
             @mkdir(dirname($dbpath), 0755, true);
         }
 
         if ($readonly && $path != ':memory:' && !file_exists(dirname($dbpath))) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
+            throw new Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
         static::$databases[$this->path] = new \SQLite3($dbpath);
@@ -104,7 +105,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         if (static::$databases[$this->path]->lastErrorCode()) {
             $temp = static::$databases[$this->path];
             unset(static::$databases[$this->path]);
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
+            throw new Exception('Cannot open SQLite3 channel registry: ' . $temp->lastErrorMsg());
         }
         $this->initialized = true;
 
@@ -113,7 +114,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
             $sql = 'SELECT COUNT(*) FROM channels';
             if (!static::$databases[$this->path]->querySingle($sql)) {
                 if ($readonly) {
-                    throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
+                    throw new Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
                 }
                 $this->initDefaultChannels();
                 return;
@@ -122,10 +123,10 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         }
 
         if ($readonly) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
+            throw new Registry\Exception('Cannot create SQLite3 channel registry, registry is read-only');
         }
 
-        $a = new \pear2\Pyrus\Registry\Sqlite3\Creator;
+        $a = new Registry\Sqlite3\Creator;
         $a->create(static::$databases[$this->path]);
         $this->initDefaultChannels();
     }
@@ -152,7 +153,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
     function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
+            throw new Exception('Cannot add channel, registry is read-only');
         }
 
         $this->lazyInit();
@@ -160,8 +161,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         $sql = 'SELECT channel FROM channels WHERE channel = "' . static::$databases[$this->path]->escapeString($channel->name) . '"';
         if (static::$databases[$this->path]->querySingle($sql)) {
             if (!$update) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
-                    $channel->name . ' has already been discovered');
+                throw new Exception('Error: channel ' . $channel->name . ' has already been discovered');
             }
             static::$databases[$this->path]->exec('BEGIN');
             static::$databases[$this->path]->exec('DELETE FROM channel_servers
@@ -172,8 +172,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
               WHERE
                 channel = "' . static::$databases[$this->path]->escapeString($channel->name) . '"');
         } elseif ($update) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
-                $channel->name . ' is unknown');
+            throw new Exception('Error: channel ' . $channel->name . ' is unknown');
         } else {
             static::$databases[$this->path]->exec('BEGIN');
         }
@@ -184,7 +183,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
         } catch (\Exception $e) {
             static::$databases[$this->path]->enableExceptions(false);
             @static::$databases[$this->path]->exec('ROLLBACK');
-            throw new \pear2\Pyrus\Registry\Exception('Error: channel ' . $channel->name .
+            throw new Registry\Exception('Error: channel ' . $channel->name .
                 ' could not be added to the SQLite3 registry', $e);
         }
         static::$databases[$this->path]->enableExceptions(false);
@@ -314,7 +313,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
     function update(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
+            throw new Exception('Cannot update channel, registry is read-only');
         }
 
         return $this->add($channel, true);
@@ -324,11 +323,11 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
     {
         $exists = $this->exists($channel, $strict);
         if (!$exists) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Unknown channel: ' . $channel);
+            throw new Exception('Unknown channel: ' . $channel);
         }
 
         $chan = $this->getChannelObject($this->channelFromAlias($channel));
-        return new \pear2\Pyrus\ChannelRegistry\Channel($this, $chan->getArray());
+        return new Channel($this, $chan->getArray());
     }
 
     function channelFromAlias($alias)
@@ -421,19 +420,18 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
     function delete(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
+            throw new Exception('Cannot delete channel, registry is read-only');
         }
 
         $name = $channel->name;
         if (in_array($name, $this->getDefaultChannels())) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete default channel ' .
-                $channel->name);
+            throw new Exception('Cannot delete default channel ' . $channel->name);
         }
 
         $this->lazyInit();
 
         if (!isset(static::$databases[$this->path])) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
+            throw new Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
         $sql = 'SELECT count(*) FROM packages WHERE channel = "' .
@@ -451,7 +449,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
             static::$databases[$this->path]->exec($sql);
         } catch (\Exception $e) {
             static::$databases[$this->path]->enableExceptions(false);
-            throw new \pear2\Pyrus\Registry\Exception('Error: Deleting channel ' .
+            throw new Registry\Exception('Error: Deleting channel ' .
                 $channel->name . ' failed: ' . $e->getMessage(), $e);
         }
         static::$databases[$this->path]->enableExceptions(false);
@@ -463,8 +461,7 @@ class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Base
             return $this->getDefaultChannels();
         }
         if (!isset(static::$databases[$this->path])) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception(
-                'Error: no existing SQLite3 channel registry for ' . $this->path);
+            throw new Exception('Error: no existing SQLite3 channel registry for ' . $this->path);
         }
 
         $ret = array();

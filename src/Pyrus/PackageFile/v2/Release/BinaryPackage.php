@@ -85,7 +85,7 @@ class BinaryPackage implements \ArrayAccess, \Iterator, \Countable
     function offsetSet($var, $value)
     {
         if (!is_string($value)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Can only set binarypackage to string');
+            throw new Exception('Can only set binarypackage to string');
         }
         $this->info[$value] = 1;
         $this->save();

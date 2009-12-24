@@ -52,10 +52,12 @@ class ScriptFileFilterIterator extends \FilterIterator
             if (!class_exists($class, true)) {
                 continue;
             }
+
             if ($class::TYPE == 'script') {
                 return true;
             }
         }
+
         return false;
     }
 

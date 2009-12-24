@@ -97,17 +97,17 @@ class Installer
     static function begin()
     {
         if (!static::$inTransaction) {
-            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                self::$lastCurrent = \pear2\Pyrus\Config::current();
-                \pear2\Pyrus\Config::setCurrent(\pear2\Pyrus\Config::current()->plugins_dir);
+            if (isset(Main::$options['install-plugins'])) {
+                self::$lastCurrent = Config::current();
+                Config::setCurrent(Config::current()->plugins_dir);
             }
             static::$installPackages = array();
             static::$installedPackages = array();
             static::$removedPackages = array();
             static::$wasInstalled = array();
             static::$inTransaction = true;
-            if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-                \pear2\Pyrus\Config::current()->resetForPackagingRoot();
+            if (isset(Main::$options['packagingroot'])) {
+                Config::current()->resetForPackagingRoot();
             }
         }
     }
@@ -119,11 +119,11 @@ class Installer
      * and manages removing duplicates or erroring out on a conflict
      * @param \pear2\Pyrus\Package $package
      */
-    static function prepare(\pear2\Pyrus\PackageInterface $package)
+    static function prepare(PackageInterface $package)
     {
         if ($package->isPlugin()) {
-            if (!isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                \pear2\Pyrus\Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
+            if (!isset(Main::$options['install-plugins'])) {
+                Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
                                      ', use install -p/upgrade -p to manage plugins');
                 return;
             }
@@ -131,12 +131,12 @@ class Installer
         if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
             // checking of validity for upgrade is done by \pear2\Pyrus\Package\Dependency::retrieve(),
             // so all deps that make it this far can be added
-            if (\pear2\Pyrus\Config::current()->registry->exists(
+            if (Config::current()->registry->exists(
                   $package->name, $package->channel)) {
                 if (!$package->isUpgradeable()) {
-                    if (!isset(\pear2\Pyrus\Main::$options['force'])) {
+                    if (!isset(Main::$options['force'])) {
                         // installed package is the same or newer version than this one
-                        \pear2\Pyrus\Logger::log(1, 'Skipping installed package ' .
+                        Logger::log(1, 'Skipping installed package ' .
                             $package->channel . '/' . $package->name);
                         return;
                     }
@@ -165,7 +165,7 @@ class Installer
             return;
         }
         static::rollback();
-        throw new \pear2\Pyrus\Installer\Exception('Cannot install ' .
+        throw new Installer\Exception('Cannot install ' .
             $package->channel . '/' . $package->name . ', two conflicting' .
             ' versions were requested (' .
             $package->version['release'] . ' and ' . $clone->version['release'] . ')');
@@ -188,8 +188,8 @@ class Installer
             static::$installedPackages = array();
             static::$registeredPackages = array();
             static::$removedPackages = array();
-            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                \pear2\Pyrus\Config::setCurrent(self::$lastCurrent->path);
+            if (isset(Main::$options['install-plugins'])) {
+                Config::setCurrent(self::$lastCurrent->path);
             }
         }
     }
@@ -208,9 +208,9 @@ class Installer
             return;
         }
         try {
-            $set = new \pear2\Pyrus\Package\Dependency\Set(static::$installPackages);
+            $set = new Package\Dependency\Set(static::$installPackages);
             $set->synchronizeDeps();
-        } catch (\pear2\Pyrus\Package\Dependency\Set\Exception $e) {
+        } catch (Package\Dependency\Set\Exception $e) {
             throw new Installer\Exception(
                     'Dependency validation failed for some packages to install, installation aborted', $e);
         }
@@ -236,14 +236,14 @@ class Installer
         }
         try {
             static::preCommitDependencyResolve();
-            $installer = new \pear2\Pyrus\Installer;
+            $installer = new Installer;
             // validate dependencies
             $errs = new \pear2\MultiErrors;
             foreach (static::$installPackages as $package) {
                 $package->validateDependencies(static::$installPackages, $errs);
             }
             if (count($errs->E_ERROR)) {
-                throw new \pear2\Pyrus\Installer\Exception('Dependency validation failed ' .
+                throw new Installer\Exception('Dependency validation failed ' .
                     'for some packages to install, installation aborted', $errs);
             }
             // download non-local packages
@@ -251,8 +251,8 @@ class Installer
                 $package->download();
                 if ($package->isPlugin()) {
                     // check for downloaded packages
-                    if (!isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                        \pear2\Pyrus\Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
+                    if (!isset(Main::$options['install-plugins'])) {
+                        Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
                                              ', use install -p/upgrade -p to manage plugins');
                         unset(static::$installPackages[$package->channel . '/' . $package->name]);
                     }
@@ -261,22 +261,22 @@ class Installer
 
             // now validate everything to the fine-grained level
             foreach (static::$installPackages as $package) {
-                $package->validate(\pear2\Pyrus\Validate::INSTALLING);
+                $package->validate(Validate::INSTALLING);
             }
 
             // create dependency connections and load them into the directed graph
-            $graph = new \pear2\Pyrus\DirectedGraph;
+            $graph = new DirectedGraph;
             foreach (static::$installPackages as $package) {
                 $package->makeConnections($graph, static::$installPackages);
             }
 
             // topologically sort packages and install them via iterating over the graph
             $packages = $graph->topologicalSort();
-            $reg = \pear2\Pyrus\Config::current()->registry;
+            $reg = Config::current()->registry;
             try {
-                \pear2\Pyrus\AtomicFileTransaction::begin();
+                AtomicFileTransaction::begin();
                 $reg->begin();
-                if (isset(\pear2\Pyrus\Main::$options['upgrade'])) {
+                if (isset(Main::$options['upgrade'])) {
                     foreach ($packages as $package) {
                         if ($reg->exists($package->name, $package->channel)) {
                             static::$wasInstalled[$package->channel . '/' . $package->name] =
@@ -303,19 +303,19 @@ class Installer
                     static::$registeredPackages[] = array($package, $previous);
                 }
                 static::$installPackages = array();
-                \pear2\Pyrus\AtomicFileTransaction::commit();
+                AtomicFileTransaction::commit();
                 $reg->commit();
-            } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
-                \pear2\Pyrus\AtomicFileTransaction::rollback();
+            } catch (AtomicFileTransaction\Exception $e) {
+                AtomicFileTransaction::rollback();
                 $reg->rollback();
-                throw new \pear2\Pyrus\Installer\Exception('Installation failed', $e);
+                throw new Installer\Exception('Installation failed', $e);
             }
-            \pear2\Pyrus\Config::current()->saveConfig();
+            Config::current()->saveConfig();
             // success
-            \pear2\Pyrus\AtomicFileTransaction::removeBackups();
+            AtomicFileTransaction::removeBackups();
             static::$inTransaction = false;
-            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                \pear2\Pyrus\Config::setCurrent(self::$lastCurrent->path);
+            if (isset(Main::$options['install-plugins'])) {
+                Config::setCurrent(self::$lastCurrent->path);
             }
         } catch (\Exception $e) {
             static::rollback();
@@ -371,8 +371,8 @@ class Installer
                     }
                 }
             }
-            \pear2\Pyrus\AtomicFileTransaction::rollback();
-            throw new \pear2\Pyrus\Installer\Exception($message);
+            AtomicFileTransaction::rollback();
+            throw new Installer\Exception($message);
         }
     }
 
@@ -387,13 +387,13 @@ class Installer
      * Using \pear2\Pyrus\FileTransactions and the pear2\Pyrus\Installer\Role* to
      * group files in appropriate locations, the install() method then passes
      * on the registration of installation to \pear2\Pyrus\Registry.  If necessary,
-     * \pear2\Pyrus\Config will update the install-time snapshots of configuration
+     * Config will update the install-time snapshots of configuration
      * @param \pear2\Pyrus\Package $package
      */
-    function install(\pear2\Pyrus\PackageInterface $package)
+    function install(PackageInterface $package)
     {
         $this->_options = array();
-        $lastversion = \pear2\Pyrus\Config::current()->registry->info(
+        $lastversion = Config::current()->registry->info(
                                 $package->name, $package->channel, 'version');
         $globalreplace = array('attribs' =>
                     array('from' => '@' . 'PACKAGE_VERSION@',
@@ -404,18 +404,18 @@ class Installer
             $channel = $package->channel;
             // {{{ assemble the destination paths
             if (!in_array($file->role,
-                  \pear2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()))) {
-                throw new \pear2\Pyrus\Installer\Exception('Invalid role `' .
+                  Installer\Role::getValidRoles($package->getPackageType()))) {
+                throw new Installer\Exception('Invalid role `' .
                         $file->role .
                         "' for file " . $file->name);
             }
-            $role = \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $file->role);
+            $role = Installer\Role::factory($package->getPackageType(), $file->role);
             $role->setup($this, $package, $file['attribs'], $file->name);
             if (!$role->isInstallable()) {
                 continue;
             }
 
-            $transact = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject($role);
+            $transact = AtomicFileTransaction::getTransactionObject($role);
 
             $info = $role->getRelativeLocation($package, $file, true);
             $dir = $info[0];
@@ -429,21 +429,21 @@ class Installer
             }
             try {
                 $transact->mkdir($dir, 0755);
-            } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
-                throw new \pear2\Pyrus\Installer\Exception("failed to mkdir $dir", $e);
+            } catch (AtomicFileTransaction\Exception $e) {
+                throw new Installer\Exception("failed to mkdir $dir", $e);
             }
-            \pear2\Pyrus\Logger::log(3, "+ mkdir $dir");
+            Logger::log(3, "+ mkdir $dir");
 
             if ($file->md5sum) {
                 $md5sum = md5_file($package->getFilePath($file->packagedname));
                 if (strtolower($md5sum) == strtolower($file->md5sum)) {
-                    \pear2\Pyrus\Logger::log(2, "md5sum ok: $dest_file");
+                    Logger::log(2, "md5sum ok: $dest_file");
                 } else {
-                    if (!isset(\pear2\Pyrus\Main::$options['force'])) {
-                        throw new \pear2\Pyrus\Installer\Exception(
+                    if (!isset(Main::$options['force'])) {
+                        throw new Installer\Exception(
                             "bad md5sum for file " . $file->name);
                     } else {
-                        \pear2\Pyrus\Logger::log(0,
+                        Logger::log(0,
                             "warning : bad md5sum for file " . $file->name);
                     }
                 }
@@ -454,10 +454,10 @@ class Installer
 
             if (strpos(PHP_OS, 'WIN') === false) {
                 if ($role->isExecutable()) {
-                    $mode = (~octdec(\pear2\Pyrus\Config::current()->umask) & 0777);
-                    \pear2\Pyrus\Logger::log(3, "+ chmod +x $dest_file");
+                    $mode = (~octdec(Config::current()->umask) & 0777);
+                    Logger::log(3, "+ chmod +x $dest_file");
                 } else {
-                    $mode = (~octdec(\pear2\Pyrus\Config::current()->umask) & 0666);
+                    $mode = (~octdec(Config::current()->umask) & 0666);
                 }
             } else {
                 $mode = null;
@@ -465,8 +465,8 @@ class Installer
 
             try {
                 $transact->createOrOpenPath($dest_file, $package->getFileContents($file->packagedname, true), $mode);
-            } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
-                throw new \pear2\Pyrus\Installer\Exception(
+            } catch (AtomicFileTransaction\Exception $e) {
+                throw new Installer\Exception(
                     "failed writing to $dest_file", $e);
             }
 
@@ -485,15 +485,15 @@ class Installer
                 }
             }
             $fp = false;
-            foreach (new \pear2\Pyrus\Package\Creator\TaskIterator($tasks, $package,
-                                                                  \pear2\Pyrus\Task\Common::INSTALL, $lastversion)
+            foreach (new Package\Creator\TaskIterator($tasks, $package,
+                                                                  Task\Common::INSTALL, $lastversion)
                       as $name => $task) {
                 if (!$fp) {
                     $fp = $transact->openPath($dest_file);
                 }
                 $task->startSession($fp, $dest_file);
                 if (!rewind($fp)) {
-                    throw new \pear2\Pyrus\Installer\Exception('task ' . $name .
+                    throw new Installer\Exception('task ' . $name .
                                                               ' closed the file pointer, invalid task');
                 }
             }

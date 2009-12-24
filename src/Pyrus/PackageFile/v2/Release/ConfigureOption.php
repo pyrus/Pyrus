@@ -20,7 +20,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
                 $info[$key] = null;
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption($this, $info, key($this->info));
+        return new ConfigureOption($this, $info, key($this->info));
     }
 
     function count()
@@ -63,8 +63,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function offsetGet($var)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use -> operator to access properties of a configureoption');
+            throw new Exception('use -> operator to access properties of a configureoption');
         }
         $i = $this->locateConfigureOption($var);
         if (false === $i) {
@@ -78,22 +77,20 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
                 }
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption($this, $info, $i);
+        return new ConfigureOption($this, $info, $i);
     }
 
     function offsetSet($var, $value)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use -> operator to access properties of a configureoption');
+            throw new Exception('use -> operator to access properties of a configureoption');
         }
-        if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
+        if (!($value instanceof ConfigureOption)) {
+            throw new Exception(
                 'Can only set configureoption to a \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption object');
         }
         if ($var !== null && $var !== $value->name) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use [] or [\'' . $value->name . '\'] to set this configureoption');
+            throw new Exception('use [] or [\'' . $value->name . '\'] to set this configureoption');
         }
         $i = $this->locateConfigureOption($var);
         if (false === $i) {
@@ -108,8 +105,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function offsetExists($var)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use -> operator to access properties of a configureoption');
+            throw new Exception('use -> operator to access properties of a configureoption');
         }
         $i = $this->locateConfigureOption($var);
         return $i !== false;
@@ -118,8 +114,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function offsetUnset($var)
     {
         if ($this->index !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use -> operator to access properties of a configureoption');
+            throw new Exception('use -> operator to access properties of a configureoption');
         }
         $i = $this->locateConfigureOption($var);
         if ($i === false) {
@@ -133,14 +128,11 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function __unset($var)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use [] operator to access configureoptions');
+            throw new Exception('use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'Unknown variable ' . $var . ', must be one of ' .
-                implode(', ', array_keys($this->info))
-            );
+            throw new Exception('Unknown variable ' . $var . ', must be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         $this->info[$var] = null;
         $this->save();
@@ -149,14 +141,11 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function __isset($var)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use [] operator to access configureoptions');
+            throw new Exception('use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'Unknown variable ' . $var . ', must be one of ' .
-                implode(', ', array_keys($this->info))
-            );
+            throw new Exception('Unknown variable ' . $var . ', must be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         return isset($this->info[$var]);
     }
@@ -169,12 +158,11 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function __call($var, $args)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use [] operator to access configureoptions');
+            throw new Exception('use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown variable ' . $var . ', must be one of ' .
-                            implode(', ', array_keys($this->info)));
+            throw new Exception('Unknown variable ' . $var . ', must be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         if ($args[0] === null) {
             $this->info[$var] = null;
@@ -189,12 +177,11 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
     function __get($var)
     {
         if ($this->index === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                'use [] operator to access configureoptions');
+            throw new Exception('use [] operator to access configureoptions');
         }
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown variable ' . $var . ', must be one of ' .
-                            implode(', ', array_keys($this->info)));
+            throw new Exception('Unknown variable ' . $var . ', must be one of ' .
+                                implode(', ', array_keys($this->info)));
         }
         if (!isset($this->info[$var])) {
             return null;
@@ -232,4 +219,3 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         $this->parent->save();
     }
 }
-?>

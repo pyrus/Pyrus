@@ -1,18 +1,19 @@
 <?php
 
 namespace pear2\Pyrus\ChannelFile\v1\Servers;
+use \pear2\Pyrus\ChannelFile as ChannelFile;
 class Protocols
 {
     protected $_info;
-    
+
     protected $parent;
-    
+
     function __construct($info, $parent)
     {
         $this->_info =  $info;
         $this->parent = $parent;
     }
-    
+
     function __get($var)
     {
         switch($var){
@@ -22,7 +23,7 @@ class Protocols
                 $method = 'get' . $var;
                 return $this->{$method}();
             default:
-                throw new \pear2\Pyrus\ChannelFile\Exception('Unknown protocol: ' . $var);
+                throw new ChannelFile\Exception('Unknown protocol: ' . $var);
         }
     }
 
@@ -35,7 +36,7 @@ class Protocols
                 $method = 'set' . $var;
                 return $this->{$method}($value);
             default:
-                throw new \pear2\Pyrus\ChannelFile\Exception('Unknown protocol: ' . $var);
+                throw new ChannelFile\Exception('Unknown protocol: ' . $var);
         }
     }
 
@@ -46,7 +47,7 @@ class Protocols
             return;
         }
         if (!($value instanceof Protocols\REST)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Can only set REST to ' .
+            throw new ChannelFile\Exception('Can only set REST to ' .
                         '\pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object');
         }
         $info = $value->getInfo();
@@ -67,5 +68,3 @@ class Protocols
         return new Protocols\REST($info, $this->parent);
     }
 }
-
-?>

@@ -68,9 +68,9 @@ class Uninstaller{
     static function begin()
     {
         if (!self::$inTransaction) {
-            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                self::$lastCurrent = \pear2\Pyrus\Config::current();
-                \pear2\Pyrus\Config::setCurrent(\pear2\Pyrus\Config::current()->plugins_dir);
+            if (isset(Main::$options['install-plugins'])) {
+                self::$lastCurrent = Config::current();
+                Config::setCurrent(Config::current()->plugins_dir);
             }
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
@@ -88,9 +88,9 @@ class Uninstaller{
     static function prepare($packageName)
     {
         try {
-            $package = \pear2\Pyrus\Config::current()->registry->package[$packageName];
+            $package = Config::current()->registry->package[$packageName];
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Uninstaller\Exception('Invalid package name ' .
+            throw new Uninstaller\Exception('Invalid package name ' .
                                                         $packageName, $e);
         }
         if (isset(self::$uninstallPackages[$package->channel . '/' . $package->name])) {
@@ -110,8 +110,8 @@ class Uninstaller{
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$registeredPackages = array();
-            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                \pear2\Pyrus\Config::setCurrent(self::$lastCurrent->path);
+            if (isset(Main::$options['install-plugins'])) {
+                Config::setCurrent(self::$lastCurrent->path);
             }
         }
     }
@@ -124,20 +124,20 @@ class Uninstaller{
         if (!self::$inTransaction) {
             return false;
         }
-        $installer = new \pear2\Pyrus\Uninstaller;
+        $installer = new Uninstaller;
         // validate dependencies
         $errs = new \pear2\MultiErrors;
-        $reg = \pear2\Pyrus\Config::current()->registry;
+        $reg = Config::current()->registry;
         try {
             foreach (self::$uninstallPackages as $package) {
                 $package->validateUninstallDependencies(self::$uninstallPackages, $errs);
             }
             if (count($errs->E_ERROR)) {
-                throw new \pear2\Pyrus\Installer\Exception('Dependency validation failed ' .
+                throw new Installer\Exception('Dependency validation failed ' .
                     'for some installed packages, installation aborted', $errs);
             }
             // create dependency connections and load them into the directed graph
-            $graph = new \pear2\Pyrus\DirectedGraph;
+            $graph = new DirectedGraph;
             foreach (self::$uninstallPackages as $package) {
                 $package->makeUninstallConnections($graph, self::$uninstallPackages);
             }
@@ -149,7 +149,7 @@ class Uninstaller{
             // easy reverse topological sort
             array_reverse($actual);
 
-            \pear2\Pyrus\AtomicFileTransaction::begin();
+            AtomicFileTransaction::begin();
             $reg->begin();
             try {
                 foreach ($actual as $package) {
@@ -164,21 +164,21 @@ class Uninstaller{
                     $reg->uninstall($package->name, $package->channel);
                 }
 
-                \pear2\Pyrus\AtomicFileTransaction::rmEmptyDirs($dirtrees);
-                \pear2\Pyrus\AtomicFileTransaction::commit();
+                AtomicFileTransaction::rmEmptyDirs($dirtrees);
+                AtomicFileTransaction::commit();
                 $reg->commit();
-                \pear2\Pyrus\AtomicFileTransaction::removeBackups();
+                AtomicFileTransaction::removeBackups();
             } catch (\Exception $e) {
-                if (\pear2\Pyrus\AtomicFileTransaction::inTransaction()) {
-                    \pear2\Pyrus\AtomicFileTransaction::rollback();
+                if (AtomicFileTransaction::inTransaction()) {
+                    AtomicFileTransaction::rollback();
                 }
                 $reg->rollback();
                 throw $e;
             }
             self::$uninstallPackages = array();
-            \pear2\Pyrus\Config::current()->saveConfig();
-            if (isset(\pear2\Pyrus\Main::$options['install-plugins'])) {
-                \pear2\Pyrus\Config::setCurrent(self::$lastCurrent->path);
+            Config::current()->saveConfig();
+            if (isset(Main::$options['install-plugins'])) {
+                Config::setCurrent(self::$lastCurrent->path);
             }
         } catch (\Exception $e) {
             self::rollback();
@@ -192,29 +192,29 @@ class Uninstaller{
      * Remove files
      * @param \pear2\Pyrus\Package $package
      */
-    function uninstall(\pear2\Pyrus\PackageFileInterface $package, \pear2\Pyrus\RegistryInterface $reg)
+    function uninstall(PackageFileInterface $package, RegistryInterface $reg)
     {
         if (!empty($this->_options['register-only'])) {
             // pretty much nothing happens if we are only registering the install
             return;
         }
         try {
-            $config = new \pear2\Pyrus\Config\Snapshot($package->date . ' ' . $package->time);
+            $config = new Config\Snapshot($package->date . ' ' . $package->time);
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Installer\Exception('Cannot retrieve files, config ' .
+            throw new Installer\Exception('Cannot retrieve files, config ' .
                                     'snapshot could not be processed', $e);
         }
         $configpaths = array();
-        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()) as $role) {
+        foreach (Installer\Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
             $roleobj =
-                \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $role);
+                Installer\Role::factory($package->getPackageType(), $role);
             $configpaths[$role] = $config->{$roleobj->getLocationConfig()};
         }
         $ret = array();
         foreach ($reg->info($package->name, $package->channel, 'installedfiles') as $file) {
-            $transact = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject($file['configpath']);
+            $transact = AtomicFileTransaction::getTransactionObject($file['configpath']);
             $transact->removePath($file['relativepath']);
         }
     }

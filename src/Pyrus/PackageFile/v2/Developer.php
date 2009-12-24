@@ -62,8 +62,8 @@ class Developer implements \ArrayAccess, \Iterator
                 $info[$key] = null;
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\Developer($this, $info, current($this->_curRole),
-                                                        key($this->info[current($this->_curRole)]));
+        return new Developer($this, $info, current($this->_curRole),
+                            key($this->info[current($this->_curRole)]));
     }
 
     function key()
@@ -130,7 +130,7 @@ class Developer implements \ArrayAccess, \Iterator
     function __get($var)
     {
         if (!isset($this->info['user']) || !is_string($this->info['user'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Cannot access developer info for unknown developer');
         }
         if ($var === 'role') {
@@ -141,7 +141,7 @@ class Developer implements \ArrayAccess, \Iterator
                 $keys = $this->info;
                 unset($keys['user']);
                 $keys = array_keys($keys);
-                throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+                throw new Developer\Exception(
                     'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys));
             }
             return null;
@@ -152,7 +152,7 @@ class Developer implements \ArrayAccess, \Iterator
     function __call($var, $args)
     {
         if (!isset($this->info['user']) || !is_string($this->info['user'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Cannot set developer info for unknown developer');
         }
         if ($var == 'role') {
@@ -162,15 +162,15 @@ class Developer implements \ArrayAccess, \Iterator
             return $this;
         }
         if (!array_key_exists($var, $this->info) || $var == 'user') {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Cannot set unknown value ' . $var);
         }
         if (count($args) != 1) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Can only set ' . $var . ' to 1 value');
         }
         if (!is_string($args[0])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Invalid value for ' . $var . ', must be a string');
         }
         $this->info[$var] = $args[0];
@@ -181,11 +181,11 @@ class Developer implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Use -> to access properties of a developer');
         }
         if (!is_string($var)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception('Developer handle cannot be numeric');
+            throw new Developer\Exception('Developer handle cannot be numeric');
         }
         $developer = $var;
         if ($role = $this->locateMaintainerRole($developer)) {
@@ -195,23 +195,23 @@ class Developer implements \ArrayAccess, \Iterator
                     $info[$key] = null;
                 }
             }
-            return new \pear2\Pyrus\PackageFile\v2\Developer($this, $info, $role[0], $role[1]);
+            return new Developer($this, $info, $role[0], $role[1]);
         }
-        return new \pear2\Pyrus\PackageFile\v2\Developer($this,
+        return new Developer($this,
             array('name' => null, 'user' => $var, 'email' => null, 'active' => 'yes'), null, null);
     }
 
     function offsetSet($var, $value)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Use -> to access properties of a developer');
         }
         if (!is_string($var)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception('Developer handle cannot be numeric');
+            throw new Developer\Exception('Developer handle cannot be numeric');
         }
-        if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Developer)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+        if (!($value instanceof Developer)) {
+            throw new Developer\Exception(
                 'Can only set a developer to a \pear2\Pyrus\PackageFile\v2\Developer object'
             );
         }
@@ -232,7 +232,7 @@ class Developer implements \ArrayAccess, \Iterator
     function offsetUnset($var)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Use -> to retrieve properties of a developer');
         }
         // remove developer
@@ -253,7 +253,7 @@ class Developer implements \ArrayAccess, \Iterator
     function offsetExists($var)
     {
         if (isset($this->info['user']) && is_string($this->info['user'])) {
-            throw new \pear2\Pyrus\PackageFile\v2\Developer\Exception(
+            throw new Developer\Exception(
                 'Use -> to retrieve properties of a developer');
         }
         return (bool) $this->locateMaintainerRole($var);

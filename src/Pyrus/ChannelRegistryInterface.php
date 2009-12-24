@@ -26,9 +26,9 @@
 namespace pear2\Pyrus;
 interface ChannelRegistryInterface
 {
-    public function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false);
-    public function update(\pear2\Pyrus\ChannelInterface $channel);
-    public function delete(\pear2\Pyrus\ChannelInterface $channel);
+    public function add(ChannelInterface $channel, $update = false, $lastmodified = false);
+    public function update(ChannelInterface $channel);
+    public function delete(ChannelInterface $channel);
     public function get($channel, $strict = true);
     public function exists($channel, $strict = true);
     public function parseName($name);

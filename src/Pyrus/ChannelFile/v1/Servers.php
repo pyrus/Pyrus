@@ -6,11 +6,11 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
      * @var \pear2\Pyrus\ChannelFile\v1
      */
     protected $parent;
-    
+
     protected $info = array();
-    
+
     protected $type = 'primary';
-    
+
     function __construct($info, \pear2\Pyrus\ChannelFile\v1 $parent)
     {
         if (isset($info['mirror']) && !isset($info['mirror'][0])) {
@@ -23,7 +23,7 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
     function current()
     {
         $info = current($this->info['mirror']);
-        return new \pear2\Pyrus\ChannelFile\v1\Mirror($info, $this, $this->parent, key($this->info['mirror']));
+        return new Mirror($info, $this, $this->parent, key($this->info['mirror']));
     }
 
     function rewind()
@@ -51,7 +51,7 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         }
         return current($this->info['mirror']);
     }
-        
+
 
     function count()
     {
@@ -72,7 +72,7 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         }
         return false;
     }
-    
+
     function offsetUnset($mirror)
     {
         if (!isset($this->info['mirror'])) {
@@ -87,28 +87,28 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
             }
         }
     }
-    
+
     function offsetGet($mirror)
     {
         if (!isset($this->info['mirror'])) {
-            return new \pear2\Pyrus\ChannelFile\v1\Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, 0);
+            return new Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, 0);
         }
         foreach ($this->info['mirror'] as $i => $details) {
             if (isset($details['attribs']) && isset($details['attribs']['host']) &&
                 $details['attribs']['host'] == $mirror) {
-                return new \pear2\Pyrus\ChannelFile\v1\Mirror($details, $this, $this->parent, $i);
+                return new Mirror($details, $this, $this->parent, $i);
             }
         }
-        
-        return new \pear2\Pyrus\ChannelFile\v1\Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, count($this->info['mirror']));
+
+        return new Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, count($this->info['mirror']));
     }
-    
+
     function offsetSet($mirror, $value)
     {
         if ($value === null) {
             return $this->offsetUnset($mirror);
         }
-        if (!($value instanceof \pear2\Pyrus\ChannelFile\v1\Mirror)) {
+        if (!($value instanceof Mirror)) {
             throw new \pear2\Pyrus\ChannelFile\Exception('Can only set mirror to a ' .
                         '\pear2\Pyrus\ChannelFile\v1\Mirror object');
         }

@@ -32,10 +32,12 @@ class MinimalPackageFilter extends PackagingFilterBase
         if (!$it->valid()) {
             return false;
         }
+
         $info = $it->current();
         if ($info['attribs']['role'] == 'doc' || $info['attribs']['role'] == 'test') {
             return false;
         }
+
         return true;
     }
 }

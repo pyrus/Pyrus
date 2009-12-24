@@ -101,7 +101,7 @@ class Release implements \ArrayAccess, \Countable
                     $info = array($info);
                 }
             }
-            return new \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption($this, $info);
+            return new Release\ConfigureOption($this, $info);
         }
         if ($var === 'binarypackage') {
             if (!isset($this->info['binarypackage'])) {
@@ -112,18 +112,16 @@ class Release implements \ArrayAccess, \Countable
                     $info = array($info);
                 }
             }
-            return new \pear2\Pyrus\PackageFile\v2\Release\BinaryPackage($this, $info);
+            return new Release\BinaryPackage($this, $info);
         }
         if ($var === 'installconditions') {
             if (!isset($this->info['installcondition'])) {
                 $this->info['installcondition'] = array();
             }
-            $conditions =
-                new \pear2\Pyrus\PackageFile\v2\Release\InstallCondition($this, $this->info['installcondition']);
+            $conditions = new Release\InstallCondition($this, $this->info['installcondition']);
             return $conditions;
         }
-        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown variable ' . $var .
-            ', installconditions is the only supported variable');
+        throw new Release\Exception('Unknown variable ' . $var . ', installconditions is the only supported variable');
     }
 
     function setBinaryPackage($info)
@@ -150,22 +148,19 @@ class Release implements \ArrayAccess, \Countable
             if (isset($this->info[0])) {
                 if (!isset($this->info[$var])) {
                     if ($var != count($this)) {
-                        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception(
-                            'Can only set the ' .
-                            'next highest release index ' . count($this) . ', not ' . $var);
+                        throw new Release\Exception('Can only set the next highest release index ' .
+                                                    count($this) . ', not ' . $var);
                     }
                     $this->info[$var] = array();
                 }
-                return new \pear2\Pyrus\PackageFile\v2\Release($this,
-                           $this->info[$var], $this->_filelist, $var);
+                return new Release($this, $this->info[$var], $this->_filelist, $var);
             } else {
                 if ($var !== 0) {
-                    throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Can only set the ' .
+                    throw new Release\Exception('Can only set the ' .
                         'next highest release index 0, not ' . $var);
                 }
                 $this->info[$var] = array();
-                return new \pear2\Pyrus\PackageFile\v2\Release($this,
-                           $this->info[$var], $this->_filelist, $var);
+                return new Release($this, $this->info[$var], $this->_filelist, $var);
             }
         }
     }
@@ -253,16 +248,16 @@ class Release implements \ArrayAccess, \Countable
         }
 
         if (is_int($var)) {
-            if ($value instanceof \pear2\Pyrus\PackageFile\v2\Release) {
+            if ($value instanceof Release) {
                 $this->info[$var] = array('installcondition' => $value->getInstallCondition(),
                                           'install' => $value->getInstallAs(),
                                           'ignore' => $value->getIgnore());
                 $this->save();
                 return;
             }
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set ' . $var . ' to non-\pear2\Pyrus\PackageFile\v2\Release');
+            throw new Release\Exception('Cannot set ' . $var . ' to non-\pear2\Pyrus\PackageFile\v2\Release');
         }
-        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set ' . $var);
+        throw new Release\Exception('Cannot set ' . $var);
     }
 
     /**
@@ -286,8 +281,8 @@ class Release implements \ArrayAccess, \Countable
     function ignore($file)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot ignore ' .
-                            'file ' . $file . ' without specifying which release section to ignore it in');
+            throw new Release\Exception('Cannot ignore file ' .
+                                        $file . ' without specifying which release section to ignore it in');
         }
         if (isset($this->_filelist[$file])) {
             if (!isset($this->info['filelist'])) {
@@ -305,15 +300,13 @@ class Release implements \ArrayAccess, \Countable
             return;
         }
 
-        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown file ' . $file .
-            ' - add to filelist before ignoring');
+        throw new Release\Exception('Unknown file ' . $file . ' - add to filelist before ignoring');
     }
 
     function installAs($file, $newname)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot install ' .
-                            'file ' . $file . ' to ' . $newname .
+            throw new Release\Exception('Cannot install file ' . $file . ' to ' . $newname .
                             ' without specifying which release section to install it in');
         }
 
@@ -335,11 +328,11 @@ class Release implements \ArrayAccess, \Countable
             return;
         }
 
-        throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown file ' . $file .
+        throw new Release\Exception('Unknown file ' . $file .
             ' - add to filelist before adding install as tag');
     }
 
-    function setInstallCondition(\pear2\Pyrus\PackageFile\v2\Release\InstallCondition $c)
+    function setInstallCondition(Release\InstallCondition $c)
     {
         $this->info['installcondition'] = $c->getInfo();
         $this->save();

@@ -30,8 +30,8 @@ class REST{
 
     function __construct()
     {
-        $this->config = \pear2\Pyrus\Config::current();
-        $this->_options = \pear2\Pyrus\Main::$options;
+        $this->config = Config::current();
+        $this->_options = Main::$options;
     }
 
     /**
@@ -107,12 +107,12 @@ class REST{
             switch ($headers['content-type']) {
                 case 'text/xml' :
                 case 'application/xml' :
-                    $parser = new \pear2\Pyrus\XMLParser;
+                    $parser = new XMLParser;
                     try {
                         $content = $parser->parseString($content);
                         $content = current($content);
                     } catch (\Exception $e) {
-                        throw new \pear2\Pyrus\REST\Exception(
+                        throw new REST\Exception(
                             'Invalid xml downloaded from "' . $url . '"', $e);
                     }
                 case 'text/html' :
@@ -121,12 +121,12 @@ class REST{
             }
         } else {
             // assume XML
-            $parser = new \pear2\Pyrus\XMLParser;
+            $parser = new XMLParser;
             try {
                 $content = $parser->parseString($content);
                 $content = current($content);
             } catch (\Exception $e) {
-                throw new \pear2\Pyrus\REST\Exception(
+                throw new REST\Exception(
                     'Invalid xml downloaded from "' . $url . '"', $e);
             }
         }
@@ -173,7 +173,7 @@ class REST{
             return unserialize(implode('', file($cachefile)));
         }
 
-        throw new \pear2\Pyrus\REST\Exception(
+        throw new REST\Exception(
                 'No cached content available for "' . $url . '"');
     }
 
@@ -202,7 +202,7 @@ class REST{
             }
 
             if (!@mkdir($cache_dir, 0755, true)) {
-                throw new \pear2\Pyrus\REST\Exception(
+                throw new REST\Exception(
                     'Cannot create REST cache directory ' . $cache_dir);
             }
 
@@ -264,13 +264,13 @@ class REST{
     {
         $info = parse_url($url);
         if (!isset($info['scheme']) || !in_array($info['scheme'], array('http', 'https'))) {
-            throw new \pear2\Pyrus\REST\Exception('Cannot download non-http URL "' . $url . '"');
+            throw new REST\Exception('Cannot download non-http URL "' . $url . '"');
         }
         if (!isset($info['host'])) {
-            throw new \pear2\Pyrus\REST\Exception('Cannot download from non-URL "' . $url . '"');
+            throw new REST\Exception('Cannot download from non-URL "' . $url . '"');
         }
 
-        $response = \pear2\Pyrus\Main::download($url);
+        $response = Main::download($url);
         if ($response->code == 304 && ($lastmodified || ($lastmodified === false))) {
             return false;
         }

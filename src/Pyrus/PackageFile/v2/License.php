@@ -91,7 +91,7 @@ class License implements \ArrayAccess
         }
         if ($var == 'name') {
             if (is_array($this->info) && isset($this->info['_content'])) {
-                return $this->info['_content']; 
+                return $this->info['_content'];
             }
             if (!is_array($this->info)) {
                 return $this->info;
@@ -103,7 +103,7 @@ class License implements \ArrayAccess
     function offsetSet($var, $value)
     {
         if (!is_string($value)) {
-            throw new \pear2\Pyrus\PackageFile\v2\License\Exception('Can only set license to string');
+            throw new License\Exception('Can only set license to string');
         }
 
         if ($var == 'path' || $var == 'uri') {
@@ -124,7 +124,7 @@ class License implements \ArrayAccess
                 $this->save();
                 return;
             }
-            throw new \pear2\Pyrus\PackageFile\v2\License\Exception('Unknown license trait ' . $var . ', cannot set value');
+            throw new License\Exception('Unknown license trait ' . $var . ', cannot set value');
         }
         $this->info['attribs'][$var] = $value;
         $this->save();

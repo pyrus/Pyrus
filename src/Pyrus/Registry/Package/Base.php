@@ -24,6 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Registry\Package;
+use \pear2\Pyrus\Config as Config;
 abstract class Base extends \pear2\Pyrus\PackageFile\v2
                                                  implements \ArrayAccess, \pear2\Pyrus\PackageFileInterface, \Iterator
 {
@@ -54,7 +55,7 @@ abstract class Base extends \pear2\Pyrus\PackageFile\v2
     function rewind()
     {
         if (!$this->iteratorChannel) {
-            $this->iteratorChannel = \pear2\Pyrus\Config::current()->default_channel;
+            $this->iteratorChannel = Config::current()->default_channel;
         }
         $this->iteratorPackages = $this->reg->listPackages($this->iteratorChannel);
     }
@@ -100,14 +101,14 @@ abstract class Base extends \pear2\Pyrus\PackageFile\v2
 
     function offsetExists($offset)
     {
-        $info = \pear2\Pyrus\Config::current()->channelregistry->parseName($offset);
+        $info = Config::current()->channelregistry->parseName($offset);
         return $this->reg->exists($info['package'], $info['channel']);
     }
 
     function offsetGet($offset)
     {
         $this->packagename = $offset;
-        $info = \pear2\Pyrus\Config::current()->channelregistry->parseName($this->packagename);
+        $info = Config::current()->channelregistry->parseName($this->packagename);
         $this->package = $info['package'];
         $this->channel = $info['channel'];
         $intermediate = $this->reg->toPackageFile($info['package'], $info['channel']);
@@ -126,7 +127,7 @@ abstract class Base extends \pear2\Pyrus\PackageFile\v2
 
     function offsetUnset($offset)
     {
-        $info = \pear2\Pyrus\Config::current()->channelregistry->parseName($offset);
+        $info = Config::current()->channelregistry->parseName($offset);
         $this->reg->uninstall($info['package'], $info['channel']);
     }
 

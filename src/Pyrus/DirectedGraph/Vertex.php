@@ -41,8 +41,7 @@ class Vertex implements \ArrayAccess, \Countable, \Iterator
     function __construct($data)
     {
         if (!is_object($data)) {
-            throw new \pear2\Pyrus\DirectedGraph\Exception('data must be an object, was ' .
-                gettype($data));
+            throw new Exception('data must be an object, was ' . gettype($data));
         }
 
         $this->data = $data;
@@ -53,7 +52,7 @@ class Vertex implements \ArrayAccess, \Countable, \Iterator
      *
      * @param \pear2\Pyrus\DirectedGraph\Vertex $to
      */
-    function connect(\pear2\Pyrus\DirectedGraph\Vertex $to)
+    function connect(Vertex $to)
     {
         $this->connections[spl_object_hash($to)] = $to;
     }
@@ -94,7 +93,7 @@ class Vertex implements \ArrayAccess, \Countable, \Iterator
 
     function offsetSet($var, $value)
     {
-        if ($value instanceof \pear2\Pyrus\DirectedGraph\Vertex) {
+        if ($value instanceof Vertex) {
             $this->connect($value);
         }
     }

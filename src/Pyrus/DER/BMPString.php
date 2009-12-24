@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule BMPString
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class BMPString extends \pear2\Pyrus\DER\String
+class BMPString extends String
 {
     const TAG = 0x1E;
 

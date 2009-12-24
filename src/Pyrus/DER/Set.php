@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule Set
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class Set extends \pear2\Pyrus\DER\Constructed
+class Set extends Constructed
 {
     const TAG = 0x31;
 

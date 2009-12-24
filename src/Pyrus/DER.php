@@ -19,7 +19,7 @@
  * This is used by OpenSSL's OCSP protocol to verify a certificate, and is
  * used by Pyrus to validate a package's OpenSSL public key to implement
  * native package signing.
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -48,24 +48,24 @@ class DER implements \ArrayAccess
     protected $value;
     protected $objs = array();
     protected $tagMap = array(
-        \pear2\Pyrus\DER\BitString::TAG => 'pear2\Pyrus\DER\BitString',
-        \pear2\Pyrus\DER\BMPString::TAG => 'pear2\Pyrus\DER\BMPString',
-        \pear2\Pyrus\DER\Boolean::TAG => 'pear2\Pyrus\DER\Boolean',
-        \pear2\Pyrus\DER\Enumerated::TAG => 'pear2\Pyrus\DER\Enumerated',
-        \pear2\Pyrus\DER\GeneralizedTime::TAG => 'pear2\Pyrus\DER\GeneralizedTime',
-        \pear2\Pyrus\DER\IA5String::TAG => 'pear2\Pyrus\DER\IA5String',
-        \pear2\Pyrus\DER\Integer::TAG => 'pear2\Pyrus\DER\Integer',
-        \pear2\Pyrus\DER\Null::TAG => 'pear2\Pyrus\DER\Null',
-        \pear2\Pyrus\DER\NumericString::TAG => 'pear2\Pyrus\DER\NumericString',
-        \pear2\Pyrus\DER\ObjectIdentifier::TAG => 'pear2\Pyrus\DER\ObjectIdentifier',
-        \pear2\Pyrus\DER\OctetString::TAG => 'pear2\Pyrus\DER\OctetString',
-        \pear2\Pyrus\DER\PrintableString::TAG => 'pear2\Pyrus\DER\PrintableString',
-        \pear2\Pyrus\DER\Sequence::TAG => 'pear2\Pyrus\DER\Sequence',
-        \pear2\Pyrus\DER\Set::TAG => 'pear2\Pyrus\DER\Set',
-        \pear2\Pyrus\DER\UniversalString::TAG => 'pear2\Pyrus\DER\UniversalString',
-        \pear2\Pyrus\DER\UTCTime::TAG => 'pear2\Pyrus\DER\UTCTime',
-        \pear2\Pyrus\DER\UTF8String::TAG => 'pear2\Pyrus\DER\UTF8String',
-        \pear2\Pyrus\DER\VisibleString::TAG => 'pear2\Pyrus\DER\VisibleString',
+        DER\BitString::TAG => 'pear2\Pyrus\DER\BitString',
+        DER\BMPString::TAG => 'pear2\Pyrus\DER\BMPString',
+        DER\Boolean::TAG => 'pear2\Pyrus\DER\Boolean',
+        DER\Enumerated::TAG => 'pear2\Pyrus\DER\Enumerated',
+        DER\GeneralizedTime::TAG => 'pear2\Pyrus\DER\GeneralizedTime',
+        DER\IA5String::TAG => 'pear2\Pyrus\DER\IA5String',
+        DER\Integer::TAG => 'pear2\Pyrus\DER\Integer',
+        DER\Null::TAG => 'pear2\Pyrus\DER\Null',
+        DER\NumericString::TAG => 'pear2\Pyrus\DER\NumericString',
+        DER\ObjectIdentifier::TAG => 'pear2\Pyrus\DER\ObjectIdentifier',
+        DER\OctetString::TAG => 'pear2\Pyrus\DER\OctetString',
+        DER\PrintableString::TAG => 'pear2\Pyrus\DER\PrintableString',
+        DER\Sequence::TAG => 'pear2\Pyrus\DER\Sequence',
+        DER\Set::TAG => 'pear2\Pyrus\DER\Set',
+        DER\UniversalString::TAG => 'pear2\Pyrus\DER\UniversalString',
+        DER\UTCTime::TAG => 'pear2\Pyrus\DER\UTCTime',
+        DER\UTF8String::TAG => 'pear2\Pyrus\DER\UTF8String',
+        DER\VisibleString::TAG => 'pear2\Pyrus\DER\VisibleString',
     );
 
     static function factory()
@@ -83,7 +83,7 @@ class DER implements \ArrayAccess
         $this->depth = $d;
     }
 
-    function setSchema(\pear2\Pyrus\DER\Schema $schema)
+    function setSchema(DER\Schema $schema)
     {
         $this->schema = $schema;
     }
@@ -115,10 +115,10 @@ class DER implements \ArrayAccess
             return $this->offset;
         }
         if (!isset($this->schema)) {
-            throw new \pear2\Pyrus\DER\Exception('To access objects, use ArrayAccess when schema is not set');
+            throw new DER\Exception('To access objects, use ArrayAccess when schema is not set');
         }
         if (!isset($this->schema[$name])) {
-            throw new \pear2\Pyrus\DER\Exception('schema has no element matching ' . $name .
+            throw new DER\Exception('schema has no element matching ' . $name .
                                                 ' at ' . $this->schema->path());
         }
         $info = $this->schema[$name];
@@ -134,10 +134,10 @@ class DER implements \ArrayAccess
     function __set($name, $value)
     {
         if (!isset($this->schema)) {
-            throw new \pear2\Pyrus\DER\Exception('To access objects, use ArrayAccess when schema is not set');
+            throw new DER\Exception('To access objects, use ArrayAccess when schema is not set');
         }
         if (!isset($this->schema[$name])) {
-            throw new \pear2\Pyrus\DER\Exception('schema has no element matching ' . $name .
+            throw new DER\Exception('schema has no element matching ' . $name .
                                                 ' at ' . $this->schema->path());
         }
         $info = $this->schema[$name];
@@ -174,14 +174,14 @@ class DER implements \ArrayAccess
 
     function _bitString($string = '', $bits = 0)
     {
-        $obj = new \pear2\Pyrus\DER\BitString($string, $bits);
+        $obj = new DER\BitString($string, $bits);
         $this->objs[] = $obj;
         return $this;
     }
 
     function _null()
     {
-        $obj = new \pear2\Pyrus\DER\Null;
+        $obj = new DER\Null;
         $this->objs[] = $obj;
         return $this;
     }
@@ -196,7 +196,7 @@ class DER implements \ArrayAccess
         }
         $class = 'pear2\Pyrus\DER\\' . ucfirst($func);
         if (!class_exists($class, 1)) {
-            throw new \pear2\Pyrus\DER\Exception('Unknown type ' . $func);
+            throw new DER\Exception('Unknown type ' . $func);
         }
         if (isset($args[0])) {
             $obj = new $class($args[0]);
@@ -207,7 +207,7 @@ class DER implements \ArrayAccess
         return $this;
     }
 
-    function constructed(\pear2\Pyrus\DER $der)
+    function constructed(DER $der)
     {
         $this->objs[] = $der;
         return $this;
@@ -220,7 +220,7 @@ class DER implements \ArrayAccess
             $this->objs[$index] = $obj;
         } elseif (get_class($this->objs[$index]) != 'pear2\Pyrus\DER') {
             $current = $this->objs[$index];
-            $this->objs[$index] = new \pear2\Pyrus\DER;
+            $this->objs[$index] = new DER;
             $this->objs[$index]->setDepth($this->depth);
             $this->objs[$index][] = $current;
             $this->objs[$index][] = $obj;
@@ -244,7 +244,7 @@ class DER implements \ArrayAccess
 
     function offsetUnset($var)
     {
-        throw new \pear2\Pyrus\DER\Exception('offsetUnset not possible');
+        throw new DER\Exception('offsetUnset not possible');
     }
 
     function offsetExists($var)
@@ -289,7 +289,7 @@ class DER implements \ArrayAccess
         return $location;
     }
 
-    function parseFromString($data, \pear2\Pyrus\DER $parent = null)
+    function parseFromString($data, DER $parent = null)
     {
         if (null === $parent) {
             $parent = $this;
@@ -314,13 +314,13 @@ class DER implements \ArrayAccess
                 if (($tag & 0x80) === 0x80) {
                     // context-sensitive tag, do best guess
                     if (($tag & 0x20) == 0x20) {
-                        $tag = \pear2\Pyrus\DER\Sequence::TAG;
+                        $tag = DER\Sequence::TAG;
                     } else {
-                        $tag = \pear2\Pyrus\DER\OctetString::TAG;
+                        $tag = DER\OctetString::TAG;
                     }
                 }
                 if (!isset($this->tagMap[$tag])) {
-                    throw new \pear2\Pyrus\DER\Exception('Unknown tag: 0x' . dechex($tag));
+                    throw new DER\Exception('Unknown tag: 0x' . dechex($tag));
                 }
                 $type = $this->tagMap[$tag];
                 $parent[$index] = $obj = new $type;
@@ -366,7 +366,7 @@ class DER implements \ArrayAccess
             foreach ($this->objs as $obj) {
                 $ret .= "\n" . $obj;
             }
-            if (isset($obj) && !($obj instanceof \pear2\Pyrus\DER\Constructed)) {
+            if (isset($obj) && !($obj instanceof DER\Constructed)) {
                 $ret .= "\n";
             }
             if (isset($this->schema)) {

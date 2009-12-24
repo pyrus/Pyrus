@@ -51,7 +51,7 @@ class Validate{
     /**
      * @var int one of the \pear2\Pyrus\Validate::* constants
      */
-    var $_state = \pear2\Pyrus\Validate::NORMAL;
+    var $_state = Validate::NORMAL;
     /**
      * @var \pear2\MultiErrors
      */
@@ -134,12 +134,12 @@ class Validate{
     /**
      * @param \pear2\Pyrus\PackageFileInterface
      */
-    function setPackageFile(\pear2\Pyrus\PackageFileInterface $pf)
+    function setPackageFile(PackageFileInterface $pf)
     {
         $this->_packagexml = $pf;
     }
 
-    function setChannel(\pear2\Pyrus\ChannelFileInterface $chan)
+    function setChannel(ChannelFileInterface $chan)
     {
         $this->channel = $chan;
     }
@@ -149,8 +149,7 @@ class Validate{
      */
     protected function _addFailure($field, $reason)
     {
-        $this->failures->E_ERROR[] =
-            new \pear2\Pyrus\Validate\Exception($reason, $field);
+        $this->failures->E_ERROR[] = new Validate\Exception($reason, $field);
     }
 
     /**
@@ -158,8 +157,7 @@ class Validate{
      */
     protected function _addWarning($field, $reason)
     {
-        $this->failures->E_WARNING[] =
-            new \pear2\Pyrus\Validate\Exception($reason, $field);
+        $this->failures->E_WARNING[] = new Validate\Exception($reason, $field);
     }
 
     function getFailures()
@@ -202,8 +200,7 @@ class Validate{
      */
     function validatePackageName()
     {
-        if ($this->_state == \pear2\Pyrus\Validate::PACKAGING ||
-              $this->_state == \pear2\Pyrus\Validate::NORMAL) {
+        if ($this->_state == Validate::PACKAGING || $this->_state == Validate::NORMAL) {
             if ($this->_packagexml->extends) {
                 $version = $this->_packagexml->version['release'] . '';
                 $name = $this->_packagexml->name;
@@ -250,7 +247,7 @@ class Validate{
             // allow any version
             return true;
         }
-        if ($this->_state != \pear2\Pyrus\Validate::PACKAGING) {
+        if ($this->_state != Validate::PACKAGING) {
             if (!$this->validVersion($this->_packagexml->version['release'])) {
                 $this->_addFailure('version',
                     'Invalid version number "' . $this->_packagexml->version['release'] . '"');
@@ -286,7 +283,7 @@ class Validate{
             case 'beta' :
                 // check for a package that extends a package,
                 // like Foo and Foo2
-                if ($this->_state == \pear2\Pyrus\Validate::PACKAGING) {
+                if ($this->_state == Validate::PACKAGING) {
                     if (substr($versioncomponents[2], 1, 2) == 'rc') {
                         $this->_addFailure('version', 'Release Candidate versions ' .
                             'must have capital RC, not lower-case rc');
@@ -438,8 +435,7 @@ class Validate{
      */
     function validateDate()
     {
-        if ($this->_state == \pear2\Pyrus\Validate::NORMAL ||
-              $this->_state == \pear2\Pyrus\Validate::PACKAGING) {
+        if ($this->_state == Validate::NORMAL || $this->_state == Validate::PACKAGING) {
 
             if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/',
                   $this->_packagexml->date, $res) ||
@@ -452,7 +448,7 @@ class Validate{
             }
 
 
-            if ($this->_state == \pear2\Pyrus\Validate::PACKAGING &&
+            if ($this->_state == Validate::PACKAGING &&
                   $this->_packagexml->date != date('Y-m-d')) {
                 $this->_addWarning('date', 'Release Date "' .
                     $this->_packagexml->date . '" is not today');
@@ -472,7 +468,7 @@ class Validate{
         }
         // packager automatically sets time, so only validate if
         // pear validate is called
-        if ($this->_state = \pear2\Pyrus\Validate::NORMAL) {
+        if ($this->_state = Validate::NORMAL) {
             if (!preg_match('/\d\d:\d\d:\d\d/',
                   $this->_packagexml->time)) {
                 $this->_addFailure('time', 'invalid release time "' .
@@ -580,4 +576,3 @@ class Validate{
         return true;
     }
 }
-?>

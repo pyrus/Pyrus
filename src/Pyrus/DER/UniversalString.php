@@ -17,7 +17,7 @@
  * Represents a Distinguished Encoding Rule UniversalString
  *
  * No unicode ucs-2 -> utf-8 is attempted, you're on your own
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -26,7 +26,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class UniversalString extends \pear2\Pyrus\DER\String
+class UniversalString extends String
 {
     const TAG = 0x1C;
 

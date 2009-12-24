@@ -53,7 +53,7 @@ class DirectedGraph implements \Iterator
      */
     function add($data)
     {
-        $vertex = new \pear2\Pyrus\DirectedGraph\Vertex($data);
+        $vertex = new DirectedGraph\Vertex($data);
         $this->vertices[spl_object_hash($vertex)] = $vertex;
         $this->map[spl_object_hash($data)] = spl_object_hash($vertex);
         return $vertex;
@@ -69,7 +69,7 @@ class DirectedGraph implements \Iterator
      */
     function connect($from, $to)
     {
-        if ($from instanceof \pear2\Pyrus\DirectedGraph\Vertex) {
+        if ($from instanceof DirectedGraph\Vertex) {
             $a = spl_object_hash($from);
         } else {
             if (!isset($this->map[spl_object_hash($from)])) {
@@ -78,7 +78,7 @@ class DirectedGraph implements \Iterator
                 $a = $this->vertices[$this->map[spl_object_hash($from)]];
             }
         }
-        if ($to instanceof \pear2\Pyrus\DirectedGraph\Vertex) {
+        if ($to instanceof DirectedGraph\Vertex) {
             $b = spl_object_hash($to);
         } else {
             if (!isset($this->map[spl_object_hash($to)])) {

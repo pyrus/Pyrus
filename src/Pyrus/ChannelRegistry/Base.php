@@ -60,12 +60,12 @@ abstract class Base
                 $param = array('uri' => $param, 'channel' => '__uri');
                 return $param;
             } elseif($components['scheme'] != 'channel') {
-                throw new \pear2\Pyrus\ChannelRegistry\ParseException('parsePackageName(): only channel:// uris may ' .
+                throw new ParseException('parsePackageName(): only channel:// uris may ' .
                     'be downloaded, not "' . $param . '"', 'scheme');
             }
         }
         if (!isset($components['path'])) {
-            throw new \pear2\Pyrus\ChannelRegistry\ParseException('parsePackageName(): array $param ' .
+            throw new ParseException('parsePackageName(): array $param ' .
                 'must contain a valid package name in "' . $param . '"', 'path');
         }
         if (isset($components['host'])) {
@@ -75,7 +75,7 @@ abstract class Base
         if (!isset($components['scheme'])) {
             if (strpos($components['path'], '/') !== false) {
                 if ($components['path']{0} == '/') {
-                    throw new \pear2\Pyrus\ChannelRegistry\ParseException('parsePackageName(): this is not ' .
+                    throw new ParseException('parsePackageName(): this is not ' .
                         'a package name, it begins with "/" in "' . $param . '"', 'invalid');
                 }
                 $parts = explode('/', $components['path']);
@@ -127,7 +127,7 @@ abstract class Base
         if (strpos($param['package'], '-')) {
             $test = explode('-', $param['package']);
             if (count($test) != 2) {
-                throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): only one version/state ' .
+                throw new ParseException('parseName(): only one version/state ' .
                     'delimiter "-" is allowed in "' . $saveparam . '"', 'invalid');
             }
             list($param['package'], $param['version']) = $test;
@@ -135,13 +135,13 @@ abstract class Base
         // validation
         $info = $this->exists($param['channel'], false);
         if (!$info) {
-            throw new \pear2\Pyrus\ChannelRegistry\ParseException('unknown channel "' . $param['channel'] .
+            throw new ParseException('unknown channel "' . $param['channel'] .
                 '" in "' . $saveparam . '"', 'channel', $param);
         }
         try {
             $chan = $this->get($param['channel'], false);
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\ChannelRegistry\ParseException("Exception: corrupt registry, could not " .
+            throw new ParseException("Exception: corrupt registry, could not " .
                 "retrieve channel " . $param['channel'] . " information", 'other', $e);
         }
         $param['channel'] = $chan->name;
@@ -149,12 +149,12 @@ abstract class Base
         $vpackage = $chan->getValidationPackage();
         // validate package name
         if (!$validate->validPackageName($param['package'], $vpackage['_content'])) {
-            throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): invalid package name "' .
+            throw new ParseException('parseName(): invalid package name "' .
                 $param['package'] . '" in "' . $saveparam . '"', 'package');
         }
         if (isset($param['group'])) {
             if (!\pear2\Pyrus\Validate::validGroupName($param['group'])) {
-                throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): dependency group "' . $param['group'] .
+                throw new ParseException('parseName(): dependency group "' . $param['group'] .
                     '" is not a valid group name in "' . $saveparam . '"', 'group');
             }
         }
@@ -165,7 +165,7 @@ abstract class Base
                 unset($param['version']);
             } else {
                 if (!$validate->validVersion($param['version'])) {
-                    throw new \pear2\Pyrus\ChannelRegistry\ParseException('parseName(): "' . $param['version'] .
+                    throw new ParseException('parseName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"', 'version/state');
                 }
@@ -284,7 +284,7 @@ abstract class Base
     {
         return $this->getDefaultChannel('__uri');
     }
-    
+
     protected function getDefaultChannel($channel)
     {
         $xml = \pear2\Pyrus\Main::getDataPath() . '/default_channels/' . $channel . '.xml';
@@ -293,7 +293,7 @@ abstract class Base
         }
         $parser = new \pear2\Pyrus\ChannelFile\Parser\v1;
         $info = $parser->parse($xml, true);
-        return new \pear2\Pyrus\ChannelRegistry\Channel($this, $info->getArray());
+        return new Channel($this, $info->getArray());
     }
 
     /**

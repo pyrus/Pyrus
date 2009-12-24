@@ -28,6 +28,7 @@ class FileInstallationFilter extends \FilterIterator
 {
     static private $_parent;
     static private $_installGroup;
+
     static function setParent(\pear2\Pyrus\PackageFile\v2 $parent)
     {
         self::$_parent = $parent;
@@ -45,6 +46,7 @@ class FileInstallationFilter extends \FilterIterator
                             if (!isset($conditions[0])) {
                                 $conditions = array($conditions);
                             }
+
                             foreach ($conditions as $condition) {
                                 $condition = new \pear2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
@@ -56,6 +58,7 @@ class FileInstallationFilter extends \FilterIterator
                 // can't use this release
                 continue;
             }
+
             $release = array('install' => array(), 'ignore' => array());
             // this is the release to use
             if (isset($instance['filelist'])) {
@@ -90,14 +93,14 @@ class FileInstallationFilter extends \FilterIterator
         $curfile = parent::current();
         if (isset(self::$_installGroup['install'][$file])) {
             // add the install-as attribute for these files
-            $curfile['attribs']['install-as'] =
-                self::$_installGroup['install'][$file];
+            $curfile['attribs']['install-as'] = self::$_installGroup['install'][$file];
         }
+
         if ($b = self::$_parent->getBaseInstallDir($file)) {
             $curfile['attribs']['baseinstalldir'] = $b;
         }
-        return new \pear2\Pyrus\PackageFile\v2Iterator\FileTag($curfile,
-            '', self::$_parent);
+
+        return new FileTag($curfile, '', self::$_parent);
     }
 
     function accept()
@@ -107,6 +110,7 @@ class FileInstallationFilter extends \FilterIterator
             // skip ignored files
             return false;
         }
+
         return true;
     }
 }

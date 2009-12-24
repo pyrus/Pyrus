@@ -35,8 +35,7 @@ class PackagingIterator extends \ArrayIterator
     function key()
     {
         $curfile = $this->current();
-        $role =
-            \pear2\Pyrus\Installer\Role::factory(self::$_parent->getPackageType(), $curfile['attribs']['role']);
+        $role = \pear2\Pyrus\Installer\Role::factory(self::$_parent->getPackageType(), $curfile['attribs']['role']);
         // add the install-as attribute to retrieve packaging location
         return $role->getPackagingLocation(self::$_parent, $curfile['attribs']);
     }
@@ -48,9 +47,11 @@ class PackagingIterator extends \ArrayIterator
         if ($base = self::$_parent->getBaseInstallDir($curfile['attribs']['name'])) {
             $curfile['attribs']['baseinstalldir'] = $base;
         }
+
         if (isset($curfile['attribs']['md5sum'])) {
             unset($curfile['attribs']['md5sum']);
         }
+
         return $curfile;
     }
 }

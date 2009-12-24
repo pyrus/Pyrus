@@ -67,7 +67,7 @@ class InstallCondition implements \ArrayAccess
     function __call($var, $args)
     {
         if (!isset($this->installcondition)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set variables for unknown install condition');
+            throw new Exception('Cannot set variables for unknown install condition');
         }
         if (array_key_exists($var, $this->info)) {
             if (!count($args) && $var == 'conflicts') {
@@ -83,7 +83,7 @@ class InstallCondition implements \ArrayAccess
     {
         if (isset($this->installcondition) && !isset($this->index) && $this->installcondition == 'extension') {
             if (!is_string($var)) {
-                throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Access extension installconditions by name, not number');
+                throw new Exception('Access extension installconditions by name, not number');
             }
             if (false === ($i = $this->locateExtension($var))) {
                 $i = count($this->info);
@@ -96,11 +96,10 @@ class InstallCondition implements \ArrayAccess
                     }
                 }
             }
-            return new \pear2\Pyrus\PackageFile\v2\Release\InstallCondition($this,
-                       $this->info[$i], 'extension', $i);
+            return new InstallCondition($this, $this->info[$i], 'extension', $i);
         }
         if (!is_string($var)) {
-            throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot access numeric index');
+            throw new Exception('Cannot access numeric index');
         }
         $var = strtolower($var);
         switch ($var) {
@@ -155,10 +154,9 @@ class InstallCondition implements \ArrayAccess
                 }
                 break;
             default :
-                throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot access unknown install condition ' . $var);
+                throw new Exception('Cannot access unknown install condition ' . $var);
         }
-        return new \pear2\Pyrus\PackageFile\v2\Release\InstallCondition($this, $this->info[$var],
-                   $var);
+        return new InstallCondition($this, $this->info[$var], $var);
     }
 
     protected function locateExtension($ext)
@@ -178,8 +176,8 @@ class InstallCondition implements \ArrayAccess
     {
         $info = array();
         if (isset($this->installcondition) && $this->installcondition == 'extension') {
-            if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Release\InstallCondition)) {
-                throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set extension to anything but a' .
+            if (!($value instanceof InstallCondition)) {
+                throw new Exception('Cannot set extension to anything but a' .
                             ' \pear2\Pyrus\PackageFile\v2\Release\InstallCondition object');
             }
         } else {
@@ -200,16 +198,15 @@ class InstallCondition implements \ArrayAccess
                     }
                     break;
                 case 'extension' :
-                    throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Set extension install condition by name');
+                    throw new Exception('Set extension install condition by name');
                 default :
-                    throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Unknown install condition ' .
-                        $var);
+                    throw new Exception('Unknown install condition ' . $var);
             }
         }
-        if ($value instanceof \pear2\Pyrus\PackageFile\v2\Release\InstallCondition && $value->installcondition) {
+        if ($value instanceof InstallCondition && $value->installcondition) {
             if (!isset($this->installcondition) || $this->installcondition != 'extension') {
                 if ($value->installcondition != $var) {
-                    throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set ' . $var .
+                    throw new Exception('Cannot set ' . $var .
                                 ' to another install condition (' . $value->installcondition . ')');
                 }
                 if (!isset($this->info[$var])) {
@@ -230,7 +227,7 @@ class InstallCondition implements \ArrayAccess
                 }
             } else {
                 if ($value->installcondition != 'extension') {
-                    throw new \pear2\Pyrus\PackageFile\v2\Release\Exception('Cannot set extension ' . $var .
+                    throw new Exception('Cannot set extension ' . $var .
                                 ' to another install condition (' . $value->installcondition . ')');
                 }
                 $ext = $this->locateExtension($var);
@@ -310,5 +307,3 @@ class InstallCondition implements \ArrayAccess
         }
     }
 }
-
-?>

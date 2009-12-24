@@ -37,7 +37,7 @@ abstract class Base implements \pear2\Pyrus\RegistryInterface
         return $this->install($info, true);
     }
 
-    function cloneRegistry(\pear2\Pyrus\Registry\Base $registry)
+    function cloneRegistry(Base $registry)
     {
         try {
             $packageiterator = $registry->package;
@@ -54,7 +54,7 @@ abstract class Base implements \pear2\Pyrus\RegistryInterface
                 }
             }
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot clone registry', $e);
+            throw new Exception('Cannot clone registry', $e);
         }
     }
 }

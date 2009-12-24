@@ -49,16 +49,16 @@ class REST_13 extends \pear2\Pyrus\REST_10
     {
         $channel = $packageinfo['channel'];
         $package = $packageinfo['package'];
-        $states = \pear2\Pyrus\Installer::betterStates($prefstate, true);
+        $states = Installer::betterStates($prefstate, true);
         if (!$states) {
-            throw new \pear2\Pyrus\REST\Exception('"' . $prefstate . '" is not a valid state');
+            throw new REST\Exception('"' . $prefstate . '" is not a valid state');
         }
         $state   = isset($packageinfo['state'])   ? $packageinfo['state']   : null;
         $version = isset($packageinfo['version']) ? $packageinfo['version'] : null;
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
-            throw new \pear2\Pyrus\REST\Exception('No releases available for package "' .
+            throw new REST\Exception('No releases available for package "' .
                 $channel . '/' . $package . '"', $e);
         }
         if (!isset($info['r'])) {
@@ -87,7 +87,7 @@ class REST_13 extends \pear2\Pyrus\REST_10
                 }
                 // see if there is something newer and more stable
                 // bug #7221
-                if (in_array($release['s'], \pear2\Pyrus\Installer::betterStates($state), true)) {
+                if (in_array($release['s'], nstaller::betterStates($state), true)) {
                     if (!isset($version) && version_compare($release['m'], phpversion(), '>')) {
                         // skip releases that require a PHP version newer than our PHP version
                         $skippedphp = $release;
@@ -131,9 +131,9 @@ class REST_13 extends \pear2\Pyrus\REST_10
     {
         $channel = $dependency['channel'];
         $package = $dependency['name'];
-        $states = \pear2\Pyrus\Installer::betterStates($prefstate, true);
+        $states = Installer::betterStates($prefstate, true);
         if (!$states) {
-            throw new \pear2\Pyrus\REST\Exception('"' . $prefstate . '" is not a valid state');
+            throw new REST\Exception('"' . $prefstate . '" is not a valid state');
         }
         $state   = isset($dependency['state'])   ? $dependency['state']   : null;
         $version = isset($dependency['version']) ? $dependency['version'] : null;
@@ -142,7 +142,7 @@ class REST_13 extends \pear2\Pyrus\REST_10
         try {
             $info = $this->rest->retrieveData($base . 'r/' . strtolower($package) . '/allreleases2.xml');
         } catch (Exception $e) {
-            throw new \pear2\Pyrus\REST\Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
+            throw new REST\Exception('Package "' . $deppackage['channel'] . '/' . $deppackage['package']
                 . '" dependency "' . $channel . '/' . $package . '" has no releases', $e);
         }
         if (!is_array($info) || !isset($info['r'])) {

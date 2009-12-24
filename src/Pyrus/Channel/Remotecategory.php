@@ -106,7 +106,7 @@ class Remotecategory implements \ArrayAccess, \Iterator, \Countable
                 }
             }
         }
-        $pxml = new \pear2\Pyrus\Channel\Remotepackage($this->parent, $releases);
+        $pxml = new Remotepackage($this->parent, $releases);
         $pxml->channel = $package['p']['c'];
         $pxml->name = $package['p']['n'];
         $pxml->license = $package['p']['l'];
@@ -148,7 +148,7 @@ class Remotecategory implements \ArrayAccess, \Iterator, \Countable
         }
         return false;
     }
-    
+
     function count()
     {
         return count($this->packagesinfo);

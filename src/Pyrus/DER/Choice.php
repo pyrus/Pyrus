@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule Context-sensitive abstract Choice
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -24,6 +24,6 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class Choice extends \pear2\Pyrus\DER\Sequence
+class Choice extends Sequence
 {
 }

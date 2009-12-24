@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule Octet String
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -24,16 +24,16 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\DER;
-class PrintableString extends \pear2\Pyrus\DER\String
+class PrintableString extends String
 {
     const TAG = 0x13;
 
     function setValue($string)
     {
         if (strlen($string) && !preg_match('/^[a-zA-Z0-9\'()+,\-\\.\/:=?]+\\z/', $string)) {
-            throw new \pear2\Pyrus\DER\Exception('Invalid Printable string value ' . $string .
-                                                ', can only contain letters, digits, space and' .
-                                                ' these punctuations: \' ( ) + , - . / : = ?');
+            throw new Exception('Invalid Printable string value ' . $string .
+                                ', can only contain letters, digits, space and' .
+                                ' these punctuations: \' ( ) + , - . / : = ?');
         }
         $this->value = $string;
     }

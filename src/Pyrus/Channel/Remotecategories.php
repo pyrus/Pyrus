@@ -34,7 +34,7 @@ class Remotecategories implements \ArrayAccess, \Iterator
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.1'])) {
-            throw new \pear2\Pyrus\Channel\Exception('Cannot access remote categories without REST1.1 protocol');
+            throw new Exception('Cannot access remote categories without REST1.1 protocol');
         }
         $this->rest = new \pear2\Pyrus\REST;
     }
@@ -43,17 +43,17 @@ class Remotecategories implements \ArrayAccess, \Iterator
     {
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
                                                 'c/' . urlencode($var) . '/packagesinfo.xml');
-        return new \pear2\Pyrus\Channel\Remotecategory($this->parent, $var, $info);
+        return new Remotecategory($this->parent, $var, $info);
     }
 
     function offsetSet($var, $value)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function offsetUnset($var)
     {
-        throw new \pear2\Pyrus\Channel\Exception('remote channel info is read-only');
+        throw new Exception('remote channel info is read-only');
     }
 
     function offsetExists($var)
@@ -71,7 +71,7 @@ class Remotecategories implements \ArrayAccess, \Iterator
         $category = $this->key();
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
                                                 'c/' . urlencode($category) . '/packagesinfo.xml');
-        return new \pear2\Pyrus\Channel\Remotecategory($this->parent, $category, $info);
+        return new Remotecategory($this->parent, $category, $info);
     }
 
     function key()

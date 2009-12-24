@@ -25,7 +25,7 @@
  * @link      http://svn.pear.php.net/PEAR2/Pyrus
  */
 namespace pear2\Pyrus\ChannelRegistry;
-class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
+class Pear1 extends Base
 {
     private $_channelPath;
     private $_aliasPath;
@@ -43,23 +43,23 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         $this->_aliasPath = $this->_channelPath . DIRECTORY_SEPARATOR . '.alias';
         if (!file_exists($this->_channelPath) || !is_dir($this->_channelPath)) {
             if ($readonly) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot initialize ' .
-                    'PEAR1 channel registry, directory does not exist and registry is read-only');
+                throw new Exception('Cannot initialize PEAR1 channel registry, directory' .
+                                    ' does not exist and registry is read-only');
             }
             if (!@mkdir($this->_channelPath, 0755, true)) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot initialize ' .
-                    'PEAR1 channel registry, channel directory could not be initialized');
+                throw new Exception('Cannot initialize PEAR1 channel registry, channel' .
+                                    ' directory could not be initialized');
             }
         }
 
         if (!file_exists($this->_aliasPath) || !is_dir($this->_aliasPath)) {
             if ($readonly) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot initialize ' .
-                    'PEAR1 channel registry, aliasdirectory does not exist and registry is read-only');
+                throw new Exception('Cannot initialize PEAR1 channel registry, aliasdirectory ' .
+                                    'does not exist and registry is read-only');
             }
             if (!@mkdir($this->_aliasPath, 0755, true)) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot initialize ' .
-                    'PEAR1 channel registry, channel aliasdirectory could not be initialized');
+                throw new Exception('Cannot initialize PEAR1 channel registry, channel ' .
+                                    'aliasdirectory could not be initialized');
             }
         }
         if (1 === $this->exists('pear.php.net')) {
@@ -96,11 +96,11 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
     public function add(\pear2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel, registry is read-only');
+            throw new Exception('Cannot add channel, registry is read-only');
         }
         if (!is_writable($this->_channelPath)) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel ' .
-                $channel->name . ', channel registry path is not writable');
+            throw new Exception('Cannot add channel ' . $channel->name .
+                                ', channel registry path is not writable');
         }
 
         $this->lazyInit();
@@ -109,8 +109,8 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         $exists = $this->exists($channel->name);
         if ($exists && 1 !== $exists) {
             if (!$update) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add channel ' .
-                    $channel->name . ', channel already exists, use update to change');
+                throw new Exception('Cannot add channel ' . $channel->name .
+                                    ', channel already exists, use update to change');
             }
             $checker = $this->get($channel->name);
             if ($channel->alias != $checker->alias) {
@@ -119,8 +119,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
                 }
             }
         } elseif ($update) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Error: channel ' .
-                $channel->name . ' is unknown');
+            throw new Exception('Error: channel ' . $channel->name . ' is unknown');
         }
         if ($channel->alias != $channel->name) {
             if (file_exists($this->channelAliasFileName($channel->alias)) &&
@@ -129,16 +128,16 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
             }
             $fp = @fopen($this->channelAliasFileName($channel->alias), 'w');
             if (!$fp) {
-                throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add/update channel ' .
-                    $channel->name . ', unable to open PEAR1 channel alias file');
+                throw new Exception('Cannot add/update channel ' . $channel->name .
+                                    ', unable to open PEAR1 channel alias file');
             }
             fwrite($fp, $channel->name);
             fclose($fp);
         }
         $fp = @fopen($this->channelFileName($channel->name), 'wb');
         if (!$fp) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot add/update channel ' .
-                $channel->name . ', unable to open PEAR1 channel registry file');
+            throw new Exception('Cannot add/update channel ' . $channel->name .
+                                ', unable to open PEAR1 channel registry file');
         }
         $info = (string) $channel;
         $parser = new \pear2\Pyrus\XMLParser;
@@ -157,7 +156,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
     public function update(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot update channel, registry is read-only');
+            throw new Exception('Cannot update channel, registry is read-only');
         }
         return $this->add($channel, true);
     }
@@ -165,12 +164,11 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
     public function delete(\pear2\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
+            throw new Exception('Cannot delete channel, registry is read-only');
         }
         $name = $channel->name;
         if (in_array($name, $this->getDefaultChannels())) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete default channel ' .
-                $channel->name);
+            throw new Exception('Cannot delete default channel ' . $channel->name);
         }
         if (!$this->exists($name)) {
             return true;
@@ -179,8 +177,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         $this->lazyInit();
 
         if ($this->packageCount($name)) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Cannot delete channel ' .
-                $name . ', packages are installed');
+            throw new Exception('Cannot delete channel ' . $name . ', packages are installed');
         }
         @unlink($this->channelFileName($name));
         @unlink($this->channelAliasFileName($channel->alias));
@@ -190,8 +187,7 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
     {
         $exists = $this->exists($channel, $strict);
         if (!$exists) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Channel ' . $channel .
-                ' does not exist');
+            throw new Exception('Channel ' . $channel . ' does not exist');
         }
         if (1 === $exists) {
             // is a default channel not installed
@@ -201,18 +197,16 @@ class Pear1 extends \pear2\Pyrus\ChannelRegistry\Base
         $cont = file_get_contents($this->channelFileName($channel));
         $a = @unserialize($cont);
         if (!$a || !is_array($a)) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Channel ' . $channel .
-                ' PEAR1 registry file is corrupt');
+            throw new Exception('Channel ' . $channel . ' PEAR1 registry file is corrupt');
         }
         try {
-            $chan = new \pear2\Pyrus\ChannelRegistry\Channel($this, $a);
+            $chan = new Channel($this, $a);
             if ($channel != '__uri') {
                 $chan->validate();
             }
             return $chan;
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\ChannelRegistry\Exception('Channel ' . $channel .
-                ' PEAR1 registry file is invalid channel information', $e);
+            throw new Exception('Channel ' . $channel . ' PEAR1 registry file is invalid channel information', $e);
         }
     }
 

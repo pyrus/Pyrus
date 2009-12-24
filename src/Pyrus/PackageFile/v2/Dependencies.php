@@ -24,58 +24,58 @@
  * // defaults to min
  * $reg->dependencies['required']->php = '5.3.0';
  * $reg->dependencies['required']->php->min('5.3.1')->max('7.0.0')->exclude('6.1.2');
- * 
+ *
  * $reg->dependencies['required']->php = null;
- * 
+ *
  * $reg->dependencies['required']->php->exclude('6.1.2')->exclude('6.1.3');
  * $reg->dependencies['required']->php->exclude(null);
- * 
+ *
  * // for PEAR Installer dep
  * // defaults to min
  * $reg->dependencies['required']->pearinstaller = '2.0.0';
  * $reg->dependencies['required']->pearinstaller->min('2.0.1')->max('3.0.0');
- * 
+ *
  * // for required/optional package deps or subpackage deps
  * $reg->dependencies->required->package['channel/PackageName']->min('1.1.0')->max('1.2.0')->recommended('1.1.1')
  *     ->exclude('1.1.0a1')->exclude('1.1.0a2');
  * $reg->dependencies['optional']->package['channel/PackageName']->min('1.1.0')->max('1.2.0')->recommended('1.1.1')
  *     ->exclude('1.1.0a1')->exclude('1.1.0a2');
- * 
+ *
  * $reg->dependencies->required->subpackage['channel/subpackageName']->min('1.1.0')->max('1.2.0')->recommended('1.1.1')
  *     ->exclude('1.1.0a1')->exclude('1.1.0a2');
  * $reg->dependencies->optional->subpackage['channel/subpackageName']->min('1.1.0')->max('1.2.0')->recommended('1.1.1')
  *     ->exclude('1.1.0a1')->exclude('1.1.0a2');
- * 
+ *
  * // for conflicting package dep
  * $reg->dependencies['required']->subpackage['channel/PackageName']->conflicts();
  * $reg->dependencies['required']->subpackage['channel/PackageName']->conflicts(false);
- * 
+ *
  * // for PECL extension deps (optional or required same as packages)
  * $reg->dependencies['required']->package['channel/PackageName']->providesextension('packagename');
- * 
+ *
  * // for extension deps (required or optional same as packages)
  * $reg->dependencies['required']->extension['extname']->min('1.0.0')->max('1.2.0')->recommended('1.1.1');
- * 
+ *
  * // for regular arch deps
  * $reg->dependencies['required']->arch['i386'] = true; // only works on i386
- * 
+ *
  * // for conflicting arch deps
  * $reg->dependencies['required']->arch['*(ix|ux)'] = false; // doesn't work on unix/linux
- * 
+ *
  * // for regular OS deps
  * $reg->dependencies['required']->os['windows'] = true; // only works on windows
- * 
+ *
  * // for conflicting OS deps
  * $reg->dependencies['required']->os['freebsd'] = false; // doesn't work on FreeBSD
- * 
+ *
  * // dependency group setup
  * $group = $reg->dependencies['group']->groupname;
  * $group->hint = 'Install optional stuff as a group';
- * 
+ *
  * $group->package['channel/PackageName1']->save();
  * $group->package['channel/PackageName2']->min('1.2.0');
  * $group->subpackage['channel/PackageName3']->min('1.3.0');
- * 
+ *
  * $group->extension['extension']->save();
  * </code>
  *
@@ -121,7 +121,7 @@ class Dependencies implements \ArrayAccess
             }
         }
         if ($this->deptype === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+            throw new Dependencies\Exception(
                 'Cannot retrieve dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
@@ -133,8 +133,7 @@ class Dependencies implements \ArrayAccess
                     // break intentionally omitted
                 case 'os' :
                     if ($this->deptype === 'optional' || $this->deptype === 'group') {
-                        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
-                                $var . ' dependency is not supported as an optional dependency');
+                        throw new Dependencies\Exception( $var . ' dependency is not supported as an optional dependency');
                     }
                     $info = array();
                     break;
@@ -148,10 +147,9 @@ class Dependencies implements \ArrayAccess
                 case 'subpackage' :
                 case 'extension' :
                     $info = array();
-                    return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package($this->deptype, $var, $this, $info);
+                    return new Dependencies\Package($this->deptype, $var, $this, $info);
                 default :
-                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Unknown dependency type: '.
-                        $var);
+                    throw new Dependencies\Exception('Unknown dependency type: '. $var);
             }
         } else {
             $info = $this->info[$var];
@@ -172,7 +170,7 @@ class Dependencies implements \ArrayAccess
                     if (count($info) && !isset($info[0])) {
                         $info = array($info);
                     }
-                    return new \pear2\Pyrus\PackageFile\v2\Dependencies\Package($this->deptype, $var, $this, $info);
+                    return new Dependencies\Package($this->deptype, $var, $this, $info);
             }
             foreach ($keys as $key => $null) {
                 if (!array_key_exists($key, $info)) {
@@ -180,13 +178,13 @@ class Dependencies implements \ArrayAccess
                 }
             }
         }
-        return new \pear2\Pyrus\PackageFile\v2\Dependencies\Dep($this, $info, $var);
+        return new Dependencies\Dep($this, $info, $var);
     }
 
     function __set($var, $value)
     {
         if ($this->deptype === null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+            throw new Dependencies\Exception(
                 'Cannot set dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
@@ -210,11 +208,11 @@ class Dependencies implements \ArrayAccess
             case 'arch' :
             case 'os' :
                 if ($this->deptype === 'optional' || $this->deptype === 'group') {
-                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+                    throw new Dependencies\Exception(
                             $var . ' dependency is not supported as an optional dependency');
                 }
-                if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Dep)) {
-                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+                if (!($value instanceof Dependencies\Dep)) {
+                    throw new Dependencies\Exception(
                         'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Dep object'
                     );
                 }
@@ -224,8 +222,8 @@ class Dependencies implements \ArrayAccess
             case 'package' :
             case 'subpackage' :
             case 'extension' :
-                if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Package)) {
-                    throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception(
+                if (!($value instanceof Dependencies\Package)) {
+                    throw new Dependencies\Exception(
                         'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object'
                     );
                 }
@@ -233,7 +231,7 @@ class Dependencies implements \ArrayAccess
                 $this->save();
                 return;
             default :
-                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Unknown dependency type: ' . $var);
+                throw new Dependencies\Exception('Unknown dependency type: ' . $var);
         }
         $this->info[$var] = $info;
         $this->save();
@@ -250,32 +248,32 @@ class Dependencies implements \ArrayAccess
     function offsetGet($var)
     {
         if ($this->deptype !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot access ' .
+            throw new Dependencies\Exception('Cannot access ' .
                                     '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
         }
         if ($var === 'required' || $var === 'optional') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
             }
-            return new \pear2\Pyrus\PackageFile\v2\Dependencies($this, $this->info[$var], $var);
+            return new Dependencies($this, $this->info[$var], $var);
         }
         if ($var === 'group') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
             }
-            return new \pear2\Pyrus\PackageFile\v2\Dependencies\Group($this, $this->info['group']);
+            return new Dependencies\Group($this, $this->info['group']);
         }
     }
 
     function offsetSet($var, $value)
     {
         if ($this->deptype !== null) {
-            throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' .
+            throw new Dependencies\Exception('Cannot set ' .
                                     '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
         }
         if ($var === 'group') {
-            if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies\Group)) {
-                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set group to anything' .
+            if (!($value instanceof Dependencies\Group)) {
+                throw new Dependencies\Exception('Cannot set group to anything' .
                             ' but a \pear2\Pyrus\PackageFile\v2\Dependencies\Group object');
             }
             $this->info['group'] = $value->getInfo();
@@ -283,15 +281,15 @@ class Dependencies implements \ArrayAccess
             return;
         }
         if ($var === 'required' || $var === 'optional') {
-            if (!($value instanceof \pear2\Pyrus\PackageFile\v2\Dependencies)) {
-                throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Cannot set ' . $var . ' to anything' .
+            if (!($value instanceof Dependencies)) {
+                throw new Dependencies\Exception('Cannot set ' . $var . ' to anything' .
                             ' but a \pear2\Pyrus\PackageFile\v2\Dependencies object');
             }
             $this->info[$var] = $value->getInfo();
             $this->save();
             return;
         }
-        throw new \pear2\Pyrus\PackageFile\v2\Dependencies\Exception('Only required, optional, or group indices' .
+        throw new Dependencies\Exception('Only required, optional, or group indices' .
                         ' are supported, was passed ' . $var);
     }
 

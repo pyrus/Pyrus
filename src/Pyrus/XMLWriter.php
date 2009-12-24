@@ -40,20 +40,20 @@ class XMLWriter
     private $_expectedDepth;
     private $_type;
     private $_lastkey;
-    
+
     /**
      * Construct a new xml writer object.
      * <code>
      * $xmlarray = array('channel'=>array('name'=>'pear2.php.net'));
      * $channel = new \pear2\Pyrus\XMLWriter($xmlarray);
      * </code>
-     * 
+     *
      * @param array $array Array representing the XML data.
      */
     function __construct(array $array)
     {
         if (count($array) != 1) {
-            throw new \pear2\Pyrus\XMLWriter\Exception('Cannot serialize array to' .
+            throw new XMLWriter\Exception('Cannot serialize array to' .
                 'XML, array must have exactly 1 element');
         }
         $this->_array  = $array;
@@ -62,7 +62,7 @@ class XMLWriter
 
     /**
      * Return the raw xml string representation.
-     * 
+     *
      * @return string
      */
     function __toString()
@@ -86,7 +86,7 @@ class XMLWriter
     private function _popState()
     {
         $save = $this->_namespaces;
-        
+
         list($this->_type, $this->_tag, $this->_expectedDepth, $this->_namespaces) =
             array_pop($this->_state);
         foreach ($save as $ns) {
@@ -146,7 +146,7 @@ class XMLWriter
 
     /**
      * Handle an individual tag/element in the XML
-     * 
+     *
      * @param mixed $key    The key for this element.
      * @param mixed $values The contents of this tag/element.
      */
@@ -218,7 +218,7 @@ class XMLWriter
 
     /**
      * @access private
-     * 
+     *
      * @return bool
      */
     public static function _filter($a)
@@ -232,7 +232,7 @@ class XMLWriter
     /**
      * Utilize custom serialization for XMLWriter object, to convert object
      * to SQL.
-     * 
+     *
      * @return string
      */
     private function _serialize()

@@ -27,7 +27,7 @@ namespace pear2\Pyrus\Task;
 class Windowseol extends \pear2\Pyrus\Task\Common
 {
     const TYPE = 'simple';
-    const PHASE = \pear2\Pyrus\Task\Common::PACKAGEANDINSTALL;
+    const PHASE = Common::PACKAGEANDINSTALL;
     var $_replacements;
 
     /**
@@ -43,18 +43,18 @@ class Windowseol extends \pear2\Pyrus\Task\Common
 
     /**
      * Validate the basic contents of a <windowseol> tag
-     * 
+     *
      * @param PEAR_Pyrus_PackageFileInterface
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * 
+     *
      * @throws \pear2\Pyrus\Task\Exception\InvalidTask
      */
     static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if (is_array($xml) && count($xml) || $xml !== '') {
-            throw new \pear2\Pyrus\Task\Exception\InvalidTask('windowseol', $file, 'no attributes allowed');
+            throw new Exception\InvalidTask('windowseol', $file, 'no attributes allowed');
         }
         return true;
     }
@@ -84,4 +84,3 @@ class Windowseol extends \pear2\Pyrus\Task\Common
         return true;
     }
 }
-?>
