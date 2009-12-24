@@ -34,21 +34,20 @@ class PackageFile implements PackageFileInterface
             $this->path = $package->getFilePath();
             return $this->info = $package;
         }
+
         $this->path = $package;
         $parser = new PackageFile\Parser\v2;
         if ($isstring) {
             $data = $package;
         } else {
-            if (file_exists($package)) {
-                $data = file_get_contents($package);
-            } else {
-                $data = false;
-            }
+            $data = file_exists($package) ? file_get_contents($package) : false;
         }
+
         if ($data === false || empty($data)) {
             throw new PackageFile\Exception('Unable to open package xml file '
                 . $package . ' or file was empty.');
         }
+
         $this->info = $parser->parse($data, $package, $class);
     }
 

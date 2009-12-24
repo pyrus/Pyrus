@@ -52,6 +52,7 @@ class REST{
         if (file_exists($cachefile)) {
             return unserialize(implode('', file($cachefile)));
         }
+
         return $this->retrieveData($url, $accept, $forcestring);
     }
 
@@ -75,61 +76,54 @@ class REST{
             try {
                 $file = $this->downloadHttp($url, $cacheId ? $cacheId['lastChange'] : false, $accept);
             } catch (\pear2\HTTP\Request\Exception $e) {
-                $trieddownload = false;
-                $file = false;
+                $file = $trieddownload = false;
             }
         } else {
-            $trieddownload = false;
-            $file = false;
+            $file = $trieddownload = false;
         }
+
         if (!$file) {
             $ret = $this->getCache($url);
             if ($trieddownload) {
                 // reset the age of the cache if the server says it was unmodified
                 $this->saveCache($url, $ret, null, true, $cacheId);
             }
+
             return $ret;
         }
+
         if (is_array($file)) {
-            $headers = $file[2];
+            $headers      = $file[2];
             $lastmodified = $file[1];
-            $content = $file[0];
+            $content      = $file[0];
         } else {
-            $content = $file;
+            $content      = $file;
             $lastmodified = false;
-            $headers = array();
+            $headers      = array();
         }
+
         if ($forcestring) {
             $this->saveCache($url, $content, $lastmodified, false, $cacheId);
             return $content;
         }
-        if (isset($headers['content-type'])) {
-            switch ($headers['content-type']) {
-                case 'text/xml' :
-                case 'application/xml' :
-                    $parser = new XMLParser;
-                    try {
-                        $content = $parser->parseString($content);
-                        $content = current($content);
-                    } catch (\Exception $e) {
-                        throw new REST\Exception(
-                            'Invalid xml downloaded from "' . $url . '"', $e);
-                    }
-                case 'text/html' :
-                default :
-                    // use it as a string
-            }
-        } else {
-            // assume XML
-            $parser = new XMLParser;
-            try {
-                $content = $parser->parseString($content);
-                $content = current($content);
-            } catch (\Exception $e) {
-                throw new REST\Exception(
-                    'Invalid xml downloaded from "' . $url . '"', $e);
-            }
+
+        // Default to XML if no content-type is provided
+        $ct = isset($headers['content-type']) ? $headers['content-type'] : 'text/xml';
+        switch ($ct) {
+            case 'text/xml' :
+            case 'application/xml' :
+                $parser = new XMLParser;
+                try {
+                    $content = $parser->parseString($content);
+                    $content = current($content);
+                } catch (\Exception $e) {
+                    throw new REST\Exception('Invalid xml downloaded from "' . $url . '"', $e);
+                }
+            case 'text/html' :
+            default :
+                // use it as a string
         }
+
         $this->saveCache($url, $content, $lastmodified, false, $cacheId);
         return $content;
     }
@@ -145,11 +139,13 @@ class REST{
 
             $cacheid = unserialize(implode('', file($cacheidfile)));
         }
+
         $cachettl = $this->config->cache_ttl;
         // If cache is newer than $cachettl seconds, we use the cache!
         if (time() - $cacheid['age'] < $cachettl) {
             return $this->getCache($url);
         }
+
         return false;
     }
 
@@ -173,8 +169,7 @@ class REST{
             return unserialize(implode('', file($cachefile)));
         }
 
-        throw new REST\Exception(
-                'No cached content available for "' . $url . '"');
+        throw new REST\Exception('No cached content available for "' . $url . '"');
     }
 
     /**
@@ -202,8 +197,7 @@ class REST{
             }
 
             if (!@mkdir($cache_dir, 0755, true)) {
-                throw new REST\Exception(
-                    'Cannot create REST cache directory ' . $cache_dir);
+                throw new REST\Exception('Cannot create REST cache directory ' . $cache_dir);
             }
 
             $fp = @fopen($cacheidfile, 'wb');
@@ -266,6 +260,7 @@ class REST{
         if (!isset($info['scheme']) || !in_array($info['scheme'], array('http', 'https'))) {
             throw new REST\Exception('Cannot download non-http URL "' . $url . '"');
         }
+
         if (!isset($info['host'])) {
             throw new REST\Exception('Cannot download from non-URL "' . $url . '"');
         }
@@ -274,16 +269,19 @@ class REST{
         if ($response->code == 304 && ($lastmodified || ($lastmodified === false))) {
             return false;
         }
+
         if (isset($response->headers['content-length'])) {
             $length = $response->headers['content-length'];
         } else {
             $length = -1;
         }
+
         $data = $response->body;
         if ($lastmodified === false || $lastmodified) {
             if (isset($response->headers['etag'])) {
                 $lastmodified = array('ETag' => $response->headers['etag']);
             }
+
             if (isset($response->headers['last-modified'])) {
                 if (is_array($lastmodified)) {
                     $lastmodified['Last-Modified'] = $response->headers['last-modified'];
@@ -291,8 +289,10 @@ class REST{
                     $lastmodified = $response->headers['last-modified'];
                 }
             }
+
             return array($data, $lastmodified, $response->headers);
         }
+
         return $data;
     }
 }

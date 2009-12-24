@@ -684,6 +684,7 @@ class Config
             foreach ($errors as $err) {
                 $e->E_ERROR[] = new Config\Exception(trim($err->message));
             }
+
             libxml_clear_errors();
             throw new Config\Exception(
                 'Unable to parse invalid user PEAR configuration at "' . $userfile . '"',
@@ -698,8 +699,8 @@ class Config
             if ($value == '@attributes') {
                 continue;
             }
-            Logger::log(5, 'Removing unrecognized user configuration value ' .
-                $value);
+
+            Logger::log(5, 'Removing unrecognized user configuration value ' . $value);
             unset($x->$value);
         }
 
@@ -709,10 +710,13 @@ class Config
                 if (!isset(self::$userConfigs[$userfile][$name])) {
                     continue;
                 }
+
                 self::$userConfigs[$userfile][$name] = (array) self::$userConfigs[$userfile][$name];
             }
+
             return;
         }
+
         $this->setupCascadingRegistries($pearDirectory);
 
         self::$userConfigs[$userfile] = (array) $x;
@@ -737,6 +741,7 @@ class Config
                 if ($path === '.') {
                     continue;
                 }
+
                 if (substr($path, strlen($path) - 3) == 'php' && $path[strlen($path) - 4] == DIRECTORY_SEPARATOR) {
                     // include_path goes to the php_dir which is always php, so our config
                     // file is in the parent directory.
@@ -745,10 +750,12 @@ class Config
                     $extra[] = $path;
                 }
             }
+
             Logger::log(1, 'Automatically cascading include_path components ' . implode(', ', $extra));
             array_unshift($extra, $primary);
             $paths = $extra;
         }
+
         $paths = array_unique($paths);
         $pearDirectory = implode(PATH_SEPARATOR, $paths);
         return $pearDirectory;
@@ -763,6 +770,7 @@ class Config
             } else {
                 $this->my_pear_path = $pearDirectory;
             }
+
             Logger::log(5, 'Assuming my_pear_path is ' . $this->my_pear_path);
         } else {
             if (!$pearDirectory) {
@@ -799,12 +807,14 @@ class Config
             $pearDirectory = explode(PATH_SEPARATOR, $pearDirectory);
             $pearDirectory = $pearDirectory[0];
         }
+
         if (isset(self::$configs[$pearDirectory]) ||
               !file_exists($pearDirectory . DIRECTORY_SEPARATOR . '.config')) {
             Logger::log(5, 'Configuration not found for ' . $pearDirectory .
                 ', assuming defaults');
             return;
         }
+
         Logger::log(5, 'Loading configuration for ' . $pearDirectory);
         $this->helperLoadConfigFile($pearDirectory, $pearDirectory . DIRECTORY_SEPARATOR . '.config');
     }
@@ -814,6 +824,7 @@ class Config
         if ($extrainfo) {
             $extrainfo .= ' ';
         }
+
         libxml_use_internal_errors(true);
         libxml_clear_errors();
         $x = simplexml_load_file($file);
@@ -823,6 +834,7 @@ class Config
             foreach ($errors as $err) {
                 $e->E_ERROR[] = new Config\Exception(trim($err->message));
             }
+
             libxml_clear_errors();
             throw new Config\Exception(
                 'Unable to parse invalid PEAR configuration ' . $extrainfo . 'at "' . $pearDirectory . '"',
@@ -883,6 +895,7 @@ class Config
         if ($this->packagingRoot) {
             $test = Main::prepend($this->packagingRoot, $test);
         }
+
         while ($test && !file_exists($test)) {
             $test = dirname($test);
         }
@@ -905,6 +918,7 @@ class Config
             if (!isset(self::$userConfigs[$this->userfile][$key] )) {
                 continue;
             }
+
             foreach (self::$userConfigs[$this->userfile][$key] as $safechan => $value) {
                 $x->$key->$safechan = (string) $value;
             }
@@ -914,6 +928,7 @@ class Config
             if (!isset(self::$userConfigs[$this->userfile][$key] )) {
                 continue;
             }
+
             foreach (self::$userConfigs[$this->userfile][$key] as $safechan => $value) {
                 $x->$key->$safechan = (string) $value;
             }
@@ -925,8 +940,8 @@ class Config
                 'Unable to create directory ' . $userfiledir . ' to save ' .
                 'user configuration ' . $userfile);
         }
-        file_put_contents($userfile, $x->asXML());
 
+        file_put_contents($userfile, $x->asXML());
         if (!isset(static::$configDirty[$this->pearDir])) {
             // no changes have been made to the config, no need to write it out
             return;
@@ -936,9 +951,11 @@ class Config
         if (dirname($system) != $this->pearDir) {
             $system = $this->pearDir . DIRECTORY_SEPARATOR . '.config';
         }
+
         if ($this->packagingRoot) {
             $system = Main::prepend($this->packagingRoot, $system);
         }
+
         if (!file_exists(dirname($system)) && !@mkdir(dirname($system), 0777, true)) {
             throw new Config\Exception(
                 'Unable to create directory ' . dirname($system) . ' to save ' .
@@ -957,6 +974,7 @@ class Config
         foreach (self::$customPearConfigNames as $var) {
             $x->$var = $this->$var;
         }
+
         file_put_contents($system, $x->asXML());
         unset(static::$configDirty[$this->pearDir]);
         // save a snapshot for installation purposes
@@ -977,6 +995,7 @@ class Config
         if ($conf->hasPackagingRoot()) {
             $snapshotdir = Main::prepend($conf->packagingRoot(), $snapshotdir);
         }
+
         if (!file_exists($snapshotdir)) {
             // this will be simple - no snapshots exist yet
             if (!@mkdir($snapshotdir, 0755, true)) {
@@ -999,6 +1018,7 @@ class Config
             file_put_contents($snapshotdir . DIRECTORY_SEPARATOR . $snapshot, $x->asXML());
             return $snapshot;
         }
+
         // scan existing snapshots, if any, for a match
         $dir = opendir($snapshotdir);
         while (false !== ($snapshot = readdir($dir))) {
@@ -1016,6 +1036,7 @@ class Config
             Logger::log(5, 'Found matching configuration snapshot ' . $snapshot);
             return $snapshot;
         }
+
         Logger::log(5, 'No matching configuration snapshot found');
         // no matches found
         $snapshot = 'configsnapshot-' . date('Y-m-d H-i-s') . '.xml';
@@ -1097,6 +1118,7 @@ class Config
                 throw new Config\Exception('Cannot override existing custom user configuration value "'
                                                        . $key . '"');
             }
+
             $var = 'customUserConfigNames';
             if ($system === 'channel-specific') {
                 self::$customChannelSpecificNames[] = $key;
@@ -1104,6 +1126,7 @@ class Config
                 return;
             }
         }
+
         self::${$var}[count(self::${$var})] = $key;
         self::$customDefaults[$key] = $default;
     }
@@ -1114,6 +1137,7 @@ class Config
             // this prevents a rather nasty loop if logging is checking on verbose
             return self::$defaults['verbose'];
         }
+
         Logger::log(5, 'Replacing @php_dir@ for config variable ' .
                              $key .
             ' default value "' . self::$defaults[$key] . '"');
@@ -1152,16 +1176,16 @@ return_default_value:
                                          $key .
                         ' default value "' . self::$defaults[$key] . '"');
                     return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
-                } else {
-                    Logger::log(5, 'Replacing @php_dir@ for config variable ' .
-                                         $key .
-                        ' default value "' . self::$customDefaults[$key] . '"');
-                    $ret = str_replace('@php_dir@', $this->pearDir, self::$customDefaults[$key]);
-                    Logger::log(5, 'Replacing @default_config_dir@ for config variable ' .
-                                         $key .
-                        ' default value "' . self::$customDefaults[$key] . '"');
-                    return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
                 }
+
+                Logger::log(5, 'Replacing @php_dir@ for config variable ' .
+                                     $key .
+                    ' default value "' . self::$customDefaults[$key] . '"');
+                $ret = str_replace('@php_dir@', $this->pearDir, self::$customDefaults[$key]);
+                Logger::log(5, 'Replacing @default_config_dir@ for config variable ' .
+                                     $key .
+                    ' default value "' . self::$customDefaults[$key] . '"');
+                return str_replace('@default_config_dir@', dirname($this->userFile), $ret);
             }
 
             if (in_array($key, array_merge(self::$pearConfigNames,
@@ -1181,8 +1205,10 @@ return_default_value:
                 if (isset(self::$userConfigs[$this->userfile][$key][$this->safeName($chan)])) {
                     return self::$userConfigs[$this->userfile][$key][$this->safeName($chan)];
                 }
+
                 goto return_default_value;
             }
+
             return self::$userConfigs[$this->userFile][$key];
         }
 
@@ -1249,9 +1275,8 @@ return_default_value:
             return self::$customChannelSpecificNames;
         }
 
-        throw new Config\Exception(
-            'Unknown configuration variable "' . $key . '" in location ' .
-            $this->pearDir);
+        throw new Config\Exception('Unknown configuration variable "' . $key . '" in location ' .
+                                    $this->pearDir);
     }
 
     /**
@@ -1310,6 +1335,7 @@ return_default_value:
         if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
             return isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)]);
         }
+
         return isset(self::$userConfigs[$this->userFile][$key]);
     }
 
@@ -1344,6 +1370,7 @@ return_default_value:
             if (!isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
                 self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)] = array();
             }
+
             self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)] = $value;
         } else {
             self::$userConfigs[$this->userFile][$key] = $value;
@@ -1367,6 +1394,7 @@ return_default_value:
         if (!$assumeabstract && @file_exists($pname) && @is_file($pname)) {
             return $pname;
         }
+
         return self::current()->channelregistry->parseName($pname);
     }
 

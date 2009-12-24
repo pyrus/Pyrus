@@ -74,9 +74,9 @@ class XMLParser
     function parse($file, $schema = false)
     {
         if (!$this->reader->open($file)) {
-            throw new XMLParser\Exception('Cannot open ' . $file .
-                ' for parsing');
+            throw new XMLParser\Exception('Cannot open ' . $file . ' for parsing');
         }
+
         return $this->_parse($file, $schema, true);
     }
 
@@ -101,9 +101,11 @@ class XMLParser
                 if (!is_array($tag)) {
                     $tag = array();
                 }
+
                 $tag['attribs'] = $attribs;
             }
         }
+
         if (is_array($arr) && isset($arr[$name]) && is_array($arr[$name]) &&
               isset($arr[$name][0])) {
             // tag exists as a sibling
@@ -112,6 +114,7 @@ class XMLParser
                 $arr[$name][$where] = $tag;
                 return $arr;
             }
+
             if (!is_array($arr[$name][$where])) {
                 if (strlen($arr[$name][$where])) {
                     $arr[$name][$where] = array('_content' => $arr[$name][$where]);
@@ -119,18 +122,22 @@ class XMLParser
                     $arr[$name][$where] = array();
                 }
             }
+
             $arr[$name][$where] = $tag;
         } else {
             if (!is_array($arr)) {
                 $arr = array();
             }
+
             if (isset($arr[$name])) {
                 // new sibling
                 $arr[$name] = array($arr[$name], $tag);
                 return $arr;
             }
+
             $arr[$name] = $tag;
         }
+
         return $arr;
     }
 
@@ -145,6 +152,7 @@ class XMLParser
         } else {
             $arr = $value;
         }
+
         return $arr;
     }
 
@@ -155,6 +163,7 @@ class XMLParser
         } else {
             $me = $value;
         }
+
         return $me;
     }
 
@@ -169,9 +178,11 @@ class XMLParser
             $causes[] = new XMLParser\Exception("Line " .
                  $error->line . ': ' . $error->message);
         }
+
         if (count($causes)) {
             throw new XMLParser\Exception('Invalid XML document', $causes);
         }
+
         if ($schema) {
             $a = new \DOMDocument();
             if ($isfile) {
@@ -179,6 +190,7 @@ class XMLParser
             } else {
                 $a->loadXML($file);
             }
+
             /*
              from Rob Richards talk, use
              $a->setSchema($schema);
@@ -193,6 +205,7 @@ class XMLParser
                 $causes[] = new XMLParser\Exception("Line " .
                      $error->line . ': ' . $error->message);
             }
+
             libxml_clear_errors();
             if (count($causes)) {
                 throw new XMLParser\Exception('Invalid XML document', $causes);
@@ -217,14 +230,17 @@ class XMLParser
                             $attribs[$this->reader->name] = $this->reader->value;
                             $attr = $this->reader->moveToNextAttribute();
                         }
+
                         $depth = $this->reader->depth;
                         $arr = $this->mergeTag($arr, '', $attribs, $tag, $depth);
                         continue;
                     }
+
                     $depth = $this->reader->depth;
                     $arr = $this->mergeTag($arr, '', array(), $tag, $depth);
                     continue;
                 }
+
                 if ($this->reader->hasAttributes) {
                     $attr = $this->reader->moveToFirstAttribute();
                     while ($attr) {
@@ -232,6 +248,7 @@ class XMLParser
                         $attr = $this->reader->moveToNextAttribute();
                     }
                 }
+
                 $depth = $this->reader->depth;
                 $arr = $this->mergeTag($arr, '', $attribs, $tag, $depth);
                 if (is_array($arr[$tag]) && isset($arr[$tag][0])) {
@@ -241,16 +258,21 @@ class XMLParser
                 } else {
                     $arr[$tag] = $this->_recursiveParse($arr[$tag]);
                 }
+
                 continue;
             }
+
             if ($this->reader->nodeType == XMLReader::END_ELEMENT) {
                 return $arr;
             }
+
             if ($this->reader->nodeType == XMLReader::TEXT ||
-                  $this->reader->nodeType == XMLReader::CDATA) {
+                $this->reader->nodeType == XMLReader::CDATA
+            ) {
                 $arr = $this->mergeValue($arr, $this->reader->value);
             }
         }
+
         return $arr;
     }
 }

@@ -173,9 +173,11 @@ class Validate{
         if (!isset($this->_packagexml)) {
             return false;
         }
+
         if ($state !== null) {
             $this->_state = $state;
         }
+
         $this->failures = new \pear2\MultiErrors;
         $this->validatePackageName();
         $this->validateVersion();
@@ -208,11 +210,13 @@ class Validate{
                 if ($test == '0') {
                     return true;
                 }
+
                 $vlen = strlen($test);
                 $majver = substr($name, strlen($name) - $vlen);
                 while ($majver && !is_numeric($majver{0})) {
                     $majver = substr($majver, 1);
                 }
+
                 if ($majver != $test) {
                     $this->_addWarning('package', "package $name extends package " .
                         $this->_packagexml->extends . ' and so the name should ' .
@@ -229,12 +233,13 @@ class Validate{
                 }
             }
         }
+
         $vpackage = $this->channel->getValidationPackage();
         if ($this->validPackageName($this->_packagexml->name, $vpackage['_content'])) {
             return true;
         }
-        $this->_addFailure('package', 'package name "' .
-            $this->_packagexml->name . '" is invalid');
+
+        $this->_addFailure('package', 'package name "' . $this->_packagexml->name . '" is invalid');
         return false;
     }
 
@@ -247,6 +252,7 @@ class Validate{
             // allow any version
             return true;
         }
+
         if ($this->_state != Validate::PACKAGING) {
             if (!$this->validVersion($this->_packagexml->version['release'])) {
                 $this->_addFailure('version',
@@ -254,6 +260,7 @@ class Validate{
                 return false;
             }
         }
+
         $version = $this->_packagexml->version['release'];
         $versioncomponents = explode('.', $version);
         if (count($versioncomponents) != 3) {
@@ -261,6 +268,7 @@ class Validate{
                 'A version number should have 3 decimals (x.y.z)');
             return true;
         }
+
         $name = $this->_packagexml->name;
         // version must be based upon state
         switch ($this->_packagexml->stability['release']) {
@@ -268,6 +276,7 @@ class Validate{
                 if ($versioncomponents[0] . 'a' == '0a') {
                     return true;
                 }
+
                 if ($versioncomponents[0] == 0) {
                     $versioncomponents[0] = '0';
                     $this->_addWarning('version',
@@ -290,6 +299,7 @@ class Validate{
                         return false;
                     }
                 }
+
                 if (!$this->_packagexml->extends) {
                     if ($versioncomponents[0] == '1') {
                         if ($versioncomponents[2]{0} == '0') {
@@ -302,33 +312,33 @@ class Validate{
                             } elseif (strlen($versioncomponents[2]) > 1 && !is_numeric($versioncomponents[2])) {
                                 // version 1.*.0RC1 or 1.*.0beta24 etc.
                                 return true;
-                            } else {
-                                // version 1.*.001 or something
-                                $this->_addWarning('version',
-                                    'version 1.' . $versioncomponents[1] .
-                                        '.' . $versioncomponents[2] . ' probably should not be alpha or beta');
-                                return true;
                             }
-                        } else {
-                            $this->_addWarning('version',
-                                'bugfix versions (1.3.x where x > 0) probably should ' .
-                                'not be alpha or beta');
+
+                            // version 1.*.001 or something
+                            $this->_addWarning('version', 'version 1.' . $versioncomponents[1] .
+                                    '.' . $versioncomponents[2] . ' probably should not be alpha or beta');
                             return true;
                         }
+
+                        $this->_addWarning('version',
+                            'bugfix versions (1.3.x where x > 0) probably should ' .
+                            'not be alpha or beta');
+                        return true;
                     } elseif ($versioncomponents[0] != '0') {
                         $this->_addWarning('version',
                             'major versions greater than 1 are not allowed for packages ' .
                             'without an <extends> tag or an identical postfix (foo2 v2.0.0)');
                         return true;
                     }
+
                     if ($versioncomponents[0] . 'a' == '0a') {
                         return true;
                     }
+
                     if ($versioncomponents[0] == 0) {
                         $versioncomponents[0] = '0';
-                        $this->_addWarning('version',
-                            'version "' . $version . '" should be "' .
-                            implode('.' ,$versioncomponents) . '"');
+                        $this->_addWarning('version', 'version "' . $version . '" should be "' .
+                                                      implode('.' ,$versioncomponents) . '"');
                     }
                 } else {
                     $vlen = strlen($versioncomponents[0] . '');
@@ -336,6 +346,7 @@ class Validate{
                     while ($majver && !is_numeric($majver{0})) {
                         $majver = substr($majver, 1);
                     }
+
                     if (($versioncomponents[0] != 0) && $majver != $versioncomponents[0]) {
                         $this->_addWarning('version', 'first version number "' .
                             $versioncomponents[0] . '" must match the postfix of ' .
@@ -343,6 +354,7 @@ class Validate{
                             $majver . ')');
                         return true;
                     }
+
                     if ($versioncomponents[0] == $majver) {
                         if ($versioncomponents[2]{0} == '0') {
                             if ($versioncomponents[2] == '0') {
@@ -354,22 +366,24 @@ class Validate{
                             } elseif (strlen($versioncomponents[2]) > 1 && !is_numeric($versioncomponents[2])) {
                                 // version 2.*.0RC1 or 1.*.0beta24 etc.
                                 return true;
-                            } else {
-                                // version 2.*.001 or something
-                                $this->_addWarning('version',
-                                    'version ' . $version . ' probably should not be alpha or beta');
-                                return true;
                             }
-                        } else {
+
+                            // version 2.*.001 or something
                             $this->_addWarning('version',
-                                "bugfix versions ($majver.x.y where y > 0) should " .
-                                'not be alpha or beta');
+                                'version ' . $version . ' probably should not be alpha or beta');
                             return true;
                         }
+
+                        $this->_addWarning('version',
+                            "bugfix versions ($majver.x.y where y > 0) should " .
+                            'not be alpha or beta');
+                        return true;
                     }
+
                     if ($versioncomponents[0] . 'a' == '0a') {
                         return true;
                     }
+
                     if ($versioncomponents[0] == 0) {
                         $versioncomponents[0] = '0';
                         $this->_addWarning('version',
@@ -385,6 +399,7 @@ class Validate{
                     'be stable');
                     return true;
                 }
+
                 if (!is_numeric($versioncomponents[2])) {
                     if (preg_match('/\d+(rc|a|alpha|b|beta)\d*/i',
                           $versioncomponents[2])) {
@@ -393,6 +408,7 @@ class Validate{
                         return true;
                     }
                 }
+
                 // check for a package that extends a package,
                 // like Foo and Foo2
                 if ($this->_packagexml->extends) {
@@ -401,6 +417,7 @@ class Validate{
                     while ($majver && !is_numeric($majver{0})) {
                         $majver = substr($majver, 1);
                     }
+
                     if (($versioncomponents[0] != 0) && $majver != $versioncomponents[0]) {
                         $this->_addWarning('version', 'first version number "' .
                             $versioncomponents[0] . '" must match the postfix of ' .
@@ -412,6 +429,7 @@ class Validate{
                     $this->_addWarning('version', 'major version x in x.y.z may not be greater than ' .
                         '1 for any package that does not have an <extends> tag');
                 }
+
                 return true;
             break;
             default :
@@ -441,17 +459,14 @@ class Validate{
                   $this->_packagexml->date, $res) ||
                   count($res) < 4
                   || !checkdate($res[2], $res[3], $res[1])
-                ) {
-                $this->_addFailure('date', 'invalid release date "' .
-                    $this->_packagexml->date . '"');
+            ) {
+                $this->_addFailure('date', 'invalid release date "' . $this->_packagexml->date . '"');
                 return false;
             }
 
 
-            if ($this->_state == Validate::PACKAGING &&
-                  $this->_packagexml->date != date('Y-m-d')) {
-                $this->_addWarning('date', 'Release Date "' .
-                    $this->_packagexml->date . '" is not today');
+            if ($this->_state == Validate::PACKAGING && $this->_packagexml->date != date('Y-m-d')) {
+                $this->_addWarning('date', 'Release Date "' . $this->_packagexml->date . '" is not today');
             }
         }
         return true;
@@ -469,18 +484,17 @@ class Validate{
         // packager automatically sets time, so only validate if
         // pear validate is called
         if ($this->_state = Validate::NORMAL) {
-            if (!preg_match('/\d\d:\d\d:\d\d/',
-                  $this->_packagexml->time)) {
-                $this->_addFailure('time', 'invalid release time "' .
-                    $this->_packagexml->time . '"');
+            if (!preg_match('/\d\d:\d\d:\d\d/', $this->_packagexml->time)) {
+                $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
                 return false;
             }
+
             if (strtotime($this->_packagexml->time) == -1) {
-                $this->_addFailure('time', 'invalid release time "' .
-                    $this->_packagexml->time . '"');
+                $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
                 return false;
             }
         }
+
         return true;
     }
 
@@ -498,6 +512,7 @@ class Validate{
                 implode(', ', self::getValidStates()));
             $ret = false;
         }
+
         $apistates = self::getValidStates();
         array_shift($apistates); // snapshot is not allowed
         if (!in_array($apistability, $apistates)) {
@@ -506,6 +521,7 @@ class Validate{
                 implode(', ', $apistates));
             $ret = false;
         }
+
         return $ret;
     }
 

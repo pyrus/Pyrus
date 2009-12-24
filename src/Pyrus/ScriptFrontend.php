@@ -36,11 +36,13 @@ class ScriptFrontend extends \PEAR2_Console_CommandLine
             $command        = new ScriptFrontend\Command($params);
             $testname = $name;
         }
+
         if (isset($this->commands[$testname])) {
             if (!$overrideOK) {
                 throw new ScriptFrontend\Exception('Cannot override existing command ' . $testname);
             }
         }
+
         $command->parent                = $this;
         $this->commands[$command->name] = $command;
         return $command;

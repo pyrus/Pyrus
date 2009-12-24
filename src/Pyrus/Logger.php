@@ -29,14 +29,17 @@ class Logger
     static public $log = array();
     static public $maxlevel = 7;
     static protected $observers = array();
+
     static public function log($level, $message)
     {
         if (count(self::$observers)) {
             foreach (self::$observers as $observer) {
                 $observer->log($level, $message);
             }
+
             return;
         }
+
         for ($i = $level; $i <= self::$maxlevel; $i++) {
             self::$log[$i][] = $message;
         }

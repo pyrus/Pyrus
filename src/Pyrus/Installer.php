@@ -101,11 +101,12 @@ class Installer
                 self::$lastCurrent = Config::current();
                 Config::setCurrent(Config::current()->plugins_dir);
             }
-            static::$installPackages = array();
+
+            static::$installPackages   = array();
             static::$installedPackages = array();
-            static::$removedPackages = array();
-            static::$wasInstalled = array();
-            static::$inTransaction = true;
+            static::$removedPackages   = array();
+            static::$wasInstalled      = array();
+            static::$inTransaction     = true;
             if (isset(Main::$options['packagingroot'])) {
                 Config::current()->resetForPackagingRoot();
             }
@@ -128,42 +129,45 @@ class Installer
                 return;
             }
         }
+
         if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
             // checking of validity for upgrade is done by \pear2\Pyrus\Package\Dependency::retrieve(),
             // so all deps that make it this far can be added
-            if (Config::current()->registry->exists(
-                  $package->name, $package->channel)) {
-                if (!$package->isUpgradeable()) {
-                    if (!isset(Main::$options['force'])) {
-                        // installed package is the same or newer version than this one
-                        Logger::log(1, 'Skipping installed package ' .
-                            $package->channel . '/' . $package->name);
-                        return;
-                    }
+            if (Config::current()->registry->exists($package->name, $package->channel)) {
+                if (!$package->isUpgradeable() && !isset(Main::$options['force'])) {
+                    // installed package is the same or newer version than this one
+                    Logger::log(1, 'Skipping installed package ' . $package->channel . '/' . $package->name);
+                    return;
                 }
             }
+
             static::$installPackages[$package->channel . '/' . $package->name] = $package;
             return;
         }
+
         $clone = static::$installPackages[$package->channel . '/' . $package->name];
         if (!$package->isStatic() && $clone->isStatic()) {
             // always prefer explicitly versioned over abstract
             return;
         }
+
         if ($package->isStatic() && !$clone->isStatic()) {
             // always prefer explicitly versioned over abstract
             static::$installPackages[$package->channel . '/' . $package->name] = $package;
             return;
         }
+
         if (!$package->isStatic() && !$clone->isStatic()) {
             // identical, ignore this package
             return;
         }
+
         // compare version
         if ($package->isStatic() && $clone->isStatic() && $package->version['release'] === $clone->version['release']) {
             // identical, ignore this package
             return;
         }
+
         static::rollback();
         throw new Installer\Exception('Cannot install ' .
             $package->channel . '/' . $package->name . ', two conflicting' .
@@ -182,12 +186,12 @@ class Installer
     static function rollback()
     {
         if (static::$inTransaction) {
-            static::$inTransaction = false;
-            static::$installPackages = array();
-            static::$wasInstalled = array();
-            static::$installedPackages = array();
+            static::$inTransaction      = false;
+            static::$installPackages    = array();
+            static::$wasInstalled       = array();
+            static::$installedPackages  = array();
             static::$registeredPackages = array();
-            static::$removedPackages = array();
+            static::$removedPackages    = array();
             if (isset(Main::$options['install-plugins'])) {
                 Config::setCurrent(self::$lastCurrent->path);
             }
@@ -204,9 +208,11 @@ class Installer
         if (!static::$inTransaction) {
             return false;
         }
+
         if (!count(static::$installPackages)) {
             return;
         }
+
         try {
             $set = new Package\Dependency\Set(static::$installPackages);
             $set->synchronizeDeps();
@@ -214,6 +220,7 @@ class Installer
             throw new Installer\Exception(
                     'Dependency validation failed for some packages to install, installation aborted', $e);
         }
+
         static::$installPackages = $set->retrieveAllPackages();
         static::$optionalDeps = $set->getIgnoredOptionalDeps();
     }
@@ -223,6 +230,7 @@ class Installer
         if (isset(static::$wasInstalled[$channel . '/' . $package])) {
             return static::$wasInstalled[$channel . '/' . $package];
         }
+
         return false;
     }
 
@@ -234,6 +242,7 @@ class Installer
         if (!static::$inTransaction) {
             return false;
         }
+
         try {
             static::preCommitDependencyResolve();
             $installer = new Installer;
@@ -242,10 +251,12 @@ class Installer
             foreach (static::$installPackages as $package) {
                 $package->validateDependencies(static::$installPackages, $errs);
             }
+
             if (count($errs->E_ERROR)) {
                 throw new Installer\Exception('Dependency validation failed ' .
                     'for some packages to install, installation aborted', $errs);
             }
+
             // download non-local packages
             foreach (static::$installPackages as $package) {
                 $package->download();
@@ -285,23 +296,28 @@ class Installer
                         }
                     }
                 }
+
                 static::detectDownloadConflicts($packages, $reg);
                 foreach ($packages as $package) {
                     if (isset(static::$installedPackages[$package->channel . '/' . $package->name])) {
                         continue;
                     }
+
                     $installer->install($package);
                     static::$installedPackages[$package->channel . '/' . $package->name] = $package;
                 }
+
                 foreach (static::$installedPackages as $package) {
                     try {
                         $previous = $reg->toPackageFile($package->name, $package->channel, true);
                     } catch (\Exception $e) {
                         $previous = null;
                     }
+
                     $reg->install($package->getPackageFile()->info);
                     static::$registeredPackages[] = array($package, $previous);
                 }
+
                 static::$installPackages = array();
                 AtomicFileTransaction::commit();
                 $reg->commit();
@@ -310,6 +326,7 @@ class Installer
                 $reg->rollback();
                 throw new Installer\Exception('Installation failed', $e);
             }
+
             Config::current()->saveConfig();
             // success
             AtomicFileTransaction::removeBackups();
@@ -326,41 +343,44 @@ class Installer
     static protected function detectDownloadConflicts($packages, $reg)
     {
         // check conflicts with packages already installed
-        $conflicts = array();
-        $checked = array();
+        $checked = $conflicts = array();
         foreach ($packages as $package) {
             if (isset($checked[$package->channel . '/' . $package->name])) {
                 continue;
             }
+
             $checked[$package->channel . '/' . $package->name] = 1;
             $conflict = $reg->detectFileConflicts($package);
             if (!count($conflict)) {
                 continue;
             }
+
             $conflicts[$package->channel . '/' . $package->name] = $conflict;
         }
         // check conflicts with other downloaded packages
-        $filelist = array();
-        $checked = array();
-        $dupes = array();
+        $dupes = $checked = $filelist = array();
         foreach ($packages as $package) {
             if (isset($checked[$package->channel . '/' . $package->name])) {
                 continue;
             }
+
             $checked[$package->channel . '/' . $package->name] = 1;
             foreach ($package->installcontents as $path => $info) {
                 if (isset($filelist[$info->role][$path])) {
                     $dupes[$path] = $info->role;
                 }
+
                 $filelist[$info->role][$path][] = $package->channel . '/' . $package->name;
             }
         }
+
         foreach ($dupes as $path => $role) {
             $conflicted = array_shift($filelist[$role][$path]);
             foreach ($filelist[$role][$path] as $package) {
                 $conflicts[$conflicted][] = array($path => $package);
             }
         }
+
         if (count($conflicts)) {
             $message = "File conflicts detected:\n";
             foreach ($conflicts as $package => $files) {
@@ -371,6 +391,7 @@ class Installer
                     }
                 }
             }
+
             AtomicFileTransaction::rollback();
             throw new Installer\Exception($message);
         }
@@ -409,16 +430,16 @@ class Installer
                         $file->role .
                         "' for file " . $file->name);
             }
+
             $role = Installer\Role::factory($package->getPackageType(), $file->role);
             $role->setup($this, $package, $file['attribs'], $file->name);
             if (!$role->isInstallable()) {
                 continue;
             }
 
-            $transact = AtomicFileTransaction::getTransactionObject($role);
-
-            $info = $role->getRelativeLocation($package, $file, true);
-            $dir = $info[0];
+            $transact  = AtomicFileTransaction::getTransactionObject($role);
+            $info      = $role->getRelativeLocation($package, $file, true);
+            $dir       = $info[0];
             $dest_file = $info[1];
 
             // }}}
@@ -427,24 +448,23 @@ class Installer
             if (isset($this->_options['register-only'])) {
                 continue;
             }
+
             try {
                 $transact->mkdir($dir, 0755);
             } catch (AtomicFileTransaction\Exception $e) {
                 throw new Installer\Exception("failed to mkdir $dir", $e);
             }
-            Logger::log(3, "+ mkdir $dir");
 
+            Logger::log(3, "+ mkdir $dir");
             if ($file->md5sum) {
                 $md5sum = md5_file($package->getFilePath($file->packagedname));
                 if (strtolower($md5sum) == strtolower($file->md5sum)) {
                     Logger::log(2, "md5sum ok: $dest_file");
                 } else {
                     if (!isset(Main::$options['force'])) {
-                        throw new Installer\Exception(
-                            "bad md5sum for file " . $file->name);
+                        throw new Installer\Exception("bad md5sum for file " . $file->name);
                     } else {
-                        Logger::log(0,
-                            "warning : bad md5sum for file " . $file->name);
+                        Logger::log(0, "warning : bad md5sum for file " . $file->name);
                     }
                 }
             } else {
@@ -466,8 +486,7 @@ class Installer
             try {
                 $transact->createOrOpenPath($dest_file, $package->getFileContents($file->packagedname, true), $mode);
             } catch (AtomicFileTransaction\Exception $e) {
-                throw new Installer\Exception(
-                    "failed writing to $dest_file", $e);
+                throw new Installer\Exception("failed writing to $dest_file", $e);
             }
 
             $tasks = $file->tasks;
@@ -477,26 +496,27 @@ class Installer
                     if (isset($tasks['tasks:replace'][0])) {
                         $tasks['tasks:replace'][] = $globalreplace;
                     } else {
-                        $tasks['tasks:replace'] = array($tasks['tasks:replace'],
-                            $globalreplace);
+                        $tasks['tasks:replace'] = array($tasks['tasks:replace'], $globalreplace);
                     }
                 } else {
                     $tasks['tasks:replace'] = $globalreplace;
                 }
             }
+
             $fp = false;
             foreach (new Package\Creator\TaskIterator($tasks, $package,
-                                                                  Task\Common::INSTALL, $lastversion)
+                                                      Task\Common::INSTALL, $lastversion)
                       as $name => $task) {
                 if (!$fp) {
                     $fp = $transact->openPath($dest_file);
                 }
+
                 $task->startSession($fp, $dest_file);
                 if (!rewind($fp)) {
-                    throw new Installer\Exception('task ' . $name .
-                                                              ' closed the file pointer, invalid task');
+                    throw new Installer\Exception('task ' . $name . ' closed the file pointer, invalid task');
                 }
             }
+
             if ($fp) {
                 fclose($fp);
             }
@@ -518,9 +538,11 @@ class Installer
         if ($i === false) {
             return false;
         }
+
         if ($include) {
             $i--;
         }
+
         return array_slice($states, $i + 1);
     }
 }

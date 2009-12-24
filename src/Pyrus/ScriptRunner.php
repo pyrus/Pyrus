@@ -81,7 +81,6 @@ class ScriptRunner{
         }
 
         $completedPhases = array();
-
         try {
             foreach ($info->paramgroup as $group) {
                 if (isset(self::$skipSections[$group->id])) {
@@ -93,6 +92,7 @@ class ScriptRunner{
                     if (!isset($answers)) {
                         $answers = null;
                     }
+
                     if (!$group->matchesConditionType($answers)) {
                         continue;
                     }
@@ -104,27 +104,28 @@ class ScriptRunner{
 
                 if (isset($answers)) {
                     $oldanswers = $answers;
-                    $answers = array();
+                    $answers    = array();
                 } else {
                     $oldanswers = $answers = array();
                 }
+
                 if (isset($group->param)) {
                     if (method_exists($info->scriptobject, 'postProcessPrompts2')) {
                         $prompts = $info->scriptobject->postProcessPrompts2($group->param->getPrompts(), $group->id);
                         if (!is_array($prompts) || count($prompts) != count($group->param)) {
                             throw new Task\Exception('Error: post-install script did not ' .
                                 'return proper post-processed prompts');
-                        } else {
-                            $testprompts = $group->param->getPrompts();
-                            foreach ($prompts as $i => $prompt) {
-                                if (!is_array($prompt) || !isset($prompt['prompt']) ||
-                                      !isset($prompt['name']) ||
-                                      ($prompt['name'] != $testprompts[$i]['name']) ||
-                                      ($prompt['type'] != $testprompts[$i]['type'])
-                                ) {
-                                    throw new Task\Exception('Error: post-install script ' .
-                                        'modified the variables or prompts, severe security risk');
-                                }
+                        }
+
+                        $testprompts = $group->param->getPrompts();
+                        foreach ($prompts as $i => $prompt) {
+                            if (!is_array($prompt) || !isset($prompt['prompt']) ||
+                                  !isset($prompt['name']) ||
+                                  ($prompt['name'] != $testprompts[$i]['name']) ||
+                                  ($prompt['type'] != $testprompts[$i]['type'])
+                            ) {
+                                throw new Task\Exception('Error: post-install script ' .
+                                    'modified the variables or prompts, severe security risk');
                             }
                         }
 
@@ -146,6 +147,7 @@ class ScriptRunner{
                     $info->scriptobject->run2($completedPhases, '_undoOnError');
                     return;
                 }
+
                 $answers = $this->mergeOldAnswers($oldanswers, $answers, $group->id);
             }
         } catch (\Exception $e) {
@@ -159,9 +161,11 @@ class ScriptRunner{
         foreach ($newanswers as $prompt => $answer) {
             $answers[$section . '::' . $prompt] = $answer;
         }
+
         if (!count($answers)) {
             $answers = null;
         }
+
         return $answers;
     }
 }

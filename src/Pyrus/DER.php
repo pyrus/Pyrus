@@ -98,6 +98,7 @@ class DER implements \ArrayAccess
             $val .= chr($obj->tag());
             $val .= $obj->serialize();
         }
+
         return $val;
     }
 
@@ -106,6 +107,7 @@ class DER implements \ArrayAccess
         if (isset($this->schema) && $tag = $this->schema->tag) {
             return $tag;
         }
+
         return $this::TAG;
     }
 
@@ -114,20 +116,24 @@ class DER implements \ArrayAccess
         if ($name == '__offset') {
             return $this->offset;
         }
+
         if (!isset($this->schema)) {
             throw new DER\Exception('To access objects, use ArrayAccess when schema is not set');
         }
+
         if (!isset($this->schema[$name])) {
             throw new DER\Exception('schema has no element matching ' . $name .
                                                 ' at ' . $this->schema->path());
         }
-        $info = $this->schema[$name];
+
+        $info  = $this->schema[$name];
         $class = $info->type;
         $index = $info->name;
         if (!isset($this[$index])) {
             $this[$index] = new $class;
             $this[$index]->setSchema($info);
         }
+
         return $this[$index];
     }
 
@@ -136,10 +142,12 @@ class DER implements \ArrayAccess
         if (!isset($this->schema)) {
             throw new DER\Exception('To access objects, use ArrayAccess when schema is not set');
         }
+
         if (!isset($this->schema[$name])) {
             throw new DER\Exception('schema has no element matching ' . $name .
                                                 ' at ' . $this->schema->path());
         }
+
         $info = $this->schema[$name];
         $class = $info->type;
         $index = $info->name;
@@ -147,6 +155,7 @@ class DER implements \ArrayAccess
             $this[$index] = new $class;
             $this[$index]->setSchema($info);
         }
+
         $this[$index]->setValue($value);
     }
 
@@ -160,14 +169,17 @@ class DER implements \ArrayAccess
             if (strlen($newlen) % 2) {
                 $newlen = "0$newlen";
             }
+
             $lengthlen = strlen($newlen) / 2;
             $ret .= chr(0x80 | $lengthlen);
             $new = '';
             for ($i = 0; $i < $lengthlen; $i++) {
                 $ret .= chr(hexdec(substr($newlen, $i * 2, 2)));
             }
+
             $ret .= $new;
         }
+
         $ret .= $value;
         return $ret;
     }
@@ -191,18 +203,22 @@ class DER implements \ArrayAccess
         if (strtolower($func) == 'bitstring') {
             return call_user_func_array(array($this, '_bitString'), $args);
         }
+
         if (strtolower($func) == 'null') {
             return $this->_null();
         }
+
         $class = 'pear2\Pyrus\DER\\' . ucfirst($func);
         if (!class_exists($class, 1)) {
             throw new DER\Exception('Unknown type ' . $func);
         }
+
         if (isset($args[0])) {
             $obj = new $class($args[0]);
         } else {
             $obj = new $class;
         }
+
         $this->objs[] = $obj;
         return $this;
     }
@@ -239,6 +255,7 @@ class DER implements \ArrayAccess
         if ($var === null) {
             $var = count($this->objs);
         }
+
         $this->objs[$var] = $value;
     }
 
@@ -274,10 +291,12 @@ class DER implements \ArrayAccess
                 $length += $digit * $multiplier;
                 $multiplier *= 0x100;
             }
+
             $location += $lengthbytes + 1;
         } else {
             $length = ord($data[$location++]);
         }
+
         return array($location, $length);
     }
 
@@ -294,6 +313,7 @@ class DER implements \ArrayAccess
         if (null === $parent) {
             $parent = $this;
         }
+
         $location = 0;
         $strlen = strlen($data);
         $index = 0;
@@ -308,6 +328,7 @@ class DER implements \ArrayAccess
                 } else {
                     $parent[$index] = $obj = new $class;
                 }
+
                 $obj->setSchema($info);
             } else {
                 // no schema
@@ -319,9 +340,11 @@ class DER implements \ArrayAccess
                         $tag = DER\OctetString::TAG;
                     }
                 }
+
                 if (!isset($this->tagMap[$tag])) {
                     throw new DER\Exception('Unknown tag: 0x' . dechex($tag));
                 }
+
                 $type = $this->tagMap[$tag];
                 $parent[$index] = $obj = new $type;
             }
@@ -331,12 +354,14 @@ class DER implements \ArrayAccess
             } else {
                 $obj->setOffset($location);
             }
+
             $obj->setDepth($this->depth + 1);
             $location = $obj->parse($data, $location + 1);
             if (!isset($this->schema)) {
                 $index++;
             }
         } while ($location < $strlen);
+
         if (isset($this->schema)) {
             $this->schema->resetLastFind();
         }
@@ -348,9 +373,7 @@ class DER implements \ArrayAccess
             if (isset($this->schema)) {
                 if ($this->schema->name) {
                     $ret = str_repeat(' ', $this->depth) . $this->schema->name . " [";
-                    $ret .=
-                        lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) .
-                        "]: ";
+                    $ret.= lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) . "]: ";
                 } else {
                     $ret = '';
                 }
@@ -366,9 +389,11 @@ class DER implements \ArrayAccess
             foreach ($this->objs as $obj) {
                 $ret .= "\n" . $obj;
             }
+
             if (isset($obj) && !($obj instanceof DER\Constructed)) {
                 $ret .= "\n";
             }
+
             if (isset($this->schema)) {
                 $ret .= str_repeat(' ', $this->depth) .
                     "end " . $this->schema->name . "\n";
@@ -378,16 +403,20 @@ class DER implements \ArrayAccess
                 $ret .= str_repeat(' ', $this->depth) .
                     "end " . lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) . "\n";
             }
+
             return $ret;
         }
+
         if (isset($this->schema)) {
             return str_repeat(' ', $this->depth) . $this->schema->name . ' [' .
                 lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) . '] ' .
                 '(' . $this->valueToString() . ')';
         }
+
         if (get_class($this) === 'pear2\Pyrus\DER') {
             return str_repeat(' ', $this->depth) . '[]';
         }
+
         return str_repeat(' ', $this->depth) .
             lcfirst(str_replace('pear2\Pyrus\DER\\', '', get_class($this))) .
             '(' . $this->valueToString() . ')';

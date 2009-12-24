@@ -29,7 +29,7 @@
 namespace pear2\Pyrus;
 class PluginRegistry extends \pear2\Pyrus\Registry
 {
-    protected $pluginRegistryPath;
+    protected $path;
     static protected $config;
     static protected $commandMap = array();
     static protected $autoloadMap = array();
@@ -37,15 +37,12 @@ class PluginRegistry extends \pear2\Pyrus\Registry
 
     function __construct($path = null)
     {
-        if ($path === null) {
-            $this->pluginRegistryPath = Config::current()->plugins_dir;
-        } else {
-            $this->pluginRegistryPath = $path;
-        }
+        $this->path = $path === null ? Config::current()->plugins_dir : $path;
+
         $current = Config::current();
-        self::$config = Config::singleton($this->pluginRegistryPath);
+        self::$config = Config::singleton($this->path);
         Config::setCurrent($current->path);
-        parent::__construct($this->pluginRegistryPath, array('Sqlite3', 'Xml'));
+        parent::__construct($this->path, array('Sqlite3', 'Xml'));
     }
 
     /**
@@ -58,14 +55,16 @@ class PluginRegistry extends \pear2\Pyrus\Registry
         if ($scanned) {
             return;
         }
+
         $scanned = true;
         $parser = new XMLParser;
         $schemapath = Main::getDataPath();
         if (!file_exists(Main::getDataPath() . '/channel-1.0.xsd')) {
             $schemapath = realpath(__DIR__ . '/../../data');
         }
-        $roleschema = $schemapath . '/customrole-2.0.xsd';
-        $taskschema = $schemapath . '/customtask-2.0.xsd';
+
+        $roleschema    = $schemapath . '/customrole-2.0.xsd';
+        $taskschema    = $schemapath . '/customtask-2.0.xsd';
         $commandschema = $schemapath . '/customcommand-2.0.xsd';
 
         try {
@@ -111,11 +110,13 @@ class PluginRegistry extends \pear2\Pyrus\Registry
         if (!isset($commands[0])) {
             $commands = array($commands);
         }
+
         foreach ($commands as $command) {
             if (isset(self::$commandMap[$command['name']])) {
                 throw new PluginRegistry\Exception($command['name'] . ' is' .
-                                                               ' already mapped and cannot be re-used');
+                                                   ' already mapped and cannot be re-used');
             }
+
             self::$commandMap[$command['name']] = $command;
             static::makeAutoloader($command, 'command');
             if (null !== self::$frontend) {
@@ -129,27 +130,31 @@ class PluginRegistry extends \pear2\Pyrus\Registry
         if (null === $command) {
             return self::$commandMap;
         }
+
         if (isset(self::$commandMap[$command])) {
             return self::$commandMap[$command];
         }
+
         return false;
     }
 
     static function makeAutoloader($info, $type)
     {
         if (isset($info['autoloadpath']) && !isset(self::$autoloadMap[$info['autoloadpath']])) {
-            $fullpath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR .
-                $info['autoloadpath']);
+            $fullpath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR . $info['autoloadpath']);
             if (!$fullpath) {
                 throw new PluginRegistry\Exception(
                     'Unable to create autoloader for custom ' . $type . ' ' . $info['name'] .
                     ', autoload path ' . $info['autoloadpath'] . ' does not exist');
             }
+
             $autoloader = function($class) use ($fullpath) {
-                if (file_exists($fullpath . '/' . str_replace(array('\\', '_'), '/', $class) . '.php')) {
-                    include $fullpath . '/' . str_replace(array('\\', '_'), '/', $class) . '.php';
+                $filepath = $fullpath . '/' . str_replace(array('\\', '_'), '/', $class) . '.php';
+                if (file_exists($filepath)) {
+                    include $filepath;
                 }
             };
+
             spl_autoload_register($autoloader);
         }
     }

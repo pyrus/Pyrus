@@ -54,7 +54,10 @@ class Main
     static function getDataPath()
     {
         static $val = false;
-        if ($val) return $val;
+        if ($val) {
+            return $val;
+        }
+
         $val = dirname(dirname(dirname(__DIR__))) . '/data/PEAR2_Pyrus/pear2.php.net';
         return $val;
     }
@@ -70,6 +73,7 @@ class Main
             // this is defined in the phar stub
             return array('hash' => PYRUS_SIG, 'hash_type' => PYRUS_SIGTYPE);
         }
+
         return false;
     }
 
@@ -115,13 +119,16 @@ class Main
             $listenerclass = static::$downloadListener;
             $request->attach(new $listenerclass);
         }
+
         $host = $info['host'];
         if (!array_key_exists('port', $info)) {
             $info['port'] = null;
         }
+
         if (!array_key_exists('path', $info)) {
             $info['path'] = null;
         }
+
         $port = $info['port'];
         $path = $info['path'];
         $proxy_host = $proxy_port = $proxy_user = $proxy_pass = '';
@@ -130,6 +137,7 @@ class Main
             $proxy_user = isset($proxy['user']) ? urldecode($proxy['user']) : null;
             $proxy_pass = isset($proxy['pass']) ? urldecode($proxy['pass']) : null;
         }
+
         if (empty($port)) {
             if (isset($info['scheme']) && $info['scheme'] == 'https') {
                 $port = 443;
@@ -142,12 +150,14 @@ class Main
             if (isset($lastmodified['Last-Modified'])) {
                 $request->setHeader('If-Modified-Since', $lastmodified['Last-Modified']);
             }
+
             if (isset($lastmodified['ETag'])) {
                 $request->setHeader('If-None-Match', $lastmodified['ETag']);
             }
         } elseif ($lastmodified) {
             $request->setHeader('If-Modified-Since', $lastmodified);
         }
+
         $request->setHeader('User-Agent', 'PEAR2_Pyrus/@PACKAGE_VERSION@/PHP/' . PHP_VERSION);
         $username = Config::current()->username;
         $password = Config::current()->password;
@@ -155,11 +165,10 @@ class Main
             $tmp = base64_encode("$username:$password");
             $request->setHeader('Authorization', 'Basic ' . $tmp);
         }
-        if ($accept) {
-            $request->setHeader('Accept', implode(', ', $accept));
-        } else {
-            $request->setHeader('Accept', '');
-        }
+
+        $acceptHeader = $accept ? implode(', ', $accept) : '';
+        $request->setHeader('Accept', $acceptHeader);
+
         $request->setHeader('Connection', 'close');
         $response = $request->sendRequest();
         if ($response->code >= 400) {
@@ -167,9 +176,11 @@ class Main
                 throw new HTTPException(
                     "Download of $url failed, file does not exist", $response->code);
             }
+
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
         }
+
         return $response;
     }
 
@@ -178,9 +189,11 @@ class Main
         if (isset(self::$paranoid)) {
             return self::$paranoid;
         }
+
         if (null === $config) {
             $config = Config::current();
         }
+
         return $config->paranoia;
     }
 }

@@ -50,6 +50,7 @@ class Package implements \pear2\Pyrus\PackageInterface
         if (!$packagedescription) {
             return;
         }
+
         list($class, $packagedescription, $depgroup) = $this->parsePackageDescription($packagedescription, $forceremote);
         $this->internal = new $class($packagedescription, $this);
         if ($depgroup) {
@@ -202,6 +203,7 @@ class Package implements \pear2\Pyrus\PackageInterface
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
             return array('pear2\Pyrus\Package\Remote', $package, false);
         }
+
         try {
             $test = parse_url($package);
             $depgroup = false;
@@ -213,10 +215,11 @@ class Package implements \pear2\Pyrus\PackageInterface
                     $depgroup = $test['fragment'];
                 }
             }
+
             if (!$forceremote && @file_exists($package) && @is_file($package)) {
                 $info = pathinfo($package);
                 if (!isset($info['extension']) || !strlen($info['extension'])) {
-                    // guess based on first 4 characters
+                    // guess based on first 5 characters
                     $f = @fopen($package, 'r');
                     if ($f) {
                         $first5 = fread($f, 5);
@@ -224,12 +227,14 @@ class Package implements \pear2\Pyrus\PackageInterface
                         if ($first5 == '<?xml') {
                             return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
                         }
+
                         return array('pear2\Pyrus\Package\Phar', $package, $depgroup);
                     }
                 } else {
                     if (extension_loaded('phar') && strtolower($info['extension']) != 'xml') {
                         return array('pear2\Pyrus\Package\Phar', $package, $depgroup);
                     }
+
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
                             return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
@@ -238,6 +243,7 @@ class Package implements \pear2\Pyrus\PackageInterface
                     }
                 }
             }
+
             $info = Config::parsePackageName($package);
             return array('pear2\Pyrus\Package\Remote', $package, $depgroup);
         } catch (\Exception $e) {

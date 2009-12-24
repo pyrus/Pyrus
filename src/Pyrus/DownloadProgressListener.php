@@ -62,6 +62,7 @@ class DownloadProgressListener extends \pear2\HTTP\Request\Listener
                         Logger::log(0, $this->preview);
                         $this->preview = '';
                     }
+
                     if (!isset($this->filesize) || $this->filesize==0) {
                         Logger::log(0, sprintf("Unknown filesize.. %2d kb done..\r", $data/1024));
                     } else {
@@ -75,4 +76,3 @@ class DownloadProgressListener extends \pear2\HTTP\Request\Listener
         }
     }
 }
-?>

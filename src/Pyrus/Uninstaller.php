@@ -72,6 +72,7 @@ class Uninstaller{
                 self::$lastCurrent = Config::current();
                 Config::setCurrent(Config::current()->plugins_dir);
             }
+
             self::$uninstallPackages = array();
             self::$uninstalledPackages = array();
             self::$inTransaction = true;
@@ -93,9 +94,11 @@ class Uninstaller{
             throw new Uninstaller\Exception('Invalid package name ' .
                                                         $packageName, $e);
         }
+
         if (isset(self::$uninstallPackages[$package->channel . '/' . $package->name])) {
             return;
         }
+
         self::$uninstallPackages[$package->channel . '/' . $package->name] = $package;
         return $package;
     }
@@ -124,6 +127,7 @@ class Uninstaller{
         if (!self::$inTransaction) {
             return false;
         }
+
         $installer = new Uninstaller;
         // validate dependencies
         $errs = new \pear2\MultiErrors;
@@ -132,20 +136,24 @@ class Uninstaller{
             foreach (self::$uninstallPackages as $package) {
                 $package->validateUninstallDependencies(self::$uninstallPackages, $errs);
             }
+
             if (count($errs->E_ERROR)) {
                 throw new Installer\Exception('Dependency validation failed ' .
                     'for some installed packages, installation aborted', $errs);
             }
+
             // create dependency connections and load them into the directed graph
             $graph = new DirectedGraph;
             foreach (self::$uninstallPackages as $package) {
                 $package->makeUninstallConnections($graph, self::$uninstallPackages);
             }
+
             // topologically sort packages and install them via iterating over the graph
             $actual = array();
             foreach ($graph as $package) {
                 $actual[] = $package;
             }
+
             // easy reverse topological sort
             array_reverse($actual);
 
@@ -156,10 +164,11 @@ class Uninstaller{
                     $installer->uninstall($package, $reg);
                     self::$uninstalledPackages[] = $package;
                 }
+
                 $dirtrees = array();
                 foreach (self::$uninstalledPackages as $package) {
                     $dirtrees[] = $reg->info($package->name, $package->channel, 'dirtree');
-                    $previous = $reg->toPackageFile($package->name, $package->channel, true);
+                    $previous   = $reg->toPackageFile($package->name, $package->channel, true);
                     self::$registeredPackages[] = array($package, $previous);
                     $reg->uninstall($package->name, $package->channel);
                 }
@@ -172,9 +181,11 @@ class Uninstaller{
                 if (AtomicFileTransaction::inTransaction()) {
                     AtomicFileTransaction::rollback();
                 }
+
                 $reg->rollback();
                 throw $e;
             }
+
             self::$uninstallPackages = array();
             Config::current()->saveConfig();
             if (isset(Main::$options['install-plugins'])) {
@@ -198,12 +209,14 @@ class Uninstaller{
             // pretty much nothing happens if we are only registering the install
             return;
         }
+
         try {
             $config = new Config\Snapshot($package->date . ' ' . $package->time);
         } catch (\Exception $e) {
             throw new Installer\Exception('Cannot retrieve files, config ' .
                                     'snapshot could not be processed', $e);
         }
+
         $configpaths = array();
         foreach (Installer\Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
@@ -212,6 +225,7 @@ class Uninstaller{
                 Installer\Role::factory($package->getPackageType(), $role);
             $configpaths[$role] = $config->{$roleobj->getLocationConfig()};
         }
+
         $ret = array();
         foreach ($reg->info($package->name, $package->channel, 'installedfiles') as $file) {
             $transact = AtomicFileTransaction::getTransactionObject($file['configpath']);

@@ -96,10 +96,11 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
                 $registry = ucfirst($registry);
                 $registry = 'pear2\Pyrus\Registry\\' . $registry;
                 if (!class_exists($registry, true)) {
-                    $exceptions->E_ERROR[] = new Registry\Exception(
-                        'Unknown registry type: ' . $registry);
+                    $exceptions->E_ERROR[] =
+                            new Registry\Exception('Unknown registry type: ' . $registry);
                     continue;
                 }
+
                 $this->registries[] = new $registry($path, $readonly);
             } catch (\Exception $e) {
                 $exceptions->E_ERROR[] = $e;
@@ -107,14 +108,12 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         }
 
         if (!count($this->registries)) {
-            throw new Registry\Exception(
-                'Unable to initialize registry for path "' . $path . '"',
-                $exceptions);
+            throw new Registry\Exception('Unable to initialize registry for path "' . $path . '"',
+                                         $exceptions);
         }
 
         $channelregistry_class = ChannelRegistry::$className;
-        $this->channelRegistry = new $channelregistry_class($path,
-            $registries, $readonly);
+        $this->channelRegistry = new $channelregistry_class($path, $registries, $readonly);
     }
 
     public function replace(PackageFileInterface $info)
@@ -206,10 +205,12 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
             $packages = $registry->listPackages($channel);
             $ret = array_merge($ret, $packages);
         }
+
         $ret = array_unique($ret);
         if ($onlyMain) {
             return $ret;
         }
+
         if ($this->parent) {
             return array_unique(array_merge($ret, $this->parent->listPackages($channel)));
         }
@@ -291,6 +292,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         if (!file_exists($path) || !is_dir($path)) {
             return array();
         }
+
         return array_merge(Registry\Sqlite3::detectRegistries($path),
                            Registry\Xml::detectRegistries($path),
                            Registry\Pear1::detectRegistries($path));
@@ -304,6 +306,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         if (!count($registries)) {
             $registries = static::detectRegistries($path);
         }
+
         foreach ($registries as $reg) {
             $class = 'pear2\Pyrus\Registry\\' . ucfirst(strtolower($reg));
             $class::removeRegistry($path);

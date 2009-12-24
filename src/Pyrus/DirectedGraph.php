@@ -78,6 +78,7 @@ class DirectedGraph implements \Iterator
                 $a = $this->vertices[$this->map[spl_object_hash($from)]];
             }
         }
+
         if ($to instanceof DirectedGraph\Vertex) {
             $b = spl_object_hash($to);
         } else {
@@ -87,6 +88,7 @@ class DirectedGraph implements \Iterator
                 $b = $this->vertices[$this->map[spl_object_hash($to)]];
             }
         }
+
         $this->vertices[spl_object_hash($a)]->connect($b);
         return $this;
     }
@@ -125,9 +127,11 @@ class DirectedGraph implements \Iterator
         if (!count($this->vertices)) {
             return array();
         }
+
         foreach ($this->vertices as $vertex) {
             $vertex->color(self::WHITE);
         }
+
         while (count($this->blackVertices) <  count($this->vertices)) {
             // select a vertex to start
             foreach ($this->vertices as $vertex) {
@@ -135,8 +139,10 @@ class DirectedGraph implements \Iterator
                     // already sorted
                     continue;
                 }
+
                 break;
             }
+
             do {
                 // this vertex has been discovered
                 $vertex->color(self::GRAY);
@@ -146,21 +152,25 @@ class DirectedGraph implements \Iterator
                     $vertex->color(self::BLACK);
                     continue 2;
                 }
+
                 $black = true;
                 // iterate over adjacent vertices to find a white vertex
                 foreach ($vertex as $edge) {
                     if ($edge->color() == self::BLACK) {
                         continue;
                     }
+
                     if (!count($edge)) {
                         // no adjacent undiscovered vertices, we found a black one
                         $edge->color(self::BLACK);
                         $this->blackVertices[] = $edge;
                         continue;
                     }
+
                     $black = false;
                     $edge->color(self::GRAY);
                 }
+
                 if ($black) {
                     // found a new vertex
                     $this->blackVertices[] = $vertex;
@@ -170,12 +180,14 @@ class DirectedGraph implements \Iterator
                         if ($edge->color() == self::BLACK) {
                             continue;
                         }
+
                         $vertex = $edge;
                         break;
                     }
                 }
             } while (!$black);
         }
+
         return array_map(function($a){return $a->data;}, $this->blackVertices);
     }
 }

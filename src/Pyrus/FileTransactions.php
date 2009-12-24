@@ -72,6 +72,7 @@ class FileTransactions
         } else {
             Logger::log(3, "adding to transaction: $type " . implode(" ", $data));
         }
+
         $this->fileOperations[] = array($type, $data);
     }
 
@@ -80,6 +81,7 @@ class FileTransactions
         if (count($this->fileOperations) && $rollback_in_case) {
             $this->rollback();
         }
+
         $this->fileOperations = array();
     }
 
@@ -130,16 +132,19 @@ class FileTransactions
                     $callback->check($data, $errors);
             }
         }
+
         if (count($errors) > 0) {
             foreach ($errors as $error) {
                 if (!isset($this->_options['soft'])) {
                     Logger::log(1, $error);
                 }
             }
+
             if (!isset($this->_options['ignore-errors'])) {
                 return false;
             }
         }
+
         $this->_dirtree = array();
         foreach ($this->fileOperations as $tr) {
             list($type, $data) = $tr;
@@ -150,6 +155,7 @@ class FileTransactions
                             '.bak ' . $php_errormsg);
                         return false;
                     }
+
                     Logger::log(3, "+ backup $data[0] to $data[0].bak");
                     break;
                 case 'chmod' :
@@ -158,6 +164,7 @@ class FileTransactions
                             decoct($data[0]) . ' ' . $php_errormsg);
                         return false;
                     }
+
                     $octmode = decoct($data[0]);
                     Logger::log(3, "+ chmod $octmode $data[1]");
                     break;
@@ -168,6 +175,7 @@ class FileTransactions
                                 $php_errormsg);
                             return false;
                         }
+
                         Logger::log(3, "+ rm $data[0]");
                     }
                     break;
@@ -184,6 +192,7 @@ class FileTransactions
                     $callback->commit($data, $errors);
             }
         }
+
         Logger::log(2, "successfully committed $n file operations");
         $this->fileOperations = array();
         return true;
@@ -195,6 +204,7 @@ class FileTransactions
             throw new FileTransactions\Exception('transaction type ' . $name .
                 ' is already registered');
         }
+
         self::$_registeredTransactions[$name] = $callback;
     }
 
@@ -225,12 +235,15 @@ class FileTransactions
                     $callback->rollback($data, $errors);
             }
         }
+
         foreach (self::$_registeredTransactions as $callback) {
             if (!$callback) {
                 continue;
             }
+
             $callback->cleanup();
         }
+
         $this->fileOperations = array();
     }
 }

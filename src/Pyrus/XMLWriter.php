@@ -56,6 +56,7 @@ class XMLWriter
             throw new XMLWriter\Exception('Cannot serialize array to' .
                 'XML, array must have exactly 1 element');
         }
+
         $this->_array  = $array;
         $this->_writer = new \XMLWriter;
     }
@@ -121,6 +122,7 @@ class XMLWriter
             // namespaced element
             list($ns, $element) = explode(':', $key);
         }
+
         if (isset($element) && !isset($this->_namespaces[$ns])) {
             if (is_string($values)) {
                 if (strlen($values)) {
@@ -159,12 +161,14 @@ class XMLWriter
             // handle sibling tags
             return '_handleSibling';
         }
+
         $this->_startElement($key, $values);
         if (!is_string($values)) {
             $this->_expectedDepth = $this->_iter->getDepth();
             $this->_pushState();
             $this->_tag = $key;
         }
+
         // cycle to next key
         return false;
     }
@@ -184,11 +188,13 @@ class XMLWriter
                 }
             }
         }
+
         if (!is_string($values)) {
             $this->_type          = 'Tag';
             $this->_expectedDepth = $this->_iter->getDepth() + 1;
             // handle internal tags
         }
+
         // cycle to next key
         return false;
     }
@@ -212,6 +218,7 @@ class XMLWriter
         } else { // default namespace
             $this->_writer->writeAttribute($key, $values);
         }
+
         // cycle to next key
         return false;
     }
@@ -226,6 +233,7 @@ class XMLWriter
         if ($a === false) {
             return false;
         }
+
         return true;
     }
 
@@ -256,18 +264,21 @@ class XMLWriter
                 $this->_finish($key, $values);
                 $lastdepth--;
             }
+
             if (isset($this->_lastkey[$depth]) && $key != $this->_lastkey[$depth]) {
                 while ($lastdepth > $depth) {
                     $this->_finish($key, $values);
                     $lastdepth--;
                 }
             }
+
             $this->_lastkey[$depth] = $key;
             foreach ($this->_lastkey as $d => &$k) {
                 if ($d > $depth) {
                     $k = false;
                 }
             }
+
             $this->_lastkey = array_filter($this->_lastkey,
                 array('pear2\Pyrus\XMLWriter', '_filter'));
             $lastdepth = $depth;
@@ -276,6 +287,7 @@ class XMLWriter
                     $this->_writer->text($values);
                     continue;
                 }
+
                 if ($key === 'attribs') {
                     // attributes are 1 depth higher
                     $this->_pushState();
@@ -285,13 +297,16 @@ class XMLWriter
                     continue;
                 }
             }
+
             $next = '_handle' . $this->_type;
             while ($next = $this->{$next}($key, $values));
         }
+
         while ($lastdepth) {
             $this->_finish($key, $values);
             $lastdepth--;
         }
+
         $this->_writer->endDocument();
         return $this->_writer->flush();
     }
