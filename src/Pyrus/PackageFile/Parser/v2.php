@@ -77,11 +77,14 @@ class v2 extends \pear2\Pyrus\XMLParser
     }
 
     /**
-     * @param string
-     * @param string file name of the package.xml
-     * @param string|false name of the archive this package.xml came from, if any
-     * @param string class name to instantiate and return.  This must be PEAR_PackageFile_v2 or
-     *               a subclass
+     * Parses a string containing package xml and returns an object
+     * 
+     * @param string       $data  data to parse
+     * @param string|false $file  name of the archive this package.xml came from, if any
+     * @param string       $class class name to instantiate and return.
+     *                            This must be pear2\Pyrus\PackageFile\v2 or a subclass
+     * @param int          $state what state we are currently in
+     * 
      * @return \pear2\Pyrus\PackageFile\v2
      */
     function parse($data, $file = false, $class = 'pear2\Pyrus\PackageFile\v2', $state = \pear2\Pyrus\Validate::NORMAL)

@@ -1,7 +1,7 @@
 <?php
 /**
- * PEAR_DependencyDB, advanced installed packages dependency database for
- * Pear1 registry
+ * pear2\Pyrus\Registry\Pear1\DependencyDB, advanced installed packages
+ * dependency database for Pear1 registry
  *
  * PHP version 5
  *

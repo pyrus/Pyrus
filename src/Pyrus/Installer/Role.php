@@ -31,7 +31,7 @@ class Role
     /**
      * Set up any additional configuration variables that file roles require
      *
-     * Never call this directly, it is called by the PEAR_Config constructor
+     * Never call this directly, it is called by \pear2\Pyrus\Config constructor
      * @param \pear2\Pyrus\Config
      * @access private
      * @static

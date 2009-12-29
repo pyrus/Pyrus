@@ -29,8 +29,8 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
     protected $md5 = null;
     /**
      * Do any unusual setup here
-     * @param PEAR_Installer
-     * @param PEAR_PackageFile_v2
+     * @param \pear2\Pyrus\Installer
+     * @param \pear2\Pyrus\PackageFileInterface
      * @param array file attributes
      * @param string file name
      */

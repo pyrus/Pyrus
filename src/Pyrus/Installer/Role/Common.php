@@ -31,7 +31,7 @@ namespace pear2\Pyrus\Installer\Role;
 class Common
 {
     /**
-     * @var PEAR_Config
+     * @var \pear2\Pyrus\Config
      * @access protected
      */
     protected $config;
@@ -259,8 +259,8 @@ class Common
 
     /**
      * Do any unusual setup here
-     * @param PEAR_Installer
-     * @param PEAR_PackageFile_v2
+     * @param \pear2\Pyrus\Installer
+     * @param \pear2\Pyrus\PackageFileInterface
      * @param array file attributes
      * @param string file name
      */

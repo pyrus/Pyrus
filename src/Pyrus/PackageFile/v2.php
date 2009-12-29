@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR_PackageFile_v2, package.xml version 2.1
+ * pear2\Pyrus\PackageFile\v2, package.xml version 2.1
  *
  * PHP version 5
  *
@@ -523,7 +523,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      * Directly set the array that defines this packagefile
      *
      * WARNING: no validation.  This should only be performed by internal methods
-     * inside Pyrus or by inputting an array saved from an existing PEAR_PackageFile_v2
+     * inside Pyrus or by inputting an array saved from an existing pear2\Pyrus\PackageFile\v2
      * @param array
      */
     function fromArray($pinfo)

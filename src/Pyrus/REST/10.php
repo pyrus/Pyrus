@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR_REST_10
+ * pear2\Pyrus\REST_10
  *
  * PHP version 5
  *
@@ -40,8 +40,8 @@ class REST_10
     /**
      * Retrieve information about a remote package to be downloaded from a REST server
      *
-     * @param string $base The uri to prepend to all REST calls
-     * @param array $packageinfo an array of format:
+     * @param string $base        The uri to prepend to all REST calls
+     * @param array  $packageinfo an array of format:
      * <pre>
      *  array(
      *   'package' => 'packagename',
@@ -50,9 +50,12 @@ class REST_10
      *  -or-
      *  ['version' => '1.whatever']
      * </pre>
-     * @param string $prefstate Current preferred_state config variable value
-     * @param bool $installed the installed version of this package to compare against
-     * @return array|false|PEAR_Error see {@link returnDownloadURL()}
+     * @param string $prefstate   Current preferred_state config variable value
+     * @param bool   $installed   the installed version of this package to compare against
+     * 
+     * @return array|false see {@link returnDownloadURL()}
+     * 
+     * @throws pear2\Pyrus\REST\Exception
      */
     function getDownloadURL($base, $packageinfo, $prefstate, $installed)
     {
