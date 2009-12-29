@@ -455,9 +455,10 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     /**
      * Retrieve the object that can be used for custom validation
      * @param string|false the name of the package to validate.  If the package is
-     *                     the channel validation package, PEAR_Validate is returned
-     * @return \pear2\Pyrus\Validate|false false is returned if the validation package
-     *         cannot be located
+     *                     the channel validation package, \pear2\Pyrus\Validate
+     *                     is returned
+     * @return \pear2\Pyrus\Validate|false false is returned if the validation
+     *         package cannot be located
      */
     function getValidationObject($package = false)
     {
@@ -468,9 +469,9 @@ http://pear.php.net/dtd/channel-1.0.xsd'
                 return $val;
             }
 
-            $vclass = str_replace('.', '\\', $this->channelInfo['validatepackage']['_content']);
-            $vclass = str_replace('PEAR_', 'pear2\Pyrus\\', $vclass);
-            $vclass = str_replace('_', '\\', $vclass);
+            $vclass = str_replace(array('.', 'PEAR_', '_'),
+                                  array('\\', 'pear2\Pyrus\\', '\\'),
+                                  $this->channelInfo['validatepackage']['_content']);
             if (!class_exists($vclass, true)) {
                 throw new \pear2\Pyrus\ChannelFile\Exception(
                     'Validation object ' . $this->channelInfo['validatepackage']['_content'] .
