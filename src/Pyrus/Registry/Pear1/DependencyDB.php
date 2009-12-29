@@ -279,7 +279,8 @@ class DependencyDB
     /**
      * Write out the dependency database to disk
      * @param array the database
-     * @return true|PEAR_Error
+     * @return void
+     * @throws \pear2\Pyrus\Registry\Exception
      * @access private
      */
     function _writeDepDB($deps)
@@ -308,7 +309,7 @@ class DependencyDB
      * Register all dependencies from a package in the dependencies database, in essence
      * "installing" the package's dependency information
      * @param array the database
-     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     * @param \pear2\Pyrus\PackageFileInterface
      * @access private
      */
     function _setPackageDeps(array $data, \pear2\Pyrus\PackageFileInterface $pkg)
