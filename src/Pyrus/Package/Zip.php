@@ -35,29 +35,24 @@ class Zip extends \pear2\Pyrus\Package\Base
     function __construct($package, \pear2\Pyrus\Package $parent)
     {
         if (!class_exists('ZIPArchive')) {
-            throw new \pear2\Pyrus\Package\Zip\Exception(
-                'Zip extension is not available');
+            throw new Zip\Exception('Zip extension is not available');
         }
 
         $this->archive = $package;
         $zip = new ZIPArchive;
         if (true !== ($zip->open($package))) {
-            throw new \pear2\Pyrus\Package\Zip\Exception('Could not open ZIP archive ' .
-                $package);
+            throw new Zip\Exception('Could not open ZIP archive ' . $package);
         }
 
         if (false !== ($pxml = $zip->getNameIndex(0))) {
             if (!preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
                       $pxml)) {
-                throw new \pear2\Pyrus\Package\Zip\Exception('First file in ZIP archive ' .
-                    'is not package.xml, cannot process');
+                throw new Zip\Exception('First file in ZIP archive is not package.xml, cannot process');
             }
         }
 
         $where = (string) \pear2\Pyrus\Config::current()->temp_dir;
-        $where = str_replace('\\', '/', $where);
-        $where = str_replace('//', '/', $where);
-        $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
+        $where = str_replace(array('\\', '//'), DIRECTORY_SEPARATOR, $where);
         if (!file_exists($where)) {
             mkdir($where, 0777, true);
         }
@@ -105,13 +100,11 @@ class Zip extends \pear2\Pyrus\Package\Base
     function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
-            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in package.xml');
+            throw new Exception('file ' . $file . ' is not in package.xml');
         }
 
         $extract = $this->_tmpdir . DIRECTORY_SEPARATOR . $file;
-        $extract = str_replace('\\', '/', $extract);
-        $extract = str_replace('//', '/', $extract);
-        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
+        $extract = str_replace(array('\\', '//'), DIRECTORY_SEPARATOR, $extract);
         return $extract;
     }
 }

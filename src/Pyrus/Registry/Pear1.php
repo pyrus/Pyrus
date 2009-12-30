@@ -105,7 +105,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         }
         $fp = fopen($this->filemap(), 'wb');
         if (!$fp) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot write out Pear1 filemap');
+            throw new Exception('Cannot write out Pear1 filemap');
         }
 
         fwrite($fp, serialize($files));
@@ -120,7 +120,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
 
         $fp = @fopen($this->filemap(), 'r');
         if (!$fp) {
-            throw new \pear2\Pyrus\Registry\Exception('Could not open Pear1 registry filemap "' . $this->filemap . '"');
+            throw new Exception('Could not open Pear1 registry filemap "' . $this->filemap . '"');
         }
 
         clearstatcache();
@@ -136,7 +136,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         }
         $tmp = unserialize($data);
         if (!$tmp && $fsize > 7) {
-            throw new \pear2\Pyrus\Registry\Exception('Invalid Pear1 registry filemap data');
+            throw new Exception('Invalid Pear1 registry filemap data');
         }
         return $tmp;
     }
@@ -154,9 +154,9 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
     {
         if ($this->intransaction) {
             return $this->atomic->getJournalPath();
-        } else {
-            return $this->_path;
         }
+
+        return $this->_path;
     }
 
     private function _namePath($channel, $package)
@@ -342,8 +342,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
     public function info($package, $channel, $field)
     {
         if (!$this->exists($package, $channel)) {
-            throw new \pear2\Pyrus\Registry\Exception('Unknown package ' . $channel .
-                '/' . $package);
+            throw new Exception('Unknown package ' . $channel . '/' . $package);
         }
 
         $pf = $this->toPackageFile($package, $channel);
@@ -358,15 +357,14 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if ($field == 'installedfiles' || $field == 'dirtree') {
             $packagefile = $this->_namePath($channel, $package) . '.reg';
             if (!$packagefile || !isset($packagefile[0])) {
-                throw new \pear2\Pyrus\Registry\Exception('Cannot find registry for package ' .
-                    $channel . '/' . $package);
+                throw new Exception('Cannot find registry for package ' . $channel . '/' . $package);
             }
 
             $packagecontents = file_get_contents($packagefile);
             $data = @unserialize($packagecontents);
             if ($data === false) {
-                throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve package file object ' .
-                    'for package ' . $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
+                throw new Exception('Cannot retrieve package file object for package ' .
+                                    $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
             }
             if ($field == 'dirtree') {
                 $ret = $data['filelist']['dirtree'];
@@ -427,8 +425,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                 }
             }
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Registry\Exception('Could not open channel directory for ' .
-                'channel ' . $channel, $e);
+            throw new Exception('Could not open channel directory for channel ' . $channel, $e);
         }
         return $ret;
     }
@@ -436,26 +433,24 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
     public function toPackageFile($package, $channel)
     {
         if (!$this->exists($package, $channel)) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve package file object ' .
-                'for package ' . $channel . '/' . $package . ', it is not installed');
+            throw new Exception('Cannot retrieve package file object for package ' .
+                                $channel . '/' . $package . ', it is not installed');
         }
 
         $packagefile = $this->_nameRegistryPath(null, $channel, $package);
         if (!$packagefile) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot find registry for package ' .
-                $channel . '/' . $package);
+            throw new Exception('Cannot find registry for package ' . $channel . '/' . $package);
         }
 
         $contents = file_get_contents($packagefile);
         if (!$contents) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot find registry for package ' .
-                $channel . '/' . $package);
+            throw new Exception('Cannot find registry for package ' . $channel . '/' . $package);
         }
 
         $data = @unserialize($contents);
         if ($data === false) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot retrieve package file object ' .
-                'for package ' . $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
+            throw new Exception('Cannot retrieve package file object for package ' .
+                                $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
         }
 
         if (isset($data['xsdversion']) && $data['xsdversion'] == '1.0'
@@ -590,7 +585,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         try {
             \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.registry'));
         } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
-            throw new \pear2\Pyrus\Registry\Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
+            throw new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
         $errs = new \pear2\MultiErrors;
         try {
@@ -598,17 +593,16 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                 \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));
             }
         } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
-            $errs->E_ERROR[] = new \pear2\Pyrus\Registry\Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
+            $errs->E_ERROR[] = new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
         foreach (array('.filemap', '.lock', '.depdb', '.depdblock') as $file) {
             if (file_exists($path . DIRECTORY_SEPARATOR . $file)
                 && !@unlink(realpath($path . DIRECTORY_SEPARATOR . $file))) {
-                $errs->E_ERROR[] = new \pear2\Pyrus\Registry\Exception(
-                            'Cannot remove Pear1 registry: Unable to remove ' . $file);
+                $errs->E_ERROR[] = new Exception('Cannot remove Pear1 registry: Unable to remove ' . $file);
             }
         }
         if (count($errs->E_ERROR)) {
-            throw new \pear2\Pyrus\Registry\Exception('Unable to remove Pear1 registry', $errs);
+            throw new Exception('Unable to remove Pear1 registry', $errs);
         }
     }
 
@@ -618,8 +612,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             return;
         }
         if (!\pear2\Pyrus\AtomicFileTransaction::inTransaction()) {
-            throw new \pear2\Pyrus\Registry\Exception(
-                    'internal error: file transaction must be started before registry transaction');
+            throw new Exception('internal error: file transaction must be started before registry transaction');
         }
         $this->atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(
                                             $this->_path);

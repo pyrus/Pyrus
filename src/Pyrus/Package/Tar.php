@@ -47,7 +47,7 @@ class Tar extends \pear2\Pyrus\Package\Base
                 if ($this->_fp) {
                     fclose($this->_fp);
                     if (!function_exists('gzopen')) {
-                        throw new \pear2\Pyrus\Package\Tar\Exception('Cannot extract package '.
+                        throw new Tar\Exception('Cannot extract package '.
                             $package . ', PHP must have the zlib extension enabled --with-zlib.');
                     } else {
                         $this->_fp = gzopen($package, 'rb');
@@ -56,14 +56,14 @@ class Tar extends \pear2\Pyrus\Package\Base
                 break;
             case 'tbz' :
                 if (!in_array('bzip2.*', $streamfilters)) {
-                    throw new \pear2\Pyrus\Package\Tar\Exception('Cannot open package' .
+                    throw new Tar\Exception('Cannot open package' .
                         $package . ', bzip2 decompression is not available');
                 }
                 stream_filter_append($this->_fp, 'bzip2.decompress');
         }
 
         if (!$this->_fp) {
-            throw new \pear2\Pyrus\Package\Tar\Exception('Cannot open package ' . $package);
+            throw new Tar\Exception('Cannot open package ' . $package);
         }
 
         $packagexml = $this->_extract();
@@ -118,13 +118,12 @@ class Tar extends \pear2\Pyrus\Package\Base
     function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
-            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in package.xml');
+            throw new Exception('file ' . $file . ' is not in package.xml');
         }
 
         $extract = '';
         if ($this->_BCpackage) {
-            // old fashioned PEAR 1.x packages put everything in Package-Version/
-            // directory
+            // old fashioned PEAR 1.x packages put everything in Package-Version/ directory
             $extract = $this->packagefile->info->name . '-' .
                 $this->packagefile->info->version['release'];
         }
@@ -139,8 +138,7 @@ class Tar extends \pear2\Pyrus\Package\Base
     private function _processHeader($rawHeader)
     {
         if (strlen($rawHeader) < 512 || $rawHeader == pack("a512", "")) {
-            throw new \pear2\Pyrus\Package\Tar\Exception(
-                'Error: "' . $this->archive . '" has corrupted tar header');
+            throw new Tar\Exception('Error: "' . $this->archive . '" has corrupted tar header');
         }
 
         $header = unpack(
@@ -165,8 +163,7 @@ class Tar extends \pear2\Pyrus\Package\Base
         }
 
         if (strlen($rawHeader) != 512) {
-            throw new \pear2\Pyrus\Package\Tar\Exception(
-                'Invalid block size : ' . strlen($rawHeader));
+            throw new Tar\Exception('Invalid block size : ' . strlen($rawHeader));
         }
         $header = $this->_processHeader($rawHeader);
         if ($header['type'] == 'L') {
@@ -189,8 +186,7 @@ class Tar extends \pear2\Pyrus\Package\Base
             $rawHeader = $newHeader;
         }
         if ($this->_maliciousFilename($header['filename'])) {
-            throw new \pear2\Pyrus\Package\Tar\Exception('Malicious .tar detected, file "' .
-                $header['filename'] .
+            throw new Tar\Exception('Malicious .tar detected, file "' . $header['filename'] .
                 '" will not install in desired directory tree');
         }
 
@@ -212,8 +208,7 @@ class Tar extends \pear2\Pyrus\Package\Base
                 return true;
             }
 
-            throw new \pear2\Pyrus\Package\Tar\Exception(
-                'Invalid checksum for header of file "' . $header['filename'] .
+            throw new Tar\Exception('Invalid checksum for header of file "' . $header['filename'] .
                 '" : ' . $checksum . ' calculated, ' .
                 $header['checksum'] . ' expected');
         }
@@ -257,9 +252,7 @@ class Tar extends \pear2\Pyrus\Package\Base
     {
         $packagexml = false;
         $where = (string) \pear2\Pyrus\Config::current()->temp_dir;
-        $where = str_replace('\\', '/', $where);
-        $where = str_replace('//', '/', $where);
-        $where = str_replace('/', DIRECTORY_SEPARATOR, $where);
+        $where = str_replace(array('\\', '//'), DIRECTORY_SEPARATOR, $where);
         if (!file_exists($where)) {
             mkdir($where, 0777, true);
         }
@@ -279,9 +272,7 @@ class Tar extends \pear2\Pyrus\Package\Base
 
             $header = $this->_readHeader($header);
             $extract = $where . $header['filename'];
-            $extract = str_replace('\\', '/', $extract);
-            $extract = str_replace('//', '/', $extract);
-            $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
+            $extract = str_replace(array('\\', '//'), DIRECTORY_SEPARATOR, $extract);
             self::_addTempFile($extract);
             if (!file_exists(dirname($extract))) {
                 self::_addTempDirectory(dirname($extract));
@@ -291,9 +282,8 @@ class Tar extends \pear2\Pyrus\Package\Base
             $fp = fopen($extract, 'wb');
             $amount = stream_copy_to_stream($this->_fp, $fp, $this->_internalFileLength);
             if ($amount != $this->_internalFileLength) {
-                throw new \pear2\Pyrus\Package\Tar\Exception(
-                    'Unable to fully extract ' . $header['filename'] . ' from ' .
-                    $this->archive);
+                throw new Tar\Exception('Unable to fully extract ' . $header['filename'] .
+                                        ' from ' . $this->archive);
             }
 
             if ($this->_footerLength) {
@@ -318,8 +308,7 @@ class Tar extends \pear2\Pyrus\Package\Base
         fclose($fp);
         fclose($this->_fp);
         if (!$packagexml) {
-            throw new \pear2\Pyrus\Package\Tar\Exception('Archive ' . $this->archive .
-                ' does not contain a package.xml file');
+            throw new Tar\Exception('Archive ' . $this->archive . ' does not contain a package.xml file');
         }
 
         return $packagexml;

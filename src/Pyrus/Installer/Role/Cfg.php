@@ -39,6 +39,7 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
         if (!($package = $installer->wasInstalled($pkg->name, $pkg->channel))) {
             return;
         }
+
         if (isset($package->files[$file]) && isset($package->files[$file]['attribs']['md5sum'])) {
             $this->md5 = $package->files[$file]['attribs']['md5sum'];
         }
@@ -50,14 +51,17 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
         if ($this->md5 === null) {
             return parent::getRelativeLocation($pkg, $file, $retDir);
         }
+
         $info = parent::getRelativeLocation($pkg, $file, $retDir);
         $path = \pear2\Pyrus\Config::current()->cfg_dir .
                     DIRECTORY_SEPARATOR;
+
         if ($retDir) {
             $filepath = $info[1];
         } else {
             $filepath = $info;
         }
+
         if (@file_exists($path .$filepath)) {
             // configuration has already been installed, check for modifications
             // made by the user
@@ -68,6 +72,7 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
             } else {
                 $newmd5 = $newmd5['md5sum'];
             }
+
             // first check to see if the user modified the file
             // next check to see if the config file changed from the last installed version
             // if both tests are satisfied, install the new file under another name and display a warning
@@ -80,12 +85,13 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
                                     "you should manually merge in changes to the existing configuration file");
             }
         }
+
         if ($retDir) {
             $info[1] = $filepath;
         } else {
             $info = $filepath;
         }
+
         return $info;
     }
 }
-?>

@@ -92,16 +92,20 @@ class TaskIterator extends \FilterIterator
                 if (isset($xml['attribs'])) {
                     $attribs = $xml['attribs'];
                 }
+
                 $tasks[] = new $task($this->_parent, $this->_installphase, $info, $attribs, $this->lastversion);
             }
+
             $attribs = isset($this->_inner['attribs']) ? array($this->_inner['attribs']) : $this->_inner;
             // use proxy for multiple tasks
             return new \pear2\Pyrus\Task\MultipleProxy($this->_parent, $tasks, $attribs, $this->key());
         }
+
         $attribs = array();
         if (isset($xml['attribs'])) {
             $attribs = $xml['attribs'];
         }
+
         $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
         $task = str_replace(' ', '/', ucwords($task));
         $task = str_replace('/', '_', $task);

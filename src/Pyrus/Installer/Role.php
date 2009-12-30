@@ -24,6 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Installer;
+use \pear2\Pyrus\Config as Config;
 class Role
 {
     static private $_roles;
@@ -36,7 +37,7 @@ class Role
      * @access private
      * @static
      */
-    public static function initializeConfig(\pear2\Pyrus\Config $config)
+    public static function initializeConfig(Config $config)
     {
         if (!isset(self::$_roles)) {
             self::registerRoles();
@@ -63,12 +64,11 @@ class Role
         }
 
         if (!in_array($role, self::getValidRoles($packagetype))) {
-            throw new \pear2\Pyrus\Installer\Exception('Invalid role ' . $role .
-                                                      'requested for package type ' . $packagetype);
+            throw new Exception('Invalid role ' . $role . 'requested for package type ' . $packagetype);
         }
 
         $class = self::$_roles[$role]['class'];
-        return new $class(\pear2\Pyrus\Config::current(), self::$_roles[$role]);
+        return new $class(Config::current(), self::$_roles[$role]);
     }
 
     /**
@@ -192,18 +192,19 @@ class Role
         }
 
         if (!file_exists($dir) || !is_dir($dir)) {
-            throw new \pear2\Pyrus\Installer\Role\Exception("registerRoles: opendir($dir) failed");
+            throw new Role\Exception("registerRoles: opendir($dir) failed");
         }
 
         $dp = @opendir($dir);
         if (empty($dp)) {
-            throw new \pear2\Pyrus\Installer\Role\Exception("registerRoles: opendir($dir) failed");
+            throw new Role\Exception("registerRoles: opendir($dir) failed");
         }
 
         $schemapath = \pear2\Pyrus\Main::getDataPath() . '/customrole-2.0.xsd';
         if (!file_exists($schemapath)) {
             $schemapath = realpath(__DIR__ . '/../../../data/customrole-2.0.xsd');
         }
+
         while ($entry = readdir($dp)) {
             if ($entry{0} == '.' || substr($entry, -4) != '.xml') {
                 continue;
@@ -218,6 +219,7 @@ class Role
                 if (!is_array($data['releasetypes'])) {
                     $data['releasetypes'] = array($data['releasetypes']);
                 }
+
                 self::$_roles[$role] = $data;
             }
         }
@@ -245,22 +247,25 @@ class Role
             if (!isset($info['configvar'][0])) {
                 $info['configvar'] = array($info['configvar']);
             }
+
             foreach ($info['configvar'] as $configvar) {
                 $default = $configvar['default'];
                 if (false !== strpos($default, '<?php')) {
-                    $tmp = \pear2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR .
-                        '.configdefault.php';
+                    $tmp = Config::current()->temp_dir . DIRECTORY_SEPARATOR . '.configdefault.php';
                     if (!file_exists(dirname($tmp))) {
                         mkdir(dirname($tmp), 0755, true);
                     }
+
                     file_put_contents($tmp, $default);
                     $getDefault = function() use ($tmp) {
                         include $tmp;
                         return $default;
                     };
+
                     $default = $getDefault();
                 }
-                \pear2\Pyrus\Config::addConfigValue($configvar['name'], $default, $configvar['configtype']);
+
+                Config::addConfigValue($configvar['name'], $default, $configvar['configtype']);
             }
         }
     }
@@ -278,7 +283,7 @@ class Role
         }
 
         if (empty(self::$_roles[$role])) {
-            throw new \pear2\Pyrus\Installer\Role\Exception('Unknown Role: "' . $role . '"');
+            throw new Role\Exception('Unknown Role: "' . $role . '"');
         }
 
         return self::$_roles[$role];

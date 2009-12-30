@@ -255,18 +255,20 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
     function getFileContents($file, $asstream = false)
     {
         if (!isset($this[$file])) {
-            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in this package');
+            throw new Exception('file ' . $file . ' is not in this package');
         }
+
         if ($asstream) {
             $fp = fopen($this->getFilePath($file), 'rb');
             return $fp;
-        } else {
-            $ret = file_get_contents($this->getFilePath($file));
-            if (!$ret) {
-                $ret = '';
-            }
-            return $ret;
         }
+
+        $ret = file_get_contents($this->getFilePath($file));
+        if (!$ret) {
+            $ret = '';
+        }
+
+        return $ret;
     }
 
     function getTask($file, $name)
@@ -276,6 +278,7 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
         } elseif (is_array($file)) {
             $fileAttribs = $file;
         }
+
         $taskclass = \pear2\Pyrus\Task\Common::getTask($name);
         return new $taskclass($this, \pear2\Pyrus\Task\Common::PACKAGE, $fileAttribs,
                               $fileAttribs['attribs'], null);

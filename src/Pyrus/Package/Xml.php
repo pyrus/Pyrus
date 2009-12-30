@@ -50,7 +50,7 @@ class Xml extends \pear2\Pyrus\Package\Base
 
     function copyTo($where)
     {
-        throw new \pear2\Pyrus\Package\Exception('download/copy not supported for extracted packages');
+        throw new Exception('download/copy not supported for extracted packages');
     }
 
     function getFilePath($file)

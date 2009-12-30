@@ -40,8 +40,8 @@ class Creator
     {
         if (!$pear2ExceptionPath) {
             if (!($pear2Exception = @fopen('pear2/Exception.php', 'r', true))) {
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/Exception.php, please' .
-                    ' pass in the path to the constructor');
+                throw new Exception('Cannot locate pear2/Exception.php, please' .
+                                    ' pass in the path to the constructor');
             }
         } else {
             if ($a = realpath($pear2ExceptionPath)) {
@@ -51,16 +51,15 @@ class Creator
                 $pear2ExceptionPath .= '/';
             }
             if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/Exception.php' .
-                    ' in ' . $pear2ExceptionPath);
+                throw new Exception('Cannot locate pear2/Exception.php in ' . $pear2ExceptionPath);
             }
         }
 
         if (!$pear2AutoloadPath) {
             if (!($pear2Autoload = @fopen('pear2/Autoload.php', 'r', true))) {
                 fclose($pear2Exception);
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/Autoload.php, please' .
-                    ' pass in the path to the constructor');
+                throw new Exception('Cannot locate pear2/Autoload.php, please' .
+                                    ' pass in the path to the constructor');
             }
         } else {
             if ($a = realpath($pear2AutoloadPath)) {
@@ -71,8 +70,7 @@ class Creator
             }
             if (!($pear2Autoload = @fopen($pear2AutoloadPath . 'Autoload.php', 'r'))) {
                 fclose($pear2Exception);
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/Autoload.php' .
-                    ' in ' . $pear2AutoloadPath);
+                throw new Exception('Cannot locate pear2/Autoload.php in ' . $pear2AutoloadPath);
             }
         }
 
@@ -80,16 +78,16 @@ class Creator
             if (!($pear2MultiErrors = @fopen('pear2/MultiErrors.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/MultiErrors.php, please' .
-                    ' pass in the path to the constructor');
+                throw new Exception('Cannot locate pear2/MultiErrors.php, please' .
+                                    ' pass in the path to the constructor');
             }
 
             if (!($pear2MultiErrorsException = @fopen('pear2/MultiErrors/Exception.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/MultiErrors/Exception.php, please' .
-                    ' pass in the path to the constructor');
+                throw new Exception('Cannot locate pear2/MultiErrors/Exception.php, please' .
+                                    ' pass in the path to the constructor');
             }
         } else {
             if ($a = realpath($pear2MultiErrorsPath)) {
@@ -102,16 +100,15 @@ class Creator
             if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/MultiErrors.php' .
-                    ' in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
+                throw new Exception('Cannot locate pear2/MultiErrors.php in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
             }
 
             if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);
-                throw new \pear2\Pyrus\Package\Exception('Cannot locate pear2/MultiErrors/Exception.php' .
-                    ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
+                throw new Exception('Cannot locate pear2/MultiErrors/Exception.php' .
+                                    ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
             }
         }
 
@@ -119,21 +116,19 @@ class Creator
         $this->_handles['php/pear2/MultiErrors.php'] = $pear2MultiErrors;
         $this->_handles['php/pear2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
         $this->_handles['php/pear2/Exception.php'] = $pear2Exception;
-        if ($creators instanceof \pear2\Pyrus\Package\ICreator) {
+        if ($creators instanceof ICreator) {
             $this->_creators = array($creators);
         } elseif (is_array($creators)) {
             foreach ($creators as $creator) {
-                if ($creator instanceof \pear2\Pyrus\Package\ICreator) {
+                if ($creator instanceof ICreator) {
                     continue;
                 }
 
-                throw new \pear2\Pyrus\Package\Creator\Exception('Invalid ' .
-                    'PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
+                throw new Creator\Exception('Invalid PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
             }
             $this->_creators = $creators;
         } else {
-            throw new \pear2\Pyrus\Package\Creator\Exception('Invalid ' .
-                'PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
+            throw new Creator\Exception('Invalid PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
         }
     }
 
@@ -184,7 +179,7 @@ class Creator
                 $creator->addFile('package.xml', $old);
             }
         }
-        if ($package->getInternalPackage() instanceof \pear2\Pyrus\Package\Xml) {
+        if ($package->getInternalPackage() instanceof Xml) {
             // check for package_compatible.xml
             if ($package->isNewPackage() && file_exists($package->getFilePath('package_compatible.xml'))) {
                 foreach ($this->_creators as $creator) {
@@ -221,21 +216,19 @@ class Creator
             try {
                 $role->packageTimeValidate($package, $info);
             } catch (\Exception $e) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Invalid file ' .
-                            $packageat . ': ' . $e->getMessage(), $e);
+                throw new Creator\Exception('Invalid file ' . $packageat . ': ' . $e->getMessage(), $e);
             }
 
             $packageat = str_replace('\\', '/', $packageat);
             $packageat = str_replace('//', '/', $packageat);
             if ($packageat[0] === '/' ||
                   (strlen($packageat) > 2 && ($packageat[1] === ':' && $packageat[2] == '/'))) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Invalid path, cannot' .
-                    ' save a root path ' . $packageat);
+                throw new Creator\Exception('Invalid path, cannot save a root path ' . $packageat);
             }
 
             if (preg_match('@^\.\.?/|/\.\.?\\z|/\.\./@', $packageat)) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Invalid path, cannot' .
-                    ' use directory reference . or .. ' . $packageat);
+                throw new Creator\Exception('Invalid path, cannot use directory ' .
+                                            'reference . or .. ' . $packageat);
             }
 
             $alreadyPackaged[$packageat] = true;
@@ -266,9 +259,8 @@ class Creator
             } else {
                 $version = null;
             }
-            foreach (new \pear2\Pyrus\Package\Creator\TaskIterator($info, $package,
-                                                                  \pear2\Pyrus\Task\Common::PACKAGE,
-                                                                  $version) as $task) {
+            foreach (new Creator\TaskIterator($info, $package, \pear2\Pyrus\Task\Common::PACKAGE,
+                                              $version) as $task) {
                 // do pre-processing of file contents
                 try {
                     $task->startSession($fp, $packageat);
@@ -353,24 +345,21 @@ class Creator
             $path = str_replace('//', '/', $path);
             if ($path[0] === '/' ||
                   (strlen($path) > 2 && ($path[1] === ':' && $path[2] == '/'))) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Invalid path, cannot' .
-                    ' save a root path ' . $path);
+                throw new Creator\Exception('Invalid path, cannot save a root path ' . $path);
             }
 
             if (preg_match('@^\.\.?/|/\.\.?\\z|/\.\./@', $path)) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Invalid path, cannot' .
-                    ' use directory reference . or .. ' . $path);
+                throw new Creator\Exception('Invalid path, cannot use directory ' .
+                                            'reference . or .. ' . $path);
             }
 
             if (isset($alreadyPackaged[$path])) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Path ' . $path .
-                    'has already been added, and cannot be overwritten');
+                throw new Creator\Exception('Path ' . $path . 'has already been added, and cannot be overwritten');
             }
 
             $alreadyPackaged[$path] = true;
             if (!@file_exists($filename) || !($fp = @fopen($filename, 'rb'))) {
-                throw new \pear2\Pyrus\Package\Creator\Exception('Extra file ' .
-                    $filename . ' does not exist or cannot be read');
+                throw new Creator\Exception('Extra file ' . $filename . ' does not exist or cannot be read');
             }
 
             foreach ($this->_creators as $creator) {

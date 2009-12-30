@@ -75,6 +75,7 @@ class Common
         if (!$this->info['honorsbaseinstall']) {
             array_shift($location);
         }
+
         $location = implode('/', $location);
         return $location;
     }

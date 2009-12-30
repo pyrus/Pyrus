@@ -55,11 +55,13 @@ class Cloner
         } elseif ($p->isFileFormat(\Phar::ZIP)) {
             $this->zip = $p;
         }
+
         $sig = $p->getSignature();
         if ($sig) {
             $this->hash = $sig['hash'];
             $this->signature_algo = $sig['hash_type'];
         }
+
         $info = pathinfo($base);
         $this->file = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'];
         $this->ext = substr($info['filename'], strpos($info['filename'], '.'));
@@ -75,22 +77,27 @@ class Cloner
         if (isset($this->tgz)) {
             return;
         }
+
         if (isset($this->tar)) {
             if (file_exists($this->file . '.tgz')) {
                 try {
                     $p = new \PharData($this->file . '.tgz');
                 } catch (\Exception $e) {
                 }
+
                 if ($p->getSignature() === $this->tar->getSignature()) {
                     $this->tgz = $p;
                     if ($this->outfile) {
                         copy($this->file . '.tgz', $this->outfile . '.tgz');
                     }
+
                     return;
                 }
+
                 unset($p);
                 \Phar::unlinkArchive($this->file . '.tgz');
             }
+
             $fp = fopen($this->file . '.tar', 'rb');
             $gp = gzopen($this->file . '.tgz', 'wb');
             stream_copy_to_stream($fp, $gp);
@@ -100,17 +107,21 @@ class Cloner
             if ($this->outfile) {
                 copy($this->file . '.tgz', $this->outfile . '.tgz');
             }
+
             return;
         }
+
         // by process of elimination, the phar is in zip format
         if (file_exists($this->file . '.tgz')) {
             \Phar::unlinkArchive($this->file . '.tgz');
             unlink($this->file . '.tgz');
         }
+
         $this->tgz = $this->zip->convertToData(\Phar::TAR, \Phar::GZ, $this->ext . '.tgz');
         if ($this->outfile) {
             copy($this->file . '.tgz', $this->outfile . '.tgz');
         }
+
         $this->zip = new \PharData($this->file . '.zip');
     }
 
@@ -119,12 +130,14 @@ class Cloner
         if (isset($this->tar)) {
             return;
         }
+
         if (isset($this->tgz)) {
             if (file_exists($this->file . '.tar')) {
                 try {
                     $p = new \PharData($this->file . '.tar');
                 } catch (\Exception $e) {
                 }
+
                 if ($p->getSignature() === $this->phar->getSignature()) {
                     $this->tar = $p;
                     if ($this->outfile) {
@@ -197,7 +210,7 @@ class Cloner
                             return;
                         }
                     } catch (\Exception $e) {
-                        
+
                     }
                 }
             }
@@ -304,4 +317,3 @@ class Cloner
         $this->zip = new \PharData($this->file . '.zip');
     }
 }
-

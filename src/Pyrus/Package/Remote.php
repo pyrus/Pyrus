@@ -150,13 +150,13 @@ class Remote extends \pear2\Pyrus\Package
 
         $internal = $this->internal->download();
         if ($internal->name != $this->name) {
-            throw new \pear2\Pyrus\Package\Exception('Invalid package downloaded, package name changed from ' .
-                                                    $this->name . ' to ' . $internal->name);
+            throw new Exception('Invalid package downloaded, package name changed from ' .
+                                $this->name . ' to ' . $internal->name);
         }
         if ($internal->channel != $this->channel) {
-            throw new \pear2\Pyrus\Package\Exception('SECURITY ERROR: package is claiming to be from ' .
-                                                    'channel ' . $internal->channel . ', but we are ' .
-                                                    'channel ' . $this->name);
+            throw new Exception('SECURITY ERROR: package is claiming to be from ' .
+                                'channel ' . $internal->channel . ', but we are ' .
+                                'channel ' . $this->name);
         }
         $internal->setFrom($this->internal);
         $this->internal = $internal;

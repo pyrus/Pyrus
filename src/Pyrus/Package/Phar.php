@@ -37,13 +37,11 @@ class Phar extends \pear2\Pyrus\Package\Base
     {
         $package = realpath($package);
         if (!$package) {
-            throw new \pear2\Pyrus\Package\Phar\Exception(
-                'Phar package ' . $package . ' does not exist');
+            throw new Phar\Exception('Phar package ' . $package . ' does not exist');
         }
 
         if (!class_exists('Phar')) {
-            throw new \pear2\Pyrus\Package\Phar\Exception(
-                'Phar extension is not available');
+            throw new Phar\Exception('Phar extension is not available');
         }
 
         $this->archive = $package;
@@ -60,8 +58,7 @@ class Phar extends \pear2\Pyrus\Package\Base
                 }
             }
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Package\Phar\Exception('Could not open Phar archive ' .
-                $package, $e);
+            throw new Phar\Exception('Could not open Phar archive ' . $package, $e);
         }
 
         $package = str_replace('\\', '/', $package);
@@ -97,12 +94,12 @@ class Phar extends \pear2\Pyrus\Package\Base
                     }
                 }
             }
-            
+
             if ($pxml === false) {
-                throw new \pear2\Pyrus\Package\Phar\Exception('No package.xml in archive');
+                throw new Phar\Exception('No package.xml in archive');
             }
         } catch (\Exception $e) {
-            throw new \pear2\Pyrus\Package\Phar\Exception('Could not extract Phar archive ' .
+            throw new Phar\Exception('Could not extract Phar archive ' .
                 $package, $e);
         }
 
@@ -118,8 +115,9 @@ class Phar extends \pear2\Pyrus\Package\Base
 
     function copyTo($where)
     {
-        copy($this->archive, $where . DIRECTORY_SEPARATOR . basename($this->archive));
-        $this->archive = $where . DIRECTORY_SEPARATOR . basename($this->archive);
+        $location = $where . DIRECTORY_SEPARATOR . basename($this->archive);
+        copy($this->archive, $location);
+        $this->archive = $location;
     }
 
     function isNewPackage()
@@ -130,16 +128,16 @@ class Phar extends \pear2\Pyrus\Package\Base
     function getFilePath($file)
     {
         if (!isset($this->packagefile->info->files[$file])) {
-            throw new \pear2\Pyrus\Package\Exception('file ' . $file . ' is not in package.xml');
+            throw new Exception('file ' . $file . ' is not in package.xml');
         }
-        
+
         $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' . $file;
         if (!file_exists($phar_file)) {
             $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' .
                     $this->packagefile->info->name . '-' .
                     $this->packagefile->info->version['release'] . '/' .
                     $file;
-        
+
         }
         return $phar_file;
     }
