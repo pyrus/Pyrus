@@ -24,7 +24,8 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus;
-class REST{
+class REST
+{
     protected $config;
     protected $_options;
 
@@ -39,10 +40,12 @@ class REST{
      *
      * This is useful for elements that should never change, such as information on a particular
      * release
+     *
      * @param string full URL to this resource
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
-     *                    parsed using PEAR_XMLParser
+     *                    parsed using pear2\Pyrus\XMLParser
+     *
      * @return string|array
      */
     function retrieveCacheFirst($url, $accept = false, $forcestring = false)
@@ -58,11 +61,15 @@ class REST{
 
     /**
      * Retrieve a remote REST resource
+     *
      * @param string full URL to this resource
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
-     *                    parsed using PEAR_XMLParser
+     *                    parsed using pear2\Pyrus\XMLParser
+     *
      * @return string|array
+     * 
+     * @throws pear2\Pyrus\REST\Exception If the xml cannot be parsed
      */
     function retrieveData($url, $accept = false, $forcestring = false)
     {
@@ -161,6 +168,15 @@ class REST{
         return false;
     }
 
+    /**
+     * retrieve a url stored in the cache
+     * 
+     * @param string $url full URL to REST resource
+     *
+     * @return string contents of file
+     * 
+     * @throws pear2\Pyrus\REST\Exception if no cache exists
+     */
     function getCache($url)
     {
         $cachefile = $this->config->cache_dir . DIRECTORY_SEPARATOR .
@@ -173,11 +189,16 @@ class REST{
     }
 
     /**
-     * @param string full URL to REST resource
-     * @param string original contents of the REST resource
-     * @param array  HTTP Last-Modified and ETag headers
-     * @param bool   if true, then the cache id file should be regenerated to
-     *               trigger a new time-to-live value
+     * @param string $url          full URL to REST resource
+     * @param string $contents     original contents of the REST resource
+     * @param array  $lastmodified HTTP Last-Modified and ETag headers
+     * @param bool   $nochange     if true, then the cache id file should be
+     *                             regenerated to trigger a new time-to-live value
+     * @param string $cacheid      optional filename of the cache file
+     *
+     * @return bool  Returns true on success, false on error
+     * 
+     * @throws pear2\Pyrus\REST\Exception
      */
     function saveCache($url, $contents, $lastmodified, $nochange = false, $cacheid = null)
     {
@@ -237,14 +258,15 @@ class REST{
      * Efficiently Download a file through HTTP.  Returns downloaded file as a string in-memory
      * This is best used for small files
      *
-     * If an HTTP proxy has been configured (http_proxy PEAR_Config
+     * If an HTTP proxy has been configured (http_proxy pear2\Pyrus\Config
      * setting), the proxy will be used.
      *
-     * @param string  $url       the URL to download
-     * @param string  $save_dir  directory to save file in
-     * @param false|string|array $lastmodified header values to check against for caching
-     *                           use false to return the header values from this download
-     * @param false|array $accept Accept headers to send
+     * @param string             $url          the URL to download
+     * @param false|string|array $lastmodified header values to check against
+     *                                         for caching use false to return
+     *                                         the header values from this download
+     * @param false|array        $accept       Accept headers to send
+     *
      * @return string|array  Returns the contents of the downloaded file or a PEAR
      *                       error on failure.  If the error is caused by
      *                       socket-related errors, the error object will
@@ -252,6 +274,7 @@ class REST{
      *                       getCode().  If caching is requested, then return the header
      *                       values.
      *
+     * @throws pear2\Pyrus\REST\Exception if the url is invalid
      * @access public
      */
     function downloadHttp($url, $lastmodified = null, $accept = false)
