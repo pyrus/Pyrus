@@ -182,7 +182,7 @@ class Package implements \pear2\Pyrus\PackageInterface
     function isRemote()
     {
         return $this->internal instanceof Package\Remote ||
-                    $this->internal instanceof Channel\Remotepackage || (
+                    $this->internal instanceof Channel\RemotePackage || (
                     $this->internal instanceof Package && $this->internal->isRemote());
     }
 

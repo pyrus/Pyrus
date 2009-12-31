@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Channel\Remotepackages
+ * \pear2\Pyrus\Channel\RemotePackages
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
-class Remotepackages implements \ArrayAccess, \Iterator
+class RemotePackages implements \ArrayAccess, \Iterator
 {
     protected $parent;
     public $stability = null;
@@ -83,9 +83,9 @@ class Remotepackages implements \ArrayAccess, \Iterator
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
         if (isset($releases)) {
-            $pxml = new Remotepackage($this->parent, $releases);
+            $pxml = new RemotePackage($this->parent, $releases);
         } else {
-            $pxml = new Remotepackage($this->parent);
+            $pxml = new RemotePackage($this->parent);
         }
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
@@ -124,7 +124,7 @@ class Remotepackages implements \ArrayAccess, \Iterator
         }
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'p/' . $lowerpackage . '/info.xml');
-        $pxml = new Remotepackage($this->parent, $releases);
+        $pxml = new RemotePackage($this->parent, $releases);
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
         $pxml->license = $info['l'];

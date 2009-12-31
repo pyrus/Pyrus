@@ -436,7 +436,7 @@ class PackageTree
             if (isset($info->uri)) {
                 return;
             }
-            $remote = new \pear2\Pyrus\Channel\Remotepackage(\pear2\Pyrus\Config::current()
+            $remote = new \pear2\Pyrus\Channel\RemotePackage(\pear2\Pyrus\Config::current()
                                                             ->channelregistry[$info->channel], $stability);
             $found = false;
             foreach ($remote[$info->name] as $remoteversion => $rinfo) {

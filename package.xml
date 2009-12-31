@@ -27,8 +27,14 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-12-22</date>
- <time>17:49:50</time>
+ <lead>
+  <name>Helgi Þormar Þorbjörnsson</name>
+  <user>dufuz</user>
+  <email>helgi@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-12-31</date>
+ <time>10:37:32</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -222,10 +228,10 @@ Initial pyrus public API
      <dir name="Channel">
       <file role="php" name="Exception.php"/>
       <file role="php" name="MirrorInterface.php"/>
-      <file role="php" name="Remotecategories.php"/>
-      <file role="php" name="Remotecategory.php"/>
-      <file role="php" name="Remotepackage.php"/>
-      <file role="php" name="Remotepackages.php"/>
+      <file role="php" name="RemoteCategories.php"/>
+      <file role="php" name="RemoteCategory.php"/>
+      <file role="php" name="RemotePackage.php"/>
+      <file role="php" name="RemotePackages.php"/>
      </dir>
      <dir name="ChannelFile">
       <dir name="Parser">
@@ -455,9 +461,6 @@ Initial pyrus public API
       <file role="php" name="Xml.php"/>
      </dir>
      <dir name="REST">
-      <file role="php" name="10.php"/>
-      <file role="php" name="11.php"/>
-      <file role="php" name="13.php"/>
       <file role="php" name="Exception.php"/>
      </dir>
      <dir name="ScriptFrontend">
@@ -479,15 +482,7 @@ Initial pyrus public API
        </dir>
        <file role="php" name="Paramgroup.php"/>
       </dir>
-      <dir name="Replace">
-       <file role="php" name="rw.php"/>
-      </dir>
-      <dir name="Unixeol">
-       <file role="php" name="rw.php"/>
-      </dir>
-      <dir name="Windowseol">
-       <file role="php" name="rw.php"/>
-      </dir>
+      <file role="php" name=".DS_Store"/>
       <file role="php" name="Common.php"/>
       <file role="php" name="Exception.php"/>
       <file role="php" name="MultipleProxy.php"/>
@@ -508,6 +503,7 @@ Initial pyrus public API
      <dir name="XMLWriter">
       <file role="php" name="Exception.php"/>
      </dir>
+     <file role="php" name=".DS_Store"/>
      <file role="php" name="AtomicFileTransaction.php"/>
      <file role="php" name="Channel.php"/>
      <file role="php" name="ChannelFile.php"/>
@@ -544,6 +540,7 @@ Initial pyrus public API
      <file role="php" name="XMLParser.php"/>
      <file role="php" name="XMLWriter.php"/>
     </dir>
+    <file role="php" name=".DS_Store"/>
    </dir>
    <dir name="tests" baseinstalldir="/">
     <dir name="AtomicFileTransaction">
@@ -2423,6 +2420,9 @@ Initial pyrus public API
        <file role="test" name="Autoload.php"/>
        <file role="test" name="Exception.php"/>
        <file role="test" name="MultiErrors.php"/>
+      </dir>
+      <dir name="remotechannel">
+       <file role="test" name="channel.xml"/>
       </dir>
       <dir name="remotepackage">
        <dir name="get">

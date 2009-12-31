@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Channel\Remotecategories
+ * \pear2\Pyrus\Channel\RemoteCategories
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
-class Remotecategories implements \ArrayAccess, \Iterator
+class RemoteCategories implements \ArrayAccess, \Iterator
 {
     protected $parent;
     protected $rest;
@@ -43,7 +43,7 @@ class Remotecategories implements \ArrayAccess, \Iterator
     {
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
                                                 'c/' . urlencode($var) . '/packagesinfo.xml');
-        return new Remotecategory($this->parent, $var, $info);
+        return new RemoteCategory($this->parent, $var, $info);
     }
 
     function offsetSet($var, $value)
@@ -71,7 +71,7 @@ class Remotecategories implements \ArrayAccess, \Iterator
         $category = $this->key();
         $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
                                                 'c/' . urlencode($category) . '/packagesinfo.xml');
-        return new Remotecategory($this->parent, $category, $info);
+        return new RemoteCategory($this->parent, $category, $info);
     }
 
     function key()

@@ -27,8 +27,14 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>saltybeagle@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-12-22</date>
- <time>17:49:51</time>
+ <lead>
+  <name>Helgi Þormar Þorbjörnsson</name>
+  <user>dufuz</user>
+  <email>helgi@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-12-31</date>
+ <time>10:37:34</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -814,6 +820,7 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.zip"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tgz"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tar"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotechannel/Mocks/Internet/remotechannel/channel.xml"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/MultiErrors/Mocks/Internet/PEAR2/MultiErrors/Exception.php"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php"/>
@@ -2135,11 +2142,8 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Validate/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Validate.php"/>
    <file role="php" name="php/pear2/Pyrus/Uninstaller.php"/>
-   <file role="php" name="php/pear2/Pyrus/Task/Windowseol/rw.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Windowseol.php"/>
-   <file role="php" name="php/pear2/Pyrus/Task/Unixeol/rw.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Unixeol.php"/>
-   <file role="php" name="php/pear2/Pyrus/Task/Replace/rw.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Replace.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Postinstallscript/Paramgroup/Param.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Postinstallscript/Paramgroup.php"/>
@@ -2151,6 +2155,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Task/Exception/InvalidTask.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Common.php"/>
+   <file role="php" name="php/pear2/Pyrus/Task/.DS_Store"/>
    <file role="php" name="php/pear2/Pyrus/ScriptRunner.php"/>
    <file role="php" name="php/pear2/Pyrus/ScriptFrontend/Renderer.php"/>
    <file role="php" name="php/pear2/Pyrus/ScriptFrontend/Exception.php"/>
@@ -2158,9 +2163,6 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/ScriptFrontend/Command.php"/>
    <file role="php" name="php/pear2/Pyrus/ScriptFrontend.php"/>
    <file role="php" name="php/pear2/Pyrus/REST/Exception.php"/>
-   <file role="php" name="php/pear2/Pyrus/REST/13.php"/>
-   <file role="php" name="php/pear2/Pyrus/REST/11.php"/>
-   <file role="php" name="php/pear2/Pyrus/REST/10.php"/>
    <file role="php" name="php/pear2/Pyrus/REST.php"/>
    <file role="php" name="php/pear2/Pyrus/RegistryInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Registry/Xml/Package.php"/>
@@ -2337,15 +2339,17 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/ChannelFile/Parser/v1.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelFile/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/ChannelFile.php"/>
-   <file role="php" name="php/pear2/Pyrus/Channel/Remotepackages.php"/>
-   <file role="php" name="php/pear2/Pyrus/Channel/Remotepackage.php"/>
-   <file role="php" name="php/pear2/Pyrus/Channel/Remotecategory.php"/>
-   <file role="php" name="php/pear2/Pyrus/Channel/Remotecategories.php"/>
+   <file role="php" name="php/pear2/Pyrus/Channel/RemotePackages.php"/>
+   <file role="php" name="php/pear2/Pyrus/Channel/RemotePackage.php"/>
+   <file role="php" name="php/pear2/Pyrus/Channel/RemoteCategory.php"/>
+   <file role="php" name="php/pear2/Pyrus/Channel/RemoteCategories.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel/MirrorInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Channel.php"/>
    <file role="php" name="php/pear2/Pyrus/AtomicFileTransaction/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/AtomicFileTransaction.php"/>
+   <file role="php" name="php/pear2/Pyrus/.DS_Store"/>
+   <file role="php" name="php/pear2/.DS_Store"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
@@ -2662,15 +2666,17 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot" as="pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
+   <install name="php/pear2/.DS_Store" as="pear2/.DS_Store"/>
+   <install name="php/pear2/Pyrus/.DS_Store" as="pear2/Pyrus/.DS_Store"/>
    <install name="php/pear2/Pyrus/AtomicFileTransaction.php" as="pear2/Pyrus/AtomicFileTransaction.php"/>
    <install name="php/pear2/Pyrus/AtomicFileTransaction/Exception.php" as="pear2/Pyrus/AtomicFileTransaction/Exception.php"/>
    <install name="php/pear2/Pyrus/Channel.php" as="pear2/Pyrus/Channel.php"/>
    <install name="php/pear2/Pyrus/Channel/Exception.php" as="pear2/Pyrus/Channel/Exception.php"/>
    <install name="php/pear2/Pyrus/Channel/MirrorInterface.php" as="pear2/Pyrus/Channel/MirrorInterface.php"/>
-   <install name="php/pear2/Pyrus/Channel/Remotecategories.php" as="pear2/Pyrus/Channel/Remotecategories.php"/>
-   <install name="php/pear2/Pyrus/Channel/Remotecategory.php" as="pear2/Pyrus/Channel/Remotecategory.php"/>
-   <install name="php/pear2/Pyrus/Channel/Remotepackage.php" as="pear2/Pyrus/Channel/Remotepackage.php"/>
-   <install name="php/pear2/Pyrus/Channel/Remotepackages.php" as="pear2/Pyrus/Channel/Remotepackages.php"/>
+   <install name="php/pear2/Pyrus/Channel/RemoteCategories.php" as="pear2/Pyrus/Channel/RemoteCategories.php"/>
+   <install name="php/pear2/Pyrus/Channel/RemoteCategory.php" as="pear2/Pyrus/Channel/RemoteCategory.php"/>
+   <install name="php/pear2/Pyrus/Channel/RemotePackage.php" as="pear2/Pyrus/Channel/RemotePackage.php"/>
+   <install name="php/pear2/Pyrus/Channel/RemotePackages.php" as="pear2/Pyrus/Channel/RemotePackages.php"/>
    <install name="php/pear2/Pyrus/ChannelFile.php" as="pear2/Pyrus/ChannelFile.php"/>
    <install name="php/pear2/Pyrus/ChannelFile/Exception.php" as="pear2/Pyrus/ChannelFile/Exception.php"/>
    <install name="php/pear2/Pyrus/ChannelFile/Parser/v1.php" as="pear2/Pyrus/ChannelFile/Parser/v1.php"/>
@@ -2847,9 +2853,6 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Registry/Xml/Package.php" as="pear2/Pyrus/Registry/Xml/Package.php"/>
    <install name="php/pear2/Pyrus/RegistryInterface.php" as="pear2/Pyrus/RegistryInterface.php"/>
    <install name="php/pear2/Pyrus/REST.php" as="pear2/Pyrus/REST.php"/>
-   <install name="php/pear2/Pyrus/REST/10.php" as="pear2/Pyrus/REST/10.php"/>
-   <install name="php/pear2/Pyrus/REST/11.php" as="pear2/Pyrus/REST/11.php"/>
-   <install name="php/pear2/Pyrus/REST/13.php" as="pear2/Pyrus/REST/13.php"/>
    <install name="php/pear2/Pyrus/REST/Exception.php" as="pear2/Pyrus/REST/Exception.php"/>
    <install name="php/pear2/Pyrus/ScriptFrontend.php" as="pear2/Pyrus/ScriptFrontend.php"/>
    <install name="php/pear2/Pyrus/ScriptFrontend/Command.php" as="pear2/Pyrus/ScriptFrontend/Command.php"/>
@@ -2857,6 +2860,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/ScriptFrontend/Exception.php" as="pear2/Pyrus/ScriptFrontend/Exception.php"/>
    <install name="php/pear2/Pyrus/ScriptFrontend/Renderer.php" as="pear2/Pyrus/ScriptFrontend/Renderer.php"/>
    <install name="php/pear2/Pyrus/ScriptRunner.php" as="pear2/Pyrus/ScriptRunner.php"/>
+   <install name="php/pear2/Pyrus/Task/.DS_Store" as="pear2/Pyrus/Task/.DS_Store"/>
    <install name="php/pear2/Pyrus/Task/Common.php" as="pear2/Pyrus/Task/Common.php"/>
    <install name="php/pear2/Pyrus/Task/Exception.php" as="pear2/Pyrus/Task/Exception.php"/>
    <install name="php/pear2/Pyrus/Task/Exception/InvalidTask.php" as="pear2/Pyrus/Task/Exception/InvalidTask.php"/>
@@ -2868,11 +2872,8 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Task/Postinstallscript/Paramgroup.php" as="pear2/Pyrus/Task/Postinstallscript/Paramgroup.php"/>
    <install name="php/pear2/Pyrus/Task/Postinstallscript/Paramgroup/Param.php" as="pear2/Pyrus/Task/Postinstallscript/Paramgroup/Param.php"/>
    <install name="php/pear2/Pyrus/Task/Replace.php" as="pear2/Pyrus/Task/Replace.php"/>
-   <install name="php/pear2/Pyrus/Task/Replace/rw.php" as="pear2/Pyrus/Task/Replace/rw.php"/>
    <install name="php/pear2/Pyrus/Task/Unixeol.php" as="pear2/Pyrus/Task/Unixeol.php"/>
-   <install name="php/pear2/Pyrus/Task/Unixeol/rw.php" as="pear2/Pyrus/Task/Unixeol/rw.php"/>
    <install name="php/pear2/Pyrus/Task/Windowseol.php" as="pear2/Pyrus/Task/Windowseol.php"/>
-   <install name="php/pear2/Pyrus/Task/Windowseol/rw.php" as="pear2/Pyrus/Task/Windowseol/rw.php"/>
    <install name="php/pear2/Pyrus/Uninstaller.php" as="pear2/Pyrus/Uninstaller.php"/>
    <install name="php/pear2/Pyrus/Validate.php" as="pear2/Pyrus/Validate.php"/>
    <install name="php/pear2/Pyrus/Validate/Exception.php" as="pear2/Pyrus/Validate/Exception.php"/>
@@ -4194,6 +4195,7 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php" as="pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/Exception.php"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php" as="pear2.php.net/Mocks/Internet/PEAR2/Mocks/Internet/PEAR2/MultiErrors.php"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/PEAR2/MultiErrors/Mocks/Internet/PEAR2/MultiErrors/Exception.php" as="pear2.php.net/Mocks/Internet/PEAR2/MultiErrors/Mocks/Internet/PEAR2/MultiErrors/Exception.php"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotechannel/Mocks/Internet/remotechannel/channel.xml" as="pear2.php.net/Mocks/Internet/remotechannel/Mocks/Internet/remotechannel/channel.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tar" as="pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tar"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tgz" as="pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.tgz"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.zip" as="pear2.php.net/Mocks/Internet/remotepackage/get/Mocks/Internet/remotepackage/get/GetMaintainers_Test-1.0.0.zip"/>

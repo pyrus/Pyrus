@@ -2,6 +2,7 @@
 \pear2\Pyrus\Channel\RemotePackage with a channel that only supports REST1.0
 --SKIPIF--
 <?php
+die('skip for now');
 if (!extension_loaded('openssl')) die('SKIP openssl required');
 ?>
 --FILE--

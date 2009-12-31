@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Channel\Remotepackage
+ * \pear2\Pyrus\Channel\RemotePackage
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
-class Remotecategory implements \ArrayAccess, \Iterator, \Countable
+class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
 {
     protected $parent;
     protected $category;
@@ -106,7 +106,7 @@ class Remotecategory implements \ArrayAccess, \Iterator, \Countable
                 }
             }
         }
-        $pxml = new Remotepackage($this->parent, $releases);
+        $pxml = new RemotePackage($this->parent, $releases);
         $pxml->channel = $package['p']['c'];
         $pxml->name = $package['p']['n'];
         $pxml->license = $package['p']['l'];

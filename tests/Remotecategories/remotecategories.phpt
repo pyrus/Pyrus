@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotecategories: basic test
+\pear2\Pyrus\Channel\RemoteCategories: basic test
 --FILE--
 <?php
 
@@ -12,12 +12,12 @@ Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
 \pear2\Pyrus\Main::$downloadClass = 'Internet';
 $chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
-$remote = new pear2\Pyrus\Channel\Remotecategories($chan);
+$remote = new pear2\Pyrus\Channel\RemoteCategories($chan);
 $cat = $remote['Default'];
-$test->assertEquals('pear2\Pyrus\Channel\Remotecategory', get_class($cat), 'wrong class');
+$test->assertEquals('pear2\Pyrus\Channel\RemoteCategory', get_class($cat), 'wrong class');
 foreach ($remote as $category => $obj) {
     $test->assertEquals('Default', $category, 'category name');
-    $test->assertEquals('pear2\Pyrus\Channel\Remotecategory', get_class($obj), 'wrong class');
+    $test->assertEquals('pear2\Pyrus\Channel\RemoteCategory', get_class($obj), 'wrong class');
 }
 ?>
 ===DONE===

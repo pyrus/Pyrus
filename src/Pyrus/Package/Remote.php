@@ -113,7 +113,7 @@ class Remote extends \pear2\Pyrus\Package
                 }
             }
             // see if there are new versions in our stability or better
-            $remote = new \pear2\Pyrus\Channel\Remotepackage(\pear2\Pyrus\Config::current()
+            $remote = new \pear2\Pyrus\Channel\RemotePackage(\pear2\Pyrus\Config::current()
                                                             ->channelregistry[$this->channel], $stability);
             $found = false;
             foreach ($remote[$this->name] as $remoteversion => $rinfo) {

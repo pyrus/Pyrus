@@ -16,12 +16,12 @@ $category = $chan->remotecategories['Default'];
 
 $test->assertEquals(true, isset($chan->remotecategories['Default']['GetMaintainers_Test']), 'isset 1');
 $test->assertEquals(false, isset($chan->remotecategories['Default']['nonexisting']), 'isset 2');
-$test->assertEquals('pear2\Pyrus\Channel\Remotepackage',
+$test->assertEquals('pear2\Pyrus\Channel\RemotePackage',
                     get_class($chan->remotecategories['Default']['GetMaintainers_Test']),
                     'offsetGet test');
 foreach ($chan->remotecategories['Default'] as $name => $package) {
     $test->assertEquals('GetMaintainers_Test', $name, 'right name');
-    $test->assertEquals('pear2\Pyrus\Channel\Remotepackage', get_class($package), 'right class');
+    $test->assertEquals('pear2\Pyrus\Channel\RemotePackage', get_class($package), 'right class');
     $test->assertEquals('GetMaintainers_Test', $package->name, 'right remote package');
 }
 ?>

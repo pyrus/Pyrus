@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Channel\Remotepackage
+ * \pear2\Pyrus\Channel\RemotePackage
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
-class Remotepackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess, \Iterator
+class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess, \Iterator
 {
     /**
      * openssl CA authorities whose certs we have
