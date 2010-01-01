@@ -55,7 +55,7 @@ $test->assertEquals(array (
 
 // next, test with REST1.0
 unset(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net']->protocols->rest['REST1.2']);
-$remote = new \pear2\Pyrus\Channel\Remotepackage(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
+$remote = new \pear2\Pyrus\Channel\RemotePackage(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['GetMaintainers_Test'];
 $remote->version['release'] = '1.0.0'; // choose the version we are accessing

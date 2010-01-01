@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotepackages package has single release
+\pear2\Pyrus\Channel\RemotePackages package has single release
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');

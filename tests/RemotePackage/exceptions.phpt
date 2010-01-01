@@ -60,7 +60,7 @@ $chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 unset($chan->protocols->rest['REST1.0']);
 
 try {
-    $remote = new \pear2\Pyrus\Channel\Remotepackage($chan,
+    $remote = new \pear2\Pyrus\Channel\RemotePackage($chan,
                                                     'stable');
     throw new Exception('should have failed and did not');
 } catch (pear2\Pyrus\Channel\Exception $e) {

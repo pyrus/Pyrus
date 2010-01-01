@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotepackages exceptions
+\pear2\Pyrus\Channel\RemotePackages exceptions
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');

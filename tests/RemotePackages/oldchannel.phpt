@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotepackages with old channels
+\pear2\Pyrus\Channel\RemotePackages with old channels
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
