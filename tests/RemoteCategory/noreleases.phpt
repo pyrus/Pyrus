@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotecategory: no releases for a package
+\pear2\Pyrus\Channel\RemoteCategory: no releases for a package
 --FILE--
 <?php
 

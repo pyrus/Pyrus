@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotecategory: completely empty category (with invalid REST, no <pi/> tag)
+\pear2\Pyrus\Channel\RemoteCategory: completely empty category (with invalid REST, no <pi/> tag)
 --FILE--
 <?php
 

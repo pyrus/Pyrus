@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotecategory: ArrayAccess and iteration test
+\pear2\Pyrus\Channel\RemoteCategory: ArrayAccess and iteration test
 --FILE--
 <?php
 

@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\Remotecategories: Exceptions
+\pear2\Pyrus\Channel\RemoteCategories: Exceptions
 --FILE--
 <?php
 
