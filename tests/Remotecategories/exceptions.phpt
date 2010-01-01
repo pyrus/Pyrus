@@ -13,13 +13,13 @@ Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
 $chan = \pear2\Pyrus\Config::current()->channelregistry['pecl.php.net'];
 unset($chan->protocols->rest['REST1.1']);
 try {
-    $remote = new pear2\Pyrus\Channel\Remotecategories($chan);
+    $remote = new pear2\Pyrus\Channel\RemoteCategories($chan);
     throw new Exception('succeeded and should fail');
 } catch (\pear2\Pyrus\Channel\Exception $e) {
     $test->assertEquals('Cannot access remote categories without REST1.1 protocol', $e->getMessage(),
                         'no REST1.1');
 }
-$remote = new pear2\Pyrus\Channel\Remotecategories(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net']);
+$remote = new pear2\Pyrus\Channel\RemoteCategories(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net']);
 try {
     $remote['foo'] = 1;
     throw new Exception('succeeded and should fail');
