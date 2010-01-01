@@ -15,7 +15,7 @@ Internet::addDirectory(__DIR__ . '/validzip',
 \pear2\Pyrus\Main::$downloadClass = 'Internet';
 $chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
-$remote = new \pear2\Pyrus\Channel\Remotepackage($chan,
+$remote = new \pear2\Pyrus\Channel\RemotePackage($chan,
                                                 'stable');
 
 try {

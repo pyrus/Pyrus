@@ -13,7 +13,7 @@ require __DIR__ . '/../Mocks/Internet.php';
 Internet::addDirectory(__DIR__ . '/wrongemailcert',
                        'http://pear2.php.net/');
 \pear2\Pyrus\Main::$downloadClass = 'Internet';
-$remote = new \pear2\Pyrus\Channel\Remotepackage(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
+$remote = new \pear2\Pyrus\Channel\RemotePackage(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['P1'];
 $remote->version['release'] = '1.0.0';
