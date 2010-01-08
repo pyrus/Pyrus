@@ -179,7 +179,7 @@ try {
        <file role="php" name="PackagingIterator.php"/>
       </dir>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="IValidator.php"/>
+      <file role="php" name="ValidatorInterface.php"/>
       <file role="php" name="v2.php"/>
      </dir>
      <dir name="Registry">

@@ -34,7 +34,7 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <active>yes</active>
  </lead>
  <date>2010-01-08</date>
- <time>15:03:19</time>
+ <time>15:12:41</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -2183,6 +2183,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/PECLBuild.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFileInterface.php"/>
+   <file role="php" name="php/pear2/Pyrus/PackageFile/ValidatorInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2Iterator/ScriptFileFilterIterator.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingFilterBase.php"/>
@@ -2221,7 +2222,6 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2/BundledPackage.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/v2.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/Parser/v2.php"/>
-   <file role="php" name="php/pear2/Pyrus/PackageFile/IValidator.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Zip/Exception.php"/>
@@ -2794,7 +2794,6 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Package/Zip/Exception.php" as="pear2/Pyrus/Package/Zip/Exception.php"/>
    <install name="php/pear2/Pyrus/PackageFile.php" as="pear2/Pyrus/PackageFile.php"/>
    <install name="php/pear2/Pyrus/PackageFile/Exception.php" as="pear2/Pyrus/PackageFile/Exception.php"/>
-   <install name="php/pear2/Pyrus/PackageFile/IValidator.php" as="pear2/Pyrus/PackageFile/IValidator.php"/>
    <install name="php/pear2/Pyrus/PackageFile/Parser/v2.php" as="pear2/Pyrus/PackageFile/Parser/v2.php"/>
    <install name="php/pear2/Pyrus/PackageFile/v2.php" as="pear2/Pyrus/PackageFile/v2.php"/>
    <install name="php/pear2/Pyrus/PackageFile/v2/BundledPackage.php" as="pear2/Pyrus/PackageFile/v2/BundledPackage.php"/>
@@ -2833,6 +2832,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingFilterBase.php" as="pear2/Pyrus/PackageFile/v2Iterator/PackagingFilterBase.php"/>
    <install name="php/pear2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php" as="pear2/Pyrus/PackageFile/v2Iterator/PackagingIterator.php"/>
    <install name="php/pear2/Pyrus/PackageFile/v2Iterator/ScriptFileFilterIterator.php" as="pear2/Pyrus/PackageFile/v2Iterator/ScriptFileFilterIterator.php"/>
+   <install name="php/pear2/Pyrus/PackageFile/ValidatorInterface.php" as="pear2/Pyrus/PackageFile/ValidatorInterface.php"/>
    <install name="php/pear2/Pyrus/PackageFileInterface.php" as="pear2/Pyrus/PackageFileInterface.php"/>
    <install name="php/pear2/Pyrus/PackageInterface.php" as="pear2/Pyrus/PackageInterface.php"/>
    <install name="php/pear2/Pyrus/PECLBuild.php" as="pear2/Pyrus/PECLBuild.php"/>

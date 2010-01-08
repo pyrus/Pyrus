@@ -34,7 +34,7 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <active>yes</active>
  </lead>
  <date>2010-01-08</date>
- <time>15:03:17</time>
+ <time>15:12:39</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -430,8 +430,8 @@ Initial pyrus public API
        <file role="php" name="ScriptFileFilterIterator.php"/>
       </dir>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="IValidator.php"/>
       <file role="php" name="v2.php"/>
+      <file role="php" name="ValidatorInterface.php"/>
      </dir>
      <dir name="PECLBuild">
       <file role="php" name="Exception.php"/>

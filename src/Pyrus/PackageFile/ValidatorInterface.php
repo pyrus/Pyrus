@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\IValidator
+ * \pear2\Pyrus\PackageFile\ValidatorInterface
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\PackageFile;
-interface IValidator
+interface ValidatorInterface
 {
     public function extendedValidate(array $packageinfo);
 }

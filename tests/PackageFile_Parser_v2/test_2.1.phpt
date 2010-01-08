@@ -656,12 +656,12 @@ $test->assertEquals(array (
         'name' => 'src/Pyrus/PackageFile/Exception.php',
       ),
     ),
-    'src/Pyrus/PackageFile/IValidator.php' => 
+    'src/Pyrus/PackageFile/ValidatorInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/PackageFile/IValidator.php',
+        'name' => 'src/Pyrus/PackageFile/ValidatorInterface.php',
       ),
     ),
     'src/Pyrus/PackageFile/v2.php' => 
@@ -2078,7 +2078,7 @@ try {
                       'attribs' => 
                       array (
                         'role' => 'php',
-                        'name' => 'IValidator.php',
+                        'name' => 'ValidatorInterface.php',
                       ),
                     ),
                     2 => 
