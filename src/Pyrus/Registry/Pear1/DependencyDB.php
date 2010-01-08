@@ -8,10 +8,10 @@
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
- * @copyright 2008 The PEAR Group
+ * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 
 /**
@@ -20,10 +20,10 @@
  * @package   PEAR2_Pyrus
  * @author    Tomas V.V.Cox <cox@idec.net.com>
  * @author    Greg Beaver <cellog@php.net>
- * @copyright 2008 The PEAR Group
+ * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.pear.php.net/wsvn/PEARSVN/Pyrus/
+ * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\Registry\Pear1;
 class DependencyDB
