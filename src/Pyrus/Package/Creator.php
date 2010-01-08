@@ -33,7 +33,7 @@ class Creator
     /**
      * Begin package creation
      *
-     * @param array|\pear2\Pyrus\Package\ICreator $creators
+     * @param array|\pear2\Pyrus\Package\CreatorInterface $creators
      */
     function __construct($creators, $pear2ExceptionPath = false, $pear2AutoloadPath = false,
                          $pear2MultiErrorsPath = false)
@@ -116,11 +116,11 @@ class Creator
         $this->_handles['php/pear2/MultiErrors.php'] = $pear2MultiErrors;
         $this->_handles['php/pear2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
         $this->_handles['php/pear2/Exception.php'] = $pear2Exception;
-        if ($creators instanceof ICreator) {
+        if ($creators instanceof CreatorInterface) {
             $this->_creators = array($creators);
         } elseif (is_array($creators)) {
             foreach ($creators as $creator) {
-                if ($creator instanceof ICreator) {
+                if ($creator instanceof CreatorInterface) {
                     continue;
                 }
 

@@ -5,7 +5,7 @@
  *
  */
 namespace pear2\Pyrus\Developer\Creator;
-class Xml implements \pear2\Pyrus\Package\ICreator
+class Xml implements \pear2\Pyrus\Package\CreatorInterface
 {
     private $_done;
     private $_path;

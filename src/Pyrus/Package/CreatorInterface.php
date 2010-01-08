@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\ICreator
+ * \pear2\Pyrus\Package\CreatorInterface
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\Package;
-interface ICreator
+interface CreatorInterface
 {
     /**
      * save a file inside this package

@@ -6,7 +6,7 @@
  * @package  PEAR2_SimpleChannelServer
  * @author   Brett Bieber <brett.bieber@gmail.com>
  * @license  New BSD?
- * @link     http://svn.pear.php.net/wsvn/PEARSVN/sandbox/SimpleChannelServer/
+ * @link     http://svn.php.net/viewvc/pear2/sandbox/SimpleChannelServer/
  */
 class PEAR2_SimpleChannelServer_Channel extends \pear2\Pyrus\ChannelFile
 {

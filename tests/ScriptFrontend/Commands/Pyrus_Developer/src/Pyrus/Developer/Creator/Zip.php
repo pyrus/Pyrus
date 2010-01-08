@@ -1,6 +1,6 @@
 <?php
 namespace pear2\Pyrus\Developer\Creator;
-class Zip implements \pear2\Pyrus\Package\ICreator
+class Zip implements \pear2\Pyrus\Package\CreatorInterface
 {
     /**
      * Path to archive file

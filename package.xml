@@ -33,8 +33,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-12-31</date>
- <time>10:37:32</time>
+ <date>2010-01-08</date>
+ <time>15:03:17</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -360,8 +360,8 @@ Initial pyrus public API
       <file role="php" name="Base.php"/>
       <file role="php" name="Cloner.php"/>
       <file role="php" name="Creator.php"/>
+      <file role="php" name="CreatorInterface.php"/>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="ICreator.php"/>
       <file role="php" name="InstalledException.php"/>
       <file role="php" name="Phar.php"/>
       <file role="php" name="Remote.php"/>
@@ -3089,12 +3089,12 @@ Initial pyrus public API
      </dir>
      <file role="test" name="setup.php.inc"/>
     </dir>
-    <dir name="Remotecategories">
+    <dir name="RemoteCategories">
      <file role="test" name="exceptions.phpt"/>
      <file role="test" name="remotecategories.phpt"/>
      <file role="test" name="setup.php.inc"/>
     </dir>
-    <dir name="Remotecategory">
+    <dir name="RemoteCategory">
      <dir name="empty">
       <dir name="rest">
        <dir name="c">
@@ -3315,7 +3315,7 @@ Initial pyrus public API
      <file role="test" name="validzip.phpt"/>
      <file role="test" name="wrongemailcert.phpt"/>
     </dir>
-    <dir name="Remotepackages">
+    <dir name="RemotePackages">
      <file role="test" name="exceptions.phpt"/>
      <file role="test" name="oldchannel.phpt"/>
      <file role="test" name="setup.php.inc"/>

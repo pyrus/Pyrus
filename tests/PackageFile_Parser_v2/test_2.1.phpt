@@ -432,12 +432,12 @@ $test->assertEquals(array (
         'name' => 'src/Pyrus/Package/Exception.php',
       ),
     ),
-    'src/Pyrus/Package/ICreator.php' => 
+    'src/Pyrus/Package/CreatorInterface.php' => 
     array (
       'attribs' => 
       array (
         'role' => 'php',
-        'name' => 'src/Pyrus/Package/ICreator.php',
+        'name' => 'src/Pyrus/Package/CreatorInterface.php',
       ),
     ),
     'src/Pyrus/Package/InstalledException.php' => 
@@ -1776,7 +1776,7 @@ try {
                       'attribs' => 
                       array (
                         'role' => 'php',
-                        'name' => 'ICreator.php',
+                        'name' => 'CreatorInterface.php',
                       ),
                     ),
                     5 => 

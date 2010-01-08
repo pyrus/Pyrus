@@ -133,7 +133,7 @@ try {
       <file role="php" name="Creator.php"/>
       <file role="php" name="Dependency.php"/>
       <file role="php" name="Exception.php"/>
-      <file role="php" name="ICreator.php"/>
+      <file role="php" name="CreatorInterface.php"/>
       <file role="php" name="InstalledException.php"/>
       <file role="php" name="Phar.php"/>
       <file role="php" name="Remote.php"/>

@@ -1,6 +1,6 @@
 <?php
 namespace pear2\Pyrus\Developer\Creator;
-class Phar implements \pear2\Pyrus\Package\ICreator
+class Phar implements \pear2\Pyrus\Package\CreatorInterface
 {
     /**
      * @var Phar

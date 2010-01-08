@@ -6,7 +6,7 @@
  * @package  PEAR2_SimpleChannelServer
  * @author   Greg Beaver <cellog@php.net>
  * @license  New BSD?
- * @link     http://svn.pear.php.net/wsvn/PEARSVN/sandbox/SimpleChannelServer/
+ * @link     http://svn.php.net/viewvc/pear2/sandbox/SimpleChannelServer/
  */
 class PEAR2_SimpleChannelServer
 {

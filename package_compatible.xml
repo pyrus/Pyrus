@@ -33,8 +33,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-12-31</date>
- <time>10:37:34</time>
+ <date>2010-01-08</date>
+ <time>15:03:19</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -255,10 +255,10 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/singlerelease.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/setup.php.inc"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/oldchannel.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/exceptions.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/singlerelease.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/oldchannel.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml"/>
@@ -365,20 +365,20 @@ Initial pyrus public API
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar.pubkey"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.pem"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/setup.php.inc"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/noreleases.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/exceptions.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/emptycategory.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/arrayaccess.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Remotecategory/noreleases/rest/c/categories.xml"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/packagesinfo.xml"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/info.xml"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Remotecategory/empty/rest/c/categories.xml"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/packagesinfo.xml"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/info.xml"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/setup.php.inc"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/remotecategories.phpt"/>
-   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/exceptions.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/noreleases.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/exceptions.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/emptycategory.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/arrayaccess.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/noreleases/rest/c/RemoteCategory/noreleases/rest/c/categories.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/noreleases/rest/c/Default/RemoteCategory/noreleases/rest/c/Default/packagesinfo.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/noreleases/rest/c/Default/RemoteCategory/noreleases/rest/c/Default/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/empty/rest/c/RemoteCategory/empty/rest/c/categories.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/empty/rest/c/Default/RemoteCategory/empty/rest/c/Default/packagesinfo.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/empty/rest/c/Default/RemoteCategory/empty/rest/c/Default/info.xml"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategories/RemoteCategories/setup.php.inc"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategories/RemoteCategories/remotecategories.phpt"/>
+   <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategories/RemoteCategories/exceptions.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/test.phpt"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/setup.php.inc"/>
    <file role="test" name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/readonly.phpt"/>
@@ -2233,11 +2233,11 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Package/Phar/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Phar.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/InstalledException.php"/>
-   <file role="php" name="php/pear2/Pyrus/Package/ICreator.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Dependency/Set/PackageTree.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Dependency/Set/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Dependency/Set.php"/>
+   <file role="php" name="php/pear2/Pyrus/Package/CreatorInterface.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Creator/TaskIterator.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Creator/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Creator.php"/>
@@ -2778,11 +2778,11 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Package/Creator.php" as="pear2/Pyrus/Package/Creator.php"/>
    <install name="php/pear2/Pyrus/Package/Creator/Exception.php" as="pear2/Pyrus/Package/Creator/Exception.php"/>
    <install name="php/pear2/Pyrus/Package/Creator/TaskIterator.php" as="pear2/Pyrus/Package/Creator/TaskIterator.php"/>
+   <install name="php/pear2/Pyrus/Package/CreatorInterface.php" as="pear2/Pyrus/Package/CreatorInterface.php"/>
    <install name="php/pear2/Pyrus/Package/Dependency/Set.php" as="pear2/Pyrus/Package/Dependency/Set.php"/>
    <install name="php/pear2/Pyrus/Package/Dependency/Set/Exception.php" as="pear2/Pyrus/Package/Dependency/Set/Exception.php"/>
    <install name="php/pear2/Pyrus/Package/Dependency/Set/PackageTree.php" as="pear2/Pyrus/Package/Dependency/Set/PackageTree.php"/>
    <install name="php/pear2/Pyrus/Package/Exception.php" as="pear2/Pyrus/Package/Exception.php"/>
-   <install name="php/pear2/Pyrus/Package/ICreator.php" as="pear2/Pyrus/Package/ICreator.php"/>
    <install name="php/pear2/Pyrus/Package/InstalledException.php" as="pear2/Pyrus/Package/InstalledException.php"/>
    <install name="php/pear2/Pyrus/Package/Phar.php" as="pear2/Pyrus/Package/Phar.php"/>
    <install name="php/pear2/Pyrus/Package/Phar/Exception.php" as="pear2/Pyrus/Package/Phar/Exception.php"/>
@@ -4637,20 +4637,20 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/readonly.phpt" as="pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/readonly.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/setup.php.inc" as="pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/test.phpt" as="pear2.php.net/Registry/Xml/uninstall/Registry/Xml/uninstall/test.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/exceptions.phpt" as="pear2.php.net/Remotecategories/Remotecategories/exceptions.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/remotecategories.phpt" as="pear2.php.net/Remotecategories/Remotecategories/remotecategories.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategories/Remotecategories/setup.php.inc" as="pear2.php.net/Remotecategories/Remotecategories/setup.php.inc"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/info.xml" as="pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/info.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/packagesinfo.xml" as="pear2.php.net/Remotecategory/empty/rest/c/Default/Remotecategory/empty/rest/c/Default/packagesinfo.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/empty/rest/c/Remotecategory/empty/rest/c/categories.xml" as="pear2.php.net/Remotecategory/empty/rest/c/Remotecategory/empty/rest/c/categories.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/info.xml" as="pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/info.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/packagesinfo.xml" as="pear2.php.net/Remotecategory/noreleases/rest/c/Default/Remotecategory/noreleases/rest/c/Default/packagesinfo.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/noreleases/rest/c/Remotecategory/noreleases/rest/c/categories.xml" as="pear2.php.net/Remotecategory/noreleases/rest/c/Remotecategory/noreleases/rest/c/categories.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/arrayaccess.phpt" as="pear2.php.net/Remotecategory/Remotecategory/arrayaccess.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/emptycategory.phpt" as="pear2.php.net/Remotecategory/Remotecategory/emptycategory.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/exceptions.phpt" as="pear2.php.net/Remotecategory/Remotecategory/exceptions.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/noreleases.phpt" as="pear2.php.net/Remotecategory/Remotecategory/noreleases.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotecategory/Remotecategory/setup.php.inc" as="pear2.php.net/Remotecategory/Remotecategory/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategories/RemoteCategories/exceptions.phpt" as="pear2.php.net/RemoteCategories/RemoteCategories/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategories/RemoteCategories/remotecategories.phpt" as="pear2.php.net/RemoteCategories/RemoteCategories/remotecategories.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategories/RemoteCategories/setup.php.inc" as="pear2.php.net/RemoteCategories/RemoteCategories/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/empty/rest/c/Default/RemoteCategory/empty/rest/c/Default/info.xml" as="pear2.php.net/RemoteCategory/empty/rest/c/Default/RemoteCategory/empty/rest/c/Default/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/empty/rest/c/Default/RemoteCategory/empty/rest/c/Default/packagesinfo.xml" as="pear2.php.net/RemoteCategory/empty/rest/c/Default/RemoteCategory/empty/rest/c/Default/packagesinfo.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/empty/rest/c/RemoteCategory/empty/rest/c/categories.xml" as="pear2.php.net/RemoteCategory/empty/rest/c/RemoteCategory/empty/rest/c/categories.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/noreleases/rest/c/Default/RemoteCategory/noreleases/rest/c/Default/info.xml" as="pear2.php.net/RemoteCategory/noreleases/rest/c/Default/RemoteCategory/noreleases/rest/c/Default/info.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/noreleases/rest/c/Default/RemoteCategory/noreleases/rest/c/Default/packagesinfo.xml" as="pear2.php.net/RemoteCategory/noreleases/rest/c/Default/RemoteCategory/noreleases/rest/c/Default/packagesinfo.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/noreleases/rest/c/RemoteCategory/noreleases/rest/c/categories.xml" as="pear2.php.net/RemoteCategory/noreleases/rest/c/RemoteCategory/noreleases/rest/c/categories.xml"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/arrayaccess.phpt" as="pear2.php.net/RemoteCategory/RemoteCategory/arrayaccess.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/emptycategory.phpt" as="pear2.php.net/RemoteCategory/RemoteCategory/emptycategory.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/exceptions.phpt" as="pear2.php.net/RemoteCategory/RemoteCategory/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/noreleases.phpt" as="pear2.php.net/RemoteCategory/RemoteCategory/noreleases.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemoteCategory/RemoteCategory/setup.php.inc" as="pear2.php.net/RemoteCategory/RemoteCategory/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.pem" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.pem"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar.pubkey" as="pear2.php.net/RemotePackage/invalidcert/get/RemotePackage/invalidcert/get/P1-1.0.0.tar.pubkey"/>
@@ -4757,10 +4757,10 @@ Initial pyrus public API
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/package.1.0.0.xml"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/stable.txt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml" as="pear2.php.net/RemotePackage/wrongemailcert/rest/r/p1/RemotePackage/wrongemailcert/rest/r/p1/v2.1.0.0.xml"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/exceptions.phpt" as="pear2.php.net/Remotepackages/Remotepackages/exceptions.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/oldchannel.phpt" as="pear2.php.net/Remotepackages/Remotepackages/oldchannel.phpt"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/setup.php.inc" as="pear2.php.net/Remotepackages/Remotepackages/setup.php.inc"/>
-   <install name="test/PEAR2_Pyrus/pear2.php.net/Remotepackages/Remotepackages/singlerelease.phpt" as="pear2.php.net/Remotepackages/Remotepackages/singlerelease.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/exceptions.phpt" as="pear2.php.net/RemotePackages/RemotePackages/exceptions.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/oldchannel.phpt" as="pear2.php.net/RemotePackages/RemotePackages/oldchannel.phpt"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/setup.php.inc" as="pear2.php.net/RemotePackages/RemotePackages/setup.php.inc"/>
+   <install name="test/PEAR2_Pyrus/pear2.php.net/RemotePackages/RemotePackages/singlerelease.phpt" as="pear2.php.net/RemotePackages/RemotePackages/singlerelease.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt" as="pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc" as="pear2.php.net/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <install name="test/PEAR2_Pyrus/pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar" as="pear2.php.net/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
