@@ -87,8 +87,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if ($this->readonly) {
             throw new Exception('Cannot install package, registry is read-only');
         }
-        // remove previously installed version for upgrade
-        $this->uninstall($info->name, $info->channel);
+
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
             mkdir(dirname($packagefile), 0755, true);
