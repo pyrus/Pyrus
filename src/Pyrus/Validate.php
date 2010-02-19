@@ -23,7 +23,8 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus;
-class Validate{
+class Validate
+{
 /**#@+
  * Constants for install stage
  */
@@ -67,13 +68,12 @@ class Validate{
      * @param string name of channel-specific validation package
      * @final
      */
-    final function validPackageName($name, $validatepackagename = false)
+    final function validPackageName($name, $validateName = false)
     {
-        if ($validatepackagename) {
-            if (strtolower($name) == strtolower($validatepackagename)) {
-                return (bool) preg_match('/^[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)*$/', $name);
-            }
+        if ($validateName && strtolower($name) == strtolower($validateName)) {
+            return (bool) preg_match('/^[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)*$/', $name);
         }
+
         return $this->_validPackageName($name);
     }
 

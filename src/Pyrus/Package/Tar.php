@@ -111,8 +111,9 @@ class Tar extends \pear2\Pyrus\Package\Base
 
     function copyTo($where)
     {
-        copy($this->archive, $where . DIRECTORY_SEPARATOR . basename($this->archive));
-        $this->archive = $where . DIRECTORY_SEPARATOR . basename($this->archive);
+        $file = $where . DIRECTORY_SEPARATOR . basename($this->archive);
+        copy($this->archive, $file);
+        $this->archive = $file;
     }
 
     function getFilePath($file)
@@ -129,9 +130,7 @@ class Tar extends \pear2\Pyrus\Package\Base
         }
 
         $extract = $this->_tmpdir . $extract . DIRECTORY_SEPARATOR . $file;
-        $extract = str_replace('\\', '/', $extract);
-        $extract = str_replace('//', '/', $extract);
-        $extract = str_replace('/', DIRECTORY_SEPARATOR, $extract);
+        $extract = str_replace(array('\\', '//'), DIRECTORY_SEPARATOR, $extract);
         return $extract;
     }
 
@@ -235,12 +234,10 @@ class Tar extends \pear2\Pyrus\Package\Base
      */
     private function _maliciousFilename($file)
     {
-        if (strpos($file, '/../') !== false) {
+        if (strpos($file, '/../') !== false || strpos($file, '../') === 0) {
             return true;
         }
-        if (strpos($file, '../') === 0) {
-            return true;
-        }
+
         return false;
     }
 

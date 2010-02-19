@@ -24,6 +24,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\Channel;
+use \pear2\Pyrus\Logger as Logger, \pear2\Pyrus\Config as Config;
 class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess, \Iterator
 {
     /**
@@ -179,28 +180,34 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if ($authorities) {
             return $authorities;
         }
+
         $d = \pear2\Pyrus\Main::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
         // for running out of svn
         if (!file_exists($d)) {
             $d = realpath(__DIR__ . '/../../../data/x509rootcerts');
         } else {
             if (strpos($d, 'phar://') === 0) {
-                if (!file_exists($temp = \pear2\Pyrus\Config::current()->temp_dir .
-                                 DIRECTORY_SEPARATOR . 'x509rootcerts')) {
+                if (!file_exists($temp = Config::current()->temp_dir .
+                                 DIRECTORY_SEPARATOR . 'x509rootcerts')
+                ) {
                     mkdir($temp, 0755, true);
                 }
+
                 // openssl can't process these from within a phar (pity)
                 foreach (static::$authorities as $i => $authority) {
                     copy($d . DIRECTORY_SEPARATOR . $authority, $temp . DIRECTORY_SEPARATOR . $authority);
                     $authorities[$i] = $temp . DIRECTORY_SEPARATOR . $authority;
                 }
+
                 return $authorities;
             }
         }
+
         $authorities = static::$authorities;
         foreach ($authorities as $i => $authority) {
             $authorities[$i] = $d . DIRECTORY_SEPARATOR . $authority;
         }
+
         return $authorities;
     }
 
@@ -210,11 +217,12 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
             throw new Exception('Cannot access remote packages without REST1.0 protocol');
         }
+
         // instruct parent::__set() to call $this->setRawVersion() when setting rawversion
         $this->rawMap['rawversion'] = array('setRawVersion');
         $this->rest = new \pear2\Pyrus\REST;
         $this->releaseList = $releases;
-        $this->minimumStability = \pear2\Pyrus\Config::current()->preferred_state;
+        $this->minimumStability = Config::current()->preferred_state;
         $this->explicitVersion = false;
     }
 
@@ -283,6 +291,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                                         $this->parent->protocols->rest['REST1.0']->baseurl .
                                                         'r/' . strtolower($this->name) . '/' . $value['release'] . '.xml');
         }
+
         $this->packageInfo['version'] = $value;
         $this->stability['release'] = $a['st'];
         $this->license['name'] = $a['l'];
@@ -311,16 +320,17 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                     // release is not stable enough
                     continue;
                 }
+
                 $this->version['release'] = $versioninfo['v'];
                 break;
             }
         }
+
         return $this->remoteAbridgedInfo['g'] . $ext;
     }
 
     function download()
     {
-
         $url = $this->getDownloadURL();
         $errs = new \pear2\MultiErrors;
 
@@ -334,6 +344,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             } catch (\pear2\Pyrus\HTTPException $e) {
                 // file does not exist, ignore
             }
+
             if ($certdownloaded) {
                 $info = openssl_x509_parse($cert);
                 if (!$info) {
@@ -342,6 +353,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is not a certificate');
                 }
+
                 if (true !== openssl_x509_checkpurpose($cert, X509_PURPOSE_SSL_SERVER,
                                                        self::authorities())) {
                     throw new \pear2\Pyrus\Package\Exception(
@@ -349,6 +361,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is invalid');
                 }
+
                 // now verify that this cert is in fact the releasing maintainer's certificate
                 // by verifying that alternate name is the releaser's email address
                 if (!isset($info['subject']) || !isset($info['subject']['emailAddress'])) {
@@ -380,17 +393,19 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         foreach (array('.phar', '.tgz', '.tar') as $ext) {
             try {
                 if ($certdownloaded) {
-                    if (!file_exists(\pear2\Pyrus\Config::current()->download_dir)) {
-                        mkdir(\pear2\Pyrus\Config::current()->download_dir, 0755, true);
+                    if (!file_exists(Config::current()->download_dir)) {
+                        mkdir(Config::current()->download_dir, 0755, true);
                     }
-                    file_put_contents($pubkey = \pear2\Pyrus\Config::current()->download_dir .
+
+                    file_put_contents($pubkey = Config::current()->download_dir .
                                       DIRECTORY_SEPARATOR . basename($url) . $ext . '.pubkey', $key);
                 }
+
                 $ret = new \pear2\Pyrus\Package\Remote($url . $ext);
                 if ($certdownloaded) {
                     if ($ext == '.tar' || $ext == '.tgz') {
                         if (phpversion() == '5.3.0') {
-                            \pear2\Pyrus\Logger::log(0, 'WARNING: ' . $url . $ext . ' may not be installable ' .
+                            Logger::log(0, 'WARNING: ' . $url . $ext . ' may not be installable ' .
                                                                     'with PHP version 5.3.0, the PHP extension phar ' .
                                                                     'has a bug verifying openssl signatures for ' .
                                                                     'tar and tgz files.  Either upgrade to PHP 5.3.1 ' .
@@ -403,11 +418,13 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 if ($certdownloaded && file_exists($pubkey)) {
                     unlink($pubkey);
                 }
+
                 $errs->E_ERROR[] = $e;
             } catch (\Exception $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
                     unlink($pubkey);
                 }
+
                 $errs->E_ERROR[] = $e;
                 throw new \pear2\Pyrus\Package\Exception(
                     'Invalid abstract package ' .
@@ -444,6 +461,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         } catch (\Exception $e) {
             throw new Exception('package ' . $var . ' does not exist', $e);
         }
+
         if (is_string($this->releaseList)) {
             $ok = \pear2\Pyrus\Installer::betterStates($this->releaseList, true);
             if (isset($this->parent->protocols->rest['REST1.3'])) {
@@ -453,21 +471,27 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                         'r/' . $lowerpackage . '/allreleases.xml');
             }
+
             if (!isset($rinfo['r'][0])) {
                 $rinfo['r'] = array($rinfo['r']);
             }
+
             $releases = array();
             foreach ($rinfo['r'] as $release) {
                 if (!in_array($release['s'], $ok)) {
                     continue;
                 }
+
                 if (!isset($release['m'])) {
                     $release['m'] = '5.2.0';
                 }
+
                 $releases[] = $release;
             }
+
             $this->releaseList = $releases;
         }
+
         $pxml = clone $this;
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
@@ -498,6 +522,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         } catch (\Exception $e) {
             return false;
         }
+
         return true;
     }
 
@@ -512,6 +537,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if (!isset($info['m'])) {
             $info['m'] = '5.2.0'; // guess something lower than us
         }
+
         // setting this allows us to retrieve information specific to this
         // version
         $this->version['release'] = $info['v'];
@@ -534,9 +560,11 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if (is_array($this->releaseList)) {
             return reset($this->releaseList);
         }
+
         if (!$this->name) {
             throw new Exception('Cannot iterate without first choosing a remote package');
         }
+
         if (isset($this->parent->protocols->rest['REST1.3'])) {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
                                                     'r/' . strtolower($this->name) . '/allreleases2.xml');
@@ -544,6 +572,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                     'r/' . strtolower($this->name) . '/allreleases.xml');
         }
+
         $this->releaseList = $info['r'];
         if (!isset($this->releaseList[0])) {
             $this->releaseList = array($this->releaseList);
@@ -565,6 +594,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if ($deps) {
             $this->packageInfo['dependencies'] = $deps;
         }
+
         return parent::getDependencies();
     }
 
@@ -589,6 +619,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if ($this->fullPackagexml) {
             return;
         }
+
         if (!$this->explicitVersion) {
             $fakedep = new \pear2\Pyrus\PackageFile\v2\Dependencies\Package(
                 'required', 'package', null, array('name' => $this->name, 'channel' => $this->channel, 'uri' => null,
@@ -597,6 +628,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                             'providesextension' => null, 'conflicts' => null), 0);
             $this->figureOutBestVersion($fakedep);
         }
+
         $pxml = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'r/' . strtolower($this->name) . '/package.' .
                                                 $this->version['release'] . '.xml');
@@ -625,15 +657,19 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                     continue;
                 }
             }
+
             if (version_compare($versioninfo['v'], $currentversion, '<=')) {
                 continue;
             }
+
             if (!in_array($versioninfo['s'], $ok)) {
                 // release is not stable enough
                 continue;
             }
+
             $ret[] = $versioninfo;
         }
+
         return $ret;
     }
 
@@ -658,6 +694,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                          'all dependencies');
             }
         };
+
         foreach ($this->releaseList as $versioninfo) {
             if (isset(\pear2\Pyrus\Main::$options['force'])) {
                 // found one
@@ -666,12 +703,15 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                     $this->version['release'] = $versioninfo['v'];
                     return true;
                 }
+
                 $this->version['release'] = $versioninfo['v'];
                 return;
             }
+
             if ($versions && !in_array($versioninfo['v'], $versions)) {
                 continue;
             }
+
             if (!isset(\pear2\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
@@ -704,17 +744,19 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 // first, we check to see if we are upgrading
                 if (isset(\pear2\Pyrus\Main::$options['upgrade'])) {
                     // now we check to see if we are installed
-                    if (isset(\pear2\Pyrus\Config::current()->registry->package[$n])) {
-                        $installed = \pear2\Pyrus\Config::current()
+                    if (isset(Config::current()->registry->package[$n])) {
+                        $installed = Config::current()
                                      ->registry->info($this->name, $this->channel, 'apiversion');
                         $installed = explode('.', $installed);
                         if (count($installed) == 2) {
                             $installed[] = '0';
                         }
+
                         if (count($installed) == 1) {
                             $installed[] = '0';
                             $installed[] = '0';
                         }
+
                         if (isset($this->parent->protocols->rest['REST1.3'])) {
                             $api = $this->rest->retrieveCacheFirst(
                                 $this->parent->protocols->rest['REST1.3']->baseurl .
@@ -724,21 +766,25 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                                 ' does not support ' .
                                                 'a paranoia greater than 1');
                         }
+
                         $api = explode('.', $api['a']);
                         if (count($api) == 2) {
                             $api[] = '0';
                         }
+
                         if (count($api) == 1) {
                             $api[] = '0';
                             $api[] = '0';
                         }
+
                         if ($paranoia > 4) {
                             $paranoia = 4;
                         }
+
                         switch ($paranoia) {
                             case 4 :
                                 if ($installed != $api) {
-                                    \pear2\Pyrus\Logger::log(0,
+                                    Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->name . ' version ' .
                                         $versioninfo['v'] . ', API has changed');
@@ -747,7 +793,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                 break;
                             case 3 :
                                 if ($installed[0] == $api[0] && $installed[1] != $api[1]) {
-                                    \pear2\Pyrus\Logger::log(0,
+                                    Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->name . ' version ' .
                                         $versioninfo['v'] . ', API has added' .
@@ -757,7 +803,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                 // break intentionally omitted
                             case 2 :
                                 if ($installed[0] != $api[0]) {
-                                    \pear2\Pyrus\Logger::log(0,
+                                    Logger::log(0,
                                         'Skipping ' . $this->channel . '/' .
                                         $this->name . ' version ' .
                                         $versioninfo['v'] . ', API breaks' .
@@ -769,15 +815,18 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                     }
                 }
             }
+
             // found one
             if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {
                 // inform the installer we need to reset dependencies
                 $this->version['release'] = $versioninfo['v'];
                 return true;
             }
+
             $this->version['release'] = $versioninfo['v'];
             return;
         }
+
         throw new Exception('Unable to locate a package release for ' .
                                                 $this->channel . '/' . $this->name .
                                                 ' that can satisfy all dependencies');

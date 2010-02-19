@@ -27,6 +27,7 @@ namespace pear2\Pyrus;
 class Main
 {
     const VERSION = '@PACKAGE_VERSION@';
+
     /**
      * Installer options.  Valid indices are:
      *
@@ -40,10 +41,12 @@ class Main
      * @var array
      */
     public static $options = array();
+
     /**
      * For easy unit testing
      */
     static public $downloadClass = 'pear2\HTTP\Request';
+
     /**
      * For frontends to control
      */

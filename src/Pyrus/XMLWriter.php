@@ -29,6 +29,7 @@ class XMLWriter
 {
     private $_array;
     private $_state;
+
     /**
      * @var XMLWriter
      */
@@ -211,6 +212,7 @@ class XMLWriter
                     // new namespace declaration
                     $this->_namespaces[$attr] = $values;
                 }
+
                 $this->_writer->writeAttribute($key, $values);
             } else {
                 $this->_writer->writeAttributeNS($ns, $attr, $values, $values);
@@ -279,8 +281,7 @@ class XMLWriter
                 }
             }
 
-            $this->_lastkey = array_filter($this->_lastkey,
-                array('pear2\Pyrus\XMLWriter', '_filter'));
+            $this->_lastkey = array_filter($this->_lastkey, array('pear2\Pyrus\XMLWriter', '_filter'));
             $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {

@@ -34,6 +34,7 @@ class Set
     protected $packageTrees = array();
     protected $duplicates = array();
     protected $optionalDeps = array();
+
     function __construct(array $packages)
     {
         Set\PackageTree::setLocalPackages($packages);
@@ -53,12 +54,14 @@ class Set
         $this->optionalDeps = Set\PackageTree::getUnusedOptionalDeps();
         foreach ($this->packageTrees as $tree) {
             foreach ($tree->getPackageSet() as $package) {
-                $ret[$package->name()] = $package->node;
-                if (isset($this->optionalDeps[$package->name()])) {
-                    unset($this->optionalDeps[$package->name()]);
+                $name = $package->name();
+                $ret[$name] = $package->node;
+                if (isset($this->optionalDeps[$name])) {
+                    unset($this->optionalDeps[$name]);
                 }
             }
         }
+
         return $ret;
     }
 
@@ -79,10 +82,13 @@ class Set
                     if (!$package->has($node)) {
                         continue;
                     }
+
                     $package->rebuildIfNecessary($node);
                 }
+
                 $dirty[$i] = null;
             }
+
             $dirty = array_filter($dirty);
         }
     }
@@ -98,8 +104,8 @@ class Set
         foreach ($this->packageTrees as $tree) {
             $deps = $tree->getDependencies($deps, $info->channel . '/' . $info->name);
         }
-        return array_merge($deps,
-                           $this->getDependenciesOn($info));
+
+        return array_merge($deps, $this->getDependenciesOn($info));
     }
 
     function getDependenciesOn($info)
@@ -108,6 +114,7 @@ class Set
         $channel = $info->channel;
         $packages = \pear2\Pyrus\Config::current()->registry
                             ->getDependentPackages($info->getPackageFileObject());
+
         $ret = array();
         foreach ($packages as $package) {
             $deps = $package->dependencies;
@@ -117,11 +124,13 @@ class Set
                         if ($dep->channel != $channel || $dep->name != $name) {
                             continue;
                         }
+
                         $ret[] = $dep;
                     }
                 }
             }
         }
+
         return $ret;
     }
 
@@ -157,24 +166,26 @@ class Set
             $dep->setCompositeSources(array());
             return $dep;
         }
+
         $compdep = array('name' => $info->name, 'channel' => $info->channel, 'uri' => null,
                                             'min' => null, 'max' => null,
                                             'recommended' => null, 'exclude' => null,
                                             'providesextension' => null, 'conflicts' => null);
+
         $initial = true;
-        $recommended = null;
-        $min = null;
-        $max = null;
+        $max = $min = $recommended = null;
         $useddeps = array();
         foreach ($deps as $actualdep) {
             if ($conflicting) {
                 if (!$actualdep->conflicts) {
                     continue;
                 }
+
                 $compdep['conflicts'] = '';
             } elseif ($actualdep->conflicts) {
                 continue;
             }
+
             $useddeps[] = $actualdep;
             $deppackage = $actualdep->getPackageFile()->channel . '/' .
                           $actualdep->getPackageFile()->name;
@@ -183,34 +194,41 @@ class Set
                     $compdep['min'] = $actualdep->min;
                     $min = $deppackage;
                 }
+
                 if ($actualdep->max) {
                     $compdep['max'] = $actualdep->max;
                     $max = $deppackage;
                 }
+
                 if ($actualdep->recommended) {
                     $compdep['recommended'] = $actualdep->recommended;
                     $recommended = $deppackage;
                 }
+
                 $compdep['exclude'] = $actualdep->exclude;
                 $initial = false;
                 continue;
             }
+
             if (isset($compdep['recommended']) && isset($actualdep->recommended)
                 && $actualdep->recommended != $compdep['recommended']) {
                 throw new \pear2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (different recommended values for ' .
                     $deppackage . ' and ' . $recommended . ')');
             }
+
             if ($compdep['max'] && $actualdep->min && version_compare($actualdep->min, $compdep['max'], '>')) {
                 throw new \pear2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (' .
                     $deppackage . ' min is > ' . $max . ' max)');
             }
+
             if ($compdep['min'] && $actualdep->max && version_compare($actualdep->max, $compdep['min'], '<')) {
                 throw new \pear2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (' .
                     $deppackage . ' max is < ' . $min . ' min)');
             }
+
             if ($actualdep->min) {
                 if ($compdep['min']) {
                     if (version_compare($actualdep->min, $compdep['min'], '>')) {
@@ -222,6 +240,7 @@ class Set
                     $min = $deppackage;
                 }
             }
+
             if ($actualdep->max) {
                 if ($compdep['max']) {
                     if (version_compare($actualdep->max, $compdep['max'], '<')) {
@@ -233,18 +252,22 @@ class Set
                     $max = $deppackage;
                 }
             }
+
             if ($actualdep->recommended) {
                 $compdep['recommended'] = $actualdep->recommended;
                 $recommended = $deppackage;
             }
+
             if ($actualdep->exclude) {
                 if (!$compdep['exclude']) {
                     $compdep['exclude'] = array();
                     foreach ($actualdep->exclude as $exclude) {
                         $compdep['exclude'][] = $exclude;
                     }
+
                     continue;
                 }
+
                 foreach ($actualdep->exclude as $exclude) {
                     if (in_array($exclude, $compdep['exclude'])) {
                         continue;
@@ -253,6 +276,7 @@ class Set
                 }
             }
         }
+
         $dep = new \pear2\Pyrus\PackageFile\v2\Dependencies\Package(
             'required', 'package', null, $compdep, 0);
         $dep->setCompositeSources($useddeps);

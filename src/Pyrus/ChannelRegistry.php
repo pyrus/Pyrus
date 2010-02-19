@@ -65,6 +65,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
                 $exceptions->E_ERROR[] = $e;
             }
         }
+
         if (!count($this->_registries)) {
             throw new ChannelRegistry\Exception(
                 'Unable to initialize registry for path "' . $path . '"',
@@ -87,6 +88,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         if ($this->readonly) {
             throw new ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
+
         foreach ($this->_registries as $reg) {
             $reg->add($channel, $update, $lastmodified);
         }
@@ -97,6 +99,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         if ($this->readonly) {
             throw new ChannelRegistry\Exception('Cannot update channel, registry is read-only');
         }
+
         foreach ($this->_registries as $reg) {
             $reg->update($channel);
         }
@@ -107,10 +110,12 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         if ($this->readonly) {
             throw new ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
         }
+
         if (in_array($channel->name, $this->_registries[0]->getDefaultChannels())) {
             throw new ChannelRegistry\Exception('Cannot delete default channel ' .
                 $channel->name);
         }
+
         foreach ($this->_registries as $reg) {
             $reg->delete($channel);
         }
@@ -134,6 +139,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
                 case '__uri' :
                     return $this->_registries[0]->getUriChannel();
             }
+
             throw $e;
         }
     }
@@ -160,9 +166,11 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
                 continue;
             }
         }
+
         if ($this->parent) {
             return $this->parent->parseName($name, $defaultChannel);
         }
+
         // recycle last exception
         throw new ChannelRegistry\Exception('Unable to process package name', $e);
     }
@@ -187,9 +195,11 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         if ($this->readonly) {
             throw new ChannelRegistry\Exception('Cannot add channel, registry is read-only');
         }
+
         if ($value instanceof ChannelFileInterface) {
             $value = new Channel($value);
         }
+
         foreach ($this->_registries as $reg) {
             $reg->add($value);
         }
@@ -205,6 +215,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
         if ($this->readonly) {
             throw new ChannelRegistry\Exception('Cannot delete channel, registry is read-only');
         }
+
         $chan = $this->get($offset, false);
         foreach ($this->_registries as $reg) {
             $reg->delete($chan);

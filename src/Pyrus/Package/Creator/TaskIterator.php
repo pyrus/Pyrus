@@ -57,7 +57,6 @@ class TaskIterator extends \FilterIterator
         }
 
         $task = \pear2\Pyrus\Task\Common::getTask(parent::key());
-
         if (0 == $task::PHASE & $this->_installphase) {
             // skip tasks that won't run in this installphase
             return false;

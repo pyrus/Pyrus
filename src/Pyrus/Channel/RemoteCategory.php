@@ -41,10 +41,12 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
         } elseif (!isset($packagesinfo['pi'][0])) {
             $packagesinfo['pi'] = array($packagesinfo['pi']);
         }
+
         $this->packagesinfo = $packagesinfo['pi'];
         usort($this->packagesinfo, function($a, $b) {
             return strnatcasecmp($a['p']['n'], $b['p']['n']);
         });
+
         $this->rest = new \pear2\Pyrus\REST;
         $this->minimumStability = \pear2\Pyrus\Config::current()->preferred_state;
     }
@@ -54,6 +56,7 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
         if ($var == 'name') {
             return $this->category;
         }
+
         if ($var == 'basiclist') {
             $ret = array();
             foreach ($this->packagesinfo as $info) {
@@ -63,9 +66,11 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
                                    'stable' => 'n/a');
                     continue;
                 }
+
                 if (!isset($info['a']['r'][0])) {
                     $info['a']['r'] = array($info['a']['r']);
                 }
+
                 $inf = array('package' => $info['p']['n'], 'latest' => current($info['a']['r']), 'stable' => 'n/a');
                 $inf['latest']['m'] = '5.2.0';
                 foreach ($info['a']['r'] as $release) {
@@ -74,8 +79,10 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
                         break;
                     }
                 }
+
                 $ret[] = $inf;
             }
+
             return $ret;
         }
     }
@@ -87,8 +94,10 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
             if (strtolower($package['p']['n']) != $lowerpackage) {
                 continue;
             }
+
             return $this->getPackage($package);
         }
+
         throw new Exception('Unknown remote package in ' .  $this->category . ' category: "' . $var . '"');
     }
 
@@ -100,12 +109,14 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
             if (!isset($releases[0])) {
                 $releases = array($releases);
             }
+
             foreach ($releases as $i => $release) {
                 if (!isset($release['m'])) {
                     $releases[$i]['m'] = '5.2.0';
                 }
             }
         }
+
         $pxml = new RemotePackage($this->parent, $releases);
         $pxml->channel = $package['p']['c'];
         $pxml->name = $package['p']['n'];
@@ -120,13 +131,16 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
                 if (version_compare($remoteversion, $version, '<=')) {
                     continue;
                 }
+
                 if (version_compare($rinfo['minimumphp'], phpversion(), '>')) {
                     continue;
                 }
+
                 // found one, so upgrade is possible if dependencies pass
                 $found = true;
                 break;
             }
+
             // the installed package version satisfies this dependency, don't do anything
             if ($found) {
                 $pxml->setUpgradeable();
@@ -134,6 +148,7 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
         } else {
             $pxml->setExplicitState($this->minimumStability);
         }
+
         return $pxml;
     }
 
@@ -144,8 +159,10 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
             if (strtolower($package['p']['n']) != $lowerpackage) {
                 continue;
             }
+
             return true;
         }
+
         return false;
     }
 

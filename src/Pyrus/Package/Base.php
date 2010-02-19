@@ -65,21 +65,24 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
             // we don't attempt to upgrade a dep unless we're upgrading
             return false;
         }
+
         $reg = \pear2\Pyrus\Config::current()->registry;
         $version = $reg->info($this->name, $this->channel, 'version');
         if (version_compare($this->version['release'], $version, '<=')) {
             return !isset(\pear2\Pyrus\Main::$options['force']);
         }
+
         return true;
     }
 
     function isPlugin()
     {
         foreach ($this->installcontents as $file) {
-            if ($file->role === 'customrole' || $file->role === 'customtask' || $file->role === 'customcommand') {
+            if (in_array($file->role, array('customrole', 'customtask', 'customcommand'), true)) {
                 return true;
             }
         }
+
         return false;
     }
 

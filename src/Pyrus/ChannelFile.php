@@ -40,8 +40,7 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
         if ($isxml) {
             $data = $file;
         } elseif ($isremote) {
-            if (strpos($file, 'http://') === 0
-                || strpos($file, 'https://') === 0) {
+            if (strpos($file, 'http://') === 0 || strpos($file, 'https://') === 0) {
                 $data = $this->_fromURL($file);
             } else {
                 try {
@@ -61,10 +60,12 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
         } else {
             $data = @file_get_contents($file);
         }
+
         if ($data === false || empty($data)) {
             throw new ChannelFile\Exception('Unable to open channel xml file '
                 . $file . ' or file was empty.');
         }
+
         $this->info = $parser->parse($data);
     }
 
@@ -73,14 +74,15 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
         if ($var === 'internal') {
             return $this->info;
         }
+
         return $this->info->$var;
     }
-    
+
     function __set($var, $value)
     {
         $this->info->$var = $value;
     }
-    
+
     function __call($func, $args)
     {
         // delegate to the internal object
@@ -88,9 +90,10 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
             throw new ChannelFile\Exception('unknown method: ' . @get_class($this->info) . '::' .
                                                         $func);
         }
+
         return call_user_func_array(array($this->info, $func), $args);
     }
-    
+
     function __toString()
     {
         return $this->info->__toString();
@@ -98,9 +101,9 @@ class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
 
     /**
      * Attempts to get the xml from the URL specified.
-     * 
+     *
      * @param string $xml_url URL to the channel xml http://pear.php.net/channel.xml
-     * 
+     *
      * @return string Channel XML
      */
     protected function _fromURL($xml_url)

@@ -24,6 +24,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\Package\Dependency\Set;
+use \pear2\Pyrus\Config as Config, \pear2\Pyrus\Package\Remote as Remote;
 class PackageTree
 {
     /**
@@ -40,6 +41,7 @@ class PackageTree
     static protected $allNodes = array();
     static protected $allDeps = array();
     static protected $errors = array();
+
     protected $parent;
     protected $set;
     protected $node;
@@ -68,16 +70,17 @@ class PackageTree
                 } else {
                     $rebuild = false;
                 }
-                $this->allVersions =
-                $this->versionsAvailable =
-                    array($node->version['release']);
+
+                $this->allVersions = $this->versionsAvailable = array($node->version['release']);
                 $this->setAvailableVersionsMap();
                 if ($rebuild) {
                     $this->rebuild($this->name);
                 }
+
                 self::register($this);
                 return;
             }
+
             if (isset(self::$availableVersionsMap[$this->name])) {
                 $this->allVersions = $this->versionsAvailable =
                     self::$availableVersionsMap[$this->name];
@@ -85,20 +88,23 @@ class PackageTree
                 while (!($node instanceof \pear2\Pyrus\Channel\RemotePackage)) {
                     $node = $node->getInternalPackage();
                 }
+
                 foreach ($node->getReleaseList() as $info) {
                     $this->allVersions[] = $info['v'];
                     $this->versionsAvailable[] = $info['v'];
                 }
+
                 if (null === $parent) {
                     return $this->findParentVersion();
                 }
+
                 $this->setAvailableVersionsMap();
             }
         } else {
-            $this->versionsAvailable = array($node->version['release']);
-            $this->allVersions = array($node->version['release']);
+            $this->allVersions = $this->versionsAvailable = array($node->version['release']);
             $this->setAvailableVersionsMap();
         }
+
         self::register($this);
     }
 
@@ -112,13 +118,14 @@ class PackageTree
                 $notset = false;
             }
         } while ($notset && count($this->versionsAvailable));
+
         if (count($this->versionsAvailable)) {
             $this->setAvailableVersionsMap();
             self::register($this);
             return;
         }
-        throw new Exception('Unable to find a compatible release for ' .
-                            $this->name);
+
+        throw new Exception('Unable to find a compatible release for ' . $this->name);
     }
 
     static function setLocalPackages(array $packages)
@@ -144,6 +151,7 @@ class PackageTree
                 }
             }
         }
+
         foreach ($this->children as $child) {
             $child->synchronize();
         }
@@ -175,12 +183,14 @@ class PackageTree
             throw new Exception('Internal error: ' . $obj->name . ' is ' .
                                 'being unregistered, but is not registered');
         }
+
         foreach (self::$allNodes[$obj->name] as $i => $test) {
             if ($test === $obj) {
                 unset(self::$allNodes[$obj->name][$i]);
                 if (!count(self::$allNodes[$obj->name])) {
                     unset(self::$allNodes[$obj->name]);
                 }
+
                 return;
             }
         }
@@ -193,7 +203,7 @@ class PackageTree
 
     /**
      * Rebuild if necessary
-     * 
+     *
      * @param string $nodename eg: pear.php.net/Spreadsheet_Excel_Writer
      */
     function rebuildIfNecessary($nodename)
@@ -205,15 +215,18 @@ class PackageTree
                 if (!count($this->versionsAvailable)) {
                     $this->throwDepFailException();
                 }
+
                 if ($this->node->isRemote()) {
                     $this->node->resetConcreteVersion();
                 }
+
                 if (!$this->determineInitialVersion()) {
                     $this->throwDepFailException();
                 }
+
                 // check to see if the new version now is the same as what we have installed
                 if ($this->isUpgradeable()) {
-                    $installedversion = \pear2\Pyrus\Config::current()->registry->info($this->node->name,
+                    $installedversion = Config::current()->registry->info($this->node->name,
                                                                                        $this->node->channel,
                                                                                        'version');
                     if ($installedversion === $this->node->version['release']) {
@@ -236,11 +249,13 @@ class PackageTree
         if ($this->name == $name) {
             return true;
         }
+
         foreach ($this->children as $child) {
             if ($child->has($name)) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -257,6 +272,7 @@ class PackageTree
         if (isset(self::$errors[$this->name])) {
             $extra = implode("\n", self::$errors[$this->name]);
         }
+
         throw new Exception('No versions of ' . $this->name .
                             ' or of its dependencies that can be installed because of' .
                             $extra);
@@ -272,6 +288,7 @@ class PackageTree
         foreach ($unsatisfied as $dep) {
             $fullinfo .= $dep->getPackageFile()->channel . '/' . $dep->getPackageFile()->name . " depends on: $dep\n";
         }
+
         return ":\n$fullinfo";
     }
 
@@ -281,11 +298,13 @@ class PackageTree
             // anything downloaded or local is good
             return true;
         }
+
         $this->compositeDep = $dep = $this->set->getCompositeDependency($this->node);
         $this->compositeConflicts = $conflicting = $this->set->getCompositeDependency($this->node, true);
         if (!count($this->versionsAvailable)) {
             $this->throwDepFailException();
         }
+
         try {
             if (true === $this->node->figureOutBestVersion($dep, $this->versionsAvailable,
                                                            $conflicting)) {
@@ -294,14 +313,17 @@ class PackageTree
                 if ($returnFalseOnVersionChange) {
                     return false;
                 }
+
                 return true;
             }
         } catch (\pear2\Pyrus\Channel\Exception $e) {
             if ($this->parent) {
                 $this->parent->saveError($this);
             }
+
             return false;
         }
+
         return true;
     }
 
@@ -310,9 +332,11 @@ class PackageTree
         if (!isset(self::$errors[$this->name])) {
             self::$errors[$this->name] = array();
         }
+
         if (!isset(self::$errors[$this->name][$this->version['release']])) {
             self::$errors[$this->name][$this->version['release']] = '';
         }
+
         self::$errors[$this->name][$this->version['release']] .= $child->getUnsatisfiedString();
     }
 
@@ -339,11 +363,13 @@ class PackageTree
                 return false;
             }
         }
+
         foreach ($this->children as $child) {
             if (!$child->populate()) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -356,9 +382,11 @@ class PackageTree
                 if ($dep->conflicts) {
                     continue;
                 }
+
                 $this->retrieve($dep);
             }
         }
+
         if ($package->requestedGroup) {
             foreach (array('package', 'subpackage') as $p) {
                 foreach ($package->dependencies['group']->{$package->requestedGroup}->$p as $dep) {
@@ -367,12 +395,14 @@ class PackageTree
                 }
             }
         }
+
         foreach (array('package', 'subpackage') as $p) {
             foreach ($package->dependencies['optional']->$p as $dep) {
                 if (!isset(\pear2\Pyrus\Main::$options['optionaldeps'])) {
                     if (!isset(static::$optionalDeps[$dep->channel . '/' . $dep->name])) {
                         static::$optionalDeps[$dep->channel . '/' . $dep->name] = array();
                     }
+
                     static::$optionalDeps[$dep->channel . '/' . $dep->name][$package->channel . '/' .$package->name]
                         = 1;
                     continue;
@@ -409,7 +439,8 @@ class PackageTree
             // simply result in a duplicate
             return;
         }
-        $reg = \pear2\Pyrus\Config::current()->registry;
+
+        $reg = Config::current()->registry;
         // first check to see if the dependency is installed
         $canupgrade = false;
         if (isset($reg->package[$info->channel . '/' . $info->name])) {
@@ -417,7 +448,8 @@ class PackageTree
                 // we don't attempt to upgrade a dep unless we're upgrading
                 return;
             }
-            $version = $reg->info($info->name, $info->channel, 'version');
+
+            $version   = $reg->info($info->name, $info->channel, 'version');
             $stability = $reg->info($info->name, $info->channel, 'state');
             if ($this->node->isRemote() && $this->node->getExplicitState()) {
                 $installedstability = \pear2\Pyrus\Installer::betterStates($stability);
@@ -427,35 +459,42 @@ class PackageTree
                 }
             } else {
                 $installedstability = \pear2\Pyrus\Installer::betterStates($stability);
-                $prefstability = \pear2\Pyrus\Installer::betterStates(\pear2\Pyrus\Config::current()->preferred_state);
+                $prefstability = \pear2\Pyrus\Installer::betterStates(Config::current()->preferred_state);
                 if (count($prefstability) > count($installedstability)) {
-                    $stability = \pear2\Pyrus\Config::current()->preferred_state;
+                    $stability = Config::current()->preferred_state;
                 }
             }
+
             // see if there are new versions in our stability or better
             if (isset($info->uri)) {
                 return;
             }
-            $remote = new \pear2\Pyrus\Channel\RemotePackage(\pear2\Pyrus\Config::current()
+
+            $remote = new \pear2\Pyrus\Channel\RemotePackage(Config::current()
                                                             ->channelregistry[$info->channel], $stability);
             $found = false;
             foreach ($remote[$info->name] as $remoteversion => $rinfo) {
                 if (version_compare($remoteversion, $version, '<=')) {
                     continue;
                 }
+
                 if (version_compare($rinfo['minimumphp'], static::getPHPversion(), '>')) {
                     continue;
                 }
+
                 // found one, so upgrade is possible if dependencies pass
                 $found = true;
                 break;
             }
+
             // the installed package version satisfies this dependency, don't do anything
             if (!$found) {
                 return;
             }
+
             $canupgrade = true;
         }
+
         if (isset($info->uri)) {
             $ret = new \pear2\Pyrus\Package\Remote($info->uri);
             // set up the basics
@@ -464,6 +503,7 @@ class PackageTree
             $this->addChild($ret);
             return;
         }
+
         if ($this->node->isRemote() && $this->node->getExplicitState()) {
             // pass the same explicit state to the child dependency
             $ret = new \pear2\Pyrus\Package\Remote($info->channel . '/' . $info->name . '-' .
@@ -471,13 +511,16 @@ class PackageTree
             if ($canupgrade) {
                 $ret->setUpgradeable();
             }
+
             $this->addChild($ret);
             return;
         }
+
         $ret = new \pear2\Pyrus\Package\Remote($info->channel . '/' . $info->name);
         if ($canupgrade) {
             $ret->setUpgradeable();
         }
+
         $this->addChild($ret);
         return;
     }
@@ -497,6 +540,7 @@ class PackageTree
                 break;
             }
         }
+
         self::unregister($obj);
         $this->top()->unprocessChild($obj);
     }
@@ -509,14 +553,17 @@ class PackageTree
         if ($this->parent) {
             return $this->parent->childProcessed($obj);
         }
+
         if ($obj instanceof self) {
             $name = $obj->name();
         } else {
             $name = $obj;
         }
+
         if (isset($this->allchildren[$name])) {
             return true;
         }
+
         $this->allchildren[$name] = true;
         return false;
     }
@@ -536,6 +583,7 @@ class PackageTree
         if (!$this->parent) {
             return $this;
         }
+
         return $this->parent->top();
     }
 
@@ -544,14 +592,17 @@ class PackageTree
         if (!$fromParent && $this->parent) {
             return $this->parent->getPackageSet();
         }
+
         $ret = $fromParent;
         if (!$this->parent) {
             $ret[$this->name] = $this;
         }
+
         foreach ($this->children as $child) {
             $ret[$child->name()] = $child;
             $ret = $child->getPackageSet($ret);
         }
+
         return $ret;
     }
 
@@ -562,33 +613,40 @@ class PackageTree
                 || ($package->isRemote() && !$package->hasConcreteVersion())) {
                 continue;
             }
+
             foreach (array('package', 'subpackage') as $p) {
                 foreach ($package->dependencies['required']->$p as $dep) {
                     if ($dep->channel . '/' . $dep->name != $name) {
                         continue;
                     }
+
                     $deps[] = $dep;
                 }
             }
+
             if ($package->requestedGroup) {
                 foreach (array('package', 'subpackage') as $p) {
                     foreach ($package->dependencies['group']->{$package->requestedGroup}->$p as $dep) {
                         if ($dep->channel . '/' . $dep->name != $name) {
                             continue;
                         }
+
                         $deps[] = $dep;
                     }
                 }
             }
+
             foreach (array('package', 'subpackage') as $p) {
                 foreach ($package->dependencies['optional']->$p as $dep) {
                     if ($dep->channel . '/' . $dep->name != $name) {
                         continue;
                     }
+
                     $deps[] = $dep;
                 }
             }
         }
+
         return $deps;
     }
 
@@ -602,6 +660,7 @@ class PackageTree
         if ($var == 'node') {
             return $this->node;
         }
+
         return $this->node->$var;
     }
 
@@ -622,21 +681,27 @@ class PackageTree
         foreach ($this->node->dependencies['required']->package as $dep) {
             $deps .= " ${pad}dep: $dep\n";
         }
+
         foreach ($this->node->dependencies['required']->subpackage as $dep) {
             $deps .= " ${pad}dep: $dep\n";
         }
+
         foreach ($this->node->dependencies['optional']->package as $dep) {
             $deps .= " ${pad}dep: $dep\n";
         }
+
         foreach ($this->node->dependencies['optional']->subpackage as $dep) {
             $deps .= " ${pad}dep: $dep\n";
         }
+
         foreach ($this->children as $child) {
             $deps .= $child->toString("$pad  ");
         }
+
         if (!$deps) {
             return $pad . $this->name . '-' . $this->version['release'] . ";\n";
         }
+
         return $ret . $deps;
     }
 }

@@ -60,11 +60,12 @@ class AtomicFileTransaction
         if (isset(Main::$options['packagingroot'])) {
             $rolepath = Main::prepend(Main::$options['packagingroot'], $rolepath);
         }
+
         $this->rolepath = $rolepath;
-        $this->backuppath = dirname($rolepath) . DIRECTORY_SEPARATOR .
-            '.old-' . basename($rolepath);
-        $this->journalpath = dirname($rolepath) . DIRECTORY_SEPARATOR .
-            '.journal-' . basename($rolepath);
+        $path = dirname($rolepath) . DIRECTORY_SEPARATOR;
+
+        $this->backuppath  = $path . '.old-' . basename($rolepath);
+        $this->journalpath = $path . '.journal-' . basename($rolepath);
         $this->defaultMode = 0777 & ~octdec(Config::current()->umask);
     }
 
@@ -76,6 +77,7 @@ class AtomicFileTransaction
         if (static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot repair while in a transaction');
         }
+
         static::$inrepair = true;
         static::$allTransactObjects = array();
         $config = Config::current();
@@ -89,12 +91,7 @@ class AtomicFileTransaction
             $backuppath = dirname($path) . DIRECTORY_SEPARATOR . '.old-' . basename($path);
             if (file_exists($backuppath) && is_dir($backuppath)) {
                 if (file_exists($path)) {
-                    if (is_dir($path)) {
-                        // this is the new stuff from journal path, so move it out of the way
-                        $journalpath = dirname($path) . DIRECTORY_SEPARATOR . '.journal-' . basename($path);
-                        $remove[] = $journalpath;
-                        rename($path, $journalpath);
-                    } else {
+                    if (!is_dir($path)) {
                         static::$inrepair = false;
                         throw new AtomicFileTransaction\Exception(
                             'Repair failed - ' . $var . ' path ' . $path .
@@ -102,14 +99,22 @@ class AtomicFileTransaction
                             'try the repair again'
                         );
                     }
+
+                    // this is the new stuff from journal path, so move it out of the way
+                    $journalpath = dirname($path) . DIRECTORY_SEPARATOR . '.journal-' . basename($path);
+                    $remove[] = $journalpath;
+                    rename($path, $journalpath);
                 }
+
                 // restore backup
                 rename($backuppath, $path);
             }
         }
+
         foreach ($remove as $path) {
             static::rmrf($path);
         }
+
         static::$inrepair = false;
     }
 
@@ -122,11 +127,12 @@ class AtomicFileTransaction
         if ($rolepath instanceof Installer\Role\Common) {
             $rolepath = Config::current()->{$rolepath->getLocationConfig()};
         }
+
         if (isset(static::$allTransactObjects[$rolepath])) {
             return static::$allTransactObjects[$rolepath];
         }
-        $ret = static::$allTransactObjects[$rolepath] = new AtomicFileTransaction($rolepath);
 
+        $ret = static::$allTransactObjects[$rolepath] = new AtomicFileTransaction($rolepath);
         if (static::$intransaction) {
             // start the transaction process for this atomic transaction object
             $errs =  new \pear2\MultiErrors;
@@ -141,11 +147,13 @@ class AtomicFileTransaction
                         $errs->E_WARNING[] = $e2;
                     }
                 }
+
                 throw new AtomicFileTransaction\Exception(
                     'Unable to begin transaction for ' . $rolepath, $errs
                 );
             }
         }
+
         return $ret;
     }
 
@@ -155,10 +163,12 @@ class AtomicFileTransaction
             throw new AtomicFileTransaction\Exception('Cannot remove ' . $relativepath .
                                                                   ' - not in a transaction');
         }
+
         $path = $this->journalpath . DIRECTORY_SEPARATOR . $relativepath;
         if (!file_exists($path)) {
             return;
         }
+
         // ensure permissions don't prevent removal
         chmod($path, 0777);
         if (is_dir($path)) {
@@ -180,23 +190,28 @@ class AtomicFileTransaction
             throw new AtomicFileTransaction\Exception('Cannot create directory ' . $relativepath .
                                                                   ' - not in a transaction');
         }
+
         $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
         if (file_exists($path)) {
             if (is_dir($path)) {
                 return;
             }
+
             throw new AtomicFileTransaction\Exception('Cannot create directory ' . $relativepath .
                                                                   ', it is a file');
         }
+
         if (!@mkdir($path, $mode, true)) {
             throw new AtomicFileTransaction\Exception('Unable to make directory ' .
                 $relativepath . ' in ' . $this->journalpath);
         }
+
         if ($mode === null) {
             $mode = $this->defaultMode;
         } else {
             $mode &= 0777;
         }
+
         if ($mode) {
             chmod($path, $mode);
         }
@@ -211,12 +226,14 @@ class AtomicFileTransaction
             throw new AtomicFileTransaction\Exception('Cannot open ' . $relativepath .
                                                                   ' - not in a transaction');
         }
+
         $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
         $fp = @fopen($path, 'rb+');
         if (!$fp) {
             throw new AtomicFileTransaction\Exception('Unable to open ' .
                 $relativepath . ' for writing in ' . $this->journalpath);
         }
+
         return $fp;
     }
 
@@ -226,11 +243,13 @@ class AtomicFileTransaction
             throw new AtomicFileTransaction\Exception('Cannot create ' . $relativepath .
                                                                   ' - not in a transaction');
         }
+
         if ($mode === null) {
             $mode = $this->defaultMode;
         } else {
             $mode &= 0777;
         }
+
         $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
         if ($contents) {
             if (is_resource($contents)) {
@@ -239,11 +258,13 @@ class AtomicFileTransaction
                     throw new AtomicFileTransaction\Exception('Unable to open ' .
                         $relativepath . ' for writing in ' . $this->journalpath);
                 }
+
                 if (false === stream_copy_to_stream($contents, $fp)) {
                     fclose($fp);
                     throw new AtomicFileTransaction\Exception('Unable to copy to ' .
                         $relativepath . ' in ' . $this->journalpath);
                 }
+
                 fclose($fp);
             } else {
                 if (!@file_put_contents($path, $contents)) {
@@ -251,9 +272,11 @@ class AtomicFileTransaction
                         $relativepath . ' in ' . $this->journalpath);
                 }
             }
+
             if ($mode) {
                 chmod($path, $mode);
             }
+
             return $path;
         } else {
             $fp = @fopen($path, 'wb');
@@ -261,9 +284,11 @@ class AtomicFileTransaction
                 throw new AtomicFileTransaction\Exception('Unable to open ' .
                     $relativepath . ' for writing in ' . $this->journalpath);
             }
+
             if ($mode) {
                 chmod($path, $mode);
             }
+
             return $fp;
         }
     }
@@ -296,6 +321,7 @@ class AtomicFileTransaction
                 if ($file->getFilename() == '.' || $file->getFilename() == '..') {
                     continue;
                 }
+
                 $oldperms[$file->getPathName()] = fileperms($file->getPathName());
                 if (is_dir($file->getPathName())) {
                     chmod($file->getPathName(), 0777);
@@ -310,6 +336,7 @@ class AtomicFileTransaction
                 if ($file->getFilename() == '.' || $file->getFilename() == '..') {
                     continue;
                 }
+
                 if (is_dir($file->getPathName())) {
                     chmod($file->getPathName(), 0777);
                 } else {
@@ -317,23 +344,27 @@ class AtomicFileTransaction
                 }
             }
         }
+
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
                                                \RecursiveIteratorIterator::CHILD_FIRST)
                  as $file) {
             if ($file->getFilename() == '.' || $file->getFilename() == '..') {
                 continue;
             }
+
             if (is_dir($file->getPathname())) {
                 if (!rmdir($file->getPathname())) {
                     if (!$strict) {
                         return;
                     }
+
                     // restore original permissions
                     foreach ($oldperms as $file => $perms) {
                         if (file_exists($file)) {
                             chmod($file, $perms);
                         }
                     }
+
                     throw new AtomicFileTransaction\Exception(
                         'Unable to fully remove ' . $path);
                 }
@@ -342,22 +373,26 @@ class AtomicFileTransaction
                     if (!$strict) {
                         return;
                     }
+
                     // restore original permissions
                     foreach ($oldperms as $file => $perms) {
                         if (file_exists($file)) {
                             chmod($file, $perms);
                         }
                     }
+
                     throw new AtomicFileTransaction\Exception(
                         'Unable to fully remove ' . $path . ', directory is not empty');
                     return;
                 }
+
                 if (!unlink($file->getPathname())) {
                     throw new AtomicFileTransaction\Exception(
                         'Unable to fully remove ' . $path);
                 }
             }
         }
+
         // ensure rmdir works
         chmod($path, 0777);
         rmdir($path);
@@ -368,6 +403,7 @@ class AtomicFileTransaction
         if (!file_exists($this->rolepath)) {
             return;
         }
+
         try {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->rolepath),
                                                    \RecursiveIteratorIterator::SELF_FIRST)
@@ -375,6 +411,7 @@ class AtomicFileTransaction
                 if ($file->getFilename() == '.' || $file->getFilename() == '..') {
                     continue;
                 }
+
                 $time = $file->getMTime();
                 $atime = $file->getATime();
                 $perms = $file->getPerms();
@@ -384,21 +421,26 @@ class AtomicFileTransaction
                         throw new AtomicFileTransaction\Exception(
                             'Unable to complete journal creation for transaction');
                     }
+
                     chmod($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms);
                     if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
                         throw new AtomicFileTransaction\Exception(
                             'Unable to complete journal creation for transaction');
                     }
+
                     continue;
                 }
+
                 if (!copy($file->getPathName(), $this->journalpath . DIRECTORY_SEPARATOR . $src)) {
                     throw new AtomicFileTransaction\Exception(
                         'Unable to complete journal creation for transaction');
                 }
+
                 if (!touch($this->journalpath . DIRECTORY_SEPARATOR . $src, $time, $atime)) {
                     throw new AtomicFileTransaction\Exception(
                         'Unable to complete journal creation for transaction');
                 }
+
                 if (!chmod($this->journalpath . DIRECTORY_SEPARATOR . $src, $perms)) {
                     throw new AtomicFileTransaction\Exception(
                         'Unable to complete journal creation for transaction');
@@ -420,6 +462,7 @@ class AtomicFileTransaction
         if (static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot begin - already in a transaction');
         }
+
         $errs = new \pear2\MultiErrors;
         try {
             foreach (static::$allTransactObjects as $path => $transact) {
@@ -434,6 +477,7 @@ class AtomicFileTransaction
                 if ($exit) {
                     break;
                 }
+
                 if ($path2 === $path) {
                     $exit = true;
                 }
@@ -444,6 +488,7 @@ class AtomicFileTransaction
                 }
             }
         }
+
         if (count($errs)) {
             static::$intransaction = false;
             throw new AtomicFileTransaction\Exception(
@@ -462,11 +507,13 @@ create_journal:
                 throw new AtomicFileTransaction\Exception(
                     'unrecoverable transaction error: cannot create journal path ' . $this->journalpath);
             }
+
             if (file_exists($this->rolepath)) {
                 chmod($this->journalpath, fileperms($this->rolepath));
             } else {
                 chmod($this->journalpath, $this->defaultMode);
             }
+
             $this->copyToJournal();
         } elseif (!is_dir($this->journalpath)) {
             throw new AtomicFileTransaction\Exception(
@@ -483,10 +530,12 @@ create_journal:
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot rollback - not in a transaction');
         }
+
         foreach (static::$allTransactObjects as $transaction) {
             // restore the original source as quickly as possible
             $transaction->restoreBackup();
         }
+
         $failed = array();
         $errs = new \pear2\MultiErrors;
         foreach (static::$allTransactObjects as $path => $transaction) {
@@ -497,6 +546,7 @@ create_journal:
                 $errs->E_WARNING[] = $e;
             }
         }
+
         static::$intransaction = false;
         if (count($errs)) {
             throw new AtomicFileTransaction\Exception('Warning: rollback did not succeed for all transactions',
@@ -509,6 +559,7 @@ create_journal:
         if (!$this->committed) {
             return;
         }
+
         if (!file_exists($this->rolepath)) {
             rename($this->backuppath, $this->rolepath);
         } elseif (!file_exists($this->journalpath) && file_exists($this->rolepath)  && file_exists($this->backuppath)) {
@@ -522,9 +573,11 @@ create_journal:
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot remove journal path - not in a transaction');
         }
+
         if (!file_exists($this->journalpath) || !is_dir($this->journalpath)) {
             return;
         }
+
         $this->rmrf($this->journalpath);
     }
 
@@ -533,6 +586,7 @@ create_journal:
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot commit - not in a transaction');
         }
+
         $errs = new \pear2\MultiErrors;
         try {
             foreach (static::$allTransactObjects as $transaction) {
@@ -542,6 +596,7 @@ create_journal:
             $errs->E_ERROR[] = $e;
             static::rollback();
         }
+
         if (count($errs->E_ERROR)) {
             throw new AtomicFileTransaction\Exception('ERROR: commit failed',
                                                                   $errs);
@@ -556,6 +611,7 @@ create_journal:
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot remove backups - not in a transaction');
         }
+
         $errs = new \pear2\MultiErrors;
         foreach (static::$allTransactObjects as $path => $transaction) {
             try {
@@ -564,10 +620,12 @@ create_journal:
                 $errs->E_WARNING[] = $e;
             }
         }
+
         if (count($errs->E_WARNING)) {
             throw new AtomicFileTransaction\Exception('Warning: removal of backups did not succeed',
                                                                   $errs);
         }
+
         static::$intransaction = false;
     }
 
@@ -583,14 +641,17 @@ create_journal:
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot commit - not in a transaction');
         }
+
         if ($this->committed) {
             return; // this is here for registry transactions
         }
+
         if (file_exists($this->backuppath) || (file_exists($this->rolepath)
                                                && !rename($this->rolepath, $this->backuppath))) {
             throw new AtomicFileTransaction\Exception(
                 'CRITICAL - unable to complete transaction, rename of actual to backup path failed');
         }
+
         // here is the only critical moment - a failure in between these two renames
         // leaves us with no source
         if (!rename($this->journalpath, $this->rolepath)) {
@@ -598,6 +659,7 @@ create_journal:
             throw new AtomicFileTransaction\Exception(
                 'CRITICAL - unable to complete transaction, rename of journal to actual path failed');
         }
+
         $this->committed = true;
     }
 

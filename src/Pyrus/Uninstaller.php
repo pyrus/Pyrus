@@ -24,7 +24,8 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus;
-class Uninstaller{
+class Uninstaller
+{
     /**
      * Flag that determines the behavior of {@link begin()}
      *
@@ -91,8 +92,7 @@ class Uninstaller{
         try {
             $package = Config::current()->registry->package[$packageName];
         } catch (\Exception $e) {
-            throw new Uninstaller\Exception('Invalid package name ' .
-                                                        $packageName, $e);
+            throw new Uninstaller\Exception('Invalid package name ' . $packageName, $e);
         }
 
         if (isset(self::$uninstallPackages[$package->channel . '/' . $package->name])) {
@@ -221,8 +221,7 @@ class Uninstaller{
         foreach (Installer\Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
-            $roleobj =
-                Installer\Role::factory($package->getPackageType(), $role);
+            $roleobj = Installer\Role::factory($package->getPackageType(), $role);
             $configpaths[$role] = $config->{$roleobj->getLocationConfig()};
         }
 

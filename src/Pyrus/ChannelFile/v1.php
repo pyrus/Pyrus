@@ -99,6 +99,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         } else {
             $this->channelInfo = $data;
         }
+
         // Reset root attributes.
         $this->channelInfo['attribs'] = $this->rootAttributes;
     }
@@ -112,12 +113,14 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (!isset($this->_xml)) {
             $this->__toString();
         }
+
         $a = new \pear2\Pyrus\XMLParser;
         $schema = \pear2\Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
             $schema = dirname(dirname(dirname(__DIR__))) . '/data/channel-1.0.xsd';
         }
+
         try {
             $a->parseString($this->_xml, $schema);
             return true;
@@ -188,9 +191,11 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         } elseif ($var == 'remotecategories') {
             return new \pear2\Pyrus\Channel\RemoteCategories($this);
         }
+
         if (!isset($this->channelInfo[$var])) {
             return null;
         }
+
         return $this->channelInfo[$var];
     }
 
@@ -204,10 +209,12 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (isset($this->channelInfo['name']) && $this->channelInfo['name'] == '__uri') {
             throw new \pear2\Pyrus\Channel\Exception('__uri pseudo-channel has no protocols');
         }
+
         if (!isset($this->channelInfo['servers']) || !isset($this->channelInfo['servers']['primary'])) {
-            return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols(array(), $this);
+            return new v1\Servers\Protocols(array(), $this);
         }
-        return new \pear2\Pyrus\ChannelFile\v1\Servers\Protocols($this->channelInfo['servers']['primary'], $this);
+
+        return new v1\Servers\Protocols($this->channelInfo['servers']['primary'], $this);
     }
 
     protected function getServers()
@@ -215,12 +222,14 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if ($this->channelInfo['name'] == '__uri') {
             throw new \pear2\Pyrus\Channel\Exception('__uri pseudo-channel cannot have mirrors');
         }
+
         if (isset($this->channelInfo['servers'])) {
             $servers = $this->channelInfo['servers'];
         } else {
             $servers = array();
         }
-        return new \pear2\Pyrus\ChannelFile\v1\Servers($servers, $this);
+
+        return new v1\Servers($servers, $this);
     }
 
     /**
@@ -239,6 +248,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (isset($this->setMap[$var])) {
             return $this->{$this->setMap[$var]}($value);
         }
+
         if (method_exists($this, "set$var")) {
             $sv = "set$var";
             $this->$sv($value);
@@ -266,10 +276,12 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (empty($name)) {
             throw new \pear2\Pyrus\Channel\Exception('Primary server must be non-empty');
         }
+
         if (!$this->validChannelServer($name)) {
             throw new \pear2\Pyrus\Channel\Exception('Primary server "' . $name .
                 '" is not a valid channel server');
         }
+
         $this->channelInfo['name'] = $name;
     }
 
@@ -312,9 +324,10 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     protected function setSSL($ssl = true)
     {
         if ($ssl) {
-        if (isset($this->channelInfo['servers']) &&
-              isset($this->channelInfo['servers']['primary']) &&
-              !isset($this->channelInfo['servers']['primary']['attribs'])) {
+            if (isset($this->channelInfo['servers']) &&
+                isset($this->channelInfo['servers']['primary']) &&
+                !isset($this->channelInfo['servers']['primary']['attribs'])
+            ) {
                 $this->channelInfo['servers']['primary'] =
                     array_merge(array('attribs' => array('ssl' => 'yes')),
                                 $this->channelInfo['servers']['primary']);
@@ -339,6 +352,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         } elseif (strpos(trim($summary), "\n") !== false) {
             throw new \pear2\Pyrus\Channel\Exception('Channel summary cannot be multi-line');
         }
+
         $this->channelInfo['summary'] = $summary;
         return true;
     }
@@ -405,6 +419,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (empty($validateclass)) {
             unset($this->channelInfo['validatepackage']);
         }
+
         $this->channelInfo['validatepackage'] = array('_content' => $validateclass);
         $this->channelInfo['validatepackage']['attribs'] = array('version' => $version);
     }
@@ -415,6 +430,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
             $this->resetREST();
             return;
         }
+
         $this->channelInfo['servers']['primary']['rest'] = $rest;
     }
 
@@ -424,8 +440,10 @@ http://pear.php.net/dtd/channel-1.0.xsd'
             if (isset($this->channelInfo['servers']['mirror'])) {
                 unset($this->channelInfo['servers']['mirror']);
             }
+
             return;
         }
+
         $this->channelInfo['servers']['mirror'] = $mirrors;
     }
 
@@ -444,6 +462,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (!is_array($info)) {
             $info = array('attribs' => array('version' => 'default'), '_content' => $info);
         }
+
         return $info;
     }
 
@@ -473,7 +492,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
                                   array('\\', 'pear2\Pyrus\\', '\\'),
                                   $this->channelInfo['validatepackage']['_content']);
             if (!class_exists($vclass, true)) {
-                throw new \pear2\Pyrus\ChannelFile\Exception(
+                throw new Exception(
                     'Validation object ' . $this->channelInfo['validatepackage']['_content'] .
                     ' cannot be instantiated');
             }
@@ -482,6 +501,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         } else {
             $val = new \pear2\Pyrus\Validate;
         }
+
         return $val;
     }
 

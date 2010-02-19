@@ -32,6 +32,7 @@ class Xml extends \pear2\Pyrus\Package\Base
         if ($info === null) {
             $info = new \pear2\Pyrus\PackageFile($package);
         }
+
         parent::__construct($info, $parent);
     }
 

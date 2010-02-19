@@ -12,9 +12,10 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (isset($info['baseurl']) && !isset($info['baseurl'][0])) {
             $info['baseurl'] = array($info['baseurl']);
         }
-        $this->info = $info;
+
+        $this->info   = $info;
         $this->parent = $parent;
-        $this->index = $index;
+        $this->index  = $index;
     }
 
     function current()
@@ -23,6 +24,7 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if ($info['_content'][strlen($info['_content'])-1] != '/') {
             return $info['_content'] . '/';
         }
+
         return $info['_content'];
     }
 
@@ -48,6 +50,7 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->info['baseurl'])) {
             return false;
         }
+
         return current($this->info['baseurl']);
     }
 
@@ -56,6 +59,7 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->info['baseurl'])) {
             return 0;
         }
+
         return count($this->info['baseurl']);
     }
 
@@ -65,13 +69,16 @@ class REST implements \ArrayAccess, \Countable, \Iterator
             throw new ChannelFile\Exception('Cannot use -> to access '
                     . 'REST protocols, use []');
         }
+
         if ($var === 'baseurl') {
             if (isset($this->info['_content']) &&
                     $this->info['_content'][strlen($this->info['_content'])-1] != '/') {
                 return $this->info['_content'] . '/';
             }
+
             return $this->info['_content'];
         }
+
         throw new ChannelFile\Exception('Unknown variable ' . $var);
     }
 
@@ -80,10 +87,12 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->index)) {
             throw new ChannelFile\Exception('Cannot use -> to access REST protocols, use []');
         }
+
         if ($var === 'baseurl') {
             $this->info['_content'] = $value;
             return $this->save();
         }
+
         throw new ChannelFile\Exception('Unknown variable ' . $var);
     }
 
@@ -92,15 +101,18 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (isset($this->index)) {
             throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
+
         if (!isset($this->info['baseurl'])) {
             return new REST(array('attribs' => array('type' => $protocol), '_content' => null), $this, 0);
         }
+
         foreach ($this->info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 $ret = new REST($baseurl, $this, $protocol);
                 return $ret;
             }
         }
+
         return new REST(array('attribs' => array('type' => $protocol), '_content' => null), $this, count($this->info['baseurl']));
     }
 
@@ -109,20 +121,24 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (isset($this->index)) {
             throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
+
         if (!($value instanceof self)) {
             throw new ChannelFile\Exception('Can only set REST protocol ' .
                         ' to a \pear2\Pyrus\ChannelFile\v1\Servers\Protocol\REST object');
         }
+
         if (!isset($this->info['baseurl'])) {
             $this->info['baseurl'] = $value->getInfo();
             return $this->save();
         }
+
         foreach ($this->info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 $this->info['baseurl'][$i] = $value->getInfo();
                 return $this->save();
             }
         }
+
         $this->info['baseurl'][] = $value->getInfo();
         return $this->save();
     }
@@ -132,11 +148,13 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (isset($this->index)) {
             throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
+
         foreach ($this->info['baseurl'] as $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -145,6 +163,7 @@ class REST implements \ArrayAccess, \Countable, \Iterator
         if (isset($this->index)) {
             throw new ChannelFile\Exception('Cannot use [] to access baseurl, use ->');
         }
+
         foreach ($this->info['baseurl'] as $i => $baseurl) {
             if (strtolower($baseurl['attribs']['type']) == strtolower($protocol)) {
                 unset($this->info['baseurl'][$i]);
@@ -165,10 +184,12 @@ class REST implements \ArrayAccess, \Countable, \Iterator
             $this->parent[$this->info['attribs']['type']] = $this;
             return $this->parent->save();
         }
+
         $info = $this->info;
         if (isset($info['baseurl']) && count($info['baseurl']) == 1) {
             $info['baseurl'] = $info['baseurl'][0];
         }
+
         $this->parent->rawrest = $info;
     }
 }

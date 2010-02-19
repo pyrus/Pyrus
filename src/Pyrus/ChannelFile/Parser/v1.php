@@ -17,11 +17,13 @@ class v1 extends \pear2\Pyrus\XMLParser
             throw new \pear2\Pyrus\ChannelFile\Exception('Class ' . $class .
                 ' passed to parse() must be a child class of \pear2\Pyrus\ChannelFile\v1');
         }
+
         $schema = \pear2\Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
             $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/channel-1.0.xsd';
         }
+
         try {
             if ($file) {
                 $ret->fromArray(parent::parse($data, $schema));
@@ -31,6 +33,7 @@ class v1 extends \pear2\Pyrus\XMLParser
         } catch (\Exception $e) {
             throw new \pear2\Pyrus\ChannelFile\Exception('Invalid channel.xml', null, $e);
         }
+
         return $ret;
     }
 }

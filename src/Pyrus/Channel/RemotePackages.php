@@ -37,6 +37,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
             throw new Exception('Cannot access remote packages without REST1.0 protocol');
         }
+
         $this->rest = new \pear2\Pyrus\REST;
     }
 
@@ -46,6 +47,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
             throw new Exception('Invalid stability ' . $var . ' requested, must be one of ' .
                                                     'devel, alpha, beta, stable');
         }
+
         $a = clone $this;
         $a->stability = $var;
         return $a;
@@ -80,13 +82,15 @@ class RemotePackages implements \ArrayAccess, \Iterator
         } else {
             $lowerpackage = current($this->packageList);
         }
-        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                'p/' . $lowerpackage . '/info.xml');
+
+        $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
+        $info = $this->rest->retrieveCacheFirst($url);
         if (isset($releases)) {
             $pxml = new RemotePackage($this->parent, $releases);
         } else {
             $pxml = new RemotePackage($this->parent);
         }
+
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
         $pxml->license = $info['l'];
@@ -105,9 +109,11 @@ class RemotePackages implements \ArrayAccess, \Iterator
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                     'r/' . $lowerpackage . '/allreleases.xml');
         }
+
         if (!isset($info['r'][0])) {
             $info['r'] = array($info['r']);
         }
+
         // filter the package list for packages of this stability or better
         $ok = \pear2\Pyrus\Installer::betterStates($this->stability, true);
         $releases = array();
@@ -117,13 +123,16 @@ class RemotePackages implements \ArrayAccess, \Iterator
                     continue;
                 }
             }
+
             if (!isset($release['m'])) {
                 $release['m'] = '5.2.0';
             }
             $releases[] = $release;
+
         }
-        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                'p/' . $lowerpackage . '/info.xml');
+
+        $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
+        $info = $this->rest->retrieveCacheFirst($url);
         $pxml = new RemotePackage($this->parent, $releases);
         $pxml->channel = $info['c'];
         $pxml->name = $info['n'];
@@ -145,12 +154,13 @@ class RemotePackages implements \ArrayAccess, \Iterator
 
     function rewind()
     {
-        $this->packageList = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                             'p/packages.xml');
+        $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/packages.xml';
+        $this->packageList = $this->rest->retrieveCacheFirst($url);
         $this->packageList = $this->packageList['p'];
         if (!is_array($this->packageList)) {
             $this->packageList = array($this->packageList);
         }
+
         if (isset($this->stability)) {
             // filter the package list for packages of this stability or better
             $ok = \pear2\Pyrus\Installer::betterStates($this->stability, true);
@@ -163,24 +173,31 @@ class RemotePackages implements \ArrayAccess, \Iterator
                     $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                             'r/' . $lowerpackage . '/allreleases.xml');
                 }
+
                 if (!isset($info['r'][0])) {
                     $info['r'] = array($info['r']);
                 }
+
                 $releases = array();
                 foreach ($info['r'] as $release) {
                     if (!in_array($release['s'], $ok)) {
                         continue;
                     }
+
                     if (!isset($release['m'])) {
                         $release['m'] = '5.2.0';
                     }
+
                     $releases[] = $release;
                 }
+
                 if (!count($releases)) {
                     continue;
                 }
+
                 $filtered[] = array($lowerpackage, $releases);
             }
+
             $this->packageList = $filtered;
         }
     }

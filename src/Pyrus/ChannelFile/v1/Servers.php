@@ -16,7 +16,8 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if (isset($info['mirror']) && !isset($info['mirror'][0])) {
             $info['mirror'] = array($info['mirror']);
         }
-        $this->info = $info;
+
+        $this->info   = $info;
         $this->parent = $parent;
     }
 
@@ -31,6 +32,7 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->info['mirror'])) {
             return;
         }
+
         reset($this->info['mirror']);
     }
 
@@ -49,15 +51,16 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->info['mirror'])) {
             return false;
         }
+
         return current($this->info['mirror']);
     }
-
 
     function count()
     {
         if (!isset($this->info['mirror'])) {
             return 0;
         }
+
         return count($this->info['mirror']);
     }
 
@@ -66,10 +69,12 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         foreach ($this->info as $type=>$details) {
             if ($type == 'mirror'
                 && isset($details[0])
-                && $details[0]['attribs']['host'] == $mirror) {
+                && $details[0]['attribs']['host'] == $mirror
+            ) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -78,9 +83,11 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->info['mirror'])) {
             return;
         }
+
         foreach ($this->info['mirror'] as $i => $details) {
             if (isset($details['attribs']) && isset($details['attribs']['host']) &&
-                    $details['attribs']['host'] == $mirror) {
+                    $details['attribs']['host'] == $mirror
+            ) {
                 unset($this->info['mirror'][$i]);
                 $this->info['mirror'] = array_values($this->info['mirror']);
                 return $this->save();
@@ -93,9 +100,11 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if (!isset($this->info['mirror'])) {
             return new Mirror(array('attribs' => array('host' => $mirror)), $this, $this->parent, 0);
         }
+
         foreach ($this->info['mirror'] as $i => $details) {
             if (isset($details['attribs']) && isset($details['attribs']['host']) &&
-                $details['attribs']['host'] == $mirror) {
+                $details['attribs']['host'] == $mirror
+            ) {
                 return new Mirror($details, $this, $this->parent, $i);
             }
         }
@@ -108,21 +117,26 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if ($value === null) {
             return $this->offsetUnset($mirror);
         }
+
         if (!($value instanceof Mirror)) {
             throw new \pear2\Pyrus\ChannelFile\Exception('Can only set mirror to a ' .
                         '\pear2\Pyrus\ChannelFile\v1\Mirror object');
         }
+
         $info = $value->getInfo();
         if ($mirror != $value->server) {
             $info['attribs']['host'] = $mirror;
         }
+
         foreach ($this->info['mirror'] as $i => $details) {
             if (isset($details['attribs']) && isset($details['attribs']['host']) &&
-                $details['attribs']['host'] == $mirror) {
+                $details['attribs']['host'] == $mirror
+            ) {
                 $this->setMirror($i, $info);
                 return $this->save();
             }
         }
+
         $this->setMirror(count($this->info['mirror']), $info);
         $this->save();
     }
@@ -138,9 +152,11 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         if (!$info['mirror']) {
             return $this->parent->rawmirrors = null;
         }
+
         if (count($info['mirror']) === 1) {
             return $this->parent->rawmirrors = $info['mirror'][0];
         }
+
         $this->parent->rawmirrors = $info['mirror'];
     }
 }

@@ -145,8 +145,8 @@ class XMLParser
     {
         if (is_array($arr) && isset($arr[0])) {
             // multiple siblings
-            $arr[count($arr) - 1] = $this->mergeActualValue(
-                $arr[count($arr) - 1], $value);
+            $count = count($arr) - 1;
+            $arr[$count] = $this->mergeActualValue($arr[$count], $value);
         } elseif (is_array($arr)) {
             $arr = $this->mergeActualValue($arr, $value);
         } else {

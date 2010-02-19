@@ -56,6 +56,7 @@ class Snapshot extends \pear2\Pyrus\Config
         if (!$config) {
             $config = \pear2\Pyrus\Config::current();
         }
+
         $this->loadConfigFile($config->location, $snapshot);
         $this->pearDir = $config->location;
     }
@@ -86,6 +87,7 @@ class Snapshot extends \pear2\Pyrus\Config
             // in this case, we use the defaults, as this is intended
             return;
         }
+
         $snapshotdir = $pearDirectory . DIRECTORY_SEPARATOR . '.configsnapshots';
         $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . $snapshot;
         if (!file_exists($snapshotfile)) {
@@ -93,10 +95,11 @@ class Snapshot extends \pear2\Pyrus\Config
                 // passed a date, locate a matching snapshot
                 if (!strpos($snapshot, ':')) {
                     // change YYYY-MM-DD HH-MM-SS to YYYY-MM-DD HH:MM:SS
-                    $snapshot = explode(' ', $snapshot);
+                    $snapshot    = explode(' ', $snapshot);
                     $snapshot[1] = str_replace('-', ':', $snapshot[1]);
-                    $snapshot = implode(' ', $snapshot);
+                    $snapshot    = implode(' ', $snapshot);
                 }
+
                 $us = new \DateTime($snapshot);
                 $dir = new \RegexIterator(
                     new \RecursiveDirectoryIterator($snapshotdir),
@@ -106,34 +109,39 @@ class Snapshot extends \pear2\Pyrus\Config
                 foreach ($dir as $match) {
                     $matches[] = $match;
                 }
+
                 usort($matches, array($this, 'datediff'));
                 unset($match);
                 $found = false;
                 foreach ($matches as $match) {
                     $match = substr($match->getFileName(), strlen('configsnapshot-'));
                     $match = str_replace('.xml', '', $match);
-                    $match = explode(' ', $match);
+                    $match    = explode(' ', $match);
                     $match[1] = str_replace('-', ':', $match[1]);
-                    $match = implode(' ', $match);
+                    $match    = implode(' ', $match);
                     $testdate = new \DateTime($match);
                     if ($testdate > $us) {
                         continue;
                     }
+
                     if ($testdate == $us) {
                         // found a snapshot match
                         $found = true;
                         break;
                     }
+
                     if ($us > $testdate) {
                         // we fall between these two snapshots, so use this one
                         $found = true;
                         break;
                     }
                 }
+
                 if (!$found) {
                     // no config snapshots
                     return parent::loadConfigFile($pearDirectory);
                 }
+
                 $snapshotfile = $snapshotdir . DIRECTORY_SEPARATOR . 'configsnapshot-' .
                     str_replace(':', '-', $match) . '.xml';
             }

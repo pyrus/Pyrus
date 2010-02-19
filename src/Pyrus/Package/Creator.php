@@ -47,9 +47,11 @@ class Creator
             if ($a = realpath($pear2ExceptionPath)) {
                 $pear2ExceptionPath = $a;
             }
+
             if (dirname($pear2ExceptionPath) == dirname($pear2ExceptionPath . 'test')) {
                 $pear2ExceptionPath .= '/';
             }
+
             if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
                 throw new Exception('Cannot locate pear2/Exception.php in ' . $pear2ExceptionPath);
             }
@@ -65,9 +67,11 @@ class Creator
             if ($a = realpath($pear2AutoloadPath)) {
                 $pear2AutoloadPath = $a;
             }
+
             if (dirname($pear2AutoloadPath) == dirname($pear2AutoloadPath . 'test')) {
                 $pear2AutoloadPath .= '/';
             }
+
             if (!($pear2Autoload = @fopen($pear2AutoloadPath . 'Autoload.php', 'r'))) {
                 fclose($pear2Exception);
                 throw new Exception('Cannot locate pear2/Autoload.php in ' . $pear2AutoloadPath);
@@ -93,6 +97,7 @@ class Creator
             if ($a = realpath($pear2MultiErrorsPath)) {
                 $pear2MultiErrorsPath = $a;
             }
+
             if (dirname($pear2MultiErrorsPath) == dirname($pear2MultiErrorsPath . 'test')) {
                 $pear2MultiErrorsPath .= '/';
             }
@@ -126,6 +131,7 @@ class Creator
 
                 throw new Creator\Exception('Invalid PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
             }
+
             $this->_creators = $creators;
         } else {
             throw new Creator\Exception('Invalid PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
@@ -162,6 +168,7 @@ class Creator
                 $packagexml = 'package.xml';
             }
         }
+
         if (self::VERSION === '@' . 'PACKAGE_VERSION@') {
             // we're running straight from SVN, so pretend to be 2.0.0
             $package->packagerversion = '2.0.0';
@@ -174,11 +181,13 @@ class Creator
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
         }
+
         if ($package->isOldAndCrustyCompatible()) {
             foreach ($this->_creators as $creator) {
                 $creator->addFile('package.xml', $old);
             }
         }
+
         if ($package->getInternalPackage() instanceof Xml) {
             // check for package_compatible.xml
             if ($package->isNewPackage() && file_exists($package->getFilePath('package_compatible.xml'))) {
@@ -188,6 +197,7 @@ class Creator
                 }
             }
         }
+
         $packagingloc = \pear2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
         if (file_exists($packagingloc)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($packagingloc,
@@ -237,6 +247,7 @@ class Creator
             if (!file_exists(dirname($packagingloc . DIRECTORY_SEPARATOR . $packageat))) {
                 mkdir(dirname($packagingloc . DIRECTORY_SEPARATOR . $packageat), 0777, true);
             }
+
             $fp = fopen($packagingloc . DIRECTORY_SEPARATOR . $packageat, 'wb+');
             ftruncate($fp, 0);
             stream_copy_to_stream($contents, $fp);
@@ -259,6 +270,7 @@ class Creator
             } else {
                 $version = null;
             }
+
             foreach (new Creator\TaskIterator($info, $package, \pear2\Pyrus\Task\Common::PACKAGE,
                                               $version) as $task) {
                 // do pre-processing of file contents
@@ -325,24 +337,24 @@ class Creator
     function addExtraFiles($extrafiles)
     {
         foreach ($extrafiles as $path => $filename) {
-            if (is_object($filename)) {
-                if ($filename instanceof \pear2\Pyrus\Package) {
-                    foreach ($filename->packagingcontents as $path => $info) {
-                        foreach ($this->_creators as $creator) {
-                            $creator->mkdir(dirname($this->prepend . '/' . $path));
-                            $fp = $filename->getFileContents($info['attribs']['name'], true);
-                            $creator->addFile($this->prepend . '/' . $path, $fp);
-                            fclose($fp);
-                        }
-                    }
-                    continue;
-                } else {
-                    throw new Exception('Invalid extra file object, must be ' .
+            if (!is_object($filename)) {
+                throw new Exception('Invalid extra file object, must be ' .
                                         'a \pear2\Pyrus\Package object');
-                }
             }
-            $path = str_replace('\\', '/', $path);
-            $path = str_replace('//', '/', $path);
+
+            if ($filename instanceof \pear2\Pyrus\Package) {
+                foreach ($filename->packagingcontents as $path => $info) {
+                    foreach ($this->_creators as $creator) {
+                        $creator->mkdir(dirname($this->prepend . '/' . $path));
+                        $fp = $filename->getFileContents($info['attribs']['name'], true);
+                        $creator->addFile($this->prepend . '/' . $path, $fp);
+                        fclose($fp);
+                    }
+                }
+                continue;
+            }
+
+            $path = str_replace(array('\\', '//'), '/', $path);
             if ($path[0] === '/' ||
                   (strlen($path) > 2 && ($path[1] === ':' && $path[2] == '/'))) {
                 throw new Creator\Exception('Invalid path, cannot save a root path ' . $path);

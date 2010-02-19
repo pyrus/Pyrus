@@ -46,10 +46,12 @@ class Protocols
             $this->parent->rest = null;
             return;
         }
+
         if (!($value instanceof Protocols\REST)) {
             throw new ChannelFile\Exception('Can only set REST to ' .
                         '\pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object');
         }
+
         $info = $value->getInfo();
         if (!count($info)) {
             $this->parent->rest = null;
@@ -65,6 +67,7 @@ class Protocols
         } else {
             $info = array();
         }
+
         return new Protocols\REST($info, $this->parent);
     }
 }

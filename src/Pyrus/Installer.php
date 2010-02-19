@@ -424,8 +424,8 @@ class Installer
         foreach ($package->installcontents as $file) {
             $channel = $package->channel;
             // {{{ assemble the destination paths
-            if (!in_array($file->role,
-                  Installer\Role::getValidRoles($package->getPackageType()))) {
+            $roles = Installer\Role::getValidRoles($package->getPackageType());
+            if (!in_array($file->role, $roles)) {
                 throw new Installer\Exception('Invalid role `' .
                         $file->role .
                         "' for file " . $file->name);
@@ -463,9 +463,9 @@ class Installer
                 } else {
                     if (!isset(Main::$options['force'])) {
                         throw new Installer\Exception("bad md5sum for file " . $file->name);
-                    } else {
-                        Logger::log(0, "warning : bad md5sum for file " . $file->name);
                     }
+
+                    Logger::log(0, "warning : bad md5sum for file " . $file->name);
                 }
             } else {
                 // installing from package.xml in source control, save the md5 of the current file

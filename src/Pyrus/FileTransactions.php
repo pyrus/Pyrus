@@ -70,7 +70,7 @@ class FileTransactions
             $octmode = decoct($data[0]);
             Logger::log(3, "adding to transaction: $type $octmode $data[1]");
         } else {
-            Logger::log(3, "adding to transaction: $type " . implode(" ", $data));
+            Logger::log(3, "adding to transaction: $type " . implode(' ', $data));
         }
 
         $this->fileOperations[] = array($type, $data);

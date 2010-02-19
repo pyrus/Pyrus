@@ -28,7 +28,7 @@ class PackageFile implements PackageFileInterface
 {
     public $info;
     public $path;
-    function __construct($package, $class = 'pear2\Pyrus\PackageFile\v2', $isstring = false)
+    function __construct($package, $class = 'pear2\Pyrus\PackageFile\v2', $isString = false)
     {
         if ($package instanceof PackageFileInterface) {
             $this->path = $package->getFilePath();
@@ -37,7 +37,7 @@ class PackageFile implements PackageFileInterface
 
         $this->path = $package;
         $parser = new PackageFile\Parser\v2;
-        if ($isstring) {
+        if ($isString) {
             $data = $package;
         } else {
             $data = file_exists($package) ? file_get_contents($package) : false;

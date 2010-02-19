@@ -45,8 +45,7 @@ class Zip extends \pear2\Pyrus\Package\Base
         }
 
         if (false !== ($pxml = $zip->getNameIndex(0))) {
-            if (!preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/',
-                      $pxml)) {
+            if (!preg_match('/^package\-.+\-\\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?.xml$/', $pxml)) {
                 throw new Zip\Exception('First file in ZIP archive is not package.xml, cannot process');
             }
         }

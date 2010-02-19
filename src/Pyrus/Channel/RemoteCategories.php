@@ -36,13 +36,14 @@ class RemoteCategories implements \ArrayAccess, \Iterator
         if (!isset($this->parent->protocols->rest['REST1.1'])) {
             throw new Exception('Cannot access remote categories without REST1.1 protocol');
         }
+
         $this->rest = new \pear2\Pyrus\REST;
     }
 
     function offsetGet($var)
     {
-        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
-                                                'c/' . urlencode($var) . '/packagesinfo.xml');
+        $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'c/' . urlencode($var) . '/packagesinfo.xml';
+        $info = $this->rest->retrieveCacheFirst($url);
         return new RemoteCategory($this->parent, $var, $info);
     }
 
@@ -69,8 +70,8 @@ class RemoteCategories implements \ArrayAccess, \Iterator
     function current()
     {
         $category = $this->key();
-        $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
-                                                'c/' . urlencode($category) . '/packagesinfo.xml');
+        $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'c/' . urlencode($category) . '/packagesinfo.xml';
+        $info = $this->rest->retrieveCacheFirst($url);
         return new RemoteCategory($this->parent, $category, $info);
     }
 
@@ -87,8 +88,8 @@ class RemoteCategories implements \ArrayAccess, \Iterator
 
     function rewind()
     {
-        $this->categoryList = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.1']->baseurl .
-                                                             'c/categories.xml');
+        $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'c/categories.xml';
+        $this->categoryList = $this->rest->retrieveCacheFirst($url);
         $this->categoryList = $this->categoryList['c'];
         if (!isset($this->categoryList[0])) {
             $this->categoryList = array($this->categoryList);

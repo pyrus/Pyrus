@@ -72,6 +72,7 @@ class Phar extends \pear2\Pyrus\Package\Base
                     } else {
                         $iterate = new \Phar('phar://' . $package . '/' . $internal . '/.xmlregistry');
                     }
+
                     foreach (new \RecursiveIteratorIterator($iterate,
                                 \RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
                         $filename = $file->getFileName();
@@ -131,14 +132,13 @@ class Phar extends \pear2\Pyrus\Package\Base
             throw new Exception('file ' . $file . ' is not in package.xml');
         }
 
-        $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' . $file;
-        if (!file_exists($phar_file)) {
-            $phar_file = 'phar://' . str_replace('\\', '/', $this->archive) . '/' .
-                    $this->packagefile->info->name . '-' .
-                    $this->packagefile->info->version['release'] . '/' .
-                    $file;
-
+        $archive = str_replace('\\', '/', $this->archive);
+        $phar    = 'phar://' . $archive . '/' . $file;
+        if (!file_exists($phar)) {
+            $phar = 'phar://' . $archive . '/' . $this->packagefile->info->name .
+                    '-' . $this->packagefile->info->version['release'] . '/' . $file;
         }
-        return $phar_file;
+
+        return $phar;
     }
 }

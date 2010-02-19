@@ -134,8 +134,10 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
             if (isset($this->_info['rest'])) {
                 unset($this->_info['rest']);
             }
+
             return;
         }
+
         $this->_info['rest'] = $rest;
         $this->save();
     }
@@ -145,10 +147,12 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
         if (empty($name)) {
             throw new Channel\Exception('Mirror server must be non-empty');
         }
+
         if (!$this->validChannelServer($name)) {
             throw new Channel\Exception('Mirror server "' . $name . '" for channel "' .
                                         $this->getChannel() . '" is not a valid channel server');
         }
+
         $this->_info['attribs']['host'] = $name;
         $this->save();
     }
@@ -168,6 +172,7 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
         } else {
             $this->_info['attribs']['ssl'] = 'yes';
         }
+
         $this->save();
     }
 
@@ -179,6 +184,7 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
         if (isset($this->_info['rest'])) {
             unset($this->_info['rest']);
         }
+
         $this->save();
     }
 

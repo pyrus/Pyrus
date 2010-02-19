@@ -24,35 +24,38 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\Dependency;
-use \pear2\Pyrus\Main as Main, \pear2\Pyrus\Config as Config;
+use \pear2\Pyrus\Main as Main, \pear2\Pyrus\Config as Config, \pear2\Pyrus\Validate as Validate;
 class Validator
 {
     /**
      * @var \pear2\MultiErrors
      */
     protected $errs;
+
     /**
      * One of the \pear2\Pyrus\Validate::* states
      * @see \pear2\Pyrus\Validate::NORMAL
      * @var integer
      */
     var $_state;
+
     /**
      * @var \pear2\Pyrus\OSGuess
      */
     var $_os;
+
     /**
      * Package to validate
      * @var \pear2\Pyrus\Package
      */
     var $_currentPackage;
+
     /**
      * @param \pear2\Pyrus\Package
      * @param int installation state (one of \pear2\Pyrus\Validate::*)
      * @param \pear2\MultiErrors
      */
-    function __construct($package, $state = \pear2\Pyrus\Validate::INSTALLING,
-                         \pear2\MultiErrors $errs)
+    function __construct($package, $state = Validate::INSTALLING, \pear2\MultiErrors $errs)
     {
         $this->_state = $state;
         $this->_currentPackage = $package;
@@ -65,38 +68,46 @@ class Validator
         if ($dep->type != 'extension' && isset($dep->uri)) {
             return '';
         }
+
         if (isset($dep->recommended)) {
             $extra .= 'recommended version ' . $dep->recommended;
         } else {
             if (isset($dep->min)) {
                 $extra .= 'version >= ' . $dep->min;
             }
+
             if (isset($dep->max)) {
                 if ($extra != ' (') {
                     $extra .= ', ';
                 }
                 $extra .= 'version <= ' . $dep->max;
             }
+
             if (isset($dep->exclude)) {
                 if (!is_array($dep->exclude)) {
                     $dep->exclude = array($dep->exclude);
                 }
+
                 if ($extra != ' (') {
                     $extra .= ', ';
                 }
+
                 $extra .= 'excluded versions: ';
                 foreach ($dep->exclude as $i => $exclude) {
                     if ($i) {
                         $extra .= ', ';
                     }
+
                     $extra .= $exclude;
                 }
             }
         }
+
         $extra .= ')';
         if ($extra == ' ()') {
             $extra = '';
         }
+
         return $extra;
     }
 
@@ -125,32 +136,33 @@ class Validator
      */
     function validateOsDependency(\pear2\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
     {
-        if ($this->_state != \pear2\Pyrus\Validate::INSTALLING &&
-              $this->_state != \pear2\Pyrus\Validate::DOWNLOADING) {
+        if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
         }
+
         if ($dep->name == '*') {
             return true; // no one will do conflicts with *, so assume no conflicts
         }
+
         switch (strtolower($dep->name)) {
             case 'windows' :
                 if ($dep->conflicts) {
                     if (strtolower(substr($this->getPHP_OS(), 0, 3)) == 'win') {
-                        if (!isset(Main::$options['nodeps']) &&
-                              !isset(Main::$options['force'])) {
-                            return $this->raiseError("Cannot install %s on Windows");
-                        } else {
-                            return $this->warning("warning: Cannot install %s on Windows");
+                        $msg = "Cannot install %s on Windows";
+                        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                            return $this->raiseError($msg);
                         }
+
+                        return $this->warning("warning: " . $msg);
                     }
                 } else {
                     if (strtolower(substr($this->getPHP_OS(), 0, 3)) != 'win') {
-                        if (!isset(Main::$options['nodeps']) &&
-                              !isset(Main::$options['force'])) {
-                            return $this->raiseError("Can only install %s on Windows");
-                        } else {
-                            return $this->warning("warning: Can only install %s on Windows");
+                        $msg = "Can only install %s on Windows";
+                        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                            return $this->raiseError($msg);
                         }
+
+                        return $this->warning("warning: " . $msg);
                     }
                 }
             break;
@@ -158,53 +170,47 @@ class Validator
                 $unices = array('linux', 'freebsd', 'darwin', 'sunos', 'irix', 'hpux', 'aix');
                 if ($dep->conflicts) {
                     if (in_array(strtolower($this->getSysname()), $unices)) {
-                        if (!isset(Main::$options['nodeps']) &&
-                              !isset(Main::$options['force'])) {
-                            return $this->raiseError("Cannot install %s on any Unix system");
-                        } else {
-                            return $this->warning(
-                                "warning: Cannot install %s on any Unix system");
+                        $msg = "Cannot install %s on any Unix system";
+                        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                            return $this->raiseError($msg);
                         }
+
+                        return $this->warning("warning: " . $msg);
                     }
                 } else {
                     if (!in_array(strtolower($this->getSysname()), $unices)) {
-                        if (!isset(Main::$options['nodeps']) &&
-                              !isset(Main::$options['force'])) {
-                            return $this->raiseError("Can only install %s on a Unix system");
-                        } else {
-                            return $this->warning(
-                                "warning: Can only install %s on a Unix system");
+                        $msg = "Can only install %s on a Unix system";
+                        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                            return $this->raiseError($msg);
                         }
+
+                        return $this->warning("warning: " . $msg);
                     }
                 }
             break;
             default :
                 if ($dep->conflicts) {
                     if (strtolower($dep->name) == strtolower($this->getSysname())) {
-                        if (!isset(Main::$options['nodeps']) &&
-                              !isset(Main::$options['force'])) {
-                            return $this->raiseError('Cannot install %s on ' . $dep->name .
-                                ' operating system');
-                        } else {
-                            return $this->warning('warning: Cannot install %s on ' .
-                                $dep->name . ' operating system');
+                        $msg = 'Cannot install %s on ' . $dep->name . ' operating system';
+                        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                            return $this->raiseError($msg);
                         }
+
+                        return $this->warning('warning: ' . $msg);
                     }
                 } else {
                     if (strtolower($dep->name) != strtolower($this->getSysname())) {
-                        if (!isset(Main::$options['nodeps']) &&
-                              !isset(Main::$options['force'])) {
-                            return $this->raiseError('Cannot install %s on ' .
-                                $this->getSysname() .
-                                ' operating system, can only install on ' . $dep->name);
-                        } else {
-                            return $this->warning('warning: Cannot install %s on ' .
-                                $this->getSysname() .
-                                ' operating system, can only install on ' . $dep->name);
+                        $msg = 'Cannot install %s on ' . $this->getSysname() .
+                                ' operating system, can only install on ' . $dep->name;
+                        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                            return $this->raiseError($msg);
                         }
+
+                        return $this->warning('warning: ' . $msg);
                     }
                 }
         }
+
         return true;
     }
 
@@ -226,30 +232,32 @@ class Validator
      */
     function validateArchDependency($dep)
     {
-        if ($this->_state != \pear2\Pyrus\Validate::INSTALLING) {
+        if ($this->_state != Validate::INSTALLING) {
             return true;
         }
+
         if ($this->matchSignature($dep->pattern)) {
             if ($dep->conflicts) {
+                $msg = '%s Architecture dependency failed, cannot match "' . $dep->pattern . '"';
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s Architecture dependency failed, cannot match "' .
-                        $dep->pattern . '"');
+                    return $this->raiseError($msg);
                 }
-                return $this->warning('warning: %s Architecture dependency failed, ' .
-                    'cannot match "' . $dep->pattern . '"');
+
+                return $this->warning('warning: ' . $msg);
             }
+
             return true;
         } else {
             if ($dep->conflicts) {
                 return true;
             }
-            if (!isset(Main::$options['nodeps'])
-                && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s Architecture dependency failed, does not ' .
-                    'match "' . $dep->pattern . '"');
+
+            $msg = '%s Architecture dependency failed, does not match "' . $dep->pattern . '"';
+            if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                return $this->raiseError($msg);
             }
-            return $this->warning('warning: %s Architecture dependency failed, does ' .
-                'not match "' . $dep->pattern . '"');
+
+            return $this->warning('warning: ' . $msg);
         }
     }
 
@@ -268,99 +276,108 @@ class Validator
     {
         if ($name !== null) {
             return phpversion($name);
-        } else {
-            return phpversion();
         }
+
+        return phpversion();
     }
 
     function validateExtensionDependency(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $dep)
     {
-        if ($this->_state != \pear2\Pyrus\Validate::INSTALLING &&
-              $this->_state != \pear2\Pyrus\Validate::DOWNLOADING) {
+        if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
         }
+
         $required = $dep->deptype == 'required';
-        $loaded = $this->extension_loaded($dep->name);
-        $extra = $this->_getExtraString($dep);
+        $loaded   = $this->extension_loaded($dep->name);
+        $extra    = $this->_getExtraString($dep);
         if (!isset($dep->min) && !isset($dep->max) &&
-              !isset($dep->recommended) && !isset($dep->exclude)) {
+              !isset($dep->recommended) && !isset($dep->exclude)
+        ) {
             if ($loaded) {
                 if ($dep->conflicts) {
+                    $msg = '%s conflicts with PHP extension "' . $dep->name . '"' . $extra;
                     if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                        return $this->raiseError('%s conflicts with PHP extension "' .
-                            $dep->name . '"' . $extra);
-                    } else {
-                        return $this->warning('warning: %s conflicts with PHP extension "' .
-                            $dep->name . '"' . $extra);
+                        return $this->raiseError($msg);
                     }
+
+                    return $this->warning('warning: ' . $msg);
                 }
+
                 return true;
             } else {
                 if ($dep->conflicts) {
                     return true;
                 }
+
                 if ($required) {
+                    $msg = '%s requires PHP extension "' . $dep->name . '"' . $extra;
                     if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                        return $this->raiseError('%s requires PHP extension "' .
-                            $dep->name . '"' . $extra);
-                    } else {
-                        return $this->warning('warning: %s requires PHP extension "' .
-                            $dep->name . '"' . $extra);
+                        return $this->raiseError($msg);
                     }
-                } else {
-                    return $this->warning('%s can optionally use PHP extension "' .
-                        $dep->name . '"' . $extra);
+
+                    return $this->warning('warning: ' . $msg);
+
                 }
+
+                return $this->warning('%s can optionally use PHP extension "' .
+                        $dep->name . '"' . $extra);
             }
         }
+
         if (!$loaded) {
             if ($dep->conflicts) {
                 return true;
             }
+
             if (!$required) {
                 return $this->warning('%s can optionally use PHP extension "' .
                     $dep->name . '"' . $extra);
-            } else {
-                if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s requires PHP extension "' . $dep->name .
-                        '"' . $extra);
-                }
-                    return $this->warning('warning: %s requires PHP extension "' . $dep->name .
-                        '"' . $extra);
             }
+
+            $msg = '%s requires PHP extension "' . $dep->name . '"' . $extra;
+            if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                return $this->raiseError($msg);
+            }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         $version = (string) $this->phpversion($dep->name);
         if (empty($version)) {
             $version = '0';
         }
+
         $fail = false;
         if (isset($dep->min)) {
             if (!version_compare($version, $dep->min, '>=')) {
                 $fail = true;
             }
         }
+
         if (isset($dep->max)) {
             if (!version_compare($version, $dep->max, '<=')) {
                 $fail = true;
             }
         }
+
         if ($fail && !$dep->conflicts) {
+            $msg = '%s requires PHP extension "' . $dep->name . '"' . $extra .
+                    ', installed version is ' . $version;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s requires PHP extension "' . $dep->name .
-                    '"' . $extra . ', installed version is ' . $version);
-            } else {
-                return $this->warning('warning: %s requires PHP extension "' . $dep->name .
-                    '"' . $extra . ', installed version is ' . $version);
+                return $this->raiseError($msg);
             }
+
+            return $this->warning('warning: ' . $msg);
         } elseif (!isset($dep->exclude) && (isset($dep->min) || isset($dep->max)) && !$fail && $dep->conflicts) {
+            $msg = '%s conflicts with PHP extension "' . $dep->name . '"' . $extra .
+                    ', installed version is ' . $version;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s conflicts with PHP extension "' .
-                    $dep->name . '"' . $extra . ', installed version is ' . $version);
-            } else {
-                return $this->warning('warning: %s conflicts with PHP extension "' .
-                    $dep->name . '"' . $extra . ', installed version is ' . $version);
+                return $this->raiseError($msg);
             }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         if (isset($dep->exclude)) {
             // exclude ordinarily tells the installer "install anything but these versions"
             // when paired with conflicts, it becomes "install only these versions"
@@ -379,80 +396,79 @@ class Validator
                 }
             }
         }
+
         if ($fail) {
 conflict_error:
+            $msg = '%s is not compatible with version ' . $version . ' of PHP extension "' .
+                    $dep->name . '", installed version is ' . $version;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s is not compatible with version ' . $version . ' of PHP extension "' .
-                    $dep->name . '", installed version is ' . $version);
-            } else {
-                return $this->warning('warning: %s is not compatible with version ' . $version . ' of PHP extension "' .
-                    $dep->name . '", installed version is ' . $version);
+                return $this->raiseError($msg);
             }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         if (isset($dep->recommended)) {
             if (version_compare($version, $dep->recommended, '==')) {
                 return true;
-            } else {
-                if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s dependency: PHP extension ' . $dep->name .
-                        ' version "' . $version . '"' .
-                        ' is not the recommended version "' . $dep->recommended .
-                        '", but may be compatible, use --force to install');
-                } else {
-                    return $this->warning('warning: %s dependency: PHP extension ' .
-                        $dep->name . ' version "' . $version . '"' .
-                        ' is not the recommended version "' . $dep->recommended . '"');
-                }
             }
+
+            $msg = '%s dependency: PHP extension ' . $dep->name .
+                    ' version "' . $version . '"' .
+                    ' is not the recommended version "' . $dep->recommended . '"';
+            if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                return $this->raiseError($msg . ', but may be compatible, use --force to install');
+            }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         return true;
     }
 
     function validatePhpDependency(\pear2\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
     {
-        if ($this->_state != \pear2\Pyrus\Validate::INSTALLING &&
-              $this->_state != \pear2\Pyrus\Validate::DOWNLOADING) {
+        if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
         }
+
         $version = $this->phpversion();
-        $extra = $this->_getExtraString($dep);
+        $extra   = $this->_getExtraString($dep);
         if (isset($dep->min)) {
             if (!version_compare($version, $dep->min, '>=')) {
+                $msg = '%s requires PHP' . $extra . ', installed version is ' . $version;
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s requires PHP' .
-                        $extra . ', installed version is ' . $version);
-                } else {
-                    return $this->warning('warning: %s requires PHP' .
-                        $extra . ', installed version is ' . $version);
+                    return $this->raiseError($msg);
                 }
+
+                return $this->warning('warning: ' . $msg);
             }
         }
+
         if (isset($dep->max)) {
             if (!version_compare($version, $dep->max, '<=')) {
+                $msg ='%s requires PHP' . $extra . ', installed version is ' . $version;
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s requires PHP' .
-                        $extra . ', installed version is ' . $version);
-                } else {
-                    return $this->warning('warning: %s requires PHP' .
-                        $extra . ', installed version is ' . $version);
+                    return $this->raiseError($msg);
                 }
+
+                return $this->warning('warning: ' . $msg);
             }
         }
+
         if (isset($dep->exclude)) {
             foreach ($dep->exclude as $exclude) {
                 if (version_compare($version, $exclude, '==')) {
-                    if (!isset(Main::$options['nodeps']) &&
-                          !isset(Main::$options['force'])) {
-                        return $this->raiseError('%s is not compatible with PHP version ' .
-                            $exclude);
-                    } else {
-                        return $this->warning(
-                            'warning: %s is not compatible with PHP version ' .
-                            $exclude);
+                    $msg = '%s is not compatible with PHP version ' . $exclude;
+                    if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                        return $this->raiseError($msg);
                     }
+
+                    return $this->warning('warning: ' . $msg);
                 }
             }
         }
+
         return true;
     }
 
@@ -469,38 +485,38 @@ conflict_error:
         $pearversion = $this->getPEARVersion();
         $extra = $this->_getExtraString($dep);
         if (version_compare($pearversion, $dep->min, '<')) {
+            $msg = '%s requires PEAR Installer' . $extra . ', installed version is ' . $pearversion;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s requires PEAR Installer' . $extra .
-                    ', installed version is ' . $pearversion);
-            } else {
-                return $this->warning('warning: %s requires PEAR Installer' . $extra .
-                    ', installed version is ' . $pearversion);
+                return $this->raiseError($msg);
             }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         if (isset($dep->max)) {
             if (version_compare($pearversion, $dep->max, '>')) {
+                $msg = '%s requires PEAR Installer' . $extra . ', installed version is ' . $pearversion;
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s requires PEAR Installer' . $extra .
-                        ', installed version is ' . $pearversion);
-                } else {
-                    return $this->warning('warning: %s requires PEAR Installer' . $extra .
-                        ', installed version is ' . $pearversion);
+                    return $this->raiseError($msg);
                 }
+
+                return $this->warning('warning: ' . $msg);
             }
         }
+
         if (isset($dep->exclude)) {
             foreach ($dep->exclude as $exclude) {
                 if (version_compare($exclude, $pearversion, '==')) {
+                    $msg = '%s is not compatible with PEAR Installer version ' . $exclude;
                     if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                        return $this->raiseError('%s is not compatible with PEAR Installer ' .
-                            'version ' . $exclude);
-                    } else {
-                        return $this->warning('warning: %s is not compatible with PEAR ' .
-                            'Installer version ' . $exclude);
+                        return $this->raiseError($msg);
                     }
+
+                    return $this->warning('warning: ' . $msg);
                 }
             }
         }
+
         return true;
     }
 
@@ -516,10 +532,10 @@ conflict_error:
      */
     function validatePackageDependency(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
     {
-        if ($this->_state != \pear2\Pyrus\Validate::INSTALLING &&
-              $this->_state != \pear2\Pyrus\Validate::DOWNLOADING) {
+        if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
         }
+
         $required = $dep->deptype == 'required';
         if (isset($dep->providesextension)) {
             if ($this->extension_loaded($dep->providesextension)) {
@@ -534,10 +550,12 @@ conflict_error:
                 }
             }
         }
-        if ($this->_state == \pear2\Pyrus\Validate::INSTALLING) {
+
+        if ($this->_state == Validate::INSTALLING) {
             return $this->_validatePackageInstall($dep);
         }
-        if ($this->_state == \pear2\Pyrus\Validate::DOWNLOADING) {
+
+        if ($this->_state == Validate::DOWNLOADING) {
             return $this->_validatePackageDownload($dep, $params);
         }
     }
@@ -554,6 +572,7 @@ conflict_error:
                 break;
             }
         }
+
         if ($found) {
             $version = $param->version['release'];
             $installed = false;
@@ -570,6 +589,7 @@ conflict_error:
                 $downloaded = false;
             }
         }
+
         $extra = $this->_getExtraString($dep);
         if (!isset($dep->min) && !isset($dep->max) &&
               !isset($dep->recommended) && !isset($dep->exclude)) {
@@ -577,83 +597,86 @@ conflict_error:
                 $installed = $installed ? 'installed' : 'downloaded';
                 if ($dep->conflicts) {
                     $rest = ", $installed version is " . $version;
+                    $msg = '%s conflicts with package "' . $depname . '"' . $extra . $rest;
                     if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                        return $this->raiseError('%s conflicts with package "' . $depname . '"' .
-                            $extra . $rest);
-                    } else {
-                        return $this->warning('warning: %s conflicts with package "' . $depname . '"' .
-                            $extra . $rest);
+                        return $this->raiseError($msg);
                     }
+
+                    return $this->warning('warning: ' . $msg);
                 }
+
                 return true;
-            } else {
-                if ($dep->conflicts) {
-                    return true;
-                }
-                if ($required) {
-                    if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                        return $this->raiseError('%s requires package "' . $depname . '"' .
-                            $extra);
-                    } else {
-                        return $this->warning('warning: %s requires package "' . $depname . '"' .
-                            $extra);
-                    }
-                } else {
-                    return $this->warning('%s can optionally use package "' . $depname . '"' .
-                        $extra);
-                }
             }
+
+            if ($dep->conflicts) {
+                return true;
+            }
+
+            if ($required) {
+                $msg = '%s requires package "' . $depname . '"' . $extra;
+                if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                    return $this->raiseError($msg);
+                }
+
+                return $this->warning('warning: ' . $msg);
+            }
+
+            return $this->warning('%s can optionally use package "' . $depname . '"' . $extra);
         }
+
         if (!$installed && !$downloaded) {
             if ($dep->conflicts) {
                 return true;
             }
+
             if ($required) {
+                $msg = '%s requires package "' . $depname . '"' . $extra;
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('%s requires package "' . $depname . '"' .
-                        $extra);
-                } else {
-                    return $this->warning('warning: %s requires package "' . $depname . '"' .
-                        $extra);
+                    return $this->raiseError($msg);
                 }
-            } else {
-                return $this->warning('%s can optionally use package "' . $depname . '"' .
-                    $extra);
+
+                return $this->warning('warning: ' . $msg);
             }
+
+            return $this->warning('%s can optionally use package "' . $depname . '"' . $extra);
         }
+
         $fail = false;
         if (isset($dep->min)) {
             if (version_compare($version, $dep->min, '<')) {
                 $fail = true;
             }
         }
+
         if (isset($dep->max)) {
             if (version_compare($version, $dep->max, '>')) {
                 $fail = true;
             }
         }
+
         if ($fail && !$dep->conflicts) {
             $installed = $installed ? 'installed' : 'downloaded';
             $dep = Config::parsedPackageNameToString(array('package' => $dep->name,
-                                                                       'channel' => $dep->channel), true);
+                                                           'channel' => $dep->channel), true);
+
+            $msg = '%s requires package "' . $depname . '"' . $extra . ", $installed version is " . $version;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s requires package "' . $depname . '"' .
-                    $extra . ", $installed version is " . $version);
-            } else {
-                return $this->warning('warning: %s requires package "' . $depname . '"' .
-                    $extra . ", $installed version is " . $version);
+                return $this->raiseError($msg);
             }
-        } elseif (!isset($dep->exclude) && (isset($dep->min) || isset($dep->max)) && !$fail &&
-              $dep->conflicts) {
+
+            return $this->warning('warning: ' . $msg);
+        } elseif (!isset($dep->exclude) && (isset($dep->min) || isset($dep->max)) && !$fail && $dep->conflicts) {
             $installed = $installed ? 'installed' : 'downloaded';
+
+            $msg = '%s conflicts with package "' . $depname . '"' . $extra . ', ' .
+                    $installed . ' version is ' . $version;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s conflicts with package "' .
-                    $depname . '"' . $extra . ', ' . $installed . ' version is ' . $version);
-            } else {
-                return $this->warning('warning: %s conflicts with package "' .
-                    $depname . '"' . $extra . ', ' . $installed . ' version is ' . $version);
+                return $this->raiseError($msg);
             }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         if (isset($dep->exclude)) {
             // exclude ordinarily tells the installer "install anything but these versions"
             // when paired with conflicts, it becomes "install only these versions"
@@ -674,53 +697,59 @@ conflict_error:
         } elseif ($dep->conflicts) {
             return true;
         }
+
         if ($fail) {
 conflict_error:
             $installed = $installed ? 'installed' : 'downloaded';
+            $msg = '%s is not compatible with version ' . $version . ' of package "' .
+                    $depname . '", ' . $installed . ' version is ' . $version;
             if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError('%s is not compatible with version ' . $version . ' of package "' .
-                    $depname . '", ' . $installed . ' version is ' . $version);
-            } else {
-                return $this->warning('warning: %s is not compatible with version ' . $version . ' of package "' .
-                    $depname . '", ' . $installed . ' version is ' . $version);
+                return $this->raiseError($msg);
             }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         if (isset($dep->recommended)) {
             if (version_compare($version, $dep->recommended, '==')) {
                 return true;
-            } else {
-                if (!$found && $installed) {
-                    $param = Config::current()->registry->package[$dep->channel . '/' . $dep->name];
-                }
-                if ($param) {
-                    $found = false;
-                    foreach ($params as $parent) {
-                        if ($parent->name == $this->_currentPackage['package'] &&
-                              $parent->channel == $this->_currentPackage['channel']) {
-                            $found = true;
-                            break;
-                        }
-                    }
-                    if ($found) {
-                        if ($param->isCompatible($parent)) {
-                            return true;
-                        }
+            }
+
+            if (!$found && $installed) {
+                $param = Config::current()->registry->package[$dep->channel . '/' . $dep->name];
+            }
+
+            if ($param) {
+                $found = false;
+                foreach ($params as $parent) {
+                    if ($parent->name == $this->_currentPackage['package'] &&
+                          $parent->channel == $this->_currentPackage['channel']) {
+                        $found = true;
+                        break;
                     }
                 }
-                $installed = $installed ? 'installed' : 'downloaded';
-                if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force']) &&
-                      !isset(Main::$options['loose'])) {
-                    return $this->raiseError('%s dependency package "' . $depname .
-                        '" ' . $installed . ' version ' . $version .
-                        ' is not the recommended version ' . $dep->recommended .
-                        ', but may be compatible, use --force to install');
-                } else {
-                    return $this->warning('warning: %s dependency package "' . $depname .
-                        '" ' . $installed . ' version ' . $version .
-                        ' is not the recommended version ' . $dep->recommended);
+
+                if ($found) {
+                    if ($param->isCompatible($parent)) {
+                        return true;
+                    }
                 }
             }
+
+            $installed = $installed ? 'installed' : 'downloaded';
+            $msg = '%s dependency package "' . $depname . '" ' . $installed . ' version ' .
+                    $version . ' is not the recommended version ' . $dep->recommended;
+            if (
+                !isset(Main::$options['nodeps']) &&
+                !isset(Main::$options['force']) &&
+                !isset(Main::$options['loose'])
+            ) {
+                return $this->raiseError($msg . ', but may be compatible, use --force to install');
+            }
+
+            return $this->warning('warning: ' . $msg);
         }
+
         return true;
     }
 
@@ -734,24 +763,25 @@ conflict_error:
         if ($dep->conflicts) {
             return true; // uninstall OK - these packages conflict (probably installed with --force)
         }
+
         $required = $dep->deptype == 'required';
         $depname = Config::parsedPackageNameToString(array('package' => $dep->name,
                                                                        'channel' => $dep->channel), true);
         $extra = $this->_getExtraString($dep);
         if (!isset($dep->min) && !isset($dep->max) && !isset($dep->exclude)) {
             if ($required) {
+                $msg = '"' . $depname . '" is required by installed package %s' . $extra;
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError('"' . $depname . '" is required by ' .
-                        'installed package %s' . $extra);
-                } else {
-                    return $this->warning('warning: "' . $depname . '" is required by ' .
-                        'installed package %s' . $extra);
+                    return $this->raiseError($msg);
                 }
-            } else {
-                return $this->warning('"' . $depname . '" can be optionally used by ' .
-                        'installed package %s' . $extra);
+
+                return $this->warning('warning: ' . $msg);
             }
+
+            return $this->warning('"' . $depname . '" can be optionally used by ' .
+                    'installed package %s' . $extra);
         }
+
         $version = $param->version['release'];
         $fail = false;
         if (isset($dep->min)) {
@@ -761,6 +791,7 @@ conflict_error:
                 goto nofail;
             }
         }
+
         if (isset($dep->max)) {
             if (version_compare($version, $dep->max, '<=')) {
                 $fail = true;
@@ -778,20 +809,21 @@ nofail:
                 }
             }
         }
+
         if ($fail) {
             if ($required) {
+                $msg = $depname . $extra . ' is required by installed package "%s"';
                 if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                    return $this->raiseError($depname . $extra . ' is required by installed package' .
-                        ' "%s"');
-                } else {
-                    return $this->warning('warning: ' . $depname . $extra .
-                        ' is required by installed package "%s"');
+                    return $this->raiseError($msg);
                 }
-            } else {
-                return $this->warning($depname . $extra . ' can be optionally used by installed package' .
-                        ' "%s"');
+
+                return $this->warning('warning: ' . $msg);
             }
+
+            return $this->warning($depname . $extra . ' can be optionally used by installed package' .
+                    ' "%s"');
         }
+
         return true;
     }
 
@@ -824,8 +856,10 @@ nofail:
                         continue 2;
                     }
                 }
+
                 $actual[] = $package;
             }
+
             foreach ($actual as $package) {
                 $checker = new \pear2\Pyrus\Dependency\Validator(
                     array('channel' => $package->channel, 'package' => $package->name),
@@ -835,14 +869,17 @@ nofail:
                     if (isset($deps[$me])) {
                         $ret = $checker->_validatePackageDownload($deps[$me], array($pkg, $package));
                     }
+
                     $deps = $package->dependencies['required']->subpackage;
                     if (isset($deps[$me])) {
                         $ret = $checker->_validatePackageDownload($deps[$me], array($pkg));
                     }
+
                     $deps = $package->dependencies['optional']->package;
                     if (isset($deps[$me])) {
                         $ret = $checker->_validatePackageDownload($deps[$me], array($pkg, $package));
                     }
+
                     $deps = $package->dependencies['optional']->subpackage;
                     if (isset($deps[$me])) {
                         $ret = $checker->_validatePackageDownload($deps[$me], array($pkg));
@@ -850,10 +887,12 @@ nofail:
                 }
             }
         }
+
         if (count($this->errs->E_ERROR)) {
             return $this->raiseError(
                 '%s cannot be installed, conflicts with installed packages');
         }
+
         return true;
     }
 
@@ -862,16 +901,16 @@ nofail:
         if (isset(Main::$options['ignore-errors'])) {
             return $this->warning($msg);
         }
-        $this->errs->E_ERROR[] = new Exception(sprintf($msg, Config::parsedPackageNameToString(
-            $this->_currentPackage, true)));
+
+        $package = Config::parsedPackageNameToString($this->_currentPackage, true);
+        $this->errs->E_ERROR[] = new Exception(sprintf($msg, $package));
         return false;
     }
 
     function warning($msg)
     {
-        $this->errs->E_WARNING[] = new Exception(sprintf($msg, Config::parsedPackageNameToString(
-            $this->_currentPackage, true)));
+        $package = Config::parsedPackageNameToString($this->_currentPackage, true);
+        $this->errs->E_WARNING[] = new Exception(sprintf($msg, $package));
         return true;
     }
 }
-?>

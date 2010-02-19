@@ -1304,10 +1304,12 @@ return_default_value:
         }
 
         if (isset(self::$userConfigs[$this->userFile][$key])) {
-            if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
-                if (isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
-                    unset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)]);
-                    if (!count(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
+            $channelNames = array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames);
+            if (in_array($key, $channelNames)) {
+                $defaultChannel = $this->safeName($this->default_channel);
+                if (isset(self::$userConfigs[$this->userFile][$key][$defaultChannel])) {
+                    unset(self::$userConfigs[$this->userFile][$key][$defaultChannel]);
+                    if (!count(self::$userConfigs[$this->userFile][$key][$defaultChannel])) {
                         unset(self::$userConfigs[$this->userFile][$key]);
                     }
                 }
@@ -1332,7 +1334,8 @@ return_default_value:
             return isset($this->values[$key]);
         }
 
-        if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
+        $channelNames = array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames);
+        if (in_array($key, $channelNames)) {
             return isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)]);
         }
 
@@ -1366,12 +1369,14 @@ return_default_value:
             return;
         }
 
-        if (in_array($key, array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames))) {
-            if (!isset(self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)])) {
-                self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)] = array();
+        $channelNames = array_merge(self::$channelSpecificNames, self::$customChannelSpecificNames);
+        if (in_array($key, $channelNames)) {
+            $defaultChannel = $this->safeName($this->default_channel);
+            if (!isset(self::$userConfigs[$this->userFile][$key][$defaultChannel])) {
+                self::$userConfigs[$this->userFile][$key][$defaultChannel] = array();
             }
 
-            self::$userConfigs[$this->userFile][$key][$this->safeName($this->default_channel)] = $value;
+            self::$userConfigs[$this->userFile][$key][$defaultChannel] = $value;
         } else {
             self::$userConfigs[$this->userFile][$key] = $value;
         }
