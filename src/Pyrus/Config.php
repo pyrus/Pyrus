@@ -340,7 +340,7 @@ class Config
         if (substr(PHP_OS, 0, 3) == 'WIN') {
             if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php.exe')) {
                 self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php.exe';
-            } else {
+            } elseif (isset($_ENV['PATH'])) {
                 foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
                     if (file_exists($path . DIRECTORY_SEPARATOR . 'php.exe')) {
                         self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . 'php.exe';
