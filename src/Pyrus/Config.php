@@ -337,24 +337,13 @@ class Config
         }
 
         // construct php_bin
-        if (substr(PHP_OS, 0, 3) == 'WIN') {
-            if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php.exe')) {
-                self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php.exe';
-            } elseif (isset($_ENV['PATH'])) {
-                foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
-                    if (file_exists($path . DIRECTORY_SEPARATOR . 'php.exe')) {
-                        self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . 'php.exe';
-                    }
-                }
-            }
-        } else {
-            if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php')) {
-                self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . 'php';
-            } elseif (isset($_ENV['PATH'])) {
-                foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
-                    if (file_exists($path . DIRECTORY_SEPARATOR . 'php')) {
-                        self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . 'php';
-                    }
+        $bin =  substr(PHP_OS, 0, 3) == 'WIN' ? 'php.exe' : 'php';
+        if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin)) {
+            self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin;
+        } elseif (isset($_ENV['PATH'])) {
+            foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
+                if (file_exists($path . DIRECTORY_SEPARATOR . $bin)) {
+                    self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . $bin;
                 }
             }
         }
