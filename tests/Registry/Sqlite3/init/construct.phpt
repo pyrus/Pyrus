@@ -9,7 +9,7 @@ try {
     throw new Exception('did not fail');
 } catch (\pear2\Pyrus\Registry\Exception $e) {
     $test->assertEquals('Unable to initialize registry for path "' . __DIR__ . '"', $e->getMessage(), 'message');
-    $test->assertEquals(1, count($e->getCause()), 'cause');
+    $test->assertEquals(1, count($e->getPrevious()), 'cause');
 }
 
 ?>

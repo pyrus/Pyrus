@@ -3474,7 +3474,7 @@ abstract class PEAR2_Exception extends Exception
      * @access public
      * @return Exception|array The context of the exception
      */
-    public function getCause()
+    public function getPrevious()
     {
         return $this->cause;
     }

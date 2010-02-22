@@ -17,7 +17,7 @@ $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 };
 $causetest = function($message, $severity, $exception, $index, $errs) use ($test)
 {
-    $errs = $errs->getCause();
+    $errs = $errs->getPrevious();
     $test->assertIsa($exception, $errs->{$severity}[$index], 'right class');
     $test->assertEquals($message, $errs->{$severity}[$index]->getMessage(), 'right message');
 };

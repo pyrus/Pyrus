@@ -1,5 +1,7 @@
 --TEST--
 \pear2\Pyrus\Config::configSnapshot()
+--SKIPIF--
+<?php die('Skipped: for coverage'); ?>
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

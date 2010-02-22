@@ -19,7 +19,7 @@ try {
 } catch (pear2\Pyrus\Installer\Exception $e) {
     $test->assertEquals('pear2.php.net/P2 requires PHP (version >= 10000.345.56), installed version is ' .
                         phpversion(),
-                        $e->getCause()->E_ERROR[0]->getMessage(), 'right message');
+                        $e->getPrevious()->E_ERROR[0]->getMessage(), 'right message');
 }
 ?>
 ===DONE===

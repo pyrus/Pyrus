@@ -34,7 +34,7 @@ try {
     throw new Exception('should have failed');
 } catch (\pear2\Pyrus\Package\Exception $e) {
     $test->assertEquals('package "Yorng/$%#" is unknown', $e->getMessage(), 'Yorng/$%%#');
-    $test->assertEquals('Unable to process package name', $e->getCause()->getMessage(), 'name parse error');
+    $test->assertEquals('Unable to process package name', $e->getPrevious()->getMessage(), 'name parse error');
 }
 ?>
 ===DONE===

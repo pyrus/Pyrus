@@ -13,10 +13,10 @@ $testit = function($name, $message, $why) use ($test, $creg) {
         $test->assertEquals('Unable to process package name', $e->getMessage(),
                             'exception message');
         $test->assertEquals('pear2\Pyrus\ChannelRegistry\ParseException',
-                            get_class($e->getCause()), 'cause class ' . $name);
-        $test->assertEquals($message, $e->getCause()->getMessage(),
+                            get_class($e->getPrevious()), 'cause class ' . $name);
+        $test->assertEquals($message, $e->getPrevious()->getMessage(),
                             'message ' . $name);
-        $test->assertEquals($why, $e->getCause()->why, 'why '. $name);
+        $test->assertEquals($why, $e->getPrevious()->why, 'why '. $name);
     }
 };
 $testit('ftp://oops', 'parsePackageName(): only channel:// uris may ' .

@@ -16,7 +16,7 @@ $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 };
 $causetest = function($message, $severity, $exception, $index, $errs) use ($test)
 {
-    $errs = $errs->getCause();
+    $errs = $errs->getPrevious();
     $test->assertIsa($exception, $errs->{$severity}[$index], 'right class');
     $test->assertEquals($message, $errs->{$severity}[$index]->getMessage(), 'right message');
 };
@@ -25,7 +25,7 @@ $xmltest(array(), array(), 'task <replace> has no attributes in file filename', 
 
 $errs = $xmltest(array('attribs' => array()), array(),
          'Invalid replace task, multiple missing attributes', '\pear2\Pyrus\Task\Exception');
-$test->assertEquals(3, count($errs->getCause()), 'right number of missing attributes');
+$test->assertEquals(3, count($errs->getPrevious()), 'right number of missing attributes');
 $causetest('task <replace> is missing attribute "type" in file filename', 'E_ERROR',
            '\pear2\Pyrus\Task\Exception\MissingAttribute', 0, $errs);
 $causetest('task <replace> is missing attribute "to" in file filename', 'E_ERROR',
@@ -35,7 +35,7 @@ $causetest('task <replace> is missing attribute "from" in file filename', 'E_ERR
 
 $errs = $xmltest(array('attribs' => array('type' => 'package-info')), array(),
          'Invalid replace task, multiple missing attributes', '\pear2\Pyrus\Task\Exception');
-$test->assertEquals(2, count($errs->getCause()), 'right number of missing attributes');
+$test->assertEquals(2, count($errs->getPrevious()), 'right number of missing attributes');
 $causetest('task <replace> is missing attribute "to" in file filename', 'E_ERROR',
            '\pear2\Pyrus\Task\Exception\MissingAttribute', 0, $errs);
 $causetest('task <replace> is missing attribute "from" in file filename', 'E_ERROR',
@@ -43,7 +43,7 @@ $causetest('task <replace> is missing attribute "from" in file filename', 'E_ERR
 
 $errs = $xmltest(array('attribs' => array('to' => 'package-info')), array(),
          'Invalid replace task, multiple missing attributes', '\pear2\Pyrus\Task\Exception');
-$test->assertEquals(2, count($errs->getCause()), 'right number of missing attributes');
+$test->assertEquals(2, count($errs->getPrevious()), 'right number of missing attributes');
 $causetest('task <replace> is missing attribute "type" in file filename', 'E_ERROR',
            '\pear2\Pyrus\Task\Exception\MissingAttribute', 0, $errs);
 $causetest('task <replace> is missing attribute "from" in file filename', 'E_ERROR',
