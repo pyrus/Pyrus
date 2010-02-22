@@ -34,19 +34,23 @@ class Validate
     const DOWNLOADING = 4; // this is not bit-mapped like the others
     const PACKAGING = 7;
 /**#@-*/
+
     var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
     /**
      * @var \pear2\Pyrus\PackageFileInterface
      */
     var $_packagexml;
+
     /**
      * @var \pear2\Pyrus\ChannelFileInterface
      */
     var $channel;
+
     /**
      * @var int one of the \pear2\Pyrus\Validate::* constants
      */
     var $_state = Validate::NORMAL;
+
     /**
      * @var \pear2\MultiErrors
      */
@@ -475,8 +479,8 @@ class Validate
             // default of no time value set
             return true;
         }
-        // packager automatically sets time, so only validate if
-        // pear validate is called
+
+        // packager automatically sets time, so only validate if pear validate is called
         if ($this->_state = Validate::NORMAL) {
             if (!preg_match('/\d\d:\d\d:\d\d/', $this->_packagexml->time)) {
                 $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');

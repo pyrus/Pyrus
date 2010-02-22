@@ -122,30 +122,31 @@ class Installer
      */
     static function prepare(PackageInterface $package)
     {
+        $fullPackageName = $package->channel . '/' . $package->name ;
         if ($package->isPlugin()) {
             if (!isset(Main::$options['install-plugins'])) {
-                Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
+                Logger::log(0, 'Skipping plugin ' . $fullPackageName .
                                      ', use install -p/upgrade -p to manage plugins');
                 return;
             }
         }
 
-        if (!isset(static::$installPackages[$package->channel . '/' . $package->name])) {
+        if (!isset(static::$installPackages[$fullPackageName])) {
             // checking of validity for upgrade is done by \pear2\Pyrus\Package\Dependency::retrieve(),
             // so all deps that make it this far can be added
             if (Config::current()->registry->exists($package->name, $package->channel)) {
                 if (!$package->isUpgradeable() && !isset(Main::$options['force'])) {
                     // installed package is the same or newer version than this one
-                    Logger::log(1, 'Skipping installed package ' . $package->channel . '/' . $package->name);
+                    Logger::log(1, 'Skipping installed package ' . $fullPackageName);
                     return;
                 }
             }
 
-            static::$installPackages[$package->channel . '/' . $package->name] = $package;
+            static::$installPackages[$fullPackageName] = $package;
             return;
         }
 
-        $clone = static::$installPackages[$package->channel . '/' . $package->name];
+        $clone = static::$installPackages[$fullPackageName];
         if (!$package->isStatic() && $clone->isStatic()) {
             // always prefer explicitly versioned over abstract
             return;
@@ -153,7 +154,7 @@ class Installer
 
         if ($package->isStatic() && !$clone->isStatic()) {
             // always prefer explicitly versioned over abstract
-            static::$installPackages[$package->channel . '/' . $package->name] = $package;
+            static::$installPackages[$fullPackageName] = $package;
             return;
         }
 
@@ -170,7 +171,7 @@ class Installer
 
         static::rollback();
         throw new Installer\Exception('Cannot install ' .
-            $package->channel . '/' . $package->name . ', two conflicting' .
+            $fullPackageName . ', two conflicting' .
             ' versions were requested (' .
             $package->version['release'] . ' and ' . $clone->version['release'] . ')');
     }
@@ -259,13 +260,14 @@ class Installer
 
             // download non-local packages
             foreach (static::$installPackages as $package) {
+                $fullPackageName = $package->channel . '/' . $package->name;
                 $package->download();
                 if ($package->isPlugin()) {
                     // check for downloaded packages
                     if (!isset(Main::$options['install-plugins'])) {
-                        Logger::log(0, 'Skipping plugin ' . $package->channel . '/' . $package->name .
-                                             ', use install -p/upgrade -p to manage plugins');
-                        unset(static::$installPackages[$package->channel . '/' . $package->name]);
+                        Logger::log(0, 'Skipping plugin ' . $fullPackageName .
+                                        ', use install -p/upgrade -p to manage plugins');
+                        unset(static::$installPackages[$fullPackageName]);
                     }
                 }
             }
@@ -289,9 +291,9 @@ class Installer
                 $reg->begin();
                 if (isset(Main::$options['upgrade'])) {
                     foreach ($packages as $package) {
+                        $fullPackageName = $package->channel . '/' . $package->name;
                         if ($reg->exists($package->name, $package->channel)) {
-                            static::$wasInstalled[$package->channel . '/' . $package->name] =
-                                $reg->package[$package->channel . '/' . $package->name];
+                            static::$wasInstalled[$fullPackageName] = $reg->package[$fullPackageName];
                             $reg->uninstall($package->name, $package->channel);
                         }
                     }
@@ -345,32 +347,35 @@ class Installer
         // check conflicts with packages already installed
         $checked = $conflicts = array();
         foreach ($packages as $package) {
-            if (isset($checked[$package->channel . '/' . $package->name])) {
+            $fullPackageName = $package->channel . '/' . $package->name;
+            if (isset($checked[$fullPackageName])) {
                 continue;
             }
 
-            $checked[$package->channel . '/' . $package->name] = 1;
+            $checked[$fullPackageName] = 1;
             $conflict = $reg->detectFileConflicts($package);
             if (!count($conflict)) {
                 continue;
             }
 
-            $conflicts[$package->channel . '/' . $package->name] = $conflict;
+            $conflicts[$fullPackageName] = $conflict;
         }
+
         // check conflicts with other downloaded packages
         $dupes = $checked = $filelist = array();
         foreach ($packages as $package) {
-            if (isset($checked[$package->channel . '/' . $package->name])) {
+            $fullPackageName = $package->channel . '/' . $package->name;
+            if (isset($checked[$fullPackageName])) {
                 continue;
             }
 
-            $checked[$package->channel . '/' . $package->name] = 1;
+            $checked[$fullPackageName] = 1;
             foreach ($package->installcontents as $path => $info) {
                 if (isset($filelist[$info->role][$path])) {
                     $dupes[$path] = $info->role;
                 }
 
-                $filelist[$info->role][$path][] = $package->channel . '/' . $package->name;
+                $filelist[$info->role][$path][] = $fullPackageName;
             }
         }
 

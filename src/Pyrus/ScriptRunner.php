@@ -28,7 +28,8 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus;
-class ScriptRunner{
+class ScriptRunner
+{
     protected $frontend;
     static protected $skipSections;
 

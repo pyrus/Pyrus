@@ -279,6 +279,40 @@ class Config
                                         'mainuservars',
                                         'userfile',
                                         'path');
+
+    /**
+     * parse a configuration for a PEAR2 installation
+     *
+     * @param string $pearDirectory This can be either a single path, or a
+     *                              PATH_SEPARATOR-separated list of directories
+     * @param string $userfile
+     */
+    protected function __construct($pearDirectory = false, $userfile = false)
+    {
+        self::$initializing = true;
+        self::constructDefaults();
+        if ($pearDirectory) {
+            $pearDirectory = str_replace(array('\\', '//', '/'),
+                                         array('/',  '/', DIRECTORY_SEPARATOR),
+                                         $pearDirectory);
+        }
+
+        $this->loadUserSettings($pearDirectory, $userfile);
+        $pearDirectory = $this->setupCascadingRegistries($pearDirectory);
+        $this->loadConfigFile($pearDirectory);
+        $this->pearDir = $this->pearPaths = $pearDirectory;
+        if (strpos($pearDirectory, PATH_SEPARATOR)) {
+            $this->pearDir = explode(PATH_SEPARATOR, $this->pearDir);
+            $this->pearDir = $this->pearDir[0];
+        }
+
+        // Always set the current config to the most recently created one.
+        $this->packagingRoot = isset(Main::$options['packagingroot']) ?
+            Main::$options['packagingroot'] :
+            false;
+        self::$initializing = false;
+    }
+
     /**
      * Set up default configuration values that need to be determined at runtime
      *
@@ -360,39 +394,6 @@ class Config
         Logger::log(5, 'Used ' . self::$defaults['php_ini'] . ' for php.ini location');
     }
 
-    /**
-     * parse a configuration for a PEAR2 installation
-     *
-     * @param string $pearDirectory This can be either a single path, or a
-     *                              PATH_SEPARATOR-separated list of directories
-     * @param string $userfile
-     */
-    protected function __construct($pearDirectory = false, $userfile = false)
-    {
-        self::$initializing = true;
-        self::constructDefaults();
-        if ($pearDirectory) {
-            $pearDirectory = str_replace(array('\\', '//', '/'),
-                                         array('/',  '/', DIRECTORY_SEPARATOR),
-                                         $pearDirectory);
-        }
-
-        $this->loadUserSettings($pearDirectory, $userfile);
-        $pearDirectory = $this->setupCascadingRegistries($pearDirectory);
-        $this->loadConfigFile($pearDirectory);
-        $this->pearDir = $this->pearPaths = $pearDirectory;
-        if (strpos($pearDirectory, PATH_SEPARATOR)) {
-            $this->pearDir = explode(PATH_SEPARATOR, $this->pearDir);
-            $this->pearDir = $this->pearDir[0];
-        }
-
-        // Always set the current config to the most recently created one.
-        $this->packagingRoot = isset(Main::$options['packagingroot']) ?
-            Main::$options['packagingroot'] :
-            false;
-        self::$initializing = false;
-    }
-
     static function initializing()
     {
         return self::$initializing;
@@ -421,6 +422,7 @@ class Config
             if (file_exists($pearDirectory)) {
                 $pearDirectory = realpath($pearDirectory);
             }
+
             if (self::_OKPackagingRoot($pearDirectory)) {
                 self::$current = self::$configs[$pearDirectory];
                 return self::$configs[$pearDirectory];
@@ -429,12 +431,13 @@ class Config
         } else {
             $config = new static(false, $userfile);
         }
-        // now that we have a definitive path, check to see if
-        // it exists
+
+        // now that we have a definitive path, check to see ifit exists
         if (self::_OKPackagingRoot($config->path)) {
             self::$current = self::$configs[$config->path];
             return self::$configs[$config->path];
         }
+
         $pearDirectory = $config->path;
         self::$configs[$pearDirectory] = $config;
         self::$current = $config;
@@ -446,6 +449,7 @@ class Config
         if (!isset(self::$configs[$path])) {
             return false;
         }
+
         if (isset(Main::$options['packagingroot'])) {
             if (self::$configs[$path]->hasPackagingRoot()) {
                 return true;
@@ -455,6 +459,7 @@ class Config
                 return true;
             }
         }
+
         return false;
     }
 
@@ -563,6 +568,7 @@ class Config
                 return true;
             }
         }
+
         if (!file_exists($userfile)) {
             // try cwd, this could work
             $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
