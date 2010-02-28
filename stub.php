@@ -8,9 +8,12 @@ if (version_compare(phpversion(), '5.3.1', '<')) {
     }
 }
 
-foreach (array('phar', 'spl', 'pcre', 'simplexml') as $ext) {
+foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader')
+         as $ext) {
     if (!extension_loaded($ext)) {
-        echo 'Extension ', $ext, " is required\n";
+        echo "The $ext extension is required.\n"
+             . "You must compile PHP with $ext enabled, "
+             . "or install the necessary extension for your distribution.\n";
         exit -1;
     }
 }
