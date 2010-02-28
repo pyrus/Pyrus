@@ -15,7 +15,7 @@
 
 /**
  * Represents a Distinguished Encoding Rule Integer
- * 
+ *
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
@@ -46,7 +46,7 @@ class Integer extends \pear2\Pyrus\DER
     function serialize()
     {
         if (is_string($this->value)) {
-            return $this->prependTLV($value, strlen($value));
+            return $this->prependTLV($this->value, strlen($this->value));
         }
 
         if ($this->value < 0) {
