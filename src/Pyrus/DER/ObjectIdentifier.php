@@ -59,20 +59,27 @@ class ObjectIdentifier extends \pear2\Pyrus\DER
         if (!is_string($value)) {
             throw new Exception('Object Identifier must be a string');
         }
+
         $value = explode('.', $value);
         foreach ($value as $val) {
             if (!preg_match('/[0-9]+/', $val)) {
                 throw new Exception('Object Identifier must be a period-delimited string of numbers');
             }
         }
+
         $this->value = $value;
     }
 
     function serialize()
     {
-        $obj = $this->value;
+        $obj   = $this->value;
+        if (count($obj) < 4) {
+            throw new Exception('The Object Identifier value can be no less than 4 numbers in a period-delimited string');
+        }
+
         $value = chr($obj[0] * 40 + $obj[1]);
-        $obj = array_slice($obj, 2);
+        $obj   = array_slice($obj, 2);
+
         foreach ($obj as $node) {
             if ($node > 127) {
                 // value is encoded in base 128, all significant bits set to 1 except
@@ -83,6 +90,7 @@ class ObjectIdentifier extends \pear2\Pyrus\DER
                     $components[] = $node % 128;
                     $node = floor($node / 128);
                 }
+
                 $components = array_reverse($components);
                 $componentcount = count($components);
                 for ($i = 0; $i < $componentcount; $i++) {
@@ -95,6 +103,7 @@ class ObjectIdentifier extends \pear2\Pyrus\DER
                 $value .= chr((int) $node);
             }
         }
+
         return $this->prependTLV($value, strlen($value));
     }
 
