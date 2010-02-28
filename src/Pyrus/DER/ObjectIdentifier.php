@@ -62,7 +62,7 @@ class ObjectIdentifier extends \pear2\Pyrus\DER
 
         $value = explode('.', $value);
         foreach ($value as $val) {
-            if (!preg_match('/[0-9]+/', $val)) {
+            if (!preg_match('/^[0-9]+$/', $val)) {
                 throw new Exception('Object Identifier must be a period-delimited string of numbers');
             }
         }
