@@ -6,6 +6,9 @@ require __DIR__ . '/setup.php.inc';
 $test->assertEquals('06062a864886f70d', bin2hex($der->objectIdentifier('1.2.840.113549')->serialize()),
                     'RSA Object Identifier test');
 
+$test->assertEquals('06062a864886f70d06072a864886f70d0c', bin2hex($der->objectIdentifier('1.2.840.113549.12')->serialize()),
+                    'RSA Object Identifier test');
+
 try {
     // RSA Object Identifier test with invalid data input
     $der->objectIdentifier(12840113549)->serialize();
