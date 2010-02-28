@@ -15,8 +15,8 @@ try {
 
 // Test by running without serialize (or else we do not catch the exception in the objectIdentifier call)
 try {
-    // RSA Object Identifier test with data input missing delimiters
-    $der->objectIdentifier('12840113549');
+    // RSA Object Identifier test with data input with invalid data between delimiters
+    $der->objectIdentifier('128.a40113.549');
 } catch (pear2\Pyrus\DER\Exception $e) {
     $test->assertEquals('Object Identifier must be a period-delimited string of numbers', $e->getMessage(), 'error');
 }
