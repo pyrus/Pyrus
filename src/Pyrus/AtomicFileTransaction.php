@@ -365,8 +365,7 @@ class AtomicFileTransaction
                         }
                     }
 
-                    throw new AtomicFileTransaction\Exception(
-                        'Unable to fully remove ' . $path);
+                    throw new AtomicFileTransaction\Exception('Unable to fully remove ' . $path);
                 }
             } else {
                 if ($onlyEmptyDirs) {
@@ -383,7 +382,6 @@ class AtomicFileTransaction
 
                     throw new AtomicFileTransaction\Exception(
                         'Unable to fully remove ' . $path . ', directory is not empty');
-                    return;
                 }
 
                 if (!unlink($file->getPathname())) {
