@@ -40,10 +40,7 @@ class Phar extends \pear2\Pyrus\Package\Base
             throw new Phar\Exception('Phar package ' . $package . ' does not exist');
         }
 
-        if (!class_exists('Phar')) {
-            throw new Phar\Exception('Phar extension is not available');
-        }
-
+        $pxml = false;
         $this->archive = $package;
         try {
             if (\Phar::isValidPharFilename($package, 1)) {
@@ -53,8 +50,6 @@ class Phar extends \pear2\Pyrus\Package\Base
                 $phar = new \PharData($package, \RecursiveDirectoryIterator::KEY_AS_FILENAME);
                 if ($phar->getMetaData()) {
                     $pxml = 'phar://' . $package . '/' . $phar->getMetaData();
-                } else {
-                    $pxml = false;
                 }
             }
         } catch (\Exception $e) {
