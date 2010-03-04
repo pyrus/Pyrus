@@ -33,8 +33,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-01-08</date>
- <time>15:12:41</time>
+ <date>2010-03-03</date>
+ <time>19:11:42</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -2141,6 +2141,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/Validator/PECL.php"/>
    <file role="php" name="php/pear2/Pyrus/Validate/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Validate.php"/>
+   <file role="php" name="php/pear2/Pyrus/Uninstaller/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Uninstaller.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Windowseol.php"/>
    <file role="php" name="php/pear2/Pyrus/Task/Unixeol.php"/>
@@ -2224,11 +2225,7 @@ Initial pyrus public API
    <file role="php" name="php/pear2/Pyrus/PackageFile/Parser/v2.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/PackageFile.php"/>
-   <file role="php" name="php/pear2/Pyrus/Package/Zip/Exception.php"/>
-   <file role="php" name="php/pear2/Pyrus/Package/Zip.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Xml.php"/>
-   <file role="php" name="php/pear2/Pyrus/Package/Tar/Exception.php"/>
-   <file role="php" name="php/pear2/Pyrus/Package/Tar.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Remote.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Phar/Exception.php"/>
    <file role="php" name="php/pear2/Pyrus/Package/Phar.php"/>
@@ -2787,11 +2784,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Package/Phar.php" as="pear2/Pyrus/Package/Phar.php"/>
    <install name="php/pear2/Pyrus/Package/Phar/Exception.php" as="pear2/Pyrus/Package/Phar/Exception.php"/>
    <install name="php/pear2/Pyrus/Package/Remote.php" as="pear2/Pyrus/Package/Remote.php"/>
-   <install name="php/pear2/Pyrus/Package/Tar.php" as="pear2/Pyrus/Package/Tar.php"/>
-   <install name="php/pear2/Pyrus/Package/Tar/Exception.php" as="pear2/Pyrus/Package/Tar/Exception.php"/>
    <install name="php/pear2/Pyrus/Package/Xml.php" as="pear2/Pyrus/Package/Xml.php"/>
-   <install name="php/pear2/Pyrus/Package/Zip.php" as="pear2/Pyrus/Package/Zip.php"/>
-   <install name="php/pear2/Pyrus/Package/Zip/Exception.php" as="pear2/Pyrus/Package/Zip/Exception.php"/>
    <install name="php/pear2/Pyrus/PackageFile.php" as="pear2/Pyrus/PackageFile.php"/>
    <install name="php/pear2/Pyrus/PackageFile/Exception.php" as="pear2/Pyrus/PackageFile/Exception.php"/>
    <install name="php/pear2/Pyrus/PackageFile/Parser/v2.php" as="pear2/Pyrus/PackageFile/Parser/v2.php"/>
@@ -2875,6 +2868,7 @@ Initial pyrus public API
    <install name="php/pear2/Pyrus/Task/Unixeol.php" as="pear2/Pyrus/Task/Unixeol.php"/>
    <install name="php/pear2/Pyrus/Task/Windowseol.php" as="pear2/Pyrus/Task/Windowseol.php"/>
    <install name="php/pear2/Pyrus/Uninstaller.php" as="pear2/Pyrus/Uninstaller.php"/>
+   <install name="php/pear2/Pyrus/Uninstaller/Exception.php" as="pear2/Pyrus/Uninstaller/Exception.php"/>
    <install name="php/pear2/Pyrus/Validate.php" as="pear2/Pyrus/Validate.php"/>
    <install name="php/pear2/Pyrus/Validate/Exception.php" as="pear2/Pyrus/Validate/Exception.php"/>
    <install name="php/pear2/Pyrus/Validator/PECL.php" as="pear2/Pyrus/Validator/PECL.php"/>
