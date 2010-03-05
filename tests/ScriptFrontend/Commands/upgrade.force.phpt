@@ -20,6 +20,7 @@ $cli->run($args = array (__DIR__ . '/testit', 'install', '-p',
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
+                    . 'Downloading pear2.php.net/PEAR2_Pyrus_Developer' . "\n"
                     . 'Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
                     $contents,
                     'list packages');
@@ -27,7 +28,7 @@ $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEP
 $test->assertFileExists(__DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
                         'PEAR2SVN.php not installed properly');
 $test->assertEquals(array (
-  __DIR__ . '/testit/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/commands.xml' => 
+  __DIR__ . '/testit/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/commands.xml' =>
   array (
     'role' => 'customcommand',
     'name' => 'customcommand/commands.xml',
@@ -36,7 +37,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2_Pyrus_Developer/pear2.php.net/commands.xml',
     'configpath' => __DIR__ . '/testit/plugins/data',
   ),
-  __DIR__ . '/testit/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/phartemplate.php' => 
+  __DIR__ . '/testit/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/phartemplate.php' =>
   array (
     'role' => 'data',
     'name' => 'data/phartemplate.php',
@@ -45,7 +46,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2_Pyrus_Developer/pear2.php.net/phartemplate.php',
     'configpath' => __DIR__ . '/testit/plugins/data',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Exception.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Exception.php',
@@ -54,7 +55,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Exception.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Phar.php',
@@ -63,7 +64,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Phar.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Phar/PHPArchive.php',
@@ -72,7 +73,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Tar.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Tar.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Tar.php',
@@ -81,7 +82,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Tar.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Xml.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Xml.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Xml.php',
@@ -90,7 +91,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Xml.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Zip.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/Creator/Zip.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Zip.php',
@@ -99,7 +100,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Zip.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/Commands.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/Commands.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/Commands.php',
@@ -108,7 +109,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/Commands.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/PEAR2SVN.php',
@@ -117,7 +118,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
@@ -126,7 +127,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/v2.php' => 
+  __DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/v2.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/v2.php',
@@ -148,6 +149,7 @@ $cli->run($args = array (__DIR__ . '/testit', 'upgrade', '-f', '-p',
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
+                    . 'Downloading pear2.php.net/PEAR2_Pyrus_Developer' . "\n"
                     . 'Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
                     $contents,
                     'list packages');
