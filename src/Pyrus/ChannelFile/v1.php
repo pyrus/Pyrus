@@ -184,12 +184,16 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (isset($this->getMap[$var])) {
             return $this->{$this->getMap[$var]}($var);
         }
-        if ($var == 'remotepackages') {
-            return new \pear2\Pyrus\Channel\RemotePackages($this);
-        } elseif ($var == 'remotepackage') {
-            return new \pear2\Pyrus\Channel\RemotePackage($this, false);
-        } elseif ($var == 'remotecategories') {
-            return new \pear2\Pyrus\Channel\RemoteCategories($this);
+
+        switch($var) {
+            case 'remotepackages':
+                return new \pear2\Pyrus\Channel\RemotePackages($this);
+            case 'remotepackage':
+                return new \pear2\Pyrus\Channel\RemotePackage($this, false);
+            case 'remotecategories':
+                return new \pear2\Pyrus\Channel\RemoteCategories($this);
+            case 'remotemaintainers':
+                return new \pear2\Pyrus\Channel\RemoteMaintainers($this);
         }
 
         if (!isset($this->channelInfo[$var])) {
