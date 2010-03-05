@@ -261,6 +261,7 @@ class Installer
             // download non-local packages
             foreach (static::$installPackages as $package) {
                 $fullPackageName = $package->channel . '/' . $package->name;
+                Logger::log(1, 'Downloading '.$fullPackageName);
                 $package->download();
                 if ($package->isPlugin()) {
                     // check for downloaded packages
