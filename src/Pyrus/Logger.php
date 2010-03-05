@@ -47,11 +47,11 @@ class Logger
 
     static public function attach(LogInterface $observer)
     {
-        self::$observers[spl_object_hash($observer)] = $observer;
+        self::$observers[get_class($observer)] = $observer;
     }
 
     static public function detach(LogInterface $observer)
     {
-        unset(self::$observers[spl_object_hash($observer)]);
+        unset(self::$observers[get_class($observer)]);
     }
 }
