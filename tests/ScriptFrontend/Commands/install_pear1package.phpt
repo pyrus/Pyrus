@@ -19,7 +19,8 @@ $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__ . '/packages/Ne
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . 'Installed pear.php.net/Net_URL-1.0.15' . "\n",
+                    . 'Downloading pear.php.net/Net_URL
+Installed pear.php.net/Net_URL-1.0.15' . "\n",
                     $contents,
                     'list packages');
                     

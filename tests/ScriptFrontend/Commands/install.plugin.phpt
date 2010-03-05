@@ -20,7 +20,8 @@ $cli->run($args = array (__DIR__ . '/testit', 'install', '-p',
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . 'Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
+                    . 'Downloading pear2.php.net/PEAR2_Pyrus_Developer
+Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
                     $contents,
                     'list packages');
 

@@ -27,7 +27,10 @@ $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n" .
 '
+Downloading pear2.php.net/P1
 
+Downloading pear2.php.net/P2
+Downloading pear2.php.net/P6
 Installed pear2.php.net/P1-1.0.0
 Installed pear2.php.net/P2-1.0.0
 Installed pear2.php.net/P6-1.0.0

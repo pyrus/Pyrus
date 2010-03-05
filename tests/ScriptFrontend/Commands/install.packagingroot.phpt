@@ -21,7 +21,8 @@ $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../Mocks/S
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . 'Installed pear2.php.net/PEAR2_SimpleChannelServer-0.1.0' . "\n",
+                    . 'Downloading pear2.php.net/PEAR2_SimpleChannelServer
+Installed pear2.php.net/PEAR2_SimpleChannelServer-0.1.0' . "\n",
                     $contents,
                     'installation info');
 

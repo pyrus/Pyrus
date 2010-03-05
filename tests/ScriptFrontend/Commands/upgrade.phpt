@@ -32,7 +32,9 @@ $cli->run($args = array (__DIR__ . '/testit', 'upgrade', 'P2-beta'));
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . 'Installed pear2.php.net/P2-1.1.0RC3' . "\n",
+                    . 'Downloading pear2.php.net/P2
+
+Installed pear2.php.net/P2-1.1.0RC3' . "\n",
                     $contents,
                     'list packages');
 
