@@ -24,7 +24,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\ChannelRegistry\Mirror;
-class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Channel\Sqlite3
+class Sqlite3 extends \pear2\Pyrus\ChannelRegistry\Sqlite3
     implements \pear2\Pyrus\Channel\MirrorInterface
 {
     private $_channel;

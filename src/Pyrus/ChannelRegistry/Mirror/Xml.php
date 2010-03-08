@@ -24,7 +24,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\ChannelRegistry\Mirror;
-class Xml extends \pear2\Pyrus\Channel\Mirror
+class Xml extends \pear2\Pyrus\ChannelFile\v1\Mirror
 {
     private $_parent;
     function __construct(&$mirrorarray, \pear2\Pyrus\ChannelInterface $parent,
