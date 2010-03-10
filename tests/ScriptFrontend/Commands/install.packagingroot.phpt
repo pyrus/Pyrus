@@ -21,8 +21,8 @@ $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../Mocks/S
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . 'Downloading pear2.php.net/PEAR2_SimpleChannelServer
-Installed pear2.php.net/PEAR2_SimpleChannelServer-0.1.0' . "\n",
+                    . 'Downloading pear2.php.net/PEAR2_SimpleChannelServer' . "\n"
+                    . 'Installed pear2.php.net/PEAR2_SimpleChannelServer-0.1.0' . "\n",
                     $contents,
                     'installation info');
 
@@ -35,7 +35,7 @@ $test->assertEquals(file_get_contents(__DIR__.'/../../Mocks/SimpleChannelServer/
                     file_get_contents(__DIR__ . '/testit/' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' =>
   array (
     'role' => 'doc',
     'name' => 'examples/update_channel.php',
@@ -43,7 +43,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/docs',
   ),
-  __DIR__ . '/testit/bin/pearscs' => 
+  __DIR__ . '/testit/bin/pearscs' =>
   array (
     'role' => 'script',
     'name' => 'scripts/pearscs',
@@ -52,7 +52,7 @@ $test->assertEquals(array (
     'relativepath' => 'pearscs',
     'configpath' => __DIR__ . '/testit/bin',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer.php',
@@ -61,7 +61,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/CLI.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/CLI.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/CLI.php',
@@ -70,7 +70,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/CLI.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Categories.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Categories.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Categories.php',
@@ -79,7 +79,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Categories.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Categories/Exception.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Categories/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Categories/Exception.php',
@@ -88,7 +88,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Categories/Exception.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Channel.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Channel.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Channel.php',
@@ -97,7 +97,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Channel.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Exception.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Exception.php',
@@ -106,7 +106,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Exception.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Get.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/Get.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Get.php',
@@ -115,7 +115,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Get.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Category.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Category.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Category.php',
@@ -124,7 +124,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Category.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Maintainer.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Maintainer.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
@@ -133,7 +133,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Maintainer.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Manager.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Manager.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Manager.php',
@@ -142,7 +142,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Manager.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Package.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Package.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Package.php',
@@ -151,7 +151,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Package.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Release.php' => 
+  '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php/PEAR2/SimpleChannelServer/REST/Release.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Release.php',

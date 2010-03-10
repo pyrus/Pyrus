@@ -18,7 +18,7 @@ try {
     $test->assertEquals('pear', $channel->suggestedalias, 'getSuggestedAlias');
     $test->assertEquals(false, $channel->ssl, 'getSSL');
     $test->assertEquals(80, $channel->port, 'getPort');
-    
+
     $restbase = 'http://pear.php.net/';
     require __DIR__ . '/rest.template';
 
@@ -35,23 +35,23 @@ try {
     } catch (\pear2\Pyrus\ChannelFile\Exception $e) {
         $test->assertEquals('Unknown protocol: poop', $e->getMessage(), 'error set');
     }
-    
+
     $mirrors = $channel->mirrors;
     $test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Servers', $mirrors, 'Mirrors returns object');
     $test->assertEquals(2, count($mirrors), 'Two mirrors returned');
     $test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Mirror', $mirrors['us.pear.php.net'], 'Mirror returned is \pear2\Pyrus\ChannelFile\v1\Mirror object');
     $test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Mirror', $mirrors['de.pear.php.net'], 'Mirror returned is \pear2\Pyrus\ChannelFile\v1\Mirror object');
-    
+
     $test->assertEquals(array('attribs'=>array(
                                 'version' => 'default'),
                                 '_content'=>'PEAR_Validate'), $channel->getValidationPackage(), 'getValidationPackage');
-    
+
     $test->assertEquals(true, $channel->getValidationObject() instanceof \pear2\Pyrus\Validate, 'getValidationObject');
-    
+
     // should be moved to a separate test?
     $test->assertEquals(true, $channel->validChannelServer('__uri'), 'validChannelServer(__uri)');
     $test->assertEquals(true, $channel->validChannelServer('pear.php.net'), 'validChannelServer(pear.php.net)');
-    
+
 } catch(Exception $e) {
     echo $e;
     $thrown = true;
