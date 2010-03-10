@@ -6,6 +6,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     protected $info;
     protected $type;
     protected $index;
+
     function __construct($parent, array $info, $type, $index = null)
     {
         $this->parent = $parent;
@@ -22,6 +23,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
                 $info[$key] = null;
             }
         }
+
         return new UsesRoleTask($this, $info, $this->type, key($this->info));
     }
 
@@ -53,12 +55,12 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
 
     function locateRoleTask($name)
     {
-        foreach ($this->info as $i => $dep)
-        {
+        foreach ($this->info as $i => $dep) {
             if (isset($dep[$this->type]) && $dep[$this->type] == $name) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -68,6 +70,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
             throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
+
         $i = $this->locateRoleTask($var);
         if (false === $i) {
             $i = count($this->info);
@@ -80,6 +83,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
                 }
             }
         }
+
         return new UsesRoleTask($this, $info, $this->type, $i);
     }
 
@@ -89,18 +93,22 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
             throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
+
         if (!($value instanceof UsesRoleTask)) {
             throw new UsesRoleTask\Exception(
                 'Can only set uses' . $this->type . ' to a \pear2\Pyrus\PackageFile\v2\UsesRoleTask object');
         }
+
         if ($value->type != $this->type) {
             throw new UsesRoleTask\Exception(
                 'Cannot set uses' . $this->type . ' to a uses' . $value->type . ' object');
         }
+
         $i = $this->locateRoleTask($var);
         if (false === $i) {
             $i = count($this->info);
         }
+
         $this->info[$i] = array($this->type => $var,
                                 'package' => $value->package,
                                 'channel' => $value->channel,
@@ -114,6 +122,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
             throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
+
         $i = $this->locateRoleTask($var);
         return $i !== false;
     }
@@ -124,10 +133,12 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
             throw new UsesRoleTask\Exception(
                 'use -> operator to access properties of a uses' . $this->type);
         }
+
         $i = $this->locateRoleTask($var);
         if ($i === false) {
             return;
         }
+
         unset($this->info[$i]);
         $this->info = array_values($this->info);
         $this->save();
@@ -136,15 +147,16 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __unset($var)
     {
         if ($this->index === null) {
-            throw new UsesRoleTask\Exception(
-                'use [] operator to access uses' . $this->type . 's');
+            throw new UsesRoleTask\Exception('use [] operator to access uses' . $this->type . 's');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new UsesRoleTask\Exception(
                 'Unknown variable ' . $var . ' requested, should be one of ' .
                 implode(', ', array_keys($this->info))
             );
         }
+
         $this->info[$var] = null;
         $this->save();
     }
@@ -152,15 +164,16 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __isset($var)
     {
         if ($this->index === null) {
-            throw new UsesRoleTask\Exception(
-                'use [] operator to access uses' . $this->type . 's');
+            throw new UsesRoleTask\Exception('use [] operator to access uses' . $this->type . 's');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new UsesRoleTask\Exception(
                 'Unknown variable ' . $var . ' requested, should be one of ' .
                 implode(', ', array_keys($this->info))
             );
         }
+
         return isset($this->info[$var]);
     }
 
@@ -172,24 +185,27 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
     function __call($var, $args)
     {
         if ($this->index === null) {
-            throw new UsesRoleTask\Exception(
-                'use [] operator to access uses' . $this->type . 's');
+            throw new UsesRoleTask\Exception('use [] operator to access uses' . $this->type . 's');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new UsesRoleTask\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
+
         if ($args[0] === null) {
             $this->info[$var] = null;
             $this->save();
             return $this;
         }
+
         if ($var === 'channel' || $var === 'package') {
             $this->info['uri'] = null;
         } elseif ($var === 'uri') {
             $this->info['channel'] = null;
             $this->info['package'] = null;
         }
+
         $this->info[$var] = $args[0];
         $this->save();
         return $this;
@@ -200,16 +216,20 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
         if ($this->index === null) {
             throw new UsesRoleTask\Exception('use [] operator to access uses' . $this->type . 's');
         }
+
         if ($var === 'type') {
             return 'uses' . $this->type;
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new UsesRoleTask\Exception('Unknown variable ' . $var . ', must be one of ' .
                             implode(', ', array_keys($this->info)));
         }
+
         if (!isset($this->info[$var])) {
             return null;
         }
+
         return $this->info[$var];
     }
 
@@ -225,6 +245,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
                 unset($info[$key]);
             }
         }
+
         $this->info[$index] = $info;
     }
 
@@ -235,10 +256,12 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
             $this->parent->save();
             return;
         }
+
         $info = $this->info;
         if (count($info) == 1) {
             $info = $info[0];
         }
+
         $this->parent->{'rawuses' . $this->type} = $info;
     }
 }

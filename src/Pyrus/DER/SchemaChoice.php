@@ -36,6 +36,7 @@ class SchemaChoice extends Schema
         if ($name !== null) {
             $this->name = $name;
         }
+
         if ($tag !== null) {
             $this->tag = 0x80 | $tag;
         }
@@ -46,20 +47,21 @@ class SchemaChoice extends Schema
         if ($tag === $this->tag) {
             return $this;
         }
+
         foreach ($this->objs as $obj) {
             if ($obj instanceof self) {
                 if ($test = $obj->findTag($tag)) {
                     if (!$test->class) {
                         $test->setClass('pear2\Pyrus\DER\Choice');
                     }
+
                     return $test;
                 }
-            } else {
-                if ($obj->tag === $tag) {
-                    return $obj;
-                }
+            } elseif ($obj->tag === $tag) {
+                return $obj;
             }
         }
+
         return false;
     }
 
@@ -70,6 +72,7 @@ class SchemaChoice extends Schema
         } else {
             $this->$type($name, $index);
         }
+
         return $this;
     }
 }

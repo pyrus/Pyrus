@@ -79,6 +79,7 @@ class BinaryPackage implements \ArrayAccess, \Iterator, \Countable
         if (!isset($this->info[$var])) {
             return null;
         }
+
         return $var;
     }
 
@@ -87,6 +88,7 @@ class BinaryPackage implements \ArrayAccess, \Iterator, \Countable
         if (!is_string($value)) {
             throw new Exception('Can only set binarypackage to string');
         }
+
         $this->info[$value] = 1;
         $this->save();
     }
@@ -102,6 +104,7 @@ class BinaryPackage implements \ArrayAccess, \Iterator, \Countable
         if (count($ret) == 1) {
             return $ret[0];
         }
+
         return $ret;
     }
 

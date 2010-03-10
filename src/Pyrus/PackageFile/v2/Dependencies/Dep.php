@@ -22,6 +22,7 @@ class Dep implements \ArrayAccess, \Iterator
         if (count($this->info) && !isset($this->info[0])) {
             $this->info = array($this->info);
         }
+
         reset($this->info);
     }
 
@@ -47,15 +48,18 @@ class Dep implements \ArrayAccess, \Iterator
                 if ($var == 'name' || $var == 'conflicts') {
                     goto set_ok;
                 }
+
                 $keys = array('name', 'conflicts');
             } elseif ($this->type == 'arch') {
                 if ($var == 'pattern' || $var == 'conflicts') {
                     goto set_ok;
                 }
+
                 $keys = array('pattern', 'conflicts');
             } else {
                 $keys = array_keys($this->info);
             }
+
             throw new Exception('Unknown variable ' . $var . ', must be one of ' . implode(', ', $keys));
         }
 set_ok:
@@ -64,6 +68,7 @@ set_ok:
             $this->save();
             return $this;
         }
+
         if ($var == 'exclude') {
             if (!isset($this->info[$var])) {
                 $this->info[$var] = $args;
@@ -71,6 +76,7 @@ set_ok:
                 if (!is_array($this->info[$var])) {
                     $this->info[$var] = array($this->info[$var]);
                 }
+
                 $this->info[$var] = array_merge($this->info[$var], $args);
             }
         } elseif ($var == 'conflicts') {
@@ -82,6 +88,7 @@ set_ok:
         } else {
             $this->info[$var] = $args[0];
         }
+
         $this->save();
         return $this;
     }
@@ -91,6 +98,7 @@ set_ok:
         if (!isset($this->info[$var])) {
             return null;
         }
+
         if ($var == 'exclude') {
             $ret = $this->info['exclude'];
             if (!is_array($ret)) {
@@ -100,8 +108,10 @@ set_ok:
             if (isset($this->info['conflicts'])) {
                 return true;
             }
+
             return false;
         }
+
         return $this->info[$var];
     }
 
@@ -120,13 +130,14 @@ set_ok:
         if (count($this->info) && !isset($this->info[0])) {
             $this->info = array($this->info);
         }
-        foreach ($this->info as $i => $dep)
-        {
+
+        foreach ($this->info as $i => $dep) {
             $pattern = ($this->type == 'os') ? 'name' : 'pattern';
             if (isset($dep[$pattern]) && $dep[$pattern] == $name) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -136,6 +147,7 @@ set_ok:
         if (false === $i) {
             return null;
         }
+
         return !isset($this->info[$i]['conflicts']);
     }
 
@@ -147,6 +159,7 @@ set_ok:
             $pattern = ($this->type == 'os') ? 'name' : 'pattern';
             $this->info[] = array($pattern => $var);
         }
+
         if ($value) {
             if (isset($this->info[$i]['conflicts'])) {
                 unset($this->info[$i]['conflicts']);
@@ -154,6 +167,7 @@ set_ok:
         } else {
             $this->info[$i]['conflicts'] = '';
         }
+
         $this->save();
     }
 
@@ -168,6 +182,7 @@ set_ok:
         if ($i === false) {
             return;
         }
+
         unset($this->info[$i]);
         $this->info = array_values($this->info);
         $this->save();
@@ -192,6 +207,7 @@ set_ok:
                 $info = $info[0];
             }
         }
+
         $this->parent->setInfo($this->type, $info);
         $this->parent->save();
         return $this;

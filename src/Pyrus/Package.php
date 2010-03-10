@@ -36,7 +36,7 @@ class Package implements \pear2\Pyrus\PackageInterface
     /**
      * The actual package representation
      *
-     * @var \pear2\Pyrus\Package\Xml|\pear2\Pyrus\Package\Tar|\pear2\Pyrus\Package\Phar
+     * @var \pear2\Pyrus\Package\Xml|\pear2\Pyrus\Package\Phar
      */
     protected $internal;
     protected $from;

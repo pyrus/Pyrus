@@ -84,6 +84,7 @@ class Release implements \ArrayAccess, \Countable
         if (!isset($this->index)) {
             return false;
         }
+
         return isset($this->info[$var]);
     }
 
@@ -92,6 +93,7 @@ class Release implements \ArrayAccess, \Countable
         if (!isset($this->index)) {
             return null;
         }
+
         if ($var === 'configureoption') {
             if (!isset($this->info['configureoption'])) {
                 $info = array();
@@ -101,8 +103,10 @@ class Release implements \ArrayAccess, \Countable
                     $info = array($info);
                 }
             }
+
             return new Release\ConfigureOption($this, $info);
         }
+
         if ($var === 'binarypackage') {
             if (!isset($this->info['binarypackage'])) {
                 $info = array();
@@ -112,15 +116,19 @@ class Release implements \ArrayAccess, \Countable
                     $info = array($info);
                 }
             }
+
             return new Release\BinaryPackage($this, $info);
         }
+
         if ($var === 'installconditions') {
             if (!isset($this->info['installcondition'])) {
                 $this->info['installcondition'] = array();
             }
+
             $conditions = new Release\InstallCondition($this, $this->info['installcondition']);
             return $conditions;
         }
+
         throw new Release\Exception('Unknown variable ' . $var . ', installconditions is the only supported variable');
     }
 
@@ -139,6 +147,7 @@ class Release implements \ArrayAccess, \Countable
         if (isset($this->index)) {
             return 1;
         }
+
         return count($this->info);
     }
 
@@ -151,17 +160,20 @@ class Release implements \ArrayAccess, \Countable
                         throw new Release\Exception('Can only set the next highest release index ' .
                                                     count($this) . ', not ' . $var);
                     }
+
                     $this->info[$var] = array();
                 }
-                return new Release($this, $this->info[$var], $this->_filelist, $var);
-            } else {
-                if ($var !== 0) {
-                    throw new Release\Exception('Can only set the ' .
-                        'next highest release index 0, not ' . $var);
-                }
-                $this->info[$var] = array();
+
                 return new Release($this, $this->info[$var], $this->_filelist, $var);
             }
+
+            if ($var !== 0) {
+                throw new Release\Exception('Can only set the ' .
+                    'next highest release index 0, not ' . $var);
+            }
+
+            $this->info[$var] = array();
+            return new Release($this, $this->info[$var], $this->_filelist, $var);
         }
     }
 
@@ -173,9 +185,11 @@ class Release implements \ArrayAccess, \Countable
         if (!isset($this->index)) {
             return null;
         }
+
         if (!isset($this->info['installcondition'])) {
             return false;
         }
+
         return $this->info['installcondition'];
     }
 
@@ -184,12 +198,15 @@ class Release implements \ArrayAccess, \Countable
         if (!isset($this->index)) {
             return null;
         }
+
         if (!isset($this->info['filelist'])) {
             return false;
         }
+
         if (!isset($this->info['filelist']['install'])) {
             return false;
         }
+
         return $this->info['filelist']['install'];
     }
 
@@ -198,12 +215,15 @@ class Release implements \ArrayAccess, \Countable
         if (!isset($this->index)) {
             return null;
         }
+
         if (!isset($this->info['filelist'])) {
             return false;
         }
+
         if (!isset($this->info['filelist']['ignore'])) {
             return false;
         }
+
         return $this->info['filelist']['ignore'];
     }
 
@@ -213,14 +233,17 @@ class Release implements \ArrayAccess, \Countable
         if (!$ignore) {
             return false;
         }
+
         if (!isset($ignore[0])) {
             $ignore = array($ignore);
         }
+
         foreach ($ignore as $ignored) {
             if ($ignored['attribs']['name'] == $file) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -230,14 +253,17 @@ class Release implements \ArrayAccess, \Countable
         if (!$install) {
             return $file;
         }
+
         if (!isset($install[0])) {
             $install = array($install);
         }
+
         foreach ($install as $as) {
             if ($as['attribs']['name'] == $file) {
                 return $as['attribs']['as'];
             }
         }
+
         return $file;
     }
 
@@ -247,17 +273,19 @@ class Release implements \ArrayAccess, \Countable
             $var = count($this->info);
         }
 
-        if (is_int($var)) {
-            if ($value instanceof Release) {
-                $this->info[$var] = array('installcondition' => $value->getInstallCondition(),
-                                          'install' => $value->getInstallAs(),
-                                          'ignore' => $value->getIgnore());
-                $this->save();
-                return;
-            }
-            throw new Release\Exception('Cannot set ' . $var . ' to non-\pear2\Pyrus\PackageFile\v2\Release');
+        if (is_int($var) === false) {
+            throw new Release\Exception('Cannot set ' . $var);
         }
-        throw new Release\Exception('Cannot set ' . $var);
+
+        if ($value instanceof Release) {
+            $this->info[$var] = array('installcondition' => $value->getInstallCondition(),
+                                      'install' => $value->getInstallAs(),
+                                      'ignore' => $value->getIgnore());
+            $this->save();
+            return;
+        }
+
+        throw new Release\Exception('Cannot set ' . $var . ' to non-\pear2\Pyrus\PackageFile\v2\Release');
     }
 
     /**
@@ -284,18 +312,22 @@ class Release implements \ArrayAccess, \Countable
             throw new Release\Exception('Cannot ignore file ' .
                                         $file . ' without specifying which release section to ignore it in');
         }
+
         if (isset($this->_filelist[$file])) {
             if (!isset($this->info['filelist'])) {
                 $this->info['filelist'] = array();
             }
+
             if (!isset($this->info['filelist']['ignore'])) {
                 $this->info['filelist']['ignore'] = array(array('attribs' => array('name' => $file)));
             } else {
                 if (!isset($this->info['filelist']['ignore'][0])) {
                     $this->info['filelist']['ignore'] = array($this->info['filelist']['ignore']);
                 }
+
                 $this->info['filelist']['ignore'][] = array('attribs' => array('name' => $file));
             }
+
             $this->save();
             return;
         }
@@ -314,6 +346,7 @@ class Release implements \ArrayAccess, \Countable
             if (!isset($this->info['filelist'])) {
                 $this->info['filelist'] = array();
             }
+
             if (!isset($this->info['filelist']['install'])) {
                 $this->info['filelist']['install'] = array(array('attribs' =>
                     array('name' => $file, 'as' => $newname)));
@@ -321,9 +354,11 @@ class Release implements \ArrayAccess, \Countable
                 if (!isset($this->info['filelist']['install'][0])) {
                     $this->info['filelist']['install'] = array($this->info['filelist']['install']);
                 }
+
                 $this->info['filelist']['install'][] = array('attribs' =>
                     array('name' => $file, 'as' => $newname));
             }
+
             $this->save();
             return;
         }
@@ -352,54 +387,66 @@ class Release implements \ArrayAccess, \Countable
             $this->_parent->setReleaseInfo($this->index, $this->info);
             return $this->_parent->save();
         }
+
         $newXml = $this->info;
         foreach ($newXml as $index => $info) {
             if (isset($info['filelist'])) {
                 if (isset($info['filelist']['ignore']) && count($info['filelist']['ignore']) == 1 && !isset($info['filelist']['ignore']['attribs'])) {
                     $newXml[$index]['filelist']['ignore'] = $newXml[$index]['filelist']['ignore'][0];
                 }
+
                 if (isset($info['filelist']['install']) && count($info['filelist']['install']) == 1 && !isset($info['filelist']['install']['attribs'])) {
                     $newXml[$index]['filelist']['install'] = $newXml[$index]['filelist']['install'][0];
                 }
+
                 if (array_key_exists('ignore', $info['filelist']) && !count($info['filelist']['ignore'])) {
                     unset($newXml[$index]['filelist']['ignore']);
                 }
+
                 if (array_key_exists('install', $info['filelist']) && !count($info['filelist']['install'])) {
                     unset($newXml[$index]['filelist']['install']);
                 }
             }
+
             if (array_key_exists('installcondition', $info) && count($info['installcondition'])) {
                 foreach (array('php', 'os', 'arch') as $key) {
                     if (!isset($info['installcondition'][$key])) {
                         continue;
                     }
+
                     foreach (array_keys($info['installcondition'][$key]) as $ikey) {
                         if ($info['installcondition'][$key][$ikey] === null) {
                             unset($newXml[$index]['installcondition'][$key][$ikey]);
                         }
                     }
+
                     if (!count($newXml[$index]['installcondition'][$key])) {
                         unset($newXml[$index]['installcondition'][$key]);
                     }
                 }
+
                 if (array_key_exists('extension', $info['installcondition']) && !count($info['installcondition']['extension'])) {
                     unset($newXml[$index]['installcondition']['extension']);
                 }
+
                 if (isset($info['installcondition']['extension'])) {
                     if (!isset($info['installcondition']['extension'][0])) {
                         $newXml[$index]['installcondition']['extension'] = $info['installcondition']['extension'] =
                             array($info['installcondition']['extension']);
                     }
+
                     foreach ($info['installcondition']['extension'] as $extkey => $ext) {
                         foreach (array_keys($ext) as $key) {
                             if ($ext[$key] === null) {
                                 unset($newXml[$index]['installcondition']['extension'][$extkey][$key]);
                             }
                         }
+
                         if (!count($newXml[$index]['installcondition']['extension'][$extkey])) {
                             unset($newXml[$index]['installcondition']['extension'][$extkey]);
                         }
                     }
+
                     if (count($newXml[$index]['installcondition']['extension']) == 1) {
                         $newXml[$index]['installcondition']['extension'] =
                             array_values($newXml[$index]['installcondition']['extension']);
@@ -418,9 +465,11 @@ class Release implements \ArrayAccess, \Countable
                 unset($newXml[$index]['installcondition']);
             }
         }
+
         if (count($newXml) == 1) {
             $newXml = $newXml[0];
         }
+
         $this->_parent->rawrelease = $newXml;
     }
 }

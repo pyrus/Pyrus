@@ -29,6 +29,7 @@ class v2 extends \pear2\Pyrus\XMLParser
     private $_inContents = false;
     private $_path = '';
     private $_files = array();
+
     /**
      * Mapping of directories within package.xml and their baseinstalldir settings
      * @var array
@@ -38,6 +39,7 @@ class v2 extends \pear2\Pyrus\XMLParser
     private $_lastFileDepth = 0;
     private $_inFile = 0;
     private $_curFile;
+
     /**
      * Unindent given string
      *
@@ -59,6 +61,7 @@ class v2 extends \pear2\Pyrus\XMLParser
                 $data .= substr($line, $indent_len) . "\n";
             }
         }
+
         return $data;
     }
 
@@ -73,18 +76,19 @@ class v2 extends \pear2\Pyrus\XMLParser
         if ($element == 'notes') {
             return trim($this->_unIndent($data));
         }
+
         return trim($data);
     }
 
     /**
      * Parses a string containing package xml and returns an object
-     * 
+     *
      * @param string       $data  data to parse
      * @param string|false $file  name of the archive this package.xml came from, if any
      * @param string       $class class name to instantiate and return.
      *                            This must be pear2\Pyrus\PackageFile\v2 or a subclass
      * @param int          $state what state we are currently in
-     * 
+     *
      * @return \pear2\Pyrus\PackageFile\v2
      */
     function parse($data, $file = false, $class = 'pear2\Pyrus\PackageFile\v2', $state = \pear2\Pyrus\Validate::NORMAL)
@@ -115,11 +119,13 @@ class v2 extends \pear2\Pyrus\XMLParser
         } else {
             throw new \pear2\Pyrus\PackageFile\Exception('Cannot process package.xml version 1.0', -3);
         }
+
         try {
             $ret->fromArray(parent::parseString($data, $schema));
         } catch (\Exception $e) {
             throw new \pear2\Pyrus\PackageFile\Exception('Invalid package.xml', $e);
         }
+
         $ret->setFileList($this->_files);
         $ret->setBaseInstallDirs($this->_baseinstalldirs);
         $ret->setPackagefile($file);
@@ -147,6 +153,7 @@ class v2 extends \pear2\Pyrus\XMLParser
                     $this->_inFile = 0;
                 }
             }
+
             if ($name === 'dir') {
                 while ($this->_lastDepth >= $depth) {
                     $this->_path = dirname($this->_path);
@@ -157,6 +164,7 @@ class v2 extends \pear2\Pyrus\XMLParser
                     }
                     $this->_lastDepth--;
                 }
+
                 $this->_lastDepth = $depth;
                 $this->_lastFileDepth = $depth + 1;
                 $origpath = $path = $attribs['name'];
@@ -165,6 +173,7 @@ class v2 extends \pear2\Pyrus\XMLParser
                 } else {
                     $path .= '/';
                 }
+
                 $this->_path .= $path;
                 if (isset($attribs['baseinstalldir'])) {
                     $this->_baseinstalldirs[$origpath] = $attribs['baseinstalldir'];
@@ -181,17 +190,19 @@ class v2 extends \pear2\Pyrus\XMLParser
                     } else {
                         $this->_path .= '/';
                     }
+
                     $this->_lastFileDepth--;
                     $this->_lastDepth--;
                 }
+
                 $path = $this->_path . $attribs['name'];
                 if (isset($arr['file'][0])) {
                     $newarr = $arr['file'][count($arr['file']) - 1];
                 } else {
                     $newarr = $arr['file'];
                 }
-                $newarr['attribs']['name'] =
-                    $path;
+
+                $newarr['attribs']['name'] = $path;
                 $this->_files[$path] = $newarr;
                 $this->_curFile = $path;
                 $this->_inFile = $depth;
@@ -202,6 +213,7 @@ class v2 extends \pear2\Pyrus\XMLParser
         } elseif ($name === 'contents') {
             $this->_inContents = true;
         }
+
         return $arr;
     }
 }

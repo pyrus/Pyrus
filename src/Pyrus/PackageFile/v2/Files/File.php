@@ -51,12 +51,14 @@ class File extends \ArrayObject
                 foreach ($inf as $info) {
                     $ret[] = new $c($this->pkg, \pear2\Pyrus\Validate::NORMAL, $info, $this['attribs'], null);
                 }
+
                 goto return_multi;
             } else {
                 $ret = array(new $c($this->pkg, \pear2\Pyrus\Validate::NORMAL, $inf, $this['attribs'], null));
                 goto return_multi;
             }
         }
+
         $ret = array();
 return_multi:
         return new \pear2\Pyrus\Task\MultipleProxy($this->pkg, $ret, $this['attribs'], $var);
@@ -68,6 +70,7 @@ return_multi:
             throw new \pear2\Pyrus\PackageFile\Exception('Can only change tasks via __set() to an instance ' .
                                                         'of \pear2\Pyrus\Task\Common');
         }
+
         $this[$this->tasksNs . $var] = $value->getInfo();
         $this->pkg->setFilelistFile($this['attribs']['name'], $this->getArrayCopy());
     }

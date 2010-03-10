@@ -160,6 +160,7 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 126 => 'valicert.com2',
                 127 => 'valicert.com3',
             );
+
     protected $parent;
     protected $rest;
     protected $releaseList;
@@ -169,10 +170,26 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
     protected $minimumStability;
     protected $explicitVersion = false;
     protected $fullPackagexml = false;
+
     /**
      * Flag used to determine whether this package has been tested for upgradeability
      */
     protected $isUpgradeable = null;
+
+    function __construct(\pear2\Pyrus\ChannelFileInterface $channelinfo, $releases = null)
+    {
+        $this->parent = $channelinfo;
+        if (!isset($this->parent->protocols->rest['REST1.0'])) {
+            throw new Exception('Cannot access remote packages without REST1.0 protocol');
+        }
+
+        // instruct parent::__set() to call $this->setRawVersion() when setting rawversion
+        $this->rawMap['rawversion'] = array('setRawVersion');
+        $this->rest = new \pear2\Pyrus\REST;
+        $this->releaseList = $releases;
+        $this->minimumStability = Config::current()->preferred_state;
+        $this->explicitVersion = false;
+    }
 
     static function authorities()
     {
@@ -209,21 +226,6 @@ class RemotePackage extends \pear2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         }
 
         return $authorities;
-    }
-
-    function __construct(\pear2\Pyrus\ChannelFileInterface $channelinfo, $releases = null)
-    {
-        $this->parent = $channelinfo;
-        if (!isset($this->parent->protocols->rest['REST1.0'])) {
-            throw new Exception('Cannot access remote packages without REST1.0 protocol');
-        }
-
-        // instruct parent::__set() to call $this->setRawVersion() when setting rawversion
-        $this->rawMap['rawversion'] = array('setRawVersion');
-        $this->rest = new \pear2\Pyrus\REST;
-        $this->releaseList = $releases;
-        $this->minimumStability = Config::current()->preferred_state;
-        $this->explicitVersion = false;
     }
 
     /**

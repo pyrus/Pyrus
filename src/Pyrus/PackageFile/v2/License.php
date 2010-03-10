@@ -48,9 +48,11 @@ class License implements \ArrayAccess
             } elseif (is_string($this->info)) {
                 $this->info = array();
             }
+
             $this->save();
             return;
         }
+
         if ($var == 'uri') {
             unset($this->info['attribs']['uri']);
             if (!count($this->info['attribs'])) {
@@ -59,9 +61,11 @@ class License implements \ArrayAccess
                     $this->info = $this->info['_content'];
                 }
             }
+
             $this->save();
             return;
         }
+
         if ($var == 'path') {
             unset($this->info['attribs']['path']);
             if (!count($this->info['attribs'])) {
@@ -70,6 +74,7 @@ class License implements \ArrayAccess
                     $this->info = $this->info['_content'];
                 }
             }
+
             $this->save();
             return;
         }
@@ -81,22 +86,28 @@ class License implements \ArrayAccess
             if (is_array($this->info) && isset($this->info['attribs']) && isset($this->info['attribs']['uri'])) {
                 return $this->info['attribs']['uri'];
             }
+
             return null;
         }
+
         if ($var == 'path') {
             if (is_array($this->info) && isset($this->info['attribs']) && isset($this->info['attribs']['path'])) {
                 return $this->info['attribs']['path'];
             }
+
             return null;
         }
+
         if ($var == 'name') {
             if (is_array($this->info) && isset($this->info['_content'])) {
                 return $this->info['_content'];
             }
+
             if (!is_array($this->info)) {
                 return $this->info;
             }
         }
+
         return null;
     }
 
@@ -111,6 +122,7 @@ class License implements \ArrayAccess
                 if (!is_array($this->info)) {
                     $this->info = array('_content' => $this->info);
                 }
+
                 $this->info['attribs'] = array();
             }
         } else {
@@ -120,12 +132,15 @@ class License implements \ArrayAccess
                     $this->save();
                     return;
                 }
+
                 $this->info['_content'] = $value;
                 $this->save();
                 return;
             }
+
             throw new License\Exception('Unknown license trait ' . $var . ', cannot set value');
         }
+
         $this->info['attribs'][$var] = $value;
         $this->save();
     }
@@ -135,15 +150,19 @@ class License implements \ArrayAccess
         if ($var == 'uri') {
             return isset($this->info['attribs']) && isset($this->info['attribs']['uri']);
         }
+
         if ($var == 'path') {
             return isset($this->info['attribs']) && isset($this->info['attribs']['path']);
         }
+
         if ($var == 'name') {
             if (!is_array($this->info)) {
                 return sizeof($this->info);
             }
+
             return isset($this->info['_content']);
         }
+
         return false;
     }
 

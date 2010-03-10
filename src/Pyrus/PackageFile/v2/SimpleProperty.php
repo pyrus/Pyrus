@@ -45,6 +45,7 @@ class SimpleProperty implements \ArrayAccess
         if (!array_key_exists($var, $this->info)) {
             throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
+
         $this->info[$var] = null;
         $this->save();
     }
@@ -54,6 +55,7 @@ class SimpleProperty implements \ArrayAccess
         if (!array_key_exists($var, $this->info)) {
             throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
+
         return $this->info[$var];
     }
 
@@ -62,9 +64,11 @@ class SimpleProperty implements \ArrayAccess
         if (!array_key_exists($var, $this->info)) {
             throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
+
         if (!is_string($value)) {
             throw new \pear2\Pyrus\PackageFile\Exception('Can only set ' . $this->name . ' to string');
         }
+
         $this->info[$var] = $value;
         $this->save();
     }
@@ -74,6 +78,7 @@ class SimpleProperty implements \ArrayAccess
         if (!array_key_exists($var, $this->info)) {
             throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
+
         return isset($this->info[$var]);
     }
 
@@ -90,6 +95,7 @@ class SimpleProperty implements \ArrayAccess
                 unset($info[$key]);
             }
         }
+
         $this->parent->{'raw' . $this->name} = $info;
     }
 }

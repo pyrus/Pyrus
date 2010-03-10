@@ -18,12 +18,13 @@ class Group implements \Iterator
         if (count($this->info) && !isset($this->info[0])) {
             $this->info = array($this->info);
         }
-        foreach ($this->info as $i => $group)
-        {
+
+        foreach ($this->info as $i => $group) {
             if (isset($group['attribs']) && isset($group['attribs']['name']) && $group['attribs']['name'] == $name) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -38,6 +39,7 @@ class Group implements \Iterator
         if (count($this->info) && !isset($this->info[0])) {
             $this->info = array($this->info);
         }
+
         reset($this->info);
     }
 
@@ -69,14 +71,18 @@ class Group implements \Iterator
                 if (!isset($this->info['attribs']['hint'])) {
                     return null;
                 }
+
                 return $this->info['attribs']['hint'];
             }
+
             if ($group == 'name') {
                 if (!isset($this->info['attribs']['name'])) {
                     return null;
                 }
+
                 return $this->info['attribs']['name'];
             }
+
             $var = $group;
             if (!isset($this->info[$var])) {
                 switch ($var) {
@@ -103,11 +109,13 @@ class Group implements \Iterator
             }
             return new Package('group', $var, $this, $this->info[$var]);
         }
+
         $i = $this->locateGroup($group);
         if (false === $i) {
             $i = count($this->info);
             $this->info[] = array('attribs' => array('hint' => null, 'name' => $group));
         }
+
         return new Group($this, $this->info[$i], $i);
     }
 
@@ -125,20 +133,25 @@ class Group implements \Iterator
                     if (!isset($this->info['attribs']) || !isset($this->info['attribs']['hint'])) {
                         return;
                     }
+
                     unset($this->info['attribs']['hint']);
                     $this->save();
                     return $this;
                 }
+
                 if (!is_string($value)) {
                     throw new Exception('hint must be a string, was ' . gettype($value));
                 }
+
                 if (!isset($this->info['attribs'])) {
                     $this->info['attribs'] = array();
                 }
+
                 $this->info['attribs']['hint'] = $value;
                 $this->save();
                 return $this;
             }
+
             $info = array();
             switch ($group) {
                 case 'package' :
@@ -149,11 +162,13 @@ class Group implements \Iterator
                         $this->save();
                         return $this;
                     }
+
                     if (!($value instanceof Package)) {
                         throw new Exception(
                             'Can only set ' . $group . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object'
                         );
                     }
+
                     $this->info[$group] = $value->getInfo();
                     $this->save();
                     break;
@@ -172,8 +187,10 @@ class Group implements \Iterator
             if ($group == 'hint') {
                 return isset($this->info['attribs']['hint']);
             }
+
             return isset($this->info[$group]) && !empty($this->info[$group]);
         }
+
         return false !== $this->locateGroup($group);
     }
 
@@ -185,10 +202,12 @@ class Group implements \Iterator
                 $this->save();
                 return;
             }
+
             unset($this->info[$group]);
             $this->save();
             return;
         }
+
         $i = $this->locateGroup($group);
         if ($i !== false) {
             unset($this->info[$i]);
@@ -215,8 +234,10 @@ class Group implements \Iterator
             if (count($info) == 1) {
                 $info = $info[0];
             }
+
             $this->parent->setInfo('group', $info);
         }
+
         $this->parent->save();
     }
 }

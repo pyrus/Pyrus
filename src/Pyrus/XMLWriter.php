@@ -88,9 +88,9 @@ class XMLWriter
     private function _popState()
     {
         $save = $this->_namespaces;
-
         list($this->_type, $this->_tag, $this->_expectedDepth, $this->_namespaces) =
             array_pop($this->_state);
+
         foreach ($save as $ns) {
             if (!isset($this->_namespaces[$ns])) {
                 // all namespaces must exist - only overriding is allowed
@@ -102,18 +102,15 @@ class XMLWriter
 
     private function _finish($key, $values)
     {
-        switch ($this->_type) {
-        case 'Attribs' :
-                $this->_popState();
-                return false;
-        case 'Tag' :
-                $this->_popState();
-                $this->_writer->endElement();
-                return false;
-        case 'Sibling' :
-                $this->_popState();
-                return false;
+        // Types: Attribs, Tag, Sibling
+        if ($this->_type == 'Attribs' || $this->_type == 'Sibling') {
+            $this->_popState();
+        } elseif ($this->_type == 'Tag') {
+            $this->_popState();
+            $this->_writer->endElement();
         }
+
+        return false;
     }
 
     private function _startElement($key, $values)

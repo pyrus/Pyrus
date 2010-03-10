@@ -43,11 +43,13 @@ class Package implements \ArrayAccess, \Iterator
                 }
                 break;
         }
+
         foreach ($keys as $key => $null) {
             if (!array_key_exists($key, $this->info[$i])) {
                 $this->info[$i][$key] = null;
             }
         }
+
         return new Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
@@ -62,6 +64,7 @@ class Package implements \ArrayAccess, \Iterator
         if ($this->type == 'extension') {
             return $this->info[$i]['name'];
         }
+
         $channel = isset($this->info[$i]['channel']) ? $this->info[$i]['channel'] : '__uri';
         return $channel . '/' . $this->info[$i]['name'];
     }
@@ -79,30 +82,34 @@ class Package implements \ArrayAccess, \Iterator
     function locateDep($name)
     {
         if ($this->type == 'extension') {
-            foreach ($this->info as $i => $dep)
-            {
+            foreach ($this->info as $i => $dep) {
                 if (isset($dep['name']) && $dep['name'] == $name) {
                     return $i;
                 }
             }
+
             return false;
         }
-        $stuff = explode('/', $name);
-        $name = array_pop($stuff);
+
+        $stuff   = explode('/', $name);
+        $name    = array_pop($stuff);
         $channel = implode('/', $stuff);
-        foreach ($this->info as $i => $dep)
-        {
+        foreach ($this->info as $i => $dep) {
             if ($channel == '__uri') {
                 if (isset($dep['name']) && $dep['name'] == $name && isset($dep['uri'])) {
                     return $i;
                 }
+
                 continue;
             }
+
             if (isset($dep['name']) && $dep['name'] == $name
-                && isset($dep['channel']) && $dep['channel'] == $channel) {
+                && isset($dep['channel']) && $dep['channel'] == $channel
+            ) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -111,6 +118,7 @@ class Package implements \ArrayAccess, \Iterator
         if (isset($this->index)) {
             throw new Exception('Use -> operator to access dependency properties');
         }
+
         $i = $this->locateDep($var);
         if (false === $i) {
             $i = count($this->info);
@@ -121,8 +129,9 @@ class Package implements \ArrayAccess, \Iterator
                         throw new Exception('Cannot access "' . $var .
                             '", must use "channel/package" to specify a package dependency to access');
                     }
-                    $stuff = explode('/', $var);
-                    $name = array_pop($stuff);
+
+                    $stuff   = explode('/', $var);
+                    $name    = array_pop($stuff);
                     $channel = implode('/', $stuff);
                     if ($channel === '__uri') {
                         // use fake uri, user must set it
@@ -136,6 +145,7 @@ class Package implements \ArrayAccess, \Iterator
                                                     'recommended' => null, 'exclude' => null,
                                                     'providesextension' => null, 'conflicts' => null);
                     }
+
                     if ($this->deptype != 'required') {
                         unset($this->info[$i]['conflicts']);
                     }
@@ -168,12 +178,14 @@ class Package implements \ArrayAccess, \Iterator
                     }
                     break;
             }
+
             foreach ($keys as $key => $null) {
                 if (!array_key_exists($key, $this->info[$i])) {
                     $this->info[$i][$key] = null;
                 }
             }
         }
+
         return new Package($this->deptype, $this->type, $this, $this->info[$i], $i);
     }
 
@@ -182,18 +194,22 @@ class Package implements \ArrayAccess, \Iterator
         if (isset($this->index)) {
             throw new Exception('Use -> operator to access dependency properties');
         }
+
         if (!($value instanceof self)) {
             throw new Exception('Can only set $pf->dependencies[\'' .
                 $this->deptype . '\']->' . $this->type . '[\'' . $var .
                 '\'] to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object');
         }
+
         if ($this->type !== $value->type) {
             if (!(($this->type === 'package' && $value->type === 'subpackage') ||
-                ($this->type === 'subpackage' && $value->type === 'package'))) {
+                ($this->type === 'subpackage' && $value->type === 'package'))
+            ) {
                 throw new Exception('Cannot set ' . $this->type .
                     ' dependency to ' . $value->type . ' dependency');
             }
         }
+
         if ($var === null) {
             if ($this->type === 'extension') {
                 $var = $value->name;
@@ -201,21 +217,20 @@ class Package implements \ArrayAccess, \Iterator
                 $var = $value->channel . '/' . $value->name;
             }
         }
+
         if ($this->type !== 'extension' && !strpos($var, '/')) {
             throw new Exception('Cannot set "' . $var .
                 '", must use "channel/package" to specify a package dependency to set');
         }
+
         if ($this->type === 'extension') {
             if ($value->name != $var) {
-                throw new Exception('Cannot set ' .
-                    $var . ' to ' .
-                    $value->name .
-                    ', use $pf->dependencies[\'' .
-                    $this->deptype . '\']->extension[] to set a new value');
+                throw new Exception('Cannot set ' . $var . ' to ' . $value->name .
+                    ', use $pf->dependencies[\'' . $this->deptype . '\']->extension[] to set a new value');
             }
         } else {
-            $stuff = explode('/', $var);
-            $name = array_pop($stuff);
+            $stuff   = explode('/', $var);
+            $name    = array_pop($stuff);
             $channel = implode('/', $stuff);
             if ($value->name != $name || $value->channel != $channel) {
                 throw new Exception('Cannot set ' .
@@ -225,9 +240,11 @@ class Package implements \ArrayAccess, \Iterator
                     $this->deptype . '\']->' . $this->type . '[] to set a new value');
             }
         }
+
         if (false === ($i = $this->locateDep($var))) {
             $i = count($this->info);
         }
+
         $this->info[$i] = $value->getInfo();
         $this->save();
     }
@@ -237,6 +254,7 @@ class Package implements \ArrayAccess, \Iterator
         if (isset($this->index)) {
             throw new Exception('Use -> operator to access dependency properties');
         }
+
         $i = $this->locateDep($var);
         return $i !== false;
     }
@@ -246,10 +264,12 @@ class Package implements \ArrayAccess, \Iterator
         if (isset($this->index)) {
             throw new Exception('Use -> operator to access dependency properties');
         }
+
         $i = $this->locateDep($var);
         if ($i === false) {
             return;
         }
+
         unset($this->info[$i]);
         $this->info = array_values($this->info);
         $this->save();
@@ -265,27 +285,34 @@ class Package implements \ArrayAccess, \Iterator
         if (!isset($this->index)) {
             throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
+
         if ($var == 'conflicts') {
             return isset($this->info[$var]);
         }
+
         if ($var === 'deptype') {
             return $this->deptype;
         }
+
         if ($var === 'type') {
             return $this->type;
         }
+
         if ($var === 'channel' && isset($this->info['uri'])) {
             return '__uri';
         }
+
         if (!isset($this->info[$var])) {
             return null;
         }
+
         if ($var === 'exclude') {
             $ret = $this->info['exclude'];
             if (!is_array($ret)) {
                 return array($ret);
             }
         }
+
         return $this->info[$var];
     }
 
@@ -294,10 +321,12 @@ class Package implements \ArrayAccess, \Iterator
         if (!isset($this->index)) {
             throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', should be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         return isset($this->info[$var]);
     }
 
@@ -306,10 +335,12 @@ class Package implements \ArrayAccess, \Iterator
         if (!isset($this->index)) {
             throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', should be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         $this->info[$var] = null;
     }
 
@@ -323,25 +354,30 @@ class Package implements \ArrayAccess, \Iterator
         if (!isset($this->index)) {
             throw new Exception('Use [] operator to access ' . $this->type . 's');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', should be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         if (count($args) && $args[0] !== null && $var === 'channel' && isset($this->info['uri'])) {
             $this->info['uri'] = null;
             $this->info['channel'] = $args[0];
             $this->save();
             return;
         }
+
         if (count($args) && $args[0] !== null && $var === 'uri' && isset($this->info['channel'])) {
             $this->info['channel'] = null;
             $this->info['uri'] = $args[0];
             $this->save();
             return;
         }
+
         if ($var === 'name' || $var === 'channel') {
             throw new Exception('Cannot change dependency name, use unset() to remove the old dependency');
         }
+
         if ($var == 'conflicts') {
             if (count($args)) {
                 if ($args[0]) {
@@ -352,14 +388,17 @@ class Package implements \ArrayAccess, \Iterator
             } else {
                 $this->info['conflicts'] = '';
             }
+
             $this->save();
             return $this;
         }
+
         if (!count($args) || $args[0] === null) {
             $this->info[$var] = null;
             $this->save();
             return $this;
         }
+
         if ($var == 'exclude') {
             if (!isset($this->info[$var])) {
                 $this->info[$var] = $args;
@@ -367,11 +406,13 @@ class Package implements \ArrayAccess, \Iterator
                 if (!is_array($this->info[$var])) {
                     $this->info[$var] = array($this->info[$var]);
                 }
+
                 $this->info[$var] = array_merge($this->info[$var], $args);
             }
         } else {
             $this->info[$var] = $args[0];
         }
+
         $this->save();
         return $this;
     }
@@ -396,6 +437,7 @@ class Package implements \ArrayAccess, \Iterator
                 $ret[] = $source;
             }
         }
+
         return $ret;
     }
 
@@ -407,10 +449,12 @@ class Package implements \ArrayAccess, \Iterator
                 sort($value);
                 sort($info[$key]);
             }
+
             if ($value !== $info[$key]) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -427,6 +471,7 @@ class Package implements \ArrayAccess, \Iterator
                 return $this->conflicts ? true : false;
             }
         }
+
         if (isset($this->exclude)) {
             foreach ($this->exclude as $exclude) {
                 if ($version == $exclude) {
@@ -434,20 +479,25 @@ class Package implements \ArrayAccess, \Iterator
                 }
             }
         }
+
         if (isset($this->max)) {
             if (version_compare($version, $this->max, '>')) {
                 return $this->conflicts ? true : false;
             }
         }
+
         if (isset($this->recommended)) {
             if ($this->conflicts) {
                 throw new Exception('Invalid conflicts dependency, recommended cannot be set');
             }
+
             if ($version == $this->recommended) {
                 return true;
             }
+
             return false;
         }
+
         return $this->conflicts ? false : true;
     }
 
@@ -463,10 +513,12 @@ class Package implements \ArrayAccess, \Iterator
                 unset($info[$key]);
                 continue;
             }
+
             if (is_array($null) && count($null) == 1) {
                 $info[$key] = $null[0];
             }
         }
+
         $this->info[$index] = $info;
     }
 
@@ -479,8 +531,10 @@ class Package implements \ArrayAccess, \Iterator
             if (count($info) == 1) {
                 $info = $info[0];
             }
+
             $this->parent->setInfo($this->type, $info);
         }
+
         $this->parent->save();
     }
 
@@ -494,6 +548,7 @@ class Package implements \ArrayAccess, \Iterator
         } else {
             $ret = '';
         }
+
         if ($this->type == 'extension') {
             $ret .= 'ext ' . $this->info['name'];
         } else {
@@ -503,33 +558,41 @@ class Package implements \ArrayAccess, \Iterator
                 $ret .= '__uri/' . $this->info['name'];
             }
         }
+
         if (!isset($this->info['min'])
             && !isset($this->info['max'])
             && !isset($this->info['exclude'])
-            && !isset($this->info['recommended'])) {
+            && !isset($this->info['recommended'])
+        ) {
             return $ret;
         }
+
         $ret .= ' (';
         $comma = '';
         if (isset($this->info['min'])) {
             $ret .= '>= ' . $this->info['min'];
             $comma = ',';
         }
+
         if (isset($this->info['max'])) {
             $ret .= $comma . '<= ' . $this->info['max'];
             $comma = ',';
         }
+
         if (isset($this->info['exclude'])) {
             $exclude = $this->info['exclude'];
             if (!is_array($exclude)) {
                 $exclude = array($exclude);
             }
+
             $ret .= $comma . '!= [' . implode(',',$exclude) . ']';
             $comma = ',';
         }
+
         if (isset($this->info['recommended'])) {
             $ret .= $comma . 'recommends ' . $this->info['recommended'];
         }
+
         return $ret . ')';
     }
 }

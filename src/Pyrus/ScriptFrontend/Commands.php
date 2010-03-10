@@ -240,23 +240,29 @@ class Commands implements \pear2\Pyrus\LogInterface
                 echo "Pyrus version ", \pear2\Pyrus\Main::VERSION, ' ',
                      $sig['hash_type'], ': ', $sig['hash'], "\n";
             }
+
             $this->_findPEAR($args);
             $this->verbose = \pear2\Pyrus\Config::current()->verbose;
+
             // scan for custom commands/roles/tasks
             \pear2\Pyrus\Config::current()->pluginregistry->scan();
             if (!isset(static::$commandParser->commands['make'])) {
                 $this->addDeveloperCommands('developer');
             }
+
             if (!isset(static::$commandParser->commands['scs-update'])) {
                 $this->addDeveloperCommands('scs');
             }
+
             $result = static::$commandParser->parse(count($args) + 1, array_merge(array('cruft'), $args));
             if ($result->options['verbose']) {
                 $this->verbose = $result->options['verbose'];
             }
+
             if ($result->options['paranoid']) {
                 \pear2\Pyrus\Main::$paranoid = $result->options['paranoid'];
             }
+
             if ($info = \pear2\Pyrus\PluginRegistry::getCommandInfo($result->command_name)) {
                 if ($this instanceof $info['class']) {
                     if ($info['function'] == 'dummyStub' || $info['function'] == 'scsDummyStub') {
@@ -338,6 +344,7 @@ previous:
             $config = $configclass::singleton($maybe);
             return;
         }
+
         $configclass = static::$configclass;
         if (!$configclass::userInitialized()) {
             echo "Pyrus: No user configuration file detected\n";
@@ -355,6 +362,7 @@ previous:
                     echo $path," exists, and is not a directory\n";
                     goto previous;
                 }
+
                 $configclass = static::$configclass;
                 $config = $configclass::singleton($path);
                 $config->saveConfig();
@@ -365,6 +373,7 @@ previous:
                 exit;
             }
         }
+
         $configclass = static::$configclass;
         $config = $configclass::singleton();
         $path = $config->path;
@@ -444,21 +453,26 @@ previous:
         if ($options['plugin']) {
             \pear2\Pyrus\Main::$options['install-plugins'] = true;
         }
+
         if ($options['force']) {
             \pear2\Pyrus\Main::$options['force'] = true;
         }
+
         if (isset($options['packagingroot']) && $options['packagingroot']) {
             \pear2\Pyrus\Main::$options['packagingroot'] = $options['packagingroot'];
         }
+
         if ($options['optionaldeps']) {
             \pear2\Pyrus\Main::$options['optionaldeps'] = $options['optionaldeps'];
         }
+
         \pear2\Pyrus\Installer::begin();
         try {
             $packages = array();
             foreach ($args['package'] as $arg) {
                 \pear2\Pyrus\Installer::prepare($packages[] = new \pear2\Pyrus\Package($arg));
             }
+
             \pear2\Pyrus\Installer::commit();
             foreach (\pear2\Pyrus\Installer::getInstalledPackages() as $package) {
                 echo 'Installed ' . $package->channel . '/' . $package->name . '-' .
@@ -467,10 +481,12 @@ previous:
                     echo " ==> To build this PECL package, use the build command\n";
                 }
             }
+
             $optionals = \pear2\Pyrus\Installer::getIgnoredOptionalDeps();
             if (count($optionals)) {
                 echo "Optional dependencies that will not be installed, use --optionaldeps:\n";
             }
+
             foreach ($optionals as $dep => $packages) {
                 echo $dep, ' depended on by ', implode(', ', array_keys($packages)), "\n";
             }
@@ -641,7 +657,7 @@ previous:
             if ($response->code != 200) {
                 throw new \pear2\Pyrus\Exception('Download of channel.xml failed');
             }
-addchan_success:    
+addchan_success:
             $chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile($response->body, true));
             \pear2\Pyrus\Config::current()->channelregistry->add($chan);
             echo "Discovery of channel ", $chan->name, " successful\n";
@@ -761,7 +777,7 @@ addchan_success:
             echo "  $var => " . $conf->$var . "\n";
         }
     }
-    
+
     /**
      * Get a configuration option.
      *
@@ -1025,7 +1041,7 @@ addchan_success:
                     }
                     $versions[] = $version;
                     $latest['v'] = $version;
-    
+
                     $pnameinfo[$package->name] = array('installed' => $installed,
                                                        'summary' => $package->summary,
                                                        'latest' => $latest);
@@ -1255,6 +1271,7 @@ addchan_success:
             $data[] = array($level, $message);
             return;
         }
+
         if (count($data)) {
             $save = $data;
             $data = array();
@@ -1262,10 +1279,10 @@ addchan_success:
                 $this->log($info[0], $info[1]);
             }
         }
+
         if ($level <= $this->verbose) {
-            if (strlen($message)
-                && $message[strlen($message)-1] !== "\r") {
-                echo $message, "\n";
+            if (strlen($message) && $message[strlen($message)-1] !== "\r") {
+                echo $message . "\n";
             } else {
                 echo $message;
             }

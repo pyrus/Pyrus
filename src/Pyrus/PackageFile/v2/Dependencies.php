@@ -105,6 +105,7 @@ class Dependencies implements \ArrayAccess
         if ($this->parent instanceof self) {
             return $this->parent->getPackageFile();
         }
+
         return $this->parent;
     }
 
@@ -115,16 +116,19 @@ class Dependencies implements \ArrayAccess
                 if ($this->parent instanceof self) {
                     return $this->parent->parent;
                 }
+
                 return $this->parent;
             } else {
                 return null;
             }
         }
+
         if ($this->deptype === null) {
             throw new Dependencies\Exception(
                 'Cannot retrieve dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
+
         $depname = 'name';
         if (!isset($this->info[$var])) {
             switch ($var) {
@@ -156,6 +160,7 @@ class Dependencies implements \ArrayAccess
             if (!is_array($info)) {
                 $info = array($info);
             }
+
             $keys = array();
             switch ($var) {
                 case 'php' :
@@ -170,14 +175,17 @@ class Dependencies implements \ArrayAccess
                     if (count($info) && !isset($info[0])) {
                         $info = array($info);
                     }
+
                     return new Dependencies\Package($this->deptype, $var, $this, $info);
             }
+
             foreach ($keys as $key => $null) {
                 if (!array_key_exists($key, $info)) {
                     $info[$key] = $null;
                 }
             }
         }
+
         return new Dependencies\Dep($this, $info, $var);
     }
 
@@ -188,11 +196,13 @@ class Dependencies implements \ArrayAccess
                 'Cannot set dependency type, choose $pf->dependencies[\'required\']->' .
                 $var . ' or $pf->dependencies[\'optional\']->' . $var);
         }
+
         if ($value === null) {
             unset($this->info[$var]);
             $this->save();
             return;
         }
+
         $info = array();
         switch ($var) {
             case 'php' :
@@ -211,11 +221,13 @@ class Dependencies implements \ArrayAccess
                     throw new Dependencies\Exception(
                             $var . ' dependency is not supported as an optional dependency');
                 }
+
                 if (!($value instanceof Dependencies\Dep)) {
                     throw new Dependencies\Exception(
                         'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Dep object'
                     );
                 }
+
                 $this->info[$var] = $value->getInfo();
                 $this->save();
                 return;
@@ -227,12 +239,14 @@ class Dependencies implements \ArrayAccess
                         'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object'
                     );
                 }
+
                 $this->info[$var] = $value->getInfo();
                 $this->save();
                 return;
             default :
                 throw new Dependencies\Exception('Unknown dependency type: ' . $var);
         }
+
         $this->info[$var] = $info;
         $this->save();
     }
@@ -242,6 +256,7 @@ class Dependencies implements \ArrayAccess
         if ($this->deptype === null) {
             return false;
         }
+
         return isset($this->info[$var]) && !empty($this->info[$var]);
     }
 
@@ -251,16 +266,20 @@ class Dependencies implements \ArrayAccess
             throw new Dependencies\Exception('Cannot access ' .
                                     '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
         }
+
         if ($var === 'required' || $var === 'optional') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
             }
+
             return new Dependencies($this, $this->info[$var], $var);
         }
+
         if ($var === 'group') {
             if (!isset($this->info[$var]) || !is_array($this->info[$var])) {
                 $this->info[$var] = array();
             }
+
             return new Dependencies\Group($this, $this->info['group']);
         }
     }
@@ -271,24 +290,29 @@ class Dependencies implements \ArrayAccess
             throw new Dependencies\Exception('Cannot set ' .
                                     '$pf->dependencies[\'' . $this->deptype . '\'][\'' . $var . '\']');
         }
+
         if ($var === 'group') {
             if (!($value instanceof Dependencies\Group)) {
                 throw new Dependencies\Exception('Cannot set group to anything' .
                             ' but a \pear2\Pyrus\PackageFile\v2\Dependencies\Group object');
             }
+
             $this->info['group'] = $value->getInfo();
             $this->save();
             return;
         }
+
         if ($var === 'required' || $var === 'optional') {
             if (!($value instanceof Dependencies)) {
                 throw new Dependencies\Exception('Cannot set ' . $var . ' to anything' .
                             ' but a \pear2\Pyrus\PackageFile\v2\Dependencies object');
             }
+
             $this->info[$var] = $value->getInfo();
             $this->save();
             return;
         }
+
         throw new Dependencies\Exception('Only required, optional, or group indices' .
                         ' are supported, was passed ' . $var);
     }
@@ -311,10 +335,12 @@ class Dependencies implements \ArrayAccess
                 unset($info[$key]);
             }
         }
+
         if (!count($info)) {
             unset($this->info[$deptype]);
             return;
         }
+
         $this->info[$deptype] = $info;
     }
 
@@ -329,6 +355,7 @@ class Dependencies implements \ArrayAccess
             $this->parent->setInfo($this->deptype, $this->info);
             return $this->parent->save();
         }
+
         $this->parent->rawdependencies = $this->info;
     }
 }

@@ -20,6 +20,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
                 $info[$key] = null;
             }
         }
+
         return new ConfigureOption($this, $info, key($this->info));
     }
 
@@ -51,12 +52,12 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
 
     function locateConfigureOption($name)
     {
-        foreach ($this->info as $i => $dep)
-        {
+        foreach ($this->info as $i => $dep) {
             if (isset($dep['name']) && $dep['name'] == $name) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -65,6 +66,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index !== null) {
             throw new Exception('use -> operator to access properties of a configureoption');
         }
+
         $i = $this->locateConfigureOption($var);
         if (false === $i) {
             $i = count($this->info);
@@ -77,6 +79,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
                 }
             }
         }
+
         return new ConfigureOption($this, $info, $i);
     }
 
@@ -85,17 +88,21 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index !== null) {
             throw new Exception('use -> operator to access properties of a configureoption');
         }
+
         if (!($value instanceof ConfigureOption)) {
             throw new Exception(
                 'Can only set configureoption to a \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption object');
         }
+
         if ($var !== null && $var !== $value->name) {
             throw new Exception('use [] or [\'' . $value->name . '\'] to set this configureoption');
         }
+
         $i = $this->locateConfigureOption($var);
         if (false === $i) {
             $i = count($this->info);
         }
+
         $this->info[$i] = array('name' => $value->name,
                                 'default' => $value->default,
                                 'prompt' => $value->prompt);
@@ -107,6 +114,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index !== null) {
             throw new Exception('use -> operator to access properties of a configureoption');
         }
+
         $i = $this->locateConfigureOption($var);
         return $i !== false;
     }
@@ -116,10 +124,12 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index !== null) {
             throw new Exception('use -> operator to access properties of a configureoption');
         }
+
         $i = $this->locateConfigureOption($var);
         if ($i === false) {
             return;
         }
+
         unset($this->info[$i]);
         $this->info = array_values($this->info);
         $this->save();
@@ -130,10 +140,12 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index === null) {
             throw new Exception('use [] operator to access configureoptions');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', must be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         $this->info[$var] = null;
         $this->save();
     }
@@ -143,10 +155,12 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index === null) {
             throw new Exception('use [] operator to access configureoptions');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', must be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         return isset($this->info[$var]);
     }
 
@@ -160,15 +174,18 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index === null) {
             throw new Exception('use [] operator to access configureoptions');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', must be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         if ($args[0] === null) {
             $this->info[$var] = null;
             $this->save();
             return $this;
         }
+
         $this->info[$var] = $args[0];
         $this->save();
         return $this;
@@ -179,13 +196,16 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
         if ($this->index === null) {
             throw new Exception('use [] operator to access configureoptions');
         }
+
         if (!array_key_exists($var, $this->info)) {
             throw new Exception('Unknown variable ' . $var . ', must be one of ' .
                                 implode(', ', array_keys($this->info)));
         }
+
         if (!isset($this->info[$var])) {
             return null;
         }
+
         return $this->info[$var];
     }
 
@@ -201,6 +221,7 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
                 unset($info[$key]);
             }
         }
+
         $this->info[$index] = $info;
     }
 
@@ -211,10 +232,12 @@ class ConfigureOption implements \ArrayAccess, \Iterator, \Countable
             $this->parent->save();
             return;
         }
+
         $info = $this->info;
         if (count($info) == 1) {
             $info = $info[0];
         }
+
         $this->parent->setConfigureOption($info);
         $this->parent->save();
     }

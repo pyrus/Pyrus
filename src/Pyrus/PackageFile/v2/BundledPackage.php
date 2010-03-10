@@ -78,6 +78,7 @@ class BundledPackage implements \ArrayAccess, \Countable, \Iterator
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -87,7 +88,8 @@ class BundledPackage implements \ArrayAccess, \Countable, \Iterator
         if ($i === false) {
             return;
         }
-        unset($this->info[$i]); 
+
+        unset($this->info[$i]);
         $this->save();
     }
 
@@ -97,6 +99,7 @@ class BundledPackage implements \ArrayAccess, \Countable, \Iterator
         if ($i === false) {
             return false;
         }
+
         return $var;
     }
 
@@ -105,11 +108,13 @@ class BundledPackage implements \ArrayAccess, \Countable, \Iterator
         if (!is_string($value)) {
             throw new \pear2\Pyrus\PackageFile\Exception('Can only set bundledpackage to string');
         }
+
         // $var is ignored
         $i = $this->locatePackage($value);
         if ($i === false) {
             $i = count($this->info);
         }
+
         $this->info[$i] = $value;
         $this->save();
     }
@@ -131,6 +136,7 @@ class BundledPackage implements \ArrayAccess, \Countable, \Iterator
         if (count($info) == 1) {
             $info = $info[0];
         }
+
         $this->parent->rawcontents = array('bundledpackage' => $info);
     }
 }

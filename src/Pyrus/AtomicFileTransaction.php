@@ -645,7 +645,7 @@ create_journal:
         }
 
         if (file_exists($this->backuppath) || (file_exists($this->rolepath)
-                                               && !rename($this->rolepath, $this->backuppath))) {
+                                             && !rename($this->rolepath, $this->backuppath))) {
             throw new AtomicFileTransaction\Exception(
                 'CRITICAL - unable to complete transaction, rename of actual to backup path failed');
         }

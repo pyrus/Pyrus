@@ -46,6 +46,7 @@ class Files implements \ArrayAccess, \Iterator
         if (isset($this->info[$var])) {
             return new Files\File($this, $this->parent, $this->info[$var]);
         }
+
         return null;
     }
 
@@ -54,6 +55,7 @@ class Files implements \ArrayAccess, \Iterator
         if ($value instanceof \ArrayObject) {
             $value = $value->getArrayCopy();
         }
+
         if (!is_array($value)) {
             throw new Files\Exception('File must be an array of attributes and tasks');
         }

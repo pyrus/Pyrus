@@ -370,9 +370,11 @@ class Validator
         if (!$this->_pf->type == 'bundle') {
             return false;
         }
+
         if (!$this->_pf->packagefile) {
             return false;
         }
+
         $dir_prefix = $this->_pf->filepath;
         foreach ($this->_pf->bundledpackage as $package) {
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $package)) {
@@ -381,10 +383,10 @@ class Validator
                     '" in package.xml does not exist');
                 continue;
             }
+
             \pear2\Pyrus\Logger::log(1, "Analyzing bundled package $package");
             try {
-                $ret = new \pear2\Pyrus\Package\Tar($dir_prefix . DIRECTORY_SEPARATOR .
-                    $package);
+                $ret = new \pear2\Pyrus\Package\Tar($dir_prefix . DIRECTORY_SEPARATOR . $package);
             } catch (\Exception $e) {
                 $this->errors->E_ERROR[] = new \pear2\Pyrus\PackageFile\Exception(
                     'File "' . $dir_prefix . DIRECTORY_SEPARATOR . $package .
@@ -392,6 +394,7 @@ class Validator
                 continue;
             }
         }
+
         return true;
     }
 

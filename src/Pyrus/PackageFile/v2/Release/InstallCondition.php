@@ -30,6 +30,7 @@ class InstallCondition implements \ArrayAccess
     protected $index = null;
     protected $installcondition;
     protected $info = array();
+
     function __construct($parent, array $info, $condition = null, $index = null)
     {
         $this->parent = $parent;
@@ -37,6 +38,7 @@ class InstallCondition implements \ArrayAccess
         if ($condition !== null) {
             $this->installcondition = $condition;
         }
+
         if ($index !== null) {
             $this->index = $index;
         }
@@ -52,15 +54,19 @@ class InstallCondition implements \ArrayAccess
         if ($var === 'installcondition') {
             return isset($this->installcondition) ? $this->installcondition : false;
         }
+
         if (isset($this->info[$var])) {
             if ($var === 'conflicts') {
                 return $this->info[$var] !== null;
             }
+
             return $this->info[$var];
         }
+
         if ($var === 'conflicts') {
             return false;
         }
+
         return null;
     }
 
@@ -69,13 +75,16 @@ class InstallCondition implements \ArrayAccess
         if (!isset($this->installcondition)) {
             throw new Exception('Cannot set variables for unknown install condition');
         }
+
         if (array_key_exists($var, $this->info)) {
             if (!count($args) && $var == 'conflicts') {
                 $args = array('');
             }
+
             $this->info[$var] = $args[0];
             $this->save();
         }
+
         return $this;
     }
 
@@ -85,6 +94,7 @@ class InstallCondition implements \ArrayAccess
             if (!is_string($var)) {
                 throw new Exception('Access extension installconditions by name, not number');
             }
+
             if (false === ($i = $this->locateExtension($var))) {
                 $i = count($this->info);
                 $this->info[$i] =
@@ -96,11 +106,14 @@ class InstallCondition implements \ArrayAccess
                     }
                 }
             }
+
             return new InstallCondition($this, $this->info[$i], 'extension', $i);
         }
+
         if (!is_string($var)) {
             throw new Exception('Cannot access numeric index');
         }
+
         $var = strtolower($var);
         switch ($var) {
             case 'php' :
@@ -144,6 +157,7 @@ class InstallCondition implements \ArrayAccess
                     if (!isset($this->info['extension'][0])) {
                         $this->info['extension'] = array($this->info['extension']);
                     }
+
                     foreach (array('name' => null, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null) as $key => $val) {
                         foreach ($this->info['extension'] as $index => $ext) {
                             if (!array_key_exists($key, $ext)) {
@@ -156,6 +170,7 @@ class InstallCondition implements \ArrayAccess
             default :
                 throw new Exception('Cannot access unknown install condition ' . $var);
         }
+
         return new InstallCondition($this, $this->info[$var], $var);
     }
 
@@ -165,10 +180,12 @@ class InstallCondition implements \ArrayAccess
             if (!isset($test['name'])) {
                 continue;
             }
+
             if ($test['name'] === $ext) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -203,12 +220,14 @@ class InstallCondition implements \ArrayAccess
                     throw new Exception('Unknown install condition ' . $var);
             }
         }
+
         if ($value instanceof InstallCondition && $value->installcondition) {
             if (!isset($this->installcondition) || $this->installcondition != 'extension') {
                 if ($value->installcondition != $var) {
                     throw new Exception('Cannot set ' . $var .
                                 ' to another install condition (' . $value->installcondition . ')');
                 }
+
                 if (!isset($this->info[$var])) {
                     switch ($var) {
                         case 'php' :
@@ -222,6 +241,7 @@ class InstallCondition implements \ArrayAccess
                             break;
                     }
                 }
+
                 foreach ($this->info[$var] as $n => $unused) {
                     $this->info[$var][$n] = $value->$n;
                 }
@@ -230,11 +250,13 @@ class InstallCondition implements \ArrayAccess
                     throw new Exception('Cannot set extension ' . $var .
                                 ' to another install condition (' . $value->installcondition . ')');
                 }
+
                 $ext = $this->locateExtension($var);
                 if (!$ext) {
                     $ext = count($this->info);
                     $this->info[$ext] = array('name' => $var, 'min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null);
                 }
+
                 foreach (array('min' => null, 'max' => null, 'exclude' => null, 'conflicts' => null) as $n => $unused) {
                     if ($n == 'conflicts') {
                         if ($value->conflicts) {
@@ -244,6 +266,7 @@ class InstallCondition implements \ArrayAccess
                         }
                         continue;
                     }
+
                     $this->info[$ext][$n] = $value->$n;
                 }
             }
@@ -252,6 +275,7 @@ class InstallCondition implements \ArrayAccess
                 $this->info[$var][$key] = $val;
             }
         }
+
         $this->save();
     }
 
@@ -260,6 +284,7 @@ class InstallCondition implements \ArrayAccess
         if ($this->installcondition == 'extension' && !isset($this->index)) {
             return ($this->locateExtension($var) !== false);
         }
+
         return isset($this->info[$var]);
     }
 
@@ -269,8 +294,10 @@ class InstallCondition implements \ArrayAccess
             if (($i = $this->locateExtension($var)) !== false) {
                 unset($this->info[$i]);
             }
+
             return;
         }
+
         unset($this->info[$var]);
         $this->save();
     }
@@ -280,16 +307,19 @@ class InstallCondition implements \ArrayAccess
         if (!$this->parent) {
             return;
         }
+
         if ($index !== null) {
             $this->info[$index] = $obj->getInfo();
             return $this->parent->setInstallCondition($this, $type);
         }
+
         if (isset($this->index)) {
             $this->parent->setInstallCondition($this, $type, $this->index);
         } else {
             if (!isset($this->info[$type])) {
                 $this->info[$type] = array();
             }
+
             $this->info[$type] = $obj->getInfo();
             $this->parent->setInstallCondition($this);
         }
@@ -300,6 +330,7 @@ class InstallCondition implements \ArrayAccess
         if (!$this->parent) {
             return;
         }
+
         if (isset($this->installcondition)) {
             $this->parent->setInstallCondition($this, $this->installcondition, $this->index);
         } else {

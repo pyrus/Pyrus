@@ -62,6 +62,7 @@ class Developer implements \ArrayAccess, \Iterator
                 $info[$key] = null;
             }
         }
+
         return new Developer($this, $info, current($this->_curRole),
                             key($this->info[current($this->_curRole)]));
     }
@@ -80,11 +81,13 @@ class Developer implements \ArrayAccess, \Iterator
             if (!current($this->_curRole)) {
                 return false;
             }
+
             reset($this->info[current($this->_curRole)]);
             if (count($this->info[current($this->_curRole)])) {
                 return true;
             }
         }
+
         return $a;
     }
 
@@ -101,11 +104,13 @@ class Developer implements \ArrayAccess, \Iterator
             if (!current($this->_curRole)) {
                 return false;
             }
+
             reset($this->info[current($this->_curRole)]);
             if (count($this->info[current($this->_curRole)])) {
                 return true;
             }
         }
+
         return current($this->_curRole);
     }
 
@@ -133,9 +138,11 @@ class Developer implements \ArrayAccess, \Iterator
             throw new Developer\Exception(
                 'Cannot access developer info for unknown developer');
         }
+
         if ($var === 'role') {
             return $this->role;
         }
+
         if (!isset($this->info[$var])) {
             if (!array_key_exists($var, $this->info)) {
                 $keys = $this->info;
@@ -144,8 +151,10 @@ class Developer implements \ArrayAccess, \Iterator
                 throw new Developer\Exception(
                     'Unknown variable ' . $var . ', should be one of ' . implode(', ', $keys));
             }
+
             return null;
         }
+
         return $this->info[$var];
     }
 
@@ -155,24 +164,29 @@ class Developer implements \ArrayAccess, \Iterator
             throw new Developer\Exception(
                 'Cannot set developer info for unknown developer');
         }
+
         if ($var == 'role') {
             $oldrole = $this->role;
             $this->role = $args[0];
             $this->save($oldrole);
             return $this;
         }
+
         if (!array_key_exists($var, $this->info) || $var == 'user') {
             throw new Developer\Exception(
                 'Cannot set unknown value ' . $var);
         }
+
         if (count($args) != 1) {
             throw new Developer\Exception(
                 'Can only set ' . $var . ' to 1 value');
         }
+
         if (!is_string($args[0])) {
             throw new Developer\Exception(
                 'Invalid value for ' . $var . ', must be a string');
         }
+
         $this->info[$var] = $args[0];
         $this->save($this->role);
         return $this;
@@ -184,9 +198,11 @@ class Developer implements \ArrayAccess, \Iterator
             throw new Developer\Exception(
                 'Use -> to access properties of a developer');
         }
+
         if (!is_string($var)) {
             throw new Developer\Exception('Developer handle cannot be numeric');
         }
+
         $developer = $var;
         if ($role = $this->locateMaintainerRole($developer)) {
             $info = $this->info[$role[0]][$role[1]];
@@ -195,8 +211,10 @@ class Developer implements \ArrayAccess, \Iterator
                     $info[$key] = null;
                 }
             }
+
             return new Developer($this, $info, $role[0], $role[1]);
         }
+
         return new Developer($this,
             array('name' => null, 'user' => $var, 'email' => null, 'active' => 'yes'), null, null);
     }
@@ -207,18 +225,22 @@ class Developer implements \ArrayAccess, \Iterator
             throw new Developer\Exception(
                 'Use -> to access properties of a developer');
         }
+
         if (!is_string($var)) {
             throw new Developer\Exception('Developer handle cannot be numeric');
         }
+
         if (!($value instanceof Developer)) {
             throw new Developer\Exception(
                 'Can only set a developer to a \pear2\Pyrus\PackageFile\v2\Developer object'
             );
         }
+
         if (false !== ($i = $this->locateMaintainerRole($var))) {
             // remove old developer role, set new role
             unset($this->info[$i[0]][$i[1]]);
         }
+
         $i = count($this->info[$value->role]);
         $this->info[$value->role][] = $value->getInfo();
         $this->info[$value->role][$i]['user'] = $var;
@@ -235,12 +257,14 @@ class Developer implements \ArrayAccess, \Iterator
             throw new Developer\Exception(
                 'Use -> to retrieve properties of a developer');
         }
+
         // remove developer
         $role = $this->locateMaintainerRole($var);
         if (!$role) {
             // already non-existent
             return;
         }
+
         unset($this->info[$role[0]][$role[1]]);
         $this->save();
     }
@@ -256,6 +280,7 @@ class Developer implements \ArrayAccess, \Iterator
             throw new Developer\Exception(
                 'Use -> to retrieve properties of a developer');
         }
+
         return (bool) $this->locateMaintainerRole($var);
     }
 
@@ -269,6 +294,7 @@ class Developer implements \ArrayAccess, \Iterator
         if (false === $i) {
             return count($this->info[$role]) - 1;
         }
+
         return $i[1];
     }
 
@@ -284,6 +310,7 @@ class Developer implements \ArrayAccess, \Iterator
         foreach ($info as $key => $value) {
             $ret[$key] = $value;
         }
+
         return $ret;
     }
 
@@ -294,16 +321,19 @@ class Developer implements \ArrayAccess, \Iterator
                 unset($info[$key]);
             }
         }
+
         if ($role !== null && $oldrole != $role) {
             // we just changed the role.
             if ($oldrole && isset($this->info[$oldrole][$index])) {
                 unset($this->info[$oldrole][$index]);
                 $this->info[$oldrole] = array_values($this->info[$oldrole]);
             }
+
             if (!count($info)) {
                 // essentially remove the old one and wait for data to save the new
                 return;
             }
+
             $this->info[$role][] = $info;
         } else {
             $this->info[$role][$index] = $info;
@@ -319,10 +349,12 @@ class Developer implements \ArrayAccess, \Iterator
             if ($this->role === null) {
                 return;
             }
+
             $this->parent->setInfo($this->info, $oldrole, $this->index, $this->role);
             if ($this->role !== null && $oldrole != $this->role) {
                 $this->index = $this->parent->getNewIndex($this->info['user'], $this->role);
             }
+
             $this->parent->save();
         } else {
             foreach ($this->info as $role => $info) {
@@ -331,12 +363,14 @@ class Developer implements \ArrayAccess, \Iterator
                 } else {
                     $info = array_values($info);
                 }
+
                 if (!count($info)) {
                     $this->parent->{'raw' . $role} = null;
                 } else {
                     if (count($info) == 1) {
                         $info = $info[0];
                     }
+
                     $this->parent->{'raw' . $role} = $info;
                 }
             }

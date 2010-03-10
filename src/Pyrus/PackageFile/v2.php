@@ -216,6 +216,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (!$reset && isset($this->releaseIndex)) {
             return $this->release[$this->releaseIndex];
         }
+
         $errs = new \pear2\MultiErrors;
         $depchecker = new \pear2\Pyrus\Dependency\Validator(
             array('channel' => $this->channel,
@@ -230,6 +231,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                             if (!isset($conditions[0])) {
                                 $conditions = array($conditions);
                             }
+
                             foreach ($conditions as $condition) {
                                 $condition = new v2\Dependencies\Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
@@ -241,6 +243,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 // can't use this release
                 continue;
             }
+
             $this->releaseIndex = $index;
             return $this->release[$index];
         }
@@ -251,22 +254,31 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if ($this->getPackageType() !== 'bundle') {
             return false;
         }
+
         if (!isset($this->packageInfo['contents'])) {
             $this->packageInfo['contents'] = array();
         }
+
         if (!isset($this->packageInfo['contents']['bundledpackage'])) {
             $this->packageInfo['contents']['bundledpackage'] = array();
         }
+
         return new v2\BundledPackage($this, $this->packageInfo['contents']['bundledpackage']);
     }
 
+    /**
+     * Fetches package content
+     *
+     * allows stuff like:
+     * <code>
+     * foreach ($pf->contents as $file) {
+     *      echo $file->name;
+     *      $file->installed_as = 'hi';
+     * }
+     * </code>
+     */
     function getContents()
     {
-        // allows stuff like:
-        // foreach ($pf->contents as $file) {
-        //     echo $file->name;
-        //     $file->installed_as = 'hi';
-        // }
         return new v2Iterator\File(
                 new v2Iterator\FileAttribsFilter(
                 new v2Iterator\FileContents(
@@ -283,13 +295,14 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
     function setPackagingFilter($filter)
     {
         if (is_string($filter)) {
-            $filter = new $filter(new v2Iterator\PackagingIterator(
-                        $this->filelist));
+            $filter = new $filter(new v2Iterator\PackagingIterator($this->filelist));
         }
+
         if (!($filter instanceof v2Iterator\PackagingFilterBase)) {
             throw new Exception('Can only set packaging filter to a child of ' .
                                 'pear2\Pyrus\PackageFile\v2Iterator\PackagingFilterBase');
         }
+
         self::$packagingFilterPrototype[$this->channel . '/' . $this->name] = $filter;
     }
 
@@ -300,6 +313,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             $iterator = new v2Iterator\PackagingIterator($this->filelist);
             return self::$packagingFilterPrototype[$this->channel . '/' . $this->name]->getIterator($iterator);
         }
+
         return new v2Iterator\PackagingIterator($this->filelist);
     }
 
@@ -322,10 +336,12 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
     {
         $rel = $this->getPackageType();
         if ($rel != 'bundle') $rel .= 'release';
+
         $ret = $this->packageInfo[$rel];
         if (!isset($ret[0])) {
             return array($ret);
         }
+
         return $ret;
     }
 
@@ -334,42 +350,51 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (isset($this->packageInfo['uri'])) {
             return '__uri';
         }
+
         return $this->tag('channel');
     }
 
     function getState()
     {
         if (!isset($this->packageInfo['stability']) ||
-              !isset($this->packageInfo['stability']['release'])) {
+            !isset($this->packageInfo['stability']['release'])
+        ) {
             return false;
         }
+
         return $this->packageInfo['stability']['release'];
     }
 
     function getApiVersion()
     {
         if (!isset($this->packageInfo['version']) ||
-              !isset($this->packageInfo['version']['api'])) {
+            !isset($this->packageInfo['version']['api'])
+        ) {
             return false;
         }
+
         return $this->packageInfo['version']['api'];
     }
 
     function getReleaseVersion()
     {
         if (!isset($this->packageInfo['version']) ||
-              !isset($this->packageInfo['version']['release'])) {
+            !isset($this->packageInfo['version']['release'])
+        ) {
             return false;
         }
+
         return $this->packageInfo['version']['release'];
     }
 
     function getApiState()
     {
         if (!isset($this->packageInfo['stability']) ||
-              !isset($this->packageInfo['stability']['api'])) {
+            !isset($this->packageInfo['stability']['api'])
+        ) {
             return false;
         }
+
         return $this->packageInfo['stability']['api'];
     }
 
@@ -379,6 +404,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         foreach ($this->maintainer as $maintainer) {
             $ret[$maintainer->role][] = $maintainer;
         }
+
         return $ret;
     }
 
@@ -388,19 +414,23 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if ($type != 'bundle') {
             $type .= 'release';
         }
+
         if ($type && isset($this->packageInfo[$type])) {
             return $this->packageInfo[$type];
         }
+
         return false;
     }
 
     function getSourcePackage()
     {
         if (isset($this->packageInfo['extbinrelease']) ||
-              isset($this->packageInfo['zendextbinrelease'])) {
+            isset($this->packageInfo['zendextbinrelease'])
+        ) {
             return array('channel' => $this->packageInfo['srcchannel'],
                          'package' => $this->packageInfo['srcpackage']);
         }
+
         return false;
     }
 
@@ -409,6 +439,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (!isset($this->packageInfo['license'])) {
             $this->packageInfo['license'] = array();
         }
+
         return new v2\License($this, $this->packageInfo['license']);
     }
 
@@ -422,10 +453,12 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (!isset($this->packageInfo[$var])) {
             return new v2\UsesRoleTask($this, array(), str_replace('uses', '', $var));
         }
+
         $info = $this->packageInfo[$var];
         if (count($info) && !isset($info[0])) {
             $info = array($info);
         }
+
         return new v2\UsesRoleTask($this, $info, str_replace('uses', '', $var));
     }
 
@@ -442,6 +475,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 $info[$type] = array();
             }
         }
+
         return new v2\Developer($this, $info);
     }
 
@@ -456,6 +490,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (!isset($this->packageInfo['dependencies'])) {
             $this->packageInfo['dependencies'] = array();
         }
+
         return new v2\Dependencies($this, $this->packageInfo['dependencies']);
     }
 
@@ -470,32 +505,34 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 $t .= 'release';
             }
         }
+
         if (!isset($this->packageInfo[$t]) || !is_array($this->packageInfo[$t])) {
             $this->packageInfo[$t] = array();
         }
+
         return new v2\Release($this, $this->packageInfo[$t], $this->filelist);
     }
 
     function getCompatible()
     {
-        if (!isset($this->packageInfo['compatible'])) {
-            $compatible = array();
-        } else {
+        $compatible = array();
+        if (isset($this->packageInfo['compatible'])) {
             $compatible = $this->packageInfo['compatible'];
         }
+
         return new v2\Compatible($this, $compatible);
     }
 
     function getConfigureOption()
     {
-        if (!isset($this->packageInfo['configureoption'])) {
-            $configureoption = array();
-        } else {
+        $configureoption = array();
+        if (isset($this->packageInfo['configureoption'])) {
             $configureoption = $this->packageInfo['configureoption'];
             if (count($configureoption) && !isset($configureoption[0])) {
                 $configureoption = array($configureoption);
             }
         }
+
         return new v2\Configureoption($this, $configureoption);
     }
 
@@ -565,8 +602,10 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             if (array_key_exists($file, $this->filelist)) {
                 unset($this->filelist[$file]);
             }
+
             return;
         }
+
         $this->filelist[$file] = $info;
     }
 
@@ -594,24 +633,31 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 if ($value instanceof \pear2\Pyrus\Task\Common) {
                     $value = $value->getInfo();
                 }
+
                 if (!isset($this->filelist[$filename][$attr])) {
                     $this->filelist[$filename][$attr] = $value;
                 } else {
                     if (!isset($this->filelist[$filename][$attr][0])) {
                         $this->filelist[$filename][$attr] = array($this->filelist[$filename][$attr]);
                     }
+
                     $this->filelist[$filename][$attr][] = $value;
                 }
+
                 return;
             }
+
             throw new Exception('Cannot set invalid attribute ' . $attr . ' for file ' . $filename);
         }
+
         if (!isset($this->filelist[$filename])) {
             throw new Exception('Cannot set attribute ' . $attr . ' for non-existent file ' . $filename);
         }
+
         if ($attr == 'name') {
             throw new Exception('Cannot change name of file ' .$filename);
         }
+
         $this->filelist[$filename]['attribs'][$attr] = $value;
     }
 
@@ -621,11 +667,13 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (strlen($name) <= strlen($tasksns) + 1) {
             return false;
         }
+
         if (substr($name, 0, strlen($tasksns)) === $tasksns) {
             if ($name[strlen($tasksns)] == ':') {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -661,25 +709,24 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      */
     function isCompatible(\pear2\Pyrus\PackageFileInterface $pf)
     {
-        if (!isset($this->packageInfo['compatible'])) {
+        if (!isset($this->packageInfo['compatible']) || !isset($this->packageInfo['channel'])) {
             return false;
         }
-        if (!isset($this->packageInfo['channel'])) {
-            return false;
-        }
-        $me = $pf->version['release'];
+
         $found = false;
+        $package = strtolower($pf->name);
         foreach ($this->compatible as $info) {
-            if (strtolower($info->name) == strtolower($pf->name)) {
-                if ($info->channel == $pf->channel) {
-                    $found = true;
-                    break;
-                }
+            if (strtolower($info->name) == $package && $info->channel == $pf->channel) {
+                $found = true;
+                break;
             }
         }
+
         if (!$found) {
             return false;
         }
+
+        $me = $pf->version['release'];
         if (isset($info->exclude)) {
             foreach ($info->exclude as $exclude) {
                 if (version_compare($me, $exclude, '==')) {
@@ -687,9 +734,11 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 }
             }
         }
+
         if (version_compare($me, $info->min, '>=') && version_compare($me, $info->max, '<=')) {
             return true;
         }
+
         return false;
     }
 
@@ -706,38 +755,37 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      */
     function isSubpackage(\pear2\Pyrus\PackageFileInterface $p)
     {
+        $package = strtolower($p->name);
         foreach (array('required', 'optional', 'group') as $type) {
             if ($type === 'group') {
                 foreach ($this->dependencies['group'] as $group) {
                     foreach ($group->subpackage as $dep) {
-                        if (strtolower($dep->name) == strtolower($p->name)) {
-                            if (isset($dep->channel)) {
-                                if ($dep->channel == $p->channel) {
-                                    return true;
-                                }
-                            } else {
-                                if ($dep->uri == $p->uri) {
-                                    return true;
-                                }
-                            }
+                        if (strtolower($dep->name) != $package) {
+                            continue;
+                        }
+
+                        if (isset($dep->channel) && $dep->channel == $p->channel) {
+                            return true;
+                        } elseif ($dep->uri == $p->uri) {
+                            return true;
                         }
                     }
                 }
             }
+
             foreach ($this->dependencies[$type]->subpackage as $dep) {
-                if (strtolower($dep->name) == strtolower($p->name)) {
-                    if (isset($dep->channel)) {
-                        if ($dep->channel == $p->channel) {
-                            return true;
-                        }
-                    } else {
-                        if ($dep->uri == $p->uri) {
-                            return true;
-                        }
-                    }
+                if (strtolower($dep->name) != $package) {
+                    continue;
+                }
+
+                if (isset($dep->channel) && $dep->channel == $p->channel) {
+                    return true;
+                } elseif ($dep->uri == $p->uri) {
+                    return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -756,42 +804,40 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
     function dependsOn(\pear2\Pyrus\PackageFileInterface $pkg)
     {
         $uri = $pkg->uri;
-        $package = $pkg->name;
-        $channel = $pkg->channel;
+        $package = strtolower($pkg->name);
+        $channel = strtolower($pkg->channel);
 
         $deps = $this->dependencies;
         foreach (array('package', 'subpackage') as $type) {
             foreach (array('required', 'optional') as $needed) {
                 foreach ($deps[$needed]->$type as $dep) {
-                    if (strtolower($dep->name) == strtolower($package)) {
-                        if (isset($dep->channel)) {
-                            if ($dep->channel == strtolower($channel)) {
-                                return true;
-                            }
-                        } else {
-                            if ($dep->uri === $uri) {
-                                return true;
-                            }
-                        }
+                    if (strtolower($dep->name) != $package) {
+                        continue;
+                    }
+
+                    if (isset($dep->channel) && strtolower($dep->channel) == $channel) {
+                        return true;
+                    } elseif ($dep->uri === $uri) {
+                        return true;
                     }
                 }
             }
+
             foreach ($deps['group'] as $group) {
                 foreach ($group->$type as $dep) {
-                    if (strtolower($dep->name) == strtolower($package)) {
-                        if (isset($dep->channel)) {
-                            if (strtolower($dep->channel) == strtolower($channel)) {
-                                return true;
-                            }
-                        } else {
-                            if ($dep->uri === $uri) {
-                                return true;
-                            }
-                        }
+                    if (strtolower($dep->name) != $package) {
+                        continue;
+                    }
+
+                    if (isset($dep->channel) && strtolower($dep->channel) == $channel) {
+                        return true;
+                    } elseif ($dep->uri === $uri) {
+                        return true;
                     }
                 }
             }
         }
+
         return false;
     }
 
@@ -803,21 +849,27 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (isset($this->packageInfo['phprelease'])) {
             return 'php';
         }
+
         if (isset($this->packageInfo['extsrcrelease'])) {
             return 'extsrc';
         }
+
         if (isset($this->packageInfo['extbinrelease'])) {
             return 'extbin';
         }
+
         if (isset($this->packageInfo['zendextsrcrelease'])) {
             return 'zendextsrc';
         }
+
         if (isset($this->packageInfo['zendextbinrelease'])) {
             return 'zendextbin';
         }
+
         if (isset($this->packageInfo['bundle'])) {
             return 'bundle';
         }
+
         return false;
     }
 
@@ -831,9 +883,11 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (isset($this->packageInfo['zendextsrcrelease'])) {
             return '2.1';
         }
+
         if (isset($this->packageInfo['zendextbinrelease'])) {
             return '2.1';
         }
+
         return '2.0';
     }
 
@@ -854,16 +908,20 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             foreach ($this->dependencies[$required]->package as $d) {
                 $dep->validatePackageDependency($d, $toInstall);
             }
+
             foreach ($this->dependencies[$required]->subpackage as $d) {
                 $dep->validateSubpackageDependency($d, $toInstall);
             }
+
             foreach ($this->dependencies[$required]->extension as $d) {
                 $dep->validateExtensionDependency($d);
             }
         }
+
         foreach ($this->dependencies['required']->arch as $d) {
             $dep->validateArchDependency($d);
         }
+
         foreach ($this->dependencies['required']->os as $d) {
             $dep->validateOsDependency($d);
         }
@@ -876,16 +934,15 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
 
     function getTasksNs()
     {
-        if (!isset($this->_tasksNs)) {
-            if (isset($this->packageInfo['attribs'])) {
-                foreach ($this->packageInfo['attribs'] as $name => $value) {
-                    if ($value == 'http://pear.php.net/dtd/tasks-1.0') {
-                        $this->_tasksNs = str_replace('xmlns:', '', $name);
-                        break;
-                    }
+        if (!isset($this->_tasksNs) && isset($this->packageInfo['attribs'])) {
+            foreach ($this->packageInfo['attribs'] as $name => $value) {
+                if ($value == 'http://pear.php.net/dtd/tasks-1.0') {
+                    $this->_tasksNs = str_replace('xmlns:', '', $name);
+                    break;
                 }
             }
         }
+
         return $this->_tasksNs;
     }
 
@@ -896,11 +953,14 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             if (isset($this->baseinstalldirs[$file])) {
                 return $this->baseinstalldirs[$file];
             }
+
             $file = dirname($file);
         }
+
         if (isset($this->baseinstalldirs[''])) {
             return $this->baseinstalldirs[''];
         }
+
         return false;
     }
 
@@ -909,6 +969,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (isset($this->getMap[$var])) {
             return $this->{$this->getMap[$var]}($var);
         }
+
         return $this->tag($var);
     }
 
@@ -919,15 +980,18 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 unset($this->packageInfo['channel']);
             }
         }
+
         if ($var === 'channel') {
             if (isset($this->packageInfo['uri'])) {
                 unset($this->packageInfo['uri']);
             }
         }
+
         if ($value === null && isset($this->packageInfo[$var])) {
             unset($this->packageInfo[$var]);
             return;
         }
+
         $this->packageInfo[$var] = $value;
     }
 
@@ -936,6 +1000,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if ($value instanceof v2\License) {
             return $this->rawlicense = $value->getInfo();
         }
+
         $licensemap =
             array(
                 'php' => 'http://www.php.net/license',
@@ -948,6 +1013,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 'gpl' => 'http://www.gnu.org/copyleft/gpl.html',
                 'apache' => 'http://www.opensource.org/licenses/apache2.0.php'
             );
+
         if (isset($licensemap[strtolower($value)])) {
             $this->rawlicense = array(
                 'attribs' => array('uri' =>
@@ -966,9 +1032,11 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             throw new Exception('package.xml type must be a ' .
             'string, was a ' . gettype($value));
         }
+
         if ($value != 'bundle') {
             $value .= 'release';
         }
+
         if (in_array($value, $a = array('phprelease', 'extsrcrelease', 'extbinrelease',
                                         'zendextsrcrelease', 'zendextbinrelease', 'bundle'))) {
             foreach ($a as $type) {
@@ -978,6 +1046,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                     }
                     continue;
                 }
+
                 if (isset($this->packageInfo[$type])) {
                     unset($this->packageInfo[$type]);
                 }
@@ -991,6 +1060,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if ($t != 'bundle') {
             $t .= 'release';
         }
+
         if ($value === null) {
             if (isset($this->packageInfo[$t]['configureoption'])) {
                 unset($this->packageInfo[$t]['configureoption']);
@@ -1006,6 +1076,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if ($t != 'bundle') {
             $t .= 'release';
         }
+
         $this->packageInfo[$t] = $value;
     }
 
@@ -1020,25 +1091,31 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             $this->packageInfo['dependencies'] = array();
             return;
         }
+
         if ($var === 'release' && $value === null) {
             $rel = $this->getPackageType();
             if ($rel) {
                 if (isset($this->packageInfo[$rel . 'release'])) {
                     $rel .= 'release';
                 }
+
                 $this->packageInfo[$rel] = '';
             }
+
             return;
         }
+
         if (isset($this->setMap[$var])) {
             return $this->{$this->setMap[$var]}($var, $value);
         }
+
         if (isset($this->rawMap[$var])) {
             $actual = $this->rawMap[$var];
             if (is_array($actual)) {
                 $actual = $actual[0];
                 return $this->$actual($var, $value);
             }
+
             if ($value === null) {
                 if (isset($this->packageInfo[$actual])) {
                     unset($this->packageInfo[$actual]);
@@ -1046,8 +1123,10 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             } else {
                 $this->packageInfo[$actual] = $value;
             }
+
             return;
         }
+
         throw new Exception('Cannot set ' . $var . ' directly');
     }
 
@@ -1057,31 +1136,35 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      */
     protected function tag($name)
     {
-        if (!isset($this->packageInfo[$name]) && in_array($name, array('version',
-                'stability',
-                'providesextension', 'usesrole', 'usestask', 'srcpackage', 'srcuri',
-                ), true)) {
+        $tags = array('version', 'stability', 'providesextension', 'usesrole',
+                      'usestask', 'srcpackage', 'srcuri',);
+        if (!isset($this->packageInfo[$name]) && in_array($name, $tags, true)) {
             $this->packageInfo[$name] = array();
         }
+
         switch ($name) {
             case 'stability' :
             case 'version' :
                 if (!isset($this->packageInfo[$name])) {
                     $this->packageInfo[$name] = array();
                 }
+
                 $info = $this->packageInfo[$name];
                 if (!isset($info['release'])) {
                     $info['release'] = null;
                 }
+
                 if (!isset($info['api'])) {
                     $info['api'] = null;
                 }
-                return new v2\SimpleProperty(
-                                $this, $info, $name);
+
+                return new v2\SimpleProperty($this, $info, $name);
         }
+
         if (!isset($this->packageInfo[$name])) {
             return false;
         }
+
         return $this->packageInfo[$name];
     }
 
@@ -1094,6 +1177,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if ($license instanceof \ArrayObject) {
             $license = $license->getArrayCopy();
         }
+
         $info = array(
             'version' => array(
                 'release' => $this->version['release'],
@@ -1138,12 +1222,14 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                 'attribs' => array('name' => '/'),
                 'file' => array()
             ));
+
         uksort($this->filelist, 'strnatcasecmp');
         $a = array_reverse($this->filelist, 1);
         if ($forpackaging) {
             v2Iterator\PackagingIterator::setParent($this);
             $a = new v2Iterator\PackagingIterator($a);
         }
+
         $temp = array();
         foreach ($a as $name => $stuff) {
             if ($forpackaging) {
@@ -1153,14 +1239,17 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                     unset($stuff['attribs']['baseinstalldir']);
                 }
             }
+
             // if we are packaging, $name is the new name
             $stuff['attribs']['name'] = $name;
             $this->packageInfo['contents']['dir']['file'][] = $stuff;
         }
+
         if (count($this->packageInfo['contents']['dir']['file']) == 1) {
             $this->packageInfo['contents']['dir']['file'] =
                 $this->packageInfo['contents']['dir']['file'][0];
         }
+
         $arr = array();
         foreach (array('attribs', 'name', 'channel', 'uri', 'extends', 'summary',
                 'description', 'lead',
@@ -1173,8 +1262,10 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             if (!isset($this->packageInfo[$index])) {
                 continue;
             }
+
             $arr[$index] = $this->packageInfo[$index];
         }
+
         if ($forpackaging) {
             // process releases
             $reltag = $this->getPackageType();
@@ -1184,10 +1275,12 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                     if (!isset($arr[$reltag][0])) {
                         $arr[$reltag] = array($arr[$reltag]);
                     }
+
                     foreach ($arr[$reltag] as $i => $inf) {
                         if (!isset($inf['filelist'])) {
                             continue;
                         }
+
                         $inf = $inf['filelist'];
                         if (isset($inf['install'])) {
                             if (!isset($inf['install'][0])) {
@@ -1206,6 +1299,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                                 }
                             }
                         }
+
                         if (isset($inf['ignore'])) {
                             if (!isset($inf['ignore'][0])) {
                                 if (isset($temp[$inf['ignore']['attribs']['name']])) {
@@ -1224,28 +1318,37 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                             }
                         }
                     }
+
                     if (count($arr[$reltag]) == 1) {
                         $arr[$reltag] = $arr[$reltag][0];
                     }
                 }
             }
         }
+
         $reltag = $this->getPackageType();
         if ($reltag != 'bundle') {
             $reltag .= 'release';
-            $sortInstallAs = function ($a, $b)
-                {
-                    return strnatcasecmp($a['attribs']['name'], $b['attribs']['name']);
-                };
+            $sortInstallAs = function ($a, $b) {
+                return strnatcasecmp($a['attribs']['name'], $b['attribs']['name']);
+            };
+
             if (!is_array($arr[$reltag])) {
                 // do nothing
             } elseif (!isset($arr[$reltag][0])) {
-                if (isset($arr[$reltag]['filelist']) && isset($arr[$reltag]['filelist']['install'])
-                    && isset($arr[$reltag]['filelist']['install'][0])) {
+                if (
+                    isset($arr[$reltag]['filelist']) &&
+                    isset($arr[$reltag]['filelist']['install']) &&
+                    isset($arr[$reltag]['filelist']['install'][0])
+                ) {
                     usort($arr[$reltag]['filelist']['install'], $sortInstallAs);
                 }
-                if (isset($arr[$reltag]['filelist']) && isset($arr[$reltag]['filelist']['ignore'])
-                    && isset($arr[$reltag]['filelist']['ignore'][0])) {
+
+                if (
+                    isset($arr[$reltag]['filelist']) &&
+                    isset($arr[$reltag]['filelist']['ignore']) &&
+                    isset($arr[$reltag]['filelist']['ignore'][0])
+                ) {
                     usort($arr[$reltag]['filelist']['ignore'], $sortInstallAs);
                 }
             } else {
@@ -1253,15 +1356,24 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                     if (!isset($contents['filelist'])) {
                         continue;
                     }
-                    if (isset($contents['filelist']['install']) && isset($contents['filelist']['install'][0])) {
+
+                    if (
+                        isset($contents['filelist']['install']) &&
+                        isset($contents['filelist']['install'][0])
+                    ) {
                         usort($arr[$reltag][$i]['filelist']['install'], $sortInstallAs);
                     }
-                    if (isset($contents['filelist']['ignore']) && isset($contents['filelist']['ignore'][0])) {
+
+                    if (
+                        isset($contents['filelist']['ignore']) &&
+                        isset($contents['filelist']['ignore'][0])
+                    ) {
                         usort($arr[$reltag][$i]['filelist']['ignore'], $sortInstallAs);
                     }
                 }
             }
         }
+
         if (isset($this->packageInfo['dependencies'])) {
             if (isset($this->packageInfo['dependencies']['required'])) {
                 $arr['dependencies']['required'] = array();
@@ -1270,20 +1382,24 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                     if (!isset($this->packageInfo['dependencies']['required'][$index])) {
                         continue;
                     }
+
                     $arr['dependencies']['required'][$index] =
                         $this->packageInfo['dependencies']['required'][$index];
                 }
             }
+
             if (isset($this->packageInfo['dependencies']['optional'])) {
                 $arr['dependencies']['optional'] = array();
                 foreach (array('package', 'subpackage', 'extension') as $index) {
                     if (!isset($this->packageInfo['dependencies']['optional'][$index])) {
                         continue;
                     }
+
                     $arr['dependencies']['optional'][$index] =
                         $this->packageInfo['dependencies']['optional'][$index];
                 }
             }
+
             if (isset($this->packageInfo['dependencies']['group'])) {
                 if (isset($this->packageInfo['dependencies']['group'][0])) {
                     foreach ($this->packageInfo['dependencies']['group'] as $i => $g) {
@@ -1292,6 +1408,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                             if (!isset($g[$index])) {
                                 continue;
                             }
+
                             $arr['dependencies']['group'][$i][$index] = $g[$index];
                         }
                     }
@@ -1302,11 +1419,13 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
                         if (!isset($a[$index])) {
                             continue;
                         }
+
                         $arr['dependencies']['group'][$index] = $a[$index];
                     }
                 }
             }
         }
+
         return array('package' => $arr);
     }
 }
