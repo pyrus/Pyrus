@@ -73,7 +73,7 @@ class XMLParser
      */
     function parse($file, $schema = false)
     {
-        if (!$this->reader->open($file)) {
+        if (@$this->reader->open($file) === false) {
             throw new XMLParser\Exception('Cannot open ' . $file . ' for parsing');
         }
 
