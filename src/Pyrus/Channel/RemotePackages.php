@@ -29,6 +29,13 @@ class RemotePackages implements \ArrayAccess, \Iterator
     protected $parent;
     public $stability = null;
     protected $rest;
+
+    /**
+     * The list of packages, usually from p/packages.xml unless a stability
+     * flag is set and the list is filtered.
+     * 
+     * @var array
+     */
     protected $packageList;
 
     function __construct(\pear2\Pyrus\ChannelInterface $channelinfo)
@@ -77,8 +84,9 @@ class RemotePackages implements \ArrayAccess, \Iterator
     {
         if ($this->stability) {
             $info = current($this->packageList);
+
             $lowerpackage = $info[0];
-            $releases = $info[1];
+            $releases     = $info[1];
         } else {
             $lowerpackage = current($this->packageList);
         }
@@ -88,16 +96,17 @@ class RemotePackages implements \ArrayAccess, \Iterator
 
         $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
         $info = $this->rest->retrieveCacheFirst($url);
+
         if (isset($releases)) {
             $pxml = new RemotePackage($this->parent, $releases);
         } else {
             $pxml = new RemotePackage($this->parent);
         }
 
-        $pxml->channel = $info['c'];
-        $pxml->name = $info['n'];
-        $pxml->license = $info['l'];
-        $pxml->summary = $info['s'];
+        $pxml->channel     = $info['c'];
+        $pxml->name        = $info['n'];
+        $pxml->license     = $info['l'];
+        $pxml->summary     = $info['s'];
         $pxml->description = $info['d'];
         return $pxml;
     }
@@ -136,11 +145,13 @@ class RemotePackages implements \ArrayAccess, \Iterator
 
         $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
         $info = $this->rest->retrieveCacheFirst($url);
+
         $pxml = new RemotePackage($this->parent, $releases);
-        $pxml->channel = $info['c'];
-        $pxml->name = $info['n'];
-        $pxml->license = $info['l'];
-        $pxml->summary = $info['s'];
+
+        $pxml->channel     = $info['c'];
+        $pxml->name        = $info['n'];
+        $pxml->license     = $info['l'];
+        $pxml->summary     = $info['s'];
         $pxml->description = $info['d'];
         return $pxml;
     }
