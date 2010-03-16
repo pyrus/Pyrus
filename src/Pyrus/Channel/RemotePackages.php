@@ -83,6 +83,9 @@ class RemotePackages implements \ArrayAccess, \Iterator
             $lowerpackage = current($this->packageList);
         }
 
+        // force lowercase because there are some stupid channels out there
+        $lowerpackage = strtolower($lowerpackage);
+
         $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
         $info = $this->rest->retrieveCacheFirst($url);
         if (isset($releases)) {
