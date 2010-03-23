@@ -200,7 +200,9 @@ class Remote extends \pear2\Pyrus\Package
                 mkdir($dir, 0755, true);
             }
 
-            file_put_contents($dir . DIRECTORY_SEPARATOR . $name, $response->body);
+            if (false === file_put_contents($dir . DIRECTORY_SEPARATOR . $name, $response->body)) {
+                throw new Exception('Unable to save package '.$name.' to downloads directory, '.$dir.'. Do we have permission to write there?');
+            }
 
             // whew, download worked!
             $a = new \pear2\Pyrus\Package($dir . DIRECTORY_SEPARATOR . $name);
