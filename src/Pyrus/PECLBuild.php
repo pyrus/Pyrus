@@ -273,7 +273,11 @@ class PECLBuild
         }
 
         // {{{ start of interactive part
-        $configure_command = "$dir/configure";
+        $configure_command = "$dir/configure"
+                           . " --with-php-config="
+                           . $config->php_prefix
+                           . "php-config"
+                           . $config->php_suffix;
         if (count($pkg->installrelease->configureoption)) {
             foreach ($pkg->installrelease->configureoption as $o) {
                 list($r) = $this->ui->ask($o->prompt, array(), $o->default);
