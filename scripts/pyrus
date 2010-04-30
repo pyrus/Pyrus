@@ -26,7 +26,7 @@ if (version_compare(LIBXML_DOTTED_VERSION, '2.6.17', '<')) {
 }
 
 if (file_exists(__DIR__ . '/../../autoload.php')) {
-    $autoload =  __DIR__ . '/../../autoload.php';
+    $autoload = __DIR__ . '/../../autoload.php';
 } else {
     $autoload = '@php_dir@/PEAR2/Autoload.php';
 }
