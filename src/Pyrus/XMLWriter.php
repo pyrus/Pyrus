@@ -7,6 +7,7 @@
  * @category  PEAR2
  * @package   PEAR2_Pyrus
  * @author    Greg Beaver <cellog@php.net>
+ * @author    Helgi Þormar Þorbjörnsson <helgi@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
@@ -20,12 +21,13 @@
  * @package    PEAR2_Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
+ * @author     Helgi Þormar Þorbjörnsson <helgi@php.net>
  * @copyright  2010 The PEAR Group
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus;
-class XMLWriter
+class XMLWriter extends \XMLWriter
 {
     private $_array;
     private $_state;
@@ -33,7 +35,6 @@ class XMLWriter
     /**
      * @var XMLWriter
      */
-    private $_writer;
     private $_iter;
     private $_tagStack;
     private $_namespaces;
@@ -54,12 +55,11 @@ class XMLWriter
     function __construct(array $array)
     {
         if (count($array) != 1) {
-            throw new XMLWriter\Exception('Cannot serialize array to' .
-                'XML, array must have exactly 1 element');
+            throw new XMLWriter\Exception('Cannot serialize array to XML, ' .
+                'array must have exactly 1 element');
         }
 
-        $this->_array  = $array;
-        $this->_writer = new \XMLWriter;
+        $this->_array = $array;
     }
 
     /**
@@ -69,13 +69,13 @@ class XMLWriter
      */
     function __toString()
     {
-        $this->_writer->openMemory();
+        $this->openMemory();
         return $this->_serialize();
     }
 
     function toFile($file)
     {
-        $this->_writer->openUri($file);
+        $this->openUri($file);
         return $this->_serialize();
     }
 
@@ -107,7 +107,7 @@ class XMLWriter
             $this->_popState();
         } elseif ($this->_type == 'Tag') {
             $this->_popState();
-            $this->_writer->endElement();
+            $this->endElement();
         }
 
         return false;
@@ -124,22 +124,22 @@ class XMLWriter
         if (isset($element) && !isset($this->_namespaces[$ns])) {
             if (is_string($values)) {
                 if (strlen($values)) {
-                    $this->_writer->writeElementNs($ns, $element, $this->_namespaces[$ns], $values);
+                    $this->writeElementNs($ns, $element, $this->_namespaces[$ns], $values);
                 } else {
-                    $this->_writer->writeElementNs($ns, $element, $this->_namespaces[$ns]);
+                    $this->writeElementNs($ns, $element, $this->_namespaces[$ns]);
                 }
             } else {
-                $this->_writer->startElementNs($ns, $element, $this->_namespaces[$ns]);
+                $this->startElementNs($ns, $element, $this->_namespaces[$ns]);
             }
         } else {
             if (is_string($values) || is_int($values) || is_bool($values)) {
                 if (strlen($values)) {
-                    $this->_writer->writeElement($key, $values);
+                    $this->writeElement($key, $values);
                 } else {
-                    $this->_writer->writeElement($key);
+                    $this->writeElement($key);
                 }
             } else {
-                $this->_writer->startElement($key);
+                $this->startElement($key);
             }
         }
     }
@@ -181,8 +181,8 @@ class XMLWriter
                 }
             } else {
                 if (is_string($values)) {
-                    $this->_writer->text($values);
-                    $this->_writer->endElement();
+                    $this->text($values);
+                    $this->endElement();
                 }
             }
         }
@@ -210,12 +210,12 @@ class XMLWriter
                     $this->_namespaces[$attr] = $values;
                 }
 
-                $this->_writer->writeAttribute($key, $values);
+                $this->writeAttribute($key, $values);
             } else {
-                $this->_writer->writeAttributeNS($ns, $attr, $values, $values);
+                $this->writeAttributeNS($ns, $attr, $values, $values);
             }
         } else { // default namespace
-            $this->_writer->writeAttribute($key, $values);
+            $this->writeAttribute($key, $values);
         }
 
         // cycle to next key
@@ -244,9 +244,9 @@ class XMLWriter
      */
     private function _serialize()
     {
-        $this->_writer->setIndent(true);
-        $this->_writer->setIndentString(' ');
-        $this->_writer->startDocument('1.0', 'UTF-8');
+        $this->setIndent(true);
+        $this->setIndentString(' ');
+        $this->startDocument('1.0', 'UTF-8');
         $this->_namespaces    = array();
         $this->_tagStack      = array();
         $this->_state         = array();
@@ -282,7 +282,7 @@ class XMLWriter
             $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {
-                    $this->_writer->text($values);
+                    $this->text($values);
                     continue;
                 }
 
@@ -305,7 +305,7 @@ class XMLWriter
             $lastdepth--;
         }
 
-        $this->_writer->endDocument();
-        return $this->_writer->flush();
+        $this->endDocument();
+        return $this->flush();
     }
 }

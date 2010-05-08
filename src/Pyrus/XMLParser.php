@@ -8,6 +8,7 @@
  * @package    PEAR2_Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
+ * @author     Helgi Þormar Þorbjörnsson <helgi@php.net>
  * @copyright  2010 The PEAR Group
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version    SVN: $Id$
@@ -21,20 +22,15 @@
  * @package    PEAR2_Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
+ * @author     Helgi Þormar Þorbjörnsson <helgi@php.net>
  * @copyright  2010 The PEAR Group
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus;
-use \XMLReader, \DOMDocument;
-class XMLParser
+use \DOMDocument;
+class XMLParser extends \XMLReader
 {
-    protected $reader;
-    function __construct()
-    {
-        $this->reader = new XMLReader;
-    }
-
     /**
      * Parse a string containing XML
      *
@@ -45,7 +41,7 @@ class XMLParser
      */
     function parseString($string, $schema = false)
     {
-        $this->reader->XML($string);
+        $this->XML($string);
         return $this->_parse($string, $schema, false);
     }
 
@@ -73,7 +69,7 @@ class XMLParser
      */
     function parse($file, $schema = false)
     {
-        if (@$this->reader->open($file) === false) {
+        if (@$this->open($file) === false) {
             throw new XMLParser\Exception('Cannot open ' . $file . ' for parsing');
         }
 
@@ -107,7 +103,8 @@ class XMLParser
         }
 
         if (is_array($arr) && isset($arr[$name]) && is_array($arr[$name]) &&
-              isset($arr[$name][0])) {
+            isset($arr[$name][0])
+        ) {
             // tag exists as a sibling
             $where = count($arr[$name]);
             if (!isset($arr[$name][$where])) {
@@ -172,7 +169,7 @@ class XMLParser
         libxml_use_internal_errors(true);
         libxml_clear_errors();
         $arr = $this->_recursiveParse();
-        $this->reader->close();
+        $this->close();
         $causes = array();
         foreach (libxml_get_errors() as $error) {
             $causes[] = new XMLParser\Exception("Line " .
@@ -217,39 +214,39 @@ class XMLParser
 
     private function _recursiveParse($arr = array())
     {
-        while (@$this->reader->read()) {
-            $depth = $this->reader->depth;
-            if ($this->reader->nodeType == XMLReader::ELEMENT) {
-                $tag = $this->reader->name;
+        while (@$this->read()) {
+            $depth = $this->depth;
+            if ($this->nodeType == self::ELEMENT) {
+                $tag = $this->name;
 
                 $attribs = array();
-                if ($this->reader->isEmptyElement) {
-                    if ($this->reader->hasAttributes) {
-                        $attr = $this->reader->moveToFirstAttribute();
+                if ($this->isEmptyElement) {
+                    if ($this->hasAttributes) {
+                        $attr = $this->moveToFirstAttribute();
                         while ($attr) {
-                            $attribs[$this->reader->name] = $this->reader->value;
-                            $attr = $this->reader->moveToNextAttribute();
+                            $attribs[$this->name] = $this->value;
+                            $attr = $this->moveToNextAttribute();
                         }
 
-                        $depth = $this->reader->depth;
+                        $depth = $this->depth;
                         $arr = $this->mergeTag($arr, '', $attribs, $tag, $depth);
                         continue;
                     }
 
-                    $depth = $this->reader->depth;
+                    $depth = $this->depth;
                     $arr = $this->mergeTag($arr, '', array(), $tag, $depth);
                     continue;
                 }
 
-                if ($this->reader->hasAttributes) {
-                    $attr = $this->reader->moveToFirstAttribute();
+                if ($this->hasAttributes) {
+                    $attr = $this->moveToFirstAttribute();
                     while ($attr) {
-                        $attribs[$this->reader->name] = $this->reader->value;
-                        $attr = $this->reader->moveToNextAttribute();
+                        $attribs[$this->name] = $this->value;
+                        $attr = $this->moveToNextAttribute();
                     }
                 }
 
-                $depth = $this->reader->depth;
+                $depth = $this->depth;
                 $arr = $this->mergeTag($arr, '', $attribs, $tag, $depth);
                 if (is_array($arr[$tag]) && isset($arr[$tag][0])) {
                     // seek to last sibling
@@ -262,14 +259,12 @@ class XMLParser
                 continue;
             }
 
-            if ($this->reader->nodeType == XMLReader::END_ELEMENT) {
+            if ($this->nodeType == self::END_ELEMENT) {
                 return $arr;
             }
 
-            if ($this->reader->nodeType == XMLReader::TEXT ||
-                $this->reader->nodeType == XMLReader::CDATA
-            ) {
-                $arr = $this->mergeValue($arr, $this->reader->value);
+            if ($this->nodeType == self::TEXT || $this->nodeType == self::CDATA) {
+                $arr = $this->mergeValue($arr, $this->value);
             }
         }
 
