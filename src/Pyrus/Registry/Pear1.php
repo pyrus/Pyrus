@@ -25,6 +25,9 @@
  * @link      http://svn.pear.php.net/PEAR2/Pyrus
  */
 namespace pear2\Pyrus\Registry;
+use \pear2\Pyrus\Installer\Role as Role,
+    \pear2\Pyrus\Main as Main,
+    \pear2\Pyrus\AtomicFileTransaction as AtomicFileTransaction;
 class Pear1 extends \pear2\Pyrus\Registry\Base
 {
     static public $dependencyDBClass = 'pear2\Pyrus\Registry\Pear1\DependencyDB';
@@ -38,9 +41,11 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if (!file_exists($path . '/.registry') && basename($path) !== 'php') {
             $path = $path . DIRECTORY_SEPARATOR . 'php';
         }
-        if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-            $path = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
+
+        if (isset(Main::$options['packagingroot'])) {
+            $path = Main::prepend(Main::$options['packagingroot'], $path);
         }
+
         $this->_path = $path;
         $this->filemap = $this->_path . DIRECTORY_SEPARATOR . '.filemap';
     }
@@ -50,6 +55,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if ($this->intransaction) {
             return $this->atomic->getJournalPath() . DIRECTORY_SEPARATOR . '.filemap';
         }
+
         return $this->_path . DIRECTORY_SEPARATOR . '.filemap';
     }
 
@@ -63,22 +69,24 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         foreach ($config->channelregistry as $channel) {
             $channels[$channel->name] = $this->listPackages($channel->name);
         }
+
         $files = array();
-        foreach (\pear2\Pyrus\Installer\Role::getValidRoles('php') as $role) {
+        foreach (Role::getValidRoles('php') as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
-            $roles[$role] =
-                \pear2\Pyrus\Installer\Role::factory('php', $role)->getLocationConfig();
+            $roles[$role] = Role::factory('php', $role)->getLocationConfig();
         }
-        foreach (\pear2\Pyrus\Installer\Role::getValidRoles('extsrc') as $role) {
+
+        foreach (Role::getValidRoles('extsrc') as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
             if (isset($roles[$role])) {
                 continue;
             }
-            $roles[$role] =
-                \pear2\Pyrus\Installer\Role::factory('extsrc', $role)->getLocationConfig();
+
+            $roles[$role] = Role::factory('extsrc', $role)->getLocationConfig();
         }
+
         foreach ($channels as $channel => $packages) {
             foreach ($packages as $package) {
                 foreach ($this->info($package, $channel, 'installedfiles') as $name => $attrs) {
@@ -90,9 +98,9 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                     if (!isset($files[$attrs['role']])) {
                         $files[$attrs['role']] = array();
                     }
+
                     if ($channel != 'pear.php.net') {
-                        $files[$attrs['role']][$file] = array($channel,
-                            strtolower($package));
+                        $files[$attrs['role']][$file] = array($channel, strtolower($package));
                     } else {
                         $files[$attrs['role']][$file] = strtolower($package);
                     }
@@ -103,6 +111,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if (!@is_dir(dirname($this->filemap()))) {
             mkdir(dirname($this->filemap()), 0755, true);
         }
+
         $fp = fopen($this->filemap(), 'wb');
         if (!$fp) {
             throw new Exception('Cannot write out Pear1 filemap');
@@ -128,16 +137,19 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if ($rt) {
             set_magic_quotes_runtime(0);
         }
+
         $fsize = filesize($this->filemap());
         $data = stream_get_contents($fp);
         fclose($fp);
         if ($rt) {
             @set_magic_quotes_runtime($rt);
         }
+
         $tmp = unserialize($data);
         if (!$tmp && $fsize > 7) {
             throw new Exception('Invalid Pear1 registry filemap data');
         }
+
         return $tmp;
     }
 
@@ -285,13 +297,14 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                 $maint[] = $m;
             }
         }
+
         $arr['filelist'] = $info->getFilelist();
-        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($info->getPackageType()) as $role) {
+        foreach (Role::getValidRoles($info->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
-            $roles[$role] =
-                \pear2\Pyrus\Installer\Role::factory($info->getPackageType(), $role);
+            $roles[$role] = Role::factory($info->getPackageType(), $role);
         }
+
         $config = \pear2\Pyrus\Config::current();
         $dirtree = array();
         foreach ($info->installcontents as $file) {
@@ -299,6 +312,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             if (!$relativepath) {
                 continue;
             }
+
             $arr['filelist'][$file['attribs']['name']] = $arr['filelist'][$file['attribs']['name']]['attribs'];
             $installedas = $config->{$roles[$file->role]->getLocationConfig()} .
                 DIRECTORY_SEPARATOR . $relativepath;
@@ -311,6 +325,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                 }
             } while (strlen($installedas) > $len);
         }
+
         $arr['filelist']['dirtree'] = array_keys($dirtree);
         $arr['old']['maintainers'] = $maint;
         $arr['xsdversion'] = '2.0';
@@ -354,52 +369,57 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if ($field == 'version') {
             $field = 'release-version';
         }
-        if ($field == 'installedfiles' || $field == 'dirtree') {
-            $packagefile = $this->_namePath($channel, $package) . '.reg';
-            if (!$packagefile || !isset($packagefile[0])) {
-                throw new Exception('Cannot find registry for package ' . $channel . '/' . $package);
-            }
 
-            $packagecontents = file_get_contents($packagefile);
-            $data = @unserialize($packagecontents);
-            if ($data === false) {
-                throw new Exception('Cannot retrieve package file object for package ' .
-                                    $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
-            }
-            if ($field == 'dirtree') {
-                $ret = $data['filelist']['dirtree'];
-                usort($ret, 'strnatcasecmp');
-                return array_reverse($ret);
-            }
-
-            $roles = array();
-            $configpaths = array();
-            $config = \pear2\Pyrus\Config::current();
-            foreach (\pear2\Pyrus\Installer\Role::getValidRoles($pf->getPackageType()) as $role) {
-                // set up a list of file role => configuration variable
-                // for storing in the registry
-                $roles[$role] =
-                    \pear2\Pyrus\Installer\Role::factory($pf->getPackageType(), $role);
-                $configpaths[$role] = $config->{$roles[$role]->getLocationConfig()};
-            }
-            $ret = array();
-            foreach ($data['filelist'] as $file) {
-                if (!isset($file['installed_as']) || !isset($configpaths[$file['role']])) {
-                    continue;
-                }
-                if (0 !== strpos($file['installed_as'], $configpaths[$file['role']])) {
-                    // this was installed with a different configuration, so don't guess
-                    $file['relativepath'] = basename($file['installed_as']);
-                    $file['configpath'] = dirname($file['installed_as']);
-                } else {
-                    $file['relativepath'] = substr($file['installed_as'], strlen($configpaths[$file['role']]) + 1);
-                    $file['configpath'] = $configpaths[$file['role']];
-                }
-                $ret[$file['installed_as']] = $file;
-            }
-            return $ret;
+        if ($field != 'installedfiles' && $field != 'dirtree') {
+            return $pf->$field;
         }
-        return $pf->$field;
+
+        $packagefile = $this->_namePath($channel, $package) . '.reg';
+        if (!$packagefile || !isset($packagefile[0])) {
+            throw new Exception('Cannot find registry for package ' . $channel . '/' . $package);
+        }
+
+        $packagecontents = file_get_contents($packagefile);
+        $data = @unserialize($packagecontents);
+        if ($data === false) {
+            throw new Exception('Cannot retrieve package file object for package ' .
+                                $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
+        }
+
+        if ($field == 'dirtree') {
+            $ret = $data['filelist']['dirtree'];
+            usort($ret, 'strnatcasecmp');
+            return array_reverse($ret);
+        }
+
+        $configpaths = $roles = array();
+        $config = \pear2\Pyrus\Config::current();
+        foreach (Role::getValidRoles($pf->getPackageType()) as $role) {
+            // set up a list of file role => configuration variable
+            // for storing in the registry
+            $roles[$role] = Role::factory($pf->getPackageType(), $role);
+            $configpaths[$role] = $config->{$roles[$role]->getLocationConfig()};
+        }
+
+        $ret = array();
+        foreach ($data['filelist'] as $file) {
+            if (!isset($file['installed_as']) || !isset($configpaths[$file['role']])) {
+                continue;
+            }
+
+            if (0 !== strpos($file['installed_as'], $configpaths[$file['role']])) {
+                // this was installed with a different configuration, so don't guess
+                $file['relativepath'] = basename($file['installed_as']);
+                $file['configpath']   = dirname($file['installed_as']);
+            } else {
+                $file['relativepath'] = substr($file['installed_as'], strlen($configpaths[$file['role']]) + 1);
+                $file['configpath']   = $configpaths[$file['role']];
+            }
+
+            $ret[$file['installed_as']] = $file;
+        }
+
+        return $ret;
     }
 
     public function listPackages($channel)
@@ -427,6 +447,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         } catch (\Exception $e) {
             throw new Exception('Could not open channel directory for channel ' . $channel, $e);
         }
+
         return $ret;
     }
 
@@ -453,9 +474,13 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                                 $channel . '/' . $package . ', PEAR 1.x registry file might be corrupt!');
         }
 
-        if (isset($data['xsdversion']) && $data['xsdversion'] == '1.0'
-            || !isset($data['attribs'])
-            || isset($data['attribs']) && $data['attribs']['version'] == '1.0') {
+        if (
+            isset($data['xsdversion']) &&
+            $data['xsdversion'] == '1.0' ||
+            !isset($data['attribs']) ||
+            isset($data['attribs']) &&
+            $data['attribs']['version'] == '1.0'
+        ) {
             // make scrappy minimal package.xml we can use for dependencies/info
             $pf = new \pear2\Pyrus\PackageFile\v2;
             $pf->name = $data['package'];
@@ -485,10 +510,12 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             if (!isset($contents[0])) {
                 $contents = array($contents);
             }
+
             foreach ($contents as $file) {
                 $pf->files[$file['attribs']['name']] = $file;
             }
         }
+
         return $pf;
     }
 
@@ -507,6 +534,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         foreach ($ret as $i => $package) {
             $ret[$i] = $this->package[$package['channel'] . '/' . $package['package']];
         }
+
         return $ret;
     }
 
@@ -523,18 +551,19 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
 
         // now iterate over each file in the package, and note all the conflicts
         $roles = array();
-        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()) as $role) {
+        foreach (Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
-            $roles[$role] =
-                \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $role);
+            $roles[$role] = Role::factory($package->getPackageType(), $role);
         }
+
         $ret = array();
         foreach ($package->installcontents as $file) {
             $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
             if (!$relativepath) {
                 continue;
             }
+
             if (isset($filemap[$file->role][$relativepath])) {
                 if (is_array($filemap[$file->role][$relativepath])) {
                     $ret[] = array($relativepath => $filemap[$file->role][$relativepath][0] . '/' .
@@ -558,18 +587,22 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
      */
     static public function detectRegistries($path)
     {
-        if (isset(\pear2\Pyrus\Main::$options['packagingroot'])) {
-            $path = \pear2\Pyrus\Main::prepend(\pear2\Pyrus\Main::$options['packagingroot'], $path);
+        if (isset(Main::$options['packagingroot'])) {
+            $path = Main::prepend(Main::$options['packagingroot'], $path);
         }
+
         if (file_exists($path . '/.registry') || is_dir($path . '/.registry')) {
             return array('Pear1');
         }
+
         if (basename($path) !== 'php') {
             $path = $path . DIRECTORY_SEPARATOR . 'php';
         }
+
         if (file_exists($path . '/.registry') || is_dir($path . '/.registry')) {
             return array('Pear1');
         }
+
         return array();
     }
 
@@ -582,25 +615,29 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if (!file_exists($path . '/.registry')) {
             return;
         }
+
         try {
-            \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.registry'));
-        } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
+            AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.registry'));
+        } catch (AtomicFileTransaction\Exception $e) {
             throw new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
+
         $errs = new \pear2\MultiErrors;
         try {
             if (file_exists($path . '/.channels')) {
-                \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));
+                AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));
             }
-        } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
+        } catch (AtomicFileTransaction\Exception $e) {
             $errs->E_ERROR[] = new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
+
         foreach (array('.filemap', '.lock', '.depdb', '.depdblock') as $file) {
             if (file_exists($path . DIRECTORY_SEPARATOR . $file)
                 && !@unlink(realpath($path . DIRECTORY_SEPARATOR . $file))) {
                 $errs->E_ERROR[] = new Exception('Cannot remove Pear1 registry: Unable to remove ' . $file);
             }
         }
+
         if (count($errs->E_ERROR)) {
             throw new Exception('Unable to remove Pear1 registry', $errs);
         }
@@ -611,11 +648,12 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         if ($this->intransaction) {
             return;
         }
-        if (!\pear2\Pyrus\AtomicFileTransaction::inTransaction()) {
+
+        if (!AtomicFileTransaction::inTransaction()) {
             throw new Exception('internal error: file transaction must be started before registry transaction');
         }
-        $this->atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(
-                                            $this->_path);
+
+        $this->atomic = AtomicFileTransaction::getTransactionObject($this->_path);
         $this->intransaction = true;
     }
 
