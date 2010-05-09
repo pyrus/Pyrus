@@ -34,7 +34,9 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace pear2\Pyrus\Registry;
-use \pear2\Pyrus\Main as Main;
+use \pear2\Pyrus\Main as Main,
+    \pear2\Pyrus\Installer\Role as Role,
+    \pear2\Pyrus\AtomicFileTransaction as AtomicFileTransaction;
 class Xml extends \pear2\Pyrus\Registry\Base
 {
     protected $readonly;
@@ -47,6 +49,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if (isset(Main::$options['packagingroot'])) {
             $path = Main::prepend(Main::$options['packagingroot'], $path);
         }
+
         $this->_path = $path;
         $this->readonly = $readonly;
     }
@@ -65,10 +68,9 @@ class Xml extends \pear2\Pyrus\Registry\Base
     {
         if ($this->intransaction) {
             return $this->atomic->getJournalPath();
-        } else {
-            return $this->_path . DIRECTORY_SEPARATOR .
-                '.xmlregistry';
         }
+
+        return $this->_path . DIRECTORY_SEPARATOR . '.xmlregistry';
     }
 
     private function _namePath($channel, $package)
@@ -97,9 +99,11 @@ class Xml extends \pear2\Pyrus\Registry\Base
             $info->date = date('Y-m-d');
             $info->time = date('H:i:s');
         }
+
         foreach ($info->files as $name => $file) {
             unset($file->{'install-as'});
         }
+
         $arr = $info->toArray();
         file_put_contents($packagefile, (string) new \pear2\Pyrus\XMLWriter($arr));
     }
@@ -109,15 +113,18 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if ($this->readonly) {
             throw new Exception('Cannot install package, registry is read-only');
         }
+
         if (!$this->exists($package, $channel)) {
             return;
         }
+
         $packagefile = glob($this->_namePath($channel, $package) .
             DIRECTORY_SEPARATOR . '*.xml');
         if (!$packagefile || !isset($packagefile[0])) {
             throw new Exception('Cannot find registry for package ' .
                 $channel . '/' . $package);
         }
+
         unlink($packagefile[0]);
         rmdir(dirname($packagefile[0]));
     }
@@ -134,6 +141,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
             throw new Exception('Unknown package ' . $channel .
                 '/' . $package);
         }
+
         $packagefile = glob($this->_namePath($channel, $package) .
             DIRECTORY_SEPARATOR . '*.xml');
         if (!$packagefile || !isset($packagefile[0])) {
@@ -157,19 +165,21 @@ class Xml extends \pear2\Pyrus\Registry\Base
                 throw new Exception('Cannot retrieve files, config ' .
                                         'snapshot could not be processed', $e);
             }
+
             $roles = array();
-            foreach (\pear2\Pyrus\Installer\Role::getValidRoles($packageobject->getPackageType()) as $role) {
+            foreach (Role::getValidRoles($packageobject->getPackageType()) as $role) {
                 // set up a list of file role => configuration variable
                 // for storing in the registry
-                $roles[$role] =
-                    \pear2\Pyrus\Installer\Role::factory($packageobject->getPackageType(), $role);
+                $roles[$role] = Role::factory($packageobject->getPackageType(), $role);
             }
+
             $ret = array();
             foreach ($packageobject->installcontents as $file) {
                 $relativepath = $roles[$file->role]->getRelativeLocation($packageobject, $file);
                 if (!$relativepath) {
                     continue;
                 }
+
                 $filepath = $config->{$roles[$file->role]->getLocationConfig()} .
                     DIRECTORY_SEPARATOR . $relativepath;
                 $attrs = $file->getArrayCopy();
@@ -178,6 +188,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
                 $ret[$filepath]['relativepath'] = $relativepath;
                 $ret[$filepath]['configpath'] = $config->{$roles[$file->role]->getLocationConfig()};
             }
+
             return $ret;
         } elseif ($field == 'dirtree') {
             $files = $this->info($package, $channel, 'installedfiles');
@@ -203,6 +214,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if (!@file_exists($dir)) {
             return array();
         }
+
         $ret = array();
         try {
             $parser = new \pear2\Pyrus\XMLParser;
@@ -210,11 +222,13 @@ class Xml extends \pear2\Pyrus\Registry\Base
                 if ($file->isDot()) {
                     continue;
                 }
+
                 try {
                     foreach (new \DirectoryIterator($file->getPathName()) as $registries) {
                         if ($registries->isDir()) {
                             continue;
                         }
+
                         $a = $parser->parse($registries->getPathName());
                         $ret[] = $a['package']['name'];
                     }
@@ -227,6 +241,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
             throw new Exception('Could not open channel directory for ' .
                 'channel ' . $channel, $e);
         }
+
         return $ret;
     }
 
@@ -236,8 +251,8 @@ class Xml extends \pear2\Pyrus\Registry\Base
             throw new Exception('Cannot retrieve package file object ' .
                 'for package ' . $channel . '/' . $package . ', it is not installed');
         }
-        $packagefile = $this->info($package, $channel, null);
 
+        $packagefile = $this->info($package, $channel, null);
         return $packagefile;
     }
 
@@ -269,10 +284,12 @@ class Xml extends \pear2\Pyrus\Registry\Base
             if ($test->isEqual($package)) {
                 continue;
             }
+
             if ($test->dependsOn($package)) {
                 $ret[] = $test;
             }
         }
+
         return $ret;
     }
 
@@ -283,8 +300,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
     public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
     {
         // construct list of all installed files
-        $allfiles = array();
-        $filesByPackage = array();
+        $filesByPackage = $allfiles = array();
         $config = \pear2\Pyrus\Config::current();
         foreach ($config->channelregistry as $channel) {
             foreach ($this->listPackages($channel->name) as $packagename) {
@@ -293,6 +309,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
                 foreach ($files as $file) {
                     $newfiles[$file['installed_as']] = $file;
                 }
+
                 $filesByPackage[$channel->name . '/' . $packagename] = $newfiles;
                 $allfiles = array_merge($allfiles, $newfiles);
             }
@@ -300,18 +317,19 @@ class Xml extends \pear2\Pyrus\Registry\Base
 
         // now iterate over each file in the package, and note all the conflicts
         $roles = array();
-        foreach (\pear2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()) as $role) {
+        foreach (Role::getValidRoles($package->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
-            $roles[$role] =
-                \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $role);
+            $roles[$role] = Role::factory($package->getPackageType(), $role);
         }
+
         $ret = array();
         foreach ($package->installcontents as $file) {
             $relativepath = $roles[$file->role]->getRelativeLocation($package, $file);
             if (!$relativepath) {
                 continue;
             }
+
             $testpath = $config->{$roles[$file->role]->getLocationConfig()} .
                     DIRECTORY_SEPARATOR . $relativepath;
             if (isset($allfiles[$testpath])) {
@@ -323,6 +341,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
                 }
             }
         }
+
         return $ret;
     }
 
@@ -336,9 +355,11 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if (isset(Main::$options['packagingroot'])) {
             $path = Main::prepend(Main::$options['packagingroot'], $path);
         }
+
         if (file_exists($path . '/.xmlregistry') || is_dir($path . '/.xmlregistry')) {
             return array('Xml');
         }
+
         return array();
     }
 
@@ -350,9 +371,10 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if (!file_exists($path . '/.xmlregistry')) {
             return;
         }
+
         try {
-            \pear2\Pyrus\AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
-        } catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
+            AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
+        } catch (AtomicFileTransaction\Exception $e) {
             throw new Exception('Cannot remove XML registry: ' . $e->getMessage(), $e);
         }
     }
@@ -362,11 +384,13 @@ class Xml extends \pear2\Pyrus\Registry\Base
         if ($this->intransaction) {
             return;
         }
-        if (!\pear2\Pyrus\AtomicFileTransaction::inTransaction()) {
+
+        if (!AtomicFileTransaction::inTransaction()) {
             throw new Exception(
                     'internal error: file transaction must be started before registry transaction');
         }
-        $this->atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(
+
+        $this->atomic = AtomicFileTransaction::getTransactionObject(
                                             $this->_path. DIRECTORY_SEPARATOR . '.xmlregistry');
         $this->intransaction = true;
     }
