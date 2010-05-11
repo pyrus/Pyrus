@@ -282,7 +282,7 @@ class Commands implements \pear2\Pyrus\LogInterface
             } else {
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
             }
-        } catch (\PEAR2_Console_CommandLine_Exception $e) {
+        } catch (\pear2\Console\CommandLine\Exception $e) {
             static::$commandParser->displayError($e->getMessage(), false);
             static::$commandParser->displayUsage(false);
         }

@@ -34,7 +34,7 @@
  * @since     Class available since release 0.1.0
  */
 namespace pear2\Pyrus\ScriptFrontend;
-class Renderer extends \PEAR2_Console_CommandLine_Renderer_Default
+class Renderer extends \pear2\Console\CommandLine\Renderer_Default
 {
     /**
      * Return the command line usage message

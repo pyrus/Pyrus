@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extension to PEAR2_Console_CommandLine_Command
+ * Extension to pear2\Console\CommandLine\Command
  *
  * PHP version 5
  *
@@ -26,7 +26,7 @@
  */
 
 namespace pear2\Pyrus\ScriptFrontend;
-class Command extends \PEAR2_Console_CommandLine_Command
+class Command extends \pear2\Console\CommandLine\Command
 {
 
     /**
