@@ -37,6 +37,11 @@ class Commands implements \pear2\Pyrus\LogInterface
         'bold'   => '',
         'normal' => '',
     );
+    /**
+     * The actual scriptfrontend
+     * 
+     * @var \pear2\Pyrus\ScriptFrontend
+     */
     protected static $commandParser;
 
     function exceptionHandler($e)
@@ -277,8 +282,9 @@ class Commands implements \pear2\Pyrus\LogInterface
             } else {
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
             }
-        } catch (PEAR2_Console_CommandLine_Exception $e) {
-            static::$commandParser->displayError($e->getMessage());
+        } catch (\PEAR2_Console_CommandLine_Exception $e) {
+            static::$commandParser->displayError($e->getMessage(), false);
+            static::$commandParser->displayUsage(false);
         }
     }
 
