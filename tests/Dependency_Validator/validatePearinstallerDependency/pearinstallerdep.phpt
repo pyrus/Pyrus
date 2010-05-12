@@ -4,7 +4,7 @@ Dependency_Validator: Pear installer dependency
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new \pear2\Pyrus\PackageFile\v2;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $pear = $fake->dependencies['required']->pearinstaller;
 $pear->min('5.3.0')->max('5.4.0')->exclude('5.3.1');
 $validator->pearversion = '5.3.0';
@@ -25,7 +25,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.4.1';
@@ -40,7 +40,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.3.1';
@@ -52,10 +52,10 @@ foreach ($errs->E_ERROR as $error) {
                         '5.3.1 fail message');
 }
 
-\pear2\Pyrus\Main::$options = array('force' => true);
+\PEAR2\Pyrus\Main::$options = array('force' => true);
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->pearversion = '5.2.9';
 $test->assertEquals(true, $validator->validatePearinstallerDependency($pear), '5.2.9 fail');
@@ -69,7 +69,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.4.1';
@@ -84,7 +84,7 @@ foreach ($errs->E_WARNING as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $validator->pearversion = '5.3.1';

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Cloner
+ * \PEAR2\Pyrus\Package\Cloner
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-namespace pear2\Pyrus\Package;
+namespace PEAR2\Pyrus\Package;
 class Cloner
 {
     protected $hash;

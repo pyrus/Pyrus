@@ -1,11 +1,11 @@
 --TEST--
-\pear2\Pyrus\Channel\Mirror basic tests
+\PEAR2\Pyrus\Channel\Mirror basic tests
 --FILE--
 <?php
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 
-$channel = new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
+$channel = new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 
 $test->assertEquals(false, isset($channel->mirror['ugly.pear.php.net']), 'test offsetExists false');
 $test->assertEquals('pear.php.net', $channel->mirrors['ugly.pear.php.net']->channel, 'getChannel ugly');

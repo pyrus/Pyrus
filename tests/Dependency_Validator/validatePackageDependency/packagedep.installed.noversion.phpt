@@ -4,7 +4,7 @@ Dependency_Validator: package dependency, no version, installed
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new \pear2\Pyrus\PackageFile\v2;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->package['pear2.php.net/foo']->conflicts(true);
 
 
@@ -20,7 +20,7 @@ $fake->files['foo'] = array('role' => 'php');
 $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
-\pear2\Pyrus\Config::current()->registry->install($fake);
+\PEAR2\Pyrus\Config::current()->registry->install($fake);
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo');
 $test->assertEquals(0, count($errs), 'foo count');

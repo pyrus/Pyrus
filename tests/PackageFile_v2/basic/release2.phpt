@@ -5,7 +5,7 @@ PackageFile v2: test package.xml release properties (2)
 require __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../../Registry/AllRegistries/package/basic/release2.template';
 
-$a = new \pear2\Pyrus\PackageFile\v2;
+$a = new \PEAR2\Pyrus\PackageFile\v2;
 $a->fromArray(array('package' => array('contents' => array('dir' => array('attribs' => array('name' => '/'),
                                                                           'file' => array('attribs' => array('name' => 'test')))),
                                        'phprelease' => array('installcondition' => array('extension' => null)))));

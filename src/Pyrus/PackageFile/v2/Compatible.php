@@ -33,7 +33,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2;
+namespace PEAR2\Pyrus\PackageFile\v2;
 class Compatible implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
@@ -137,7 +137,7 @@ class Compatible implements \ArrayAccess, \Iterator, \Countable
 
         if (!($value instanceof self)) {
             throw new Compatible\Exception('Can only set $pf->compatible[\'' .
-                $var . '\'] to \pear2\Pyrus\PackageFile\v2\Compatible object');
+                $var . '\'] to \PEAR2\Pyrus\PackageFile\v2\Compatible object');
         }
 
         if ($var === null) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelFile
+ * \PEAR2\Pyrus\ChannelFile
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-class ChannelFile implements \pear2\Pyrus\ChannelFileInterface
+namespace PEAR2\Pyrus;
+class ChannelFile implements \PEAR2\Pyrus\ChannelFileInterface
 {
     protected $info;
     public $path;

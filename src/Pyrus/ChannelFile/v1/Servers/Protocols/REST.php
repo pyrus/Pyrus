@@ -1,6 +1,6 @@
 <?php
-namespace pear2\Pyrus\ChannelFile\v1\Servers\Protocols;
-use \pear2\Pyrus\ChannelFile as ChannelFile;
+namespace PEAR2\Pyrus\ChannelFile\v1\Servers\Protocols;
+use \PEAR2\Pyrus\ChannelFile as ChannelFile;
 class REST implements \ArrayAccess, \Countable, \Iterator
 {
     protected $info;
@@ -124,7 +124,7 @@ class REST implements \ArrayAccess, \Countable, \Iterator
 
         if (!($value instanceof self)) {
             throw new ChannelFile\Exception('Can only set REST protocol ' .
-                        ' to a \pear2\Pyrus\ChannelFile\v1\Servers\Protocol\REST object');
+                        ' to a \PEAR2\Pyrus\ChannelFile\v1\Servers\Protocol\REST object');
         }
 
         if (!isset($this->info['baseurl'])) {

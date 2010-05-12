@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Registry\Pear1
+ * \PEAR2\Pyrus\Registry\Pear1
  *
  * PHP version 5
  *
@@ -24,13 +24,13 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus
  */
-namespace pear2\Pyrus\Registry;
-use \pear2\Pyrus\Installer\Role as Role,
-    \pear2\Pyrus\Main as Main,
-    \pear2\Pyrus\AtomicFileTransaction as AtomicFileTransaction;
-class Pear1 extends \pear2\Pyrus\Registry\Base
+namespace PEAR2\Pyrus\Registry;
+use \PEAR2\Pyrus\Installer\Role as Role,
+    \PEAR2\Pyrus\Main as Main,
+    \PEAR2\Pyrus\AtomicFileTransaction as AtomicFileTransaction;
+class Pear1 extends \PEAR2\Pyrus\Registry\Base
 {
-    static public $dependencyDBClass = 'pear2\Pyrus\Registry\Pear1\DependencyDB';
+    static public $dependencyDBClass = 'PEAR2\Pyrus\Registry\Pear1\DependencyDB';
     protected $_path;
     protected $filemap;
     protected $intransaction;
@@ -64,7 +64,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         $depdb = static::$dependencyDBClass;
         $depdb = new $depdb($this->path);
         $depdb->rebuildDB();
-        $config = \pear2\Pyrus\Config::current();
+        $config = \PEAR2\Pyrus\Config::current();
         $channels = array();
         foreach ($config->channelregistry as $channel) {
             $channels[$channel->name] = $this->listPackages($channel->name);
@@ -153,7 +153,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         return $tmp;
     }
 
-    private function _nameRegistryPath(\pear2\Pyrus\PackageFileInterface $info = null,
+    private function _nameRegistryPath(\PEAR2\Pyrus\PackageFileInterface $info = null,
                                      $channel = null, $package = null, $version = null)
     {
         $channel = $info !== null ? $info->channel : $channel;
@@ -186,9 +186,9 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
     /**
      * Create the .registry/package.reg or file
      *
-     * @param \pear2\Pyrus\PackageFileInterface $pf
+     * @param \PEAR2\Pyrus\PackageFileInterface $pf
      */
-    function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false)
+    function install(\PEAR2\Pyrus\PackageFileInterface $info, $replace = false)
     {
         $packagefile = $this->_nameRegistryPath($info);
         if (!@is_dir(dirname($packagefile))) {
@@ -305,7 +305,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             $roles[$role] = Role::factory($info->getPackageType(), $role);
         }
 
-        $config = \pear2\Pyrus\Config::current();
+        $config = \PEAR2\Pyrus\Config::current();
         $dirtree = array();
         foreach ($info->installcontents as $file) {
             $relativepath = $roles[$file->role]->getRelativeLocation($info, $file);
@@ -393,7 +393,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         }
 
         $configpaths = $roles = array();
-        $config = \pear2\Pyrus\Config::current();
+        $config = \PEAR2\Pyrus\Config::current();
         foreach (Role::getValidRoles($pf->getPackageType()) as $role) {
             // set up a list of file role => configuration variable
             // for storing in the registry
@@ -440,7 +440,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
                 } elseif ($a !== false && isset($a['package'])) {
                     $ret[] = $a['package'];
                 } else {
-                    \pear2\Pyrus\Logger::log(0, 'Warning: corrupted REG registry entry: ' .
+                    \PEAR2\Pyrus\Logger::log(0, 'Warning: corrupted REG registry entry: ' .
                         $file->getPathName());
                 }
             }
@@ -482,7 +482,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             $data['attribs']['version'] == '1.0'
         ) {
             // make scrappy minimal package.xml we can use for dependencies/info
-            $pf = new \pear2\Pyrus\PackageFile\v2;
+            $pf = new \PEAR2\Pyrus\PackageFile\v2;
             $pf->name = $data['package'];
             $pf->channel = 'pear.php.net';
             $pf->version['release'] = $pf->version['api'] = $data['version'];
@@ -504,7 +504,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             }
         } else {
             // create packagefile v2 here
-            $pf = new \pear2\Pyrus\PackageFile\v2;
+            $pf = new \PEAR2\Pyrus\PackageFile\v2;
             $pf->fromArray(array('package' => $data));
             $contents = $data['contents']['dir']['file'];
             if (!isset($contents[0])) {
@@ -526,7 +526,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
         }
     }
 
-    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true)
+    public function getDependentPackages(\PEAR2\Pyrus\PackageFileInterface $package, $minimal = true)
     {
         $class = self::$dependencyDBClass;
         $dep = new $class($this->_getPath());
@@ -542,7 +542,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
+    public function detectFileConflicts(\PEAR2\Pyrus\PackageFileInterface $package)
     {
         $filemap = $this->readFileMap();
         if (!$filemap) {
@@ -622,7 +622,7 @@ class Pear1 extends \pear2\Pyrus\Registry\Base
             throw new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
 
-        $errs = new \pear2\MultiErrors;
+        $errs = new \PEAR2\MultiErrors;
         try {
             if (file_exists($path . '/.channels')) {
                 AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));

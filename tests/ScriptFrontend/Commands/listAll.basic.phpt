@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::listAll() --basic
+\PEAR2\Pyrus\ScriptFrontend\Commands::listAll() --basic
 --FILE--
 <?php
 /**
@@ -32,14 +32,14 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.dep.versionconflict',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-\pear2\Pyrus\Installer::begin();
-\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P1-1.0.0'));
-\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P4-stable', true));
-\pear2\Pyrus\Installer::commit();
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\PEAR2\Pyrus\Installer::begin();
+\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P1-1.0.0'));
+\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P4-stable', true));
+\PEAR2\Pyrus\Installer::commit();
 
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array ('remote-list', '--basic', 'pear2.php.net'));
 
 $contents = ob_get_contents();

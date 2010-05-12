@@ -4,13 +4,13 @@ Sqlite3: init
 <?php
 require dirname(__FILE__) . '/../../setup.php.inc';
 try {
-    $a = new \pear2\Pyrus\Registry\Sqlite3(false, true);
+    $a = new \PEAR2\Pyrus\Registry\Sqlite3(false, true);
     throw new Exception('should fail, didn\'t');
-} catch (\pear2\Pyrus\Registry\Exception $e) {
+} catch (\PEAR2\Pyrus\Registry\Exception $e) {
     $test->assertEquals('Cannot create SQLite3 registry, registry is read-only', $e->getMessage(), 'message');
 }
 
-class r extends \pear2\Pyrus\Registry\Sqlite3
+class r extends \PEAR2\Pyrus\Registry\Sqlite3
 {
     static public $databases = array();
 }

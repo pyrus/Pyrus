@@ -1,5 +1,5 @@
 <?php
-namespace pear2\Pyrus\PackageFile\v2\Dependencies;
+namespace PEAR2\Pyrus\PackageFile\v2\Dependencies;
 class Dep implements \ArrayAccess, \Iterator
 {
     protected $parent;

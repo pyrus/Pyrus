@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2Iterator\FileInstallationFilter
+ * \PEAR2\Pyrus\PackageFile\v2Iterator\FileInstallationFilter
  *
  * PHP version 5
  *
@@ -23,20 +23,20 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2Iterator;
+namespace PEAR2\Pyrus\PackageFile\v2Iterator;
 class FileInstallationFilter extends \FilterIterator
 {
     static private $_parent;
     static private $_installGroup;
 
-    static function setParent(\pear2\Pyrus\PackageFile\v2 $parent)
+    static function setParent(\PEAR2\Pyrus\PackageFile\v2 $parent)
     {
         self::$_parent = $parent;
-        $errs = new \pear2\MultiErrors;
-        $depchecker = new \pear2\Pyrus\Dependency\Validator(
+        $errs = new \PEAR2\MultiErrors;
+        $depchecker = new \PEAR2\Pyrus\Dependency\Validator(
             array('channel' => self::$_parent->channel,
                   'package' => self::$_parent->name),
-            \pear2\Pyrus\Validate::INSTALLING, $errs);
+            \PEAR2\Pyrus\Validate::INSTALLING, $errs);
         foreach (self::$_parent->installGroup as $instance) {
             try {
                 if (isset($instance['installconditions'])) {
@@ -48,7 +48,7 @@ class FileInstallationFilter extends \FilterIterator
                             }
 
                             foreach ($conditions as $condition) {
-                                $condition = new \pear2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
+                                $condition = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
                             }
                         }

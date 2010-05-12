@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2\Dependencies
+ * \PEAR2\Pyrus\PackageFile\v2\Dependencies
  *
  * PHP version 5
  *
@@ -86,7 +86,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2;
+namespace PEAR2\Pyrus\PackageFile\v2;
 class Dependencies implements \ArrayAccess
 {
     protected $parent;
@@ -224,7 +224,7 @@ class Dependencies implements \ArrayAccess
 
                 if (!($value instanceof Dependencies\Dep)) {
                     throw new Dependencies\Exception(
-                        'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Dep object'
+                        'Can only set ' . $var . ' to \PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep object'
                     );
                 }
 
@@ -236,7 +236,7 @@ class Dependencies implements \ArrayAccess
             case 'extension' :
                 if (!($value instanceof Dependencies\Package)) {
                     throw new Dependencies\Exception(
-                        'Can only set ' . $var . ' to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object'
+                        'Can only set ' . $var . ' to \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object'
                     );
                 }
 
@@ -294,7 +294,7 @@ class Dependencies implements \ArrayAccess
         if ($var === 'group') {
             if (!($value instanceof Dependencies\Group)) {
                 throw new Dependencies\Exception('Cannot set group to anything' .
-                            ' but a \pear2\Pyrus\PackageFile\v2\Dependencies\Group object');
+                            ' but a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Group object');
             }
 
             $this->info['group'] = $value->getInfo();
@@ -305,7 +305,7 @@ class Dependencies implements \ArrayAccess
         if ($var === 'required' || $var === 'optional') {
             if (!($value instanceof Dependencies)) {
                 throw new Dependencies\Exception('Cannot set ' . $var . ' to anything' .
-                            ' but a \pear2\Pyrus\PackageFile\v2\Dependencies object');
+                            ' but a \PEAR2\Pyrus\PackageFile\v2\Dependencies object');
             }
 
             $this->info[$var] = $value->getInfo();

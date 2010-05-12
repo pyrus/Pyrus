@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2\SImpleProperty
+ * \PEAR2\Pyrus\PackageFile\v2\SImpleProperty
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2;
+namespace PEAR2\Pyrus\PackageFile\v2;
 class SimpleProperty implements \ArrayAccess
 {
     protected $info;
@@ -43,7 +43,7 @@ class SimpleProperty implements \ArrayAccess
     function offsetUnset($var)
     {
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
+            throw new \PEAR2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
 
         $this->info[$var] = null;
@@ -53,7 +53,7 @@ class SimpleProperty implements \ArrayAccess
     function offsetGet($var)
     {
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
+            throw new \PEAR2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
 
         return $this->info[$var];
@@ -62,11 +62,11 @@ class SimpleProperty implements \ArrayAccess
     function offsetSet($var, $value)
     {
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
+            throw new \PEAR2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
 
         if (!is_string($value)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Can only set ' . $this->name . ' to string');
+            throw new \PEAR2\Pyrus\PackageFile\Exception('Can only set ' . $this->name . ' to string');
         }
 
         $this->info[$var] = $value;
@@ -76,7 +76,7 @@ class SimpleProperty implements \ArrayAccess
     function offsetExists($var)
     {
         if (!array_key_exists($var, $this->info)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
+            throw new \PEAR2\Pyrus\PackageFile\Exception('Unknown ' . $this->name . ' property ' . $var);
         }
 
         return isset($this->info[$var]);

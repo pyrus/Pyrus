@@ -2,7 +2,7 @@
 require __DIR__ . '/../setup.php.inc';
 $testpath = __DIR__ . '/testit';
 mkdir($testpath);
-class tc extends \pear2\Pyrus\Config
+class tc extends \PEAR2\Pyrus\Config
 {
     /**
      * location of PEAR2 installation

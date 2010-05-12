@@ -6,113 +6,113 @@ $reg->type = 'extsrc';
 try {
     $a = $reg->release[0]->configureoption['hi']['name'];
     throw new Exception ('[hi][name] worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use -> operator to access properties of a configureoption', $e->getMessage(), '[hi][name]');
 }
 
 try {
     $reg->release[0]->configureoption['hi']['name'] = $reg->release[0]->configureoption['hi'];
     throw new Exception ('[hi][name] = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use -> operator to access properties of a configureoption', $e->getMessage(), '[hi][name] =');
 }
 
 try {
     isset($reg->release[0]->configureoption['hi']['name']);
     throw new Exception ('isset([hi][name]) worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use -> operator to access properties of a configureoption', $e->getMessage(), 'isset([hi][name])');
 }
 
 try {
     unset($reg->release[0]->configureoption['hi']['name']);
     throw new Exception ('unset([hi][name]) worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use -> operator to access properties of a configureoption', $e->getMessage(), 'unset([hi][name])');
 }
 
 try {
     $a = $reg->release[0]->configureoption->hi;
     throw new Exception ('->hi worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use [] operator to access configureoptions', $e->getMessage(), '->hi');
 }
 
 try {
     $reg->release[0]->configureoption->hi = '';
     throw new Exception ('->hi = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use [] operator to access configureoptions', $e->getMessage(), '->hi =');
 }
 
 try {
     isset($reg->release[0]->configureoption->hi);
     throw new Exception ('isset(->hi) = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use [] operator to access configureoptions', $e->getMessage(), 'isset(->hi)');
 }
 
 try {
     unset($reg->release[0]->configureoption->hi);
     throw new Exception ('unset(->hi) = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use [] operator to access configureoptions', $e->getMessage(), 'unset(->hi)');
 }
 
 try {
     $reg->release[0]->configureoption->hi();
     throw new Exception ('->hi() = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use [] operator to access configureoptions', $e->getMessage(), '->hi()');
 }
 
 try {
     $reg->release[0]->configureoption['hi'] = $reg->release[0]->configureoption['bye'];
     throw new Exception ('hi = bye worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('use [] or [\'bye\'] to set this configureoption', $e->getMessage(), 'hi = bye');
 }
 
 try {
     $reg->release[0]->configureoption['hi'] = 1;
     throw new Exception ('hi = 1 worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
-    $test->assertEquals('Can only set configureoption to a \pear2\Pyrus\PackageFile\v2\Release\ConfigureOption object', $e->getMessage(), 'hi = 1');
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+    $test->assertEquals('Can only set configureoption to a \PEAR2\Pyrus\PackageFile\v2\Release\ConfigureOption object', $e->getMessage(), 'hi = 1');
 }
 
 
 try {
     unset($reg->release[0]->configureoption['hi']->hi);
     throw new Exception ('unset([hi]->hi) = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown variable hi, must be one of name, default, prompt', $e->getMessage(), 'unset([hi]->hi)');
 }
 
 try {
     isset($reg->release[0]->configureoption['hi']->hi);
     throw new Exception ('isset([hi]->hi) = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown variable hi, must be one of name, default, prompt', $e->getMessage(), 'isset([hi]->hi)');
 }
 
 try {
     $reg->release[0]->configureoption['hi']->hi = '';
     throw new Exception ('[hi]->hi = worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown variable hi, must be one of name, default, prompt', $e->getMessage(), '[hi]->hi =');
 }
 
 try {
     $a = $reg->release[0]->configureoption['hi']->hi;
     throw new Exception ('[hi]->hi worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown variable hi, must be one of name, default, prompt', $e->getMessage(), '[hi]->hi');
 }
 
 try {
     $a = $reg->release[0]->configureoption['hi']->hi();
     throw new Exception ('[hi]->hi() worked and should not');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown variable hi, must be one of name, default, prompt', $e->getMessage(), '[hi]->hi()');
 }
 

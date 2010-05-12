@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2\Releaseinstallcondition
+ * \PEAR2\Pyrus\PackageFile\v2\Releaseinstallcondition
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2\Release;
+namespace PEAR2\Pyrus\PackageFile\v2\Release;
 class InstallCondition implements \ArrayAccess
 {
     protected $parent;
@@ -195,7 +195,7 @@ class InstallCondition implements \ArrayAccess
         if (isset($this->installcondition) && $this->installcondition == 'extension') {
             if (!($value instanceof InstallCondition)) {
                 throw new Exception('Cannot set extension to anything but a' .
-                            ' \pear2\Pyrus\PackageFile\v2\Release\InstallCondition object');
+                            ' \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition object');
             }
         } else {
             switch ($var) {

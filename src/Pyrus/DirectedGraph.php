@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\DirectedGraph
+ * \PEAR2\Pyrus\DirectedGraph
  *
  * PHP version 5
  *
@@ -26,7 +26,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class DirectedGraph implements \Iterator
 {
     const WHITE = 0;
@@ -49,7 +49,7 @@ class DirectedGraph implements \Iterator
      * Add a data vertex
      *
      * @param object $data
-     * @return \pear2\Pyrus\DirectedGraph\Vertex
+     * @return \PEAR2\Pyrus\DirectedGraph\Vertex
      */
     function add($data)
     {
@@ -63,9 +63,9 @@ class DirectedGraph implements \Iterator
      * Connect two vertices in a directed graph
      *
      * This can be used with a fluent interface
-     * @param object|\pear2\Pyrus\DirectedGraph\Vertex $from
-     * @param object|\pear2\Pyrus\DirectedGraph\Vertex $to
-     * @return \pear2\Pyrus\DirectedGraph
+     * @param object|\PEAR2\Pyrus\DirectedGraph\Vertex $from
+     * @param object|\PEAR2\Pyrus\DirectedGraph\Vertex $to
+     * @return \PEAR2\Pyrus\DirectedGraph
      */
     function connect($from, $to)
     {

@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class Main
 {
     const VERSION = '@PACKAGE_VERSION@';
@@ -45,12 +45,12 @@ class Main
     /**
      * For easy unit testing
      */
-    static public $downloadClass = 'pear2\HTTP\Request';
+    static public $downloadClass = 'PEAR2\HTTP\Request';
 
     /**
      * For frontends to control
      */
-    static public $downloadListener = 'pear2\Pyrus\DownloadProgressListener';
+    static public $downloadListener = 'PEAR2\Pyrus\DownloadProgressListener';
 
     static public $paranoid;
 

@@ -11,7 +11,7 @@
 class PEAR2_SimpleChannelServer_REST_Maintainer extends
       PEAR2_SimpleChannelServer_REST_Manager
 {
-    function save(\pear2\Pyrus\Package $new)
+    function save(\PEAR2\Pyrus\Package $new)
     {
         foreach ($new->allmaintainers as $role => $maintainers) {
             foreach ($maintainers as $dev) {
@@ -49,7 +49,7 @@ class PEAR2_SimpleChannelServer_REST_Maintainer extends
     function getInfo($handle)
     {
         $path = $this->getRESTPath('m', strtolower($handle) . '/info.xml');
-        $reader = new \pear2\Pyrus\XMLParser;
+        $reader = new \PEAR2\Pyrus\XMLParser;
         if (!file_exists($path)) {
             return false;
         }

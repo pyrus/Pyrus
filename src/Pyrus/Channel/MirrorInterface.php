@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Channel\MirrorInterface
+ * \PEAR2\Pyrus\Channel\MirrorInterface
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Channel;
+namespace PEAR2\Pyrus\Channel;
 interface MirrorInterface
 {
     public function getChannel();

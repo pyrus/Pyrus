@@ -1,11 +1,11 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry::parsedNameToString() basic test
+\PEAR2\Pyrus\ChannelRegistry::parsedNameToString() basic test
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$creg = new \pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit');
-$cregp = new \pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit/blahblah');
+$creg = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit');
+$cregp = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit/blahblah');
 $chan = $cregp['pear2.php.net']->toChannelFile();
 $chan->name = 'boo.example.com';
 $chan->alias = 'boo';
@@ -27,7 +27,7 @@ $test->assertEquals('channel://boo.example.com/foo',
 // throw this in there for coverage reasons
 $test->assertEquals('pear.php.net', $creg->getPearChannel()->name, '__call test');
 
-$pf = new pear2\Pyrus\PackageFile\v2;
+$pf = new PEAR2\Pyrus\PackageFile\v2;
 $pf->name = 'hi';
 $pf->channel = 'pear2.php.net';
 $pf->version['release'] = '1.2.3';

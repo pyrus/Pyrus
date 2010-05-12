@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer: install remote packages with complex dependencies
+\PEAR2\Pyrus\Installer: install remote packages with complex dependencies
 --FILE--
 <?php
 /**
@@ -32,12 +32,12 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/installer.prepare.dep.versionconflict',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-\pear2\Pyrus\Installer::begin();
-\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P1-1.0.0'));
-\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P4-stable', true));
-\pear2\Pyrus\Installer::commit();
-$reg = \pear2\Pyrus\Config::current()->registry;
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\PEAR2\Pyrus\Installer::begin();
+\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P1-1.0.0'));
+\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P4-stable', true));
+\PEAR2\Pyrus\Installer::commit();
+$reg = \PEAR2\Pyrus\Config::current()->registry;
 for ($i = 1; $i <= 4; $i++) {
     $test->assertTrue(isset($reg->package["P$i"]), "installed P$i");
 }

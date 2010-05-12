@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\DER\ObjectIdentifier
+ * \PEAR2\Pyrus\DER\ObjectIdentifier
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\DER;
-class ObjectIdentifier extends \pear2\Pyrus\DER
+namespace PEAR2\Pyrus\DER;
+class ObjectIdentifier extends \PEAR2\Pyrus\DER
 {
     const TAG = 0x06;
     protected $value = '';

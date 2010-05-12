@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extension to pear2\Console\CommandLine\Command
+ * Extension to PEAR2\Console\CommandLine\Command
  *
  * PHP version 5
  *
@@ -25,8 +25,8 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 
-namespace pear2\Pyrus\ScriptFrontend;
-class Command extends \pear2\Console\CommandLine\Command
+namespace PEAR2\Pyrus\ScriptFrontend;
+class Command extends \PEAR2\Console\CommandLine\Command
 {
 
     /**

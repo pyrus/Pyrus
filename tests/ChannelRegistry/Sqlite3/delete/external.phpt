@@ -1,9 +1,9 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry\Sqlite3::delete() delete external channel
+\PEAR2\Pyrus\ChannelRegistry\Sqlite3::delete() delete external channel
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
+$chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 $creg->add($chan);
 $test->assertEquals(true, $creg->exists('pear.unl.edu'), 'successfully added the channel');
 $chan = $creg->get('pear.unl.edu');

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Dependency\Set\PackageTree
+ * \PEAR2\Pyrus\Package\Dependency\Set\PackageTree
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package\Dependency\Set;
-use \pear2\Pyrus\Config as Config, \pear2\Pyrus\Package\Remote as Remote;
+namespace PEAR2\Pyrus\Package\Dependency\Set;
+use \PEAR2\Pyrus\Config as Config, \PEAR2\Pyrus\Package\Remote as Remote;
 class PackageTree
 {
     /**
@@ -55,8 +55,8 @@ class PackageTree
     protected $firstVersion;
     static protected $dirtyMap = array();
 
-    function __construct(\pear2\Pyrus\Package\Dependency\Set $set,
-                         \pear2\Pyrus\Package $node, PackageTree $parent = null)
+    function __construct(\PEAR2\Pyrus\Package\Dependency\Set $set,
+                         \PEAR2\Pyrus\Package $node, PackageTree $parent = null)
     {
         $this->set    = $set;
         $this->node   = $node;
@@ -85,7 +85,7 @@ class PackageTree
                 $this->allVersions = $this->versionsAvailable =
                     self::$availableVersionsMap[$this->name];
             } else {
-                while (!($node instanceof \pear2\Pyrus\Channel\RemotePackage)) {
+                while (!($node instanceof \PEAR2\Pyrus\Channel\RemotePackage)) {
                     $node = $node->getInternalPackage();
                 }
 
@@ -316,7 +316,7 @@ class PackageTree
 
                 return true;
             }
-        } catch (\pear2\Pyrus\Channel\Exception $e) {
+        } catch (\PEAR2\Pyrus\Channel\Exception $e) {
             if ($this->parent) {
                 $this->parent->saveError($this);
             }
@@ -398,7 +398,7 @@ class PackageTree
 
         foreach (array('package', 'subpackage') as $p) {
             foreach ($package->dependencies['optional']->$p as $dep) {
-                if (!isset(\pear2\Pyrus\Main::$options['optionaldeps'])) {
+                if (!isset(\PEAR2\Pyrus\Main::$options['optionaldeps'])) {
                     if (!isset(static::$optionalDeps[$dep->channel . '/' . $dep->name])) {
                         static::$optionalDeps[$dep->channel . '/' . $dep->name] = array();
                     }
@@ -427,9 +427,9 @@ class PackageTree
      * Check to see if any packages in the list of packages to be installed
      * satisfy this dependency, and return one if found, otherwise
      * instantiate a new dependency package object
-     * @return \pear2\Pyrus\PackageInterface|NULL
+     * @return \PEAR2\Pyrus\PackageInterface|NULL
      */
-    function retrieve(\pear2\Pyrus\PackageFile\v2\Dependencies\Package $info)
+    function retrieve(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $info)
     {
         if (isset(self::$localPackages[$info->channel . '/' . $info->name])
                 || $this->childProcessed($info->channel . '/' . $info->name)) {
@@ -444,7 +444,7 @@ class PackageTree
         // first check to see if the dependency is installed
         $canupgrade = false;
         if (isset($reg->package[$info->channel . '/' . $info->name])) {
-            if (!isset(\pear2\Pyrus\Main::$options['upgrade'])) {
+            if (!isset(\PEAR2\Pyrus\Main::$options['upgrade'])) {
                 // we don't attempt to upgrade a dep unless we're upgrading
                 return;
             }
@@ -452,14 +452,14 @@ class PackageTree
             $version   = $reg->info($info->name, $info->channel, 'version');
             $stability = $reg->info($info->name, $info->channel, 'state');
             if ($this->node->isRemote() && $this->node->getExplicitState()) {
-                $installedstability = \pear2\Pyrus\Installer::betterStates($stability);
-                $parentstability = \pear2\Pyrus\Installer::betterStates($this->node->getExplicitState());
+                $installedstability = \PEAR2\Pyrus\Installer::betterStates($stability);
+                $parentstability = \PEAR2\Pyrus\Installer::betterStates($this->node->getExplicitState());
                 if (count($parentstability) > count($installedstability)) {
                     $stability = $this->node->getExplicitState();
                 }
             } else {
-                $installedstability = \pear2\Pyrus\Installer::betterStates($stability);
-                $prefstability = \pear2\Pyrus\Installer::betterStates(Config::current()->preferred_state);
+                $installedstability = \PEAR2\Pyrus\Installer::betterStates($stability);
+                $prefstability = \PEAR2\Pyrus\Installer::betterStates(Config::current()->preferred_state);
                 if (count($prefstability) > count($installedstability)) {
                     $stability = Config::current()->preferred_state;
                 }
@@ -470,7 +470,7 @@ class PackageTree
                 return;
             }
 
-            $remote = new \pear2\Pyrus\Channel\RemotePackage(Config::current()
+            $remote = new \PEAR2\Pyrus\Channel\RemotePackage(Config::current()
                                                             ->channelregistry[$info->channel], $stability);
             $found = false;
             foreach ($remote[$info->name] as $remoteversion => $rinfo) {
@@ -496,7 +496,7 @@ class PackageTree
         }
 
         if (isset($info->uri)) {
-            $ret = new \pear2\Pyrus\Package\Remote($info->uri);
+            $ret = new \PEAR2\Pyrus\Package\Remote($info->uri);
             // set up the basics
             $ret->name = $info->name;
             $ret->uri = $info->uri;
@@ -506,7 +506,7 @@ class PackageTree
 
         if ($this->node->isRemote() && $this->node->getExplicitState()) {
             // pass the same explicit state to the child dependency
-            $ret = new \pear2\Pyrus\Package\Remote($info->channel . '/' . $info->name . '-' .
+            $ret = new \PEAR2\Pyrus\Package\Remote($info->channel . '/' . $info->name . '-' .
                                                   $this->node->getExplicitState());
             if ($canupgrade) {
                 $ret->setUpgradeable();
@@ -516,7 +516,7 @@ class PackageTree
             return;
         }
 
-        $ret = new \pear2\Pyrus\Package\Remote($info->channel . '/' . $info->name);
+        $ret = new \PEAR2\Pyrus\Package\Remote($info->channel . '/' . $info->name);
         if ($canupgrade) {
             $ret->setUpgradeable();
         }

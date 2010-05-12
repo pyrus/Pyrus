@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\RemotePackage::download(), certificate is not releasing maintainer's email
+\PEAR2\Pyrus\Channel\RemotePackage::download(), certificate is not releasing maintainer's email
 --SKIPIF--
 <?php die('Skipped: for coverage'); ?>
 <?php
@@ -14,15 +14,15 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/wrongemailcert',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-$remote = new \pear2\Pyrus\Channel\RemotePackage(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+$remote = new \PEAR2\Pyrus\Channel\RemotePackage(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['P1'];
 $remote->version['release'] = '1.0.0';
 try {
     $remote->download();
     throw new Exception('should fail and did not');
-} catch (pear2\Pyrus\Package\Exception $e) {
+} catch (PEAR2\Pyrus\Package\Exception $e) {
     $test->assertEquals('Invalid abstract package ' .
                         'pear2.php.net/P1 - releasing maintainer\'s certificate ' .
                         'alternate name does not match the releaser\'s email address greg@chiaraquartet.net',

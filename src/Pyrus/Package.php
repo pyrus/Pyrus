@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package
+ * \PEAR2\Pyrus\Package
  *
  * PHP version 5
  *
@@ -30,13 +30,13 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-class Package implements \pear2\Pyrus\PackageInterface
+namespace PEAR2\Pyrus;
+class Package implements \PEAR2\Pyrus\PackageInterface
 {
     /**
      * The actual package representation
      *
-     * @var \pear2\Pyrus\Package\Xml|\pear2\Pyrus\Package\Phar
+     * @var \PEAR2\Pyrus\Package\Xml|\PEAR2\Pyrus\Package\Phar
      */
     protected $internal;
     protected $from;
@@ -201,7 +201,7 @@ class Package implements \pear2\Pyrus\PackageInterface
     function parsePackageDescription($package, $forceremote = false)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
-            return array('pear2\Pyrus\Package\Remote', $package, false);
+            return array('PEAR2\Pyrus\Package\Remote', $package, false);
         }
 
         try {
@@ -225,19 +225,19 @@ class Package implements \pear2\Pyrus\PackageInterface
                         $first5 = fread($f, 5);
                         fclose($f);
                         if ($first5 == '<?xml') {
-                            return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
+                            return array('PEAR2\Pyrus\Package\Xml', $package, $depgroup);
                         }
 
-                        return array('pear2\Pyrus\Package\Phar', $package, $depgroup);
+                        return array('PEAR2\Pyrus\Package\Phar', $package, $depgroup);
                     }
                 } else {
                     if (extension_loaded('phar') && strtolower($info['extension']) != 'xml') {
-                        return array('pear2\Pyrus\Package\Phar', $package, $depgroup);
+                        return array('PEAR2\Pyrus\Package\Phar', $package, $depgroup);
                     }
 
                     switch (strtolower($info['extension'])) {
                         case 'xml' :
-                            return array('pear2\Pyrus\Package\Xml', $package, $depgroup);
+                            return array('PEAR2\Pyrus\Package\Xml', $package, $depgroup);
                         default:
                             throw new Package\Exception('Cannot read archives with phar extension');
                     }
@@ -245,7 +245,7 @@ class Package implements \pear2\Pyrus\PackageInterface
             }
 
             $info = Config::parsePackageName($package);
-            return array('pear2\Pyrus\Package\Remote', $package, $depgroup);
+            return array('PEAR2\Pyrus\Package\Remote', $package, $depgroup);
         } catch (\Exception $e) {
             throw new Package\Exception('package "' . $package . '" is unknown', $e);
         }

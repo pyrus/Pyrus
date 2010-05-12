@@ -23,12 +23,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-class ScriptFrontend extends \pear2\Console\CommandLine
+namespace PEAR2\Pyrus;
+class ScriptFrontend extends \PEAR2\Console\CommandLine
 {
     public function addCommand($name, $params = array(), $overrideOK = false)
     {
-        if ($name instanceof \pear2\Console\CommandLine\Command) {
+        if ($name instanceof \PEAR2\Console\CommandLine\Command) {
             $testname = $name->name;
             $command = $name;
         } else {

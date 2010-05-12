@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelRegistry\Channel
+ * \PEAR2\Pyrus\ChannelRegistry\Channel
  *
  * PHP version 5
  *
@@ -23,11 +23,11 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-namespace pear2\Pyrus\ChannelRegistry;
-class Channel extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\ChannelInterface
+namespace PEAR2\Pyrus\ChannelRegistry;
+class Channel extends \PEAR2\Pyrus\ChannelFile\v1 implements \PEAR2\Pyrus\ChannelInterface
 {
     private $_parent;
-    function __construct(\pear2\Pyrus\ChannelRegistryInterface $parent, $data)
+    function __construct(\PEAR2\Pyrus\ChannelRegistryInterface $parent, $data)
     {
         if (is_array($data) && !isset($data['channel']) && !isset($data['attribs'])) {
             $data = array_merge(array('attribs' =>  $this->rootAttributes), $data);
@@ -49,7 +49,7 @@ class Channel extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channe
 
     function toChannelFile()
     {
-        $ret = new \pear2\Pyrus\ChannelFile\v1;
+        $ret = new \PEAR2\Pyrus\ChannelFile\v1;
         $ret->fromArray($this->getArray());
         return $ret;
     }

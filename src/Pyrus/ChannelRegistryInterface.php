@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelRegistryInterface
+ * \PEAR2\Pyrus\ChannelRegistryInterface
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 interface ChannelRegistryInterface
 {
     public function add(ChannelInterface $channel, $update = false, $lastmodified = false);

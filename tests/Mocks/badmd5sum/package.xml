@@ -26,7 +26,7 @@
 </notes>
  <contents>
   <dir name="/">
-   <dir name="src" baseinstalldir="pear2">
+   <dir name="src" baseinstalldir="PEAR2">
     <file role="php" name="foo.php" md5sum="3432048f4ee62e3d70bb6ad85f523d86"/>
    </dir>
   </dir>

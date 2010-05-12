@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator
+ * \PEAR2\Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator
  *
  * PHP version 5
  *
@@ -23,13 +23,13 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2Iterator;
+namespace PEAR2\Pyrus\PackageFile\v2Iterator;
 class ScriptFileFilterIterator extends \FilterIterator
 {
     private $_inner;
     private $_parent;
     private $_tasksNs;
-    function __construct(array $arr, \pear2\Pyrus\PackageFileInterface $parent)
+    function __construct(array $arr, \PEAR2\Pyrus\PackageFileInterface $parent)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
@@ -48,7 +48,7 @@ class ScriptFileFilterIterator extends \FilterIterator
                 continue;
             }
 
-            $class = \pear2\Pyrus\Task\Common::getTask($key);
+            $class = \PEAR2\Pyrus\Task\Common::getTask($key);
             if (!class_exists($class, true)) {
                 continue;
             }

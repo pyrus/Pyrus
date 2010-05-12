@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::install(), basic test
+\PEAR2\Pyrus\ScriptFrontend\Commands::install(), basic test
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -9,11 +9,11 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__ . '/packages/Net_URL-1.0.15.tar'));
 
 $contents = ob_get_contents();

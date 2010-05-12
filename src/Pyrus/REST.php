@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class REST
 {
     protected $config;
@@ -44,7 +44,7 @@ class REST
      * @param string full URL to this resource
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
-     *                    parsed using pear2\Pyrus\XMLParser
+     *                    parsed using PEAR2\Pyrus\XMLParser
      *
      * @return string|array
      */
@@ -65,11 +65,11 @@ class REST
      * @param string full URL to this resource
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
-     *                    parsed using pear2\Pyrus\XMLParser
+     *                    parsed using PEAR2\Pyrus\XMLParser
      *
      * @return string|array
      * 
-     * @throws pear2\Pyrus\REST\Exception If the xml cannot be parsed
+     * @throws PEAR2\Pyrus\REST\Exception If the xml cannot be parsed
      */
     function retrieveData($url, $accept = false, $forcestring = false)
     {
@@ -82,7 +82,7 @@ class REST
             $trieddownload = true;
             try {
                 $file = $this->downloadHttp($url, $cacheId ? $cacheId['lastChange'] : false, $accept);
-            } catch (\pear2\HTTP\Request\Exception $e) {
+            } catch (\PEAR2\HTTP\Request\Exception $e) {
                 $file = $trieddownload = false;
             }
         } else {
@@ -175,7 +175,7 @@ class REST
      *
      * @return string contents of file
      * 
-     * @throws pear2\Pyrus\REST\Exception if no cache exists
+     * @throws PEAR2\Pyrus\REST\Exception if no cache exists
      */
     function getCache($url)
     {
@@ -198,7 +198,7 @@ class REST
      *
      * @return bool  Returns true on success, false on error
      * 
-     * @throws pear2\Pyrus\REST\Exception
+     * @throws PEAR2\Pyrus\REST\Exception
      */
     function saveCache($url, $contents, $lastmodified, $nochange = false, $cacheid = null)
     {
@@ -258,7 +258,7 @@ class REST
      * Efficiently Download a file through HTTP.  Returns downloaded file as a string in-memory
      * This is best used for small files
      *
-     * If an HTTP proxy has been configured (http_proxy pear2\Pyrus\Config
+     * If an HTTP proxy has been configured (http_proxy PEAR2\Pyrus\Config
      * setting), the proxy will be used.
      *
      * @param string             $url          the URL to download
@@ -274,7 +274,7 @@ class REST
      *                       getCode().  If caching is requested, then return the header
      *                       values.
      *
-     * @throws pear2\Pyrus\REST\Exception if the url is invalid
+     * @throws PEAR2\Pyrus\REST\Exception if the url is invalid
      * @access public
      */
     function downloadHttp($url, $lastmodified = null, $accept = false)

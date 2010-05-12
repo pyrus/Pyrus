@@ -24,8 +24,8 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 
-namespace pear2\Pyrus;
-class DownloadProgressListener extends \pear2\HTTP\Request\Listener
+namespace PEAR2\Pyrus;
+class DownloadProgressListener extends \PEAR2\HTTP\Request\Listener
 {
     protected $filesize;
     protected $preview;

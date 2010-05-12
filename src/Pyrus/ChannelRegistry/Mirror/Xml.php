@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelRegistry\Mirror\Xml
+ * \PEAR2\Pyrus\ChannelRegistry\Mirror\Xml
  *
  * PHP version 5
  *
@@ -23,12 +23,12 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\ChannelRegistry\Mirror;
-class Xml extends \pear2\Pyrus\ChannelFile\v1\Mirror
+namespace PEAR2\Pyrus\ChannelRegistry\Mirror;
+class Xml extends \PEAR2\Pyrus\ChannelFile\v1\Mirror
 {
     private $_parent;
-    function __construct(&$mirrorarray, \pear2\Pyrus\ChannelInterface $parent,
-                         \pear2\Pyrus\ChannelRegistry $reg)
+    function __construct(&$mirrorarray, \PEAR2\Pyrus\ChannelInterface $parent,
+                         \PEAR2\Pyrus\ChannelRegistry $reg)
     {
         parent::__construct($mirrorarray, $parent);
         $this->_parent = $reg;
@@ -36,7 +36,7 @@ class Xml extends \pear2\Pyrus\ChannelFile\v1\Mirror
 
     public function toChannelObject()
     {
-        $chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile((string) $this->parentChannel, true));
+        $chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile((string) $this->parentChannel, true));
         return $chan;
     }
 

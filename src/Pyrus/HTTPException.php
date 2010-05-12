@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\HTTPException
+ * \PEAR2\Pyrus\HTTPException
  *
  * PHP version 5
  *
@@ -23,5 +23,5 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-class HTTPException extends \pear2\Exception {}
+namespace PEAR2\Pyrus;
+class HTTPException extends \PEAR2\Exception {}

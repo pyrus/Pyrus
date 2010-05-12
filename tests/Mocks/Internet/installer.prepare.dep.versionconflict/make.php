@@ -27,7 +27,7 @@ require __DIR__ . '/../InternetMaker.php';
 
 $maker = new InternetMaker(__DIR__);
 
-$cat = pear2\SimpleChannelServer\Categories::create('Category 1', 'First Category')
+$cat = PEAR2\SimpleChannelServer\Categories::create('Category 1', 'First Category')
                                            ->create('Category 2', 'Second Category');
 
 $cat->link('P1', 'Category 1');

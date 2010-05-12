@@ -26,7 +26,7 @@ $test->assertEquals(null, $reg->license['path'], 'license path 3');
 $reg->license['name'] = 'test';
 $test->assertTrue(isset($reg->license['name']), 'name set 2');
 
-$newguy = new \pear2\Pyrus\PackageFile\v2;
+$newguy = new \PEAR2\Pyrus\PackageFile\v2;
 $test->assertEquals('New BSD License', $newguy->license['name'], 'newguy name');
 $test->assertEquals('http://www.opensource.org/licenses/bsd-license.php', $newguy->license['uri'], 'newguy uri');
 $test->assertEquals(null, $newguy->license['path'], 'newguy path');
@@ -47,18 +47,18 @@ $test->assertEquals(array('_content' => 'foobar', 'attribs' => array('uri' => 'h
 try {
     $newguy->license['oops'] = 'hi';
     throw new Exception('oops should have failed');
-} catch (\pear2\Pyrus\PackageFile\v2\License\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\License\Exception $e) {
     $test->assertEquals('Unknown license trait oops, cannot set value', $e->getMessage(), 'message');
 }
 
 try {
     $newguy->license['name'] = array('uri' => 'sneaky');
     throw new Exception('non-string should have failed');
-} catch (\pear2\Pyrus\PackageFile\v2\License\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\License\Exception $e) {
     $test->assertEquals('Can only set license to string', $e->getMessage(), 'message');
 }
 
-$p = new \pear2\Pyrus\PackageFile\v2;
+$p = new \PEAR2\Pyrus\PackageFile\v2;
 $p->fromArray(array('package' => array('license' => 'PHP License')));
 $test->assertEquals('PHP License', $p->license['name'], 'name 1');
 unset($p->license['name']);

@@ -5,10 +5,10 @@ Pyrus DER: test parsing of simple DER output with no schema
 require __DIR__ . '/setup.php.inc';
 
 $der->constructed(
-        \pear2\Pyrus\DER\Sequence::factory()
+        \PEAR2\Pyrus\DER\Sequence::factory()
             ->boolean(true)->boolean(false)
             ->constructed(
-                \pear2\Pyrus\DER\Set::factory()
+                \PEAR2\Pyrus\DER\Set::factory()
                 ->bitString('1100')
             )
             ->visibleString('www.asn1.com')
@@ -37,7 +37,7 @@ $test->assertEquals(
                     '0203' . // integer, length 3
                     '0707f4', bin2hex($data = $der->serialize()), 'fancy');
 
-$der = new \pear2\Pyrus\DER;
+$der = new \PEAR2\Pyrus\DER;
 $der->parseFromString($data);
 $test->assertEquals(
                     '30' . // sequence identifier

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ScriptRunner
+ * \PEAR2\Pyrus\ScriptRunner
  *
  * PHP version 5
  *
@@ -27,7 +27,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class ScriptRunner
 {
     protected $frontend;
@@ -69,7 +69,7 @@ class ScriptRunner
     }
 
     /**
-     * @param \pear2\Pyrus\Task\Postinstallscript $info contents of postinstallscript tag
+     * @param \PEAR2\Pyrus\Task\Postinstallscript $info contents of postinstallscript tag
      * @param object $script post-installation script
      * @param string install|upgrade
      */

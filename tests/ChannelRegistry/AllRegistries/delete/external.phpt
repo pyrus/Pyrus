@@ -1,14 +1,14 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry::delete() delete external channel
+\PEAR2\Pyrus\ChannelRegistry::delete() delete external channel
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();
 $c->saveConfig();
-$chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
+$chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 $c->channelregistry->add($chan);
 $test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu'), 'successfully added the channel');
 $chan = $c->channelregistry->get('pear.unl.edu');

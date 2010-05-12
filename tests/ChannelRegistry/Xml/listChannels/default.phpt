@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry\Xml::listChannels() default channels
+\PEAR2\Pyrus\ChannelRegistry\Xml::listChannels() default channels
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

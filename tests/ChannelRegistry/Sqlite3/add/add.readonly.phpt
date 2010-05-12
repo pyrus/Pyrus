@@ -1,17 +1,17 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry\Sqlite3::add() readonly test
+\PEAR2\Pyrus\ChannelRegistry\Sqlite3::add() readonly test
 --FILE--
 <?php
 mkdir(__DIR__ . '/testit');
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 // construct the registries first
-$creg = new \pear2\Pyrus\ChannelRegistry\Sqlite3(__DIR__ . '/testit', false);
-$creg = new \pear2\Pyrus\ChannelRegistry\Sqlite3(__DIR__ . '/testit', true);
-$chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
+$creg = new \PEAR2\Pyrus\ChannelRegistry\Sqlite3(__DIR__ . '/testit', false);
+$creg = new \PEAR2\Pyrus\ChannelRegistry\Sqlite3(__DIR__ . '/testit', true);
+$chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 try {
     $creg->add($chan);
     throw new Exception('passed and shouldn\'t');
-} catch (\pear2\Pyrus\ChannelRegistry\Exception $e) {
+} catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot add channel, registry is read-only', $e->getMessage(), 'message');
 }
 ?>

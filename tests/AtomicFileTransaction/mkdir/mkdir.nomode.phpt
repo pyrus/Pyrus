@@ -1,18 +1,18 @@
 --TEST--
-\pear2\Pyrus\AtomicFileTransaction::mkdir(), use default mode
+\PEAR2\Pyrus\AtomicFileTransaction::mkdir(), use default mode
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
 $old = umask(0444); // confirm this does not affect things
-\pear2\Pyrus\Config::current()->umask = 0002;
-$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
-\pear2\Pyrus\AtomicFileTransaction::begin();
+\PEAR2\Pyrus\Config::current()->umask = 0002;
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+\PEAR2\Pyrus\AtomicFileTransaction::begin();
 
 $atomic->mkdir('good');
 
-\pear2\Pyrus\AtomicFileTransaction::commit();
+\PEAR2\Pyrus\AtomicFileTransaction::commit();
 
 $test->assertFileExists(__DIR__ . '/testit/src/good', __DIR__ . '/testit/src/good should exist');
 $test->assertEquals(decoct(0775), decoct(0777 & fileperms(__DIR__ . '/testit/src/good')), 'permissions should work');

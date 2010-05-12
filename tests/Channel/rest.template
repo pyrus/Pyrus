@@ -17,7 +17,7 @@ $exp_rest[] = array (
         '_content' => $restbase.'rest1.3/');
 
 $rest = $channel->protocols->rest;
-$test->assertIsa('\pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST',
+$test->assertIsa('\PEAR2\Pyrus\ChannelFile\v1\Servers\Protocols\REST',
                  $rest, 'correct REST object returned');
 $test->assertEquals($restbase . 'rest1.0/', $rest['REST1.0']->baseurl, 'REST 1.0');
 $test->assertEquals($restbase . 'rest1.1/', $rest['REST1.1']->baseurl, 'REST 1.1');
@@ -33,7 +33,7 @@ $test->assertEquals(0, count($channel->protocols->rest), 'resetREST');
 $channel->protocols->rest['REST1.0']->baseurl = $restbase . 'rest1.0/';
 $test->assertEquals($restbase . 'rest1.0/', $channel->protocols->rest['REST1.0']->baseurl, 'REST 1.0');
 
-$fake = new \pear2\Pyrus\ChannelFile\v1;
+$fake = new \PEAR2\Pyrus\ChannelFile\v1;
 $test->assertEquals(0, count($fake->protocols->rest), 'before');
 $fake->protocols->rest = $channel->protocols->rest;
 $test->assertEquals(1, count($fake->protocols->rest), 'after');
@@ -49,7 +49,7 @@ $test->assertEquals(0, count($fake->protocols->rest), 'after 0');
 try {
     $channel->protocols->rest = 'hi';
     throw new Exception('set to hi should not work and did');
-} catch (\pear2\Pyrus\ChannelFile\Exception $e) {
+} catch (\PEAR2\Pyrus\ChannelFile\Exception $e) {
     $test->assertEquals('Can only set REST to ' .
-                        '\pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object', $e->getMessage(), 'error');
+                        '\PEAR2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object', $e->getMessage(), 'error');
 }

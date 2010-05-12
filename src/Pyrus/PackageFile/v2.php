@@ -1,6 +1,6 @@
 <?php
 /**
- * pear2\Pyrus\PackageFile\v2, package.xml version 2.1
+ * PEAR2\Pyrus\PackageFile\v2, package.xml version 2.1
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile;
-class v2 implements \pear2\Pyrus\PackageFileInterface
+namespace PEAR2\Pyrus\PackageFile;
+class v2 implements \PEAR2\Pyrus\PackageFileInterface
 {
     public $rootAttributes = array(
                                  'version' => '2.1',
@@ -217,11 +217,11 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
             return $this->release[$this->releaseIndex];
         }
 
-        $errs = new \pear2\MultiErrors;
-        $depchecker = new \pear2\Pyrus\Dependency\Validator(
+        $errs = new \PEAR2\MultiErrors;
+        $depchecker = new \PEAR2\Pyrus\Dependency\Validator(
             array('channel' => $this->channel,
                   'package' => $this->name),
-            \pear2\Pyrus\Validate::INSTALLING, $errs);
+            \PEAR2\Pyrus\Validate::INSTALLING, $errs);
         foreach ($this->installGroup as $index => $instance) {
             try {
                 if (isset($instance['installconditions'])) {
@@ -300,7 +300,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
 
         if (!($filter instanceof v2Iterator\PackagingFilterBase)) {
             throw new Exception('Can only set packaging filter to a child of ' .
-                                'pear2\Pyrus\PackageFile\v2Iterator\PackagingFilterBase');
+                                'PEAR2\Pyrus\PackageFile\v2Iterator\PackagingFilterBase');
         }
 
         self::$packagingFilterPrototype[$this->channel . '/' . $this->name] = $filter;
@@ -560,7 +560,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      * Directly set the array that defines this packagefile
      *
      * WARNING: no validation.  This should only be performed by internal methods
-     * inside Pyrus or by inputting an array saved from an existing pear2\Pyrus\PackageFile\v2
+     * inside Pyrus or by inputting an array saved from an existing PEAR2\Pyrus\PackageFile\v2
      * @param array
      */
     function fromArray($pinfo)
@@ -569,7 +569,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         $this->packageInfo = $pinfo['package'];
     }
 
-    function fromPackageFile(\pear2\Pyrus\PackageFileInterface $package)
+    function fromPackageFile(\PEAR2\Pyrus\PackageFileInterface $package)
     {
         $this->fromArray($package->toArray());
         $this->setFilelist($package->getFileList());
@@ -630,7 +630,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as', 'md5sum'), true)) {
             // check to see if this is a task
             if ($this->isValidTask($attr)) {
-                if ($value instanceof \pear2\Pyrus\Task\Common) {
+                if ($value instanceof \PEAR2\Pyrus\Task\Common) {
                     $value = $value->getInfo();
                 }
 
@@ -707,7 +707,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      * depends on $pf
      * @return boolean
      */
-    function isCompatible(\pear2\Pyrus\PackageFileInterface $pf)
+    function isCompatible(\PEAR2\Pyrus\PackageFileInterface $pf)
     {
         if (!isset($this->packageInfo['compatible']) || !isset($this->packageInfo['channel'])) {
             return false;
@@ -742,7 +742,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         return false;
     }
 
-    function isSubpackageOf(\pear2\Pyrus\PackageFileInterface $p)
+    function isSubpackageOf(\PEAR2\Pyrus\PackageFileInterface $p)
     {
         return $p->isSubpackage($this);
     }
@@ -753,7 +753,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      * No version checking is done, only name verification.
      * @return bool
      */
-    function isSubpackage(\pear2\Pyrus\PackageFileInterface $p)
+    function isSubpackage(\PEAR2\Pyrus\PackageFileInterface $p)
     {
         $package = strtolower($p->name);
         foreach (array('required', 'optional', 'group') as $type) {
@@ -789,7 +789,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         return false;
     }
 
-    function isEqual(\pear2\Pyrus\PackageFileInterface $pkg)
+    function isEqual(\PEAR2\Pyrus\PackageFileInterface $pkg)
     {
         if ($this->channel === '__uri') {
             return $pkg->name === $this->name && $pkg->uri === $this->uri;
@@ -801,7 +801,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
     /**
      * Returns true if any dependency, optional or required, exists on the package specified
      */
-    function dependsOn(\pear2\Pyrus\PackageFileInterface $pkg)
+    function dependsOn(\PEAR2\Pyrus\PackageFileInterface $pkg)
     {
         $uri = $pkg->uri;
         $package = strtolower($pkg->name);
@@ -895,13 +895,13 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
      * validate dependencies against the local registry, packages to be installed,
      * and environment (php version, OS, architecture, enabled extensions)
      *
-     * @param array $toInstall an array of \pear2\Pyrus\Package objects
-     * @param \pear2\MultiErrors $errs
+     * @param array $toInstall an array of \PEAR2\Pyrus\Package objects
+     * @param \PEAR2\MultiErrors $errs
      */
-    function validateDependencies(array $toInstall, \pear2\MultiErrors $errs)
+    function validateDependencies(array $toInstall, \PEAR2\MultiErrors $errs)
     {
-        $dep = new \pear2\Pyrus\Dependency\Validator($this->packageInfo['channel'] . '/' . $this->packageInfo['name'],
-            \pear2\Pyrus\Validate::DOWNLOADING, $errs);
+        $dep = new \PEAR2\Pyrus\Dependency\Validator($this->packageInfo['channel'] . '/' . $this->packageInfo['name'],
+            \PEAR2\Pyrus\Validate::DOWNLOADING, $errs);
         $dep->validatePhpDependency($this->dependencies['required']->php);
         $dep->validatePearinstallerDependency($this->dependencies['required']->pearinstaller);
         foreach (array('required', 'optional') as $required) {
@@ -927,7 +927,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         }
     }
 
-    function getValidator($state = \pear2\Pyrus\Validate::NORMAL)
+    function getValidator($state = \PEAR2\Pyrus\Validate::NORMAL)
     {
         return new v2\Validator;
     }
@@ -1207,7 +1207,7 @@ class v2 implements \pear2\Pyrus\PackageFileInterface
         $this->packageInfo['date'] = date('Y-m-d');
         $this->packageInfo['time'] = date('H:i:s');
         $arr = $this->toArray();
-        return (string) new \pear2\Pyrus\XMLWriter($arr);
+        return (string) new \PEAR2\Pyrus\XMLWriter($arr);
     }
 
     function toRaw()

@@ -1,12 +1,12 @@
 --TEST--
-\pear2\Pyrus\Task\Windowseol::validateXml() failures
+\PEAR2\Pyrus\Task\Windowseol::validateXml() failures
 --FILE--
 <?php
 include dirname(__DIR__) . '/setup.minimal.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        \pear2\Pyrus\Task\Windowseol::validateXml($package, $xml, $filexml, 'filename');
+        \PEAR2\Pyrus\Task\Windowseol::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -15,7 +15,7 @@ $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
     }
 };
 
-$xmltest(array('attribs' => array()), array(), 'task <windowseol> in file filename is invalid because of "no attributes allowed"', '\pear2\Pyrus\Task\Exception\InvalidTask');
+$xmltest(array('attribs' => array()), array(), 'task <windowseol> in file filename is invalid because of "no attributes allowed"', '\PEAR2\Pyrus\Task\Exception\InvalidTask');
 ?>
 ===DONE===
 --EXPECT--

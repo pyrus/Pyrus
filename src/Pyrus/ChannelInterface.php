@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelInterface
+ * \PEAR2\Pyrus\ChannelInterface
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 interface ChannelInterface
 {
     function __get($var);

@@ -1,16 +1,16 @@
 --TEST--
-\pear2\Pyrus\AtomicFileTransaction::removeJournalPath() failure, not in transaction
+\PEAR2\Pyrus\AtomicFileTransaction::removeJournalPath() failure, not in transaction
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
 try {
     $atomic->removeJournalPath();
     die('should have failed');
-} catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
+} catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Cannot remove journal path - not in a transaction', $e->getMessage(), 'error');
 }
 ?>

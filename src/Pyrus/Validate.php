@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Validate
+ * \PEAR2\Pyrus\Validate
  *
  * PHP version 5
  *
@@ -22,7 +22,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class Validate
 {
 /**#@+
@@ -37,22 +37,22 @@ class Validate
 
     var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
     /**
-     * @var \pear2\Pyrus\PackageFileInterface
+     * @var \PEAR2\Pyrus\PackageFileInterface
      */
     var $_packagexml;
 
     /**
-     * @var \pear2\Pyrus\ChannelFileInterface
+     * @var \PEAR2\Pyrus\ChannelFileInterface
      */
     var $channel;
 
     /**
-     * @var int one of the \pear2\Pyrus\Validate::* constants
+     * @var int one of the \PEAR2\Pyrus\Validate::* constants
      */
     var $_state = Validate::NORMAL;
 
     /**
-     * @var \pear2\MultiErrors
+     * @var \PEAR2\MultiErrors
      */
     protected $failures;
 
@@ -130,7 +130,7 @@ class Validate
     }
 
     /**
-     * @param \pear2\Pyrus\PackageFileInterface
+     * @param \PEAR2\Pyrus\PackageFileInterface
      */
     function setPackageFile(PackageFileInterface $pf)
     {
@@ -164,7 +164,7 @@ class Validate
     }
 
     /**
-     * @param int one of the \pear2\Pyrus\Validate::* constants
+     * @param int one of the \PEAR2\Pyrus\Validate::* constants
      */
     function validate($state = null)
     {
@@ -176,7 +176,7 @@ class Validate
             $this->_state = $state;
         }
 
-        $this->failures = new \pear2\MultiErrors;
+        $this->failures = new \PEAR2\MultiErrors;
         $this->validatePackageName();
         $this->validateVersion();
         $this->validateMaintainers();

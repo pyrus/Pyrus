@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer::prepare(), resolve the correct dependency version from 2 options, dep is in installed package
+\PEAR2\Pyrus\Installer::prepare(), resolve the correct dependency version from 2 options, dep is in installed package
 --FILE--
 <?php
 /**
@@ -32,13 +32,13 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.dep.versionconflict.installed',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-class boo extends \pear2\Pyrus\Installer
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+class boo extends \PEAR2\Pyrus\Installer
 {
     static $installPackages = array();
 }
 boo::begin();
-boo::prepare(new \pear2\Pyrus\Package('pear2/P4-stable', true));
+boo::prepare(new \PEAR2\Pyrus\Package('pear2/P4-stable', true));
 boo::preCommitDependencyResolve();
 $test->assertEquals(1, count(boo::$installPackages), '1 package should be installed');
 $pnames = array();
@@ -55,7 +55,7 @@ $test->assertEquals(array('P4'), $pnames, 'correct packages');
 boo::commit();
 
 boo::begin();
-boo::prepare(new \pear2\Pyrus\Package('pear2/P1', true));
+boo::prepare(new \PEAR2\Pyrus\Package('pear2/P1', true));
 boo::preCommitDependencyResolve();
 $pnames = array();
 foreach (boo::$installPackages as $package) {

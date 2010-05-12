@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\DER\Null
+ * \PEAR2\Pyrus\DER\Null
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\DER;
-class Null extends \pear2\Pyrus\DER
+namespace PEAR2\Pyrus\DER;
+class Null extends \PEAR2\Pyrus\DER
 {
     const TAG = 0x05;
 

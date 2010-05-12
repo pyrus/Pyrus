@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Registry
+ * \PEAR2\Pyrus\Registry
  *
  * PHP version 5
  *
@@ -30,8 +30,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
+namespace PEAR2\Pyrus;
+class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
 {
     static protected $allRegistries = array();
     /**
@@ -40,12 +40,12 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
      * This is useful for unit-testing and for extending the registry
      * @var string
      */
-    static public $className = 'pear2\Pyrus\Registry';
+    static public $className = 'PEAR2\Pyrus\Registry';
     /**
      * The parent registry
      *
      * This is used to implement cascading registries
-     * @var \pear2\Pyrus\Registry
+     * @var \PEAR2\Pyrus\Registry
      */
     protected $parent;
 
@@ -90,11 +90,11 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
     {
         $this->path     = $path;
         $this->readonly = $readonly;
-        $exceptions     = new \pear2\MultiErrors;
+        $exceptions     = new \PEAR2\MultiErrors;
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
-                $registry = 'pear2\Pyrus\Registry\\' . $registry;
+                $registry = 'PEAR2\Pyrus\Registry\\' . $registry;
                 if (!class_exists($registry, true)) {
                     $exceptions->E_ERROR[] =
                             new Registry\Exception('Unknown registry type: ' . $registry);
@@ -308,7 +308,7 @@ class Registry implements \pear2\Pyrus\RegistryInterface, \IteratorAggregate
         }
 
         foreach ($registries as $reg) {
-            $class = 'pear2\Pyrus\Registry\\' . ucfirst(strtolower($reg));
+            $class = 'PEAR2\Pyrus\Registry\\' . ucfirst(strtolower($reg));
             $class::removeRegistry($path);
         }
     }

@@ -1,6 +1,6 @@
 <?php
-namespace pear2\Pyrus\Developer\Creator;
-class Zip implements \pear2\Pyrus\Package\CreatorInterface
+namespace PEAR2\Pyrus\Developer\Creator;
+class Zip implements \PEAR2\Pyrus\Package\CreatorInterface
 {
     /**
      * Path to archive file
@@ -16,7 +16,7 @@ class Zip implements \pear2\Pyrus\Package\CreatorInterface
     function __construct($path)
     {
         if (!class_exists('ZIPArchive')) {
-            throw new \pear2\Pyrus\Developer\Creator\Exception(
+            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
                 'Zip extension is not available');
         }
         $this->path = $path;
@@ -53,7 +53,7 @@ class Zip implements \pear2\Pyrus\Package\CreatorInterface
     {
         $this->zip = new ZipArchive;
         if (true !== $this->zip->open($this->path, ZIPARCHIVE::CREATE)) {
-            throw new \pear2\Pyrus\Developer\Creator\Exception(
+            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
                 'Cannot open ZIP archive ' . $this->path
             );
         }

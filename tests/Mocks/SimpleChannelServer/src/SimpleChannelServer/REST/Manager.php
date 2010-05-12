@@ -56,10 +56,10 @@ class PEAR2_SimpleChannelServer_REST_Manager
      * should be set up, otherwise the package will be released under
      * the "Default" category. 
      *
-     * @param \pear2\Pyrus\Package $release
+     * @param \PEAR2\Pyrus\Package $release
      * @param string              $releaser handle of person who is uploading this release
      */
-    function saveRelease(\pear2\Pyrus\Package $new, $releaser)
+    function saveRelease(\PEAR2\Pyrus\Package $new, $releaser)
     {
         if ($new->channel !== $this->chan) {
             throw new PEAR2_SimpleChannelServer_Exception('Cannot release ' .
@@ -92,11 +92,11 @@ class PEAR2_SimpleChannelServer_REST_Manager
      * Removes REST.  If $deleteorphaned is true, then
      * maintainers who no longer maintain a package will be
      * deleted from package maintainer REST.
-     * @param \pear2\Pyrus\Package $release
+     * @param \PEAR2\Pyrus\Package $release
      * @param string $deleter handle of maintainer deleting this release
      * @param bool $deleteorphaned
      */
-    function deleteRelease(\pear2\Pyrus\Package $release, $deleter, $deleteorphaned = true)
+    function deleteRelease(\PEAR2\Pyrus\Package $release, $deleter, $deleteorphaned = true)
     {
         if ($new->channel !== $this->chan) {
             throw new PEAR2_SimpleChannelServer_Exception('Cannot delete release ' .
@@ -189,7 +189,7 @@ class PEAR2_SimpleChannelServer_REST_Manager
     {
         $this->_initDir($this->rest . '/' . $type . '/' . $path);
         if ($isxml) {
-            $contents = (string) new \pear2\Pyrus\XMLWriter($contents);
+            $contents = (string) new \PEAR2\Pyrus\XMLWriter($contents);
         }
         file_put_contents($this->rest . '/' . $type . '/' . $path, $contents);
         chmod($this->rest . '/' . $type . '/' . $path, 0666);

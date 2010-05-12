@@ -1,6 +1,6 @@
 <role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
  <name>www</name>
- <class>pear2\Pyrus\Installer\Role\Www</class>
+ <class>PEAR2\Pyrus\Installer\Role\Www</class>
  <releasetypes>php</releasetypes>
  <releasetypes>extsrc</releasetypes>
  <releasetypes>extbin</releasetypes>

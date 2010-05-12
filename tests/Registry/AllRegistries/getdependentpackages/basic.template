@@ -2,7 +2,7 @@
 $test->assertEquals(array(), $reg->listPackages('pear2.php.net'), 'before pear2');
 $test->assertEquals(array(), $reg->listPackages('pear.php.net'), 'before pear');
 $reg->install($info);
-$template = new \pear2\Pyrus\PackageFile\v2;
+$template = new \PEAR2\Pyrus\PackageFile\v2;
 $template->summary = 'hi';
 $template->description = 'hi';
 $template->maintainer['cellog']->role('lead')->name('Greg')->active('yes')->email('cellog@php.net');
@@ -32,7 +32,7 @@ $info->name = 'PEAR2_SimpleChannelServer';
 $packages = $reg->getDependentPackages($info);
 $names = array();
 foreach ($packages as $i => $package) {
-    $test->assertIsa('\pear2\Pyrus\PackageFileInterface', $package, 'class ' . $i);
+    $test->assertIsa('\PEAR2\Pyrus\PackageFileInterface', $package, 'class ' . $i);
     $names[] = $package->channel . '/' . $package->name;
 }
 sort($names);

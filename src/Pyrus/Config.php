@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Config
+ * \PEAR2\Pyrus\Config
  *
  * PHP version 5
  *
@@ -44,7 +44,7 @@
  * @todo      Add support for restrictive config variable sets
  * @todo      Add support for documentation for config vars
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class Config
 {
     /**
@@ -78,13 +78,13 @@ class Config
     /**
      * channel registry for this {@link $pearDir} value
      *
-     * @var \pear2\Pyrus\Channel\Registry
+     * @var \PEAR2\Pyrus\Channel\Registry
      */
     protected $mychannelRegistry;
     /**
      * registry for plugins, which are kept in the plugin_dir directory
      *
-     * @var \pear2\Pyrus\PluginRegistry
+     * @var \PEAR2\Pyrus\PluginRegistry
      */
     protected $mypluginregistry;
 
@@ -118,7 +118,7 @@ class Config
     /**
      * The last instantiated configuration
      *
-     * @var \pear2\Pyrus\Config
+     * @var \PEAR2\Pyrus\Config
      */
     static protected $current;
 
@@ -414,7 +414,7 @@ class Config
      *
      * @param string $pearDirectory
      * @param string $userfile
-     * @return \pear2\Pyrus\Config
+     * @return \PEAR2\Pyrus\Config
      */
     static public function singleton($pearDirectory = false, $userfile = false)
     {
@@ -545,7 +545,7 @@ class Config
 
     /**
      * Retrieve the currently active primary configuration
-     * @return \pear2\Pyrus\Config
+     * @return \PEAR2\Pyrus\Config
      */
     static public function current()
     {
@@ -675,7 +675,7 @@ class Config
         $x = simplexml_load_file($userfile);
         if (!$x) {
             $errors = libxml_get_errors();
-            $e = new \pear2\MultiErrors;
+            $e = new \PEAR2\MultiErrors;
             foreach ($errors as $err) {
                 $e->E_ERROR[] = new Config\Exception(trim($err->message));
             }
@@ -791,8 +791,8 @@ class Config
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
-     * in, \pear2\Pyrus\Config will attempt to guess at the config file location as
-     * documented in the class docblock {@link \pear2\Pyrus\Config}.
+     * in, \PEAR2\Pyrus\Config will attempt to guess at the config file location as
+     * documented in the class docblock {@link \PEAR2\Pyrus\Config}.
      * @param string $pearDirectory
      * @param string|false $userfile
      */
@@ -825,7 +825,7 @@ class Config
         $x = simplexml_load_file($file);
         if (!$x) {
             $errors = libxml_get_errors();
-            $e = new \pear2\MultiErrors;
+            $e = new \PEAR2\MultiErrors;
             foreach ($errors as $err) {
                 $e->E_ERROR[] = new Config\Exception(trim($err->message));
             }

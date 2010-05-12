@@ -4,8 +4,8 @@ Dependency_Validator: uninstall package dependency, fail uninstall, min version 
 <?php
 require __DIR__ . '/../setup.uninstall.php.inc';
 
-\pear2\Pyrus\Main::$options['nodeps'] = true;
-$fake = new \pear2\Pyrus\PackageFile\v2;
+\PEAR2\Pyrus\Main::$options['nodeps'] = true;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';

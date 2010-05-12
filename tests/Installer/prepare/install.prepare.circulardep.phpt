@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer::prepare(), complex deep circular dependency might result in 2 versions requested for same package
+\PEAR2\Pyrus\Installer::prepare(), complex deep circular dependency might result in 2 versions requested for same package
 --FILE--
 <?php
 /**
@@ -16,15 +16,15 @@
  *
  * and P1 1.3.0 exists
  */
-use pear2\Pyrus\Package;
+use PEAR2\Pyrus\Package;
 define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.circulardep',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-class b extends \pear2\Pyrus\Installer
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+class b extends \PEAR2\Pyrus\Installer
 {
     static $installPackages = array();
 }

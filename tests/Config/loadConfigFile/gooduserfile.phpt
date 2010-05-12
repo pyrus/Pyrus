@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::loadConfigFile() good userfile
+\PEAR2\Pyrus\Config::loadConfigFile() good userfile
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -58,7 +58,7 @@ $test->assertEquals('buh', $a->handle, 'handle');
 $test->assertEquals($testpath, $a->my_pear_path, 'my_pear_path');
 try {
     $test->assertEquals('this should NOT execute, should go to exception', $a->unknown, 'unknown');
-} catch (\pear2\Pyrus\Config\Exception $e) {
+} catch (\PEAR2\Pyrus\Config\Exception $e) {
     echo "here\n";
     $test->assertEquals('Unknown configuration variable "unknown" in location ' .
             $a->path, $e->getMessage(), 'exception message');

@@ -3,7 +3,7 @@ PackageFile v2: test SimpleProperty
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$package = new \pear2\Pyrus\PackageFile\v2;
+$package = new \PEAR2\Pyrus\PackageFile\v2;
 
 $test->assertEquals(true, isset($package->version['release']), 'isset release version before');
 $test->assertEquals(true, isset($package->version['api']), 'isset api version before');

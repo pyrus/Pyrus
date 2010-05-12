@@ -1,7 +1,7 @@
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
 require __DIR__ . '/validator.php.inc';
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 if (!isset($state)) {
     $state = 'UNINSTALLING';
 }
@@ -10,19 +10,19 @@ if (!isset($package)) {
 }
 switch ($state) {
     case 'INSTALLING' :
-        $state = \pear2\Pyrus\Validate::INSTALLING;
+        $state = \PEAR2\Pyrus\Validate::INSTALLING;
         break;
     case 'DOWNLOADING' :
-        $state = \pear2\Pyrus\Validate::DOWNLOADING;
+        $state = \PEAR2\Pyrus\Validate::DOWNLOADING;
         break;
     case 'UNINSTALLING' :
-        $state = \pear2\Pyrus\Validate::UNINSTALLING;
+        $state = \PEAR2\Pyrus\Validate::UNINSTALLING;
         break;
     case 'NORMAL' :
-        $state = \pear2\Pyrus\Validate::NORMAL;
+        $state = \PEAR2\Pyrus\Validate::NORMAL;
         break;
     case 'PACKAGING' :
-        $state = \pear2\Pyrus\Validate::PACKAGING;
+        $state = \PEAR2\Pyrus\Validate::PACKAGING;
         break;
 }
 $validator = new test_Validator($package, $state, $errs);

@@ -1,9 +1,9 @@
 <?php
-namespace pear2\Pyrus\ChannelFile\v1;
+namespace PEAR2\Pyrus\ChannelFile\v1;
 class Servers implements \ArrayAccess, \Countable, \Iterator
 {
     /**
-     * @var \pear2\Pyrus\ChannelFile\v1
+     * @var \PEAR2\Pyrus\ChannelFile\v1
      */
     protected $parent;
 
@@ -11,7 +11,7 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
 
     protected $type = 'primary';
 
-    function __construct($info, \pear2\Pyrus\ChannelFile\v1 $parent)
+    function __construct($info, \PEAR2\Pyrus\ChannelFile\v1 $parent)
     {
         if (isset($info['mirror']) && !isset($info['mirror'][0])) {
             $info['mirror'] = array($info['mirror']);
@@ -119,8 +119,8 @@ class Servers implements \ArrayAccess, \Countable, \Iterator
         }
 
         if (!($value instanceof Mirror)) {
-            throw new \pear2\Pyrus\ChannelFile\Exception('Can only set mirror to a ' .
-                        '\pear2\Pyrus\ChannelFile\v1\Mirror object');
+            throw new \PEAR2\Pyrus\ChannelFile\Exception('Can only set mirror to a ' .
+                        '\PEAR2\Pyrus\ChannelFile\v1\Mirror object');
         }
 
         $info = $value->getInfo();

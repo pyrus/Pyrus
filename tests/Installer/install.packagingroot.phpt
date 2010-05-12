@@ -1,19 +1,19 @@
 --TEST--
-\pear2\Pyrus\Installer::install() verify files installed correctly
+\PEAR2\Pyrus\Installer::install() verify files installed correctly
 --FILE--
 <?php
 include dirname(__FILE__) . '/../test_framework.php.inc';
-$package = new \pear2\Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
-\pear2\Pyrus\Main::$options['packagingroot'] = __DIR__ . '/testit';
+$package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
+\PEAR2\Pyrus\Main::$options['packagingroot'] = __DIR__ . '/testit';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton('/usr/local/lib');
+$c = \PEAR2\Pyrus\Config::singleton('/usr/local/lib');
 $c->bin_dir = '/usr/bin';
 restore_include_path();
 $c->saveConfig();
-\pear2\Pyrus\Installer::begin();
-\pear2\Pyrus\Installer::prepare($package);
-\pear2\Pyrus\Installer::commit();
+\PEAR2\Pyrus\Installer::begin();
+\PEAR2\Pyrus\Installer::prepare($package);
+\PEAR2\Pyrus\Installer::commit();
 $test->assertFileExists(__DIR__ . '/testit/usr/bin/pearscs', 'bin/pearscs');
 $test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/usr/bin/pearscs')), 'bin/pearscs perms');
 $test->assertFileExists(__DIR__ . '/testit/usr/local/lib/php/PEAR2/SimpleChannelServer.php',
@@ -147,7 +147,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Release.php',
     'configpath' => '/usr/local/lib/php',
   ),
-), \pear2\Pyrus\Config::current()->registry
+), \PEAR2\Pyrus\Config::current()->registry
                     ->info('PEAR2_SimpleChannelServer', 'pear2.php.net', 'installedfiles'), 'registered files');
 ?>
 ===DONE===

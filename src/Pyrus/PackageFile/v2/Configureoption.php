@@ -1,5 +1,5 @@
 <?php
-namespace pear2\Pyrus\PackageFile\v2;
+namespace PEAR2\Pyrus\PackageFile\v2;
 class Configureoption implements \ArrayAccess, \Iterator, \Countable
 {
     protected $parent;
@@ -91,7 +91,7 @@ class Configureoption implements \ArrayAccess, \Iterator, \Countable
 
         if (!($value instanceof Configureoption)) {
             throw new Configureoption\Exception(
-                'Can only set configureoption to a \pear2\Pyrus\PackageFile\v2\Configureoption object');
+                'Can only set configureoption to a \PEAR2\Pyrus\PackageFile\v2\Configureoption object');
         }
 
         $i = $this->locateConfigureOption($var);

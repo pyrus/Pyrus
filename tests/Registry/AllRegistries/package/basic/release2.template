@@ -1,23 +1,23 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
-$test->assertIsa('\pear2\Pyrus\PackageFile\v2\Release', $reg->release, 'right class');
+$test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Release', $reg->release, 'right class');
 
 try {
     $reg->release[] = 5;
     throw new Exception('setting to non-object succeeded');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
-    $test->assertEquals('Cannot set 0 to non-\pear2\Pyrus\PackageFile\v2\Release', $e->getMessage(), '[] = 5');
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+    $test->assertEquals('Cannot set 0 to non-\PEAR2\Pyrus\PackageFile\v2\Release', $e->getMessage(), '[] = 5');
 }
 
 try {
     $reg->release['foo'] = 5;
     throw new Exception('setting to non-object succeeded');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot set foo', $e->getMessage(), '[foo] = 5');
 }
 
-$a = new \pear2\Pyrus\PackageFile\v2\Release($reg, array(), array());
+$a = new \PEAR2\Pyrus\PackageFile\v2\Release($reg, array(), array());
 $reg->release[] = $a;
 $a = $reg->release[0];
 
@@ -29,7 +29,7 @@ $a->installconditions['php'] = '5.2.0';
 try {
     $reg->release->ignore('oops');
     throw new Exception('ignore without index succeeded');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot ignore ' .
                             'file oops without specifying which release section to ignore it in', $e->getMessage(), 'ignore without index');
 }
@@ -37,7 +37,7 @@ try {
 try {
     $reg->release->installAs('oops', 'ie');
     throw new Exception('installas without index succeeded');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot install ' .
                             'file oops to ie' .
                             ' without specifying which release section to install it in', $e->getMessage(), 'installas without index');
@@ -70,14 +70,14 @@ $test->assertEquals('php', $reg->release[0]->installconditions['php']->installco
 try {
     $reg->release[0]->installconditions->min('oops');
     throw new Exception('min oops did not fail');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot set variables for unknown install condition', $e->getMessage(), 'min oops');
 }
 
 try {
     $a = $reg->release[0]->installconditions['extension'][0];
     throw new Exception('extension 0 did not fail');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Access extension installconditions by name, not number', $e->getMessage(), 'extension 0');
 }
 
@@ -88,7 +88,7 @@ $test->assertEquals('foo', $reg->release[0]->installconditions['extension']['foo
 try {
     $a = $reg->release[0]->installconditions[50];
     throw new Exception('installconditions 50 did not fail');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot access numeric index', $e->getMessage(), 'installconditions 50');
 }
 $reg->release = null;
@@ -100,6 +100,6 @@ $test->assertEquals('i386', $reg->release[1]->installconditions['arch']->pattern
 try {
     $a = $reg->release[0]->installconditions['foobar'];
     throw new Exception('installconditions foobar did not fail');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot access unknown install condition foobar', $e->getMessage(), 'installconditions foobar');
 }

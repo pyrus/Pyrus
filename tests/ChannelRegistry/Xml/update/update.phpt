@@ -1,15 +1,15 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry\Xml::update() basic test
+\PEAR2\Pyrus\ChannelRegistry\Xml::update() basic test
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
 $test->assertEquals(false, $creg->exists('pear.unl.edu'), 'channel should not exist');
-$chan = new \pear2\Pyrus\Channel(new \pear2\Pyrus\ChannelFile(__DIR__ . '/../../sample_channel_complex2.xml'));
+$chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(__DIR__ . '/../../sample_channel_complex2.xml'));
 
 try {
     $creg->update($chan);
     throw new Exception('worked and should fail');
-} catch (pear2\Pyrus\ChannelRegistry\Exception $e) {
+} catch (PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Error: channel pear.unl.edu is unknown', $e->getMessage(),
                         'exception');
 }

@@ -4,8 +4,8 @@ Dependency_Validator: package dependency, installed failure --force
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-\pear2\Pyrus\Main::$options['force'] = true;
-$fake = new \pear2\Pyrus\PackageFile\v2;
+\PEAR2\Pyrus\Main::$options['force'] = true;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->package['pear2.php.net/foo']->min('1.2.0');
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo');
@@ -14,7 +14,7 @@ $test->assertEquals(1, count($errs), 'foo count 2');
 $test->assertEquals('warning: channel://pear2.php.net/test requires package "channel://pear2.php.net/foo" (version >= 1.2.0)', $errs->E_WARNING[0]->getMessage(), 'foo error');
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 
 $foo = $fake->dependencies['optional']->package['pear2.php.net/foo']->min('1.2.0');

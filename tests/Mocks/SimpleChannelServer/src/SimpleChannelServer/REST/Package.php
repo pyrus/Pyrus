@@ -19,9 +19,9 @@ class PEAR2_SimpleChannelServer_REST_Package extends
     /**
      * Save package REST based on a release
      *
-     * @param \pear2\Pyrus\package $new
+     * @param \PEAR2\Pyrus\package $new
      */
-    function save(\pear2\Pyrus\Package $new)
+    function save(\PEAR2\Pyrus\Package $new)
     {
         $this->_packages[$new->name] = true;
         $this->saveInfo($new);
@@ -33,9 +33,9 @@ class PEAR2_SimpleChannelServer_REST_Package extends
      * Remove package REST based on a release
      *
      * This does nothing
-     * @param \pear2\Pyrus\package $new
+     * @param \PEAR2\Pyrus\package $new
      */
-    function erase(\pear2\Pyrus\Package $new)
+    function erase(\PEAR2\Pyrus\Package $new)
     {
     }
 
@@ -75,11 +75,11 @@ class PEAR2_SimpleChannelServer_REST_Package extends
     /**
      * Save package REST based on a release
      * 
-     * @param \pear2\Pyrus\Package $new
+     * @param \PEAR2\Pyrus\Package $new
      */
-    function saveInfo(\pear2\Pyrus\Package $new)
+    function saveInfo(\PEAR2\Pyrus\Package $new)
     {
-        $reader = new \pear2\Pyrus\XMLParser;
+        $reader = new \PEAR2\Pyrus\XMLParser;
         $deprecated = false;
         if (file_exists($this->rest . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR .
               'info.xml')) {
@@ -142,11 +142,11 @@ class PEAR2_SimpleChannelServer_REST_Package extends
     /**
      * Save package maintainers information for this release
      *
-     * @param \pear2\Pyrus\Package $new package to be saved
+     * @param \PEAR2\Pyrus\Package $new package to be saved
      *
      * @return void
      */
-    function saveMaintainers(\pear2\Pyrus\Package $new)
+    function saveMaintainers(\PEAR2\Pyrus\Package $new)
     {
         $m  = $this->_getProlog('m', 'packagemaintainers');
         $m2 = $this->_getProlog('m', 'packagemaintainers2');

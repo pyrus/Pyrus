@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2Iterator\PackagingIterator
+ * \PEAR2\Pyrus\PackageFile\v2Iterator\PackagingIterator
  *
  * PHP version 5
  *
@@ -23,11 +23,11 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2Iterator;
+namespace PEAR2\Pyrus\PackageFile\v2Iterator;
 class PackagingIterator extends \ArrayIterator
 {
     static private $_parent;
-    static function setParent(\pear2\Pyrus\PackageFileInterface $parent)
+    static function setParent(\PEAR2\Pyrus\PackageFileInterface $parent)
     {
         self::$_parent = $parent;
     }
@@ -35,7 +35,7 @@ class PackagingIterator extends \ArrayIterator
     function key()
     {
         $curfile = $this->current();
-        $role = \pear2\Pyrus\Installer\Role::factory(self::$_parent->getPackageType(), $curfile['attribs']['role']);
+        $role = \PEAR2\Pyrus\Installer\Role::factory(self::$_parent->getPackageType(), $curfile['attribs']['role']);
         // add the install-as attribute to retrieve packaging location
         return $role->getPackagingLocation(self::$_parent, $curfile['attribs']);
     }

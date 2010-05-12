@@ -1,9 +1,9 @@
 <?php
 include __DIR__ . '/../test_framework.php.inc';
-$pf = new \pear2\Pyrus\PackageFile\v2;
+$pf = new \PEAR2\Pyrus\PackageFile\v2;
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
@@ -25,9 +25,9 @@ $pf->files['foobar'] = array(
 $pf->files['glooby'] = array('role' => 'php');
 $pf->setPackagefile(__DIR__ . '/testit/package.xml');
 
-$package = new \pear2\Pyrus\Package(false);
-$xmlcontainer = new \pear2\Pyrus\PackageFile($pf);
-$xml = new \pear2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$package = new \PEAR2\Pyrus\Package(false);
+$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
+$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 class fake

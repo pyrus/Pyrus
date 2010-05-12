@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\AtomicFileTransaction::begin(), journal dir exists as file 2
+\PEAR2\Pyrus\AtomicFileTransaction::begin(), journal dir exists as file 2
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -8,11 +8,11 @@ require dirname(__DIR__) . '/setup.empty.php.inc';
 touch(__DIR__ . '/testit/.journal-src');
 
 
-\pear2\Pyrus\AtomicFileTransaction::begin();
+\PEAR2\Pyrus\AtomicFileTransaction::begin();
 
 try {
-    $atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
-} catch (\pear2\Pyrus\AtomicFileTransaction\Exception $e) {
+    $atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+} catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Unable to begin transaction for ' . __DIR__ . '/testit/src', $e->getMessage(), 'main message');
     $causes = array();
     $e->getCauseMessage($causes);

@@ -1,11 +1,11 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::help()
+\PEAR2\Pyrus\ScriptFrontend\Commands::help()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 set_include_path(__DIR__ . '/testit');
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (0 => 'help'));
 
 $contents = ob_get_contents();

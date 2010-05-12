@@ -1,7 +1,7 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
-$test->assertIsa('\pear2\Pyrus\PackageFile\v2\Release', $reg->release, 'right class');
+$test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Release', $reg->release, 'right class');
 $test->assertEquals(false, $reg->release[0]->getInstallCondition(), 'release 0, no conditions yet');
 $reg->release[0]->installconditions['php']->min('5.2.0');
 $test->assertEquals('5.2.0', $reg->release[0]->installconditions['php']->min, '5.2.0');
@@ -29,7 +29,7 @@ $test->assertEquals('1.0', $reg->release[0]->installconditions['extension']['PDO
 try {
     $reg->release[0]->ignore('path/to/file.ext');
     throw new Exception('did not fail path/to/file.ext');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown file path/to/file.ext - add to filelist before ignoring', $e->getMessage(), 'unknown file');
 }
 $test->assertEquals(false, $reg->release[0]->getIgnore(), 'ignore should be empty');
@@ -40,7 +40,7 @@ $test->assertTrue($reg->release[0]->ignores('src/SimpleChannelServer.php'), 'dou
 try {
     $reg->release[0]->installAs('path/to/anotherfile.ext', 'new/name.php');
     throw new Exception('did not fail path/to/anotherfile.ext');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown file path/to/anotherfile.ext - add to filelist before adding install as tag', $e->getMessage(), 'unknown file');
 }
 $test->assertEquals(false, $reg->release[0]->getInstallAs(), 'install-as should be empty');
@@ -59,7 +59,7 @@ $reg->release[$i]->installAs('src/SimpleChannelServer.php', 'new/name.php');
 try {
     $a = $reg->release[0]->notfound;
     throw new Exception('notfound succeeded');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown variable notfound' .
         ', installconditions is the only supported variable', $e->getMessage(), 'notfound message');
 }
@@ -84,7 +84,7 @@ $test->assertEquals(null, $reg->release->getInstallCondition(), 'installconditio
 try {
     $a = $reg->release[24];
     throw new Exception('24 succeeded');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Can only set the next highest release index 0, not 24', $e->getMessage(), '24 1');
 }
 $a = $reg->release[0]->ignore('src/SimpleChannelServer.php');
@@ -92,6 +92,6 @@ $a = $reg->release[0]->ignore('src/SimpleChannelServer.php');
 try {
     $a = $reg->release[24];
     throw new Exception('24 succeeded 2');
-} catch (\pear2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Can only set the next highest release index 1, not 24', $e->getMessage(), '24 2');
 }

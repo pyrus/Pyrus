@@ -1,13 +1,13 @@
 --TEST--
-\pear2\Pyrus\AtomicFileTransaction::removePath(), path doesn't exist
+\PEAR2\Pyrus\AtomicFileTransaction::removePath(), path doesn't exist
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
-\pear2\Pyrus\AtomicFileTransaction::begin();
+\PEAR2\Pyrus\AtomicFileTransaction::begin();
 
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/foo', 'before');
 $atomic->removePath('foo');

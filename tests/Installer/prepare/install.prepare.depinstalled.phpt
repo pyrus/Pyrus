@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer::prepare(), dependency is installed, and is latest version
+\PEAR2\Pyrus\Installer::prepare(), dependency is installed, and is latest version
 --FILE--
 <?php
 
@@ -9,20 +9,20 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-\pear2\Pyrus\Main::$options['upgrade'] = true;
-class b extends \pear2\Pyrus\Installer
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\PEAR2\Pyrus\Main::$options['upgrade'] = true;
+class b extends \PEAR2\Pyrus\Installer
 {
     static $installPackages = array();
 }
 
 // first, install P2 1.0.0 in the registry
-$a = new \pear2\Pyrus\PackageFile(__DIR__ .
+$a = new \PEAR2\Pyrus\PackageFile(__DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/rest/r/p2/package.1.1.0RC3.xml');
-\pear2\Pyrus\Config::current()->registry->package[] = $a->info;
+\PEAR2\Pyrus\Config::current()->registry->package[] = $a->info;
 
 b::begin();
-b::prepare(new \pear2\Pyrus\Package('pear2/P1-beta'));
+b::prepare(new \PEAR2\Pyrus\Package('pear2/P1-beta'));
 b::preCommitDependencyResolve();
 $test->assertEquals(1, count(b::$installPackages), '1 package should be installed');
 $test->assertEquals('1.1.0RC1', b::$installPackages['pear2.php.net/P1']->version['release'], 'verify P1-1.1.0RC1');

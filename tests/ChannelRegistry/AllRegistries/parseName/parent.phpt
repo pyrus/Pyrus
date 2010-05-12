@@ -1,11 +1,11 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry::parseName() with parent
+\PEAR2\Pyrus\ChannelRegistry::parseName() with parent
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/../setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$creg = new \pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit');
-$cregp = new \pear2\Pyrus\ChannelRegistry(__DIR__ . '/testit/blahblah');
+$creg = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit');
+$cregp = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit/blahblah');
 $chan = $cregp['pear2.php.net']->toChannelFile();
 $chan->name = 'boo.example.com';
 $chan->alias = 'boo';

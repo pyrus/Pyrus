@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::upgrade(), --force test, plugin
+\PEAR2\Pyrus\ScriptFrontend\Commands::upgrade(), --force test, plugin
 --FILE--
 <?php
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
@@ -8,12 +8,12 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 require __DIR__ . '/setup.php.inc';
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', '-p',
                          __DIR__.'/Pyrus_Developer/package.xml'));
 
@@ -136,13 +136,13 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/v2.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-), \pear2\Pyrus\Config::current()->pluginregistry->info('PEAR2_Pyrus_Developer',
+), \PEAR2\Pyrus\Config::current()->pluginregistry->info('PEAR2_Pyrus_Developer',
                                                                                  'pear2.php.net',
                                                                                  'installedfiles'), 'file installed');
 
 
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'upgrade', '-f', '-p',
                          __DIR__.'/Pyrus_Developer/package.xml'));
 

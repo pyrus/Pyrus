@@ -4,7 +4,7 @@ Dependency_Validator: OS dependency unix
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new \pear2\Pyrus\PackageFile\v2;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $os = $fake->dependencies['required']->os;
 $os->name = 'unix';
 $validator->os = $validator->sysname = 'Linux';
@@ -20,7 +20,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $validator->os = $validator->sysname = 'Linux';
 $os->name = 'linux';
@@ -37,7 +37,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $os->name = 'unix';
 $os->conflicts = true;
@@ -54,7 +54,7 @@ foreach ($errs->E_ERROR as $error) {
 }
 
 // reset multierrors
-$errs = new \pear2\MultiErrors;
+$errs = new \PEAR2\MultiErrors;
 $validator = new test_Validator($package, $state, $errs);
 $os->name = 'linux';
 $os->conflicts = true;

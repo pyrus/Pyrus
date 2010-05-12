@@ -31,7 +31,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Task\Postinstallscript;
+namespace PEAR2\Pyrus\Task\Postinstallscript;
 class Paramgroup implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
@@ -69,7 +69,7 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
             return true;
         }
         if (!isset($answers)) {
-            throw new \pear2\Pyrus\Task\Exception('Invalid post-install script, <conditiontype> can only ' .
+            throw new \PEAR2\Pyrus\Task\Exception('Invalid post-install script, <conditiontype> can only ' .
                                                  'be used if the previous paramgroup has prompts');
         }
 
@@ -149,7 +149,7 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function offsetGet($var)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
+            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
         }
         $i = $this->locateParamgroup($var);
         if (false === $i) {
@@ -173,18 +173,18 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function offsetSet($var, $value)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
+            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
         }
         if (!($value instanceof self)) {
-            throw new \pear2\Pyrus\Task\Exception('Can only set $paramgroup[\'' .
+            throw new \PEAR2\Pyrus\Task\Exception('Can only set $paramgroup[\'' .
                 $var .
-                '\'] to \pear2\Pyrus\Task\Postinstallscript\Paramgroup object');
+                '\'] to \PEAR2\Pyrus\Task\Postinstallscript\Paramgroup object');
         }
         if ($var === null) {
             $var = $value->id;
         }
         if ($value->id != $var) {
-            throw new \pear2\Pyrus\Task\Exception('Cannot set ' .
+            throw new \PEAR2\Pyrus\Task\Exception('Cannot set ' .
                 $var . ' to ' .
                 $value->id .
                 ', use $paramgroup[] to set a new value');
@@ -199,7 +199,7 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function offsetExists($var)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
+            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
         }
         $i = $this->locateParamgroup($var);
         return $i !== false;
@@ -208,7 +208,7 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function offsetUnset($var)
     {
         if (isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
+            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access paramgroup properties');
         }
         $i = $this->locateParamgroup($var);
         if ($i === false) {
@@ -222,13 +222,13 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
+            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \pear2\Pyrus\Task\Exception(
+            throw new \PEAR2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -239,7 +239,7 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
             } elseif (is_array($ret) && !isset($ret[0])) {
                 $ret = array($ret);
             }
-            return new \pear2\Pyrus\Task\Postinstallscript\Paramgroup\Param($this->tasksNs, $this, $ret);
+            return new \PEAR2\Pyrus\Task\Postinstallscript\Paramgroup\Param($this->tasksNs, $this, $ret);
         }
         return $this->info[$this->tasksNs. $var];
     }
@@ -247,13 +247,13 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function __isset($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
+            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if (!array_key_exists($this->tasksNs. $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \pear2\Pyrus\Task\Exception(
+            throw new \PEAR2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -263,13 +263,13 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function __unset($var)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
+            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if (!array_key_exists($this->tasksNs. $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \pear2\Pyrus\Task\Exception(
+            throw new \PEAR2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -285,13 +285,13 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
     function __call($var, $args)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
+            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if (!array_key_exists($this->tasksNs. $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \pear2\Pyrus\Task\Exception(
+            throw new \PEAR2\Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -312,24 +312,24 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
         } else {
             if ($var === 'name') {
                 if (!strpos($args[0], '::')) {
-                    throw new \pear2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param with ' .
+                    throw new \PEAR2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param with ' .
                                                          'syntax paramgroup::paramname');
                 }
                 $name = explode('::', $args[0]);
                 if (count($name) != 2) {
-                    throw new \pear2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param with ' .
+                    throw new \PEAR2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param with ' .
                                                          'syntax paramgroup::paramname');
                 }
                 if ($name[0] == $this->id) {
-                    throw new \pear2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param.  ' .
+                    throw new \PEAR2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param.  ' .
                                                          $args[0] . ' references this paramgroup');
                 }
                 if (!isset($this->parent[$name[0]])) {
-                    throw new \pear2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param.  ' .
+                    throw new \PEAR2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param.  ' .
                                                          'paramgroup "' . $name[0] . '" is not yet created');
                 }
                 if (!isset($this->parent[$name[0]]->param[$name[1]])) {
-                    throw new \pear2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param.  ' .
+                    throw new \PEAR2\Pyrus\Task\Exception('name must reference a previous paramgroup\'s param.  ' .
                                                          'paramgroup "' . $name[0] . '" param "' .
                                                          $name[1] . '" is not yet created');
                 }
@@ -373,16 +373,16 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
 
     /**
      * Set the condition for this paramgroup
-     * @param \pear2\Pyrus\Task\Postinstallscript\Paramgroup\Param $parameter the
+     * @param \PEAR2\Pyrus\Task\Postinstallscript\Paramgroup\Param $parameter the
      *        previous parameter whose value we use for the condition check
      * @param string $operator one of =, !=, or preg_match
      * @param string $value the value to match the parameter against
      */
-    function condition(\pear2\Pyrus\Task\Postinstallscript\Paramgroup\Param $parameter = null, $operator = null,
+    function condition(\PEAR2\Pyrus\Task\Postinstallscript\Paramgroup\Param $parameter = null, $operator = null,
                        $value = null)
     {
         if (!isset($this->index)) {
-            throw new \pear2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
+            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if ($parameter === null) {
             $this->name = null;
@@ -392,7 +392,7 @@ class Paramgroup implements \ArrayAccess, \Iterator, \Countable
         }
         $this->name = $parameter->paramgroup->id . '::' . $parameter->name;
         if ($operator != '=' && $operator != '!=' && $operator != 'preg_match') {
-            throw new \pear2\Pyrus\Task\Exception('Invalid operator for post-install script condition, ' .
+            throw new \PEAR2\Pyrus\Task\Exception('Invalid operator for post-install script condition, ' .
                                                  ' must be one of =, != or preg_match');
         }
         $this->conditiontype = $operator;

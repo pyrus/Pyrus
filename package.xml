@@ -33,8 +33,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-03-03</date>
- <time>19:11:40</time>
+ <date>2010-05-09</date>
+ <time>20:06:10</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -220,7 +220,7 @@ Initial pyrus public API
    <dir name="scripts" baseinstalldir="/">
     <file role="script" name="pyrus"/>
    </dir>
-   <dir name="src" baseinstalldir="pear2">
+   <dir name="src" baseinstalldir="PEAR2">
     <dir name="Pyrus">
      <dir name="AtomicFileTransaction">
       <file role="php" name="Exception.php"/>
@@ -230,6 +230,7 @@ Initial pyrus public API
       <file role="php" name="MirrorInterface.php"/>
       <file role="php" name="RemoteCategories.php"/>
       <file role="php" name="RemoteCategory.php"/>
+      <file role="php" name="RemoteMaintainers.php"/>
       <file role="php" name="RemotePackage.php"/>
       <file role="php" name="RemotePackages.php"/>
      </dir>
@@ -1070,7 +1071,7 @@ Initial pyrus public API
     </dir>
     <dir name="Mocks">
      <dir name="badmd5sum">
-      <dir name="src" baseinstalldir="pear2">
+      <dir name="src" baseinstalldir="PEAR2">
        <file role="test" name="foo.php"/>
       </dir>
       <file role="test" name="package.xml"/>
@@ -2608,7 +2609,7 @@ Initial pyrus public API
       <dir name="scripts" baseinstalldir="/">
        <file role="test" name="pearscs"/>
       </dir>
-      <dir name="src" baseinstalldir="pear2">
+      <dir name="src" baseinstalldir="PEAR2">
        <dir name="SimpleChannelServer">
         <dir name="Categories">
          <file role="test" name="Exception.php"/>
@@ -3364,7 +3365,7 @@ Initial pyrus public API
        <dir name="data" baseinstalldir="/">
         <file role="test" name="phartemplate.php"/>
        </dir>
-       <dir name="src" baseinstalldir="pear2">
+       <dir name="src" baseinstalldir="PEAR2">
         <dir name="Pyrus">
          <dir name="Developer">
           <dir name="CoverageAnalyzer">
@@ -3556,6 +3557,7 @@ Initial pyrus public API
      <file role="test" name="childtag_content.phpt"/>
      <file role="test" name="childtag_sibling_attribs.phpt"/>
      <file role="test" name="empty.phpt"/>
+     <file role="test" name="parse_open_fail.phpt"/>
      <file role="test" name="recursivetag.phpt"/>
      <file role="test" name="setup.php.inc"/>
      <file role="test" name="siblingtags.phpt"/>

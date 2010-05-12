@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Dependency\Set
+ * \PEAR2\Pyrus\Dependency\Set
  *
  * PHP version 5
  *
@@ -28,7 +28,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package\Dependency;
+namespace PEAR2\Pyrus\Package\Dependency;
 class Set
 {
     protected $packageTrees = array();
@@ -98,7 +98,7 @@ class Set
         return $this->optionalDeps;
     }
 
-    function getDependencies(\pear2\Pyrus\Package $info)
+    function getDependencies(\PEAR2\Pyrus\Package $info)
     {
         $deps = array();
         foreach ($this->packageTrees as $tree) {
@@ -112,7 +112,7 @@ class Set
     {
         $name = $info->name;
         $channel = $info->channel;
-        $packages = \pear2\Pyrus\Config::current()->registry
+        $packages = \PEAR2\Pyrus\Config::current()->registry
                             ->getDependentPackages($info->getPackageFileObject());
 
         $ret = array();
@@ -151,14 +151,14 @@ class Set
      * <pre>
      * P1 version >= 1.2.0, <= 3.0.0, != 2.3.2, 1.2.0
      * </pre>
-     * @param pear2\Pyrus\Package $info
+     * @param PEAR2\Pyrus\Package $info
      * @param bool $conflicting if true, return a composite <conflicts> dependency, if any
      */
-    function getCompositeDependency(\pear2\Pyrus\Package $info, $conflicting = false)
+    function getCompositeDependency(\PEAR2\Pyrus\Package $info, $conflicting = false)
     {
         $deps = $this->getDependencies($info);
         if (!count($deps)) {
-            $dep = new \pear2\Pyrus\PackageFile\v2\Dependencies\Package(
+            $dep = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package(
                 'required', 'package', null, array('name' => $info->name, 'channel' => $info->channel, 'uri' => null,
                                             'min' => null, 'max' => null,
                                             'recommended' => null, 'exclude' => null,
@@ -212,19 +212,19 @@ class Set
 
             if (isset($compdep['recommended']) && isset($actualdep->recommended)
                 && $actualdep->recommended != $compdep['recommended']) {
-                throw new \pear2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
+                throw new \PEAR2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (different recommended values for ' .
                     $deppackage . ' and ' . $recommended . ')');
             }
 
             if ($compdep['max'] && $actualdep->min && version_compare($actualdep->min, $compdep['max'], '>')) {
-                throw new \pear2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
+                throw new \PEAR2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (' .
                     $deppackage . ' min is > ' . $max . ' max)');
             }
 
             if ($compdep['min'] && $actualdep->max && version_compare($actualdep->max, $compdep['min'], '<')) {
-                throw new \pear2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
+                throw new \PEAR2\Pyrus\Package\Exception('Cannot install ' . $info->channel . '/' .
                     $info->name . ', two dependencies conflict (' .
                     $deppackage . ' max is < ' . $min . ' min)');
             }
@@ -277,7 +277,7 @@ class Set
             }
         }
 
-        $dep = new \pear2\Pyrus\PackageFile\v2\Dependencies\Package(
+        $dep = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package(
             'required', 'package', null, $compdep, 0);
         $dep->setCompositeSources($useddeps);
         return $dep;

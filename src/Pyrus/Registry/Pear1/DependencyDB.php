@@ -1,6 +1,6 @@
 <?php
 /**
- * pear2\Pyrus\Registry\Pear1\DependencyDB, advanced installed packages
+ * PEAR2\Pyrus\Registry\Pear1\DependencyDB, advanced installed packages
  * dependency database for Pear1 registry
  *
  * PHP version 5
@@ -25,7 +25,7 @@
  * @version   SVN: $Id$
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Registry\Pear1;
+namespace PEAR2\Pyrus\Registry\Pear1;
 class DependencyDB
 {
     /**
@@ -82,7 +82,7 @@ class DependencyDB
      * Get a list of installed packages that depend on this package
      * @return array
      */
-    function getDependentPackages(\pear2\Pyrus\PackageFileInterface $pkg)
+    function getDependentPackages(\PEAR2\Pyrus\PackageFileInterface $pkg)
     {
         $data = $this->_getDepDB();
 
@@ -95,7 +95,7 @@ class DependencyDB
     /**
      * Register dependencies of a package that is being installed or upgraded
      */
-    function installPackage(\pear2\Pyrus\PackageFileInterface $package)
+    function installPackage(\PEAR2\Pyrus\PackageFileInterface $package)
     {
         $data = $this->_getDepDB();
         $data = $this->_setPackageDeps($data, $package);
@@ -169,9 +169,9 @@ class DependencyDB
             // allow startup for read-only with older Registry
             return $depdb;
         }
-        $reg = \pear2\Pyrus\Config::current()->registry;
+        $reg = \PEAR2\Pyrus\Config::current()->registry;
 
-        foreach (\pear2\Pyrus\Config::current()->channelregistry as $channel) {
+        foreach (\PEAR2\Pyrus\Config::current()->channelregistry as $channel) {
             foreach ($reg->listPackages($channel->name) as $package) {
                 $package = $reg->package[$channel->name . '/' . $package];
                 $depdb = $this->_setPackageDeps($depdb, $package);
@@ -202,7 +202,7 @@ class DependencyDB
             if (!file_exists($this->_lockfile)) {
                 touch($this->_lockfile);
             } elseif (!is_file($this->_lockfile)) {
-                throw new \pear2\Pyrus\Registry\Exception('could not create Dependency lock file, ' .
+                throw new \PEAR2\Pyrus\Registry\Exception('could not create Dependency lock file, ' .
                     'it exists and is not a regular file');
             }
             $open_mode = 'r';
@@ -213,7 +213,7 @@ class DependencyDB
         }
 
         if (!is_resource($this->_lockFp)) {
-            throw new \pear2\Pyrus\Registry\Exception("could not create Dependency lock file" .
+            throw new \PEAR2\Pyrus\Registry\Exception("could not create Dependency lock file" .
                                      (isset($php_errormsg) ? ": " . $php_errormsg : ""));
         }
 
@@ -225,7 +225,7 @@ class DependencyDB
                 default:      $str = 'unknown';   break;
             }
 
-            throw new \pear2\Pyrus\Registry\Exception("could not acquire $str lock ($this->_lockfile)");
+            throw new \PEAR2\Pyrus\Registry\Exception("could not acquire $str lock ($this->_lockfile)");
         }
     }
 
@@ -257,7 +257,7 @@ class DependencyDB
         }
 
         if (!$fp = fopen($this->_depdb, 'r')) {
-            throw new \pear2\Pyrus\Registry\Exception("Could not open dependencies file `" .
+            throw new \PEAR2\Pyrus\Registry\Exception("Could not open dependencies file `" .
                                                      $this->_depdb . "'");
         }
 
@@ -280,7 +280,7 @@ class DependencyDB
      * Write out the dependency database to disk
      * @param array the database
      * @return void
-     * @throws \pear2\Pyrus\Registry\Exception
+     * @throws \PEAR2\Pyrus\Registry\Exception
      * @access private
      */
     function _writeDepDB($deps)
@@ -289,7 +289,7 @@ class DependencyDB
 
         if (!$fp = fopen($this->_depdb, 'wb')) {
             $this->_unlock();
-            throw new \pear2\Pyrus\Registry\Exception("Could not open dependencies file `" .
+            throw new \PEAR2\Pyrus\Registry\Exception("Could not open dependencies file `" .
                                                      $this->_depdb . "' for writing");
         }
 
@@ -309,10 +309,10 @@ class DependencyDB
      * Register all dependencies from a package in the dependencies database, in essence
      * "installing" the package's dependency information
      * @param array the database
-     * @param \pear2\Pyrus\PackageFileInterface
+     * @param \PEAR2\Pyrus\PackageFileInterface
      * @access private
      */
-    function _setPackageDeps(array $data, \pear2\Pyrus\PackageFileInterface $pkg)
+    function _setPackageDeps(array $data, \PEAR2\Pyrus\PackageFileInterface $pkg)
     {
         $deps = $pkg->rawdeps;
 
@@ -417,12 +417,12 @@ class DependencyDB
 
     /**
      * @param array the database
-     * @param \pear2\Pyrus\PackageFileInterface
+     * @param \PEAR2\Pyrus\PackageFileInterface
      * @param array the specific dependency
      * @param required|optional whether this is a required or an optional dep
      * @param string|false dependency group this dependency is from, or false for ordinary dep
      */
-    function _registerDep(array $data, \pear2\Pyrus\PackageFileInterface $pkg, $dep, $type, $group = false)
+    function _registerDep(array $data, \PEAR2\Pyrus\PackageFileInterface $pkg, $dep, $type, $group = false)
     {
         $info = array(
             'dep'   => $dep,

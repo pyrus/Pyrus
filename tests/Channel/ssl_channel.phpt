@@ -1,11 +1,11 @@
 --TEST--
-\pear2\Pyrus\Channel::__construct() test basics for ssl channels
+\PEAR2\Pyrus\Channel::__construct() test basics for ssl channels
 --FILE--
 <?php
 $thrown = false;
 require dirname(__FILE__) . '/setup.php.inc';
 try {
-    $chan = new \pear2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_ssl_channel.xml');
+    $chan = new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_ssl_channel.xml');
     try {
         $chan->validate();
     } catch (Exception $e) {

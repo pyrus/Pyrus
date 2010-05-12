@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\AtomicFileTransaction::begin() with copy to journal directory
+\PEAR2\Pyrus\AtomicFileTransaction::begin() with copy to journal directory
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -30,11 +30,11 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-php/anothernew/dir/file',
                            __DIR__ . '/testit/.journal-php/another/dir/file before');
 
-$role = new \pear2\Pyrus\Installer\Role\Php(\pear2\Pyrus\Config::current(),
-                                            \pear2\Pyrus\Installer\Role::getInfo('php'));
-$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject($role);
+$role = new \PEAR2\Pyrus\Installer\Role\Php(\PEAR2\Pyrus\Config::current(),
+                                            \PEAR2\Pyrus\Installer\Role::getInfo('php'));
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject($role);
 
-\pear2\Pyrus\AtomicFileTransaction::begin();
+\PEAR2\Pyrus\AtomicFileTransaction::begin();
 
 $test->assertFileExists(__DIR__ . '/testit/php', __DIR__ . '/testit/php after');
 $test->assertFileExists(__DIR__ . '/testit/php/foo', __DIR__ . '/testit/php/foo after');

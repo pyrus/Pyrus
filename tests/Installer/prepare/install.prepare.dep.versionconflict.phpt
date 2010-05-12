@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer::prepare(), resolve the correct dependency version from 2 options
+\PEAR2\Pyrus\Installer::prepare(), resolve the correct dependency version from 2 options
 --FILE--
 <?php
 /**
@@ -32,14 +32,14 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.dep.versionconflict',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-class boo extends \pear2\Pyrus\Installer
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+class boo extends \PEAR2\Pyrus\Installer
 {
     static $installPackages = array();
 }
 boo::begin();
-boo::prepare(new \pear2\Pyrus\Package('pear2/P1-1.0.0'));
-boo::prepare(new \pear2\Pyrus\Package('pear2/P4-stable', true));
+boo::prepare(new \PEAR2\Pyrus\Package('pear2/P1-1.0.0'));
+boo::prepare(new \PEAR2\Pyrus\Package('pear2/P4-stable', true));
 boo::preCommitDependencyResolve();
 $test->assertEquals(4, count(boo::$installPackages), '4 packages should be installed');
 $pnames = array();

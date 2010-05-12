@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::loadConfigFile() corrupt userfile
+\PEAR2\Pyrus\Config::loadConfigFile() corrupt userfile
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -12,7 +12,7 @@ try {
     $test->assertEquals($testpath, $a->pearDir, 'peardir');
     $test->assertEquals($testpath . '/blah', $a->userFile, 'userfile');
 } catch (Exception $e) {
-    $test->assertException($e, '\pear2\Pyrus\Config\Exception', 'Unable to parse invalid user PEAR configuration at "' . $testpath . '/blah"', 'exception');
+    $test->assertException($e, '\PEAR2\Pyrus\Config\Exception', 'Unable to parse invalid user PEAR configuration at "' . $testpath . '/blah"', 'exception');
 }
 ?>
 ===DONE===

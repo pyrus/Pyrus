@@ -3,14 +3,14 @@ Pyrus DER: parse an actual OCSP request
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-\pear2\Pyrus\DER\Schema::addType('AnotherName',
-    \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('AnotherName',
+    \PEAR2\Pyrus\DER\Schema::factory()
     ->sequence('AnotherName')
         ->objectIdentifier('type-id')
         ->any('value', 0));
 
-\pear2\Pyrus\DER\Schema::addType('GeneralName',
-    \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('GeneralName',
+    \PEAR2\Pyrus\DER\Schema::factory()
     ->choice('GeneralName')
         ->option('otherName', 'AnotherName')
         ->option('rfc822Name', 'IA5String')
@@ -18,22 +18,22 @@ require __DIR__ . '/setup.php.inc';
         ->option('x400Address', 'AnotherName') // ORaddress, I'm lazy
         ->option('dNSName', 'IA5String'));
 
-\pear2\Pyrus\DER\Schema::addType('AlgorithmIdentifier',
-    \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('AlgorithmIdentifier',
+    \PEAR2\Pyrus\DER\Schema::factory()
     ->sequence('AlgorithmIdentifier')
         ->objectIdentifier('algorithm')
         ->any('parameters'));
 
-\pear2\Pyrus\DER\Schema::addType('CertID',
-    \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('CertID',
+    \PEAR2\Pyrus\DER\Schema::factory()
     ->sequence('CertID')
         ->algorithmIdentifier('hashAlgorithm')
         ->octetString('issuerNameHash')
         ->octetString('issuerKeyHash')
         ->integer('serialNumber'));
 
-\pear2\Pyrus\DER\Schema::addType('Extensions',
-    $extensions = \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('Extensions',
+    $extensions = \PEAR2\Pyrus\DER\Schema::factory()
     ->sequence('Extensions')
         ->sequence('Inner')
             ->sequence('Extension')->setMultiple()
@@ -44,15 +44,15 @@ require __DIR__ . '/setup.php.inc';
         ->end());
 $extensions->Inner->Extension->critical->setOptional();
 
-\pear2\Pyrus\DER\Schema::addType('Request',
-    $request = \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('Request',
+    $request = \PEAR2\Pyrus\DER\Schema::factory()
     ->sequence('Request')
         ->certID('reqCert')
         ->extensions('singleRequestExtensions', 0));
 $request->singleRequestExtensions->setOptional();
 
-\pear2\Pyrus\DER\Schema::addType('TBSRequest',
-    $tbs = \pear2\Pyrus\DER\Schema::factory()
+\PEAR2\Pyrus\DER\Schema::addType('TBSRequest',
+    $tbs = \PEAR2\Pyrus\DER\Schema::factory()
     ->sequence('TBSRequest')
         ->integer('version', 0)
         ->generalName('requestorName', 1)
@@ -66,7 +66,7 @@ $tbs->requestorName->setOptional();
 $tbs->test->requestList->setMultiple();
 $tbs->requestExtensions->setOptional();
 
-$schema = new \pear2\Pyrus\DER\Schema;
+$schema = new \PEAR2\Pyrus\DER\Schema;
 $schema
         ->sequence('OCSPRequest')
             ->TBSRequest('tbsRequest');

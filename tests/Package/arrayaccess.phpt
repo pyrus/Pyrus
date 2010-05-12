@@ -1,10 +1,10 @@
 --TEST--
-\pear2\Pyrus\Package: test array access for accessing files
+\PEAR2\Pyrus\Package: test array access for accessing files
 --FILE--
 <?php
 define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
-$pf = new \pear2\Pyrus\PackageFile\v2;
+$pf = new \PEAR2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
 $pf->channel = 'pear2.php.net';
@@ -20,9 +20,9 @@ $pf->files['foobar'] = array(
 $pf->files['glooby'] = array('role' => 'php');
 $pf->setPackagefile(__DIR__ . '/testit/package.xml');
 
-$package = new \pear2\Pyrus\Package(false);
-$xmlcontainer = new \pear2\Pyrus\PackageFile($pf);
-$xml = new \pear2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$package = new \PEAR2\Pyrus\Package(false);
+$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
+$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 file_put_contents(__DIR__ . '/testit/foobar', 'hi there');

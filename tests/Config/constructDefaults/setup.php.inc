@@ -1,6 +1,6 @@
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-class tc extends \pear2\Pyrus\Config
+class tc extends \PEAR2\Pyrus\Config
 {
     public static function getTestDefaults($nophpini = false)
     {

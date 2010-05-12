@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\XMLWriter
+ * \PEAR2\Pyrus\XMLWriter
  *
  * PHP version 5
  *
@@ -26,7 +26,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class XMLWriter extends \XMLWriter
 {
     private $_array;
@@ -47,7 +47,7 @@ class XMLWriter extends \XMLWriter
      * Construct a new xml writer object.
      * <code>
      * $xmlarray = array('channel'=>array('name'=>'pear2.php.net'));
-     * $channel = new \pear2\Pyrus\XMLWriter($xmlarray);
+     * $channel = new \PEAR2\Pyrus\XMLWriter($xmlarray);
      * </code>
      *
      * @param array $array Array representing the XML data.
@@ -278,7 +278,7 @@ class XMLWriter extends \XMLWriter
                 }
             }
 
-            $this->_lastkey = array_filter($this->_lastkey, array('pear2\Pyrus\XMLWriter', '_filter'));
+            $this->_lastkey = array_filter($this->_lastkey, array('PEAR2\Pyrus\XMLWriter', '_filter'));
             $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {

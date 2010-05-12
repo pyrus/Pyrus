@@ -2,12 +2,12 @@
 include dirname(__FILE__) . '/../test_framework.php.inc';
 @mkdir(MYDIR . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(MYDIR . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(MYDIR.'/testit', MYDIR . '/testit/plugins/pearconfig.xml');
+$c = \PEAR2\Pyrus\Config::singleton(MYDIR.'/testit', MYDIR . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = MYDIR . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 
-$pf = new \pear2\Pyrus\PackageFile\v2;
+$pf = new \PEAR2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
 $pf->channel = 'pear2.php.net';
@@ -25,7 +25,7 @@ $pf->release[0]->installAs('foobar', 'blah/blah');
 $pf->release[0]->ignore('glooby');
 $pf->setPackagefile(MYDIR . '/testit/package.xml');
 
-$package = new \pear2\Pyrus\Package(false);
-$xmlcontainer = new \pear2\Pyrus\PackageFile($pf);
-$xml = new \pear2\Pyrus\Package\Xml(MYDIR . '/testit/package.xml', $package, $xmlcontainer);
+$package = new \PEAR2\Pyrus\Package(false);
+$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
+$xml = new \PEAR2\Pyrus\Package\Xml(MYDIR . '/testit/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Xml
+ * \PEAR2\Pyrus\Package\Xml
  *
  * PHP version 5
  *
@@ -23,14 +23,14 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package;
-class Xml extends \pear2\Pyrus\Package\Base
+namespace PEAR2\Pyrus\Package;
+class Xml extends \PEAR2\Pyrus\Package\Base
 {
-    function __construct($package, \pear2\Pyrus\Package $parent, \pear2\Pyrus\PackageFile $info = null)
+    function __construct($package, \PEAR2\Pyrus\Package $parent, \PEAR2\Pyrus\PackageFile $info = null)
     {
         $this->archive = $package;
         if ($info === null) {
-            $info = new \pear2\Pyrus\PackageFile($package);
+            $info = new \PEAR2\Pyrus\PackageFile($package);
         }
 
         parent::__construct($info, $parent);

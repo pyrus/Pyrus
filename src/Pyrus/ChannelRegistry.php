@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelRegistry
+ * \PEAR2\Pyrus\ChannelRegistry
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\ChannelRegistryInterface
+namespace PEAR2\Pyrus;
+class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \PEAR2\Pyrus\ChannelRegistryInterface
 {
     /**
      * Class to instantiate for singleton.
@@ -32,12 +32,12 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
      * This is useful for unit-testing and for extending the registry
      * @var string
      */
-    static public $className = 'pear2\Pyrus\ChannelRegistry';
+    static public $className = 'PEAR2\Pyrus\ChannelRegistry';
     /**
      * The parent registry
      *
      * This is used to implement cascading registries
-     * @var \pear2\Pyrus\ChannelRegistry
+     * @var \PEAR2\Pyrus\ChannelRegistry
      */
     protected $parent;
     protected $path;
@@ -48,11 +48,11 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
     {
         $this->path = $path;
         $this->readonly = $readonly;
-        $exceptions = new \pear2\MultiErrors;
+        $exceptions = new \PEAR2\MultiErrors;
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
-                $registry = 'pear2\Pyrus\ChannelRegistry\\' . $registry;
+                $registry = 'PEAR2\Pyrus\ChannelRegistry\\' . $registry;
                 if (!class_exists($registry, true)) {
                     $exceptions->E_ERROR[] = new ChannelRegistry\Exception(
                         'Unknown channel registry type: ' . $registry);
@@ -81,7 +81,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \pear2\Pyrus\
     /**
      * Add a channel to the registry.
      *
-     * @param \pear2\Pyrus\ChannelInterface $channel Channel to add.
+     * @param \PEAR2\Pyrus\ChannelInterface $channel Channel to add.
      */
     public function add(ChannelInterface $channel, $update = false, $lastmodified = false)
     {

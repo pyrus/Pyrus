@@ -4,7 +4,7 @@ Dependency_Validator: subpackage dependency, conflicts, installed min pass
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new \pear2\Pyrus\PackageFile\v2;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';
@@ -12,7 +12,7 @@ $fake->files['foo'] = array('role' => 'php');
 $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
-\pear2\Pyrus\Config::current()->registry->install($fake);
+\PEAR2\Pyrus\Config::current()->registry->install($fake);
 
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo']->min('1.3.0')->conflicts(true);
 

@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::constructDefaults() bin_dir from PHP_PEAR_BIN_DIR
+\PEAR2\Pyrus\Config::constructDefaults() bin_dir from PHP_PEAR_BIN_DIR
 --ENV--
 PATH=.;{PWD}
 PHP_PEAR_BIN_DIR=somethingelse

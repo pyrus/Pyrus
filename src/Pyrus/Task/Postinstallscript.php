@@ -26,8 +26,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Task;
-use \pear2\Pyrus\Logger as Logger;
+namespace PEAR2\Pyrus\Task;
+use \PEAR2\Pyrus\Logger as Logger;
 class Postinstallscript extends Common
 {
     const TYPE = 'script';
@@ -54,9 +54,9 @@ class Postinstallscript extends Common
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws \pear2\Pyrus\Task\Exception\InvalidTask
+     * @throws \PEAR2\Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
+    static function validateXml(\PEAR2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if ($fileXml['role'] != 'php') {
             throw new Exception\InvalidTask('postinstallscript', $file,
@@ -255,13 +255,13 @@ class Postinstallscript extends Common
     /**
      * Unlike other tasks, the installed file name is passed in instead of the file contents,
      * because this task is handled post-installation
-     * @param \pear2\Pyrus\PackageInterface
+     * @param \PEAR2\Pyrus\PackageInterface
      * @param string path to the post-install script
      * @return bool false to skip this file
      */
     function setupPostInstall()
     {
-        $files = \pear2\Pyrus\Config::current()->registry->info($this->pkg->name, $this->pkg->channel,
+        $files = \PEAR2\Pyrus\Config::current()->registry->info($this->pkg->name, $this->pkg->channel,
                                                                'installedfiles');
         foreach ($files as $path => $info) {
             if ($info['name'] == $this->_filename) {

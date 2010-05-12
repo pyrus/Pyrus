@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Installer\Role\Cfg
+ * \PEAR2\Pyrus\Installer\Role\Cfg
  *
  * PHP version 5
  *
@@ -23,14 +23,14 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Installer\Role;
-class Cfg extends \pear2\Pyrus\Installer\Role\Common
+namespace PEAR2\Pyrus\Installer\Role;
+class Cfg extends \PEAR2\Pyrus\Installer\Role\Common
 {
     protected $md5 = null;
     /**
      * Do any unusual setup here
-     * @param \pear2\Pyrus\Installer
-     * @param \pear2\Pyrus\PackageFileInterface
+     * @param \PEAR2\Pyrus\Installer
+     * @param \PEAR2\Pyrus\PackageFileInterface
      * @param array file attributes
      * @param string file name
      */
@@ -45,7 +45,7 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
         }
     }
 
-    function getRelativeLocation(\pear2\Pyrus\PackageFileInterface $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
+    function getRelativeLocation(\PEAR2\Pyrus\PackageFileInterface $pkg, \PEAR2\Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if ($this->md5 === null) {
@@ -53,7 +53,7 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
         }
 
         $info = parent::getRelativeLocation($pkg, $file, $retDir);
-        $path = \pear2\Pyrus\Config::current()->cfg_dir .
+        $path = \PEAR2\Pyrus\Config::current()->cfg_dir .
                     DIRECTORY_SEPARATOR;
 
         if ($retDir) {
@@ -81,7 +81,7 @@ class Cfg extends \pear2\Pyrus\Installer\Role\Common
                 // configfile.new-version
                 $old = $filepath;
                 $filepath .= '.new-' . $pkg->version['release'];
-                \pear2\Pyrus\Logger::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
+                \PEAR2\Pyrus\Logger::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
                                     "you should manually merge in changes to the existing configuration file");
             }
         }

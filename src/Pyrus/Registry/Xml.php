@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Registry\Xml
+ * \PEAR2\Pyrus\Registry\Xml
  *
  * PHP version 5
  *
@@ -33,11 +33,11 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Registry;
-use \pear2\Pyrus\Main as Main,
-    \pear2\Pyrus\Installer\Role as Role,
-    \pear2\Pyrus\AtomicFileTransaction as AtomicFileTransaction;
-class Xml extends \pear2\Pyrus\Registry\Base
+namespace PEAR2\Pyrus\Registry;
+use \PEAR2\Pyrus\Main as Main,
+    \PEAR2\Pyrus\Installer\Role as Role,
+    \PEAR2\Pyrus\AtomicFileTransaction as AtomicFileTransaction;
+class Xml extends \PEAR2\Pyrus\Registry\Base
 {
     protected $readonly;
     protected $atomic;
@@ -54,7 +54,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         $this->readonly = $readonly;
     }
 
-    private function _nameRegistryPath(\pear2\Pyrus\PackageFileInterface $info = null,
+    private function _nameRegistryPath(\PEAR2\Pyrus\PackageFileInterface $info = null,
                                      $channel = null, $package = null, $version = null)
     {
         $channel = $info !== null ? $info->channel : $channel;
@@ -82,9 +82,9 @@ class Xml extends \pear2\Pyrus\Registry\Base
     /**
      * Create the Channel!PackageName-Version-package.xml file
      *
-     * @param \pear2\Pyrus\PackageFileInterface $pf
+     * @param \PEAR2\Pyrus\PackageFileInterface $pf
      */
-    function install(\pear2\Pyrus\PackageFileInterface $info, $replace = false)
+    function install(\PEAR2\Pyrus\PackageFileInterface $info, $replace = false)
     {
         if ($this->readonly) {
             throw new Exception('Cannot install package, registry is read-only');
@@ -105,7 +105,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         }
 
         $arr = $info->toArray();
-        file_put_contents($packagefile, (string) new \pear2\Pyrus\XMLWriter($arr));
+        file_put_contents($packagefile, (string) new \PEAR2\Pyrus\XMLWriter($arr));
     }
 
     function uninstall($package, $channel)
@@ -149,7 +149,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
                 $channel . '/' . $package);
         }
 
-        $packageobject = new \pear2\Pyrus\Package($packagefile[0]);
+        $packageobject = new \PEAR2\Pyrus\Package($packagefile[0]);
 
         if ($field === null) {
             return $packageobject->getInternalPackage()->getPackageFile()->getPackageFileObject();
@@ -160,7 +160,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
         } elseif ($field == 'installedfiles') {
             $ret = array();
             try {
-                $config = new \pear2\Pyrus\Config\Snapshot($packageobject->date . ' ' . $packageobject->time);
+                $config = new \PEAR2\Pyrus\Config\Snapshot($packageobject->date . ' ' . $packageobject->time);
             } catch (\Exception $e) {
                 throw new Exception('Cannot retrieve files, config ' .
                                         'snapshot could not be processed', $e);
@@ -217,7 +217,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
 
         $ret = array();
         try {
-            $parser = new \pear2\Pyrus\XMLParser;
+            $parser = new \PEAR2\Pyrus\XMLParser;
             foreach (new \DirectoryIterator($dir) as $file) {
                 if ($file->isDot()) {
                     continue;
@@ -233,7 +233,7 @@ class Xml extends \pear2\Pyrus\Registry\Base
                         $ret[] = $a['package']['name'];
                     }
                 } catch (\Exception $e) {
-                    \pear2\Pyrus\Logger::log(0, 'Warning: corrupted XML registry entry: ' .
+                    \PEAR2\Pyrus\Logger::log(0, 'Warning: corrupted XML registry entry: ' .
                         $file->getPathName() . ': ' . $e);
                 }
             }
@@ -267,11 +267,11 @@ class Xml extends \pear2\Pyrus\Registry\Base
      * This is EXTREMELY inefficient, and should only be used
      * if an Sqlite3 registry is unavailable
      */
-    public function getDependentPackages(\pear2\Pyrus\PackageFileInterface $package, $minimal = true)
+    public function getDependentPackages(\PEAR2\Pyrus\PackageFileInterface $package, $minimal = true)
     {
         // first construct a list of all installed packages
         $all = array();
-        $config = \pear2\Pyrus\Config::current();
+        $config = \PEAR2\Pyrus\Config::current();
         foreach ($config->channelregistry as $channel) {
             foreach ($this->listPackages($channel->name) as $packagename) {
                 $all[] = $this->package[$channel->name . '/' . $packagename];
@@ -297,11 +297,11 @@ class Xml extends \pear2\Pyrus\Registry\Base
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(\pear2\Pyrus\PackageFileInterface $package)
+    public function detectFileConflicts(\PEAR2\Pyrus\PackageFileInterface $package)
     {
         // construct list of all installed files
         $filesByPackage = $allfiles = array();
-        $config = \pear2\Pyrus\Config::current();
+        $config = \PEAR2\Pyrus\Config::current();
         foreach ($config->channelregistry as $channel) {
             foreach ($this->listPackages($channel->name) as $packagename) {
                 $files = $this->info($packagename, $channel->name, 'installedfiles');

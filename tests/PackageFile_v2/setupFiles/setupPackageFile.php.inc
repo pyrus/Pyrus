@@ -1,5 +1,5 @@
 <?php
-$package = new \pear2\Pyrus\Package(__DIR__.'/../../Registry/AllRegistries/package.xml');
+$package = new \PEAR2\Pyrus\Package(__DIR__.'/../../Registry/AllRegistries/package.xml');
 
 $info = $package->getInternalPackage()->getPackageFile()->info;
 // set up some fake dependencies so we can test this too

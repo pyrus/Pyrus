@@ -33,8 +33,8 @@
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     Class available since release 0.1.0
  */
-namespace pear2\Pyrus\ScriptFrontend;
-class Renderer extends \pear2\Console\CommandLine\Renderer_Default
+namespace PEAR2\Pyrus\ScriptFrontend;
+class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
 {
     /**
      * Return the command line usage message

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Uninstaller
+ * \PEAR2\Pyrus\Uninstaller
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
+namespace PEAR2\Pyrus;
 class Uninstaller
 {
     /**
@@ -85,7 +85,7 @@ class Uninstaller
      *
      * This function checks to see if an identical package is already being downloaded,
      * and manages removing duplicates or erroring out on a conflict
-     * @param \pear2\Pyrus\Package $package
+     * @param \PEAR2\Pyrus\Package $package
      */
     static function prepare($packageName)
     {
@@ -130,7 +130,7 @@ class Uninstaller
 
         $installer = new Uninstaller;
         // validate dependencies
-        $errs = new \pear2\MultiErrors;
+        $errs = new \PEAR2\MultiErrors;
         $reg = Config::current()->registry;
         try {
             foreach (self::$uninstallPackages as $package) {
@@ -201,7 +201,7 @@ class Uninstaller
      * Uninstall a package
      *
      * Remove files
-     * @param \pear2\Pyrus\Package $package
+     * @param \PEAR2\Pyrus\Package $package
      */
     function uninstall(PackageFileInterface $package, RegistryInterface $reg)
     {

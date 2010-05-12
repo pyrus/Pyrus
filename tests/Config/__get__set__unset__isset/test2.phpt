@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::__set() and friends
+\PEAR2\Pyrus\Config::__set() and friends
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -19,26 +19,26 @@ foreach (array('registry',
     try {
         $a->$var = 'oops';
         throw new Exception($var . ' setting did not fail');
-    } catch (\pear2\Pyrus\Config\Exception $e) {
+    } catch (\PEAR2\Pyrus\Config\Exception $e) {
         $test->assertEquals('Cannot set magic configuration variable ' . $var, $e->getMessage(), $var . ' message');
     }
 }
 try {
     $a->php_dir = 'oops';
     throw new Exception('php_dir setting did not fail');
-} catch (\pear2\Pyrus\Config\Exception $e) {
+} catch (\PEAR2\Pyrus\Config\Exception $e) {
     $test->assertEquals('Cannot set php_dir, php_dir is always php/ in the repository', $e->getMessage(), 'php_dir message');
 }
 try {
     $a->data_dir = 'oops';
     throw new Exception('data_dir setting did not fail');
-} catch (\pear2\Pyrus\Config\Exception $e) {
+} catch (\PEAR2\Pyrus\Config\Exception $e) {
     $test->assertEquals('Cannot set data_dir, data_dir is always data/ in the repository', $e->getMessage(), 'data_dir message');
 }
 try {
     $a->gronk = 'oops';
     throw new Exception('gronk setting did not fail');
-} catch (\pear2\Pyrus\Config\Exception $e) {
+} catch (\PEAR2\Pyrus\Config\Exception $e) {
     $test->assertEquals('Unknown configuration variable "gronk" in location ' . $testpath, $e->getMessage(), 'gronk message');
 }
 $a->test_dir = 'hi';

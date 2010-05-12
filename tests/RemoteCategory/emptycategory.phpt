@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\RemoteCategory: completely empty category (with invalid REST, no <pi/> tag)
+\PEAR2\Pyrus\Channel\RemoteCategory: completely empty category (with invalid REST, no <pi/> tag)
 --FILE--
 <?php
 
@@ -9,8 +9,8 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/empty',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
 $category = $chan->remotecategories['Default'];
 $test->assertEquals(array(), $category->basiclist, 'empty basic list');

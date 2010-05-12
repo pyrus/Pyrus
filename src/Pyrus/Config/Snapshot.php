@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Config
+ * \PEAR2\Pyrus\Config
  *
  * PHP version 5
  *
@@ -40,8 +40,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Config;
-class Snapshot extends \pear2\Pyrus\Config
+namespace PEAR2\Pyrus\Config;
+class Snapshot extends \PEAR2\Pyrus\Config
 {
     /**
      * parse a configuration for a PEAR2 installation
@@ -50,11 +50,11 @@ class Snapshot extends \pear2\Pyrus\Config
      *                              PATH_SEPARATOR-separated list of directories
      * @param string $userfile
      */
-    public function __construct($snapshot, \pear2\Pyrus\Config $config = null)
+    public function __construct($snapshot, \PEAR2\Pyrus\Config $config = null)
     {
         self::constructDefaults();
         if (!$config) {
-            $config = \pear2\Pyrus\Config::current();
+            $config = \PEAR2\Pyrus\Config::current();
         }
 
         $this->loadConfigFile($config->location, $snapshot);
@@ -75,8 +75,8 @@ class Snapshot extends \pear2\Pyrus\Config
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
-     * in, \pear2\Pyrus\Config will attempt to guess at the config file location as
-     * documented in the class docblock {@link \pear2\Pyrus\Config}.
+     * in, \PEAR2\Pyrus\Config will attempt to guess at the config file location as
+     * documented in the class docblock {@link \PEAR2\Pyrus\Config}.
      * @param string $pearDirectory
      * @param string|false $userfile
      */
@@ -147,7 +147,7 @@ class Snapshot extends \pear2\Pyrus\Config
             }
         }
 
-        \pear2\Pyrus\Logger::log(5, 'Loading configuration snapshot ' .
+        \PEAR2\Pyrus\Logger::log(5, 'Loading configuration snapshot ' .
                              $snapshotfile . ' for ' . $pearDirectory);
         try {
             $this->helperLoadConfigFile($pearDirectory, $snapshotfile, 'snapshot');

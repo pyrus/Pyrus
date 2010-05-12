@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\DER\OctetString
+ * \PEAR2\Pyrus\DER\OctetString
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\DER;
+namespace PEAR2\Pyrus\DER;
 class GeneralizedTime extends UTCTime
 {
     const TAG = 0x18;
@@ -43,7 +43,7 @@ class GeneralizedTime extends UTCTime
 
     function parse($data, $location)
     {
-        $ret = \pear2\Pyrus\DER::parse($data, $location);
+        $ret = \PEAR2\Pyrus\DER::parse($data, $location);
         $this->value = new \DateTime($this->value);
         return $ret;
     }

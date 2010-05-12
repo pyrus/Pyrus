@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\AtomicFileTransaction::rollback() 2
+\PEAR2\Pyrus\AtomicFileTransaction::rollback() 2
 --FILE--
 <?php
 define('MYDIR', __DIR__);
@@ -25,11 +25,11 @@ $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/sub/deep/deep/thing',
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir', __DIR__ . '/testit/.journal-src/another/dir before');
 $test->assertFileNotExists(__DIR__ . '/testit/.journal-src/anothernew/dir/file', __DIR__ . '/testit/.journal-src/another/dir/file before');
 
-$atomic = \pear2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 
-\pear2\Pyrus\AtomicFileTransaction::begin();
-\pear2\Pyrus\AtomicFileTransaction::commit();
-\pear2\Pyrus\AtomicFileTransaction::rollback();
+\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\PEAR2\Pyrus\AtomicFileTransaction::commit();
+\PEAR2\Pyrus\AtomicFileTransaction::rollback();
 
 $test->assertFileExists(__DIR__ . '/testit/src', __DIR__ . '/testit/src after');
 $test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo after');

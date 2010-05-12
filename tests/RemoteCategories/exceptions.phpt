@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\RemoteCategories: Exceptions
+\PEAR2\Pyrus\Channel\RemoteCategories: Exceptions
 --FILE--
 <?php
 
@@ -9,28 +9,28 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \pear2\Pyrus\Config::current()->channelregistry['pecl.php.net'];
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pecl.php.net'];
 unset($chan->protocols->rest['REST1.1']);
 try {
-    $remote = new pear2\Pyrus\Channel\RemoteCategories($chan);
+    $remote = new PEAR2\Pyrus\Channel\RemoteCategories($chan);
     throw new Exception('succeeded and should fail');
-} catch (\pear2\Pyrus\Channel\Exception $e) {
+} catch (\PEAR2\Pyrus\Channel\Exception $e) {
     $test->assertEquals('Cannot access remote categories without REST1.1 protocol', $e->getMessage(),
                         'no REST1.1');
 }
-$remote = new pear2\Pyrus\Channel\RemoteCategories(\pear2\Pyrus\Config::current()->channelregistry['pear2.php.net']);
+$remote = new PEAR2\Pyrus\Channel\RemoteCategories(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net']);
 try {
     $remote['foo'] = 1;
     throw new Exception('succeeded and should fail');
-} catch (\pear2\Pyrus\Channel\Exception $e) {
+} catch (\PEAR2\Pyrus\Channel\Exception $e) {
     $test->assertEquals('remote channel info is read-only', $e->getMessage(),
                         'offsetSet');
 }
 try {
     unset($remote['foo']);
     throw new Exception('succeeded and should fail');
-} catch (\pear2\Pyrus\Channel\Exception $e) {
+} catch (\PEAR2\Pyrus\Channel\Exception $e) {
     $test->assertEquals('remote channel info is read-only', $e->getMessage(),
                         'offsetUnset');
 }

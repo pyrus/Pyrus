@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::constructDefaults() basic test
+\PEAR2\Pyrus\Config::constructDefaults() basic test
 --INI--
 extension_dir=
 --ENV--
@@ -52,7 +52,7 @@ $test->assertEquals(array(
             'www_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'www',
             'test_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'tests',
             'src_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'src',
-            'php_bin' => \pear2\Pyrus\Config::current()->php_bin, // no way to reliably test this, so a cop-out
+            'php_bin' => \PEAR2\Pyrus\Config::current()->php_bin, // no way to reliably test this, so a cop-out
             'php_prefix' => '',
             'php_suffix' => '',
             'php_ini' => php_ini_loaded_file(),
@@ -78,8 +78,8 @@ $test->assertEquals(array(
 $phpini = tc::getTestDefaults();
 $test->assertRegex('/\.ini/', $phpini['php_ini'], 'php_ini');
 // increase code coverage
-$c = \pear2\Pyrus\Config::current();
-$test->assertSame($c, \pear2\Pyrus\Config::singleton(), 'current = singleton');
+$c = \PEAR2\Pyrus\Config::current();
+$test->assertSame($c, \PEAR2\Pyrus\Config::singleton(), 'current = singleton');
 ?>
 ===DONE===
 --EXPECT--

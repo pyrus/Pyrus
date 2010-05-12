@@ -1,14 +1,14 @@
 --TEST--
-\pear2\Pyrus\ChannelRegistry\Pear1::add, exceptions
+\PEAR2\Pyrus\ChannelRegistry\Pear1::add, exceptions
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$creg = new pear2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit', true);
+$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit', true);
 $fail = function($action, $expect) use ($test) {
     try {
         $action();
         throw new Exception($expect . ' should fail and did not');
-    } catch (pear2\Pyrus\ChannelRegistry\Exception $e) {
+    } catch (PEAR2\Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals($expect, $e->getMessage(), $expect);
     }
 };
@@ -16,7 +16,7 @@ $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
       'Cannot add channel, registry is read-only');
 
 $p = fileperms(dirname(__DIR__) . '/testit/php/.channels');
-$creg = new pear2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit');
+$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit');
 chmod(dirname(__DIR__) . '/testit/php/.channels', 0444);
 $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
       'Cannot add channel pear.php.net, channel registry path is not writable');
@@ -27,10 +27,10 @@ $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
 
 $chan = $creg->get('pear.php.net')->toChannelFile();
 $chan->name = 'unknown';
-$fail(function() use($creg, $chan) {$creg->update(new pear2\Pyrus\Channel($chan));},
+$fail(function() use($creg, $chan) {$creg->update(new PEAR2\Pyrus\Channel($chan));},
       'Error: channel unknown is unknown');
 
-class foo extends pear2\Pyrus\ChannelRegistry\Pear1
+class foo extends PEAR2\Pyrus\ChannelRegistry\Pear1
 {
     function channelFileName($channel) {return parent::channelFileName($channel);}
     function channelAliasFileName($channel) {return parent::channelAliasFileName($channel);}

@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\RemoteCategories: basic test
+\PEAR2\Pyrus\Channel\RemoteCategories: basic test
 --FILE--
 <?php
 
@@ -9,15 +9,15 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
-$remote = new pear2\Pyrus\Channel\RemoteCategories($chan);
+$remote = new PEAR2\Pyrus\Channel\RemoteCategories($chan);
 $cat = $remote['Default'];
-$test->assertEquals('pear2\Pyrus\Channel\RemoteCategory', get_class($cat), 'wrong class');
+$test->assertEquals('PEAR2\Pyrus\Channel\RemoteCategory', get_class($cat), 'wrong class');
 foreach ($remote as $category => $obj) {
     $test->assertEquals('Default', $category, 'category name');
-    $test->assertEquals('pear2\Pyrus\Channel\RemoteCategory', get_class($obj), 'wrong class');
+    $test->assertEquals('PEAR2\Pyrus\Channel\RemoteCategory', get_class($obj), 'wrong class');
 }
 ?>
 ===DONE===

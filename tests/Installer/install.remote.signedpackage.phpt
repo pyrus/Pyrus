@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer: install remote packages that is signed with an OpenSSL signature
+\PEAR2\Pyrus\Installer: install remote packages that is signed with an OpenSSL signature
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
@@ -13,11 +13,11 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/install.remote.signedpackage',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-\pear2\Pyrus\Installer::begin();
-\pear2\Pyrus\Installer::prepare(new \pear2\Pyrus\Package('pear2/P1'));
-\pear2\Pyrus\Installer::commit();
-$reg = \pear2\Pyrus\Config::current()->registry;
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\PEAR2\Pyrus\Installer::begin();
+\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P1'));
+\PEAR2\Pyrus\Installer::commit();
+$reg = \PEAR2\Pyrus\Config::current()->registry;
 
 $test->assertTrue(isset($reg->package["P1"]), "installed P1");
 ?>

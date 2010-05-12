@@ -1,5 +1,5 @@
 <?php
-namespace pear2\Pyrus\PackageFile\v2;
+namespace PEAR2\Pyrus\PackageFile\v2;
 class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
 {
     protected $parent;
@@ -96,7 +96,7 @@ class UsesRoleTask implements \ArrayAccess, \Iterator, \Countable
 
         if (!($value instanceof UsesRoleTask)) {
             throw new UsesRoleTask\Exception(
-                'Can only set uses' . $this->type . ' to a \pear2\Pyrus\PackageFile\v2\UsesRoleTask object');
+                'Can only set uses' . $this->type . ' to a \PEAR2\Pyrus\PackageFile\v2\UsesRoleTask object');
         }
 
         if ($value->type != $this->type) {

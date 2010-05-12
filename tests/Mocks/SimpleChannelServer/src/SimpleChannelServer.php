@@ -43,7 +43,7 @@ class PEAR2_SimpleChannelServer
      * @param string $webpath   full path to web files eg: /var/www/pear/
      * @param string $pyruspath Path to the pyrus controlled PEAR installation
      */
-    function __construct(\pear2\Pyrus\Channel $channel, $webpath, $pyruspath = null)
+    function __construct(\PEAR2\Pyrus\Channel $channel, $webpath, $pyruspath = null)
     {
         if (!realpath($webpath) || !is_writable($webpath)) {
             throw new PEAR2_SimpleChannelServer_Exception('Path to channel web files ' .
@@ -69,14 +69,14 @@ class PEAR2_SimpleChannelServer
             $restpath);
         $this->get     = new PEAR2_SimpleChannelServer_Get($webpath.'/get', $pyruspath);
         try {
-            $a = \pear2\Pyrus\Config::singleton($pyruspath);
+            $a = \PEAR2\Pyrus\Config::singleton($pyruspath);
         } catch (Exception $e) {
             throw new PEAR2_SimpleChannelServer_Exception('Cannot initialize Pyrus Config',
                 $e);
         }
     }
 
-    function saveRelease(\pear2\Pyrus\Package $package, $releaser)
+    function saveRelease(\PEAR2\Pyrus\Package $package, $releaser)
     {
         $rest = $this->rest->saveRelease($package, $releaser);
         $get  = $this->get->saveRelease($package);
@@ -173,7 +173,7 @@ class PEAR2_SimpleChannelServer
                     $e);
             }
         }
-        $reader = new \pear2\Pyrus\XMLParser;
+        $reader = new \PEAR2\Pyrus\XMLParser;
         $path   = $this->rest->getRESTPath('r', strtolower($package) . '/maintainers2.xml');
         if (!file_exists($path)) {
             return array();

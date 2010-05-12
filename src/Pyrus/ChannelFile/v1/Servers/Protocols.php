@@ -1,7 +1,7 @@
 <?php
 
-namespace pear2\Pyrus\ChannelFile\v1\Servers;
-use \pear2\Pyrus\ChannelFile as ChannelFile;
+namespace PEAR2\Pyrus\ChannelFile\v1\Servers;
+use \PEAR2\Pyrus\ChannelFile as ChannelFile;
 class Protocols
 {
     protected $_info;
@@ -49,7 +49,7 @@ class Protocols
 
         if (!($value instanceof Protocols\REST)) {
             throw new ChannelFile\Exception('Can only set REST to ' .
-                        '\pear2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object');
+                        '\PEAR2\Pyrus\ChannelFile\v1\Servers\Protocols\REST object');
         }
 
         $info = $value->getInfo();

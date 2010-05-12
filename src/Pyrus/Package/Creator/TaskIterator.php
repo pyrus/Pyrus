@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Creator\TaskIterator
+ * \PEAR2\Pyrus\Package\Creator\TaskIterator
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package\Creator;
+namespace PEAR2\Pyrus\Package\Creator;
 class TaskIterator extends \FilterIterator
 {
     private $_inner;
@@ -32,7 +32,7 @@ class TaskIterator extends \FilterIterator
     private $_installphase;
     protected $lastversion;
 
-    function __construct(array $arr, \pear2\Pyrus\PackageInterface $parent, $phase, $lastversion = null)
+    function __construct(array $arr, \PEAR2\Pyrus\PackageInterface $parent, $phase, $lastversion = null)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
@@ -56,13 +56,13 @@ class TaskIterator extends \FilterIterator
             return false;
         }
 
-        $task = \pear2\Pyrus\Task\Common::getTask(parent::key());
+        $task = \PEAR2\Pyrus\Task\Common::getTask(parent::key());
         if (0 == $task::PHASE & $this->_installphase) {
             // skip tasks that won't run in this installphase
             return false;
         }
 
-        if ($this->_installphase == \pear2\Pyrus\Task\Common::INSTALL && $this->_parent->isPreProcessed()) {
+        if ($this->_installphase == \PEAR2\Pyrus\Task\Common::INSTALL && $this->_parent->isPreProcessed()) {
             $info = $this->current();
             if ($info->isPreProcessed()) {
                 // some tasks are pre-processed at package-time
@@ -85,7 +85,7 @@ class TaskIterator extends \FilterIterator
             $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
             $task = str_replace(' ', '/', ucwords($task));
             $task = str_replace('/', '_', $task);
-            $task = '\pear2\Pyrus\Task\\' . $task;
+            $task = '\PEAR2\Pyrus\Task\\' . $task;
             foreach ($xml as $info) {
                 $attribs = array();
                 if (isset($xml['attribs'])) {
@@ -97,7 +97,7 @@ class TaskIterator extends \FilterIterator
 
             $attribs = isset($this->_inner['attribs']) ? array($this->_inner['attribs']) : $this->_inner;
             // use proxy for multiple tasks
-            return new \pear2\Pyrus\Task\MultipleProxy($this->_parent, $tasks, $attribs, $this->key());
+            return new \PEAR2\Pyrus\Task\MultipleProxy($this->_parent, $tasks, $attribs, $this->key());
         }
 
         $attribs = array();
@@ -108,7 +108,7 @@ class TaskIterator extends \FilterIterator
         $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
         $task = str_replace(' ', '/', ucwords($task));
         $task = str_replace('/', '_', $task);
-        $task = '\pear2\Pyrus\Task\\' . $task;
+        $task = '\PEAR2\Pyrus\Task\\' . $task;
         return new $task($this->_parent, $this->_installphase, $xml, $attribs, $this->lastversion);
     }
 }

@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Installer::prepare(), 2 versions of the same package potentially installed
+\PEAR2\Pyrus\Installer::prepare(), 2 versions of the same package potentially installed
 --FILE--
 <?php
 /**
@@ -12,15 +12,15 @@
  *
  * P3 -> P1
  */
-use pear2\Pyrus\Package;
+use PEAR2\Pyrus\Package;
 define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.duplicate',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-class b extends \pear2\Pyrus\Installer
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+class b extends \PEAR2\Pyrus\Installer
 {
     static $installPackages = array();
 }

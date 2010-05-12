@@ -3,7 +3,7 @@ Pyrus Download progress listener
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$download = new \pear2\Pyrus\DownloadProgressListener;
+$download = new \PEAR2\Pyrus\DownloadProgressListener;
 $download->update(1, 'connect', 1);
 $download->update(1, 'disconnect', 1);
 $download->update(1, 'connect', 1);
@@ -23,7 +23,7 @@ $download->update(1, 'downloadprogress', 92000);
 $download->update(1, 'downloadprogress', 100000);
 $download->update(1, 'disconnect', 1);
 
-$download = new \pear2\Pyrus\DownloadProgressListener;
+$download = new \PEAR2\Pyrus\DownloadProgressListener;
 $download->update(1, 'connect', 1);
 $download->update(1, 'redirect', 'foobar');
 $download->update(1, 'mime-type', 'blah/blah');
@@ -66,7 +66,7 @@ $test->assertEquals(array (
    "Unknown filesize.. 78 kb done..\r",
    "Unknown filesize.. 89 kb done..\r",
    "Unknown filesize.. 97 kb done..\r",
-), \pear2\Pyrus\Logger::$log[0], 'download log');
+), \PEAR2\Pyrus\Logger::$log[0], 'download log');
 ?>
 ===DONE===
 --EXPECT--

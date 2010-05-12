@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::_findPEAR test 2: no userfile detected
+\PEAR2\Pyrus\ScriptFrontend\Commands::_findPEAR test 2: no userfile detected
 --FILE--
 <?php
 require __DIR__ . '/setup.minimal.php.inc';

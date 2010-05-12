@@ -2,7 +2,7 @@
 /**
  * This class is used for package, subpackage, and extension deps
  */
-namespace pear2\Pyrus\PackageFile\v2\Dependencies;
+namespace PEAR2\Pyrus\PackageFile\v2\Dependencies;
 class Package implements \ArrayAccess, \Iterator
 {
     protected $info;
@@ -198,7 +198,7 @@ class Package implements \ArrayAccess, \Iterator
         if (!($value instanceof self)) {
             throw new Exception('Can only set $pf->dependencies[\'' .
                 $this->deptype . '\']->' . $this->type . '[\'' . $var .
-                '\'] to \pear2\Pyrus\PackageFile\v2\Dependencies\Package object');
+                '\'] to \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object');
         }
 
         if ($this->type !== $value->type) {

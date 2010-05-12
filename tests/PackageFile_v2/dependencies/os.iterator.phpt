@@ -3,7 +3,7 @@ PackageFile v2: test package.xml dependencies property, os iterator
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$pf = new \pear2\Pyrus\PackageFile\v2;
+$pf = new \PEAR2\Pyrus\PackageFile\v2;
 $pf->dependencies['required']->os['hi'] = true;
 $pf->dependencies['required']->os['bye'] = false;
 $pf->dependencies['required']->os['last'] = true;

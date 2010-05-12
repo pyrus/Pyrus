@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\ChannelFile\v1\Mirror
+ * \PEAR2\Pyrus\ChannelFile\v1\Mirror
  *
  * PHP version 5
  *
@@ -23,9 +23,9 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\ChannelFile\v1;
-use \pear2\Pyrus\Channel as Channel;
-class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel\MirrorInterface
+namespace PEAR2\Pyrus\ChannelFile\v1;
+use \PEAR2\Pyrus\Channel as Channel;
+class Mirror extends \PEAR2\Pyrus\ChannelFile\v1 implements \PEAR2\Pyrus\Channel\MirrorInterface
 {
 
     /**
@@ -49,7 +49,7 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
     /**
      * Parent channel object
      *
-     * @var \pear2\Pyrus\Channel
+     * @var \PEAR2\Pyrus\Channel
      */
     protected $parentChannel;
     protected $parent;
@@ -111,7 +111,7 @@ class Mirror extends \pear2\Pyrus\ChannelFile\v1 implements \pear2\Pyrus\Channel
     /**
      * Returns the protocols supported by the primary server for this channel
      *
-     * @return \pear2\Pyrus\ChannelFile\v1\Servers\Protocols
+     * @return \PEAR2\Pyrus\ChannelFile\v1\Servers\Protocols
      */
     function getProtocols()
     {

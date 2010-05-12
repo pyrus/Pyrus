@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\DER\Schema
+ * \PEAR2\Pyrus\DER\Schema
  *
  * PHP version 5
  *
@@ -25,8 +25,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\DER;
-class Schema extends \pear2\Pyrus\DER
+namespace PEAR2\Pyrus\DER;
+class Schema extends \PEAR2\Pyrus\DER
 {
     static protected $types = array();
 
@@ -118,7 +118,7 @@ class Schema extends \pear2\Pyrus\DER
                 }
             }
         } else {
-            $class = 'pear2\Pyrus\DER\\' . ucfirst($func);
+            $class = 'PEAR2\Pyrus\DER\\' . ucfirst($func);
             if (!class_exists($class, 1)) {
                 throw new Exception('Unknown type ' . $func . ' at ' . $this->path());
             }
@@ -154,10 +154,10 @@ class Schema extends \pear2\Pyrus\DER
         if ($this instanceof SchemaChoice) {
             return true;
         }
-        if ($this->class === 'pear2\Pyrus\DER\Sequence') {
+        if ($this->class === 'PEAR2\Pyrus\DER\Sequence') {
             return true;
         }
-        if ($this->class === 'pear2\Pyrus\DER\Set') {
+        if ($this->class === 'PEAR2\Pyrus\DER\Set') {
             return true;
         }
         return false;
@@ -260,7 +260,7 @@ class Schema extends \pear2\Pyrus\DER
             }
             if (!$obj->optional()) {
                 if (isset($this->tagMap[$tag])) {
-                    $tag = '"' . str_replace('pear2\Pyrus\DER\\', '', $this->tagMap[$tag]) .
+                    $tag = '"' . str_replace('PEAR2\Pyrus\DER\\', '', $this->tagMap[$tag]) .
                         '" (0x' . dechex($tag) . ')';
                 } else {
                     $tag = dechex($tag);
@@ -272,7 +272,7 @@ class Schema extends \pear2\Pyrus\DER
             }
         }
         if (isset($this->tagMap[$tag])) {
-            $tag = '"' . str_replace('pear2\Pyrus\DER\\', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
+            $tag = '"' . str_replace('PEAR2\Pyrus\DER\\', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
         } else {
             $tag = dechex($tag);
         }

@@ -5,10 +5,10 @@ Xml registry: install failure, read-only
 require __DIR__ . '/setup.php.inc';
 try {
     mkdir(__DIR__ . '/testit/.xmlregistry');
-    $package = new pear2\Pyrus\PackageFile(new pear2\Pyrus\PackageFile\v2);
-    $reg = new pear2\Pyrus\Registry\Xml(__DIR__ . '/testit', true);
+    $package = new PEAR2\Pyrus\PackageFile(new PEAR2\Pyrus\PackageFile\v2);
+    $reg = new PEAR2\Pyrus\Registry\Xml(__DIR__ . '/testit', true);
     $reg->install($package);
-} catch (pear2\Pyrus\Registry\Exception $e) {
+} catch (PEAR2\Pyrus\Registry\Exception $e) {
     $test->assertEquals('Cannot install package, registry is read-only', $e->getMessage(), 'read-only');
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2Iterator\File
+ * \PEAR2\Pyrus\PackageFile\v2Iterator\File
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2Iterator;
+namespace PEAR2\Pyrus\PackageFile\v2Iterator;
 class File extends \RecursiveIteratorIterator
 {
     function next()

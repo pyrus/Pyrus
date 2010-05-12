@@ -4,9 +4,9 @@ Dependency_Validator: PECL extension dependency, extension not loaded but instal
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$validator = new test_Validator($package, \pear2\Pyrus\Validate::DOWNLOADING, $errs);
+$validator = new test_Validator($package, \PEAR2\Pyrus\Validate::DOWNLOADING, $errs);
 
-$fake = new \pear2\Pyrus\PackageFile\v2;
+$fake = new \PEAR2\Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->package['pecl.php.net/foo']->min('1.0.0')->max('1.2.3')->providesextension('foo');
 $fake->name = 'foo';
 $fake->channel = 'pecl.php.net';
@@ -16,13 +16,13 @@ $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
 $fake->type = 'extsrc';
-\pear2\Pyrus\Config::current()->registry->install($fake);
+\PEAR2\Pyrus\Config::current()->registry->install($fake);
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo max');
 $test->assertEquals(0, count($errs), 'foo count max');
 
 $fake->version['release'] = '1.0.0';
-\pear2\Pyrus\Config::current()->registry->replace($fake);
+\PEAR2\Pyrus\Config::current()->registry->replace($fake);
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo min');
 $test->assertEquals(0, count($errs), 'foo count min');

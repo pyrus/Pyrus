@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Remote
+ * \PEAR2\Pyrus\Package\Remote
  *
  * PHP version 5
  *
@@ -23,9 +23,9 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package;
-use \pear2\Pyrus\Config as Config;
-class Remote extends \pear2\Pyrus\Package
+namespace PEAR2\Pyrus\Package;
+use \PEAR2\Pyrus\Config as Config;
+class Remote extends \PEAR2\Pyrus\Package
 {
     private $_info;
     protected $parsedname;
@@ -37,7 +37,7 @@ class Remote extends \pear2\Pyrus\Package
     /**
      * @param string $package path to package file
      */
-    function __construct($package, \pear2\Pyrus\Package $parent = null)
+    function __construct($package, \PEAR2\Pyrus\Package $parent = null)
     {
         $this->_info = $package;
         if (!is_array($package) &&
@@ -99,7 +99,7 @@ class Remote extends \pear2\Pyrus\Package
     {
         if ($this->isUpgradeable === null) {
             // we are not a dependency, so figure out a version that could work
-            if (!isset(\pear2\Pyrus\Main::$options['upgrade'])) {
+            if (!isset(\PEAR2\Pyrus\Main::$options['upgrade'])) {
                 // we don't attempt to upgrade a dep unless we're upgrading
                 return;
             }
@@ -110,14 +110,14 @@ class Remote extends \pear2\Pyrus\Package
             if ($this->explicitState) {
                 $stability = $this->explicitState;
             } else {
-                $installedstability = \pear2\Pyrus\Installer::betterStates($stability);
-                $preferred = \pear2\Pyrus\Installer::betterStates($pref = Config::current()->preferred_state);
+                $installedstability = \PEAR2\Pyrus\Installer::betterStates($stability);
+                $preferred = \PEAR2\Pyrus\Installer::betterStates($pref = Config::current()->preferred_state);
                 if (count($preferred) < count($installedstability)) {
                     $stability = $pref;
                 }
             }
             // see if there are new versions in our stability or better
-            $remote = new \pear2\Pyrus\Channel\RemotePackage(Config::current()
+            $remote = new \PEAR2\Pyrus\Channel\RemotePackage(Config::current()
                                                             ->channelregistry[$this->channel], $stability);
             $found = false;
             foreach ($remote[$this->name] as $remoteversion => $rinfo) {
@@ -144,7 +144,7 @@ class Remote extends \pear2\Pyrus\Package
     /**
      * Convert this remote packagefile into a local .tar, .tgz or .phar
      *
-     * @return \pear2\Pyrus\Package\Base
+     * @return \PEAR2\Pyrus\Package\Base
      */
     function download()
     {
@@ -183,7 +183,7 @@ class Remote extends \pear2\Pyrus\Package
         $this->type = 'url';
         $dir = Config::current()->download_dir;
         try {
-            $response = \pear2\Pyrus\Main::downloadWithProgress($param);
+            $response = \PEAR2\Pyrus\Main::downloadWithProgress($param);
             if ($response->code != '200') {
                 throw new Exception('Download failed, received ' . $response->code);
             }
@@ -205,9 +205,9 @@ class Remote extends \pear2\Pyrus\Package
             }
 
             // whew, download worked!
-            $a = new \pear2\Pyrus\Package($dir . DIRECTORY_SEPARATOR . $name);
+            $a = new \PEAR2\Pyrus\Package($dir . DIRECTORY_SEPARATOR . $name);
             return $a->getInternalPackage();
-        } catch (\pear2\Pyrus\HTTPException $e) {
+        } catch (\PEAR2\Pyrus\HTTPException $e) {
             throw $e; // pass it along
         } catch (\Exception $e) {
             if (!empty($saveparam)) {
@@ -231,7 +231,7 @@ class Remote extends \pear2\Pyrus\Package
     {
         try {
             $pname = Config::parsePackageName($param, true);
-        } catch (\pear2\Pyrus\ChannelRegistry\ParseException $e) {
+        } catch (\PEAR2\Pyrus\ChannelRegistry\ParseException $e) {
             if ($e->why !== 'channel') {
                 throw new Exception('invalid package name/package file "' . $param . '"', $e);
             }
@@ -239,12 +239,12 @@ class Remote extends \pear2\Pyrus\Package
             if (Config::current()->auto_discover) {
                 try {
                     try {
-                        $chan = new \pear2\Pyrus\Channel(
-                                    new \pear2\Pyrus\ChannelFile('https://' . $e->params['channel'] . '/channel.xml',
+                        $chan = new \PEAR2\Pyrus\Channel(
+                                    new \PEAR2\Pyrus\ChannelFile('https://' . $e->params['channel'] . '/channel.xml',
                                                                 false, true));
                     } catch (\Exception $e) {
-                        $chan = new \pear2\Pyrus\Channel(
-                                    new \pear2\Pyrus\ChannelFile('http://' . $e->params['channel'] . '/channel.xml',
+                        $chan = new \PEAR2\Pyrus\Channel(
+                                    new \PEAR2\Pyrus\ChannelFile('http://' . $e->params['channel'] . '/channel.xml',
                                                                 false, true));
                     }
                 } catch (\Exception $e) {
@@ -258,7 +258,7 @@ class Remote extends \pear2\Pyrus\Package
                     throw new Exception('invalid package name/package file "' . $param . '"', $e);
                 }
             } else {
-                \pear2\Pyrus\Logger::log(0, 'Channel "' . $param['channel'] .
+                \PEAR2\Pyrus\Logger::log(0, 'Channel "' . $param['channel'] .
                     '" is not initialized, use ' .
                     '"pyrus channel-discover ' . $param['channel'] . '" to initialize' .
                     'or pyrus set auto_discover 1');
@@ -274,8 +274,8 @@ class Remote extends \pear2\Pyrus\Package
         $version = $reg->info($pname['package'], $pname['channel'], 'version');
         $stability = $reg->info($pname['package'], $pname['channel'], 'state');
 
-        if (!isset(\pear2\Pyrus\Main::$options['force']) &&
-              !isset(\pear2\Pyrus\Main::$options['downloadonly']) &&
+        if (!isset(\PEAR2\Pyrus\Main::$options['force']) &&
+              !isset(\PEAR2\Pyrus\Main::$options['downloadonly']) &&
               $version && $this->explicitVersion &&
               !isset($pname['group'])) {
             if (version_compare($version, $pname['version'], '>=')) {
@@ -290,8 +290,8 @@ class Remote extends \pear2\Pyrus\Package
             // but only if it is less restrictive than preferred_state.
             // This allows automatic upgrade to a newer beta for 1 package
             // even if preferred_state is stable, for instance.
-            $states = \pear2\Pyrus\Installer::betterStates(Config::current()->preferred_state);
-            $newstates = \pear2\Pyrus\Installer::betterStates($stability);
+            $states = \PEAR2\Pyrus\Installer::betterStates(Config::current()->preferred_state);
+            $newstates = \PEAR2\Pyrus\Installer::betterStates($stability);
             if (count($newstates) > count($states)) {
                 $this->explicitState = $stability;
             }
@@ -318,7 +318,7 @@ class Remote extends \pear2\Pyrus\Package
 
     /**
      * @param array output of {@link parsePackageName()}
-     * @return \pear2\Pyrus\Channel\RemotePackage
+     * @return \PEAR2\Pyrus\Channel\RemotePackage
      * @access private
      */
     function getRemotePackage($parr)

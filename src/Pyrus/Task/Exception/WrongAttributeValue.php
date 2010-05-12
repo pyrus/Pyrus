@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Task\Exception\WrongAttributeValue
+ * \PEAR2\Pyrus\Task\Exception\WrongAttributeValue
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Task\Exception;
-class WrongAttributeValue extends \pear2\Exception
+namespace PEAR2\Pyrus\Task\Exception;
+class WrongAttributeValue extends \PEAR2\Exception
 {
     function __construct($task, $attribute, $wrongvalue, $file, array $validvalues)
     {

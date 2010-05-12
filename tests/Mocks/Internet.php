@@ -2,7 +2,7 @@
 /**
  * Simulate the internet
  */
-class Internet extends \pear2\HTTP\Request
+class Internet extends \PEAR2\HTTP\Request
 {
     public static $requestMap;
 
@@ -27,7 +27,7 @@ class Internet extends \pear2\HTTP\Request
 
 class Internet_Exception extends Exception {}
 
-class Internet_Adapter extends \pear2\HTTP\Request\Adapter
+class Internet_Adapter extends \PEAR2\HTTP\Request\Adapter
 {
     public $internet;
     function __construct($internet)
@@ -92,6 +92,6 @@ class Internet_Adapter extends \pear2\HTTP\Request\Adapter
             }
         }
 
-        return new \pear2\HTTP\Request\Response($details, $body, $headers, $cookies);
+        return new \PEAR2\HTTP\Request\Response($details, $body, $headers, $cookies);
     }	   
 }

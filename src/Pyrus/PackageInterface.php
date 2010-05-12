@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageInterface
+ * \PEAR2\Pyrus\PackageInterface
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus;
-interface PackageInterface extends \ArrayAccess, \pear2\Pyrus\PackageFileInterface
+namespace PEAR2\Pyrus;
+interface PackageInterface extends \ArrayAccess, \PEAR2\Pyrus\PackageFileInterface
 {
     function getFileContents($file, $asstream = false);
     function getFilePath($file);
@@ -34,7 +34,7 @@ interface PackageInterface extends \ArrayAccess, \pear2\Pyrus\PackageFileInterfa
     function __call($func, $args);
     /**
      * This allows a package to flexibly access its package.xml and return it
-     * @return \pear2\Pyrus\PackageFileInterface
+     * @return \PEAR2\Pyrus\PackageFileInterface
      */
     function getPackageFileObject();
     /**

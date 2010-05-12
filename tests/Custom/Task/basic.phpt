@@ -3,7 +3,7 @@ Custom file task: basic test
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
-\pear2\Pyrus\Main::$options['install-plugins'] = true;
+\PEAR2\Pyrus\Main::$options['install-plugins'] = true;
 
 $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugin');
 
@@ -16,10 +16,10 @@ file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF
 define('MYDIR', __DIR__);
 mkdir(__DIR__ . '/testit/Fronky/Wonky', 0755, true);
 file_put_contents(__DIR__ . '/testit/Fronky/Wonky/Burm.php', '<?php
-class Fronky_Wonky_Burm extends \pear2\Pyrus\Task\Common {
+class Fronky_Wonky_Burm extends \PEAR2\Pyrus\Task\Common {
     const TYPE = "simple";
-    const PHASE = \pear2\Pyrus\Task\Common::PACKAGEANDINSTALL;
-    static function validateXml(\pear2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
+    const PHASE = \PEAR2\Pyrus\Task\Common::PACKAGEANDINSTALL;
+    static function validateXml(\PEAR2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         return true;
     }
@@ -30,16 +30,16 @@ class Fronky_Wonky_Burm extends \pear2\Pyrus\Task\Common {
     }
 }');
 
-\pear2\Pyrus\Installer::begin();
-\pear2\Pyrus\Installer::prepare($package);
-\pear2\Pyrus\Installer::commit();
+\PEAR2\Pyrus\Installer::begin();
+\PEAR2\Pyrus\Installer::prepare($package);
+\PEAR2\Pyrus\Installer::commit();
 
-$reg = new \pear2\Pyrus\PluginRegistry(__DIR__ . '/testit/plugins');
+$reg = new \PEAR2\Pyrus\PluginRegistry(__DIR__ . '/testit/plugins');
 $reg->scan();
 $test->assertTrue(isset($reg->package['pear2.php.net/testing2']), 'custom task installed');
-$task = \pear2\Pyrus\Task\Common::getTask('burm');
+$task = \PEAR2\Pyrus\Task\Common::getTask('burm');
 $test->assertEquals('Fronky_Wonky_Burm', $task, 'right task class retrieved');
-$task = \pear2\Pyrus\Task\Common::getTask('foo:burm');
+$task = \PEAR2\Pyrus\Task\Common::getTask('foo:burm');
 $test->assertEquals('Fronky_Wonky_Burm', $task, 'right task class retrieved 2');
 ?>
 ===DONE===

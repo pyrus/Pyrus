@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Base
+ * \PEAR2\Pyrus\Package\Base
  *
  * PHP version 5
  *
@@ -23,8 +23,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package;
-abstract class Base implements \pear2\Pyrus\PackageInterface
+namespace PEAR2\Pyrus\Package;
+abstract class Base implements \PEAR2\Pyrus\PackageInterface
 {
     protected $archive;
     protected $packagefile;
@@ -33,11 +33,11 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
      *
      * This is a chain documenting the steps it took to get this
      * package instantiated, for instance Tar->Abstract
-     * @var \pear2\Pyrus\PackageInterface
+     * @var \PEAR2\Pyrus\PackageInterface
      */
     protected $from;
 
-    function __construct(\pear2\Pyrus\PackageFile $packagefile, $parent = null)
+    function __construct(\PEAR2\Pyrus\PackageFile $packagefile, $parent = null)
     {
         $this->packagefile = $packagefile;
         $this->from = $parent;
@@ -61,15 +61,15 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
 
     function isUpgradeable()
     {
-        if (!isset(\pear2\Pyrus\Main::$options['upgrade'])) {
+        if (!isset(\PEAR2\Pyrus\Main::$options['upgrade'])) {
             // we don't attempt to upgrade a dep unless we're upgrading
             return false;
         }
 
-        $reg = \pear2\Pyrus\Config::current()->registry;
+        $reg = \PEAR2\Pyrus\Config::current()->registry;
         $version = $reg->info($this->name, $this->channel, 'version');
         if (version_compare($this->version['release'], $version, '<=')) {
-            return !isset(\pear2\Pyrus\Main::$options['force']);
+            return !isset(\PEAR2\Pyrus\Main::$options['force']);
         }
 
         return true;
@@ -99,7 +99,7 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
         return true;
     }
 
-    function setFrom(\pear2\Pyrus\PackageInterface $from)
+    function setFrom(\PEAR2\Pyrus\PackageInterface $from)
     {
         $this->from = $from;
     }
@@ -141,10 +141,10 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
      *
      * Iterate over dependencies and create edges from this package to those it
      * depends upon
-     * @param \pear2\Pyrus\DirectedGraph $graph
-     * @param array $packages channel/package indexed array of \pear2\Pyrus\Package objects
+     * @param \PEAR2\Pyrus\DirectedGraph $graph
+     * @param array $packages channel/package indexed array of \PEAR2\Pyrus\Package objects
      */
-    function makeConnections(\pear2\Pyrus\DirectedGraph $graph, array $packages)
+    function makeConnections(\PEAR2\Pyrus\DirectedGraph $graph, array $packages)
     {
         $graph->add($this->getFrom());
         foreach (array('required', 'optional') as $required) {
@@ -242,11 +242,11 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
         return $this->packagefile->__toString();
     }
 
-    function validate($state = \pear2\Pyrus\Validate::NORMAL)
+    function validate($state = \PEAR2\Pyrus\Validate::NORMAL)
     {
         $validator = $this->packagefile->getValidator();
         if (!$validator->validate($this, $state)) {
-            throw new \pear2\Pyrus\PackageFile\Exception('Invalid package.xml', $validator->getErrors());
+            throw new \PEAR2\Pyrus\PackageFile\Exception('Invalid package.xml', $validator->getErrors());
         }
     }
 
@@ -282,8 +282,8 @@ abstract class Base implements \pear2\Pyrus\PackageInterface
             $fileAttribs = $file;
         }
 
-        $taskclass = \pear2\Pyrus\Task\Common::getTask($name);
-        return new $taskclass($this, \pear2\Pyrus\Task\Common::PACKAGE, $fileAttribs,
+        $taskclass = \PEAR2\Pyrus\Task\Common::getTask($name);
+        return new $taskclass($this, \PEAR2\Pyrus\Task\Common::PACKAGE, $fileAttribs,
                               $fileAttribs['attribs'], null);
     }
 }

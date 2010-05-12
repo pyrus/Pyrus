@@ -5,9 +5,9 @@ Xml registry: uninstall failure, read-only
 require __DIR__ . '/setup.php.inc';
 try {
     mkdir(__DIR__ . '/testit/.xmlregistry');
-    $reg = new pear2\Pyrus\Registry\Xml(__DIR__ . '/testit', true);
+    $reg = new PEAR2\Pyrus\Registry\Xml(__DIR__ . '/testit', true);
     $reg->uninstall('foo', 'pear2.php.net');
-} catch (pear2\Pyrus\Registry\Exception $e) {
+} catch (PEAR2\Pyrus\Registry\Exception $e) {
     $test->assertEquals('Cannot install package, registry is read-only', $e->getMessage(), 'read-only');
 }
 ?>

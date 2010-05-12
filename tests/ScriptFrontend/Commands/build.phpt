@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::build(), basic test (this actually builds an extension)
+\PEAR2\Pyrus\ScriptFrontend\Commands::build(), basic test (this actually builds an extension)
 --SKIPIF--
 <?php
 if (!is_writable(ini_get('extension_dir'))) {
@@ -22,14 +22,14 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 $c->ext_dir = __DIR__ . '/testit/ext';
 restore_include_path();
 $c->saveConfig();
 
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/build/docblock-0.2.0.tar'));
 
 $contents = ob_get_contents();
@@ -39,9 +39,9 @@ $test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEP
                     . " ==> To build this PECL package, use the build command\n",
                     $contents,
                     'installation');
-$testpackage = new \pear2\Pyrus\Package(__DIR__.'/build/docblock-0.2.0.tar');
+$testpackage = new \PEAR2\Pyrus\Package(__DIR__.'/build/docblock-0.2.0.tar');
 $test->assertEquals('1.4.3', $testpackage->dependencies['required']->pearinstaller->min, 'tar pearinstaller dep');
-$test->assertEquals('1.4.3', \pear2\Pyrus\Config::current()->registry->package['pecl/docblock']
+$test->assertEquals('1.4.3', \PEAR2\Pyrus\Config::current()->registry->package['pecl/docblock']
                                ->dependencies['required']->pearinstaller->min, 'same after installation');
 
 ob_start();
@@ -60,7 +60,7 @@ Configuring for:';
 
 $end = '@running: make INSTALL_ROOT="' . __DIR__ . '/testit/src/docblock/\.install" install 2>&1
 Installing shared extensions:     ' . __DIR__ . '/testit/src/docblock/\.install' .
-    \pear2\Pyrus\Config::current()->defaultValue('ext_dir') . '/
+    \PEAR2\Pyrus\Config::current()->defaultValue('ext_dir') . '/
 \d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr
 \d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .

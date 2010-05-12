@@ -1,6 +1,6 @@
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-class r extends \pear2\Pyrus\Config
+class r extends \PEAR2\Pyrus\Config
 {
     static $foo = 1;
     static function getDefaultUserConfigFile()

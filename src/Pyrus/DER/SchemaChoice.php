@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\DER\SchemaChoice
+ * \PEAR2\Pyrus\DER\SchemaChoice
  *
  * PHP version 5
  *
@@ -25,7 +25,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\DER;
+namespace PEAR2\Pyrus\DER;
 class SchemaChoice extends Schema
 {
     protected $options = array();
@@ -52,7 +52,7 @@ class SchemaChoice extends Schema
             if ($obj instanceof self) {
                 if ($test = $obj->findTag($tag)) {
                     if (!$test->class) {
-                        $test->setClass('pear2\Pyrus\DER\Choice');
+                        $test->setClass('PEAR2\Pyrus\DER\Choice');
                     }
 
                     return $test;

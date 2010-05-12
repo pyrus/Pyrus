@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::constructDefaults() bin_dir from PATH on Windows
+\PEAR2\Pyrus\Config::constructDefaults() bin_dir from PATH on Windows
 --SKIPIF--
 <?php
 if (PATH_SEPARATOR !== ';') echo 'skip requires MS Windows';

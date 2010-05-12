@@ -4,7 +4,7 @@ ChannelFile: random channelfile tests 2
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$c = new \pear2\Pyrus\ChannelFile(file_get_contents(__DIR__ . '/../../ChannelRegistry/sample_channel.xml'), true);
+$c = new \PEAR2\Pyrus\ChannelFile(file_get_contents(__DIR__ . '/../../ChannelRegistry/sample_channel.xml'), true);
 
 $c->fromArray(array('validatepackage' => 'foo', '_lastmodified' => 'hi'));
 $test->assertEquals(false, $c->name, 'setting name to unset value');
@@ -14,7 +14,7 @@ $test->assertEquals(true, $c->ssl, 'setting ssl from scratch');
 try {
     $c->summary = "oops\nie";
     throw new Exception('passed and should fail');
-} catch (pear2\Pyrus\Channel\Exception $e) {
+} catch (PEAR2\Pyrus\Channel\Exception $e) {
     $test->assertEquals('Channel summary cannot be multi-line', $e->getMessage(),
                         'multi-line summary');
 }

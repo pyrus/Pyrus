@@ -27,11 +27,11 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Installer\Role;
+namespace PEAR2\Pyrus\Installer\Role;
 class Common
 {
     /**
-     * @var \pear2\Pyrus\Config
+     * @var \PEAR2\Pyrus\Config
      * @access protected
      */
     protected $config;
@@ -41,9 +41,9 @@ class Common
     protected $info;
 
     /**
-     * @param \pear2\Pyrus\Config
+     * @param \PEAR2\Pyrus\Config
      */
-    function __construct(\pear2\Pyrus\Config $config, $info)
+    function __construct(\PEAR2\Pyrus\Config $config, $info)
     {
         $this->config = $config;
         $this->info = $info;
@@ -57,17 +57,17 @@ class Common
      */
     static function getInfo($role)
     {
-        return \pear2\Pyrus\Installer\Role::getInfo($role);
+        return \PEAR2\Pyrus\Installer\Role::getInfo($role);
     }
 
     /**
      * Get a location that can be used in an <install as=""/> tag to work with
      * the PEAR Installer.
-     * @param \pear2\Pyrus\Package $pkg
+     * @param \PEAR2\Pyrus\Package $pkg
      * @param array $atts
      * @return string
      */
-    function getCompatibleInstallAs(\pear2\Pyrus\PackageFileInterface $pkg, $atts)
+    function getCompatibleInstallAs(\PEAR2\Pyrus\PackageFileInterface $pkg, $atts)
     {
         $location = $this->getPackagingLocation($pkg, $atts);
         $location = explode('/', $location);
@@ -83,11 +83,11 @@ class Common
     /**
      * Retrieve the location a packaged file should be placed in a package
      *
-     * @param \pear2\Pyrus\Package $pkg
+     * @param \PEAR2\Pyrus\Package $pkg
      * @param array $atts
      * @return string
      */
-    function getPackagingLocation(\pear2\Pyrus\PackageFileInterface $pkg, $atts)
+    function getPackagingLocation(\PEAR2\Pyrus\PackageFileInterface $pkg, $atts)
     {
         if (!$pkg->isNewPackage()) {
             return $atts['name'];
@@ -151,7 +151,7 @@ class Common
         return $dest_dir . $file;
     }
 
-    function getRelativeLocation(\pear2\Pyrus\PackageFileInterface $pkg, \pear2\Pyrus\PackageFile\v2Iterator\FileTag $file,
+    function getRelativeLocation(\PEAR2\Pyrus\PackageFileInterface $pkg, \PEAR2\Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if (!$this->info['locationconfig']) {
@@ -183,7 +183,7 @@ class Common
                 // strip role from file path
                 // so php/Path/To/File.php becomes Path/To/File.php,
                 // data/package.xsd becomes package.xsd
-                $r = strtolower(str_replace('pear2\Pyrus\Installer\Role\\', '',
+                $r = strtolower(str_replace('PEAR2\Pyrus\Installer\Role\\', '',
                       get_class($this)));
                 if ($r === 'php') {
                     if (strpos($newpath, 'src') === 0) {
@@ -260,8 +260,8 @@ class Common
 
     /**
      * Do any unusual setup here
-     * @param \pear2\Pyrus\Installer
-     * @param \pear2\Pyrus\PackageFileInterface
+     * @param \PEAR2\Pyrus\Installer
+     * @param \PEAR2\Pyrus\PackageFileInterface
      * @param array file attributes
      * @param string file name
      */
@@ -269,13 +269,13 @@ class Common
     {
     }
 
-    final function packageTimeValidate(\pear2\Pyrus\Package $package, array $fileXml)
+    final function packageTimeValidate(\PEAR2\Pyrus\Package $package, array $fileXml)
     {
         if (!isset($this->info['validationmethod'])) {
             return true;
         }
         if (!method_exists($this, $this->info['validationmethod'])) {
-            \pear2\Pyrus\Logger::log(0, 'WARNING: custom role ' . $this->info['name'] .
+            \PEAR2\Pyrus\Logger::log(0, 'WARNING: custom role ' . $this->info['name'] .
                                  ' specifies non-existing validation method ' .
                                  $this->info['validationmethod']);
             return true;

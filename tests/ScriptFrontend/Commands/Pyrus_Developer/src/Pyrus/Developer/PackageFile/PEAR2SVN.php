@@ -26,7 +26,7 @@
  *
  * All maintainers are assumed to be lead maintainers in CREDITS.
  */
-namespace pear2\Pyrus\Developer\PackageFile;
+namespace PEAR2\Pyrus\Developer\PackageFile;
 class PEAR2SVN
 {
     protected $path;
@@ -51,18 +51,18 @@ class PEAR2SVN
     {
         if (file_exists($path . DIRECTORY_SEPARATOR . 'package.xml')) {
             try {
-                $this->pxml = new \pear2\Pyrus\PackageFile(
+                $this->pxml = new \PEAR2\Pyrus\PackageFile(
                     $path . DIRECTORY_SEPARATOR . 'package.xml',
-                    'pear2\Pyrus\Developer\PackageFile\v2');
+                    'PEAR2\Pyrus\Developer\PackageFile\v2');
                 $this->pxml = $this->pxml->info;
                 $this->pxml->setFilelist(array());
             } catch (Exception $e) {
-                $this->pxml = new \pear2\Pyrus\Developer\PackageFile\v2;
+                $this->pxml = new \PEAR2\Pyrus\Developer\PackageFile\v2;
                 $this->pxml->name = $packagename;
                 $this->pxml->channel = $channel;
             }
         } else {
-            $this->pxml = new \pear2\Pyrus\Developer\PackageFile\v2;
+            $this->pxml = new \PEAR2\Pyrus\Developer\PackageFile\v2;
             $this->pxml->name = $packagename;
             $this->pxml->channel = $channel;
         }
@@ -123,7 +123,7 @@ class PEAR2SVN
         foreach ($rolemap as $dir => $role) {
             if (file_exists($this->path . DIRECTORY_SEPARATOR . $dir)) {
                 $basepath = ($dir === 'examples') ? 'examples' : '';
-                foreach (new \pear2\Pyrus\Developer\PackageFile\PEAR2SVN\Filter(
+                foreach (new \PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN\Filter(
                             $this->path . DIRECTORY_SEPARATOR . $dir,
                          new \RecursiveIteratorIterator(
                          new \RecursiveDirectoryIterator($this->path . DIRECTORY_SEPARATOR . $dir),

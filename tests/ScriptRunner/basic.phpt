@@ -17,7 +17,7 @@ $postinstall->paramgroup['third']->param['paramname2']->type('string')->prompt('
 $postinstall->paramgroup['fourth']->param['paramname']->type('string')->prompt('paramname');
 $postinstall->paramgroup['fourth']->param['paramname2']->type('string')->prompt('paramname');
 
-\pear2\Pyrus\Config::current()->registry->package[] = $package;
+\PEAR2\Pyrus\Config::current()->registry->package[] = $package;
 
 $frontend = new fakefrontend;
 
@@ -26,7 +26,7 @@ $frontend->addPrompts(array('paramname' => 'first thingy 2', 'paramname2' => 'se
 $frontend->addPrompts(array('paramname' => 'first thingy 3', 'paramname2' => 'second thingy 3'));
 $frontend->addPrompts(array('paramname' => 'first thingy 4', 'paramname2' => 'second thingy 4'));
 
-$runner = new \pear2\Pyrus\ScriptRunner($frontend);
+$runner = new \PEAR2\Pyrus\ScriptRunner($frontend);
 $runner->run($package);
 
 $test->assertEquals(array (

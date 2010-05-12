@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Config::addConfigValue()
+\PEAR2\Pyrus\Config::addConfigValue()
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';

@@ -32,6 +32,6 @@ if (file_exists(__DIR__ . '/../../autoload.php')) {
 }
 
 require_once $autoload;
-$frontend = new \pear2\Pyrus\ScriptFrontend\Commands;
+$frontend = new \PEAR2\Pyrus\ScriptFrontend\Commands;
 @array_shift($_SERVER['argv']);
 $frontend->run($_SERVER['argv']);

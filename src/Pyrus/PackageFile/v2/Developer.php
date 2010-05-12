@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\PackageFile\v2\Developer
+ * \PEAR2\Pyrus\PackageFile\v2\Developer
  *
  * PHP version 5
  *
@@ -37,7 +37,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\PackageFile\v2;
+namespace PEAR2\Pyrus\PackageFile\v2;
 class Developer implements \ArrayAccess, \Iterator
 {
     protected $parent;
@@ -232,7 +232,7 @@ class Developer implements \ArrayAccess, \Iterator
 
         if (!($value instanceof Developer)) {
             throw new Developer\Exception(
-                'Can only set a developer to a \pear2\Pyrus\PackageFile\v2\Developer object'
+                'Can only set a developer to a \PEAR2\Pyrus\PackageFile\v2\Developer object'
             );
         }
 

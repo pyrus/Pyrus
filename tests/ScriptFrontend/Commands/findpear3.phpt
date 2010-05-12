@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::_findPEAR test 3: no userfile detected, decline creation
+\PEAR2\Pyrus\ScriptFrontend\Commands::_findPEAR test 3: no userfile detected, decline creation
 --FILE--
 <?php
 define('MYDIR', __DIR__);

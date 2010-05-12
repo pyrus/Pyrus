@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\ScriptFrontend\Commands::install(), --packagingroot test
+\PEAR2\Pyrus\ScriptFrontend\Commands::install(), --packagingroot test
 --FILE--
 <?php
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
@@ -8,13 +8,13 @@ if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
 }
 require __DIR__ . '/setup.php.inc';
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \pear2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/blah.xml');
+$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/blah.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
 restore_include_path();
 $c->saveConfig();
 
 ob_start();
-$cli = new \pear2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (__DIR__ . '/testit', 'install', __DIR__.'/../../Mocks/SimpleChannelServer/package.xml',
                          '--packagingroot=' . __DIR__ . '/testit'));
 
@@ -160,7 +160,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Release.php',
     'configpath' => '' . __DIR__ . DIRECTORY_SEPARATOR . 'testit/php',
   ),
-), \pear2\Pyrus\Config::current()->registry
+), \PEAR2\Pyrus\Config::current()->registry
                     ->info('PEAR2_SimpleChannelServer', 'pear2.php.net', 'installedfiles'), 'registered files');
 ?>
 ===DONE===

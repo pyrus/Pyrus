@@ -1,5 +1,5 @@
 --TEST--
-\pear2\Pyrus\Channel\RemotePackages with old channels
+\PEAR2\Pyrus\Channel\RemotePackages with old channels
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
@@ -12,8 +12,8 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/paranoid',
                        'http://pear2.php.net/');
-\pear2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \pear2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
+\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
 unset($chan->protocols->rest['REST1.3']);
 

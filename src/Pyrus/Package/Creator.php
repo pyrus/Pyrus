@@ -1,6 +1,6 @@
 <?php
 /**
- * \pear2\Pyrus\Package\Creator
+ * \PEAR2\Pyrus\Package\Creator
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace pear2\Pyrus\Package;
+namespace PEAR2\Pyrus\Package;
 class Creator
 {
     const VERSION = '@PACKAGE_VERSION@';
@@ -33,14 +33,14 @@ class Creator
     /**
      * Begin package creation
      *
-     * @param array|\pear2\Pyrus\Package\CreatorInterface $creators
+     * @param array|\PEAR2\Pyrus\Package\CreatorInterface $creators
      */
     function __construct($creators, $pear2ExceptionPath = false, $pear2AutoloadPath = false,
                          $pear2MultiErrorsPath = false)
     {
         if (!$pear2ExceptionPath) {
-            if (!($pear2Exception = @fopen('pear2/Exception.php', 'r', true))) {
-                throw new Exception('Cannot locate pear2/Exception.php, please' .
+            if (!($pear2Exception = @fopen('PEAR2/Exception.php', 'r', true))) {
+                throw new Exception('Cannot locate PEAR2/Exception.php, please' .
                                     ' pass in the path to the constructor');
             }
         } else {
@@ -53,14 +53,14 @@ class Creator
             }
 
             if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
-                throw new Exception('Cannot locate pear2/Exception.php in ' . $pear2ExceptionPath);
+                throw new Exception('Cannot locate PEAR2/Exception.php in ' . $pear2ExceptionPath);
             }
         }
 
         if (!$pear2AutoloadPath) {
-            if (!($pear2Autoload = @fopen('pear2/Autoload.php', 'r', true))) {
+            if (!($pear2Autoload = @fopen('PEAR2/Autoload.php', 'r', true))) {
                 fclose($pear2Exception);
-                throw new Exception('Cannot locate pear2/Autoload.php, please' .
+                throw new Exception('Cannot locate PEAR2/Autoload.php, please' .
                                     ' pass in the path to the constructor');
             }
         } else {
@@ -74,23 +74,23 @@ class Creator
 
             if (!($pear2Autoload = @fopen($pear2AutoloadPath . 'Autoload.php', 'r'))) {
                 fclose($pear2Exception);
-                throw new Exception('Cannot locate pear2/Autoload.php in ' . $pear2AutoloadPath);
+                throw new Exception('Cannot locate PEAR2/Autoload.php in ' . $pear2AutoloadPath);
             }
         }
 
         if (!$pear2MultiErrorsPath) {
-            if (!($pear2MultiErrors = @fopen('pear2/MultiErrors.php', 'r', true))) {
+            if (!($pear2MultiErrors = @fopen('PEAR2/MultiErrors.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
-                throw new Exception('Cannot locate pear2/MultiErrors.php, please' .
+                throw new Exception('Cannot locate PEAR2/MultiErrors.php, please' .
                                     ' pass in the path to the constructor');
             }
 
-            if (!($pear2MultiErrorsException = @fopen('pear2/MultiErrors/Exception.php', 'r', true))) {
+            if (!($pear2MultiErrorsException = @fopen('PEAR2/MultiErrors/Exception.php', 'r', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);
-                throw new Exception('Cannot locate pear2/MultiErrors/Exception.php, please' .
+                throw new Exception('Cannot locate PEAR2/MultiErrors/Exception.php, please' .
                                     ' pass in the path to the constructor');
             }
         } else {
@@ -105,22 +105,22 @@ class Creator
             if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
-                throw new Exception('Cannot locate pear2/MultiErrors.php in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
+                throw new Exception('Cannot locate PEAR2/MultiErrors.php in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
             }
 
             if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);
-                throw new Exception('Cannot locate pear2/MultiErrors/Exception.php' .
+                throw new Exception('Cannot locate PEAR2/MultiErrors/Exception.php' .
                                     ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
             }
         }
 
-        $this->_handles['php/pear2/Autoload.php'] = $pear2Autoload;
-        $this->_handles['php/pear2/MultiErrors.php'] = $pear2MultiErrors;
-        $this->_handles['php/pear2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
-        $this->_handles['php/pear2/Exception.php'] = $pear2Exception;
+        $this->_handles['php/PEAR2/Autoload.php'] = $pear2Autoload;
+        $this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
+        $this->_handles['php/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
+        $this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
         if ($creators instanceof CreatorInterface) {
             $this->_creators = array($creators);
         } elseif (is_array($creators)) {
@@ -129,12 +129,12 @@ class Creator
                     continue;
                 }
 
-                throw new Creator\Exception('Invalid PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
+                throw new Creator\Exception('Invalid PEAR2 package creator passed into \PEAR2\Pyrus\Package\Creator');
             }
 
             $this->_creators = $creators;
         } else {
-            throw new Creator\Exception('Invalid PEAR2 package creator passed into \pear2\Pyrus\Package\Creator');
+            throw new Creator\Exception('Invalid PEAR2 package creator passed into \PEAR2\Pyrus\Package\Creator');
         }
     }
 
@@ -146,10 +146,10 @@ class Creator
      *
      * All files in package.xml will have the string @PACKAGE_VERSION@
      * automatically replaced with the current package's version
-     * @param \pear2\Pyrus\Package $package
+     * @param \PEAR2\Pyrus\Package $package
      * @param array $extrafiles
      */
-    function render(\pear2\Pyrus\Package $package, array $extrafiles = array())
+    function render(\PEAR2\Pyrus\Package $package, array $extrafiles = array())
     {
         foreach ($this->_creators as $creator) {
             $creator->init();
@@ -177,7 +177,7 @@ class Creator
         }
 
         // get packaging package.xml
-        $packageingstr = (string) new \pear2\Pyrus\XMLWriter($package->toArray(true));
+        $packageingstr = (string) new \PEAR2\Pyrus\XMLWriter($package->toArray(true));
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
         }
@@ -198,7 +198,7 @@ class Creator
             }
         }
 
-        $packagingloc = \pear2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
+        $packagingloc = \PEAR2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
         if (file_exists($packagingloc)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($packagingloc,
                         \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
@@ -222,7 +222,7 @@ class Creator
                           'type' => 'package-info'));
         foreach ($package->packagingcontents as $packageat => $info) {
             $role =
-                \pear2\Pyrus\Installer\Role::factory($package->getPackageType(), $info['attribs']['role']);
+                \PEAR2\Pyrus\Installer\Role::factory($package->getPackageType(), $info['attribs']['role']);
             try {
                 $role->packageTimeValidate($package, $info);
             } catch (\Exception $e) {
@@ -265,13 +265,13 @@ class Creator
                 }
             }
 
-            if (isset(\pear2\Pyrus\Config::current()->registry->package[$package->channel . '/' . $package->name])) {
-                $version = \pear2\Pyrus\Config::current()->registry->info($package->name, $package->channel, 'version');
+            if (isset(\PEAR2\Pyrus\Config::current()->registry->package[$package->channel . '/' . $package->name])) {
+                $version = \PEAR2\Pyrus\Config::current()->registry->info($package->name, $package->channel, 'version');
             } else {
                 $version = null;
             }
 
-            foreach (new Creator\TaskIterator($info, $package, \pear2\Pyrus\Task\Common::PACKAGE,
+            foreach (new Creator\TaskIterator($info, $package, \PEAR2\Pyrus\Task\Common::PACKAGE,
                                               $version) as $task) {
                 // do pre-processing of file contents
                 try {
@@ -309,7 +309,7 @@ class Creator
     protected function addPEAR2Stuff($alreadyPackaged)
     {
         foreach ($this->_creators as $creator) {
-            $creator->mkdir($this->prepend . '/php/pear2');
+            $creator->mkdir($this->prepend . '/php/PEAR2');
         }
         foreach ($this->_handles as $path => $stream) {
             if (isset($alreadyPackaged[$path])) {
@@ -324,13 +324,13 @@ class Creator
         }
 
         foreach ($this->_creators as $creator) {
-            if (isset($alreadyPackaged['php/pear2/MultiErrors/Exception.php'])) {
+            if (isset($alreadyPackaged['php/PEAR2/MultiErrors/Exception.php'])) {
                 continue; // we're packaging MultiErrors package
             }
 
-            $creator->mkdir($this->prepend . '/php/pear2/MultiErrors');
-            $creator->addFile($this->prepend . '/php/pear2/MultiErrors/Exception.php',
-                "<?php\nnamespace pear2\MultiErrors; class Exception extends \pear2\Exception {}");
+            $creator->mkdir($this->prepend . '/php/PEAR2/MultiErrors');
+            $creator->addFile($this->prepend . '/php/PEAR2/MultiErrors/Exception.php',
+                "<?php\nnamespace PEAR2\MultiErrors; class Exception extends \PEAR2\Exception {}");
         }
     }
 
@@ -339,10 +339,10 @@ class Creator
         foreach ($extrafiles as $path => $filename) {
             if (!is_object($filename)) {
                 throw new Exception('Invalid extra file object, must be ' .
-                                        'a \pear2\Pyrus\Package object');
+                                        'a \PEAR2\Pyrus\Package object');
             }
 
-            if ($filename instanceof \pear2\Pyrus\Package) {
+            if ($filename instanceof \PEAR2\Pyrus\Package) {
                 foreach ($filename->packagingcontents as $path => $info) {
                     foreach ($this->_creators as $creator) {
                         $creator->mkdir(dirname($this->prepend . '/' . $path));
