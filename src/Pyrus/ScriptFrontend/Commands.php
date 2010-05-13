@@ -614,6 +614,7 @@ previous:
             asort($packages);
             foreach ($packages as $channel => $stuff) {
                 echo "[channel $channel]:\n";
+                sort($stuff);
                 foreach ($stuff as $package) {
                     echo " $package\n";
                 }

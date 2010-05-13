@@ -32,8 +32,8 @@ $test->assertEquals('Using PEAR installations found at ' . __DIR__. DIRECTORY_SE
  PHP_Archive
  Structures_Graph
  Text_Diff
- xdebug
- XML_Util',
+ XML_Util
+ xdebug',
                     $contents,
                     'list packages');
 ?>
