@@ -1,6 +1,8 @@
 How to generate a new version of pyrus
 ======================================
 
+0. Be sure to be in pear2/all/ svn directory
+
 1. Get the latest developer files
  $ php scripts/pyrus upgrade -p ../Pyrus_Developer/package.xml
 
