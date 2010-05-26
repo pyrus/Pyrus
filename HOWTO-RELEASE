@@ -1,0 +1,11 @@
+How to generate a new version of pyrus
+======================================
+
+1. Get the latest developer files
+ $ php scripts/pyrus upgrade -p ../Pyrus_Developer/package.xml
+
+2. Update package.xml
+ $ php scripts/pyrus make
+
+3. Create the phar
+ $ php -dphar.readonly=0 scripts/pyrus package --phar
