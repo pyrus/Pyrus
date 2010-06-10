@@ -33,8 +33,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-05-09</date>
- <time>20:06:11</time>
+ <date>2010-06-10</date>
+ <time>09:34:46</time>
  <version>
   <release>2.0.0a1</release>
   <api>2.0.0a1</api>
@@ -2157,7 +2157,6 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/Task/Exception/InvalidTask.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Task/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Task/Common.php"/>
-   <file role="php" name="php/PEAR2/Pyrus/Task/.DS_Store"/>
    <file role="php" name="php/PEAR2/Pyrus/ScriptRunner.php"/>
    <file role="php" name="php/PEAR2/Pyrus/ScriptFrontend/Renderer.php"/>
    <file role="php" name="php/PEAR2/Pyrus/ScriptFrontend/Exception.php"/>
@@ -2347,8 +2346,6 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/Channel.php"/>
    <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction.php"/>
-   <file role="php" name="php/PEAR2/Pyrus/.DS_Store"/>
-   <file role="php" name="php/PEAR2/.DS_Store"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority"/>
    <file role="data" name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
@@ -2505,18 +2502,27 @@ Initial pyrus public API
    <package>
     <name>PEAR2_Autoload</name>
     <channel>pear2.php.net</channel>
+    <min>0.2.0</min>
    </package>
    <package>
     <name>PEAR2_Exception</name>
     <channel>pear2.php.net</channel>
+    <min>0.2.0</min>
    </package>
    <package>
     <name>PEAR2_MultiErrors</name>
     <channel>pear2.php.net</channel>
+    <min>0.2.0</min>
    </package>
    <package>
     <name>PEAR2_HTTP_Request</name>
     <channel>pear2.php.net</channel>
+    <min>0.2.0</min>
+   </package>
+   <package>
+    <name>PEAR2_Console_CommandLine</name>
+    <channel>pear2.php.net</channel>
+    <min>0.1.0</min>
    </package>
   </required>
  </dependencies>
@@ -2665,8 +2671,6 @@ Initial pyrus public API
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot" as="pear2.php.net/x509rootcerts/x509rootcerts/VisaeCommerceRoot"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/WellsFargoRootCertificateAuthority"/>
    <install name="data/PEAR2_Pyrus/pear2.php.net/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority" as="pear2.php.net/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
-   <install name="php/PEAR2/.DS_Store" as="PEAR2/.DS_Store"/>
-   <install name="php/PEAR2/Pyrus/.DS_Store" as="PEAR2/Pyrus/.DS_Store"/>
    <install name="php/PEAR2/Pyrus/AtomicFileTransaction.php" as="PEAR2/Pyrus/AtomicFileTransaction.php"/>
    <install name="php/PEAR2/Pyrus/AtomicFileTransaction/Exception.php" as="PEAR2/Pyrus/AtomicFileTransaction/Exception.php"/>
    <install name="php/PEAR2/Pyrus/Channel.php" as="PEAR2/Pyrus/Channel.php"/>
@@ -2856,7 +2860,6 @@ Initial pyrus public API
    <install name="php/PEAR2/Pyrus/ScriptFrontend/Exception.php" as="PEAR2/Pyrus/ScriptFrontend/Exception.php"/>
    <install name="php/PEAR2/Pyrus/ScriptFrontend/Renderer.php" as="PEAR2/Pyrus/ScriptFrontend/Renderer.php"/>
    <install name="php/PEAR2/Pyrus/ScriptRunner.php" as="PEAR2/Pyrus/ScriptRunner.php"/>
-   <install name="php/PEAR2/Pyrus/Task/.DS_Store" as="PEAR2/Pyrus/Task/.DS_Store"/>
    <install name="php/PEAR2/Pyrus/Task/Common.php" as="PEAR2/Pyrus/Task/Common.php"/>
    <install name="php/PEAR2/Pyrus/Task/Exception.php" as="PEAR2/Pyrus/Task/Exception.php"/>
    <install name="php/PEAR2/Pyrus/Task/Exception/InvalidTask.php" as="PEAR2/Pyrus/Task/Exception/InvalidTask.php"/>
