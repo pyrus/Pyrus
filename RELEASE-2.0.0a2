@@ -1,0 +1,4 @@
+Second alpha release
+
+Bug Fixes:
+ - Fixed minimum PHP version checks in Channel\RemotePackage
