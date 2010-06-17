@@ -313,7 +313,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             foreach ($this->releaseList as $versioninfo) {
                 if (isset($versioninfo['m'])) {
                     // minimum PHP version required
-                    if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
+                    if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>')) {
                         continue;
                     }
                 }
@@ -655,7 +655,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         foreach ($this->releaseList as $versioninfo) {
             if (isset($versioninfo['m'])) {
                 // minimum PHP version required
-                if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
+                if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>')) {
                     continue;
                 }
             }
@@ -716,7 +716,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
             if (!isset(\PEAR2\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
                 // minimum PHP version required
-                if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>=')) {
+                if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>')) {
                     $failIfExplicit($versioninfo);
                     continue;
                 }
