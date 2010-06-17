@@ -87,7 +87,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace PEAR2\Pyrus\PackageFile\v2;
-class Dependencies implements \ArrayAccess
+class Dependencies implements \ArrayAccess, \Countable
 {
     protected $parent;
     protected $info = array();
@@ -357,5 +357,10 @@ class Dependencies implements \ArrayAccess
         }
 
         $this->parent->rawdependencies = $this->info;
+    }
+
+    function count()
+    {
+        return count($this->info);
     }
 }

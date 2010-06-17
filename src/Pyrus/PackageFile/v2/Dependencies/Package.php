@@ -3,7 +3,7 @@
  * This class is used for package, subpackage, and extension deps
  */
 namespace PEAR2\Pyrus\PackageFile\v2\Dependencies;
-class Package implements \ArrayAccess, \Iterator
+class Package implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
     protected $index = null;
@@ -594,5 +594,10 @@ class Package implements \ArrayAccess, \Iterator
         }
 
         return $ret . ')';
+    }
+
+    function count()
+    {
+        return count($this->info);
     }
 }
