@@ -5,8 +5,14 @@ packages built using package.xml version 2.0 or newer.  Pyrus is
 redesigned from the ground up for PHP 5.3 or newer, and provides
 significant improvements over the older PEAR Installer.
 
-To use Pyrus, execute it from the command line:
-$ php pyrus.phar install PEAR2_Templates_Savant-0.1.0
+To use Pyrus, you can download pyrus.phar from the PEAR2 website,
+and execute it from the command line:
+$ php pyrus.phar install PEAR2_Templates_Savant-alpha
+
+You can also install PEAR2_Pyrus to access the API for installing
+and managing packages. Once installed, a convenience script is
+available from the command line.
+$ pyrus install PEAR2_Templates_Savant-alpha
 
 For more information, view the documentation at:
 http://pear.php.net/manual/en/pyrus.php
