@@ -8,7 +8,7 @@ if (version_compare(phpversion(), '5.3.1', '<')) {
     }
 }
 
-foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader')
+foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'sqlite3')
          as $ext) {
     if (!extension_loaded($ext)) {
         echo "The $ext extension is required.\n"
