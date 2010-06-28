@@ -1,4 +1,5 @@
 Second alpha release
 
 Bug Fixes:
- - Fixed minimum PHP version checks in Channel\RemotePackage
+ - Fixed minimum PHP version checks in Channel\RemotePackage [gauthierm]
+ - Add SQLite3 as a required extension [saltybeagle]
