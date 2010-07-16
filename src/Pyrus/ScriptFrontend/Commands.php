@@ -664,10 +664,6 @@ previous:
             if ($response->code != 200) {
                 throw new \PEAR2\Pyrus\Exception('Download of channel.xml failed');
             }
-addchan_success:
-            $chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile($response->body, true));
-            \PEAR2\Pyrus\Config::current()->channelregistry->add($chan);
-            echo "Discovery of channel ", $chan->name, " successful\n";
         } catch (\Exception $e) {
             try {
                 $chan = 'http://' . $args['channel'] . '/channel.xml';
@@ -675,12 +671,16 @@ addchan_success:
                 if ($response->code != 200) {
                     throw new \PEAR2\Pyrus\Exception('Download of channel.xml failed');
                 }
-                goto addchan_success;
             } catch (\Exception $e) {
                 // failed, re-throw original error
-                echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage();
+                echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage(), "\n";
+                return;
             }
         }
+
+        $chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile($response->body, true));
+        \PEAR2\Pyrus\Config::current()->channelregistry->add($chan);
+        echo "Discovery of channel ", $chan->name, " successful\n";
     }
 
     /**
