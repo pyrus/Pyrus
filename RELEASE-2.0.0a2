@@ -1,6 +1,8 @@
 Second alpha release
 
 Bug Fixes:
+
  - Fixed minimum PHP version checks in Channel\RemotePackage [gauthierm]
  - Add SQLite3 as a required extension [saltybeagle]
  - Fix bin/pyrus script [saltybeagle]
+ - Loop when discovering a channel twice [boekkooi]
