@@ -497,6 +497,26 @@ previous:
                 echo $dep, ' depended on by ', implode(', ', array_keys($packages)), "\n";
             }
         } catch (\Exception $e) {
+
+            // If this is an undiscovered channel, handle it gracefully
+            if ($e instanceof \PEAR2\Pyrus\Package\Exception
+                && $e->getPrevious() instanceof \PEAR2\Pyrus\ChannelRegistry\Exception
+                && $e->getPrevious()->getPrevious() instanceof \PEAR2\Pyrus\ChannelRegistry\ParseException
+                && $e->getPrevious()->getPrevious()->why == 'channel'
+                && strpos($arg, '/') !== false) {
+
+                $channel = strstr($arg, '/', true);
+
+                echo "Sorry, the channel \"{$channel}\" is unknown.\n";
+
+                if ('yes' === $this->ask('Do you want to add this channel and continue the install?', array('yes', 'no'), 'yes')) {
+                    $this->channelDiscover(array('channel' => $channel));
+                    $this->install($args, $options);
+                    return;
+                }
+                echo "Ok. I understand.\n";
+            }
+
             $this->exceptionHandler($e);
             exit -1;
         }
