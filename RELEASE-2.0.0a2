@@ -1,5 +1,9 @@
 Second alpha release
 
+Additions:
+
+ - If install fails due to unknown channel, ask to discover [saltybeagle]
+
 Bug Fixes:
 
  - Fixed minimum PHP version checks in Channel\RemotePackage [gauthierm]
