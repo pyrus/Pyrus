@@ -11,10 +11,10 @@ $c->saveConfig();
 foreach (array('pear'=>'pear.php.net',
                'pear2'=>'pear2.php.net',
                'pecl'=>'pecl.php.net') as $alias=>$name) {
-    $test->assertEquals(1, $c->channelregistry->exists($alias, false), $alias.' channel alias');
-    $test->assertEquals(1, $c->channelregistry->exists($name, false), $name.' channel name');
+    $test->assertEquals(true, $c->channelregistry->exists($alias, false), $alias.' channel alias');
+    $test->assertEquals(true, $c->channelregistry->exists($name, false), $name.' channel name');
 }
-$test->assertEquals(1, $c->channelregistry->exists('__uri', false), '__uri channel');
+$test->assertEquals(true, $c->channelregistry->exists('__uri', false), '__uri channel');
 $test->assertEquals(false, $c->channelregistry->exists('cookiemonster', false), 'fake channel does not exist, 1');
 
 $test->assertEquals(true, isset($c->channelregistry['__uri']), '__uri channel 2');

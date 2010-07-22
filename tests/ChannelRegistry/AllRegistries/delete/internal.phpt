@@ -14,14 +14,14 @@ foreach (array('pear.php.net',
                '__uri') as $name) {
     $chan = $c->channelregistry->get($name);
     $thrown = false;
-    $test->assertEquals(1, $c->channelregistry->exists($name), $name.' channel exists before');
+    $test->assertEquals(true, $c->channelregistry->exists($name), $name.' channel exists before');
     try {
         $c->channelregistry->delete($chan);
         throw new Exception('delete succeeded and should have failed');
     } catch(\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals('Cannot delete default channel ' . $name, $e->getMessage(), $name . ' message');
     }
-    $test->assertEquals(1, $c->channelregistry->exists($name), $name.' channel still exists');
+    $test->assertEquals(true, $c->channelregistry->exists($name), $name.' channel still exists');
 }
 
 ?>

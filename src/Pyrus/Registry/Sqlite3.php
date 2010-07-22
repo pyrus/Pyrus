@@ -54,113 +54,19 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
     function __construct($path, $readonly = false)
     {
         $this->readonly = $readonly;
-        if ($path && $path != ':memory:') {
-            if (dirname($path) . DIRECTORY_SEPARATOR . '.pear2registry' != $path) {
-                $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
-            }
-        }
-        if ($path && file_exists($path)) {
-            $this->_initialized = true;
-            $this->_init($path, $readonly);
-        } else {
-            if (!$path || $path == ':memory:') {
-                if ($readonly) {
-                    throw new Exception('Cannot create SQLite3 registry, registry is read-only');
-                }
-                $this->_path = ':memory:';
-                $this->_init(':memory:', false);
-                return;
-            }
-            $file = $path;
-            while ($file && $file !== '.' && $file !== '/' && !is_writable($file)) {
-                $file = dirname($file);
-            }
-            if (!$file || $file == '.') {
-                throw new Exception('Cannot create SQLite3 registry, registry is read-only');
-            }
-        }
-        $this->_path = $path;
-    }
-
-    private function _lazyInit($path, $readonly)
-    {
-        if ($this->_initialized) {
-            return;
-        }
-
-        if ($readonly || !$path || $path == ':memory:' || isset(static::$databases[$path])) {
-            return $this->_init($path, true);
-        }
-
-        $dbpath = $path;
-        if ($path != ':memory:' && isset(Main::$options['packagingroot'])) {
-            $dbpath = Main::prepend(Main::$options['packagingroot'], $path);
-        }
-
-        if ($path != ':memory:' && file_exists($dbpath)) {
-            return $this->_init($path, false);
-        }
+        $this->_path = static::initRegistry($path, $readonly);
+        $this->_initialized = true;
     }
 
     private function _prepareWrite()
     {
-        if (isset(static::$databases[$this->_path])) {
+        if (static::existsRegistry($this->_path)) {
             return;
         }
-        $this->_init($this->_path, $this->readonly);
-    }
-
-    private function _init($path, $readonly)
-    {
-        if (!$path) {
-            $path = ':memory:';
-        }
-
-        if (isset(static::$databases[$path])) {
-            return;
-        }
-
-        $dbpath = $path;
-        if ($path != ':memory:' && isset(Main::$options['packagingroot'])) {
-            $dbpath = Main::prepend(Main::$options['packagingroot'], $path);
-        }
-
-        if ($path != ':memory:' && !file_exists(dirname($dbpath))) {
-            if ($readonly) {
-                throw new Exception('Cannot create SQLite3 registry, registry is read-only');
-            }
-            @mkdir(dirname($dbpath), 0755, true);
-        }
-
-        if ($readonly && $path != ':memory:' && !file_exists($dbpath)) {
-            throw new Exception('Cannot create SQLite3 registry, registry is read-only');
-        }
-
-        static::$databases[$path] = new \SQLite3($dbpath);
-        // ScottMac needs to fix sqlite3 FIXME
-        if (static::$databases[$path]->lastErrorCode()) {
-            $error = static::$databases[$path]->lastErrorMsg();
-            throw new Exception('Cannot open SQLite3 registry: ' . $error);
-        }
-
-        $sql = 'SELECT version FROM pearregistryversion';
-        if (@static::$databases[$path]->querySingle($sql) == '1.0.0') {
-            $this->_initialized = true;
-            return;
-        }
-
-        if ($readonly) {
-            throw new Exception('Cannot create SQLite3 registry, registry is read-only');
-        }
-
-        $a = new Sqlite3\Creator;
-        try {
-            $a->create(static::$databases[$path]);
-            $this->_initialized = true;
-        } catch (\Exception $e) {
-            unset(static::$databases[$path]);
-            $a = get_class($e);
-            throw new $a('Database initialization failed', 0, $e);
+        static::initRegistry($this->_path, $this->readonly);
+        
+        if (!static::existsRegistry($this->_path)) {
+            throw new Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
     }
 
@@ -180,10 +86,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             throw new Exception('Cannot install package, registry is read-only');
         }
         $this->_prepareWrite();
-
-        if (!isset(static::$databases[$this->_path])) {
-            throw new Exception('Error: no existing SQLite3 registry for ' . $this->_path);
-        }
+        $database = static::getRegistry($this->_path);
 
         try {
             $this->uninstall($info->name, $info->channel);
@@ -191,20 +94,22 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             // ignore errors
         }
 
-        static::$databases[$this->_path]->enableExceptions(true);
+        $database->enableExceptions(true);
         try {
             $this->_install($info, $replace);
         } catch (\Exception $e) {
-            static::$databases[$this->_path]->enableExceptions(false);
+            $database->enableExceptions(false);
             throw new Exception('Error: package ' .
                 $info->channel . '/' . $info->name . ' could not be installed in registry: ' .
                 $e->getMessage(), $e);
         }
-        static::$databases[$this->_path]->enableExceptions(false);
+        $database->enableExceptions(false);
     }
 
     function _install($info, $replace)
     {
+        $database = static::getRegistry($this->_path);
+    
         if (!$replace) {
             $info = $info->toRaw();
             // this avoids potential exception on setting date/time
@@ -231,7 +136,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 :lastinstalledv, :lastinstalledp, :lastinstalltime
             )';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $n = $info->name;
         $c = $info->channel;
         $stmt->bindValue(':lcname',              strtolower($n));
@@ -269,7 +174,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             VALUES
                 (:name, :channel, :role, :m_name, :m_user, :m_email, :m_active)';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         foreach ($info->allmaintainers as $role => $maintainers) {
             foreach ($maintainers as $maintainer) {
                 $stmt->clear();
@@ -294,7 +199,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
               (packages_name, packages_channel, name, prompt, defaultValue)
             VALUES(:name, :channel, :oname, :prompt, :default)';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         $stmt->bindValue(':name',     $n);
         $stmt->bindValue(':channel',  $c);
@@ -316,7 +221,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                relativepath, origpath, baseinstalldir, tasks, md5sum)
             VALUES(:name, :channel, :path, :configpath, :role, :relativepath, :origpath, :baseinstall, :tasks, :md5)';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         $stmt->bindValue(':name',     $n);
         $stmt->bindValue(':channel',  $c);
@@ -358,7 +263,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
               (packages_name, packages_channel, dirname, baseinstall)
             VALUES(:name, :channel, :dirname, :baseinstall)';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         foreach ($info->getBaseInstallDirs() as $dir => $base) {
             $stmt->bindValue(':name',        $n);
@@ -377,7 +282,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                      compat_package, compat_channel, min, max)
                 VALUES
                     (:name, :channel, :cname, :cchannel, :min, :max)';
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
 
             $stmt->bindValue(':name', $n);
             $stmt->bindValue(':channel', $c);
@@ -388,7 +293,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                      compat_package, compat_channel, exclude)
                 VALUES
                     (:name, :channel, :cname, :cchannel, :exclude)';
-            $stmt2 = static::$databases[$this->_path]->prepare($sql2);
+            $stmt2 = $database->prepare($sql2);
 
             $stmt2->bindValue(':name', $n);
             $stmt2->bindValue(':channel', $c);
@@ -417,7 +322,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             VALUES
                 (:required, :name, :channel, :extension,
                  :conflicts, :min, :max, :recommended)';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         foreach (array('required', 'optional') as $required) {
             foreach ($info->dependencies[$required]->extension as $d) {
                 // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
@@ -441,7 +346,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                         VALUES(:required, :name, :channel, :extension,
                                :exclude, :conflicts)';
 
-                    $stmt1 = static::$databases[$this->_path]->prepare($sql);
+                    $stmt1 = $database->prepare($sql);
                     foreach ($d->exclude as $exclude) {
                         $stmt1->clear();
                         $req = ($required == 'required' ? 1 : 0);
@@ -467,7 +372,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             VALUES
                 (:required, :name, :channel, :dep_package, :dep_channel,
                  :conflicts, :min, :max, :recommended, :sub, :ext)';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         $first = true;
         foreach (array('required', 'optional') as $required) {
@@ -509,7 +414,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                             VALUES(:required, :name, :channel, :dep_package,
                                 :dep_channel, :exclude, :conflicts, :sub)';
 
-                        $stmt1 = static::$databases[$this->_path]->prepare($sql);
+                        $stmt1 = $database->prepare($sql);
                         foreach ($d->exclude as $exclude) {
                             $stmt1->clear();
                             $req = ($required == 'required' ? 1 : 0);
@@ -539,7 +444,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 (:name, :channel, :min, :max)';
 
         $max = $info->dependencies['required']->php->max;
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         $stmt->bindValue(':name', $n);
         $stmt->bindValue(':channel', $c);
@@ -557,7 +462,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
               (packages_name, packages_channel, exclude)
             VALUES
                 (:name, :channel, :exclude)';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         if ($info->dependencies['required']->php->exclude) {
             foreach ($info->dependencies['required']->php->exclude as $exclude) {
@@ -576,7 +481,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 (:name, :channel, :min, :max)';
 
         $max = $info->dependencies['required']->pearinstaller->max;
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         $stmt->bindValue(':name', $n);
         $stmt->bindValue(':channel', $c);
@@ -594,7 +499,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
               (packages_name, packages_channel, exclude)
             VALUES
                 (:name, :channel, :exclude)';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
 
         if ($info->dependencies['required']->pearinstaller->exclude) {
             foreach ($info->dependencies['required']->pearinstaller->exclude as $exclude) {
@@ -612,7 +517,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                   (packages_name, packages_channel, osname, conflicts)
                 VALUES
                     (:name, :channel, :os, :conflicts)';
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
 
             foreach ($info->dependencies['required']->os as $dep) {
 
@@ -633,7 +538,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 VALUES
                     (:name, :channel, :arch, :conflicts)';
 
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
             foreach ($info->dependencies['required']->arch as $dep) {
 
                 $stmt->clear();
@@ -653,7 +558,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 VALUES
                     (:name, :channel, :groupname, :grouphint)';
 
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
             $stmt->bindValue(':name', $n);
             $stmt->bindValue(':channel', $c);
             $stmt->bindValue(':groupname', $group->name);
@@ -670,7 +575,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                     (0, :name, :channel, :extension,
                      :conflicts, :min, :max, :recommended, :groupname)';
 
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
             foreach ($group->extension as $d) {
                 // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
 
@@ -694,7 +599,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                         VALUES(0, :name, :channel, :extension,
                                :exclude, :conflicts, :groupname)';
 
-                    $stmt1 = static::$databases[$this->_path]->prepare($sql);
+                    $stmt1 = $database->prepare($sql);
                     foreach ($d->exclude as $exclude) {
                         $stmt1->clear();
                         $stmt1->bindValue(':name', $n);
@@ -719,7 +624,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                     (0, :name, :channel, :dep_package, :dep_channel, :conflicts, :min, :max, :recommended, :sub,
                      :group, :ext)';
 
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
                     // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
@@ -754,7 +659,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                             VALUES(0, :name, :channel, :dep_package,
                                 :dep_channel, :exclude, :conflicts, :sub, :group)';
 
-                        $stmt1 = static::$databases[$this->_path]->prepare($sql);
+                        $stmt1 = $database->prepare($sql);
                         foreach ($d->exclude as $exclude) {
                             $stmt1->clear();
                             $req = 0;
@@ -784,10 +689,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             throw new Exception('Cannot uninstall package, registry is read-only');
         }
         $this->_prepareWrite();
-
-        if (!isset(static::$databases[$this->_path])) {
-            throw new Exception('Error: no existing SQLite3 registry for ' . $this->_path);
-        }
+        $database = static::getRegistry($this->_path);
 
         $channel = \PEAR2\Pyrus\Config::current()->channelregistry[$channel]->name;
         if (!$this->exists($package, $channel)) {
@@ -796,24 +698,25 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         }
 
         $sql = 'DELETE FROM packages WHERE lcname = "' .
-              static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND channel = "' .
-              static::$databases[$this->_path]->escapeString($channel) . '"';
+              $database->escapeString(strtolower($package)) . '" AND channel = "' .
+              $database->escapeString($channel) . '"';
 
-        static::$databases[$this->_path]->enableExceptions(true);
+        $database->enableExceptions(true);
         try {
-            static::$databases[$this->_path]->exec($sql);
+            $database->exec($sql);
         } catch (\Exception $e) {
             throw new Exception('uninstalling ' . $channel . '/' . $package . ' failed: ' .
                                                      $e->getMessage(), $e);
         }
-        static::$databases[$this->_path]->enableExceptions(false);
+        $database->enableExceptions(false);
     }
 
     function exists($package, $channel)
     {
-        if (!isset(static::$databases[$this->_path])) {
-            return false;
+        if (!static::existsRegistry($this->_path)) {
+             return false;
         }
+        $database = static::getRegistry($this->_path);
 
         $sql = 'SELECT
                     COUNT(lcname)
@@ -821,13 +724,13 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 WHERE
                     lcname = :name AND channel = :channel
             ';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
 
         if (!$result) {
-            $error = static::$databases[$this->_path]->lastErrorMsg();
+            $error = $database->lastErrorMsg();
             throw new Exception('Cannot search for package ' . $channel . '/' . $package .
                 ': ' . $error);
         }
@@ -837,9 +740,10 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
     function info($package, $channel, $field)
     {
-        if (!isset(static::$databases[$this->_path])) {
+        if (!static::existsRegistry($this->_path)) {
             throw new Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
+        $database = static::getRegistry($this->_path);
 
         if ($field == 'api-state') {
             $field = 'apistability';
@@ -863,13 +767,13 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                     WHERE
                         packages_name = :name AND packages_channel = :channel';
 
-            $stmt = static::$databases[$this->_path]->prepare($sql);
+            $stmt = $database->prepare($sql);
             $stmt->bindValue(':name',    strtolower($package));
             $stmt->bindValue(':channel', $channel);
             $result = @$stmt->execute();
 
             if (!$result) {
-                $error = static::$databases[$this->_path]->lastErrorMsg();
+                $error = $database->lastErrorMsg();
                 throw new Exception('Cannot retrieve ' . $field .
                     ': ' . $error);
             }
@@ -920,12 +824,12 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         }
 
         $sql = ' SELECT ' . $field . ' FROM packages WHERE
-            lcname = \'' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '\' AND
-            channel = \'' . static::$databases[$this->_path]->escapeString($channel) . '\'';
+            lcname = \'' . $database->escapeString(strtolower($package)) . '\' AND
+            channel = \'' . $database->escapeString($channel) . '\'';
 
-        $info = @static::$databases[$this->_path]->querySingle($sql);
-        if (static::$databases[$this->_path]->lastErrorCode()) {
-            $error = static::$databases[$this->_path]->lastErrorMsg();
+        $info = @$database->querySingle($sql);
+        if ($database->lastErrorCode()) {
+            $error = $database->lastErrorMsg();
             throw new Exception('Cannot retrieve ' . $field .
                 ': ' . $error);
         }
@@ -942,13 +846,14 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
      */
     public function listPackages($channel)
     {
-        if (!isset(static::$databases[$this->_path])) {
+        if (!static::existsRegistry($this->_path)) {
             return array();
         }
+        $database = static::getRegistry($this->_path);
 
         $ret = array();
         $sql = 'SELECT name FROM packages WHERE channel = :channel ORDER BY name';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
 
@@ -972,13 +877,15 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
      */
     function toPackageFile($package, $channel)
     {
-        if (!isset(static::$databases[$this->_path])) {
+        if (!static::existsRegistry($this->_path)) {
             throw new Exception('Error: no existing SQLite3 registry for ' . $this->_path);
         }
         if (!$this->exists($package, $channel)) {
             throw new Exception('Cannot retrieve package file object ' .
                 'for package ' . $channel . '/' . $package . ', it is not installed');
         }
+        $database = static::getRegistry($this->_path);
+        
         $ret = new \PEAR2\Pyrus\PackageFile\v2;
         $ret->name        = $this->info($package, $channel, 'name');
         $ret->channel     = $channel;
@@ -989,7 +896,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         $sql = 'SELECT * FROM maintainers
                 WHERE packages_name = :name AND packages_channel = :channel';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
@@ -1033,7 +940,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         $sql = 'SELECT * FROM files
                 WHERE packages_name = :name AND packages_channel = :channel';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
@@ -1059,7 +966,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         $sql = 'SELECT dirname, baseinstall FROM baseinstalldirs
                 WHERE packages_name = :name AND packages_channel = :channel';
 
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $stmt->bindValue(':name',    strtolower($package));
         $stmt->bindValue(':channel', $channel);
         $result = @$stmt->execute();
@@ -1081,9 +988,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         $ret->release = null;
         $sql = 'SELECT * FROM configureoptions
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString(strtolower($package)) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($option = $a->fetchArray(SQLITE3_ASSOC)) {
             $ret->installrelease->configureoption[$option['name']]
@@ -1095,13 +1002,14 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
     function fetchCompatible(\PEAR2\Pyrus\PackageFileInterface $ret)
     {
+        $database = static::getRegistry($this->_path);  
         $package = $ret->name;
         $channel = $ret->channel;
         $sql = 'SELECT * FROM compatible_releases
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString(strtolower($package)) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray(SQLITE3_ASSOC)) {
             $ret->compatible[$dep['compat_channel'] . '/' . $dep['compat_package']]->min =
@@ -1112,9 +1020,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM compatible_releases_exclude
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString(strtolower($package)) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString(strtolower($package)) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray(SQLITE3_ASSOC)) {
             $ret->compatible[$dep['compat_channel'] . '/' . $dep['compat_package']]->exclude =
@@ -1124,13 +1032,14 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
     function fetchDeps(\PEAR2\Pyrus\PackageFileInterface $ret)
     {
+        $database = static::getRegistry($this->_path);
         $package = strtolower($ret->name);
         $channel = $ret->channel;
         $sql = 'SELECT * FROM php_dependencies
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray()) {
             $ret->dependencies['required']->php->min = $dep['min'];
@@ -1139,9 +1048,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM php_dependencies_exclude
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray()) {
             $ret->dependencies['required']->php->exclude($dep['exclude']);
@@ -1149,9 +1058,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM pearinstaller_dependencies
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray()) {
             $ret->dependencies['required']->pearinstaller->min = $dep['min'];
@@ -1160,9 +1069,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM pearinstaller_dependencies_exclude
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray()) {
             $ret->dependencies['required']->pearinstaller->exclude($dep['exclude']);
@@ -1170,9 +1079,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM os_dependencies
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray(SQLITE3_ASSOC)) {
             $ret->dependencies['required']->os[$dep['osname']] = !$dep['conflicts'];
@@ -1181,9 +1090,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM arch_dependencies
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $a = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $a = $database->query($sql);
 
         while ($dep = $a->fetchArray()) {
             $ret->dependencies['required']->arch[$dep['pattern']] = !$dep['conflicts'];
@@ -1191,17 +1100,17 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $sql = 'SELECT * FROM package_dependencies
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
                 //ORDER BY required, deppackage, depchannel, conflicts';
-        $package_deps = static::$databases[$this->_path]->query($sql);
+        $package_deps = $database->query($sql);
 
         $sql = 'SELECT * FROM package_dependencies_exclude
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
                 //ORDER BY required, deppackage, depchannel, conflicts, exclude';
-        $excludes = static::$databases[$this->_path]->query($sql);
+        $excludes = $database->query($sql);
         if (!$package_deps) {
             $ret = $this->fetchDepGroups($ret);
             return $ret;
@@ -1257,14 +1166,15 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
     function fetchDepGroups(\PEAR2\Pyrus\PackageFileInterface $ret)
     {
+        $database = static::getRegistry($this->_path);
         $package = strtolower($ret->name);
         $channel = $ret->channel;
 
         $sql = 'SELECT * FROM dep_groups
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $groups = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $groups = $database->query($sql);
         if ($groups) {
             while ($group = $groups->fetchArray(SQLITE3_ASSOC)) {
                 $ret->dependencies['group']->{$group['groupname']}->hint = $group['grouphint'];
@@ -1275,19 +1185,20 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
     function fetchExtensionDeps(\PEAR2\Pyrus\PackageFileInterface $ret)
     {
+        $database = static::getRegistry($this->_path);
         $package = strtolower($ret->name);
         $channel = $ret->channel;
         $sql = 'SELECT * FROM extension_dependencies
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $extension_deps = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $extension_deps = $database->query($sql);
 
         $sql = 'SELECT * FROM extension_dependencies_exclude
                 WHERE
-                    packages_name = "' . static::$databases[$this->_path]->escapeString($package) . '" AND
-                    packages_channel = "' . static::$databases[$this->_path]->escapeString($channel) . '"';
-        $excludes = static::$databases[$this->_path]->query($sql);
+                    packages_name = "' . $database->escapeString($package) . '" AND
+                    packages_channel = "' . $database->escapeString($channel) . '"';
+        $excludes = $database->query($sql);
         if (!$extension_deps) {
             return $ret;
         }
@@ -1329,9 +1240,10 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         if (!$this->_initialized) {
             return array();
         }
-        if (!isset(static::$databases[$this->_path])) {
+        if (!static::existsRegistry($this->_path)) {
             throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
+        $database = static::getRegistry($this->_path);
 
         $ret = array();
         $sql = 'SELECT
@@ -1340,7 +1252,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 WHERE
                     deppackage = :name AND depchannel = :channel
                 ORDER BY packages_channel, packages_name';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         $stmt->bindValue(':name', $package->name, SQLITE3_TEXT);
         $stmt->bindValue(':channel', $package->channel, SQLITE3_TEXT);
         $result = @$stmt->execute();
@@ -1372,9 +1284,10 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
      */
     public function detectFileConflicts(\PEAR2\Pyrus\PackageFileInterface $package)
     {
-        if (!isset(static::$databases[$this->_path])) {
+        if (!static::existsRegistry($this->_path)) {
             throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
+        $database = static::getRegistry($this->_path);
 
         $ret = array();
         $sql = 'SELECT
@@ -1383,7 +1296,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 WHERE
                     packagepath = :path
                 ORDER BY packages_channel, packages_name';
-        $stmt = static::$databases[$this->_path]->prepare($sql);
+        $stmt = $database->prepare($sql);
         // now iterate over each file in the package, and note all the conflicts
         $roles = array();
         foreach (\PEAR2\Pyrus\Installer\Role::getValidRoles($package->getPackageType()) as $role) {
@@ -1423,7 +1336,8 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         if (isset(Main::$options['packagingroot'])) {
             $path = Main::prepend(Main::$options['packagingroot'], $path);
         }
-        if (file_exists($path . '/.pear2registry') || is_file($path . '/.pear2registry')) {
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        if (file_exists($path . DIRECTORY_SEPARATOR . '.pear2registry') || is_file($path . DIRECTORY_SEPARATOR . '.pear2registry')) {
             return array('Sqlite3');
         }
         return array();
@@ -1438,6 +1352,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             unset(static::$databases[$path]);
             return;
         }
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
         if (dirname($path) . DIRECTORY_SEPARATOR . '.pear2registry' != $path) {
             $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
         }
@@ -1453,21 +1368,125 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         }
     }
 
+    static public function existsRegistry($path) 
+    {
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        return isset(static::$databases[$path]);
+    }
+    
+    static public function getRegistry($path) 
+    {
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        if (!static::existsRegistry($path)) {
+            throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $path);
+        }
+        return static::$databases[$path];
+    }
+    
+    static public function initRegistry($path, $readonly) 
+    {
+        if ($path && $path != ':memory:') {
+            $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+            if (dirname($path) . DIRECTORY_SEPARATOR . '.pear2registry' != $path) {
+                $path = $path . DIRECTORY_SEPARATOR . '.pear2registry';
+            }
+        }
+        if ($path && file_exists($path)) {
+            static::_init($path, $readonly);
+            return $path;
+        }
+
+        if (!$path || $path == ':memory:') {
+            if ($readonly) {
+                throw new Exception('Cannot create SQLite3 registry, registry is read-only');
+            }
+            
+            $path = ':memory:';
+            static::_init($path, $readonly);
+            return $path;
+        }
+
+        $file = $path;
+        while ($file && $file !== '.' && $file !== '/' && !is_writable($file)) {
+            $file = dirname($file) === $file? false : dirname($file);
+        }
+        if (!$file || $file == '.') {
+            throw new Exception('Cannot create SQLite3 registry, registry is read-only');
+        }
+
+        static::_init($path, $readonly);
+        return $path;
+    }
+    
+    static private function _init($path, $readonly)
+    {
+        if (!$path) {
+            $path = ':memory:';
+        } else {
+            $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        }
+ 
+        if (static::existsRegistry($path)) {
+            return;
+        }
+
+        $dbpath = $path;
+        if ($path != ':memory:' && isset(Main::$options['packagingroot'])) {
+            $dbpath = Main::prepend(Main::$options['packagingroot'], $path);
+        }
+
+        if ($path != ':memory:' && !file_exists(dirname($dbpath))) {
+            if ($readonly) {
+                throw new Exception('Cannot create SQLite3 registry, registry is read-only');
+            }
+            @mkdir(dirname($dbpath), 0755, true);
+        }
+
+        if ($readonly && $path != ':memory:' && !file_exists($dbpath)) {
+            throw new Exception('Cannot create SQLite3 registry, registry is read-only');
+        }
+
+        static::$databases[$path] = new \SQLite3($dbpath);
+        // ScottMac needs to fix sqlite3 FIXME
+        if (static::$databases[$path]->lastErrorCode()) {
+            $error = static::$databases[$path]->lastErrorMsg();
+            throw new Exception('Cannot open SQLite3 registry: ' . $error);
+        }
+
+        $sql = 'SELECT version FROM pearregistryversion';
+        if (@static::$databases[$path]->querySingle($sql) == '1.0.0') {
+            return;
+        }
+
+        if ($readonly) {
+            throw new Exception('Cannot create SQLite3 registry, registry is read-only');
+        }
+
+        $a = new Sqlite3\Creator;
+        try {
+            $a->create(static::$databases[$path]);
+        } catch (\Exception $e) {
+            unset(static::$databases[$path]);
+            $a = get_class($e);
+            throw new $a('Database initialization failed', 0, $e);
+        }
+    }
+    
     function begin()
     {
-        if (!isset(static::$databases[$this->_path])) {
-            $this->_init($this->_path, $this->readonly);
+        if (!static::existsRegistry($this->_path)) {
+            static::_init($this->_path, $this->readonly);
         }
-        static::$databases[$this->_path]->exec('BEGIN');
+        static::getRegistry($this->_path)->exec('BEGIN');
     }
 
     function rollback()
     {
-        static::$databases[$this->_path]->exec('ROLLBACK');
+        static::getRegistry($this->_path)->exec('ROLLBACK');
     }
 
     function commit()
     {
-        static::$databases[$this->_path]->exec('COMMIT');
+        static::getRegistry($this->_path)->exec('COMMIT');
     }
 }

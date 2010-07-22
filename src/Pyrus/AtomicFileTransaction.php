@@ -60,6 +60,7 @@ class AtomicFileTransaction
         if (isset(Main::$options['packagingroot'])) {
             $rolepath = Main::prepend(Main::$options['packagingroot'], $rolepath);
         }
+        $rolepath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $rolepath);
 
         $this->rolepath = $rolepath;
         $path = dirname($rolepath) . DIRECTORY_SEPARATOR;
@@ -87,7 +88,7 @@ class AtomicFileTransaction
                 continue;
             }
 
-            $path = $config->$var;
+            $path =str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $config->$var);
             $backuppath = dirname($path) . DIRECTORY_SEPARATOR . '.old-' . basename($path);
             if (file_exists($backuppath) && is_dir($backuppath)) {
                 if (file_exists($path)) {
@@ -127,6 +128,7 @@ class AtomicFileTransaction
         if ($rolepath instanceof Installer\Role\Common) {
             $rolepath = Config::current()->{$rolepath->getLocationConfig()};
         }
+        $rolepath =str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $rolepath);
 
         if (isset(static::$allTransactObjects[$rolepath])) {
             return static::$allTransactObjects[$rolepath];
@@ -159,6 +161,7 @@ class AtomicFileTransaction
 
     function removePath($relativepath, $strict = true)
     {
+        $relativepath =str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $relativepath);
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot remove ' . $relativepath .
                                                                   ' - not in a transaction');
@@ -186,12 +189,13 @@ class AtomicFileTransaction
 
     function mkdir($relativepath, $mode = null)
     {
+        $relativepath =str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $relativepath);
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot create directory ' . $relativepath .
                                                                   ' - not in a transaction');
         }
 
-        $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
+        $path = $this->journalpath . DIRECTORY_SEPARATOR . $relativepath;
         if (file_exists($path)) {
             if (is_dir($path)) {
                 return;
@@ -222,12 +226,13 @@ class AtomicFileTransaction
      */
     function openPath($relativepath)
     {
+        $relativepath =str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $relativepath);
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot open ' . $relativepath .
                                                                   ' - not in a transaction');
         }
 
-        $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
+        $path = $this->journalpath . DIRECTORY_SEPARATOR . $relativepath;
         $fp = @fopen($path, 'rb+');
         if (!$fp) {
             throw new AtomicFileTransaction\Exception('Unable to open ' .
@@ -239,6 +244,7 @@ class AtomicFileTransaction
 
     function createOrOpenPath($relativepath, $contents = null, $mode = null)
     {
+        $relativepath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $relativepath);
         if (!static::$intransaction) {
             throw new AtomicFileTransaction\Exception('Cannot create ' . $relativepath .
                                                                   ' - not in a transaction');
@@ -250,7 +256,7 @@ class AtomicFileTransaction
             $mode &= 0777;
         }
 
-        $path = $this->journalpath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativepath);
+        $path = $this->journalpath . DIRECTORY_SEPARATOR . $relativepath;
         if ($contents) {
             if (is_resource($contents)) {
                 $fp = @fopen($path, 'wb');

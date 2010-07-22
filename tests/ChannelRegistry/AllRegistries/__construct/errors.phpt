@@ -31,10 +31,9 @@ try {
                         '/testit"', $e->getMessage(), 'message');
     $causes = array();
     $e->getCauseMessage($causes);
-    $test->assertEquals('Cannot initialize SQLite3 registry: table files already exists',
+    $test->assertEquals('Database initialization failed',
                         $causes[1]['message'], 'message 1');
-    $test->assertEquals('table files already exists', $causes[2]['message'], 'message 2');
-    $test->assertEquals('Unknown channel registry type: PEAR2\Pyrus\ChannelRegistry\Fubar', $causes[3]['message'], 'message 3');
+    $test->assertEquals('Unknown channel registry type: PEAR2\Pyrus\ChannelRegistry\Fubar', $causes[2]['message'], 'message 2');
 }
 
 ?>

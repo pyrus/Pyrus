@@ -33,10 +33,10 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-06-10</date>
- <time>09:34:43</time>
+ <date>2010-06-28</date>
+ <time>14:01:43</time>
  <version>
-  <release>2.0.0a1</release>
+  <release>2.0.0a2</release>
   <api>2.0.0a1</api>
  </version>
  <stability>
@@ -44,25 +44,11 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Initial development release
+ <notes>Second alpha release
 
-Missing features:
- - mass upgrade/remote-list
- - Web frontend
-
-Implemented features:
- - install of both PEAR and Pyrus-generated packages
- - remote install from URL
- - remote install from channel
- - more robust file transactions that are nearly atomic
- - much smarter dependency resolution than PEAR
- - much smarter pre-download version resolution for dependencies
- - registry transactions on installation
- - redundant registries in sqlite3, xml formats
- - full support for PEAR 1.x serialized array registry
- - full-featured CLI frontend
- - post-install scripts
-
+Bug Fixes:
+ - Fixed minimum PHP version checks in Channel\RemotePackage [gauthierm]
+ - Add SQLite3 as a required extension [saltybeagle]
 
 Initial pyrus public API
 </notes>
@@ -218,7 +204,9 @@ Initial pyrus public API
     <file role="data" name="scscommands.xml"/>
    </dir>
    <dir name="scripts" baseinstalldir="/">
-    <file role="script" name="pyrus"/>
+    <file role="script" name="pyrus">
+     <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
+    </file>
    </dir>
    <dir name="src" baseinstalldir="PEAR2">
     <dir name="Pyrus">
