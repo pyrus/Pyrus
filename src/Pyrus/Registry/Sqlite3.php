@@ -1408,8 +1408,15 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
         $file = $path;
         while ($file && $file !== '.' && $file !== '/' && !is_writable($file)) {
-            $file = dirname($file) === $file? false : dirname($file);
+
+            if (dirname($file) === $file) {
+                $file = false;
+                break;
+            }
+
+            $file = dirname($file);
         }
+
         if (!$file || $file == '.') {
             throw new Exception('Cannot create SQLite3 registry, registry is read-only');
         }
