@@ -318,11 +318,13 @@ abstract class Base
         if (in_array($channel, $this->getDefaultChannels())) {
             return 1;
         }
+
         if (!$strict) {
             if (in_array($channel, $this->getDefaultChannelAliases())) {
                 return 1;
             }
         }
+
         return false;
     }
 

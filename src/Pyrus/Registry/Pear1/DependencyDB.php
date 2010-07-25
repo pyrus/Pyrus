@@ -26,6 +26,7 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace PEAR2\Pyrus\Registry\Pear1;
+use \PEAR2\Pyrus\Registry as Registry;
 class DependencyDB
 {
     /**
@@ -56,7 +57,6 @@ class DependencyDB
     function __construct($path)
     {
         $this->_depdb = $path . DIRECTORY_SEPARATOR . '.depdb';
-
         $this->_lockfile = dirname($this->_depdb) . DIRECTORY_SEPARATOR . '.depdblock';
     }
 
@@ -202,7 +202,7 @@ class DependencyDB
             if (!file_exists($this->_lockfile)) {
                 touch($this->_lockfile);
             } elseif (!is_file($this->_lockfile)) {
-                throw new \PEAR2\Pyrus\Registry\Exception('could not create Dependency lock file, ' .
+                throw new Registry\Exception('could not create Dependency lock file, ' .
                     'it exists and is not a regular file');
             }
             $open_mode = 'r';
@@ -213,7 +213,7 @@ class DependencyDB
         }
 
         if (!is_resource($this->_lockFp)) {
-            throw new \PEAR2\Pyrus\Registry\Exception("could not create Dependency lock file" .
+            throw new Registry\Exception("could not create Dependency lock file" .
                                      (isset($php_errormsg) ? ": " . $php_errormsg : ""));
         }
 
@@ -225,7 +225,7 @@ class DependencyDB
                 default:      $str = 'unknown';   break;
             }
 
-            throw new \PEAR2\Pyrus\Registry\Exception("could not acquire $str lock ($this->_lockfile)");
+            throw new Registry\Exception("could not acquire $str lock ($this->_lockfile)");
         }
     }
 
@@ -257,7 +257,7 @@ class DependencyDB
         }
 
         if (!$fp = fopen($this->_depdb, 'r')) {
-            throw new \PEAR2\Pyrus\Registry\Exception("Could not open dependencies file `" .
+            throw new Registry\Exception("Could not open dependencies file `" .
                                                      $this->_depdb . "'");
         }
 
@@ -280,7 +280,7 @@ class DependencyDB
      * Write out the dependency database to disk
      * @param array the database
      * @return void
-     * @throws \PEAR2\Pyrus\Registry\Exception
+     * @throws Registry\Exception
      * @access private
      */
     function _writeDepDB($deps)
@@ -289,7 +289,7 @@ class DependencyDB
 
         if (!$fp = fopen($this->_depdb, 'wb')) {
             $this->_unlock();
-            throw new \PEAR2\Pyrus\Registry\Exception("Could not open dependencies file `" .
+            throw new Registry\Exception("Could not open dependencies file `" .
                                                      $this->_depdb . "' for writing");
         }
 

@@ -68,16 +68,18 @@ class Uninstaller
      */
     static function begin()
     {
-        if (!self::$inTransaction) {
-            if (isset(Main::$options['install-plugins'])) {
-                self::$lastCurrent = Config::current();
-                Config::setCurrent(Config::current()->plugins_dir);
-            }
-
-            self::$uninstallPackages = array();
-            self::$uninstalledPackages = array();
-            self::$inTransaction = true;
+        if (self::$inTransaction === true) {
+            return;
         }
+
+        if (isset(Main::$options['install-plugins'])) {
+            self::$lastCurrent = Config::current();
+            Config::setCurrent(Config::current()->plugins_dir);
+        }
+
+        self::$uninstallPackages = array();
+        self::$uninstalledPackages = array();
+        self::$inTransaction = true;
     }
 
     /**
@@ -108,14 +110,16 @@ class Uninstaller
      */
     static function rollback()
     {
-        if (self::$inTransaction) {
-            self::$inTransaction = false;
-            self::$uninstallPackages = array();
-            self::$uninstalledPackages = array();
-            self::$registeredPackages = array();
-            if (isset(Main::$options['install-plugins'])) {
-                Config::setCurrent(self::$lastCurrent->path);
-            }
+        if (self::$inTransaction === false) {
+            return;
+        }
+
+        self::$inTransaction = false;
+        self::$uninstallPackages = array();
+        self::$uninstalledPackages = array();
+        self::$registeredPackages = array();
+        if (isset(Main::$options['install-plugins'])) {
+            Config::setCurrent(self::$lastCurrent->path);
         }
     }
 
@@ -124,7 +128,7 @@ class Uninstaller
      */
     static function commit()
     {
-        if (!self::$inTransaction) {
+        if (self::$inTransaction === false) {
             return false;
         }
 

@@ -68,7 +68,7 @@ class REST
      *                    parsed using PEAR2\Pyrus\XMLParser
      *
      * @return string|array
-     * 
+     *
      * @throws PEAR2\Pyrus\REST\Exception If the xml cannot be parsed
      */
     function retrieveData($url, $accept = false, $forcestring = false)
@@ -115,6 +115,7 @@ class REST
         }
 
         // Default to XML if no content-type is provided
+        //TODO: Deal with text as well, look at PEAR 1.9/1.8
         $ct = isset($headers['content-type']) ? $headers['content-type'] : 'text/xml';
         switch ($ct) {
             case 'text/xml' :
@@ -170,11 +171,11 @@ class REST
 
     /**
      * retrieve a url stored in the cache
-     * 
+     *
      * @param string $url full URL to REST resource
      *
      * @return string contents of file
-     * 
+     *
      * @throws PEAR2\Pyrus\REST\Exception if no cache exists
      */
     function getCache($url)
@@ -197,7 +198,7 @@ class REST
      * @param string $cacheid      optional filename of the cache file
      *
      * @return bool  Returns true on success, false on error
-     * 
+     *
      * @throws PEAR2\Pyrus\REST\Exception
      */
     function saveCache($url, $contents, $lastmodified, $nochange = false, $cacheid = null)

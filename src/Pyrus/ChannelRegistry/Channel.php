@@ -32,6 +32,7 @@ class Channel extends \PEAR2\Pyrus\ChannelFile\v1 implements \PEAR2\Pyrus\Channe
         if (is_array($data) && !isset($data['channel']) && !isset($data['attribs'])) {
             $data = array_merge(array('attribs' =>  $this->rootAttributes), $data);
         }
+
         $this->_parent = $parent;
         parent::__construct($data);
     }

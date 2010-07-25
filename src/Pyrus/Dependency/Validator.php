@@ -247,18 +247,18 @@ class Validator
             }
 
             return true;
-        } else {
-            if ($dep->conflicts) {
-                return true;
-            }
-
-            $msg = '%s Architecture dependency failed, does not match "' . $dep->pattern . '"';
-            if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                return $this->raiseError($msg);
-            }
-
-            return $this->warning('warning: ' . $msg);
         }
+
+        if ($dep->conflicts) {
+            return true;
+        }
+
+        $msg = '%s Architecture dependency failed, does not match "' . $dep->pattern . '"';
+        if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+            return $this->raiseError($msg);
+        }
+
+        return $this->warning('warning: ' . $msg);
     }
 
     /**
@@ -304,24 +304,24 @@ class Validator
                 }
 
                 return true;
-            } else {
-                if ($dep->conflicts) {
-                    return true;
-                }
-
-                if ($required) {
-                    $msg = '%s requires PHP extension "' . $dep->name . '"' . $extra;
-                    if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
-                        return $this->raiseError($msg);
-                    }
-
-                    return $this->warning('warning: ' . $msg);
-
-                }
-
-                return $this->warning('%s can optionally use PHP extension "' .
-                        $dep->name . '"' . $extra);
             }
+
+            if ($dep->conflicts) {
+                return true;
+            }
+
+            if ($required) {
+                $msg = '%s requires PHP extension "' . $dep->name . '"' . $extra;
+                if (!isset(Main::$options['nodeps']) && !isset(Main::$options['force'])) {
+                    return $this->raiseError($msg);
+                }
+
+                return $this->warning('warning: ' . $msg);
+
+            }
+
+            return $this->warning('%s can optionally use PHP extension "' .
+                    $dep->name . '"' . $extra);
         }
 
         if (!$loaded) {

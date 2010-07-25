@@ -39,9 +39,9 @@ class Xml extends Base
         if (isset(Main::$options['packagingroot'])) {
             $path = Main::prepend(Main::$options['packagingroot'], $path);
         }
+
         $this->path = $path;
-        $this->channelpath = $path . DIRECTORY_SEPARATOR . '.xmlregistry' . DIRECTORY_SEPARATOR .
-            'channels';
+        $this->channelpath = $path . DIRECTORY_SEPARATOR . '.xmlregistry' . DIRECTORY_SEPARATOR . 'channels';
         if (1 === $this->exists('pear.php.net')) {
             $this->initialized = false;
         } else {
@@ -99,12 +99,15 @@ class Xml extends Base
         if (!$this->initialized) {
             return parent::channelFromAlias($alias);
         }
+
         if (file_exists($this->getAliasFile($alias))) {
             return file_get_contents($this->getAliasFile($alias));
         }
+
         if (file_exists($this->getChannelFile($alias))) {
             return $alias;
         }
+
         throw new Exception('Unknown channel/alias: ' . $alias);
     }
 
@@ -129,6 +132,7 @@ class Xml extends Base
         if (file_exists($this->getAliasFile($channel))) {
             return true;
         }
+
         return parent::exists($channel, $strict);
     }
 
@@ -144,13 +148,13 @@ class Xml extends Base
         if (@file_exists($file)) {
             throw new Exception('Error: channel ' .$channel->name . ' has already been discovered');
         }
+
         if (!@is_dir(dirname($file))) {
             mkdir(dirname($file), 0755, true);
         }
 
         file_put_contents($file, (string) $channel);
-        $alias = $channel->alias;
-        file_put_contents($this->getAliasFile($alias), $channel->name);
+        file_put_contents($this->getAliasFile($channel->alias), $channel->name);
     }
 
     function update(\PEAR2\Pyrus\ChannelInterface $channel)
@@ -167,8 +171,7 @@ class Xml extends Base
         }
 
         file_put_contents($file, (string) $channel);
-        $alias = $channel->alias;
-        file_put_contents($this->getAliasFile($alias), $channel->name);
+        file_put_contents($this->getAliasFile($channel->alias), $channel->name);
     }
 
     function delete(\PEAR2\Pyrus\ChannelInterface $channel)
@@ -199,17 +202,17 @@ class Xml extends Base
     function get($channel, $strict = true)
     {
         $exists = $this->exists($channel, $strict);
-        if ($exists) {
-            $channel = $this->channelFromAlias($channel);
-            if (1 === $exists) {
-                return $this->getDefaultChannel($channel);
-            } else {
-                $chan = new \PEAR2\Pyrus\ChannelFile($this->getChannelFile($channel));
-            }
-            return new Channel($this, $chan->getArray());
+        if ($exists === false) {
+            throw new Exception('Unknown channel: ' . $channel);
         }
 
-        throw new Exception('Unknown channel: ' . $channel);
+        $channel = $this->channelFromAlias($channel);
+        if (1 === $exists) {
+            return $this->getDefaultChannel($channel);
+        }
+
+        $chan = new \PEAR2\Pyrus\ChannelFile($this->getChannelFile($channel));
+        return new Channel($this, $chan->getArray());
     }
 
     /**
@@ -222,9 +225,10 @@ class Xml extends Base
         if (!$this->initialized) {
             return $this->getDefaultChannels();
         }
+
         $ret = array();
-        foreach (new \RegexIterator(new \DirectoryIterator($this->channelpath),
-                                '/channel-(.+?)\.xml/', \RegexIterator::GET_MATCH) as $file) {
+        $dir = new \DirectoryIterator($this->channelpath);
+        foreach (new \RegexIterator($dir, '/channel-(.+?)\.xml/', \RegexIterator::GET_MATCH) as $file) {
             $ret[] = $this->get($this->_unmung($file[1]))->name;
         }
 

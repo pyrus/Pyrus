@@ -427,12 +427,13 @@ class Config
                 self::$current = self::$configs[$pearDirectory];
                 return self::$configs[$pearDirectory];
             }
+
             $config = new static($pearDirectory, $userfile);
         } else {
             $config = new static(false, $userfile);
         }
 
-        // now that we have a definitive path, check to see ifit exists
+        // now that we have a definitive path, check to see if it exists
         if (self::_OKPackagingRoot($config->path)) {
             self::$current = self::$configs[$config->path];
             return self::$configs[$config->path];
@@ -474,9 +475,9 @@ class Config
         $readonly = false;
         foreach ($paths as $path) {
             try {
-                if ($path === '.') continue;
-
-                $registry_class = Registry::$className;
+                if ($path === '.') {
+                    continue;
+                }
 
                 $registries = Registry::detectRegistries($path);
                 if (!count($registries)) {
@@ -484,9 +485,11 @@ class Config
                         // no installation present
                         continue;
                     }
+
                     $registries = array('Sqlite3', 'Xml');
                 }
 
+                $registry_class   = Registry::$className;
                 $registry         = new $registry_class($path, $registries, $readonly);
                 $channel_registry = $registry->getChannelRegistry();
 

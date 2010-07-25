@@ -66,8 +66,7 @@ class REST implements \ArrayAccess, \Countable, \Iterator
     function __get($var)
     {
         if (!isset($this->index)) {
-            throw new ChannelFile\Exception('Cannot use -> to access '
-                    . 'REST protocols, use []');
+            throw new ChannelFile\Exception('Cannot use -> to access REST protocols, use []');
         }
 
         if ($var === 'baseurl') {

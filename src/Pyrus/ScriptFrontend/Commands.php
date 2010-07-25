@@ -39,7 +39,7 @@ class Commands implements \PEAR2\Pyrus\LogInterface
     );
     /**
      * The actual scriptfrontend
-     * 
+     *
      * @var \PEAR2\Pyrus\ScriptFrontend
      */
     protected static $commandParser;
@@ -251,6 +251,7 @@ class Commands implements \PEAR2\Pyrus\LogInterface
 
             // scan for custom commands/roles/tasks
             \PEAR2\Pyrus\Config::current()->pluginregistry->scan();
+
             if (!isset(static::$commandParser->commands['make'])) {
                 $this->addDeveloperCommands('developer');
             }

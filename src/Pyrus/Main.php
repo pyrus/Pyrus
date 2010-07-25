@@ -40,7 +40,7 @@ class Main
      * - downloadonly
      * @var array
      */
-    public static $options = array();
+    static public $options = array();
 
     /**
      * For easy unit testing

@@ -96,20 +96,22 @@ class Installer
      */
     static function begin()
     {
-        if (!static::$inTransaction) {
-            if (isset(Main::$options['install-plugins'])) {
-                self::$lastCurrent = Config::current();
-                Config::setCurrent(Config::current()->plugins_dir);
-            }
+        if (static::$inTransaction === true) {
+            return;
+        }
 
-            static::$installPackages   = array();
-            static::$installedPackages = array();
-            static::$removedPackages   = array();
-            static::$wasInstalled      = array();
-            static::$inTransaction     = true;
-            if (isset(Main::$options['packagingroot'])) {
-                Config::current()->resetForPackagingRoot();
-            }
+        if (isset(Main::$options['install-plugins'])) {
+            self::$lastCurrent = Config::current();
+            Config::setCurrent(Config::current()->plugins_dir);
+        }
+
+        static::$installPackages   = array();
+        static::$installedPackages = array();
+        static::$removedPackages   = array();
+        static::$wasInstalled      = array();
+        static::$inTransaction     = true;
+        if (isset(Main::$options['packagingroot'])) {
+            Config::current()->resetForPackagingRoot();
         }
     }
 
@@ -186,16 +188,18 @@ class Installer
      */
     static function rollback()
     {
-        if (static::$inTransaction) {
-            static::$inTransaction      = false;
-            static::$installPackages    = array();
-            static::$wasInstalled       = array();
-            static::$installedPackages  = array();
-            static::$registeredPackages = array();
-            static::$removedPackages    = array();
-            if (isset(Main::$options['install-plugins'])) {
-                Config::setCurrent(self::$lastCurrent->path);
-            }
+        if (static::$inTransaction === false) {
+            return;
+        }
+
+        static::$inTransaction      = false;
+        static::$installPackages    = array();
+        static::$wasInstalled       = array();
+        static::$installedPackages  = array();
+        static::$registeredPackages = array();
+        static::$removedPackages    = array();
+        if (isset(Main::$options['install-plugins'])) {
+            Config::setCurrent(self::$lastCurrent->path);
         }
     }
 
@@ -240,7 +244,7 @@ class Installer
      */
     static function commit()
     {
-        if (!static::$inTransaction) {
+        if (static::$inTransaction === false) {
             return false;
         }
 

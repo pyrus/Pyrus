@@ -12,7 +12,7 @@ class v1 extends \PEAR2\Pyrus\XMLParser
      */
     function parse($data, $file = false, $class = 'PEAR2\Pyrus\ChannelFile\v1')
     {
-        $ret = new $class();
+        $ret = new $class;
         if (!$ret instanceof \PEAR2\Pyrus\ChannelFile\v1) {
             throw new \PEAR2\Pyrus\ChannelFile\Exception('Class ' . $class .
                 ' passed to parse() must be a child class of \PEAR2\Pyrus\ChannelFile\v1');
