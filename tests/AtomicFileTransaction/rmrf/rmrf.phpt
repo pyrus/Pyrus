@@ -23,7 +23,7 @@ try {
     $atomic->rmrf(__DIR__ . '/testit', true);
     throw new Exception('did not fail and should');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
-    $test->assertEquals('Unable to fully remove ' . __DIR__ . '/testit, directory is not empty',
+    $test->assertEquals('Unable to fully remove ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit, directory is not empty',
                         $e->getMessage(), 'removal message');
 }
 

@@ -13,7 +13,7 @@ touch(__DIR__ . '/testit/.journal-src');
 try {
     $atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
-    $test->assertEquals('Unable to begin transaction for ' . __DIR__ . '/testit/src', $e->getMessage(), 'main message');
+    $test->assertEquals('Unable to begin transaction for ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'src', $e->getMessage(), 'main message');
     $causes = array();
     $e->getCauseMessage($causes);
     $test->assertEquals('unrecoverable transaction error: journal path ' .

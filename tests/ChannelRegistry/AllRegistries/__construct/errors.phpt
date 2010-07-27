@@ -28,7 +28,7 @@ try {
     throw new Exception('worked and should not');
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Unable to initialize registry for path "' . __DIR__ .
-                        '/testit"', $e->getMessage(), 'message');
+                        DIRECTORY_SEPARATOR . 'testit"', $e->getMessage(), 'message');
     $causes = array();
     $e->getCauseMessage($causes);
     $test->assertEquals('Database initialization failed',

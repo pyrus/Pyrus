@@ -21,7 +21,7 @@ PEAR2\Pyrus\ChannelRegistry\Foo::$throw = true;
 try {
     $chan = new PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Foo'));
 } catch (PEAR2\Pyrus\ChannelRegistry\Exception $e) {
-    $test->assertEquals('Unable to initialize registry for path "' . __DIR__ . '/testit' . '"',
+    $test->assertEquals('Unable to initialize registry for path "' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . '"',
                         $e->getMessage(), 'message');
 }
 ?>

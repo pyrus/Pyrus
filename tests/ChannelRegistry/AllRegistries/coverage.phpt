@@ -6,7 +6,7 @@ require dirname(dirname(__FILE__)) . '/setup.php.inc';
 @mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $creg = new \PEAR2\Pyrus\ChannelRegistry\Sqlite3(__DIR__ . '/testit');
 
-$test->assertEquals(__DIR__ . '/testit', $creg->getPath(), 'getPath');
+$test->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'testit', $creg->getPath(), 'getPath');
 
 $inf = array();
 foreach ($creg as $chan => $obj) {
