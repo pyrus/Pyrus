@@ -97,6 +97,22 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         if (isset($data['channel'])) {
             $this->channelInfo = $data['channel'];
         } else {
+            // Sort the array so the elements will pass validation
+            uksort($data, function($el1, $el2) {
+                $order = array('name'            => 0,
+                               'suggestedalias'  => 1,
+                               'summary'         => 2,
+                               'validatepackage' => 3,
+                               'servers'         => 4,
+                               '_lastmodified'   => 5);
+                if (!isset($order[$el1])) {
+                    return false;
+                }
+                if (!isset($order[$el2])) {
+                    return true;
+                }
+                return $order[$el1] > $order[$el2];
+            });
             $this->channelInfo = $data;
         }
 
