@@ -18,7 +18,6 @@ $chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
 $remote = $chan->remotepackages;
 $package = $remote->getPackage('P1');
 $test->assertEquals('P1', $package->name, 'right package');
-
 ?>
 ===DONE===
 --CLEAN--

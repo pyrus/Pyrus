@@ -19,6 +19,7 @@ $test->assertEquals(false, isset($chan->remotecategories['Default']['nonexisting
 $test->assertEquals('PEAR2\Pyrus\Channel\RemotePackage',
                     get_class($chan->remotecategories['Default']['GetMaintainers_Test']),
                     'offsetGet test');
+
 foreach ($chan->remotecategories['Default'] as $name => $package) {
     $test->assertEquals('GetMaintainers_Test', $name, 'right name');
     $test->assertEquals('PEAR2\Pyrus\Channel\RemotePackage', get_class($package), 'right class');

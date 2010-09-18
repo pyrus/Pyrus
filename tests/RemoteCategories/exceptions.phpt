@@ -10,6 +10,7 @@ require __DIR__ . '/../Mocks/Internet.php';
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
                        'http://pear2.php.net/');
 \PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+
 $chan = \PEAR2\Pyrus\Config::current()->channelregistry['pecl.php.net'];
 unset($chan->protocols->rest['REST1.1']);
 try {
@@ -19,6 +20,7 @@ try {
     $test->assertEquals('Cannot access remote categories without REST1.1 protocol', $e->getMessage(),
                         'no REST1.1');
 }
+
 $remote = new PEAR2\Pyrus\Channel\RemoteCategories(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net']);
 try {
     $remote['foo'] = 1;
@@ -27,6 +29,7 @@ try {
     $test->assertEquals('remote channel info is read-only', $e->getMessage(),
                         'offsetSet');
 }
+
 try {
     unset($remote['foo']);
     throw new Exception('succeeded and should fail');

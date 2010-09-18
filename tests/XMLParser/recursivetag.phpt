@@ -3,7 +3,8 @@ Pyrus XMLParser: complex recursive tags
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
-$res = $parser->parseString('<?xml version="1.0" ?><package>
+
+$xml = '<?xml version="1.0" ?><package>
 <lead>
  <name>test</name>
  <another>tag</another>
@@ -24,48 +25,50 @@ $res = $parser->parseString('<?xml version="1.0" ?><package>
   <file name="my2"/>
  </dir>
 </contents>
-</package>');
+</package>';
+$res = $parser->parseString($xml);
+
 $test->assertEquals(array (
-  'package' => 
+  'package' =>
   array (
-    'lead' => 
+    'lead' =>
     array (
-      0 => 
+      0 =>
       array (
         'name' => 'test',
         'another' => 'tag',
       ),
-      1 => 
+      1 =>
       array (
         'name' => 'second',
         'another' => 'thing',
       ),
     ),
-    'contents' => 
+    'contents' =>
     array (
-      'dir' => 
+      'dir' =>
       array (
-        0 => 
+        0 =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'name' => 'blah',
           ),
-          'dir' => 
+          'dir' =>
           array (
-            'attribs' => 
+            'attribs' =>
             array (
               'name' => 'two',
             ),
-            'dir' => 
+            'dir' =>
             array (
-              'attribs' => 
+              'attribs' =>
               array (
                 'name' => 'three',
               ),
-              'file' => 
+              'file' =>
               array (
-                'attribs' => 
+                'attribs' =>
                 array (
                   'name' => 'my',
                 ),
@@ -73,15 +76,15 @@ $test->assertEquals(array (
             ),
           ),
         ),
-        1 => 
+        1 =>
         array (
-          'attribs' => 
+          'attribs' =>
           array (
             'name' => 'four',
           ),
-          'file' => 
+          'file' =>
           array (
-            'attribs' => 
+            'attribs' =>
             array (
               'name' => 'my2',
             ),

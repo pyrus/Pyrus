@@ -1,6 +1,7 @@
 --TEST--
 \PEAR2\Pyrus\Installer: install remote packages that is signed with an OpenSSL signature
 --SKIPIF--
+<?php die('Skipped: for coverage'); ?>
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
 ?>

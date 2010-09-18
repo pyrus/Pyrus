@@ -10,13 +10,13 @@ define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
-Internet::addDirectory(__DIR__ . '/invalidcert',
-                       'http://pear2.php.net/');
+Internet::addDirectory(__DIR__ . '/invalidcert', 'http://pear2.php.net/');
 \PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
-                                                'stable');
+
+$remote = new \PEAR2\Pyrus\Channel\RemotePackage(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'], 'stable');
 $remote = $remote['P1'];
 $remote->version['release'] = '1.0.0';
+
 try {
     $remote->download();
     throw new Exception('should fail and did not');

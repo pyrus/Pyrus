@@ -627,7 +627,6 @@ class Config
         }
 
         return '/tmp/' . md5($cwd);
-
     }
 
     /**
@@ -654,8 +653,7 @@ class Config
                     $userfile = $test;
                 }
             } else {
-                Logger::log(5, 'Found default user configuration file ' .
-                    $userfile);
+                Logger::log(5, 'Found default user configuration file ' . $userfile);
             }
         } else {
             self::$explicitUserConfig = true;
