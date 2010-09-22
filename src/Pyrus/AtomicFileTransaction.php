@@ -475,7 +475,7 @@ class AtomicFileTransaction
             static::$intransaction = true;
         } catch (\Exception $e) {
             static::$intransaction = true;
-            $errs->E_ERROR = $e;
+            $errs->E_ERROR[] = $e;
             $exit = false;
             foreach (static::$allTransactObjects as $path2 => $transact) {
                 if ($exit) {
@@ -504,6 +504,7 @@ class AtomicFileTransaction
     function beginTransaction()
     {
         $this->committed = false;
+
         if (!file_exists($this->journalpath)) {
 create_journal:
             @mkdir($this->journalpath, 0755, true);

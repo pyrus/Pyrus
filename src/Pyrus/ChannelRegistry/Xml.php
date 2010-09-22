@@ -231,6 +231,7 @@ class Xml extends Base
         foreach (new \RegexIterator($dir, '/channel-(.+?)\.xml/', \RegexIterator::GET_MATCH) as $file) {
             $ret[] = $this->get($this->_unmung($file[1]))->name;
         }
+        unset($dir);
 
         return $ret;
     }

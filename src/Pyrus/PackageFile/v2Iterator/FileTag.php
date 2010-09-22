@@ -85,7 +85,7 @@ class FileTag extends \ArrayObject
                 return $attribs['install-as'];
             }
 
-            return $this->dir . $this['attribs']['name'];
+            return str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $this->dir . $this['attribs']['name']);
         }
 
         if ($var == 'tasks') {
