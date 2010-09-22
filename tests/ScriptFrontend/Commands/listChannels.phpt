@@ -6,7 +6,7 @@ require __DIR__ . '/setup.php.inc';
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (0 => 'mypear',
-                         1 => __DIR__ . '/testit'));
+                         1 => __DIR__ . DIRECTORY_SEPARATOR . 'testit'));
 
 $contents = ob_get_contents();
 ob_end_clean();

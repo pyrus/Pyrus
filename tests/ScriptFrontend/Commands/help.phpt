@@ -102,7 +102,7 @@ $dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECTF--
-Using PEAR installation found at %s/testit
+Using PEAR installation found at %stestit
 Error: Command "fooburp" is not valid.
 Type "php help.php --help" to get help.
 Type "php help.php <command> --help" to get help on specific command.

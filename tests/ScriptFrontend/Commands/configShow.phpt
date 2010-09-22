@@ -6,8 +6,8 @@ define('MYDIR', __DIR__);
 require __DIR__ . '/setup.php.inc';
 
 $a = \PEAR2\Pyrus\Config::singleton();
-$a->ext_dir = __DIR__ . '/testit/ext';
-$a->bin_dir = __DIR__ . '/testit/bin';
+$a->ext_dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'ext';
+$a->bin_dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'bin';
 $a->my_pear_path = __DIR__ . DIRECTORY_SEPARATOR . 'testit';
 
 ob_start();

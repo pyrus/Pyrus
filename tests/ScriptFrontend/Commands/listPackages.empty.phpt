@@ -2,12 +2,12 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::listPackages(), no packages installed
 --FILE--
 <?php
-require __DIR__ . '/setup.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';
 }
-mkdir(__DIR__ . '/testit');
+require __DIR__ . '/setup.php.inc';
+
 set_include_path(__DIR__ . '/testit');
 \PEAR2\Pyrus\Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 restore_include_path();

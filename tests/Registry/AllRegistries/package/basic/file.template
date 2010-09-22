@@ -3,7 +3,7 @@
 $testit = array();
 foreach ($reg->contents as $file) {
     $testit[] = (array) $file;
-    if ($file->name == 'src/SimpleChannelServer.php') {
+    if ($file->name == 'src' . DIRECTORY_SEPARATOR . 'SimpleChannelServer.php') {
         $testthis = $file;
     }
 }
@@ -137,8 +137,8 @@ $test->assertEquals(array (
 ), $testit, 'output');
 
 $test->assertEquals('php', $file->role, 'php 1');
-$test->assertEquals('src/SimpleChannelServer.php', $file->name, 'verify name is as expected');
-$test->assertEquals($file->name, $reg->files['src/SimpleChannelServer.php']['attribs']['name'], 'verify we have the same thing');
+$test->assertEquals('src' . DIRECTORY_SEPARATOR . 'SimpleChannelServer.php', $file->name, 'verify name is as expected');
+$test->assertEquals(str_replace(DIRECTORY_SEPARATOR, '/', $file->name), $reg->files['src/SimpleChannelServer.php']['attribs']['name'], 'verify we have the same thing');
 $test->assertEquals('php', $reg->files['src/SimpleChannelServer.php']['attribs']['role'], 'again verify');
 $file->role = 'oog';
 $test->assertEquals('oog', $file->role, 'php 2');

@@ -11,10 +11,10 @@ touch(__DIR__ . '/testfoo');
 
 test_scriptfrontend::$stdin = array(
     'yes', // answer to "It appears you have not used Pyrus before, welcome!  Initialize install?"
-    __DIR__ . '/testfoo', // answer to "Where would you like to install packages by default?"
-    __DIR__ . '/testit2', // answer to "Where would you like to install packages by default?"
+    __DIR__ . DIRECTORY_SEPARATOR . 'testfoo', // answer to "Where would you like to install packages by default?"
+    __DIR__ . DIRECTORY_SEPARATOR . 'testit2', // answer to "Where would you like to install packages by default?"
     'no',  // answer to "Create it?"
-    __DIR__ . '/testit', // answer to "Where would you like to install packages by default?"
+    __DIR__ . DIRECTORY_SEPARATOR . 'testit', // answer to "Where would you like to install packages by default?"
     'yes', // answer to "Create it?"
     ''     // continue
 );

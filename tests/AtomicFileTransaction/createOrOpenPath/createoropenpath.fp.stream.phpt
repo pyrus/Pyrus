@@ -14,7 +14,12 @@ $fp = fopen(__DIR__ . '/testit/blah', 'rb');
 $atomic->createOrOpenPath('foo', $fp, 0664);
 fclose($fp);
 $test->assertEquals('blah', file_get_contents(__DIR__ . '/testit/.journal-src/foo'), 'blah contents');
-$test->assertEquals(decoct(0664), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-src/foo')), 'perms set');
+
+// chmod is not fully supported on windows
+if (substr(PHP_OS, 0, 3) != 'WIN') {
+	$test->assertEquals(decoct(0664), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-src/foo')), 'perms set');
+}
+
 \PEAR2\Pyrus\AtomicFileTransaction::rollback();
 ?>
 ===DONE===

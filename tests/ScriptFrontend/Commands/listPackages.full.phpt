@@ -2,12 +2,12 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::listPackages(), packages installed
 --FILE--
 <?php
-require __DIR__ . '/setup.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';
 }
-mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit');
+require __DIR__ . '/setup.php.inc';
+
 set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
 $c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/testit/bin';
@@ -27,7 +27,12 @@ Installed pear2.php.net/PEAR2_SimpleChannelServer-0.1.0' . "\n",
                     'list packages');
 
 $test->assertFileExists(__DIR__ . '/testit/bin/pearscs', 'bin/pearscs');
-$test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/bin/pearscs')), 'bin/pearscs perms');
+
+// chmod is not fully supported on windows
+if (substr(PHP_OS, 0, 3) != 'WIN') {
+    $test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/bin/pearscs')), 'bin/pearscs perms');
+}
+
 $test->assertFileExists(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php');
 $test->assertEquals(file_get_contents(__DIR__.'/../../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
                     file_get_contents(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
