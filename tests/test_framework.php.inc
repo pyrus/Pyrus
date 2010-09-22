@@ -1,7 +1,22 @@
 <?php
 $__e = error_reporting();
 error_reporting(E_ERROR|E_NOTICE|E_WARNING);
-require_once __DIR__ . '/../../autoload.php';
+
+
+function pyrus_autoload($class)
+{
+    if (strpos($class, 'PEAR2\\Pyrus\\') === false) {
+        return false;
+    }
+    $class = str_replace(array('PEAR2\\', '_', '\\'), '/', $class);
+
+    include  __DIR__ . '/../src/' . $class . '.php';
+}
+
+spl_autoload_register("pyrus_autoload");
+
+require_once __DIR__ . '/../vendor/php/PEAR2/Autoload.php';
+
 @include_once 'Text/Diff.php';
 @include_once 'Text/Diff/Renderer.php';
 @include_once 'Text/Diff/Renderer/unified.php';
