@@ -1032,6 +1032,7 @@ class Config
             Logger::log(5, 'Found matching configuration snapshot ' . $snapshot);
             return $snapshot;
         }
+        closedir($dir);
 
         Logger::log(5, 'No matching configuration snapshot found');
         // no matches found
