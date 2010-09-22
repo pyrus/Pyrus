@@ -2,12 +2,12 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::channelAdd()
 --FILE--
 <?php
-require __DIR__ . '/setup.php.inc';
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
     $dir = __DIR__ . '/testit';
     include __DIR__ . '/../../clean.php.inc';
 }
-mkdir(__DIR__ . '/testit');
+require __DIR__ . '/setup.php.inc';
+
 $chan = \PEAR2\Pyrus\Config::current()->channelregistry['pecl.php.net'];
 $newchan = $chan->toChannelFile();
 $newchan->name = 'foobar';

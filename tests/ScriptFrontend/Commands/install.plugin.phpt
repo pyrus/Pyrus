@@ -14,8 +14,8 @@ restore_include_path();
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'install', '-p',
-                         __DIR__.'/Pyrus_Developer/package.xml'));
+$cli->run($args = array (__DIR__ . DIRECTORY_SEPARATOR . 'testit', 'install', '-p',
+                         __DIR__ . DIRECTORY_SEPARATOR . 'Pyrus_Developer' . DIRECTORY_SEPARATOR . 'package.xml'));
 
 $contents = ob_get_contents();
 ob_end_clean();

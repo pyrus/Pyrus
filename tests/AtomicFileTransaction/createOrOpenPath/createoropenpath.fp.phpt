@@ -13,7 +13,11 @@ $fp = $atomic->createOrOpenPath('foo', false, 0646);
 fwrite($fp, 'hi');
 fclose($fp);
 $test->assertEquals('hi', file_get_contents(__DIR__ . '/testit/.journal-src/foo'), 'foo contents');
-$test->assertEquals(decoct(0646), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-src/foo')), 'perms set');
+
+// chmod is not fully supported on windows
+if (substr(PHP_OS, 0, 3) != 'WIN') {
+	$test->assertEquals(decoct(0646), decoct(0777 & fileperms(__DIR__ . '/testit/.journal-src/foo')), 'perms set');
+}
 ?>
 ===DONE===
 --CLEAN--

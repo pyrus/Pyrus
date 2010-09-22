@@ -15,7 +15,7 @@ try {
     \PEAR2\Pyrus\Installer::commit();
     throw new Exception('worked and should fail');
 } catch (PEAR2\Pyrus\Installer\Exception $e) {
-    $test->assertEquals('bad md5sum for file src/foo.php', $e->getMessage(), 'error');
+    $test->assertEquals('bad md5sum for file src' . DIRECTORY_SEPARATOR . 'foo.php', $e->getMessage(), 'error');
 }
 ?>
 ===DONE===

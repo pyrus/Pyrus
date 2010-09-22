@@ -15,8 +15,13 @@ $atomic->mkdir('good');
 \PEAR2\Pyrus\AtomicFileTransaction::commit();
 
 $test->assertFileExists(__DIR__ . '/testit/src/good', __DIR__ . '/testit/src/good should exist');
-$test->assertEquals(decoct(0775), decoct(0777 & fileperms(__DIR__ . '/testit/src/good')), 'permissions should work');
-$test->assertEquals(decoct(0775), decoct(0777 & fileperms(__DIR__ . '/testit/src')), 'permissions should work src');
+
+// chmod is not fully supported on windows
+if (substr(PHP_OS, 0, 3) != 'WIN') {
+	$test->assertEquals(decoct(0775), decoct(0777 & fileperms(__DIR__ . '/testit/src/good')), 'permissions should work');
+	$test->assertEquals(decoct(0775), decoct(0777 & fileperms(__DIR__ . '/testit/src')), 'permissions should work src');
+}
+
 umask($old);
 ?>
 ===DONE===

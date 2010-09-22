@@ -14,7 +14,12 @@ $c->saveConfig();
 \PEAR2\Pyrus\Installer::prepare($package);
 \PEAR2\Pyrus\Installer::commit();
 $test->assertFileExists(__DIR__ . '/testit/bin/pearscs', 'bin/pearscs');
-$test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/bin/pearscs')), 'bin/pearscs perms');
+
+// chmod is not fully supported on windows
+if (substr(PHP_OS, 0, 3) != 'WIN') {
+	$test->assertEquals(decoct(0755), decoct(0777 & fileperms(__DIR__ . '/testit/bin/pearscs')), 'bin/pearscs perms');
+}
+
 $test->assertFileExists(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php');
 $test->assertEquals(file_get_contents(__DIR__.'/../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
                     file_get_contents(__DIR__ . '/testit/php/PEAR2/SimpleChannelServer.php'), 'files match');
