@@ -44,25 +44,24 @@ class Dep implements \ArrayAccess, \Iterator
     function __call($var, $args)
     {
         if (!array_key_exists($var, $this->info)) {
+            $keys = null;
             if ($this->type == 'os') {
-                if ($var == 'name' || $var == 'conflicts') {
-                    goto set_ok;
+                if ($var != 'name' && $var != 'conflicts') {
+                    $keys = array('name', 'conflicts');
                 }
-
-                $keys = array('name', 'conflicts');
             } elseif ($this->type == 'arch') {
-                if ($var == 'pattern' || $var == 'conflicts') {
-                    goto set_ok;
+                if ($var != 'pattern' && $var != 'conflicts') {
+                    $keys = array('pattern', 'conflicts');
                 }
-
-                $keys = array('pattern', 'conflicts');
             } else {
                 $keys = array_keys($this->info);
             }
 
-            throw new Exception('Unknown variable ' . $var . ', must be one of ' . implode(', ', $keys));
+            if ($keys !== null) {
+                throw new Exception('Unknown variable ' . $var . ', must be one of ' . implode(', ', $keys));
+            }
         }
-set_ok:
+        
         if ($args[0] === null) {
             $this->info[$var] = null;
             $this->save();
