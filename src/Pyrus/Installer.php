@@ -375,12 +375,17 @@ class Installer
             }
 
             $checked[$fullPackageName] = 1;
-            foreach ($package->installcontents as $path => $info) {
-                if (isset($filelist[$info->role][$path])) {
-                    $dupes[$path] = $info->role;
+            foreach ($package->installcontents as $file) {
+                // TODO: Ignore file conflicts when force is applied?
+                // TODO: Add more error checking i think
+                $role = Installer\Role::factory($package->getPackageType(), $file->role);
+                list(,$path) = $role->getRelativeLocation($package, $file, true);
+
+                if (isset($filelist[$file->role][$path])) {
+                    $dupes[$path] = $file->role;
                 }
 
-                $filelist[$info->role][$path][] = $fullPackageName;
+                $filelist[$file->role][$path][] = $fullPackageName;
             }
         }
 
