@@ -27,7 +27,7 @@ Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
 
 $test->assertFileExists(__DIR__ . '/testit/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
                         'PEAR2SVN.php not installed properly');
-$test->assertEquals(array (
+$eq = array (
   __DIR__ . '/testit/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/commands.xml' => 
   array (
     'role' => 'customcommand',
@@ -136,10 +136,19 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/v2.php',
     'configpath' => __DIR__ . '/testit/plugins/php',
   ),
-), \PEAR2\Pyrus\Config::current()->pluginregistry->info('PEAR2_Pyrus_Developer',
+);
+
+$expectedRes = array();
+foreach($eq as $k => $v) {
+    foreach (array('installed_as', 'relativepath', 'configpath') as $key) {
+        $v[$key] = str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $v[$key]);
+    }
+    $expectedRes[str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $k)] = $v;
+}
+
+$test->assertEquals($expectedRes, \PEAR2\Pyrus\Config::current()->pluginregistry->info('PEAR2_Pyrus_Developer',
                                                                                  'pear2.php.net',
                                                                                  'installedfiles'), 'file installed');
-
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);

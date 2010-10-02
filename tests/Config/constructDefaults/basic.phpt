@@ -1,7 +1,5 @@
 --TEST--
 \PEAR2\Pyrus\Config::constructDefaults() basic test
---INI--
-extension_dir=
 --ENV--
 PATH=.
 PHP_PEAR_BIN_DIR=
@@ -44,11 +42,11 @@ $test->assertEquals(array(
 tc::constructDefaults();
 $test->assertEquals(array(
             'php_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'php',
-            'ext_dir' => PEAR_EXTENSION_DIR,
+            'ext_dir' => ini_get('extension_dir'),
             'doc_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'docs',
             'bin_dir' => PHP_BINDIR,
             'data_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'data', // pseudo-value in this implementation
-            'cfg_dir' => '@php_dir@/cfg',
+            'cfg_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'cfg',
             'www_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'www',
             'test_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'tests',
             'src_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'src',

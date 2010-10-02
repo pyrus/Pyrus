@@ -15,12 +15,15 @@ $fail = function($action, $expect) use ($test) {
 $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
       'Cannot add channel, registry is read-only');
 
-$p = fileperms(dirname(__DIR__) . '/testit/php/.channels');
 $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit');
-chmod(dirname(__DIR__) . '/testit/php/.channels', 0444);
-$fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
-      'Cannot add channel pear.php.net, channel registry path is not writable');
-chmod(dirname(__DIR__) . '/testit/php/.channels', $p);
+// the chmod is not working on windows so let's skip it
+if (substr(PHP_OS, 0, 3) !== 'WIN') {
+    $p = fileperms(dirname(__DIR__) . '/testit/php/.channels');
+    chmod(dirname(__DIR__) . '/testit/php/.channels', 0444);
+    $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
+          'Cannot add channel pear.php.net, channel registry path is not writable');
+    chmod(dirname(__DIR__) . '/testit/php/.channels', $p);
+}
 
 $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
       'Cannot add channel pear.php.net, channel already exists, use update to change');

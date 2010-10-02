@@ -17,7 +17,7 @@ try {
     $e->getCauseMessage($causes);
     $test->assertEquals('unrecoverable transaction error: journal path ' .
                         __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR .
-                        '.journal-src exists and is not a directory', $causes[0]['message'], 'error message');
+                        '.journal-src exists and is not a directory', $causes[1]['message'], 'error message');
 }
 ?>
 ===DONE===

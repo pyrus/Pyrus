@@ -24,7 +24,7 @@ $worked = $killit->exec($query);
 // this will kill the sqlite3 registry
 $killit->exec('BEGIN');
 try {
-    $c = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Sqlite3', 'Fubar'));
+    $c = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . DIRECTORY_SEPARATOR . 'testit', array('Sqlite3', 'Fubar'));
     throw new Exception('worked and should not');
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Unable to initialize registry for path "' . __DIR__ .
