@@ -20,13 +20,13 @@ restore_include_path();
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
                     $c->registry->path, 'registry path 1');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
-                    $c->registry->parent->path, 'registry->parent path 1');
-$test->assertNull($c->registry->parent->parent, 'registry parent parent 1');
+                    $c->registry->getParent()->path, 'registry->parent path 1');
+$test->assertNull($c->registry->getParent()->getParent(), 'registry parent parent 1');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
                     $c->channelregistry->path, 'channelregistry path 1');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
-                    $c->channelregistry->parent->path, 'channelregistry->parent path 1');
-$test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent 1');
+                    $c->channelregistry->getParent()->path, 'channelregistry->parent path 1');
+$test->assertNull($c->channelregistry->getParent()->getParent(), 'channelregistry parent parent 1');
 
 unset($c);
 // test to see if 2nd call to singleton returns the same object
@@ -36,13 +36,13 @@ $c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR .
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
                     $c->registry->path, 'registry path 2');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
-                    $c->registry->parent->path, 'registry->parent path 2');
-$test->assertNull($c->registry->parent->parent, 'registry parent parent 2');
+                    $c->registry->getParent()->path, 'registry->parent path 2');
+$test->assertNull($c->registry->getParent()->getParent(), 'registry parent parent 2');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
                     $c->channelregistry->path, 'channelregistry path 2');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
-                    $c->channelregistry->parent->path, 'channelregistry->parent path 2');
-$test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent 2');
+                    $c->channelregistry->getParent()->path, 'channelregistry->parent path 2');
+$test->assertNull($c->channelregistry->getParent()->getParent(), 'channelregistry parent parent 2');
 
 ?>
 ===DONE===
