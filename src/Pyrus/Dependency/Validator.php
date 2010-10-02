@@ -785,16 +785,15 @@ conflict_error:
 
         $version = $param->version['release'];
         $fail = false;
+		if (isset($dep->max) && version_compare($version, $dep->max, '<=')) {
+			$fail = true;
+		}
         if (isset($dep->min)) {
             if (version_compare($version, $dep->min, '>=')) {
                 $fail = true;
-            }
-        }
-
-        if (isset($dep->max)) {
-            if (version_compare($version, $dep->max, '<=')) {
-                $fail = true;
-            }
+            } else {
+				$fail = false;
+			}
         }
         
         if (isset($dep->exclude)) {
