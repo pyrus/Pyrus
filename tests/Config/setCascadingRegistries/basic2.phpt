@@ -21,13 +21,13 @@ restore_include_path();
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something2',
                     $c->registry->path, 'registry path 3');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
-                    $c->registry->parent->path, 'registry->parent path 3');
-$test->assertNull($c->registry->parent->parent, 'registry parent parent 3');
+                    $c->registry->getParent()->path, 'registry->getParent() path 3');
+$test->assertNull($c->registry->getParent()->getParent(), 'registry->getParent()->getParent() parent 3');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something2',
                     $c->channelregistry->path, 'channelregistry path 3');
 $test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
-                    $c->channelregistry->parent->path, 'channelregistry->parent path 3');
-$test->assertNull($c->channelregistry->parent->parent, 'channelregistry parent parent 3');
+                    $c->channelregistry->getParent()->path, 'channelregistry->getParent() path 3');
+$test->assertNull($c->channelregistry->getParent()->getParent(), 'channelregistry->getParent()->getParent() 3');
 
 // now check starting with unregisterable directory
 if (substr(PHP_OS, 0, 3) != 'WIN') {
