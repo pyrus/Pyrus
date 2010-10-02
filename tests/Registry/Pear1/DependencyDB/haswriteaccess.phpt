@@ -1,5 +1,11 @@
 --TEST--
 Pear1 registry dependency database: hasWriteAccess()
+--SKIPIF--
+<?php
+if (substr(PHP_OS, 0, 3) === 'WIN') {
+    die('skip chmod is not fully supported on windows');
+}
+?>
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';

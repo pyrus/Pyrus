@@ -1,5 +1,11 @@
 --TEST--
 \PEAR2\Pyrus\ScriptFrontend\Commands::install(), --packagingroot test
+--SKIPIF--
+<?php
+if (substr(PHP_OS, 0, 3) === 'WIN') {
+    die('skip cannot combine file paths like this on windows');
+}
+?>
 --FILE--
 <?php
 if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {

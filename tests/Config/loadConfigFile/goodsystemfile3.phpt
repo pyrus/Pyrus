@@ -6,13 +6,13 @@ require dirname(__FILE__) . '/setup.php.inc';
 set_include_path($testpath); // disable include_path cascading for simplicity
 file_put_contents($testpath . DIRECTORY_SEPARATOR . '.config', '<?xml version="1.0" ?>
 <c>
- <ext_dir>@php_dir@/foo</ext_dir>
- <doc_dir>@php_dir@/bah</doc_dir>
- <bin_dir>@php_dir@/bar</bin_dir>
- <www_dir>@php_dir@/boo</www_dir>
- <test_dir>@php_dir@/blah</test_dir>
- <php_bin>/path/to/php</php_bin>
- <php_ini>/path/to/php.ini</php_ini>
+ <ext_dir>@php_dir@'. DIRECTORY_SEPARATOR . 'foo</ext_dir>
+ <doc_dir>@php_dir@'. DIRECTORY_SEPARATOR . 'bah</doc_dir>
+ <bin_dir>@php_dir@'. DIRECTORY_SEPARATOR . 'bar</bin_dir>
+ <www_dir>@php_dir@'. DIRECTORY_SEPARATOR . 'boo</www_dir>
+ <test_dir>@php_dir@'. DIRECTORY_SEPARATOR . 'blah</test_dir>
+ <php_bin>'. DIRECTORY_SEPARATOR . 'path'. DIRECTORY_SEPARATOR . 'to'. DIRECTORY_SEPARATOR . 'php</php_bin>
+ <php_ini>'. DIRECTORY_SEPARATOR . 'path'. DIRECTORY_SEPARATOR . 'to'. DIRECTORY_SEPARATOR . 'php.ini</php_ini>
  <unknown>ha!</unknown>
 </c>');
 $a = $configclass::singleton($testpath, $testpath . DIRECTORY_SEPARATOR . 'blah');

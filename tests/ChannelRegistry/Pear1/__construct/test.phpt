@@ -1,5 +1,11 @@
 --TEST--
 \PEAR2\Pyrus\ChannelRegistry\Pear1::__construct packagingroot
+--SKIPIF--
+<?php
+if (substr(PHP_OS, 0, 3) === 'WIN') {
+    die('skip cannot combine file paths like this on windows');
+}
+?>
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
