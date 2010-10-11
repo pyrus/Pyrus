@@ -16,7 +16,6 @@ $test->assertEquals(false, $a->release[0]->getInstallCondition(), 'install condi
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

@@ -34,7 +34,6 @@ $test->assertEquals(false, isset($package->stability['api']), 'isset api stabili
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

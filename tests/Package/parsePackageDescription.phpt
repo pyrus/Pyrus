@@ -3,7 +3,7 @@
 --FILE--
 <?php
 include __DIR__ . '/setup.minimal.php.inc';
-mkdir($d = __DIR__ . '/testit');
+@mkdir($d = TESTDIR);
 file_put_contents($d . '/foob', '<?xml version="1.0" ?>
                   <package version="2.0">');
 
@@ -40,7 +40,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

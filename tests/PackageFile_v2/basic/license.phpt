@@ -12,7 +12,6 @@ $test->assertEquals(null, $newguy->license['name'], 'blank name');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

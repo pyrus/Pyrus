@@ -3,7 +3,7 @@ package.xml v2.0 validator: validating, fail because of custom role not known
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-@mkdir(__DIR__ . '/testit');
+@mkdir(TESTDIR);
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing';
@@ -18,11 +18,11 @@ $pf->files['foobar'] = array(
                              array('from' => '@blah@', 'to' => 'version', 'type' => 'package-info'))
 );
 $pf->usesrole['foo']->package('Foo')->channel('pear2.php.net');
-$pf->setPackagefile(__DIR__ . '/testit/package.xml');
+$pf->setPackagefile(TESTDIR . '/package.xml');
 
 $package = new \PEAR2\Pyrus\Package(false);
 $xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 try {
@@ -38,7 +38,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--
