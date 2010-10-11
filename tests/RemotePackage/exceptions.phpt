@@ -6,7 +6,6 @@ if (!extension_loaded('openssl')) die('SKIP openssl required');
 ?>
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -72,7 +71,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--
