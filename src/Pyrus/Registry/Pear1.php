@@ -319,6 +319,7 @@ class Pear1 extends \PEAR2\Pyrus\Registry\Base
             $arr['filelist'][$file['attribs']['name']]['installed_as'] = $installedas;
             $len = strlen($installedas) - strlen($relativepath) - 2;
             do {
+                // TODO catch possible infinite loop when $config->{$roles[$file->role]->getLocationConfig()} returns '.'
                 $installedas = dirname($installedas);
                 if (strlen($installedas) > $len) {
                     $dirtree[$installedas] = 1;
