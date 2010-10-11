@@ -2,8 +2,6 @@
 \PEAR2\Pyrus\Installer: install failure: file conflict between 2 downloaded packages
 --FILE--
 <?php
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -26,7 +24,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

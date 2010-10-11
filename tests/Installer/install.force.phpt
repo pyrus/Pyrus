@@ -2,8 +2,6 @@
 \PEAR2\Pyrus\Installer: install remote packages, --force
 --FILE--
 <?php
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -28,7 +26,6 @@ $test->assertEquals('10000.345.56', $reg->package['pear2.php.net/P2']->dependenc
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

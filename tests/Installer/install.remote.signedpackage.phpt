@@ -6,10 +6,7 @@
 if (!extension_loaded('openssl')) die('SKIP openssl required');
 ?>
 --FILE--
-<?php
-
-define('MYDIR', __DIR__);
-include __DIR__ . '/setup.php.inc';
+<?phpinclude __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/install.remote.signedpackage',
@@ -25,7 +22,6 @@ $test->assertTrue(isset($reg->package["P1"]), "installed P1");
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

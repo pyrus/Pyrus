@@ -24,10 +24,7 @@
  * P2 1.2.2
  * P3
  * P4
- */
-
-define('MYDIR', __DIR__);
-include __DIR__ . '/setup.php.inc';
+ */include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/installer.prepare.dep.versionconflict',
@@ -48,13 +45,12 @@ $test->assertEquals('1.0.0', $reg->info('P3', 'pear2.php.net', 'version'), 'P3 v
 $test->assertEquals('1.0.0', $reg->info('P4', 'pear2.php.net', 'version'), 'P4 version');
 
 for ($i = 1; $i <= 4; $i++) {
-    $test->assertFileExists(__DIR__ . "/testit/php/glooby$i", "P$i file not installed");
+    $test->assertFileExists(TESTDIR . "/php/glooby$i", "P$i file not installed");
 }
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

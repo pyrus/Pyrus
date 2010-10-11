@@ -24,10 +24,7 @@
  * P2 1.2.2
  * P3
  * P4
- */
-
-define('MYDIR', __DIR__);
-include __DIR__ . '/../setup.php.inc';
+ */include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.dep.versionconflict',
@@ -68,7 +65,6 @@ boo::rollback();
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

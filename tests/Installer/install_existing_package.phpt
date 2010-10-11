@@ -2,12 +2,12 @@
 \PEAR2\Pyrus\Installer::prepare() installed package is the same or newer version
 --FILE--
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
+include __DIR__ . '/../test_framework.php.inc';
 $package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
+@mkdir(TESTDIR);
+set_include_path(TESTDIR);
+$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+$c->bin_dir = TESTDIR . '/bin';
 restore_include_path();
 $c->saveConfig();
 
@@ -40,7 +40,6 @@ $test->assertEquals(true, in_array("Skipping installed package {$package->channe
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--
