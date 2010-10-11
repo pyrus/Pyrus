@@ -1,5 +1,5 @@
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
+include __DIR__ . '/../test_framework.php.inc';
 require __DIR__ . '/validator.php.inc';
 $errs = new \PEAR2\MultiErrors;
 if (!isset($state)) {

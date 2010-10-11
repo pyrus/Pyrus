@@ -23,7 +23,6 @@ $test->assertEquals('channel://pear2.php.net/foo (excluded versions: 1.3.0) is r
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

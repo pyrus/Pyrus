@@ -1,9 +1,9 @@
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
+include __DIR__ . '/../test_framework.php.inc';
+@mkdir(TESTDIR);
+set_include_path(TESTDIR);
+$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+$c->bin_dir = TESTDIR . '/bin';
 restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/validator.php.inc';
