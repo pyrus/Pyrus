@@ -3,7 +3,7 @@ Pyrus DirectedGraph: vertex coverage
 --FILE--
 <?php
 use PEAR2\Pyrus\DirectedGraph\Vertex;
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 try {
     new Vertex('oops');
