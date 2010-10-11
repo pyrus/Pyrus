@@ -27,10 +27,10 @@ $channel = new PEAR2\SimpleChannelServer\Channel('pear2.php.net','Brett Bieber\'
 $scs = new PEAR2\SimpleChannelServer($channel,'/home/cellog/testapache/htdocs',\PEAR2\Pyrus\Config::current()->path);
 $categories = PEAR2\SimpleChannelServer\Categories::create('Default', 'This is the default category');
 $scs->saveChannel();
-$scs->saveRelease(new \PEAR2\Pyrus\Package(dirname(__FILE__) . '/../package.xml'), 'cellog');
+$scs->saveRelease(new \PEAR2\Pyrus\Package(__DIR__ . '/../package.xml'), 'cellog');
 echo 'did it'.PHP_EOL;
 /*
 $manager = new PEAR2\SimpleChannelServer\REST\Manager('/Library/WebServer/Documents/pearserver','pear2.php.net','rest/',array('cellog'));
-var_dump($manager->saveRelease(new \PEAR2\Pyrus\Package(dirname(__FILE__) . '/../package.xml'),'cellog'));
+var_dump($manager->saveRelease(new \PEAR2\Pyrus\Package(__DIR__ . '/../package.xml'),'cellog'));
 */
 ?>
