@@ -28,7 +28,6 @@ $test->assertEquals('pear.php.net', $creg->channelFromAlias('pear'), 'after 2');
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

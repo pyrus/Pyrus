@@ -2,44 +2,42 @@
 \PEAR2\Pyrus\AtomicFileTransaction::rmrf()
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
-touch(__DIR__ . '/testit/foo');
-touch(__DIR__ . '/testit/another');
-mkdir(__DIR__ . '/testit/sub/deep/deep/thing', 0777, true);
-mkdir(__DIR__ . '/testit/anothernew/dir', 0777, true);
-touch(__DIR__ . '/testit/anothernew/dir/file');
+touch(TESTDIR . '/foo');
+touch(TESTDIR . '/another');
+mkdir(TESTDIR . '/sub/deep/deep/thing', 0777, true);
+mkdir(TESTDIR . '/anothernew/dir', 0777, true);
+touch(TESTDIR . '/anothernew/dir/file');
 
-$test->assertFileExists(__DIR__ . '/testit', __DIR__ . '/testit');
-$test->assertFileExists(__DIR__ . '/testit/foo', __DIR__ . '/testit/foo');
-$test->assertFileExists(__DIR__ . '/testit/another', __DIR__ . '/testit/another');
-$test->assertFileExists(__DIR__ . '/testit/sub/deep/deep/thing', __DIR__ . '/testit/sub/deep/deep/thing');
-$test->assertFileExists(__DIR__ . '/testit/anothernew/dir', __DIR__ . '/testit/another/dir');
-$test->assertFileExists(__DIR__ . '/testit/anothernew/dir/file', __DIR__ . '/testit/another/dir/file');
+$test->assertFileExists(TESTDIR, TESTDIR);
+$test->assertFileExists(TESTDIR . '/foo', TESTDIR . '/foo');
+$test->assertFileExists(TESTDIR . '/another', TESTDIR . '/another');
+$test->assertFileExists(TESTDIR . '/sub/deep/deep/thing', TESTDIR . '/sub/deep/deep/thing');
+$test->assertFileExists(TESTDIR . '/anothernew/dir', TESTDIR . '/another/dir');
+$test->assertFileExists(TESTDIR . '/anothernew/dir/file', TESTDIR . '/another/dir/file');
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 try {
-    $atomic->rmrf(__DIR__ . DIRECTORY_SEPARATOR . 'testit', true);
+    $atomic->rmrf(TESTDIR, true);
     throw new Exception('did not fail and should');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
-    $test->assertEquals('Unable to fully remove ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit, directory is not empty',
+    $test->assertEquals('Unable to fully remove ' . TESTDIR .', directory is not empty',
                         $e->getMessage(), 'removal message');
 }
 
-$atomic->rmrf(__DIR__ . '/testit');
+$atomic->rmrf(TESTDIR);
 
-$test->assertFileNotExists(__DIR__ . '/testit', __DIR__ . '/testit');
-$test->assertFileNotExists(__DIR__ . '/testit/foo', __DIR__ . '/testit/foo');
-$test->assertFileNotExists(__DIR__ . '/testit/another', __DIR__ . '/testit/another');
-$test->assertFileNotExists(__DIR__ . '/testit/sub/deep/deep/thing', __DIR__ . '/testit/sub/deep/deep/thing');
-$test->assertFileNotExists(__DIR__ . '/testit/anothernew/dir', __DIR__ . '/testit/another/dir');
-$test->assertFileNotExists(__DIR__ . '/testit/anothernew/dir/file', __DIR__ . '/testit/another/dir/file');
+$test->assertFileNotExists(TESTDIR, TESTDIR);
+$test->assertFileNotExists(TESTDIR . '/foo', TESTDIR . '/foo');
+$test->assertFileNotExists(TESTDIR . '/another', TESTDIR . '/another');
+$test->assertFileNotExists(TESTDIR . '/sub/deep/deep/thing', TESTDIR . '/sub/deep/deep/thing');
+$test->assertFileNotExists(TESTDIR . '/anothernew/dir', TESTDIR . '/another/dir');
+$test->assertFileNotExists(TESTDIR . '/anothernew/dir/file', TESTDIR . '/another/dir/file');
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

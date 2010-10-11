@@ -2,22 +2,20 @@
 \PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened, contents is stream
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 \PEAR2\Pyrus\AtomicFileTransaction::begin();
 
-mkdir(__DIR__ . '/testit/.journal-src/foo/bar', 0777, true);
-file_put_contents(__DIR__ . '/testit/blah', 'blah');
-$fp = fopen(__DIR__ . '/testit/blah', 'rb');
+mkdir(TESTDIR . '/.journal-src/foo/bar', 0777, true);
+file_put_contents(TESTDIR . '/blah', 'blah');
+$fp = fopen(TESTDIR . '/blah', 'rb');
 try {
     $atomic->createOrOpenPath('foo', $fp, 'wb');
-    die('should have failed');
+    throw new Exception('Expected exception.');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
-    $test->assertEquals('Unable to open foo for writing in ' . __DIR__ .
-                        DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR .
+    $test->assertEquals('Unable to open foo for writing in ' . TESTDIR . DIRECTORY_SEPARATOR .
                         '.journal-src', $e->getMessage(), 'error msg');
 }
 fclose($fp);
@@ -25,7 +23,6 @@ fclose($fp);
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

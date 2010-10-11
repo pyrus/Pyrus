@@ -2,30 +2,27 @@
 \PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), failure, contents is empty stream
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 \PEAR2\Pyrus\AtomicFileTransaction::begin();
 
-file_put_contents(__DIR__ . '/testit/blah', 'blah');
-$fp = fopen(__DIR__ . '/testit/blah', 'rb');
+file_put_contents(TESTDIR . '/blah', 'blah');
+$fp = fopen(TESTDIR . '/blah', 'rb');
 fread($fp, 55);
 try {
     $atomic->createOrOpenPath('foo', $fp, 0664);
     fclose($fp);
-    die('should have failed');
+    throw new Exception('Expected exception.');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
-    $test->assertEquals('Unable to copy to foo in ' . __DIR__ . DIRECTORY_SEPARATOR .
-                        'testit' . DIRECTORY_SEPARATOR . '.journal-src', $e->getMessage(), 'error message');
+    $test->assertEquals('Unable to copy to foo in ' . TESTDIR . DIRECTORY_SEPARATOR . '.journal-src', $e->getMessage(), 'error message');
 }
 fclose($fp);
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

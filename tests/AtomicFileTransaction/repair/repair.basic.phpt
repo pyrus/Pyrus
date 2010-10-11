@@ -2,28 +2,26 @@
 \PEAR2\Pyrus\AtomicFileTransaction::repair()
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.php.inc';
-\PEAR2\Pyrus\Config::current()->ext_dir = __DIR__ . '/testit/ext';
-mkdir(__DIR__ . '/testit/.old-ext');
-mkdir(__DIR__ . '/testit/src');
-mkdir(__DIR__ . '/testit/.old-src');
-touch(__DIR__ . '/testit/.old-src/foo');
+\PEAR2\Pyrus\Config::current()->ext_dir = TESTDIR . '/ext';
+mkdir(TESTDIR . '/.old-ext');
+mkdir(TESTDIR . '/src');
+mkdir(TESTDIR . '/.old-src');
+touch(TESTDIR . '/.old-src/foo');
 
 \PEAR2\Pyrus\AtomicFileTransaction::repair();
 
-$test->assertFileExists(__DIR__ . '/testit/src/foo', __DIR__ . '/testit/src/foo');
-$test->assertFileExists(__DIR__ . '/testit/ext', __DIR__ . '/testit/ext');
-$test->assertFileNotExists(__DIR__ . '/testit/.old-ext', __DIR__ . '/testit/.old-ext');
-$test->assertFileNotExists(__DIR__ . '/testit/.journal-ext', __DIR__ . '/testit/src/.journal-ext');
-$test->assertFileNotExists(__DIR__ . '/testit/.journal-src/foo', __DIR__ . '/testit/.journal-src/foo');
-$test->assertFileNotExists(__DIR__ . '/testit/.journal-src', __DIR__ . '/testit/.journal-src');
-$test->assertFileNotExists(__DIR__ . '/testit/.old-src', __DIR__ . '/testit/.old-src');
+$test->assertFileExists(TESTDIR . '/src/foo', TESTDIR . '/src/foo');
+$test->assertFileExists(TESTDIR . '/ext', TESTDIR . '/ext');
+$test->assertFileNotExists(TESTDIR . '/.old-ext', TESTDIR . '/.old-ext');
+$test->assertFileNotExists(TESTDIR . '/.journal-ext', TESTDIR . '/src/.journal-ext');
+$test->assertFileNotExists(TESTDIR . '/.journal-src/foo', TESTDIR . '/.journal-src/foo');
+$test->assertFileNotExists(TESTDIR . '/.journal-src', TESTDIR . '/.journal-src');
+$test->assertFileNotExists(TESTDIR . '/.old-src', TESTDIR . '/.old-src');
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

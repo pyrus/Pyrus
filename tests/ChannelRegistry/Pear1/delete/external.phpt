@@ -14,7 +14,6 @@ $test->assertEquals(false, $creg->exists('pear.unl.edu'), 'successfully deleted'
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

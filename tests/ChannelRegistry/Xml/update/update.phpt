@@ -25,7 +25,6 @@ $test->assertEquals(234, $creg->get('pear.unl.edu')->port, 'before');
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

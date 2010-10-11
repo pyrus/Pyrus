@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\ChannelFile\v1\REST errors
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $channel = new \PEAR2\Pyrus\ChannelFile\v1;
 $getassert = function($message) use ($channel, $test) {
     return function($action, $type) use ($channel, $test, $message) {

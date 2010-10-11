@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Config::configSnapshot()
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 $oldext = $a->ext_dir;
 
@@ -29,7 +29,6 @@ $test->assertEquals($oldext, $snap->ext_dir, 'snap old');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

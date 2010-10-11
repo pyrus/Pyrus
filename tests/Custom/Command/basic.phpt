@@ -7,7 +7,7 @@ include __DIR__ . '/setup.php.inc';
 
 $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugin');
 
-file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF-8"?>
+file_put_contents(TESTDIR . '/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 <commands version="2.0" xmlns="http://pear2.php.net/dtd/customcommand-2.0">
  <command>
   <name>foobar</name>
@@ -55,8 +55,8 @@ Is Pretty Sweet.</doc>
  </command>
 </commands>');
 define('MYDIR', __DIR__);
-mkdir(__DIR__ . '/testit/Fronky/Wonky', 0755, true);
-file_put_contents(__DIR__ . '/testit/Fronky/Wonky/Burm.php', '<?php
+mkdir(TESTDIR . '/Fronky/Wonky', 0755, true);
+file_put_contents(TESTDIR . '/Fronky/Wonky/Burm.php', '<?php
 class Fronky_Wonky_Burm
 {
     function doDatThingy($frontend, $args, $opts)
@@ -73,12 +73,12 @@ class Fronky_Wonky_Burm
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands();
-$cli->run($args = array (__DIR__ . '/testit', 'foobar', '--force', '-r/hi/there', 'oof', 'da'));
+$cli->run($args = array (TESTDIR, 'foobar', '--force', '-r/hi/there', 'oof', 'da'));
 
 $contents = ob_get_contents();
 ob_end_clean();
 
-$test->assertEquals('Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . '
 string(' . strlen('PEAR2\Pyrus\ScriptFrontend\Commands') . ') "PEAR2\Pyrus\ScriptFrontend\Commands"
 array(1) {
   ["package"]=>
@@ -102,14 +102,13 @@ array(5) {
   NULL
 }
 ', $contents, 'command output');
-$reg = new \PEAR2\Pyrus\PluginRegistry(__DIR__ . '/testit/plugins');
+$reg = new \PEAR2\Pyrus\PluginRegistry(TESTDIR . '//plugins');
 $test->assertTrue(isset($reg->package['pear2.php.net/testing2']), 'custom command installed');
 
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
