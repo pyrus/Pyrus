@@ -29,7 +29,6 @@ $test->assertEquals('channel://pear2.php.net/test cannot be installed, conflicts
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

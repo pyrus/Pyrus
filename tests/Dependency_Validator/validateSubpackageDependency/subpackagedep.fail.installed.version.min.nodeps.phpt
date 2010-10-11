@@ -26,7 +26,6 @@ $test->assertEquals('warning: channel://pear2.php.net/test requires package "cha
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

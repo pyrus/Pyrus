@@ -25,7 +25,6 @@ $test->assertEquals('warning: channel://pear2.php.net/test conflicts with packag
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
