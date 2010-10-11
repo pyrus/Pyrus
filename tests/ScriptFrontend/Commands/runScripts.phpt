@@ -2,10 +2,6 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::runScripts
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
 require __DIR__ . '/setup.runscripts.php.inc';
 
 test_scriptfrontend::$stdin = array(
@@ -33,8 +29,8 @@ $contents = ob_get_contents();
 ob_end_clean();
 
 $d = DIRECTORY_SEPARATOR;
-$output = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit
-Including external post-installation script "' . __DIR__ . DIRECTORY_SEPARATOR . 'testit'.$d.'php'.$d.
+$output = 'Using PEAR installation found at ' . TESTDIR . '
+Including external post-installation script "' . TESTDIR.$d.'php'.$d.
 'foobar" - any errors are in this script
 Inclusion succeeded
 running post-install script "foobar_postinstall->init()"
@@ -146,7 +142,6 @@ $test->assertEquals(array (
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

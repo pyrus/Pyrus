@@ -2,30 +2,25 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::listPackages(), no packages installed
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
 require __DIR__ . '/setup.php.inc';
 
-set_include_path(__DIR__ . '/testit');
-\PEAR2\Pyrus\Config::singleton(__DIR__ . '/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
+set_include_path(TESTDIR);
+\PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
 restore_include_path();
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'list-packages'));
+$cli->run($args = array (TESTDIR, 'list-packages'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
-                    . 'Listing installed packages [' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . ']:' . "\n",
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
+                    . 'Listing installed packages [' . TESTDIR . ']:' . "\n",
                     $contents,
                     'list packages');
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

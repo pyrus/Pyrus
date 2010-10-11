@@ -1,10 +1,9 @@
 <?php
-define('MYDIR', __DIR__);
 require __DIR__ . '/setup.php.inc';
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
 
-mkdir(__DIR__ . '/testit/php');
-file_put_contents(__DIR__ . '/testit/php/foobar', '<?php
+mkdir(TESTDIR . '/php');
+file_put_contents(TESTDIR . '/php/foobar', '<?php
 class foobar_postinstall extends fake {}');
 $pf->name = 'testing2';
 $pf->channel = 'pear2.php.net';
@@ -18,11 +17,11 @@ $pf->files['foobar'] = array(
                              array('from' => '@blah@', 'to' => 'version', 'type' => 'package-info'))
 );
 $pf->files['glooby'] = array('role' => 'php');
-$pf->setPackagefile(__DIR__ . '/testit/package.xml');
+$pf->setPackagefile(TESTDIR . '/package.xml');
 
 $package = new \PEAR2\Pyrus\Package(false);
 $xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 class fake

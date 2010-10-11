@@ -5,7 +5,7 @@ class test_Config extends \PEAR2\Pyrus\Config
 {
     static function getDefaultUserConfigFile()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'foo.xml';
+        return TESTDIR . DIRECTORY_SEPARATOR . 'foo.xml';
     }
 }
 

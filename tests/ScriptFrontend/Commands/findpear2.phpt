@@ -3,24 +3,23 @@
 --FILE--
 <?php
 require __DIR__ . '/setup.minimal.php.inc';
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
+if (file_exists(TESTDIR . DIRECTORY_SEPARATOR . 'testit')) {
     include __DIR__ . '/../../clean.php.inc';
 }
-touch(__DIR__ . '/testfoo');
+touch(TESTDIR . '/testfoo');
 
 test_scriptfrontend::$stdin = array(
     'yes', // answer to "It appears you have not used Pyrus before, welcome!  Initialize install?"
-    __DIR__ . DIRECTORY_SEPARATOR . 'testfoo', // answer to "Where would you like to install packages by default?"
-    __DIR__ . DIRECTORY_SEPARATOR . 'testit2', // answer to "Where would you like to install packages by default?"
+    TESTDIR . DIRECTORY_SEPARATOR . 'testfoo', // answer to "Where would you like to install packages by default?"
+    TESTDIR . DIRECTORY_SEPARATOR . 'testit2', // answer to "Where would you like to install packages by default?"
     'no',  // answer to "Create it?"
-    __DIR__ . DIRECTORY_SEPARATOR . 'testit', // answer to "Where would you like to install packages by default?"
+    TESTDIR . DIRECTORY_SEPARATOR . 'testit', // answer to "Where would you like to install packages by default?"
     'yes', // answer to "Create it?"
     ''     // continue
 );
 $cli = new test_scriptfrontend();
 
-set_include_path(__DIR__ . '/testit');
+set_include_path(TESTDIR . '/testit');
 ob_start();
 $cli->run($args = array ());
 $contents = ob_get_contents();
@@ -34,16 +33,16 @@ $help1 = "Pyrus: No user configuration file detected\n" .
 "  no\n" .
 "[yes] : yes\n" .
 "Great.  We will store your configuration in:\n" .
-'  ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . "foo.xml\n" .
+'  ' . TESTDIR . DIRECTORY_SEPARATOR . "foo.xml\n" .
 "Where would you like to install packages by default?\n" .
-'[' . getcwd() . "] : " . __DIR__ . DIRECTORY_SEPARATOR . "testfoo\n" .
+'[' . getcwd() . "] : " . TESTDIR . DIRECTORY_SEPARATOR . "testfoo\n" .
 "You have chosen:\n" .
-__DIR__ . DIRECTORY_SEPARATOR . "testfoo\n" .
-__DIR__ . DIRECTORY_SEPARATOR . "testfoo exists, and is not a directory\n" .
+TESTDIR . DIRECTORY_SEPARATOR . "testfoo\n" .
+TESTDIR . DIRECTORY_SEPARATOR . "testfoo exists, and is not a directory\n" .
 "Where would you like to install packages by default?\n" .
-'[' . getcwd() . "] : " . __DIR__ . DIRECTORY_SEPARATOR . "testit2\n" .
+'[' . getcwd() . "] : " . TESTDIR . DIRECTORY_SEPARATOR . "testit2\n" .
 "You have chosen:\n" .
-__DIR__ . DIRECTORY_SEPARATOR . "testit2\n" .
+TESTDIR . DIRECTORY_SEPARATOR . "testit2\n" .
 " this path does not yet exist\n" .
 "Create it?\n" .
 "Please choose:\n" .
@@ -51,9 +50,9 @@ __DIR__ . DIRECTORY_SEPARATOR . "testit2\n" .
 "  no\n" .
 "[yes] : no\n" .
 "Where would you like to install packages by default?\n" .
-'[' . getcwd() . "] : " . __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
+'[' . getcwd() . "] : " . TESTDIR . DIRECTORY_SEPARATOR . "testit\n" .
 "You have chosen:\n" .
-__DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
+TESTDIR . DIRECTORY_SEPARATOR . "testit\n" .
 " this path does not yet exist\n" .
 "Create it?\n" .
 "Please choose:\n" .
@@ -62,7 +61,7 @@ __DIR__ . DIRECTORY_SEPARATOR . "testit\n" .
 "[yes] : yes\n" .
 "Thank you, enjoy using Pyrus\n" .
 "Documentation is at http://pear.php.net\n" .
-'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" 
+'Using PEAR installation found at ' . TESTDIR . DIRECTORY_SEPARATOR . 'testit' . "\n"
 ;
 $help2 =
 '
@@ -139,8 +138,6 @@ $test->assertEquals($help1 . $help2,
 ===DONE===
 --CLEAN--
 <?php
-unlink(__DIR__ . '/testfoo');
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

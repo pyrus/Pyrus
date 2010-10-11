@@ -2,15 +2,11 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::upgrade(), upgrade of dependency
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
 require __DIR__ . '/setup.php.inc';
 
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
+set_include_path(TESTDIR);
+$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+$c->bin_dir = TESTDIR . '/bin';
 restore_include_path();
 $c->saveConfig();
 
@@ -31,12 +27,12 @@ $test->assertEquals(true, isset(\PEAR2\Pyrus\Config::current()->registry->packag
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'upgrade', __DIR__ .
+$cli->run($args = array (TESTDIR, 'upgrade', __DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P1-1.1.0RC1.tar'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                     . 'Downloading pear2.php.net/P1
 Downloading pear2.php.net/P2
 
@@ -45,14 +41,13 @@ Installed pear2.php.net/P2-1.1.0RC3' . "\n",
                     $contents,
                     'list packages');
 
-$test->assertFileExists(__DIR__ . '/testit/php/glooby2', 'glooby2');
+$test->assertFileExists(TESTDIR . '/php/glooby2', 'glooby2');
 $test->assertEquals('hi',
-                    file_get_contents(__DIR__ . '/testit/php/glooby2'), 'files match');
+                    file_get_contents(TESTDIR . '/php/glooby2'), 'files match');
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
