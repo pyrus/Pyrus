@@ -224,4 +224,10 @@ class PEAR2_PHPT
     }
 }
 $test = new PEAR2_PHPT();
-?>
+
+// Setup work directory
+define('TESTDIR', __DIR__ . DIRECTORY_SEPARATOR . 'testit');
+if (is_dir(TESTDIR)) {
+    include __DIR__ . DIRECTORY_SEPARATOR . 'clean.php.inc';
+}
+

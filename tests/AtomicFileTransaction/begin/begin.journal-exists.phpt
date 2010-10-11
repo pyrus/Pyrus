@@ -2,25 +2,23 @@
 \PEAR2\Pyrus\AtomicFileTransaction::begin(), journal dir exists
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-mkdir(__DIR__ . '/testit/.journal-src');
+mkdir(TESTDIR . '/.journal-src');
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
-$test->assertFileNotExists(__DIR__ . '/testit/src/', 'before');
-$test->assertFileExists(__DIR__ . '/testit/.journal-src/', 'before');
+$test->assertFileNotExists(TESTDIR . '/src/', 'before');
+$test->assertFileExists(TESTDIR . '/.journal-src/', 'before');
 
 $atomic->begin();
 
-$test->assertFileNotExists(__DIR__ . '/testit/src/', 'after');
-$test->assertFileExists(__DIR__ . '/testit/.journal-src/', 'after');
+$test->assertFileNotExists(TESTDIR . '/src/', 'after');
+$test->assertFileExists(TESTDIR . '/.journal-src/', 'after');
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

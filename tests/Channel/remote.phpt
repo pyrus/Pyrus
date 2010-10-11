@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Channel Remote channel retrieval
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotechannel',

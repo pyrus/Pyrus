@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Config::__get() and friends
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $unused = $configclass::singleton($testpath . '/booya', $testpath . '/blah');
 
 $a = $configclass::singleton($testpath . PATH_SEPARATOR . $testpath . DIRECTORY_SEPARATOR .
@@ -30,7 +30,6 @@ $test->assertEquals('hi', $a->foo2, 'test retrieving set value');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

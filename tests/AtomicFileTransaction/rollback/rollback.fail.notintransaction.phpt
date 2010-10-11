@@ -2,12 +2,11 @@
 \PEAR2\Pyrus\AtomicFileTransaction::rollback() failure, not in transaction
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
 try {
     \PEAR2\Pyrus\AtomicFileTransaction::rollback();
-    die('should have failed');
+    throw new Exception('Expected exception.');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Cannot rollback - not in a transaction', $e->getMessage(), 'error');
 }
@@ -15,7 +14,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

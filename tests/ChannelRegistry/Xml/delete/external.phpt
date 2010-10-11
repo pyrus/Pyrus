@@ -11,14 +11,13 @@ $creg->delete($chan);
 $test->assertEquals(false, $creg->exists('pear.unl.edu'), 'successfully deleted');
 
 // for coverage
-$creg = new PEAR2\Pyrus\ChannelRegistry\Xml(dirname(__DIR__) . '/testit');
+$creg = new PEAR2\Pyrus\ChannelRegistry\Xml(TESTDIR);
 $test->assertEquals(true, $creg->delete($chan), 'deleting non-existing channel');
 
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

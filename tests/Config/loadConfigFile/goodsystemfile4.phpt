@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Config::loadConfigFile() good systemfile 4 [verifies correct code branching]
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 set_include_path($testpath); // disable include_path cascading for simplicity
 file_put_contents($testpath . DIRECTORY_SEPARATOR . '.config', '<?xml version="1.0" ?>
 <c>
@@ -42,7 +42,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

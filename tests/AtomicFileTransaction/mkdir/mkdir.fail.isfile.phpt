@@ -2,17 +2,16 @@
 \PEAR2\Pyrus\AtomicFileTransaction::mkdir() failure, directory exists and is a file
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(__DIR__ . '/testit/src');
+$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 \PEAR2\Pyrus\AtomicFileTransaction::begin();
 
 $atomic->createOrOpenPath('oops', 'hi');
 
 try {
     $atomic->mkdir('oops');
-    die('should have failed');
+    throw new Exception('Expected exception.');
 } catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Cannot create directory oops, it is a file', $e->getMessage(), 'error');
 }
@@ -20,7 +19,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

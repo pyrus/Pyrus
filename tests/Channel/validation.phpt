@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Channel Validation tests
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $channel_array = array(
                     'attribs' => array('version'=>'1.0', 'xmlns'=>'http://pear.php.net/channel-1.0'),

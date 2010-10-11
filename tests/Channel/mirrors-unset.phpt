@@ -3,7 +3,7 @@
 --FILE--
 <?php
 $thrown = false;
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $channel = new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 $test->assertEquals(true, isset($channel->mirror['us.pear.php.net']), 'before');

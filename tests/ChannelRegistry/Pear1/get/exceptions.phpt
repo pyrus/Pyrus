@@ -3,7 +3,7 @@
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit', true);
+$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR, true);
 $fail = function($action, $expect) use ($test) {
     try {
         $action();
@@ -20,7 +20,7 @@ class foo extends PEAR2\Pyrus\ChannelRegistry\Pear1
     function channelFileName($channel) {return parent::channelFileName($channel);}
 }
 
-$foo = new foo(dirname(__DIR__) . '/testit');
+$foo = new foo(TESTDIR);
 file_put_contents($foo->channelFileName('pear.php.net'), serialize(array('channel' => array('oops'))));
 $fail(function() use($creg) {$creg->get('pear.php.net');},
       'Channel pear.php.net PEAR1 registry file is invalid channel information');
@@ -28,7 +28,6 @@ $fail(function() use($creg) {$creg->get('pear.php.net');},
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

@@ -1,2 +1,2 @@
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
+include __DIR__ . '/../test_framework.php.inc';

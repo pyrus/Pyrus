@@ -2,45 +2,45 @@
 \PEAR2\Pyrus\Config::setCascading Registries() basic test
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
+require __DIR__ . '/setup.php.inc';
+@mkdir(TESTDIR . DIRECTORY_SEPARATOR . 'foo');
 
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo');
+set_include_path(TESTDIR . DIRECTORY_SEPARATOR . 'foo');
 
-$fake = new Sqlite3(__DIR__ . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . '.pear2registry');
+$fake = new Sqlite3(TESTDIR . DIRECTORY_SEPARATOR . 'foo' . DIRECTORY_SEPARATOR . '.pear2registry');
 $fake->close();
 unset($fake);
-$unused = $configclass::singleton(__DIR__ . '/foo',
-                                  __DIR__ . '/something/blah');
+$unused = $configclass::singleton(TESTDIR . '/foo',
+                                  TESTDIR . '/something/blah');
 
-$c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo',
-                             dirname(__FILE__) . '/something/blah');
+$c = $configclass::singleton(TESTDIR . '/something' . PATH_SEPARATOR . TESTDIR . '/foo',
+                             TESTDIR . '/something/blah');
 restore_include_path();
 
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'something',
                     $c->registry->path, 'registry path 1');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'foo',
                     $c->registry->getParent()->path, 'registry->parent path 1');
 $test->assertNull($c->registry->getParent()->getParent(), 'registry parent parent 1');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'something',
                     $c->channelregistry->path, 'channelregistry path 1');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'foo',
                     $c->channelregistry->getParent()->path, 'channelregistry->parent path 1');
 $test->assertNull($c->channelregistry->getParent()->getParent(), 'channelregistry parent parent 1');
 
 unset($c);
 // test to see if 2nd call to singleton returns the same object
-$c = $configclass::singleton(dirname(__FILE__) . '/something' . PATH_SEPARATOR . dirname(__FILE__) . '/foo',
-                             dirname(__FILE__) . '/something/blah');
+$c = $configclass::singleton(TESTDIR . '/something' . PATH_SEPARATOR . TESTDIR . '/foo',
+                             TESTDIR . '/something/blah');
 
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'something',
                     $c->registry->path, 'registry path 2');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'foo',
                     $c->registry->getParent()->path, 'registry->parent path 2');
 $test->assertNull($c->registry->getParent()->getParent(), 'registry parent parent 2');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'something',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'something',
                     $c->channelregistry->path, 'channelregistry path 2');
-$test->assertEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'foo',
+$test->assertEquals(TESTDIR . DIRECTORY_SEPARATOR . 'foo',
                     $c->channelregistry->getParent()->path, 'channelregistry->parent path 2');
 $test->assertNull($c->channelregistry->getParent()->getParent(), 'channelregistry parent parent 2');
 
@@ -48,11 +48,6 @@ $test->assertNull($c->channelregistry->getParent()->getParent(), 'channelregistr
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/foo';
-include __DIR__ . '/../../clean.php.inc';
-?>
-<?php
-$dir = __DIR__ . '/something';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
