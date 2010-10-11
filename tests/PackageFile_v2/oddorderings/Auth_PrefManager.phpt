@@ -10,7 +10,6 @@ $test->assertEquals('Auth_PrefManager', $apc->name, 'if we get here, all is well
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

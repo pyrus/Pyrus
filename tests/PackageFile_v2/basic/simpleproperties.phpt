@@ -3,10 +3,10 @@ PackageFile v2: test basic package.xml properties
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
+@mkdir(TESTDIR);
+set_include_path(TESTDIR);
+$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+$c->bin_dir = TESTDIR . '/bin';
 restore_include_path();
 $c->saveConfig();
 require __DIR__ . '/../setupFiles/setupPackageFile.php.inc';
@@ -62,7 +62,6 @@ $test->assertEquals('2.0', $reg->getPackagexmlVersion(), '2.0 extbin');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

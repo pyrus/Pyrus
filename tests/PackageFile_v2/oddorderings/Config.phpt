@@ -10,7 +10,6 @@ $test->assertEquals('Config', $apc->name, 'if we get here, all is well unless th
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
