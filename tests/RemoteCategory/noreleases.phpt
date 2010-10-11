@@ -2,8 +2,6 @@
 \PEAR2\Pyrus\Channel\RemoteCategory: no releases for a package
 --FILE--
 <?php
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -20,7 +18,6 @@ $test->assertEquals(array(array('package' => 'GetMaintainers_Test',
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

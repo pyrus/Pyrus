@@ -2,8 +2,6 @@
 \PEAR2\Pyrus\Channel\RemoteCategory: completely empty category (with invalid REST, no <pi/> tag)
 --FILE--
 <?php
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -18,7 +16,6 @@ $test->assertEquals(array(), $category->basiclist, 'empty basic list');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--
