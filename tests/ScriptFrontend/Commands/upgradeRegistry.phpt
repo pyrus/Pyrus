@@ -9,38 +9,32 @@ fclose($f);
 ?>
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
-
-define('MYDIR', __DIR__);
 require __DIR__ . '/setup.minimal.php.inc';
 
 include __DIR__ . '/setup.pearinstall.php.inc';
 
-$test->assertEquals(array('Pear1'), \PEAR2\Pyrus\Registry::detectRegistries(__DIR__ . DIRECTORY_SEPARATOR . 'testit'),
+$test->assertEquals(array('Pear1'), \PEAR2\Pyrus\Registry::detectRegistries(TESTDIR),
                     'after install, verify Pear1 registry exists');
 
 // now for the Pyrus portion of this test
-set_include_path(dirname(__FILE__).'/testit');
+set_include_path(TESTDIR);
 
-$a = \PEAR2\Pyrus\Config::singleton(__DIR__ . DIRECTORY_SEPARATOR . 'testit', __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/testit/plugins/pearconfig.xml'));
-$a->ext_dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'ext';
-$a->bin_dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'bin';
-mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR . 'plugins');
-file_put_contents(__DIR__ . '/testit/plugins/pearconfig.xml', '<pearconfig version="1.0"></pearconfig>');
+$a = \PEAR2\Pyrus\Config::singleton(TESTDIR, str_replace('/', DIRECTORY_SEPARATOR, TESTDIR . '/plugins/pearconfig.xml'));
+$a->ext_dir = TESTDIR . DIRECTORY_SEPARATOR . 'ext';
+$a->bin_dir = TESTDIR . DIRECTORY_SEPARATOR . 'bin';
+mkdir(TESTDIR . DIRECTORY_SEPARATOR . 'plugins');
+file_put_contents(TESTDIR . '/plugins/pearconfig.xml', '<pearconfig version="1.0"></pearconfig>');
 restore_include_path();
 
 ob_start();
 $cli = new test_scriptfrontend();
-$cli->run($args = array (0 => 'upgrade-registry', __DIR__ . DIRECTORY_SEPARATOR . 'testit'));
+$cli->run($args = array (0 => 'upgrade-registry', TESTDIR));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$help1 = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n";
+$help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $d = DIRECTORY_SEPARATOR;
-$help2 = "Upgrading registry at path " . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n";
+$help2 = "Upgrading registry at path " . TESTDIR . "\n";
    
 
 $test->assertEquals($help1 . $help2,
@@ -48,13 +42,12 @@ $test->assertEquals($help1 . $help2,
                     'upgrade-registries output');
 
 
-$test->assertEquals(array('Sqlite3', 'Xml', 'Pear1'), \PEAR2\Pyrus\Registry::detectRegistries(__DIR__ . DIRECTORY_SEPARATOR . 'testit'),
+$test->assertEquals(array('Sqlite3', 'Xml', 'Pear1'), \PEAR2\Pyrus\Registry::detectRegistries(TESTDIR),
                     'verify registry upgrade');
 ?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

@@ -3,7 +3,7 @@
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-set_include_path(__DIR__ . '/testit');
+set_include_path(TESTDIR);
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (0 => 'help'));
@@ -11,7 +11,7 @@ $cli->run($args = array (0 => 'help'));
 $contents = ob_get_contents();
 ob_end_clean();
 restore_include_path();
-$help1 = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n";
+$help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $help2 =
 '
 Pyrus, the installer for PEAR2
@@ -98,7 +98,6 @@ $cli->run($args = array ('fooburp'));
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECTF--
