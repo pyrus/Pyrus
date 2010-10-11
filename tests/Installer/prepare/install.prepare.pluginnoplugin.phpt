@@ -3,7 +3,6 @@
 --FILE--
 <?php
 use PEAR2\Pyrus\Package;
-define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
 
@@ -19,21 +18,21 @@ $pf->files['foobar'] = array(
 $pf->files['Fronky/Wonky/Burm.php'] = array(
     'attribs' => array('role' => 'php'),
 );
-$pf->setPackagefile(__DIR__ . '/testit/package.xml');
+$pf->setPackagefile(TESTDIR . '/package.xml');
 
 $package = new \PEAR2\Pyrus\Package(false);
 $xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
-file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF-8"?>
+file_put_contents(TESTDIR . '/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 <task version="2.0" xmlns="http://pear2.php.net/dtd/customtask-2.0">
  <name>burm</name>
  <class>Fronky_Wonky_Burm</class>
  <autoloadpath></autoloadpath>
 </task>');
-mkdir(__DIR__ . '/testit/Fronky/Wonky', 0755, true);
-file_put_contents(__DIR__ . '/testit/Fronky/Wonky/Burm.php', '<?php
+mkdir(TESTDIR . '/Fronky/Wonky', 0755, true);
+file_put_contents(TESTDIR . '/Fronky/Wonky/Burm.php', '<?php
 class Fronky_Wonky_Burm extends \PEAR2\Pyrus\Task\Common {
     const TYPE = "simple";
     const PHASE = \PEAR2\Pyrus\Task\Common::PACKAGEANDINSTALL;
@@ -76,7 +75,6 @@ b::rollback();
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--
