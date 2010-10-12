@@ -2,7 +2,7 @@
 Pyrus XMLWriter: sibling tags
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $write = new $xmlwriter(array(
   'a' =>
   array(
