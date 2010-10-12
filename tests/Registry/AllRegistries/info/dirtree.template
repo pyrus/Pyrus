@@ -9,7 +9,7 @@ $result = $reg->info($info->name, $info->channel, 'dirtree');
 if (substr(PHP_OS, 0, 3) == 'WIN') {
     
 } else {
-    // $dir must be set to __DIR__ . '/testit' in the test itself
+    // $dir must be set to TESTDIR in the test itself
     $test->assertEquals(array (
       $dir . 'php/PEAR2/SimpleChannelServer/REST',
       $dir . 'php/PEAR2/SimpleChannelServer/Categories',

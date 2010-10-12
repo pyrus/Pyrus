@@ -35,7 +35,5 @@ foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(TESTDIR),
         unlink($file->getPathname());
     }
 }
-/*
-if (!isset($preservedir)) {
-    rmdir($dir);
-}*/
+
+rmdir(TESTDIR);

@@ -26,7 +26,6 @@ $test->assertEquals('5', $postinstall->paramgroup['foo']->value, 'conditiontype 
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

@@ -24,7 +24,6 @@ $test->assertEquals('my prompt', $postinstall->paramgroup['foo']->param['first']
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

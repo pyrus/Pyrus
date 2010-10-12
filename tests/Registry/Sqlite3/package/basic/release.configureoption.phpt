@@ -9,7 +9,7 @@ $info->type = 'extsrc';
 $info->installrelease->configureoption['foo']->prompt('prompt 1')->default('yes');
 $info->installrelease->configureoption['bar']->prompt('prompt 2');
 
-$reg = new \PEAR2\Pyrus\Registry\Sqlite3(__DIR__.'/testit');
+$reg = new \PEAR2\Pyrus\Registry\Sqlite3(TESTDIR);
 $reg->replace($info);
 $inf = $reg->package[$info->channel . '/' . $info->name];
 
@@ -37,7 +37,6 @@ $test->assertEquals(array (
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../../clean.php.inc';
 ?>
 --EXPECT--

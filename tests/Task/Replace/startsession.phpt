@@ -2,7 +2,6 @@
 \PEAR2\Pyrus\Task\Replace::startSession()
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 include dirname(__DIR__) . '/setup.php.inc';
 
 $taskxml = array('attribs' =>
@@ -13,11 +12,11 @@ $taskxml = array('attribs' =>
                 array('attribs' => array('from' => '@version@', 'to' => 'version', 'type' => 'package-info')),
                         ));
 
-file_put_contents(__DIR__ . '/testit/foo.php', "@DIR@\n@data_dir@\n@version@");
+file_put_contents(TESTDIR . '/foo.php', "@DIR@\n@data_dir@\n@version@");
 
 $iterator = new \PEAR2\Pyrus\Package\Creator\TaskIterator($taskxml, $package, \PEAR2\Pyrus\Task\Common::INSTALL, null);
 
-$fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
+$fp = fopen(TESTDIR . '/foo.php', 'rb+');
 $runcount = 0;
 foreach ($iterator as $task) {
     ++$runcount;
@@ -30,11 +29,11 @@ $result = DIRECTORY_SEPARATOR . "\n" . \PEAR2\Pyrus\Config::current()->data_dir 
 $test->assertEquals($result, $contents, 'contents differ install');
 fclose($fp);
 
-file_put_contents(__DIR__ . '/testit/foo.php', "@DIR@\n@data_dir@\n@version@");
+file_put_contents(TESTDIR . '/foo.php', "@DIR@\n@data_dir@\n@version@");
 
 $iterator = new \PEAR2\Pyrus\Package\Creator\TaskIterator($taskxml, $package, \PEAR2\Pyrus\Task\Common::PACKAGE, null);
 
-$fp = fopen(__DIR__ . '/testit/foo.php', 'rb+');
+$fp = fopen(TESTDIR . '/foo.php', 'rb+');
 $runcount = 0;
 foreach ($iterator as $task) {
     ++$runcount;
@@ -49,7 +48,6 @@ $test->assertEquals($result, $contents, 'contents differ packaging');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

@@ -2,7 +2,6 @@
 \PEAR2\Pyrus\Task\Postinstallscript::validateXml() failures 2
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 include dirname(__DIR__) . '/setup.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {

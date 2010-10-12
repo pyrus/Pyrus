@@ -8,7 +8,6 @@ include __DIR__ . '/../../AllRegistries/install/test.template';
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

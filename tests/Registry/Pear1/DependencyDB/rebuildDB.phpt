@@ -3,7 +3,7 @@ Pear1 registry dependency database: rebuildDB()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
+$dir = TESTDIR . DIRECTORY_SEPARATOR;
 $stuffdir = realpath(__DIR__ . '/../../../Mocks/Internet/install.prepare.circulardep/get/') . '/';
 mkdir($dir . DIRECTORY_SEPARATOR . 'php');
 $reg = PEAR2\Pyrus\Config::current()->registry;
@@ -122,7 +122,6 @@ $test->assertEquals(array (
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

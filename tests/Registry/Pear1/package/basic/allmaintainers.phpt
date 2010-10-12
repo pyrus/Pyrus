@@ -9,7 +9,6 @@ require __DIR__ . '/../../../AllRegistries/package/basic/allmaintainers.template
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../../clean.php.inc';
 ?>
 --EXPECT--
