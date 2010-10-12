@@ -2,7 +2,7 @@
 Sqlite3: init
 --FILE--
 <?php
-require dirname(__FILE__) . '/../../setup.php.inc';
+require __DIR__ . '/../../setup.php.inc';
 try {
     $a = new \PEAR2\Pyrus\Registry\Sqlite3(false, true);
     throw new Exception('should fail, didn\'t');

@@ -10,7 +10,7 @@ asort($result);
 if (substr(PHP_OS, 0, 3) == 'WIN') {
     
 } else {
-    // $dir must be set to __DIR__ . '/testit' in the test itself
+    // $dir must be set to TESTDIR in the test itself
     $test->assertEquals(array (
       $dir . 'docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' =>
       array(

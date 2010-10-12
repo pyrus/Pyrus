@@ -3,7 +3,7 @@ Registry base: test validateUninstallDependenices()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
+$dir = TESTDIR . DIRECTORY_SEPARATOR;
 
 $p1 = new \PEAR2\Pyrus\PackageFile\v2;
 $p1->name = 'foo';
@@ -49,7 +49,6 @@ $test->assertEquals(0, count($errs), 'test error count');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

@@ -3,7 +3,7 @@ ScriptRunner: post-install script runner test, with post-processing of prompts
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
-file_put_contents(__DIR__ . '/testit/php/foobar', '<?php
+file_put_contents(TESTDIR . '/php/foobar', '<?php
 class foobar_postinstall extends fake2 {}');
 
 class fake2 extends fake
@@ -170,7 +170,6 @@ this thing',
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--
