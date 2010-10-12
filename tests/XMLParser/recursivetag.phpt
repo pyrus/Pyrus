@@ -2,7 +2,7 @@
 Pyrus XMLParser: complex recursive tags
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $xml = '<?xml version="1.0" ?><package>
 <lead>

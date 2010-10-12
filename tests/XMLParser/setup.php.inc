@@ -1,4 +1,4 @@
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
-include dirname(__FILE__) . '/../../src/Pyrus/XMLParser.php';
+include __DIR__ . '/../test_framework.php.inc';
+include __DIR__ . '/../../src/Pyrus/XMLParser.php';
 $parser = new \PEAR2\Pyrus\XMLParser;

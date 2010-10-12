@@ -2,7 +2,7 @@
 Pyrus XMLParser: parse() opening file fails
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $e = new stdClass;
 try {
