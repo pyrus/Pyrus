@@ -3,7 +3,6 @@ package.xml v2.0 validator: validating, fail because of custom role not known
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-@mkdir(TESTDIR);
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing';

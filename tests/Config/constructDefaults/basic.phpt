@@ -6,6 +6,7 @@ PHP_PEAR_BIN_DIR=
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
+
 $test->assertEquals(array(
             'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext',
@@ -39,7 +40,9 @@ $test->assertEquals(array(
             'my_pear_path' => '@php_dir@',
             'plugins_dir' => '@default_config_dir@',
         ), tc::getTestDefaults(), 'before init');
+
 tc::constructDefaults();
+$result = tc::getTestDefaults();
 $test->assertEquals(array(
             'php_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'php',
             'ext_dir' => ini_get('extension_dir'),
@@ -50,7 +53,7 @@ $test->assertEquals(array(
             'www_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'www',
             'test_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'tests',
             'src_dir' => '@php_dir@' . DIRECTORY_SEPARATOR . 'src',
-            'php_bin' => '', // \PEAR2\Pyrus\Config::current()->php_bin, // no way to reliably test this, so a cop-out
+            'php_bin' => $result['php_bin'], // no way to reliably test this, so a cop-out
             'php_prefix' => '',
             'php_suffix' => '',
             'php_ini' => php_ini_loaded_file(),
@@ -72,9 +75,11 @@ $test->assertEquals(array(
             'handle' => '',
             'my_pear_path' => '@php_dir@',
             'plugins_dir' => '@default_config_dir@',
-        ), tc::getTestDefaults(), 'after');
+        ), $result, 'after');
+
 $phpini = tc::getTestDefaults();
 $test->assertRegex('/\.ini/', $phpini['php_ini'], 'php_ini');
+
 // increase code coverage
 $c = \PEAR2\Pyrus\Config::current();
 $test->assertSame($c, \PEAR2\Pyrus\Config::singleton(), 'current = singleton');

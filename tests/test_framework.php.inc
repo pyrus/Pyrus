@@ -2,7 +2,7 @@
 $__e = error_reporting();
 error_reporting(E_ERROR|E_NOTICE|E_WARNING);
 
-
+// Setup autoloader
 function pyrus_autoload($class)
 {
     if (strpos($class, 'PEAR2\\Pyrus\\') === false) {
@@ -231,4 +231,3 @@ if (is_dir(TESTDIR)) {
     include __DIR__ . DIRECTORY_SEPARATOR . 'clean.php.inc';
 }
 mkdir(TESTDIR);
-
