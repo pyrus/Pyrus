@@ -20,7 +20,6 @@ try {
     $c = new \PEAR2\Pyrus\ChannelFile('greg.chiaraquartet.net/poop', false, true);
     $test->assertEquals(false, true, 'succeeded where it should fail');
 } catch (Exception $e) {
-    throw new Exception('Unexpected exception.');
     ob_end_clean();
 }
 
