@@ -1,11 +1,6 @@
 <?php
 require __DIR__ . '/../../../setup.php.inc';
-@mkdir(TESTDIR);
-set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-$c->bin_dir = TESTDIR . '/bin';
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
 require __DIR__ . '/../../../../PackageFile_v2/setupFiles/setupPackageFile.php.inc';
 $reg = new \PEAR2\Pyrus\Registry\Pear1(TESTDIR);
 $reg->replace($info); // use replace to preserve date/time

@@ -1,12 +1,7 @@
 <?php
 include __DIR__ . '/../test_framework.php.inc';
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
-@mkdir(TESTDIR);
-set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-$c->bin_dir = TESTDIR . '/bin';
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
 
 mkdir(TESTDIR . '/php');
 file_put_contents(TESTDIR . '/php/foobar', '<?php

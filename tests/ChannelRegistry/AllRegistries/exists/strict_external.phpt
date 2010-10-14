@@ -3,10 +3,8 @@
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';
-set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
+
 $chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 $c->channelregistry->add($chan);
 $test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu', true), 'external channel using full name');

@@ -3,10 +3,7 @@
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';
-set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
 
 $chans = $c->channelregistry->listChannels();
 sort($chans);

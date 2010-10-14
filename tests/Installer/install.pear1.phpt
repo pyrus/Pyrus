@@ -8,10 +8,7 @@ $package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/packa
 @mkdir(TESTDIR . '/php');
 @mkdir(TESTDIR . '/php/.registry');
 
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-$c->bin_dir = TESTDIR . '/bin';
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
 \PEAR2\Pyrus\Installer::begin();
 \PEAR2\Pyrus\Installer::prepare($package);
 \PEAR2\Pyrus\Installer::commit();

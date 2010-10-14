@@ -16,17 +16,7 @@ END;
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-if (file_exists(TESTDIR)) {
-    $dir = TESTDIR;
-    include __DIR__ . '/../../clean.php.inc';
-}
-mkdir(TESTDIR);
-set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-$c->bin_dir = TESTDIR . '/bin';
-$c->ext_dir = TESTDIR . '/ext';
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);

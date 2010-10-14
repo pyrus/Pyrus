@@ -4,10 +4,7 @@
 <?php
 include __DIR__ . '/../test_framework.php.inc';
 $package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/badmd5sum/package.xml');
-@mkdir(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
-$c->bin_dir = TESTDIR . '/bin';
-$c->saveConfig();
+$c = getTestConfig();
 
 \PEAR2\Pyrus\Installer::begin();
 \PEAR2\Pyrus\Installer::prepare($package);
