@@ -64,7 +64,7 @@ class Role
         }
 
         if (!in_array($role, self::getValidRoles($packagetype))) {
-            throw new Exception('Invalid role ' . $role . 'requested for package type ' . $packagetype);
+            throw new Exception('Invalid role ' . $role . ' requested for package type ' . $packagetype);
         }
 
         $class = self::$_roles[$role]['class'];
@@ -236,6 +236,10 @@ class Role
 
     static function registerCustomRole($info)
     {
+        if (!isset(self::$_roles)) {
+            self::registerRoles();
+        }
+
         self::$_roles[$info['name']] = $info;
         $roles = self::$_roles;
         ksort($roles);
