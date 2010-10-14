@@ -59,8 +59,7 @@ class ChannelFile implements \PEAR2\Pyrus\ChannelFileInterface
             }
         } else {
             // Add extra check because of allow_url_fopen
-            $schema = parse_url($file, PHP_URL_SCHEME);
-            //var_dump($schema);
+            $schema = strtolower(parse_url($file, PHP_URL_SCHEME));
             $data = (!in_array($schema, array('https','http','ftp', 'sftp')) ? @file_get_contents($file) : false);
         }
 
