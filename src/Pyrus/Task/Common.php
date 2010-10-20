@@ -238,18 +238,25 @@ abstract class Common extends \ArrayObject implements \SplSubject
 
     static function registerBuiltinTasks()
     {
-        static::registerCustomTask(array('name' => 'replace',
+        static::registerTask(array('name' => 'replace',
                                          'class' => 'PEAR2\Pyrus\Task\Replace'));
-        static::registerCustomTask(array('name' => 'windowseol',
+        static::registerTask(array('name' => 'windowseol',
                                          'class' => 'PEAR2\Pyrus\Task\Windowseol'));
-        static::registerCustomTask(array('name' => 'unixeol',
+        static::registerTask(array('name' => 'unixeol',
                                          'class' => 'PEAR2\Pyrus\Task\Unixeol'));
-        static::registerCustomTask(array('name' => 'postinstallscript',
+        static::registerTask(array('name' => 'postinstallscript',
                                          'class' => 'PEAR2\Pyrus\Task\Postinstallscript'));
     }
 
     static function registerCustomTask($taskinfo)
     {
-        static::$customtasks[$taskinfo['name']] = $taskinfo;
+        if (!count(static::$customtasks)) {
+            static::registerBuiltinTasks();
+        }
+		static::registerTask($taskinfo);
     }
+
+	protected static function registerTask($taskinfo) {
+        static::$customtasks[$taskinfo['name']] = $taskinfo;
+	}
 }
