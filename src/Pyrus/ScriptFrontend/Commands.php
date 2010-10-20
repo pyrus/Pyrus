@@ -286,6 +286,7 @@ class Commands implements \PEAR2\Pyrus\LogInterface
         } catch (\PEAR2\Console\CommandLine\Exception $e) {
             static::$commandParser->displayError($e->getMessage(), false);
             static::$commandParser->displayUsage(false);
+
         }
     }
 
@@ -678,28 +679,14 @@ previous:
      */
     function channelDiscover($args)
     {
-        // try secure first
-        $chan = 'https://' . $args['channel'] . '/channel.xml';
-        try {
-            $response = \PEAR2\Pyrus\Main::download($chan);
-            if ($response->code != 200) {
-                throw new \PEAR2\Pyrus\Exception('Download of channel.xml failed');
-            }
+		try {
+			$channel = new \PEAR2\Pyrus\ChannelFile($args['channel'], false, true);
         } catch (\Exception $e) {
-            try {
-                $chan = 'http://' . $args['channel'] . '/channel.xml';
-                $response = \PEAR2\Pyrus\Main::download($chan);
-                if ($response->code != 200) {
-                    throw new \PEAR2\Pyrus\Exception('Download of channel.xml failed');
-                }
-            } catch (\Exception $e) {
-                // failed, re-throw original error
-                echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage(), "\n";
-                return;
-            }
-        }
+			echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage(), "\n";
+			return;
+		}
 
-        $chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile($response->body, true));
+        $chan = new \PEAR2\Pyrus\Channel($channel);
         \PEAR2\Pyrus\Config::current()->channelregistry->add($chan);
         echo "Discovery of channel ", $chan->name, " successful\n";
     }
