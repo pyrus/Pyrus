@@ -32,7 +32,6 @@
  * Windows:
  *
  * - local settings directory on windows for the current user.
- *   This is looked up directly in the windows registry using COM
  * - current directory
  *
  * @category  PEAR2
@@ -592,7 +591,7 @@ class Config
     static public function getDefaultUserConfigFile()
     {
         $path = self::locateLocalSettingsDirectory() . DIRECTORY_SEPARATOR;
-        if (class_exists('COM', false)) {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return $path . 'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
         }
 
@@ -608,16 +607,18 @@ class Config
      */
     static protected function locateLocalSettingsDirectory()
     {
-        if (class_exists('COM', false)) {
-            $shell = new \COM('Wscript.Shell');
-            $value = $shell->SpecialFolders('MyDocuments');
-            return $value;
-        }
-
         if (isset($_ENV['HOME'])) {
             return $_ENV['HOME'];
-        } elseif ($e = getenv('HOME')) {
+        }
+        if ($e = getenv('HOME')) {
             return $e;
+        }
+
+        if ($e = getenv('USERPROFILE')) {
+            return $e;
+        }
+        if (($p = getenv('HOMEPATH')) && ($d = getenv('HOMEDRIVE'))) {
+            return $d . $p;
         }
 
         if (isset($_ENV['PWD'])) {
