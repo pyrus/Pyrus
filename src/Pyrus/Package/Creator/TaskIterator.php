@@ -56,7 +56,11 @@ class TaskIterator extends \FilterIterator
             return false;
         }
 
-        $task = \PEAR2\Pyrus\Task\Common::getTask(parent::key());
+        $task = \PEAR2\Pyrus\Task\Common::getTask($key);
+        if ($task === false) {
+            throw new \RuntimeException("Unknown task `$key` specified.");
+        }
+		
         if (0 == $task::PHASE & $this->_installphase) {
             // skip tasks that won't run in this installphase
             return false;
