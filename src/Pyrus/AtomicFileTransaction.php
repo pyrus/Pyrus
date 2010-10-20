@@ -505,8 +505,11 @@ class AtomicFileTransaction
     {
         $this->committed = false;
 
+        if (file_exists($this->journalpath) && is_dir($this->journalpath)) {
+            $this->rmrf($this->journalpath);
+        }
+
         if (!file_exists($this->journalpath)) {
-create_journal:
             @mkdir($this->journalpath, 0755, true);
             if (!file_exists($this->journalpath)) {
                 throw new AtomicFileTransaction\Exception(
@@ -524,9 +527,6 @@ create_journal:
             throw new AtomicFileTransaction\Exception(
                 'unrecoverable transaction error: journal path ' . $this->journalpath .
                 ' exists and is not a directory');
-        } else {
-            $this->rmrf($this->journalpath);
-            goto create_journal;
         }
     }
 

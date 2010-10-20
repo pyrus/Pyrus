@@ -342,35 +342,33 @@ class Config
         if (getenv('PHP_PEAR_BIN_DIR')) {
             self::$defaults['bin_dir'] = getenv('PHP_PEAR_BIN_DIR');
             Logger::log(5, 'used PHP_PEAR_BIN_DIR environment variable');
-        } elseif (PATH_SEPARATOR == ';') {
+        } elseif (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
             // we're on windows, and shouldn't use PHP_BINDIR
-            do {
-                if (!isset($_ENV) || !isset($_ENV['PATH'])) {
-                    $path = getenv('PATH');
-                } else {
-                    $path = $_ENV['PATH'];
-                }
+            if (!isset($_ENV) || !isset($_ENV['PATH'])) {
+                $path = getenv('PATH');
+            } else {
+                $path = $_ENV['PATH'];
+            }
 
-                if (!$path) {
-                    Logger::log(5, 'used PHP_BINDIR on windows for bin_dir default');
-                    break; // can't get PATH, so use PHP_BINDIR
-                }
-
+            if ($path) {
                 $paths = explode(';', $path);
                 foreach ($paths as $path) {
-                    if ($path != '.' && is_writable($path)) {
-                        // this place will do
+                    if ($path != '.' && is_writable($path) && file_exists($path . DIRECTORY_SEPARATOR . 'php.exe')) {
                         Logger::log(5, 'used ' . $path . ' for default bin_dir');
                         self::$defaults['bin_dir'] = $path;
                     }
                 }
-            } while (false);
+            }
+
+            if (self::$defaults['bin_dir'] === PHP_BINDIR){
+                Logger::log(5, 'used PHP_BINDIR on windows for bin_dir default');
+            }
         } else {
             Logger::log(5, 'used PHP_BINDIR for bin_dir default');
         }
 
         // construct php_bin
-        $bin =  substr(PHP_OS, 0, 3) == 'WIN' ? 'php.exe' : 'php';
+        $bin = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'php.exe' : 'php';
         if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin)) {
             self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin;
         } elseif (isset($_ENV['PATH'])) {
