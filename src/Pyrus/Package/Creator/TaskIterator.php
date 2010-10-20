@@ -109,10 +109,10 @@ class TaskIterator extends \FilterIterator
             $attribs = $xml['attribs'];
         }
 
-        $task = str_replace(array($this->_tasksNs . ':', '-'), array('', ' '), parent::key());
-        $task = str_replace(' ', '/', ucwords($task));
-        $task = str_replace('/', '_', $task);
-        $task = '\PEAR2\Pyrus\Task\\' . $task;
+        $task = \PEAR2\Pyrus\Task\Common::getTask(parent::key());
+        if ($task === false) {
+            throw new \RuntimeException('Unknown task `'.parent::key().'` specified.');
+        }
         return new $task($this->_parent, $this->_installphase, $xml, $attribs, $this->lastversion);
     }
 }
