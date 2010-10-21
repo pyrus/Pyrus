@@ -578,11 +578,13 @@ class v2 implements \PEAR2\Pyrus\PackageFileInterface
 
     function hasFile($file)
     {
+        $file = str_replace('\\', '/', $file);
         return isset($this->filelist[$file]);
     }
 
     function getFile($file)
     {
+        $file = str_replace('\\', '/', $file);
         return $this->filelist[$file];
     }
 
@@ -598,6 +600,7 @@ class v2 implements \PEAR2\Pyrus\PackageFileInterface
 
     function setFilelistFile($file, $info)
     {
+        $file = str_replace('\\', '/', $file);
         if ($info === null) {
             if (array_key_exists($file, $this->filelist)) {
                 unset($this->filelist[$file]);
@@ -605,7 +608,6 @@ class v2 implements \PEAR2\Pyrus\PackageFileInterface
 
             return;
         }
-
         $this->filelist[$file] = $info;
     }
 
