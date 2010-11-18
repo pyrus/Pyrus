@@ -618,7 +618,7 @@ class Pear1 extends \PEAR2\Pyrus\Registry\Base
         }
 
         try {
-            AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.registry'));
+            \PEAR2\Pyrus\Filesystem::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.registry'));
         } catch (AtomicFileTransaction\Exception $e) {
             throw new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
         }
@@ -626,7 +626,7 @@ class Pear1 extends \PEAR2\Pyrus\Registry\Base
         $errs = new \PEAR2\MultiErrors;
         try {
             if (file_exists($path . '/.channels')) {
-                AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));
+                \PEAR2\Pyrus\Filesystem::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.channels'));
             }
         } catch (AtomicFileTransaction\Exception $e) {
             $errs->E_ERROR[] = new Exception('Cannot remove Pear1 registry: ' . $e->getMessage(), $e);
