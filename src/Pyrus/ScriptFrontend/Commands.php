@@ -165,8 +165,8 @@ class Commands implements \PEAR2\Pyrus\LogInterface
                         break;
                 }
                 $info = array(
-                    'short_name' => '-' . $option['shortopt'],
-                    'long_name' => '--' . $option['name'],
+                    'short_name' => empty($option['shortopt']) ? null : '-' . $option['shortopt'],
+                    'long_name' => empty($option['name']) ? null : '--' . $option['name'],
                     'description' => $option['doc'],
                     'action' => $action,
                 );
@@ -180,7 +180,14 @@ class Commands implements \PEAR2\Pyrus\LogInterface
                     $info['choices'] = $choice;
                     $choice = null;
                 }
-                $command->addOption($option['name'], $info);
+
+                if ($info['long_name'] != null) {
+                    $command->addOption(str_replace('-', '_', $option['name']), $info);
+                } elseif ($info['shortopt'] != null) {
+                    $command->addOption(str_replace('-', '_', $option['shortopt']), $info);
+                } else {
+                    throw new Exception('Invalid command ' . $commandinfo['name'] . ': No option name or shortopt was provided.');
+                }
             }
         }
         if (isset($commandinfo['arguments']['argument'])) {

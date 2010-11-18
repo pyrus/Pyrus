@@ -17,7 +17,7 @@ try {
 } catch (\PEAR2\Pyrus\Installer\Exception $e) {
     $test->assertEquals('File conflicts detected:
  Package pear2.php.net/P1:
-  php/glooby2 (conflicts with package pear2.php.net/P2)
+  glooby2 (conflicts with package pear2.php.net/P2)
 ', $e->getMessage(), 'file conflict');
 }
 ?>
