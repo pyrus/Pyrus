@@ -4,6 +4,17 @@ namespace PEAR2\Pyrus\AtomicFileTransaction;
 use PEAR2\MultiErrors,
     PEAR2\Pyrus\Filesystem as FS;
 
+/**
+ * A Atomic file transaction manager class.
+ * This class helps manage multiple transactions
+ *
+ * @category  PEAR2
+ * @package   PEAR2_Pyrus
+ * @author    Warnar Boekkooi, Greg Beaver <cellog@php.net>
+ * @copyright 2010 The PEAR Group
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @link      http://svn.php.net/viewvc/pear2/Pyrus/
+ */
 class Manager {
     /**
      * @var Transaction[]
@@ -13,7 +24,7 @@ class Manager {
     /**
      * @var boolean
      */
-    protected $intransaction;
+    protected $inTransaction;
 
     /**
      * The transaction class to instantiate.
@@ -22,8 +33,13 @@ class Manager {
      */
     protected $className = 'PEAR2\Pyrus\AtomicFileTransaction\Transaction';
 
+    /**
+     * Indicated if the manager has active transactions.
+     *
+     * @return bool
+     */
     public function inTransaction() {
-        return $this->intransaction;
+        return $this->inTransaction;
     }
 
     /**
@@ -51,58 +67,91 @@ class Manager {
             $errs = new MultiErrors();
             $errs->E_ERROR[] = $e;
             $errs->merge($this->rollbackTransactions());
-            throw new Exception('Unable to begin transaction', $errs);
+            throw new MultiException('Unable to begin transaction', $errs);
         }
     }
 
+    /**
+     * Get a list of all transaction path's.
+     *
+     * @return array
+     */
     public function getTransactionPaths() {
         return array_keys($this->transactions);
     }
 
+    /**
+     * Get the name of the transaction class that is being used.
+     *
+     * @return string
+     */
     public function getTransactionClass() {
         return $this->className;
     }
 
+    /**
+     * Set the transaction class name.
+     *
+     * @param string $className
+     * @return Manager
+     */
     public function setTransactionClass($className) {
         if (!@class_exists($className)) {
             throw new \InvalidArgumentException('className must be a valid class - class cannot be loaded.');
         }
-        $this->className = $className;
+        $this->className = (string)$className;
         return $this;
     }
 
+    /**
+     * Begin all transactions in the manager.
+     *
+     * @throws RuntimeException
+     * @return void
+     */
     public function begin()
     {
         if ($this->inTransaction()) {
-            throw new Exception('Cannot begin - already in a transaction');
+            throw new RuntimeException('Cannot begin - already in a transaction');
         }
 
-        $this->intransaction = true;
+        $this->inTransaction = true;
         foreach ($this->transactions as $transaction) {
             $this->beginTransaction($transaction);
         }
     }
 
+    /**
+     * Rollback all transaction changes.
+     *
+     * @throws RuntimeException
+     * @return void
+     */
     public function rollback()
     {
         if (!$this->inTransaction()) {
-            throw new Exception('Cannot rollback - not in a transaction');
+            throw new RuntimeException('Cannot rollback - not in a transaction');
         }
 
         $errs = $this->rollbackTransactions();
 
-        $this->intransaction = false;
+        $this->inTransaction = false;
         if (count($errs->E_ERROR)) {
-            throw new Exception('ERROR: rollback failed', $errs);
+            throw new MultiException('ERROR: rollback failed', $errs);
         } elseif (count($errs->E_WARNING)) {
-            throw new Exception('Warning: rollback did not succeed for all transactions', $errs);
+            throw new MultiException('Warning: rollback did not succeed for all transactions', $errs);
         }
     }
 
+    /**
+     * Commit all transactions.
+     *
+     * @return void
+     */
     public function commit()
     {
         if (!$this->inTransaction()) {
-            throw new Exception('Cannot commit - not in a transaction');
+            throw new RuntimeException('Cannot commit - not in a transaction');
         }
 
         try {
@@ -113,18 +162,24 @@ class Manager {
             $errs = new \PEAR2\MultiErrors();
             $errs->E_ERROR[] = $e;
             $errs->merge($this->rollbackTransactions());
-            throw new Exception('ERROR: commit failed', $errs);
+            throw new MultiException('ERROR: commit failed', $errs);
         }
     }
 
+    /**
+     * Finish all transactions.
+     * This will remove any old journal and backup directories.
+     *
+     * @return void
+     */
     public function finish() {
         if (!$this->inTransaction()) {
-            throw new Exception('Cannot finish - not in a transaction');
+            throw new RuntimeException('Cannot finish - not in a transaction');
         }
 
         foreach ($this->transactions as $transaction) {
             if ($transaction->inTransaction()) {
-                throw new Exception('Cannot remove backups - not all transactions have been committed');
+                throw new RuntimeException('Cannot remove backups - not all transactions have been committed');
             }
         }
 
@@ -136,13 +191,19 @@ class Manager {
                 $errs->E_WARNING[] = $e;
             }
         }
-        $this->intransaction = false;
+        $this->inTransaction = false;
 
         if (count($errs->E_WARNING)) {
-            throw new Exception('Warning: no all backup directories have been removed', $errs);
+            throw new MultiException('Warning: no all backup directories have been removed', $errs);
         }
     }
 
+    /**
+     * Begin a single transaction.
+     *
+     * @param Transaction $transaction
+     * @return void
+     */
     protected function beginTransaction(Transaction $transaction) {
         try {
             if (!$transaction->inTransaction()) {
@@ -152,10 +213,15 @@ class Manager {
             $errs = new MultiErrors();
             $errs->E_ERROR[] = $e;
             $errs->merge($this->rollbackTransactions());
-            throw new Exception('Unable to begin transaction', $errs);
+            throw new MultiException('Unable to begin transaction', $errs);
         }
     }
 
+    /**
+     * Rollback/revert all transactions and return any exceptions thrown.
+     *
+     * @return PEAR2\MultiErrors
+     */
     protected function rollbackTransactions() {
         $rtn = new \PEAR2\MultiErrors;
 
@@ -183,7 +249,7 @@ class Manager {
             }
         }
 
-        $this->intransaction = false;
+        $this->inTransaction = false;
         return $rtn;
     }
 }

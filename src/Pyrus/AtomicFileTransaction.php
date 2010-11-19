@@ -32,6 +32,10 @@
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
 
+namespace PEAR2\Pyrus;
+use \PEAR2\MultiErrors,
+    \PEAR2\Pyrus\Filesystem as FS;
+
 /**
  * Atomic file installation infrastructure, guarantees safe installation.
  *
@@ -42,10 +46,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
-use \PEAR2\MultiErrors,
-    \PEAR2\Pyrus\Filesystem as FS;
-
 final class AtomicFileTransaction {
     /**
      * @var TransactionManager
@@ -65,8 +65,8 @@ final class AtomicFileTransaction {
         return static::$instance;
     }
 
-    public static function getTransactionObject($rolepath) {
-        return static::singleton()->getTransaction($rolepath);
+    public static function getTransactionObject($rolePath) {
+        return static::singleton()->getTransaction($rolePath);
     }
 
     public static function inTransaction()
@@ -116,7 +116,7 @@ final class AtomicFileTransaction {
     public static function repair()
     {
         if (static::inTransaction()) {
-            throw new AtomicFileTransaction\Exception('Cannot repair while in a transaction');
+            throw new AtomicFileTransaction\RuntimeException('Cannot repair while in a transaction');
         }
 
         static::$instance = null;
@@ -132,7 +132,7 @@ final class AtomicFileTransaction {
             if (file_exists($backuppath) && is_dir($backuppath)) {
                 if (file_exists($path)) {
                     if (!is_dir($path)) {
-                        throw new AtomicFileTransaction\Exception(
+                        throw new AtomicFileTransaction\RuntimeException(
                             'Repair failed - ' . $var . ' path ' . $path .
                             ' is not a directory.  Move this file out of the way and ' .
                             'try the repair again'

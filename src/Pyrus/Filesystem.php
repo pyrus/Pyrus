@@ -71,23 +71,23 @@ abstract class Filesystem {
                         continue;
                     }
 
-                    throw new \RuntimeException('Unable to fully remove ' . $path);
+                    throw new IOException('Unable to fully remove ' . $path);
                 }
                 if ($onlyEmptyDirs) {
                     if (!$strict) {
                         continue;
                     }
 
-                    throw new \RuntimeException(
+                    throw new IOException(
                         'Unable to fully remove ' . $path . ', directory is not empty');
                 }
 
                 if (!@unlink($file->getPathname())) {
-                    throw new \RuntimeException(
+                    throw new IOException(
                         'Unable to fully remove ' . $path);
                 }
             }
-        } catch (\RuntimeException $e) {
+        } catch (IOException $e) {
             // restore original permissions
             foreach ($oldPerms as $file => $perms) {
                 if (file_exists($file)) {
@@ -101,7 +101,7 @@ abstract class Filesystem {
         // ensure rmdir works
         chmod($path, 0777);
         if (!@rmdir($path) && $strict) {
-            throw new \RuntimeException('Unable to fully remove ' . $path);
+            throw new IOException('Unable to fully remove ' . $path);
         }
     }
 
@@ -125,27 +125,27 @@ abstract class Filesystem {
 
                 if ($file->isDir()) {
                     if (!@mkdir($targetPath, $file->getPerms())) {
-                        throw new \RuntimeException(
-                            'Unable to complete journal creation for transaction, failed to create directory');
+                        throw new IOException(
+                            'Unable to copy directory, failed to create directory');
                     }
                 } elseif (!@copy($file->getPathName(), $targetPath)) {
-                    throw new \RuntimeException(
-                        'Unable to complete journal creation for transaction, failed to copy the file');
+                    throw new IOException(
+                        'Unable to copy directory, failed to copy the file');
 
                 }
                 if (!@chmod($targetPath, $file->getPerms())) {
-                    throw new \RuntimeException(
-                        'Unable to complete journal creation for transaction, failed to set permissions');
+                    throw new IOException(
+                        'Unable to copy directory, failed to set permissions');
                 }
 
                 if (!@touch($targetPath, $file->getMTime(), $file->getATime())) {
-                    throw new \RuntimeException(
-                        'Unable to complete journal creation for transaction, touch failed');
+                    throw new IOException(
+                        'Unable to copy directory, touch failed');
                 }
                 $iterator->next();
             }
         } catch (\UnexpectedValueException $e) {
-            throw new \RuntimeException('journal creation failed: ' . $e->getMessage(), $e);
+            throw new IOException('directory copy failed: ' . $e->getMessage(), $e);
         }
     }
 }
