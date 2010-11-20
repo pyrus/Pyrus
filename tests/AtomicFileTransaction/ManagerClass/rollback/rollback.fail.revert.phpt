@@ -3,12 +3,12 @@
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
-require dirname(__DIR__) . '/mocks/TwoStage.php';
+require dirname(__DIR__) . '/mocks/TransactionMock.php.inc';
 
 mkdir(TESTDIR . '/foo');
 
-$instance->setTransactionClass('TwoStage');
-TwoStage::$failRevert = true;
+$instance->setTransactionClass('TransactionMock');
+TransactionMock::$failRevert = true;
 
 $transaction = $instance->getTransaction(TESTDIR . '/foo');
 $instance->begin();

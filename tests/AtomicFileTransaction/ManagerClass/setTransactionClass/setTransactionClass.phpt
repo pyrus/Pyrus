@@ -3,10 +3,10 @@
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
-require dirname(__DIR__) . '/mocks/TwoStage.php';
+require dirname(__DIR__) . '/mocks/TransactionMock.php.inc';
 
-$instance->setTransactionClass('TwoStage');
-$test->assertEquals('TwoStage', $instance->getTransactionClass(), 'must be equal')
+$instance->setTransactionClass('TransactionMock');
+$test->assertEquals('TransactionMock', $instance->getTransactionClass(), 'must be equal')
 ?>
 ===DONE===
 --CLEAN--
