@@ -10,7 +10,11 @@ function pyrus_autoload($class)
     }
     $class = str_replace(array('PEAR2\\', '_', '\\'), '/', $class);
 
-    include  __DIR__ . '/../src/' . $class . '.php';
+    $filename = __DIR__ . '/../src/' . $class . '.php';
+    if (!file_exists($filename)) {
+        return false;
+    }
+    include  $filename;
 }
 
 spl_autoload_register("pyrus_autoload");
