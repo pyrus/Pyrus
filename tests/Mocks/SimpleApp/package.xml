@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.1 http://pear.php.net/dtd/package-2.1.xsd">
+    <name>pake</name>
+    <channel>pear2.php.net</channel>
+    <summary>PHP automation tool with capabilities similar to make.</summary>
+    <description>
+        Pake is a command line utility for executing predefined tasks, inspired by make. It is written in PHP and the tasks are also described in PHP. 
+        Pake supports tasks with prerequisites. Pake can be bundled with your application as a single phar archive (or even as a single PHP file), end users don’t need to install Pake on their systems. 
+        Pake can be used for compiling projects from different pieces, generating code, preprocessing templates and deploying projects.
+    </description>
+    <lead>
+        <name>Alexey Zakhlestin</name>
+        <user>indeyets</user>
+        <email>indeyets@php.net</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Fabien POTENCIER</name>
+        <user>fabpot</user>
+        <email>fabien.potencier@symfony-project.com</email>
+        <active>no</active>
+    </lead>
+
+    <date>2011-01-06</date>
+    <version>
+        <release>1.6.0.99</release>
+        <api>1.6.0</api>
+    </version>
+    <stability>
+        <release>beta</release>
+        <api>stable</api>
+    </stability>
+    <license uri="http://www.milkfarmsoft.com/bsd.php">BSD license</license>
+    <notes>
+        -
+    </notes>
+
+    <contents>
+        <dir name="/">
+            <file role="script" baseinstalldir="/" name="bin/pake.sh">
+                <tasks:replace type="pear-config" from="@PHP-BIN@" to="php_bin"/>
+                <tasks:replace type="pear-config" from="@BIN-DIR@" to="bin_dir"/>
+                <tasks:replace type="pear-config" from="@PEAR-DIR@" to="php_dir"/>
+            </file>
+            <file role="script" baseinstalldir="/" name="bin/pake.bat">
+                <tasks:replace type="pear-config" from="@PHP-BIN@" to="php_bin"/>
+                <tasks:replace type="pear-config" from="@BIN-DIR@" to="bin_dir"/>
+                <tasks:replace type="pear-config" from="@PEAR-DIR@" to="php_dir"/>
+            </file>
+
+        </dir>
+    </contents>
+
+    <dependencies>
+        <required>
+            <php>
+                <min>5.2.1</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.1</min>
+            </pearinstaller>
+        </required>
+
+    </dependencies>
+
+    <phprelease>
+        <installconditions>
+            <os>
+                <name>windows</name>
+            </os>
+        </installconditions>
+        <filelist>
+            <install as="pake.bat" name="bin/pake.bat"/>
+            <ignore name="bin/pake.sh"/>
+        </filelist>
+    </phprelease>
+
+    <phprelease>
+        <filelist>
+            <install as="pake" name="bin/pake.sh"/>
+            <ignore name="bin/pake.bat"/>
+        </filelist>
+    </phprelease>
+
+    <changelog>
+        <release>
+            <date>2011-01-02</date>
+            <version>
+                <release>1.6.0</release>
+                <api>1.6.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <license uri="http://www.milkfarmsoft.com/bsd.php">BSD license</license>
+            <notes>
+                - implemented pake_read_file() helper, which uses pakeHTTP class for http requests and file_get_contents for everything else
+                - implemented support for curl-compatible http_proxy, https_proxy and HTTPS_PROXY env variables in pakeHTTP class
+                - using utf8-friendly pake_sprintf instead of usual sprintf. fixes some formatting issues
+            </notes>
+        </release>
+    </changelog>
+</package>
