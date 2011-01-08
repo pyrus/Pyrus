@@ -10,8 +10,14 @@ packages built using package.xml version 2.0 or newer.  Pyrus is
 redesigned from the ground up for PHP 5.3 or newer, and provides
 significant improvements over the older PEAR Installer.
 
-To use Pyrus, execute it from the command line:
-$ php pyrus.phar install PEAR2_Templates_Savant-0.1.0
+To use Pyrus, you can download pyrus.phar from the PEAR2 website,
+and execute it from the command line:
+$ php pyrus.phar install PEAR2_Templates_Savant-alpha
+
+You can also install PEAR2_Pyrus to access the API for installing
+and managing packages. Once installed, a convenience script is
+available from the command line.
+$ pyrus install PEAR2_Templates_Savant-alpha
 
 For more information, view the documentation at:
 http://pear.php.net/manual/en/pyrus.php</description>
@@ -33,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-06-28</date>
- <time>14:01:43</time>
+ <date>2011-01-08</date>
+ <time>09:17:25</time>
  <version>
   <release>2.0.0a2</release>
   <api>2.0.0a1</api>
@@ -46,9 +52,17 @@ http://pear.php.net/manual/en/pyrus.php</description>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>Second alpha release
 
+Additions:
+
+ - If install fails due to unknown channel, ask to discover [saltybeagle]
+
 Bug Fixes:
+
  - Fixed minimum PHP version checks in Channel\RemotePackage [gauthierm]
  - Add SQLite3 as a required extension [saltybeagle]
+ - Fix bin/pyrus script [saltybeagle]
+ - Loop when discovering a channel twice [boekkooi]
+ - Docs directory should use channel/package not package/channel [saltybeagle]
 
 Initial pyrus public API
 </notes>
@@ -1015,6 +1029,9 @@ Initial pyrus public API
     <dir name="DownloadProgressListener">
      <file role="test" name="progress.phpt"/>
      <file role="test" name="setup.php.inc"/>
+    </dir>
+    <dir name="FileInstallationFilter">
+     <file role="test" name="installconditions.phpt"/>
     </dir>
     <dir name="Installer">
      <dir name="prepare">
@@ -2587,6 +2604,13 @@ Initial pyrus public API
       <file role="test" name="InternetMaker.php"/>
       <file role="test" name="README"/>
      </dir>
+     <dir name="SimpleApp">
+      <dir name="bin">
+       <file role="test" name="pake.bat"/>
+       <file role="test" name="pake.sh"/>
+      </dir>
+      <file role="test" name="package.xml"/>
+     </dir>
      <dir name="SimpleChannelServer">
       <dir name="examples">
        <file role="test" name="update_channel.php"/>
@@ -3407,6 +3431,7 @@ Initial pyrus public API
       <file role="test" name="channelDiscover.fail2.phpt"/>
       <file role="test" name="channelDiscover.phpt"/>
       <file role="test" name="channelDiscover2.phpt"/>
+      <file role="test" name="channelDiscover3.phpt"/>
       <file role="test" name="configShow.phpt"/>
       <file role="test" name="download.phpt"/>
       <file role="test" name="findpear1.phpt"/>
