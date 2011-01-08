@@ -22,12 +22,12 @@ $test->assertEquals(file_get_contents(__DIR__.'/../Mocks/SimpleChannelServer/src
                     file_get_contents(__DIR__ . '/testit/usr/local/lib/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
-  '/usr/local/lib/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' => 
+  '/usr/local/lib/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php' => 
   array (
     'role' => 'doc',
     'name' => 'examples/update_channel.php',
-    'installed_as' => '/usr/local/lib/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
-    'relativepath' => 'PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
+    'installed_as' => '/usr/local/lib/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
+    'relativepath' => 'pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
     'configpath' => '/usr/local/lib/docs',
   ),
   '/usr/bin/pearscs' => 

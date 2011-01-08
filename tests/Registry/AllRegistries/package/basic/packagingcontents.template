@@ -13,7 +13,7 @@ usort($arr, function($a,$b) {return strnatcasecmp($a['name'], $b['name']);});
 $test->assertEquals(array (
   0 => 
   array (
-    'name' => 'doc/PEAR2_SimpleChannelServer/pear2.php.net/examples/examples/update_channel.php',
+    'name' => 'doc/pear2.php.net/PEAR2_SimpleChannelServer/examples/examples/update_channel.php',
     'file' => 
     array (
       'attribs' => 

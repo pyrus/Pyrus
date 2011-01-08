@@ -188,7 +188,7 @@ bin_dir setting within Pyrus.
             'attribs' => 
             array (
               'role' => 'doc',
-              'name' => 'doc/PEAR2_SimpleChannelServer/pear2.php.net/examples/examples/update_channel.php',
+              'name' => 'doc/pear2.php.net/PEAR2_SimpleChannelServer/examples/examples/update_channel.php',
             ),
           ),
         ),

@@ -131,7 +131,7 @@ class Common
                 $dest_dir .= '/';
             }
         } elseif ($this->info['unusualbaseinstall']) {
-            $dest_dir = $role . '/' . $pkg->name . '/' . $pkg->channel  . '/';
+            $dest_dir = $role . '/' . $pkg->channel . '/' . $pkg->name  . '/';
             if (array_key_exists('baseinstalldir', $atts)) {
                 if (strlen($atts['baseinstalldir']) && $atts['baseinstalldir'] != '/') {
                     $dest_dir .= $atts['baseinstalldir'];
@@ -145,7 +145,7 @@ class Common
                 }
             }
         } else {
-            $dest_dir = $role  . '/' . $pkg->name. '/' . $pkg->channel . '/';
+            $dest_dir = $role  . '/' . $pkg->channel. '/' . $pkg->name . '/';
         }
 
         return $dest_dir . $file;
@@ -168,13 +168,13 @@ class Common
                 // Place files using the old doc dir structure
                 $dest_dir = $pkg->name;
             } else {
-                $dest_dir = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+                $dest_dir = $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
             }
             if ($file->baseinstalldir) {
                 $dest_dir .= DIRECTORY_SEPARATOR . $file->baseinstalldir;
             }
         } else {
-            $dest_dir = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+            $dest_dir = $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
         }
 
         if (dirname($file->name) != '.' && empty($file['install-as'])) {
@@ -199,7 +199,7 @@ class Common
                         $newpath = '';
                     }
                 }
-                $r = $pkg->name . DIRECTORY_SEPARATOR . $pkg->channel;
+                $r = $pkg->channel . DIRECTORY_SEPARATOR . $pkg->name;
                 if (strpos($newpath, $r) === 0) {
                     // Trim off extra channel and package name directories
                     $newpath = substr($newpath, strlen($r) + 1);
