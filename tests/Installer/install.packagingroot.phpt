@@ -23,15 +23,15 @@ $test->assertEquals(file_get_contents(__DIR__.'/../Mocks/SimpleChannelServer/src
                     file_get_contents(TESTDIR . TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
-  TESTDIR . '/local/lib/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' => 
+  TESTDIR . '/local/lib/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php' =>
   array (
     'role' => 'doc',
     'name' => 'examples/update_channel.php',
-    'installed_as' => TESTDIR . '/local/lib/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
-    'relativepath' => 'PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
+    'installed_as' => TESTDIR . '/local/lib/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
+    'relativepath' => 'pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
     'configpath' => TESTDIR . '/local/lib/docs',
   ),
-  TESTDIR . '/bin/pearscs' => 
+  TESTDIR . '/bin/pearscs' =>
   array (
     'role' => 'script',
     'name' => 'scripts/pearscs',
@@ -40,7 +40,7 @@ $test->assertEquals(array (
     'relativepath' => 'pearscs',
     'configpath' => TESTDIR . '/bin',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer.php',
@@ -49,7 +49,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/CLI.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/CLI.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/CLI.php',
@@ -58,7 +58,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/CLI.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Categories.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Categories.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Categories.php',
@@ -67,7 +67,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Categories.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Categories/Exception.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Categories/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Categories/Exception.php',
@@ -76,7 +76,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Categories/Exception.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Channel.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Channel.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Channel.php',
@@ -85,7 +85,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Channel.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Exception.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Exception.php',
@@ -94,7 +94,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Exception.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Get.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/Get.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/Get.php',
@@ -103,7 +103,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/Get.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Category.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Category.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Category.php',
@@ -112,7 +112,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Category.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Maintainer.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Maintainer.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Maintainer.php',
@@ -121,7 +121,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Maintainer.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Manager.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Manager.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Manager.php',
@@ -130,7 +130,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Manager.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Package.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Package.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Package.php',
@@ -139,7 +139,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Package.php',
     'configpath' => TESTDIR . '/local/lib/php',
   ),
-  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Release.php' => 
+  TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer/REST/Release.php' =>
   array (
     'role' => 'php',
     'name' => 'src/SimpleChannelServer/REST/Release.php',

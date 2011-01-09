@@ -10,3 +10,4 @@ Bug Fixes:
  - Add SQLite3 as a required extension [saltybeagle]
  - Fix bin/pyrus script [saltybeagle]
  - Loop when discovering a channel twice [boekkooi]
+ - Docs directory should use channel/package not package/channel [saltybeagle]

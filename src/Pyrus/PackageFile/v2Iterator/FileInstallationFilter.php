@@ -49,7 +49,9 @@ class FileInstallationFilter extends \FilterIterator
 
                             foreach ($conditions as $condition) {
                                 $condition = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
-                                $ret = $depchecker->{"validate{$type}Dependency"}($condition);
+                                if (false === $depchecker->{"validate{$type}Dependency"}($condition)) {
+                                    throw new \Exception('Cannot use this release.', null, $errs);
+                                }
                             }
                         }
                     }

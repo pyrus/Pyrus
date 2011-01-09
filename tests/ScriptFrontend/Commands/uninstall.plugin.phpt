@@ -21,25 +21,25 @@ Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
 $test->assertFileExists(TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
                         'PEAR2SVN.php not installed properly');
 $eq = array (
-  TESTDIR . '/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/commands.xml' => 
+  TESTDIR . '/plugins/data/pear2.php.net/PEAR2_Pyrus_Developer/commands.xml' =>
   array (
     'role' => 'customcommand',
     'name' => 'customcommand/commands.xml',
     'baseinstalldir' => '/',
-    'installed_as' => TESTDIR . '/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/commands.xml',
-    'relativepath' => 'PEAR2_Pyrus_Developer/pear2.php.net/commands.xml',
+    'installed_as' => TESTDIR . '/plugins/data/pear2.php.net/PEAR2_Pyrus_Developer/commands.xml',
+    'relativepath' => 'pear2.php.net/PEAR2_Pyrus_Developer/commands.xml',
     'configpath' => TESTDIR . '/plugins/data',
   ),
-  TESTDIR . '/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/phartemplate.php' => 
+  TESTDIR . '/plugins/data/pear2.php.net/PEAR2_Pyrus_Developer/phartemplate.php' =>
   array (
     'role' => 'data',
     'name' => 'data/phartemplate.php',
     'baseinstalldir' => '/',
-    'installed_as' => TESTDIR . '/plugins/data/PEAR2_Pyrus_Developer/pear2.php.net/phartemplate.php',
-    'relativepath' => 'PEAR2_Pyrus_Developer/pear2.php.net/phartemplate.php',
+    'installed_as' => TESTDIR . '/plugins/data/pear2.php.net/PEAR2_Pyrus_Developer/phartemplate.php',
+    'relativepath' => 'pear2.php.net/PEAR2_Pyrus_Developer/phartemplate.php',
     'configpath' => TESTDIR . '/plugins/data',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Exception.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Exception.php',
@@ -48,7 +48,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Exception.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Phar.php',
@@ -57,7 +57,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Phar.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Phar/PHPArchive.php',
@@ -66,7 +66,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Tar.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Tar.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Tar.php',
@@ -75,7 +75,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Tar.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Xml.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Xml.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Xml.php',
@@ -84,7 +84,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Xml.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Zip.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Zip.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Zip.php',
@@ -93,7 +93,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Zip.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/Commands.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/Commands.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/Commands.php',
@@ -102,7 +102,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/Commands.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/PEAR2SVN.php',
@@ -111,7 +111,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
@@ -120,7 +120,7 @@ $eq = array (
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/v2.php' => 
+  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/v2.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/v2.php',
