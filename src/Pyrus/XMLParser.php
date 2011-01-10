@@ -72,7 +72,6 @@ class XMLParser extends \XMLReader
         if (@$this->open($file) === false) {
             throw new XMLParser\Exception('Cannot open ' . $file . ' for parsing');
         }
-
         return $this->_parse($file, $schema, true);
     }
 
@@ -168,8 +167,14 @@ class XMLParser extends \XMLReader
     {
         libxml_use_internal_errors(true);
         libxml_clear_errors();
+
+        if ($schema) {
+            $this->setSchema($schema);
+        }
+
         $arr = $this->_recursiveParse();
         $this->close();
+
         $causes = array();
         foreach (libxml_get_errors() as $error) {
             $causes[] = new XMLParser\Exception("Line " .
@@ -178,35 +183,6 @@ class XMLParser extends \XMLReader
 
         if (count($causes)) {
             throw new XMLParser\Exception('Invalid XML document', $causes);
-        }
-
-        if ($schema) {
-            $a = new \DOMDocument();
-            if ($isfile) {
-                $a->load($file);
-            } else {
-                $a->loadXML($file);
-            }
-
-            /*
-             from Rob Richards talk, use
-             $a->setSchema($schema);
-             and then check $a->isValid() in the _recursiveParse() and
-             log errors - much more efficient
-            */
-            libxml_use_internal_errors(true);
-            libxml_clear_errors();
-            $a->schemaValidate($schema);
-            $causes = array();
-            foreach (libxml_get_errors() as $error) {
-                $causes[] = new XMLParser\Exception("Line " .
-                     $error->line . ': ' . $error->message);
-            }
-
-            libxml_clear_errors();
-            if (count($causes)) {
-                throw new XMLParser\Exception('Invalid XML document', $causes);
-            }
         }
 
         return $arr;
