@@ -19,8 +19,8 @@ foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'sqlit
 }
 
 // Reject old libxml installations
-if (version_compare(LIBXML_DOTTED_VERSION, '2.6.17', '<')) {
-    echo "Pyrus requires libxml >= 2.6.17."
+if (version_compare(LIBXML_DOTTED_VERSION, '2.6.20', '<')) {
+    echo "Pyrus requires libxml >= 2.6.20."
          . " Version detected: " . LIBXML_DOTTED_VERSION . "\n";
     exit -1;
 }
