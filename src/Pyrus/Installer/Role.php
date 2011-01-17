@@ -260,9 +260,9 @@ class Role
                         mkdir(dirname($tmp), 0755, true);
                     }
 
-					if (!@file_put_contents($tmp, $default)) {
-						throw new Role\Exception("Cannot create custom role configuration file $tmp");
-					}
+                    if (file_put_contents($tmp, $default) === false) {
+                        throw new Role\Exception("Cannot create custom role configuration file $tmp");
+                    }
 
                     $getDefault = function() use ($tmp) {
                         include $tmp;

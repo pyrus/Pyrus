@@ -183,8 +183,8 @@ class Common
                 // strip role from file path
                 // so php/Path/To/File.php becomes Path/To/File.php,
                 // data/package.xsd becomes package.xsd
-				$r = get_class($this);
-				$r = strtolower(substr($r, strrpos($r, '\\') + 1));
+                $r = get_class($this);
+                $r = strtolower(substr($r, strrpos($r, '\\') + 1));
                 if ($r === 'php') {
                     if (strpos($newpath, 'src') === 0) {
                         $newpath = substr($newpath, 4);
