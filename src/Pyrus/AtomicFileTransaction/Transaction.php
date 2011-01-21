@@ -14,7 +14,8 @@ use PEAR2\Pyrus\IOException;
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-class Transaction extends Transaction\TwoStage {
+class Transaction extends Transaction\TwoStage
+{
     /**
      * @var Manager
      */
@@ -26,7 +27,8 @@ class Transaction extends Transaction\TwoStage {
      * @param string $path The path for which a transaction is required.
      * @param Manager $manager The manager that the transaction belongs to.
      */
-    public function __construct($path, Manager $manager) {
+    public function __construct($path, Manager $manager)
+    {
         parent::__construct($path);
         $this->manager = $manager;
 
@@ -184,7 +186,8 @@ class Transaction extends Transaction\TwoStage {
      * @throws RuntimeException Thrown when the transaction in inactive.
      * @return void
      */
-    protected function checkActive() {
+    protected function checkActive()
+    {
         if (!$this->inTransaction || !$this->manager->inTransaction()) {
             throw new RuntimeException('Transaction not active.');
         }
@@ -196,7 +199,8 @@ class Transaction extends Transaction\TwoStage {
      * @param string $relativePath
      * @return string
      */
-    protected function getPath($relativePath) {
+    protected function getPath($relativePath)
+    {
         return \PEAR2\Pyrus\Filesystem::path($this->journalPath . '/' . (string)$relativePath);
     }
 }

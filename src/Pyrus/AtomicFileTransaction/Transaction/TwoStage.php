@@ -16,7 +16,8 @@ use PEAR2\Pyrus\IOException,
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-class TwoStage extends Base {
+class TwoStage extends Base
+{
     /**
      * @var string
      */
@@ -26,7 +27,8 @@ class TwoStage extends Base {
      * Constructor.
      * @param string $path The path for which a transaction is required.
      */
-    public function __construct($path) {
+    public function __construct($path)
+    {
         parent::__construct($path);
         $this->backupPath = FS::combine(dirname($this->path), '.old-' . basename($path));
     }
@@ -38,7 +40,8 @@ class TwoStage extends Base {
      * @throws PEAR2\Pyrus\AtomicFileTransaction\RuntimeException Thrown when a old backup directory is found.
      * @return void
      */
-    public function begin() {
+    public function begin()
+    {
         if ($this->hasBackup()) {
             throw new RuntimeException('Cannot begin - a backup directory still exists');
         }
@@ -60,7 +63,8 @@ class TwoStage extends Base {
      *
      * @return bool
      */
-    public function hasBackup() {
+    public function hasBackup()
+    {
         return file_exists($this->backupPath) || is_dir($this->backupPath);
     }
 

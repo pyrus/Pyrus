@@ -15,7 +15,8 @@ use PEAR2\MultiErrors,
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-class Manager {
+class Manager
+{
     /**
      * @var Transaction[]
      */
@@ -38,7 +39,8 @@ class Manager {
      *
      * @return bool
      */
-    public function inTransaction() {
+    public function inTransaction()
+    {
         return $this->inTransaction;
     }
 
@@ -48,7 +50,8 @@ class Manager {
      * @param string|PEAR2\Pyrus\Installer\Role\Common $path The directory path.
      * @return Transaction A PEAR2\Pyrus\AtomicFileTransaction\Transaction instance
      */
-    public function getTransaction($path) {
+    public function getTransaction($path)
+    {
         if ($path instanceof \PEAR2\Pyrus\Installer\Role\Common) {
             $path = \PEAR2\Pyrus\Config::current()->{$path->getLocationConfig()};
         }
@@ -76,7 +79,8 @@ class Manager {
      *
      * @return array
      */
-    public function getTransactionPaths() {
+    public function getTransactionPaths()
+    {
         return array_keys($this->transactions);
     }
 
@@ -85,7 +89,8 @@ class Manager {
      *
      * @return string
      */
-    public function getTransactionClass() {
+    public function getTransactionClass()
+    {
         return $this->className;
     }
 
@@ -95,7 +100,8 @@ class Manager {
      * @param string $className
      * @return Manager
      */
-    public function setTransactionClass($className) {
+    public function setTransactionClass($className)
+    {
         if (!@class_exists($className)) {
             throw new \InvalidArgumentException('className must be a valid class - class cannot be loaded.');
         }
@@ -172,7 +178,8 @@ class Manager {
      *
      * @return void
      */
-    public function finish() {
+    public function finish()
+    {
         if (!$this->inTransaction()) {
             throw new RuntimeException('Cannot finish - not in a transaction');
         }
@@ -204,7 +211,8 @@ class Manager {
      * @param Transaction $transaction
      * @return void
      */
-    protected function beginTransaction(Transaction $transaction) {
+    protected function beginTransaction(Transaction $transaction)
+    {
         try {
             if (!$transaction->inTransaction()) {
                 $transaction->begin();
@@ -222,7 +230,8 @@ class Manager {
      *
      * @return PEAR2\MultiErrors
      */
-    protected function rollbackTransactions() {
+    protected function rollbackTransactions()
+    {
         $rtn = new \PEAR2\MultiErrors;
 
         // restore the original source as quickly as possible

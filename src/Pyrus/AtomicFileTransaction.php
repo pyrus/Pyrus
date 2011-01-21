@@ -46,7 +46,8 @@ use \PEAR2\MultiErrors,
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-final class AtomicFileTransaction {
+final class AtomicFileTransaction
+{
     /**
      * @var TransactionManager
      */
@@ -65,7 +66,8 @@ final class AtomicFileTransaction {
         return static::$instance;
     }
 
-    public static function getTransactionObject($rolePath) {
+    public static function getTransactionObject($rolePath)
+    {
         return static::singleton()->getTransaction($rolePath);
     }
 
@@ -74,19 +76,23 @@ final class AtomicFileTransaction {
         return static::singleton()->inTransaction();
     }
 
-    public static function begin() {
+    public static function begin()
+    {
         return static::singleton()->begin();
     }
 
-    public static function rollback() {
+    public static function rollback()
+    {
         return static::singleton()->rollback();
     }
 
-    public static function commit() {
+    public static function commit()
+    {
         return static::singleton()->commit();
     }
 
-    public static function removeBackups() {
+    public static function removeBackups()
+    {
         return static::singleton()->finish();
     }
 
