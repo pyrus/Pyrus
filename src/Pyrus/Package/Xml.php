@@ -56,6 +56,6 @@ class Xml extends \PEAR2\Pyrus\Package\Base
 
     function getFilePath($file)
     {
-        return dirname($this->archive) . DIRECTORY_SEPARATOR . $file;
+        return dirname($this->archive) . DIRECTORY_SEPARATOR . str_replace(array('\\','/'), DIRECTORY_SEPARATOR, $file);
     }
 }

@@ -2,7 +2,7 @@
 $__e = error_reporting();
 error_reporting(E_ERROR|E_NOTICE|E_WARNING);
 
-
+// Setup autoloader
 function pyrus_autoload($class)
 {
     if (strpos($class, 'PEAR2\\Pyrus\\') === false) {
@@ -226,4 +226,21 @@ class PEAR2_PHPT
     }
 }
 $test = new PEAR2_PHPT();
-?>
+
+// Setup work directory
+define('TESTDIR', __DIR__ . DIRECTORY_SEPARATOR . 'testit');
+if (is_dir(TESTDIR)) {
+    include __DIR__ . DIRECTORY_SEPARATOR . 'clean.php.inc';
+}
+mkdir(TESTDIR);
+
+function getTestConfig() {
+    set_include_path(TESTDIR);
+    $c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+    $c->bin_dir = TESTDIR . '/bin';
+    $c->ext_dir = TESTDIR . '/ext';
+    restore_include_path();
+    $c->saveConfig();
+
+    return $c;
+}

@@ -10,7 +10,7 @@ PHP_PEAR_EXTENSION_DIR=
 PEAR_EXTENSION_DIR=somethingelse2
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 tc::constructDefaults();
 $defaults = tc::getTestDefaults();
 $test->assertEquals('somethingelse2', $defaults['ext_dir'], 'after');

@@ -2,8 +2,8 @@
 packagefile parser for package.xml 2.0
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
-$pxml = dirname(__FILE__) . '/packages/package2.xml';
+require __DIR__ . '/setup.php.inc';
+$pxml = __DIR__ . '/packages/package2.xml';
 $ret = $parser->parse(file_get_contents($pxml), $pxml, 'Mockv2');
 $test->assertEquals(array (
   'filelist' => 
@@ -1766,7 +1766,7 @@ $test->assertEquals(array (
   array (
     'scripts' => '/',
   ),
-  'packagefile' => dirname(__FILE__) . '/packages/package2.xml',
+  'packagefile' => __DIR__ . '/packages/package2.xml',
   'packageinfo' => 
   array (
     'attribs' => 

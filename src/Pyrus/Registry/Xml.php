@@ -373,7 +373,7 @@ class Xml extends \PEAR2\Pyrus\Registry\Base
         }
 
         try {
-            AtomicFileTransaction::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
+            \PEAR2\Pyrus\Filesystem::rmrf(realpath($path . DIRECTORY_SEPARATOR . '.xmlregistry'));
         } catch (AtomicFileTransaction\Exception $e) {
             throw new Exception('Cannot remove XML registry: ' . $e->getMessage(), $e);
         }

@@ -28,7 +28,6 @@ $test->assertEquals(array('skipping installed package check of "channel://pear2.
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

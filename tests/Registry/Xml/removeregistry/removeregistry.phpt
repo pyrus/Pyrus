@@ -3,24 +3,24 @@ Xml registry: removeRegistry()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
+$dir = TESTDIR . DIRECTORY_SEPARATOR;
 require __DIR__ . '/../../AllRegistries/listpackages/multiple.template';
 
-$chan = new PEAR2\Pyrus\ChannelRegistry\Xml(__DIR__ . '/testit');
+$chan = new PEAR2\Pyrus\ChannelRegistry\Xml(TESTDIR);
 $poo = $chan->get('pear.php.net')->toChannelFile();
 $poo->name = 'poo.php.net';
 $poo->alias = 'poo';
 $chan->add(new PEAR2\Pyrus\Channel($poo));
 
-$test->assertFileExists(__DIR__ . '/testit/.xmlregistry', 'Xml registry exists');
-$test->assertFileExists(__DIR__ . '/testit/.xmlregistry/channels', 'Xml channel registry exists');
-$test->assertFileExists(__DIR__ . '/testit/.xmlregistry/packages', 'Xml package registry exists');
+$test->assertFileExists(TESTDIR . '/.xmlregistry', 'Xml registry exists');
+$test->assertFileExists(TESTDIR . '/.xmlregistry/channels', 'Xml channel registry exists');
+$test->assertFileExists(TESTDIR . '/.xmlregistry/packages', 'Xml package registry exists');
 
-PEAR2\Pyrus\Registry\Xml::removeRegistry(__DIR__ . '/testit');
+PEAR2\Pyrus\Registry\Xml::removeRegistry(TESTDIR);
 
-$test->assertFileNotExists(__DIR__ . '/testit/.xmlregistry', 'Xml registry exists');
+$test->assertFileNotExists(TESTDIR . '/.xmlregistry', 'Xml registry exists');
 
-PEAR2\Pyrus\Registry\Xml::removeRegistry(__DIR__ . '/testit');
+PEAR2\Pyrus\Registry\Xml::removeRegistry(TESTDIR);
 
 // for added coverage
 try {
@@ -36,7 +36,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

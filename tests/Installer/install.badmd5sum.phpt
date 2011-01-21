@@ -2,12 +2,9 @@
 \PEAR2\Pyrus\Installer::commit() file with bad md5sum
 --FILE--
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
+include __DIR__ . '/../test_framework.php.inc';
 $package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/badmd5sum/package.xml');
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
-$c->saveConfig();
+$c = getTestConfig();
 
 \PEAR2\Pyrus\Installer::begin();
 \PEAR2\Pyrus\Installer::prepare($package);
@@ -21,7 +18,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

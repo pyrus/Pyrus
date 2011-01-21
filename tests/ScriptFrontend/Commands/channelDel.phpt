@@ -2,10 +2,6 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::channelDel()
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
 require __DIR__ . '/setup.php.inc';
 
 $chan = \PEAR2\Pyrus\Config::current()->channelregistry['pecl.php.net'];
@@ -17,11 +13,11 @@ $test->assertTrue(isset(\PEAR2\Pyrus\Config::current()->channelregistry['foobar'
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'channel-del', 'foobar'));
+$cli->run($args = array (TESTDIR, 'channel-del', 'foobar'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n"
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                     . "Deleting channel foobar successful\n",
                     $contents,
                     'delete channel');
@@ -30,7 +26,6 @@ $test->assertFalse(isset(\PEAR2\Pyrus\Config::current()->channelregistry['foobar
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

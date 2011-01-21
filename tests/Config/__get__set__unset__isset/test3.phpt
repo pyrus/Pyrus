@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Config::__isset() and friends
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 set_include_path(''); // disable include_path cascading for simplicity
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 $a->addConfigValue('foo', 'booya');
@@ -75,7 +75,6 @@ $test->assertFalse(isset($a->foo2), 'foo 3');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

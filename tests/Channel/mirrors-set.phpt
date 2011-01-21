@@ -3,7 +3,7 @@
 --FILE--
 <?php
 $thrown = false;
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $fake = new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 $fake->mirror['ugly.pear.php.net']->ssl = true;

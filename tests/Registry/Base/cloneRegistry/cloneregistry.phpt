@@ -3,7 +3,7 @@ Registry base: test cloneRegistry() for Pear1 -> Sqlite3 registry
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
+$dir = TESTDIR . DIRECTORY_SEPARATOR;
 require __DIR__ . '/../../AllRegistries/listpackages/multiple.channels.template';
 
 
@@ -27,7 +27,6 @@ $test->assertEquals(array('HooHa2'), $packages, 'after pear');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

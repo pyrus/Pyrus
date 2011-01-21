@@ -18,10 +18,7 @@
  *  - P1-1.1.0RC1
  *  - P2-1.0.0 (already installed)
  *  - P3-1.1.0
- */
-
-define('MYDIR', __DIR__);
-include __DIR__ . '/../setup.php.inc';
+ */include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
@@ -63,7 +60,6 @@ b::rollback();
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

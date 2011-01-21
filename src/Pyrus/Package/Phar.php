@@ -128,6 +128,7 @@ class Phar extends \PEAR2\Pyrus\Package\Base
         }
 
         $archive = str_replace('\\', '/', $this->archive);
+        $file = str_replace('\\', '/', $file);
         $phar    = 'phar://' . $archive . '/' . $file;
         if (!file_exists($phar)) {
             $phar = 'phar://' . $archive . '/' . $this->packagefile->info->name .

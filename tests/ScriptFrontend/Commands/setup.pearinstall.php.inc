@@ -1,7 +1,7 @@
 <?php
 // first, install the package using PEAR
-$temp_path = __DIR__ . '/testit';
-mkdir($temp_path);
+$temp_path = TESTDIR;
+@mkdir($temp_path);
 if (!is_dir($temp_path . DIRECTORY_SEPARATOR . 'php')) {
     mkdir($php_dir = $temp_path . DIRECTORY_SEPARATOR . 'php');
 }
@@ -68,7 +68,7 @@ require_once 'PEAR/Frontend/CLI.php';
 $config = &PEAR_Config::singleton($temp_path . '/pear.ini');
 
 // now install the package
-$pathtopackagexml = dirname(__FILE__) . DIRECTORY_SEPARATOR .
+$pathtopackagexml = __DIR__ . DIRECTORY_SEPARATOR .
     'packages'. DIRECTORY_SEPARATOR . 'Net_URL-1.0.15.tar';
 $ui = new PEAR_Frontend_CLI;
 $dp = new PEAR_Downloader($ui, array('offline' => true), $config);
@@ -562,7 +562,7 @@ to the constructor. May cause BC issues.',
       'md5sum' => 'af793351a5f00e31a2df697b54cfbc02',
       'name' => 'docs/example.php',
       'role' => 'doc',
-      'installed_as' => __DIR__ . '/testit/doc/Net_URL/docs/example.php',
+      'installed_as' => TESTDIR . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'Net_URL' . DIRECTORY_SEPARATOR . 'docs' . DIRECTORY_SEPARATOR . 'example.php',
     ),
     'docs/6470.php' =>
     array (
@@ -570,7 +570,7 @@ to the constructor. May cause BC issues.',
       'md5sum' => '0488b5531c31332113100971be7ba2d9',
       'name' => 'docs/6470.php',
       'role' => 'doc',
-      'installed_as' => __DIR__ . '/testit/doc/Net_URL/docs/6470.php',
+      'installed_as' => TESTDIR . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'Net_URL' . DIRECTORY_SEPARATOR . 'docs' . DIRECTORY_SEPARATOR . '6470.php',
     ),
     'URL.php' =>
     array (
@@ -578,7 +578,7 @@ to the constructor. May cause BC issues.',
       'md5sum' => 'c7e690d656b56cc48a12399331a35b27',
       'name' => 'URL.php',
       'role' => 'php',
-      'installed_as' => __DIR__ . '/testit/php/Net/URL.php',
+      'installed_as' => TESTDIR . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . 'Net' . DIRECTORY_SEPARATOR . 'URL.php',
     ),
   ),
   '_lastversion' => NULL,

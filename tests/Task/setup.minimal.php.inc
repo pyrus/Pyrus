@@ -1,5 +1,5 @@
 <?php
-include dirname(__FILE__) . '/../test_framework.php.inc';
+include __DIR__ . '/../test_framework.php.inc';
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
@@ -16,9 +16,9 @@ $pf->files['foobar'] = array(
 $pf->files['glooby'] = array('role' => 'php');
 $pf->release[0]->installAs('foobar', 'blah/blah');
 $pf->release[0]->ignore('glooby');
-$pf->setPackagefile(__DIR__ . '/testit/package.xml');
+$pf->setPackagefile(TESTDIR . '/package.xml');
 
 $package = new \PEAR2\Pyrus\Package(false);
 $xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);

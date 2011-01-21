@@ -22,7 +22,6 @@ $test->assertEquals(array(
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

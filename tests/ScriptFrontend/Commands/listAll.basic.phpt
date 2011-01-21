@@ -26,7 +26,6 @@
  * P4
  */
 
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
@@ -44,7 +43,7 @@ $cli->run($args = array ('remote-list', '--basic', 'pear2.php.net'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n" .
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n" .
 'Remote packages for channel pear2.php.net:
 Category 1:
   *P1 latest stable: 1.0.0, latest release: 1.0.0 (stable)
@@ -58,7 +57,6 @@ Category 2:
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

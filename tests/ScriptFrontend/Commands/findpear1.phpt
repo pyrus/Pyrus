@@ -2,19 +2,15 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::_findPEAR test 1: explicit config path
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
 require __DIR__ . '/setup.php.inc';
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'help'));
+$cli->run($args = array (TESTDIR, 'help'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$help1 = 'Using PEAR installation found at ' . __DIR__ . DIRECTORY_SEPARATOR . 'testit' . "\n";
+$help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $help2 =
 '
 Pyrus, the installer for PEAR2
@@ -90,7 +86,6 @@ $test->assertEquals($help1 . $help2,
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

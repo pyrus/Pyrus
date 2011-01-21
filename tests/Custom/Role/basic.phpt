@@ -7,7 +7,7 @@ include __DIR__ . '/setup.php.inc';
 
 $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugin');
 
-file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF-8"?>
+file_put_contents(TESTDIR . '/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 <role version="2.0" xmlns="http://pear2.php.net/dtd/customrole-2.0">
  <name>burm</name>
  <class>Fronky_Wonky_Burm</class>
@@ -45,15 +45,15 @@ file_put_contents(__DIR__ . '/testit/foobar', '<?xml version="1.0" encoding="UTF
  </configvar>
 </role>');
 define('MYDIR', __DIR__);
-mkdir(__DIR__ . '/testit/Fronky/Wonky', 0755, true);
-file_put_contents(__DIR__ . '/testit/Fronky/Wonky/Burm.php', '<?php
+mkdir(TESTDIR . '/Fronky/Wonky', 0755, true);
+file_put_contents(TESTDIR . '/Fronky/Wonky/Burm.php', '<?php
 class Fronky_Wonky_Burm extends \PEAR2\Pyrus\Installer\Role\Common {}');
 
 \PEAR2\Pyrus\Installer::begin();
 \PEAR2\Pyrus\Installer::prepare($package);
 \PEAR2\Pyrus\Installer::commit();
 
-$reg = new \PEAR2\Pyrus\PluginRegistry(__DIR__ . '/testit/plugins');
+$reg = new \PEAR2\Pyrus\PluginRegistry(TESTDIR . '/plugins');
 $reg->scan();
 $test->assertTrue(isset($reg->package['pear2.php.net/testing2']), 'custom role installed');
 $test->assertEquals(md5(__DIR__), \PEAR2\Pyrus\Config::current()->burm_dir, 'burm_dir default value');
@@ -62,7 +62,6 @@ $test->assertEquals('hi', \PEAR2\Pyrus\Config::current()->userburm, 'userburm de
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

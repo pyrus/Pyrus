@@ -4,7 +4,7 @@
 <?php die('Skipped: for coverage'); ?>
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 set_include_path(''); // disable include_path cascading for simplicity
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 $d = DIRECTORY_SEPARATOR;
@@ -66,7 +66,6 @@ $test->assertEquals('<?xml version="1.0"?>
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

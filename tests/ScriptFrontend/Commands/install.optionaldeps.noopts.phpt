@@ -2,16 +2,8 @@
 \PEAR2\Pyrus\ScriptFrontend\Commands::install() --optionaldeps not specified
 --FILE--
 <?php
-if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'testit')) {
-    $dir = __DIR__ . '/testit';
-    include __DIR__ . '/../../clean.php.inc';
-}
 require __DIR__ . '/setup.php.inc';
-set_include_path(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$c = \PEAR2\Pyrus\Config::singleton(__DIR__.'/testit', __DIR__ . '/testit/plugins/pearconfig.xml');
-$c->bin_dir = __DIR__ . '/testit/bin';
-restore_include_path();
-$c->saveConfig();
+$c = getTestConfig();
 
 require __DIR__ . '/../../Mocks/Internet.php';
 
@@ -21,11 +13,11 @@ Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.optionaldeps',
 
 ob_start();
 $cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
-$cli->run($args = array (__DIR__ . '/testit', 'install', 'pear2/P1', 'P6'));
+$cli->run($args = array (TESTDIR, 'install', 'pear2/P1', 'P6'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . __DIR__. DIRECTORY_SEPARATOR . 'testit' . "\n" .
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n" .
 '
 Downloading pear2.php.net/P1
 
@@ -44,7 +36,6 @@ pear2.php.net/P4 depended on by pear2.php.net/P1
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

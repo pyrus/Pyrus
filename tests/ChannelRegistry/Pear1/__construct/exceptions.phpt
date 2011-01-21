@@ -4,30 +4,30 @@
 <?php
 require __DIR__ . '/../setup.php.inc';
 try {
-    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit/non/existing/dir', true);
+    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR . '/non/existing/dir', true);
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot initialize PEAR1 channel registry, directory does not exist and registry is read-only',
                         $e->getMessage(), 'readonly test');
 }
 try {
-    file_put_contents(dirname(__DIR__) . '/testit/oops', 'hi');
-    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit/oops');
+    file_put_contents(TESTDIR . '/oops', 'hi');
+    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR . '/oops');
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot initialize PEAR1 channel registry, channel directory could not be initialized',
                         $e->getMessage(), 'readonly test');
 }
 try {
-    mkdir(dirname(__DIR__) . '/testit/foo');
-    mkdir(dirname(__DIR__) . '/testit/foo/php');
-    mkdir(dirname(__DIR__) . '/testit/foo/php/.channels');
-    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit/foo', true);
+    mkdir(TESTDIR . '/foo');
+    mkdir(TESTDIR . '/foo/php');
+    mkdir(TESTDIR . '/foo/php/.channels');
+    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR . '/foo', true);
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot initialize PEAR1 channel registry, aliasdirectory does not exist and registry is read-only',
                         $e->getMessage(), 'readonly test');
 }
 try {
-    file_put_contents(dirname(__DIR__) . '/testit/foo/php/.channels/.alias', 'hi');
-    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(dirname(__DIR__) . '/testit/foo');
+    file_put_contents(TESTDIR . '/foo/php/.channels/.alias', 'hi');
+    $creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR . '/foo');
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot initialize PEAR1 channel registry, channel aliasdirectory could not be initialized',
                         $e->getMessage(), 'readonly test');
@@ -36,7 +36,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

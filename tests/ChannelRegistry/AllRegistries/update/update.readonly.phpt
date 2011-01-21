@@ -2,11 +2,10 @@
 \PEAR2\Pyrus\ChannelRegistry::update() readonly test
 --FILE--
 <?php
-mkdir(__DIR__ . '/testit');
-require dirname(dirname(__FILE__)) . '/../setup.php.inc';
+require dirname(__DIR__) . '/../setup.php.inc';
 // construct the registries first
-$creg = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Sqlite3', 'Xml'), false);
-$creg = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Sqlite3', 'Xml'), true);
+$creg = new \PEAR2\Pyrus\ChannelRegistry(TESTDIR, array('Sqlite3', 'Xml'), false);
+$creg = new \PEAR2\Pyrus\ChannelRegistry(TESTDIR, array('Sqlite3', 'Xml'), true);
 $chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 try {
     $creg->update($chan);
@@ -18,7 +17,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

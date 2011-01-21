@@ -2,7 +2,6 @@
 \PEAR2\Pyrus\Installer::prepare(), duplicate package
 --FILE--
 <?php
-define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 class boo extends \PEAR2\Pyrus\Installer
 {
@@ -20,7 +19,6 @@ $test->assertEquals(0, count(boo::$installPackages), 'rollback');
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

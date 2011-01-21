@@ -3,7 +3,7 @@ package.xml v2.0 validator: validating from-object (not from parsed package.xml)
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-@mkdir(__DIR__ . '/testit');
+@mkdir(TESTDIR);
 $pf = new \PEAR2\Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
@@ -21,9 +21,9 @@ $pf->files['foobar'] = array(
 $pf->files['glooby'] = array('role' => 'php');
 $pf->release[0]->installAs('foobar', 'blah/blah');
 $pf->release[0]->ignore('glooby');
-$pf->setPackagefile(__DIR__ . '/testit/package.xml');
+$pf->setPackagefile(TESTDIR . '/package.xml');
 
-file_put_contents(__DIR__ . '/testit/foobar', '<?php
+file_put_contents(TESTDIR . '/foobar', '<?php
 interface testing
 {
     function thing();
@@ -48,11 +48,11 @@ AA;
 
 function foo(){}
 ');
-file_put_contents(__DIR__ . '/testit/glooby', 'foo');
+file_put_contents(TESTDIR . '/glooby', 'foo');
 
 $package = new \PEAR2\Pyrus\Package(false);
 $xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/testit/package.xml', $package, $xmlcontainer);
+$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 $test->assertEquals(\PEAR2\Pyrus\Validate::PACKAGING, $pf->getValidator()->validate($package, \PEAR2\Pyrus\Validate::PACKAGING), 'validate');
@@ -60,7 +60,6 @@ $test->assertEquals(\PEAR2\Pyrus\Validate::PACKAGING, $pf->getValidator()->valid
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\Channel Create new channel
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 
 $channel_array = array(
                     'attribs' => array('version'=>'1.0',

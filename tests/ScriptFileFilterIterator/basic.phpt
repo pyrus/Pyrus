@@ -29,7 +29,6 @@ $test->assertEquals('foobar', $files[0]['attribs']['name'], 'correct script file
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

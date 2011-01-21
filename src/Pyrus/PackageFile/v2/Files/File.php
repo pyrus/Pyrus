@@ -40,6 +40,8 @@ class File extends \ArrayObject
 
     function __get($var)
     {
+        $ret = array();
+
         $task = str_replace('-', ' ', $var);
         $task = str_replace(' ', '/', ucwords($task));
         $task = str_replace('/', '_', $task);
@@ -51,16 +53,11 @@ class File extends \ArrayObject
                 foreach ($inf as $info) {
                     $ret[] = new $c($this->pkg, \PEAR2\Pyrus\Validate::NORMAL, $info, $this['attribs'], null);
                 }
-
-                goto return_multi;
             } else {
                 $ret = array(new $c($this->pkg, \PEAR2\Pyrus\Validate::NORMAL, $inf, $this['attribs'], null));
-                goto return_multi;
             }
         }
 
-        $ret = array();
-return_multi:
         return new \PEAR2\Pyrus\Task\MultipleProxy($this->pkg, $ret, $this['attribs'], $var);
     }
 

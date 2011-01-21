@@ -2,11 +2,10 @@
 \PEAR2\Pyrus\ChannelRegistry\Base extra coverage
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$creg = new \PEAR2\Pyrus\ChannelRegistry\Sqlite3(__DIR__ . '/testit');
+require dirname(__DIR__) . '/setup.php.inc';
+$creg = new \PEAR2\Pyrus\ChannelRegistry\Sqlite3(TESTDIR);
 
-$test->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'testit', $creg->getPath(), 'getPath');
+$test->assertEquals(TESTDIR, $creg->getPath(), 'getPath');
 
 $inf = array();
 foreach ($creg as $chan => $obj) {
@@ -24,7 +23,6 @@ $test->assertEquals(array (
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

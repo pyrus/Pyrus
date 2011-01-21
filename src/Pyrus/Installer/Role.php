@@ -239,7 +239,7 @@ class Role
         if (!isset(self::$_roles)) {
             self::registerRoles();
         }
-		
+
         self::$_roles[$info['name']] = $info;
         $roles = self::$_roles;
         ksort($roles);

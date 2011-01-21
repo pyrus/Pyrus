@@ -14,8 +14,6 @@
  *
  * to test composite dep failure
  */
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
@@ -42,7 +40,6 @@ pear2.php.net/P1 depends on: pear2.php.net/P2 (>= 1.1.0,<= 2.0.0,!= [1.2.0,1.2.3
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

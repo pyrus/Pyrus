@@ -30,7 +30,6 @@
  * Windows:
  *
  * - local settings directory on windows for the current user.
- *   This is looked up directly in the windows registry using COM
  * - current directory
  *
  * @category  PEAR2

@@ -22,7 +22,7 @@ class PHPArchive extends \PEAR2\Pyrus\Developer\Creator\Phar
                 ' PHP_Archive class for phar creation');
         }
         $phparchive = '?>' . $phparchive . '<?php';
-        $template = @file_get_contents(dirname(__FILE__) . '/../../../../../../data/pear2.php.net/\PEAR2\Pyrus\Developer/phartemplate.php');
+        $template = @file_get_contents(__DIR__ . '/../../../../../../data/pear2.php.net/\PEAR2\Pyrus\Developer/phartemplate.php');
         if (!$template) {
             $template = file_get_contents(__DIR__ . '/../../../../../data/phartemplate.php');
         }
@@ -30,8 +30,8 @@ class PHPArchive extends \PEAR2\Pyrus\Developer\Creator\Phar
         if ($startupfile === false) {
             $startupfile = '<?php
 $extract = getcwd();
-$loc = dirname(__FILE__);
-foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(dirname(__FILE__))) as $path => $file) {
+$loc = __DIR__;
+foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__)) as $path => $file) {
     if ($file->getFileName() === \'__index.php\') {
         continue;
     }

@@ -2,8 +2,6 @@
 \PEAR2\Pyrus\Channel\RemoteCategory: ArrayAccess and iteration test
 --FILE--
 <?php
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -29,7 +27,6 @@ foreach ($chan->remotecategories['Default'] as $name => $package) {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

@@ -183,6 +183,10 @@ class Main
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
         }
+		if($response->code === 0 && $response->body === false) {
+            throw new HTTPException(
+                "File $url not valid (received a invalid response)", 500);
+		}
 
         return $response;
     }

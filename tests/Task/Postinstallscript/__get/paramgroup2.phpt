@@ -18,7 +18,6 @@ $test->assertEquals('hi', $postinstall->paramgroup['foo']->instructions, 'instru
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

@@ -1,0 +1,6 @@
+*.out
+*.diff
+*.log
+*.exp
+*.php
+*.xdebug

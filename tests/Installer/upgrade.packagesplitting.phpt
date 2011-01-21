@@ -8,9 +8,6 @@
  * This is to test the new ugprade mechanism in Pyrus that obsoletes the need for
  * a special subpackage dependency
  */
-
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/setup.php.inc';
 require __DIR__ . '/../Mocks/Internet.php';
 
@@ -45,7 +42,6 @@ $test->assertTrue(isset(\PEAR2\Pyrus\Config::current()->registry->package['pear2
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../clean.php.inc';
 ?>
 --EXPECT--

@@ -2,7 +2,7 @@
 \PEAR2\Pyrus\ChannelFile\Parser\v1 errors
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 try {
     $parser->parse('', false, 'stdClass');
     throw new Exception('stdClass worked and should not');

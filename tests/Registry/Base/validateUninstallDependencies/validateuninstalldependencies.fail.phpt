@@ -3,7 +3,7 @@ Registry base: test validateUninstallDependenices() failure
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$dir = __DIR__ . DIRECTORY_SEPARATOR . 'testit' . DIRECTORY_SEPARATOR;
+$dir = TESTDIR . DIRECTORY_SEPARATOR;
 
 $p1 = new \PEAR2\Pyrus\PackageFile\v2;
 $p1->name = 'test';
@@ -50,7 +50,6 @@ $test->assertEquals('channel://pear2.php.net/foo (version >= 1.2.3) is required 
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

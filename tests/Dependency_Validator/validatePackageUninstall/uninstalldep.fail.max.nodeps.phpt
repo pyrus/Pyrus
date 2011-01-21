@@ -24,7 +24,6 @@ $test->assertEquals('warning: channel://pear2.php.net/foo (version <= 1.3.0) is 
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

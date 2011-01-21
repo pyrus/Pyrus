@@ -1,18 +1,18 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors',true);
-require_once dirname(__FILE__).'/../../autoload.php';
+require_once __DIR__.'/../../autoload.php';
 
-$a = new \PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN(dirname(__FILE__), 'PEAR2_SimpleChannelServer');
+$a = new \PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN(__DIR__, 'PEAR2_SimpleChannelServer');
 
 $package = new \PEAR2\Pyrus\Package('package.xml');
 $outfile = $package->name.'-'.$package->version['release'];
 $a = new \PEAR2\Pyrus\Package\Creator(array(
                     //new \PEAR2\Pyrus\Developer\Creator\Tar($outfile.'.tar', 'none'),
                     new \PEAR2\Pyrus\Developer\Creator\Phar($outfile.'.tgz', false, Phar::TAR, Phar::GZ),),
-                    dirname(__FILE__).'/../../Exception/src',
-					dirname(__FILE__).'/../../Autoload/src',
-					dirname(__FILE__).'/../../MultiErrors/src');
+                    __DIR__.'/../../Exception/src',
+					__DIR__.'/../../Autoload/src',
+					__DIR__.'/../../MultiErrors/src');
 $a->render($package);
 
 $a = new \PEAR2\Pyrus\Package\Creator(array(
@@ -25,9 +25,9 @@ set_include_path(\'phar://\' . PYRUS_PHAR_FILE . \'/php/\'.PATH_SEPARATOR.get_in
 $cli = new pear\SimpleChannelServer\CLI();
 $cli->process();
 '),),
-                    dirname(__FILE__) . '/../../Exception/src',
-                    dirname(__FILE__) . '/../../Autoload/src',
-                    dirname(__FILE__) . '/../../MultiErrors/src');
+                    __DIR__ . '/../../Exception/src',
+                    __DIR__ . '/../../Autoload/src',
+                    __DIR__ . '/../../MultiErrors/src');
 $b = new \PEAR2\Pyrus\Package(__DIR__ . '/package.xml');
 $rp = __DIR__ . '/../../HTTP_Request/src/HTTP';
 

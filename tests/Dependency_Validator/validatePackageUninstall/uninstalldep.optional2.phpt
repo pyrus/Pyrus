@@ -24,7 +24,6 @@ $test->assertEquals('channel://pear2.php.net/foo (version >= 1.2.0) can be optio
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

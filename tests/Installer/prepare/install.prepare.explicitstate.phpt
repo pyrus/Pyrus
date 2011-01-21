@@ -22,8 +22,6 @@
  *  - P2-1.1.0RC3
  *  - P3-1.1.0
  */
-
-define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
@@ -64,7 +62,6 @@ b::rollback();
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

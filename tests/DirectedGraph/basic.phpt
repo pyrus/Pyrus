@@ -2,7 +2,7 @@
 Pyrus DirectedGraph: basic topological sort
 --FILE--
 <?php
-require dirname(__FILE__) . '/setup.php.inc';
+require __DIR__ . '/setup.php.inc';
 $a1 = new stdClass;
 $a2 = new stdClass;
 $a3 = new stdClass;

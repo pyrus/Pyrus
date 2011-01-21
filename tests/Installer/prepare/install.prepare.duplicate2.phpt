@@ -17,7 +17,6 @@
  * and P1 1.3.0 exists
  */
 use PEAR2\Pyrus\Package;
-define('MYDIR', __DIR__);
 include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
@@ -50,7 +49,6 @@ b::rollback();
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../clean.php.inc';
 ?>
 --EXPECT--

@@ -14,7 +14,7 @@ $creg->getRegistry()->install($info);
 
 try {
     $creg->delete($chan);
-    die('Should not have worked');
+    throw new Exception('passed and shouldn\'t');
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
     $test->assertEquals('Cannot delete channel pear.unl.edu, packages are installed', $e->getMessage(), 'error');
 }
@@ -27,7 +27,6 @@ $test->assertEquals(true, $creg->delete($chan), 'non-existing');
 ===DONE===
 --CLEAN--
 <?php
-$dir = dirname(__DIR__) . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--

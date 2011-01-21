@@ -2,9 +2,8 @@
 \PEAR2\Pyrus\ChannelRegistry::__construct() errors test
 --FILE--
 <?php
-require dirname(dirname(__FILE__)) . '/../setup.php.inc';
-@mkdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testit');
-$killit = new Sqlite3(__DIR__ . '/testit/.pear2registry');
+require dirname(__DIR__) . '/../setup.php.inc';
+$killit = new Sqlite3(TESTDIR . '/.pear2registry');
 $query = '
   CREATE TABLE files (
    packages_name TEXT(80) NOT NULL,
@@ -24,11 +23,10 @@ $worked = $killit->exec($query);
 // this will kill the sqlite3 registry
 $killit->exec('BEGIN');
 try {
-    $c = new \PEAR2\Pyrus\ChannelRegistry(__DIR__ . '/testit', array('Sqlite3', 'Fubar'));
+    $c = new \PEAR2\Pyrus\ChannelRegistry(TESTDIR, array('Sqlite3', 'Fubar'));
     throw new Exception('worked and should not');
 } catch (\PEAR2\Pyrus\ChannelRegistry\Exception $e) {
-    $test->assertEquals('Unable to initialize registry for path "' . __DIR__ .
-                        DIRECTORY_SEPARATOR . 'testit"', $e->getMessage(), 'message');
+    $test->assertEquals('Unable to initialize registry for path "' . TESTDIR . '"', $e->getMessage(), 'message');
     $causes = array();
     $e->getCauseMessage($causes);
     $test->assertEquals('Database initialization failed',
@@ -40,7 +38,6 @@ try {
 ===DONE===
 --CLEAN--
 <?php
-$dir = __DIR__ . '/testit';
 include __DIR__ . '/../../../clean.php.inc';
 ?>
 --EXPECT--
