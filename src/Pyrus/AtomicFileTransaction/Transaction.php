@@ -133,7 +133,7 @@ class Transaction extends Transaction\TwoStage
             }
 
             // Also throw a exception when zero is returned
-            if (!stream_copy_to_stream($contents, $fp)) {
+            if (stream_copy_to_stream($contents, $fp) === false) {
                 fclose($fp);
                 throw new IOException('Unable to copy to ' . $relativePath . ' in ' . $this->journalPath);
             }
