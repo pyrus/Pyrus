@@ -107,14 +107,13 @@ class Transaction extends Transaction\TwoStage
             throw new IOException('Cannot create directory ' . $relativePath . ', it is a file');
         }
 
-        if ($mode === null) {
-            $mode = $this->defaultMode;
-        } else {
-            $mode &= 0777;
-        }
-
         if (!@mkdir($path, $mode, true)) {
             throw new IOException('Unable to make directory ' . $relativePath . ' in ' . $this->journalPath);
+        }
+
+        $mode = $this->getMode($mode);
+        if ($mode) {
+            chmod($path, $mode);
         }
     }
 
@@ -122,11 +121,7 @@ class Transaction extends Transaction\TwoStage
     {
         $this->checkActive();
 
-        if ($mode === null) {
-            $mode = $this->defaultMode;
-        } else {
-            $mode &= 0777;
-        }
+        $mode = $this->getMode($mode);
 
         $path = $this->getPath($relativePath);
 
@@ -137,7 +132,8 @@ class Transaction extends Transaction\TwoStage
                 throw new IOException('Unable to open ' . $relativePath . ' for writing in ' . $this->journalPath);
             }
 
-            if (false === stream_copy_to_stream($contents, $fp)) {
+            // Also throw a exception when zero is returned
+            if (!stream_copy_to_stream($contents, $fp)) {
                 fclose($fp);
                 throw new IOException('Unable to copy to ' . $relativePath . ' in ' . $this->journalPath);
             }

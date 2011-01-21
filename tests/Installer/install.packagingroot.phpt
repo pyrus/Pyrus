@@ -15,12 +15,12 @@ $c->saveConfig();
 \PEAR2\Pyrus\Installer::begin();
 \PEAR2\Pyrus\Installer::prepare($package);
 \PEAR2\Pyrus\Installer::commit();
-$test->assertFileExists(TESTDIR . TESTDIR . '/bin/pearscs', 'bin/pearscs');
-$test->assertEquals(decoct(0755), decoct(0777 & fileperms(TESTDIR . TESTDIR . '/bin/pearscs')), 'bin/pearscs perms');
-$test->assertFileExists(TESTDIR . TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php',
+$test->assertFileExists(TESTDIR . '/bin/pearscs', 'bin/pearscs');
+$test->assertEquals(decoct(0755), decoct(0777 & fileperms(TESTDIR . '/bin/pearscs')), 'bin/pearscs perms');
+$test->assertFileExists(TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php',
                         'src/PEAR2/SimpleChannelServer.php');
 $test->assertEquals(file_get_contents(__DIR__.'/../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
-                    file_get_contents(TESTDIR . TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php'), 'files match');
+                    file_get_contents(TESTDIR . '/local/lib/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
   TESTDIR . '/local/lib/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php' =>

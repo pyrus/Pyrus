@@ -11,7 +11,7 @@ $test->assertEquals('hi', file_get_contents($journalPath . '/foo'), 'foo content
 
 // chmod is not fully supported on windows
 if (substr(PHP_OS, 0, 3) != 'WIN') {
-	$test->assertEquals(decoct(0646), decoct(0777 & fileperms(TESTDIR . '/.journal-src/foo')), 'perms set');
+	$test->assertEquals(decoct(0646), decoct(0777 & fileperms($journalPath . '/foo')), 'perms set');
 }
 ?>
 ===DONE===

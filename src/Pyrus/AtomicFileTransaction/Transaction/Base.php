@@ -30,11 +30,6 @@ class Base
     protected $journalPath;
 
     /**
-     * @var int
-     */
-    protected $defaultMode;
-
-    /**
      * @var bool
      */
     protected $inTransaction = false;
@@ -53,7 +48,6 @@ class Base
 
         $parentPath = dirname($path);
         $this->journalPath = FS::combine($parentPath, '.journal-' . basename($path));
-        $this->defaultMode = 0777 & ~octdec(\PEAR2\Pyrus\Config::current()->umask);
     }
 
     /**
@@ -103,7 +97,7 @@ class Base
         }
 
         // Set permissions
-        chmod($this->journalPath, file_exists($this->path) ? fileperms($this->path) : $this->defaultMode);
+        chmod($this->journalPath, file_exists($this->path) ? fileperms($this->path) : $this->getMode());
 
         // Copy source to the journal
         FS::copyDir($this->path, $this->journalPath);
@@ -162,5 +156,12 @@ class Base
         if (!$this->inTransaction) {
             throw new RuntimeException('Transaction not active.');
         }
+    }
+
+    protected function getMode($mode = null) {
+        if ($mode === null) {
+            return 0777 & ~octdec(\PEAR2\Pyrus\Config::current()->umask);
+        }
+        return $mode & 0777;
     }
 }
