@@ -61,7 +61,7 @@ class Main
             return $val;
         }
 
-        $val = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/pear2.php.net/PEAR2_Pyrus';
+        $val = dirname(dirname(dirname(__DIR__))) . '/data/pear2.php.net/PEAR2_Pyrus';
         return $val;
     }
 
