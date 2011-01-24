@@ -39,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-01-08</date>
- <time>09:17:26</time>
+ <date>2011-01-24</date>
+ <time>15:01:45</time>
  <version>
   <release>2.0.0a2</release>
   <api>2.0.0a1</api>
@@ -159,6 +159,8 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure3.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure2.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Task/Common/Task/Common/registerCustomTask.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Task/Common/Task/Common/builtinTasks.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptRunner/ScriptRunner/setup.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptRunner/ScriptRunner/postprocessprompts.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptRunner/ScriptRunner/basic.phpt"/>
@@ -574,6 +576,7 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Registry/AllRegistries/info/Registry/AllRegistries/info/dirtree.template"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Registry/AllRegistries/getdependentpackages/Registry/AllRegistries/getdependentpackages/basic.template"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Registry/AllRegistries/detectfileconflicts/Registry/AllRegistries/detectfileconflicts/basic.template"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/phpunit.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.newobject.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.newobject.packaging.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.fail.task.phpt"/>
@@ -2084,6 +2087,7 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.readonly.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/setup.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/schema_error.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/error.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile/setupFiles/ChannelFile/setupFiles/setupChannelFile.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile/ChannelFile/setup.php.inc"/>
@@ -2105,39 +2109,103 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Channel/Channel/mirrors-set.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Channel/Channel/creation.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Channel/Channel/basic.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback2.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rmrf/AtomicFileTransaction/rmrf/rmrf.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/repair/AtomicFileTransaction/repair/repair.fail.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/repair/AtomicFileTransaction/repair/repair.basic.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.notstrict.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.nonexisting.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.fail.strict.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removeBackups/AtomicFileTransaction/removeBackups/removebackups.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/removejournalpath.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.nomode.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.fail.isfile.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fp.stream.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fp.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.fp.stream.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.fp.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.contents.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.failbackup.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.fail.notintransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.journal-exists.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail2.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.intransaction.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.copy.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/setup.php.inc"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/setup.empty.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.notstrict.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.nonexisting.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.fail.strict.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/openPath/AtomicFileTransaction/TransactionClass/openPath/openpath.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.nomode.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.isdir.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.fail.isfile.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fp.stream.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fp.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.fp.stream.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.fp.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.contents.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/AtomicFileTransaction/TransactionClass/setup.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.twice.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.twice.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.fail.backupfile.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/begin/AtomicFileTransaction/Transaction/TwoStageClass/begin/begin.fail.hasBackup.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/setup.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/constructor.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/constructor.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/rollback/AtomicFileTransaction/Transaction/BaseClass/rollback/rollback.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/rollback/AtomicFileTransaction/Transaction/BaseClass/rollback/rollback.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.fail.no-journal.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.journal.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.journal-exists.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.fail.journal-file.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.empty.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.dir.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.copy.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/setup.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/constructor.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/constructor.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/AtomicFileTransaction/Transaction/AllTests.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/setTransactionClass/AtomicFileTransaction/ManagerClass/setTransactionClass/setTransactionClass.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/setTransactionClass/AtomicFileTransaction/ManagerClass/setTransactionClass/setTransactionClass.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.rollback.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.revert.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/mocks/AtomicFileTransaction/ManagerClass/mocks/TransactionMock.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/getTransaction/AtomicFileTransaction/ManagerClass/getTransaction/getTransaction.string.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/getTransaction/AtomicFileTransaction/ManagerClass/getTransaction/getTransaction.role.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/finish/AtomicFileTransaction/ManagerClass/finish/finish.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.empty.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/getTransaction.begin.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/AtomicFileTransaction/ManagerClass/setup.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback2.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.fail.notintransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rmrf/AtomicFileTransaction/AtomicFileTransactionClass/rmrf/rmrf.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/repair/AtomicFileTransaction/AtomicFileTransactionClass/repair/repair.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/repair/AtomicFileTransaction/AtomicFileTransactionClass/repair/repair.basic.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.notstrict.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.nonexisting.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.fail.strict.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.fail.notintransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removeBackups/AtomicFileTransaction/AtomicFileTransactionClass/removeBackups/removebackups.fail.notintransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.nomode.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.fail.notintransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.fail.isfile.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fp.stream.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fp.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.fp.stream.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.fp.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.contents.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fail.notintransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.failbackup.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.fail.notintransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.journal-exists.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail2.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail.intransaction.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.copy.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/AtomicFileTransaction/AtomicFileTransactionClass/setup.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/AtomicFileTransaction/AtomicFileTransactionClass/setup.empty.php.inc"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/AllTests.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AllTests.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/.gitignore"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/.cvsignore"/>
    <file role="script" name="script/pyrus"/>
    <file role="php" name="php/PEAR2/Pyrus/XMLWriter/Exception.php"/>
@@ -2250,6 +2318,7 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/Main.php"/>
    <file role="php" name="php/PEAR2/Pyrus/LogInterface.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Logger.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/IOException.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Installer/Role/Www.xml"/>
    <file role="php" name="php/PEAR2/Pyrus/Installer/Role/Www.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Installer/Role/Test.xml"/>
@@ -2282,6 +2351,7 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/HTTPException.php"/>
    <file role="php" name="php/PEAR2/Pyrus/FileTransactions.php"/>
    <file role="php" name="php/PEAR2/Pyrus/FileTransactionInterface.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/Filesystem.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/DownloadProgressListener.php"/>
    <file role="php" name="php/PEAR2/Pyrus/DirectedGraph/Vertex.php"/>
@@ -2349,6 +2419,12 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/Channel/MirrorInterface.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Channel/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Channel.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/Transaction/TwoStage.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/Transaction/Base.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/Transaction.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/RuntimeException.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/MultiException.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/Manager.php"/>
    <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/AtomicFileTransaction.php"/>
    <file role="data" name="data/pear2.php.net/PEAR2_Pyrus/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
@@ -2678,6 +2754,12 @@ Initial pyrus public API
    <install name="data/pear2.php.net/PEAR2_Pyrus/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority" as="PEAR2_Pyrus/x509rootcerts/x509rootcerts/XRampGlobalCertificationAuthority"/>
    <install name="php/PEAR2/Pyrus/AtomicFileTransaction.php" as="PEAR2/Pyrus/AtomicFileTransaction.php"/>
    <install name="php/PEAR2/Pyrus/AtomicFileTransaction/Exception.php" as="PEAR2/Pyrus/AtomicFileTransaction/Exception.php"/>
+   <install name="php/PEAR2/Pyrus/AtomicFileTransaction/Manager.php" as="PEAR2/Pyrus/AtomicFileTransaction/Manager.php"/>
+   <install name="php/PEAR2/Pyrus/AtomicFileTransaction/MultiException.php" as="PEAR2/Pyrus/AtomicFileTransaction/MultiException.php"/>
+   <install name="php/PEAR2/Pyrus/AtomicFileTransaction/RuntimeException.php" as="PEAR2/Pyrus/AtomicFileTransaction/RuntimeException.php"/>
+   <install name="php/PEAR2/Pyrus/AtomicFileTransaction/Transaction.php" as="PEAR2/Pyrus/AtomicFileTransaction/Transaction.php"/>
+   <install name="php/PEAR2/Pyrus/AtomicFileTransaction/Transaction/Base.php" as="PEAR2/Pyrus/AtomicFileTransaction/Transaction/Base.php"/>
+   <install name="php/PEAR2/Pyrus/AtomicFileTransaction/Transaction/TwoStage.php" as="PEAR2/Pyrus/AtomicFileTransaction/Transaction/TwoStage.php"/>
    <install name="php/PEAR2/Pyrus/Channel.php" as="PEAR2/Pyrus/Channel.php"/>
    <install name="php/PEAR2/Pyrus/Channel/Exception.php" as="PEAR2/Pyrus/Channel/Exception.php"/>
    <install name="php/PEAR2/Pyrus/Channel/MirrorInterface.php" as="PEAR2/Pyrus/Channel/MirrorInterface.php"/>
@@ -2745,6 +2827,7 @@ Initial pyrus public API
    <install name="php/PEAR2/Pyrus/DirectedGraph/Vertex.php" as="PEAR2/Pyrus/DirectedGraph/Vertex.php"/>
    <install name="php/PEAR2/Pyrus/DownloadProgressListener.php" as="PEAR2/Pyrus/DownloadProgressListener.php"/>
    <install name="php/PEAR2/Pyrus/Exception.php" as="PEAR2/Pyrus/Exception.php"/>
+   <install name="php/PEAR2/Pyrus/Filesystem.php" as="PEAR2/Pyrus/Filesystem.php"/>
    <install name="php/PEAR2/Pyrus/FileTransactionInterface.php" as="PEAR2/Pyrus/FileTransactionInterface.php"/>
    <install name="php/PEAR2/Pyrus/FileTransactions.php" as="PEAR2/Pyrus/FileTransactions.php"/>
    <install name="php/PEAR2/Pyrus/HTTPException.php" as="PEAR2/Pyrus/HTTPException.php"/>
@@ -2777,6 +2860,7 @@ Initial pyrus public API
    <install name="php/PEAR2/Pyrus/Installer/Role/Test.xml" as="PEAR2/Pyrus/Installer/Role/Test.xml"/>
    <install name="php/PEAR2/Pyrus/Installer/Role/Www.php" as="PEAR2/Pyrus/Installer/Role/Www.php"/>
    <install name="php/PEAR2/Pyrus/Installer/Role/Www.xml" as="PEAR2/Pyrus/Installer/Role/Www.xml"/>
+   <install name="php/PEAR2/Pyrus/IOException.php" as="PEAR2/Pyrus/IOException.php"/>
    <install name="php/PEAR2/Pyrus/Logger.php" as="PEAR2/Pyrus/Logger.php"/>
    <install name="php/PEAR2/Pyrus/LogInterface.php" as="PEAR2/Pyrus/LogInterface.php"/>
    <install name="php/PEAR2/Pyrus/Main.php" as="PEAR2/Pyrus/Main.php"/>
@@ -2889,39 +2973,103 @@ Initial pyrus public API
    <install name="php/PEAR2/Pyrus/XMLWriter/Exception.php" as="PEAR2/Pyrus/XMLWriter/Exception.php"/>
    <install name="script/pyrus" as="pyrus"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/.cvsignore" as="PEAR2_Pyrus/.cvsignore"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/setup.empty.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/setup.empty.php.inc"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/setup.php.inc"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.copy.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.copy.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.intransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail2.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail2.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.journal-exists.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.journal-exists.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.failbackup.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.failbackup.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/commit/AtomicFileTransaction/commit/commit.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.contents.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.contents.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.fp.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.fp.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.fp.stream.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.failure.fp.stream.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fp.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fp.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fp.stream.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fp.stream.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.fail.isfile.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.fail.isfile.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.nomode.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/mkdir.nomode.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/removejournalpath.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/mkdir/AtomicFileTransaction/mkdir/removejournalpath.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removeBackups/AtomicFileTransaction/removeBackups/removebackups.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/removeBackups/AtomicFileTransaction/removeBackups/removebackups.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.fail.strict.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.fail.strict.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.nonexisting.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.nonexisting.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.notstrict.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/removePath/AtomicFileTransaction/removePath/removepath.notstrict.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/repair/AtomicFileTransaction/repair/repair.basic.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/repair/AtomicFileTransaction/repair/repair.basic.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/repair/AtomicFileTransaction/repair/repair.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/repair/AtomicFileTransaction/repair/repair.fail.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rmrf/AtomicFileTransaction/rmrf/rmrf.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/rmrf/AtomicFileTransaction/rmrf/rmrf.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback.fail.notintransaction.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback2.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/rollback/AtomicFileTransaction/rollback/rollback2.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/.gitignore" as="PEAR2_Pyrus/.gitignore"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AllTests.php" as="PEAR2_Pyrus/AllTests.php"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/AllTests.php" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransaction/AllTests.php"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/AtomicFileTransaction/AtomicFileTransactionClass/setup.empty.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/AtomicFileTransaction/AtomicFileTransactionClass/setup.empty.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/AtomicFileTransaction/AtomicFileTransactionClass/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/AtomicFileTransaction/AtomicFileTransactionClass/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.copy.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.copy.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail2.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.fail2.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.journal-exists.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.journal-exists.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/begin/AtomicFileTransaction/AtomicFileTransactionClass/begin/begin.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.fail.notintransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.failbackup.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.failbackup.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/commit/AtomicFileTransaction/AtomicFileTransactionClass/commit/commit.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fail.notintransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.contents.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.contents.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.fp.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.fp.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.fp.stream.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.failure.fp.stream.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fp.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fp.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fp.stream.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/AtomicFileTransaction/AtomicFileTransactionClass/createOrOpenPath/createoropenpath.fp.stream.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.fail.isfile.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.fail.isfile.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.fail.notintransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.nomode.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/AtomicFileTransaction/AtomicFileTransactionClass/mkdir/mkdir.nomode.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removeBackups/AtomicFileTransaction/AtomicFileTransactionClass/removeBackups/removebackups.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removeBackups/AtomicFileTransaction/AtomicFileTransactionClass/removeBackups/removebackups.fail.notintransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.fail.notintransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.fail.strict.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.fail.strict.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.nonexisting.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.nonexisting.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.notstrict.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/removePath/AtomicFileTransaction/AtomicFileTransactionClass/removePath/removepath.notstrict.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/repair/AtomicFileTransaction/AtomicFileTransactionClass/repair/repair.basic.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/repair/AtomicFileTransaction/AtomicFileTransactionClass/repair/repair.basic.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/repair/AtomicFileTransaction/AtomicFileTransactionClass/repair/repair.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/repair/AtomicFileTransaction/AtomicFileTransactionClass/repair/repair.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rmrf/AtomicFileTransaction/AtomicFileTransactionClass/rmrf/rmrf.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rmrf/AtomicFileTransaction/AtomicFileTransactionClass/rmrf/rmrf.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.fail.notintransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback2.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback2.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.php" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.php"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.php" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.php"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/AtomicFileTransaction/ManagerClass/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/AtomicFileTransaction/ManagerClass/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/getTransaction.begin.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/getTransaction.begin.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.empty.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.empty.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/commit/AtomicFileTransaction/ManagerClass/commit/commit.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/finish/AtomicFileTransaction/ManagerClass/finish/finish.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/finish/AtomicFileTransaction/ManagerClass/finish/finish.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/getTransaction/AtomicFileTransaction/ManagerClass/getTransaction/getTransaction.role.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/getTransaction/AtomicFileTransaction/ManagerClass/getTransaction/getTransaction.role.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/getTransaction/AtomicFileTransaction/ManagerClass/getTransaction/getTransaction.string.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/getTransaction/AtomicFileTransaction/ManagerClass/getTransaction/getTransaction.string.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/mocks/AtomicFileTransaction/ManagerClass/mocks/TransactionMock.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/mocks/AtomicFileTransaction/ManagerClass/mocks/TransactionMock.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.revert.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.revert.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.rollback.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/rollback/AtomicFileTransaction/ManagerClass/rollback/rollback.fail.rollback.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/setTransactionClass/AtomicFileTransaction/ManagerClass/setTransactionClass/setTransactionClass.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/setTransactionClass/AtomicFileTransaction/ManagerClass/setTransactionClass/setTransactionClass.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/setTransactionClass/AtomicFileTransaction/ManagerClass/setTransactionClass/setTransactionClass.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/setTransactionClass/AtomicFileTransaction/ManagerClass/setTransactionClass/setTransactionClass.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/AtomicFileTransaction/Transaction/AllTests.php" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/AtomicFileTransaction/Transaction/AllTests.php"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/constructor.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/constructor.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/constructor.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/constructor.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/AtomicFileTransaction/Transaction/BaseClass/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.copy.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.copy.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.dir.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.dir.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.empty.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.empty.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.fail.journal-file.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.fail.journal-file.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.journal-exists.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.journal-exists.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.journal.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/begin/AtomicFileTransaction/Transaction/BaseClass/begin/beginTransaction.journal.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.fail.no-journal.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.fail.no-journal.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/commit/AtomicFileTransaction/Transaction/BaseClass/commit/commit.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/rollback/AtomicFileTransaction/Transaction/BaseClass/rollback/rollback.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/rollback/AtomicFileTransaction/Transaction/BaseClass/rollback/rollback.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/rollback/AtomicFileTransaction/Transaction/BaseClass/rollback/rollback.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/BaseClass/rollback/AtomicFileTransaction/Transaction/BaseClass/rollback/rollback.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/constructor.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/constructor.fail.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/constructor.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/constructor.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/AtomicFileTransaction/Transaction/TwoStageClass/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/begin/AtomicFileTransaction/Transaction/TwoStageClass/begin/begin.fail.hasBackup.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/begin/AtomicFileTransaction/Transaction/TwoStageClass/begin/begin.fail.hasBackup.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.fail.backupfile.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.fail.backupfile.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/commit/AtomicFileTransaction/Transaction/TwoStageClass/commit/commit.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.twice.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/finish/AtomicFileTransaction/Transaction/TwoStageClass/finish/finish.twice.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.fail.intransaction.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.twice.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/Transaction/TwoStageClass/revert/AtomicFileTransaction/Transaction/TwoStageClass/revert/revert.twice.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/AtomicFileTransaction/TransactionClass/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/AtomicFileTransaction/TransactionClass/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fail.fp.stream.empty.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.contents.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.contents.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.fp.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.fp.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.fp.stream.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.failure.fp.stream.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fp.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fp.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fp.stream.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/createOrOpenPath/AtomicFileTransaction/TransactionClass/createOrOpenPath/createoropenpath.fp.stream.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.fail.isfile.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.fail.isfile.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.isdir.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.isdir.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.nomode.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/mkdir/AtomicFileTransaction/TransactionClass/mkdir/mkdir.nomode.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/openPath/AtomicFileTransaction/TransactionClass/openPath/openpath.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/openPath/AtomicFileTransaction/TransactionClass/openPath/openpath.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.fail.strict.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.fail.strict.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.nonexisting.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.nonexisting.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.notstrict.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/TransactionClass/removePath/AtomicFileTransaction/TransactionClass/removePath/removepath.notstrict.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Channel/Channel/basic.phpt" as="PEAR2_Pyrus/Channel/Channel/basic.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Channel/Channel/creation.phpt" as="PEAR2_Pyrus/Channel/Channel/creation.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Channel/Channel/mirrors-set.phpt" as="PEAR2_Pyrus/Channel/Channel/mirrors-set.phpt"/>
@@ -2943,6 +3091,7 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile/ChannelFile/setup.php.inc" as="PEAR2_Pyrus/ChannelFile/ChannelFile/setup.php.inc"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile/setupFiles/ChannelFile/setupFiles/setupChannelFile.php.inc" as="PEAR2_Pyrus/ChannelFile/setupFiles/ChannelFile/setupFiles/setupChannelFile.php.inc"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/error.phpt" as="PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/error.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/schema_error.phpt" as="PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/schema_error.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/setup.php.inc" as="PEAR2_Pyrus/ChannelFile_Parser_v1/ChannelFile_Parser_v1/setup.php.inc"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.phpt" as="PEAR2_Pyrus/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.readonly.phpt" as="PEAR2_Pyrus/ChannelRegistry/AllRegistries/add/ChannelRegistry/AllRegistries/add/add.readonly.phpt"/>
@@ -4453,6 +4602,7 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.fail.task.phpt" as="PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.fail.task.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.newobject.packaging.phpt" as="PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.newobject.packaging.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.newobject.phpt" as="PEAR2_Pyrus/PackageFile_v2_Validator/PackageFile_v2_Validator/validate.newobject.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/phpunit.php.inc" as="PEAR2_Pyrus/phpunit.php.inc"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Registry/AllRegistries/detectfileconflicts/Registry/AllRegistries/detectfileconflicts/basic.template" as="PEAR2_Pyrus/Registry/AllRegistries/detectfileconflicts/Registry/AllRegistries/detectfileconflicts/basic.template"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Registry/AllRegistries/getdependentpackages/Registry/AllRegistries/getdependentpackages/basic.template" as="PEAR2_Pyrus/Registry/AllRegistries/getdependentpackages/Registry/AllRegistries/getdependentpackages/basic.template"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Registry/AllRegistries/info/Registry/AllRegistries/info/dirtree.template" as="PEAR2_Pyrus/Registry/AllRegistries/info/Registry/AllRegistries/info/dirtree.template"/>
@@ -4868,6 +5018,8 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptRunner/ScriptRunner/basic.phpt" as="PEAR2_Pyrus/ScriptRunner/ScriptRunner/basic.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptRunner/ScriptRunner/postprocessprompts.phpt" as="PEAR2_Pyrus/ScriptRunner/ScriptRunner/postprocessprompts.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptRunner/ScriptRunner/setup.php.inc" as="PEAR2_Pyrus/ScriptRunner/ScriptRunner/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Task/Common/Task/Common/builtinTasks.phpt" as="PEAR2_Pyrus/Task/Common/Task/Common/builtinTasks.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Task/Common/Task/Common/registerCustomTask.phpt" as="PEAR2_Pyrus/Task/Common/Task/Common/registerCustomTask.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure.phpt" as="PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure2.phpt" as="PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure2.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure3.phpt" as="PEAR2_Pyrus/Task/Postinstallscript/Task/Postinstallscript/validatexml.failure3.phpt"/>
