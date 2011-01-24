@@ -233,6 +233,7 @@ if (is_dir(TESTDIR)) {
     include __DIR__ . DIRECTORY_SEPARATOR . 'clean.php.inc';
 }
 mkdir(TESTDIR);
+chdir(TESTDIR);
 
 function getTestConfig() {
     set_include_path(TESTDIR);
