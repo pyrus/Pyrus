@@ -68,6 +68,9 @@ class Role
         }
 
         $class = self::$_roles[$role]['class'];
+        if (!class_exists($class, true)) {
+            throw new Exception('Unable to load custom class ' . $class . ' for ' . $role);
+        }
         return new $class(Config::current(), self::$_roles[$role]);
     }
 

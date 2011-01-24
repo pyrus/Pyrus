@@ -1,6 +1,8 @@
 <?php
 namespace PEAR2\Pyrus;
 
+use FilesystemIterator;
+
 abstract class Filesystem {
     /**
      * Replace forward and backward slashes with DIRECTORY_SEPARATOR.
@@ -29,16 +31,17 @@ abstract class Filesystem {
 
     public static function rmrf($path, $onlyEmptyDirs = false, $strict = true)
     {
+        $paths = array();
         $oldPerms = array();
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
-                                               \RecursiveIteratorIterator::SELF_FIRST);
+            \RecursiveIteratorIterator::SELF_FIRST);
         while ($iterator->valid()) {
             if ($iterator->isDot()) {
                 $iterator->next();
                 continue;
             }
             $pathName = $iterator->current()->getPathName();
-
+            $paths[] = $pathName;
             if ($strict) {
                 $oldPerms[$pathName] = fileperms($pathName);
             }
@@ -52,19 +55,11 @@ abstract class Filesystem {
             $iterator->next();
         }
 
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
-                                               \RecursiveIteratorIterator::CHILD_FIRST);
+        $paths = array_unique(array_reverse($paths));
         try {
-            while ($iterator->valid()) {
-                if ($iterator->isDot()) {
-                    $iterator->next();
-                    continue;
-                }
-                $file = $iterator->current();
-                $iterator->next();
-
-                if ($file->isDir()) {
-                    if (@rmdir($file->getPathname())) {
+            foreach ($paths as $filePath) {
+                if (is_dir($filePath)) {
+                    if (rmdir($filePath)) {
                         continue;
                     }
                     if (!$strict) {
@@ -73,6 +68,7 @@ abstract class Filesystem {
 
                     throw new IOException('Unable to fully remove ' . $path);
                 }
+
                 if ($onlyEmptyDirs) {
                     if (!$strict) {
                         continue;
@@ -82,7 +78,7 @@ abstract class Filesystem {
                         'Unable to fully remove ' . $path . ', directory is not empty');
                 }
 
-                if (!@unlink($file->getPathname())) {
+                if (!unlink($filePath)) {
                     throw new IOException(
                         'Unable to fully remove ' . $path);
                 }
@@ -100,7 +96,7 @@ abstract class Filesystem {
 
         // ensure rmdir works
         chmod($path, 0777);
-        if (!@rmdir($path) && $strict) {
+        if (!rmdir($path) && $strict) {
             throw new IOException('Unable to fully remove ' . $path);
         }
     }
@@ -112,6 +108,7 @@ abstract class Filesystem {
         }
 
         try {
+            $done = array();
             $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source),
                                                    \RecursiveIteratorIterator::SELF_FIRST);
             while ($iterator->valid()) {
@@ -122,27 +119,34 @@ abstract class Filesystem {
 
                 $file = $iterator->current();
                 $targetPath = $target . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+                $iterator->next();
 
+                // It seems RecursiveIteratorIterator can return the save file twice
+                if (isset($done[$targetPath])) {
+                    continue;
+                }
+                $done[$targetPath] = true;
+
+                // Copy directory or file
                 if ($file->isDir()) {
-                    if (!@mkdir($targetPath, $file->getPerms())) {
+                    if (!mkdir($targetPath, $file->getPerms())) {
                         throw new IOException(
-                            'Unable to copy directory, failed to create directory');
+                            'Unable to copy directory, failed to create directory ' . $targetPath . ' - ' .  $file->getPathname());
                     }
-                } elseif (!@copy($file->getPathName(), $targetPath)) {
+                } elseif (!copy($file->getPathName(), $targetPath)) {
                     throw new IOException(
                         'Unable to copy directory, failed to copy the file');
 
                 }
-                if (!@chmod($targetPath, $file->getPerms())) {
+                if (!chmod($targetPath, $file->getPerms())) {
                     throw new IOException(
                         'Unable to copy directory, failed to set permissions');
                 }
 
-                if (!@touch($targetPath, $file->getMTime(), $file->getATime())) {
+                if (!touch($targetPath, $file->getMTime(), $file->getATime())) {
                     throw new IOException(
                         'Unable to copy directory, touch failed');
                 }
-                $iterator->next();
             }
         } catch (\UnexpectedValueException $e) {
             throw new IOException('directory copy failed: ' . $e->getMessage(), $e);

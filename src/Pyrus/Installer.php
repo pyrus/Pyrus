@@ -329,9 +329,19 @@ class Installer
                 AtomicFileTransaction::commit();
                 $reg->commit();
             } catch (AtomicFileTransaction\Exception $e) {
-                AtomicFileTransaction::rollback();
-                $reg->rollback();
-                throw new Installer\Exception('Installation failed', $e);
+                $errs = new \PEAR2\MultiErrors();
+                $errs->E_ERROR[] = $e;
+                try {
+                    AtomicFileTransaction::rollback();
+                } catch (\Exception $ex) {
+                    $errs->E_WARNING[] = $ex;
+                }
+                try {
+                    $reg->rollback();
+                } catch (\Exception $ex) {
+                    $errs->E_WARNING[] = $ex;
+                }
+                throw new Installer\Exception('Installation failed', $errs);
             }
 
             Config::current()->saveConfig();

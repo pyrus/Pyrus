@@ -33,7 +33,15 @@ class Transaction extends Transaction\TwoStage
         $this->manager = $manager;
 
         if ($manager->inTransaction()) {
-            $this->begin();
+            try {
+                $this->begin();
+            } catch (\Exception $e) {
+                try {
+                    $this->rollback();
+                } catch (\Exception $ex) {
+                }
+                throw $e;
+            }
         }
     }
 

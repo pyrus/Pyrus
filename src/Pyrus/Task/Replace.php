@@ -72,7 +72,7 @@ class Replace extends Common
         }
         if ($xml['attribs']['type'] == 'pear-config') {
             $config = \PEAR2\Pyrus\Config::current();
-            if (!in_array($xml['attribs']['to'], $config->systemvars)) {
+            if (!in_array($xml['attribs']['to'], $config->systemvars) && !in_array($xml['attribs']['to'], $config->customsystemvars)) {
                 throw new Exception\WrongAttributeValue('replace',
                                                         'to', $xml['attribs']['to'],
                                                         $file,

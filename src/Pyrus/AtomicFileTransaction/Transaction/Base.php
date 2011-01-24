@@ -81,6 +81,7 @@ class Base
         if ($this->inTransaction) {
             throw new RuntimeException('Cannot begin - already in a transaction');
         }
+        $this->inTransaction = true;
 
         // Remove possible failed transaction
         if (file_exists($this->journalPath)) {
@@ -101,8 +102,6 @@ class Base
 
         // Copy source to the journal
         FS::copyDir($this->path, $this->journalPath);
-
-        $this->inTransaction = true;
     }
 
     /**
