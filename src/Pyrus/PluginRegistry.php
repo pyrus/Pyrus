@@ -141,25 +141,31 @@ class PluginRegistry extends \PEAR2\Pyrus\Registry
     static function makeAutoloader($info, $type)
     {
         $autoloadPath = isset($info['autoloadpath']) ? $info['autoloadpath'] : false;
-        if ($autoloadPath === false && isset($info['class'])) {
-            $info['autoloadpath'] = realpath(self::$config->php_dir);
+        if ($autoloadPath === false) {
+            if(isset($info['class']) && self::$config !== null) {
+                $autoloadPath = self::$config->php_dir;
+                $fullPath = self::$config->php_dir;
+            } else {
+                return;
+            }
+        } else {
+            $fullPath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR . $autoloadPath);
         }
 
-        if ($autoloadPath === false || isset(self::$autoloadMap[$info['autoloadpath']])) {
+        if (isset(self::$autoloadMap[$autoloadPath])) {
             return;
         }
-        
-        $fullpath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR . $info['autoloadpath']);
-        if (!$fullpath) {
+
+        if (!$fullPath) {
             throw new PluginRegistry\Exception(
                 'Unable to create autoloader for custom ' . $type . ' ' . $info['name'] .
-                ', autoload path ' . $info['autoloadpath'] . ' does not exist');
+                ', autoload path ' . $autoloadPath . ' does not exist');
         }
 
-        $autoloader = function($class) use ($fullpath) {
-            $filepath = $fullpath . '/' . str_replace(array('\\', '_'), '/', $class) . '.php';
-            if (file_exists($filepath)) {
-                include $filepath;
+        $autoloader = function($class) use ($fullPath) {
+            $filePath = $fullPath . '/' . str_replace(array('\\', '_'), '/', $class) . '.php';
+            if (file_exists($filePath)) {
+                include $filePath;
             }
         };
         spl_autoload_register($autoloader);
