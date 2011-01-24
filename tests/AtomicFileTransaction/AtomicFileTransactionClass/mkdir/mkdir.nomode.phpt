@@ -3,6 +3,7 @@
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
+getTestConfig();
 
 $old = umask(0444); // confirm this does not affect things
 \PEAR2\Pyrus\Config::current()->umask = 0002;
