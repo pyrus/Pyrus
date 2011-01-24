@@ -5,7 +5,7 @@ class AllTests
 {
     public static function suite()
     {
-        $srcDir = dirname(dirname(dirname(__DIR__))) . '/src/Pyrus/AtomicFileTransaction/Transaction';
+        $srcDir = dirname(dirname(dirname(__DIR__))) . '/src/PEAR2/Pyrus/AtomicFileTransaction/Transaction';
 
         // Setup coverage filters
         $filter = PHP_CodeCoverage::getInstance()->filter();
