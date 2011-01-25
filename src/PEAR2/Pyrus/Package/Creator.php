@@ -200,17 +200,9 @@ class Creator
 
         $packagingloc = \PEAR2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
         if (file_exists($packagingloc)) {
-            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($packagingloc,
-                        \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-                if (is_dir($file)) {
-                    rmdir($file);
-                } elseif (is_file($file)) {
-                    unlink($file);
-                }
-            }
-        } else {
-            mkdir($packagingloc, 0777, true);
+			\PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
         }
+        mkdir($packagingloc, 0777, true);
 
         // $packageat is the relative path within the archive
         // $info is an array of format:
@@ -295,15 +287,7 @@ class Creator
         foreach ($this->_creators as $creator) {
             $creator->close();
         }
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($packagingloc,
-                    \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-            if (is_dir($file)) {
-                rmdir($file);
-            } elseif (is_file($file)) {
-                unlink($file);
-            }
-        }
-        rmdir($packagingloc);
+		\PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
     }
 
     protected function addPEAR2Stuff($alreadyPackaged)
