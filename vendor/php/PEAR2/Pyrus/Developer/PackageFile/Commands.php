@@ -32,9 +32,24 @@ class Commands
         if (!isset($args['channel'])) {
             $args['channel'] = 'pear2.php.net';
         }
+        if (!isset($options['scanoptions'])
+            && file_exists($dir . '/scanoptions.php')) {
+            $options['scanoptions'] = 'scanoptions.php';
+        }
+        $scanoptions = array();
+        if (isset($options['scanoptions'])) {
+            $file = $options['scanoptions'];
+            $path = $dir;
+            $getscanoptions = function() use ($path, $file) {
+                $scanoptions = array();
+                include $path . '/' . $file;
+                return $scanoptions;
+            };
+            $scanoptions = $getscanoptions();
+        }
         echo "Creating package.xml...";
         $pear2svn = new PEAR2SVN($dir, $args['packagename'], $args['channel'],
-                                                       false, true, !$options['nocompatible']);
+                                 false, true, !$options['nocompatible'], $scanoptions);
         if (!$options['packagexmlsetup'] && file_exists($pear2svn->path . '/packagexmlsetup.php')) {
             $options['packagexmlsetup'] = 'packagexmlsetup.php';
         }
@@ -130,7 +145,7 @@ class Commands
         $phar['package.xml'] = (string) $package;
         foreach ($package->files as $file) {
             // do automatic package-time version replacement
-            $phar[$file['attribs']['name']] = str_replace('0.3.1', $package->version['release'],
+            $phar[$file['attribs']['name']] = str_replace('0.4.0', $package->version['release'],
                                                           file_get_contents($dir . '/' . $file['attribs']['name']));
         }
         echo "done\n";
@@ -138,7 +153,7 @@ class Commands
 
     function package($frontend, $args, $options)
     {
-        $package1 = false;
+        $package = false;
         if (!isset($args['packagexml'])) {
             // first try ./package.xml
             if (file_exists('package.xml')) {
@@ -148,11 +163,14 @@ class Commands
                     if ($e->getCode() != -3) {
                         throw $e;
                     }
-                    if (file_exists('package2.xml')) {
-                        $package = new \PEAR2\Pyrus\Package(getcwd() . DIRECTORY_SEPARATOR . 'package2.xml');
-                        // now the creator knows to do the magic of package2.xml/package.xml
-                        $package->thisIsOldAndCrustyCompatible();
+
+                    if (!file_exists('package2.xml')) {
+                        throw $e;
                     }
+
+                    $package = new \PEAR2\Pyrus\Package(getcwd() . DIRECTORY_SEPARATOR . 'package2.xml');
+                    // now the creator knows to do the magic of package2.xml/package.xml
+                    $package->thisIsOldAndCrustyCompatible();
                 }
             }
         } else {
@@ -217,14 +235,15 @@ class Commands
 
         $sourcepath = \PEAR2\Pyrus\Main::getSourcePath();
         if (0 !== strpos($sourcepath, 'phar://')) {
-            // running from svn, assume we're in an all checkout
-            $svnall = realpath($sourcepath . '/../..');
-            if (!file_exists($svnall . '/Exception')) {
-                throw new \PEAR2\Pyrus\Developer\Creator\Exception('Cannot locate PEAR2/Exception and friends, bailing');
+            // running from svn, assume we're in a standard package layout with a vendor dir
+            // TODO: Improve this to automatically find latest releases from pear2.php.net
+            $exceptionpath = $autoloadpath = $multierrorspath = realpath($sourcepath . '/../../vendor/php') .
+                '/PEAR2';
+            if (!file_exists($exceptionpath . '/Exception.php')) {
+                throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+                    'Cannot locate PEAR2/Exception in a local vendor/ dir. '
+                    . 'It is best to install the latest versions of these locally.');
             }
-            $exceptionpath = $svnall . '/Exception/src';
-            $autoloadpath = $svnall . '/Autoload/src';
-            $multierrorspath = $svnall . '/MultiErrors/src';
         } else {
             $exceptionpath = $autoloadpath = $multierrorspath = dirname($sourcepath) .
                 '/PEAR2';
@@ -311,11 +330,12 @@ class Commands
                 }
                 foreach ($extrafiles as $path => $file) {
                     if (is_object($file)) {
-                        if ($file instanceof \PEAR2\Pyrus\Package) {
+                        if ($file instanceof \PEAR2\Pyrus\PackageInterface
+                            || $file instanceof \PEAR2\Pyrus\PackageFileInterface) {
                             continue;
                         }
                         throw new \PEAR2\Pyrus\Developer\Creator\Exception(
-                                            'extrasetup file object must be a \PEAR2\Pyrus\Package object');
+                                            'extrasetup file object must implement \PEAR2\Pyrus\PackageInterface or \PEAR2\Pyrus\PackageFileInterface');
                     }
                     if (!file_exists($file)) {
                         throw new \PEAR2\Pyrus\Developer\Creator\Exception(
@@ -535,8 +555,8 @@ try {
 function " . $info['package'] . "_autoload(\$class)
 {
     \$class = str_replace(array('_', '\\\'), '/', \$class);
-    if (file_exists('phar://' . __FILE__ . '/" . $info['package'] . "-0.3.1/php/' . \$class . '.php')) {
-        include 'phar://' . __FILE__ . '/" . $info['package'] . "-0.3.1/php/' . \$class . '.php';
+    if (file_exists('phar://' . __FILE__ . '/" . $info['package'] . "-0.4.0/php/' . \$class . '.php')) {
+        include 'phar://' . __FILE__ . '/" . $info['package'] . "-0.4.0/php/' . \$class . '.php';
     }
 }
 spl_autoload_register(\"" . $info['package'] . "_autoload\");

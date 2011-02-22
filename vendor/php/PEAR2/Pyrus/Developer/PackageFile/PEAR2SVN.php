@@ -50,7 +50,8 @@ class PEAR2SVN
      *                            should be PEAR2/Package for "/" directory
      */
     function __construct($path, $packagename = '##set me##', $channel = 'pear2.php.net',
-                         $return = false, $fullpathsused = true, $doCompatible = true)
+                         $return = false, $fullpathsused = true, $doCompatible = true,
+                         $scanoptions = array())
     {
         $this->doCompatible = $doCompatible;
         if (file_exists($path . DIRECTORY_SEPARATOR . 'package.xml')) {
@@ -85,7 +86,8 @@ class PEAR2SVN
         $packagepath = explode('_', $packagename);
 
         if ($fullpathsused) {
-            if ($this->pxml->channel == 'pear2.php.net') {
+            if ($this->pxml->channel == 'pear2.php.net'
+                && !is_dir($path . '/src/PEAR2')) {
                 $packagepath = array('PEAR2');
             } else {
                 $packagepath = array('/');
@@ -94,7 +96,7 @@ class PEAR2SVN
             array_pop($packagepath);
         }
 
-        $this->scanFiles($packagepath);
+        $this->scanFiles($packagepath, $scanoptions);
 
         $this->validate();
         try {
@@ -113,30 +115,29 @@ class PEAR2SVN
      *
      * @param string $packagepath
      */
-    function scanFiles($packagepath)
+    function scanFiles($packagepath, $scanoptions)
     {
-        $this->pxml->setBaseInstallDirs(array(
-            'src'     => implode('/', $packagepath),
+        $base_install_dirs = array(
+            'src'           => implode('/', $packagepath),
             'customrole'    => '/',
             'customtask'    => '/',
             'customcommand' => '/',
-            'data'    => '/',
-            'doc'     => '/',
-            'tests'   => '/',
-            'scripts' => '/',
-            'www'     => '/',
-        ));
-        $this->pxml_compatible->setBaseInstallDirs(array(
-            'src'     => implode('/', $packagepath),
-            'customrole'    => '/',
-            'customtask'    => '/',
-            'customcommand' => '/',
-            'data'    => '/',
-            'doc'     => '/',
-            'tests'   => '/',
-            'scripts' => '/',
-            'www'     => '/',
-        ));
+            'data'          => '/',
+            'docs'          => '/',
+            'tests'         => '/',
+            'scripts'       => '/',
+            'www'           => '/',
+        );
+        if (isset($scanoptions['baseinstalldirs'])) {
+            if (!is_array($scanoptions['baseinstalldirs'])) {
+                throw new \PEAR2\Pyrus\Developer\Creator\Exception('invalid scan options,' .
+                                                                   'baseinstalldirs must ' .
+                                                                   'be an array');
+            }
+            $base_install_dirs = array_merge($base_install_dirs, $scanoptions['baseinstalldirs']);
+        }
+
+        $this->setBaseInstallDirs($base_install_dirs);
 
         $rolemap = array(
             'src'           => 'php',
@@ -144,16 +145,56 @@ class PEAR2SVN
             'customrole'    => 'customrole',
             'customtask'    => 'customtask',
             'customcommand' => 'customcommand',
-            'doc'           => 'doc',
+            'docs'          => 'doc',
             'tests'         => 'test',
             'examples'      => 'doc',
             'scripts'       => 'script',
             'www'           => 'www',);
+        if (isset($scanoptions['rolemap'])) {
+            if (!is_array($scanoptions['rolemap'])) {
+                throw new \PEAR2\Pyrus\Developer\Creator\Exception('invalid scan options,' .
+                                                                   'rolemap must ' .
+                                                                   'be an array');
+            }
+            $rolemap = array_merge($rolemap, $scanoptions['rolemap']);
+        }
+
+        if (!isset($scanoptions['mappath'])) {
+            $scanoptions['mappath'] = array();
+        } elseif (!is_array($scanoptions['mappath'])) {
+            throw new \PEAR2\Pyrus\Developer\Creator\Exception('invalid scan options,' .
+                                                               'mappath must ' .
+                                                               'be an array');
+        }
+
+        if (!isset($scanoptions['ignore'])) {
+            $scanoptions['ignore'] = array();
+        } else {
+            if (!is_array($scanoptions['ignore'])) {
+                throw new \PEAR2\Pyrus\Developer\Creator\Exception('invalid scan options,' .
+                                                                   'ignore must ' .
+                                                                   'be an array');
+            }
+            foreach ($scanoptions['ignore'] as $path => $type) {
+                if (!is_string($path)) {
+                    throw new \PEAR2\Pyrus\Developer\Creator\Exception('invalid scan options,' .
+                                                                   'ignore must ' .
+                                                                   'be an associative array ' .
+                                                                   'mapping path to type of ignore');
+                }
+                if ($type !== 'file' && $type !== 'dir') {
+                    throw new \PEAR2\Pyrus\Developer\Creator\Exception('invalid scan options,' .
+                                                                   'ignore of ' . $path .
+                                                                   ' must be either file or dir, but was ' .
+                                                                   $type);
+                }
+            }
+        }
 
         foreach ($rolemap as $dir => $role) {
             if (file_exists($this->path . DIRECTORY_SEPARATOR . $dir)) {
                 $basepath = ($dir === 'examples') ? 'examples' : '';
-                foreach (new \PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN\Filter(
+                foreach (new \PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN\Filter($scanoptions['ignore'],
                             $this->path . DIRECTORY_SEPARATOR . $dir,
                          new \RecursiveIteratorIterator(
                          new \RecursiveDirectoryIterator($this->path . DIRECTORY_SEPARATOR . $dir),
@@ -163,40 +204,49 @@ class PEAR2SVN
                     if ($curpath && $curpath[0] === DIRECTORY_SEPARATOR) {
                         $curpath = substr($curpath, 1);
                     }
-                    $curpath = $dir . '/' . $curpath;
-                    $curpath = str_replace('\\', '/', $curpath);
-                    $curpath = str_replace('//', '/', $curpath);
+
+                    if (isset($scanoptions['mappath'][$dir])) {
+                        $curpath = $scanoptions['mappath'][$dir] . '/' . $curpath;
+                    } else {
+                        $curpath = $dir . '/' . $curpath;
+                    }
+                    $curpath = str_replace(array('\\', '//'), '/', $curpath);
+
                     $this->pxml->files[$curpath] =
                         array(
                             'attribs' => array('role' => $role)
                         );
 
-                    $roleobject = \PEAR2\Pyrus\Installer\Role::factory($this->pxml->type, $role);
-                    if ($role == 'customcommand' || $role == 'customrole' || $role == 'customtask') {
-                        $compatiblerole = 'data';
-                    } else {
-                        $compatiblerole = $role;
+                    if ($this->doCompatible) {
+                        $roleobject = \PEAR2\Pyrus\Installer\Role::factory($this->pxml->type, $role);
+                        if ($role == 'customcommand' || $role == 'customrole' || $role == 'customtask') {
+                            $compatiblerole = 'data';
+                        } else {
+                            $compatiblerole = $role;
+                        }
+    
+                        $attribs = array('name' => $curpath, 'role' => $compatiblerole);
+                        $baseinstalldir = $this->pxml_compatible->getBaseinstallDir($curpath);
+                        if ($baseinstalldir && $baseinstalldir != '/') {
+                            $attribs['baseinstalldir'] = $baseinstalldir;
+                        }
+    
+                        $curpath = $roleobject->getPackagingLocation($this->pxml_compatible,
+                                                                     $attribs);
+                        $packagepath = $roleobject->getCompatibleInstallAs($this->pxml_compatible,
+                                                                           $attribs);
+                        $this->pxml_compatible->files[$curpath] =
+                            array(
+                                'attribs' => array('role' => $compatiblerole)
+                            );
+                        $this->pxml_compatible->release[0]->installAs($curpath, $packagepath);
                     }
-
-                    $attribs = array('name' => $curpath, 'role' => $compatiblerole);
-                    $baseinstalldir = $this->pxml_compatible->getBaseinstallDir($curpath);
-                    if ($baseinstalldir && $baseinstalldir != '/') {
-                        $attribs['baseinstalldir'] = $baseinstalldir;
-                    }
-
-                    $curpath = $roleobject->getPackagingLocation($this->pxml_compatible,
-                                                                 $attribs);
-                    $packagepath = $roleobject->getCompatibleInstallAs($this->pxml_compatible,
-                                                                       $attribs);
-                    $this->pxml_compatible->files[$curpath] =
-                        array(
-                            'attribs' => array('role' => $compatiblerole)
-                        );
-                    $this->pxml_compatible->release[0]->installAs($curpath, $packagepath);
                 }
             }
         }
-        $this->pxml_compatible->dependencies['required']->pearinstaller->min = '1.4.8';
+        if ($this->doCompatible) {
+            $this->pxml_compatible->dependencies['required']->pearinstaller->min = '1.4.8';
+        }
     }
     
     /**
@@ -210,18 +260,12 @@ class PEAR2SVN
             $a = new \SplFileInfo($this->path . DIRECTORY_SEPARATOR . 'README');
             foreach ($a->openFile('r') as $num => $line) {
                 if (!$num) {
-                    $this->pxml->summary = $line;
-                    if ($this->doCompatible) {
-                        $this->pxml_compatible->summary = $line;
-                    }
+                    $this->summary = $line;
                     continue;
                 }
                 $description .= $line;
             }
-            $this->pxml->description = $description;
-            if ($this->doCompatible) {
-                $this->pxml_compatible->description = $description;
-            }
+            $this->description = $description;
         }
     }
     
@@ -272,12 +316,12 @@ class PEAR2SVN
             list($releasenotesfile, $releaseversion) = array_pop($files);
             $stability = $this->guessStabilityFromVersion($releaseversion);
 
-            $this->pxml->version['release']   = $releaseversion;
-            $this->pxml->stability['release'] = $stability;
-            $this->pxml->notes                = file_get_contents($this->path . DIRECTORY_SEPARATOR . $releasenotesfile);
+            $this->version['release']   = $releaseversion;
+            $this->stability['release'] = $stability;
+            $this->notes                = file_get_contents($this->path . DIRECTORY_SEPARATOR . $releasenotesfile);
 
             $apistability = $stability;
-            $apiversion   = $this->pxml->version['api'];
+            $apiversion   = $this->version['api'];
 
             if ($stability == 'beta') {
                 if ($apiversion == '0.1.0') {
@@ -286,16 +330,9 @@ class PEAR2SVN
                 $apistability = 'stable';
             }
 
-            $this->pxml->version['api']   = $apiversion;
-            $this->pxml->stability['api'] = $apistability;
+            $this->version['api']   = $apiversion;
+            $this->stability['api'] = $apistability;
 
-            if ($this->doCompatible) {
-                $this->pxml_compatible->version['release']   = $releaseversion;
-                $this->pxml_compatible->stability['release'] = $stability;
-                $this->pxml_compatible->version['api']       = $apiversion;
-                $this->pxml_compatible->stability['api']     = $apistability;
-                $this->pxml_compatible->notes                = $this->pxml->notes;
-            }
         }
     }
 
@@ -316,17 +353,12 @@ class PEAR2SVN
             list($apinotesfile, $apiversion) = array_pop($files);
             $stability = $this->guessStabilityFromVersion($apiversion);
 
-            $this->pxml->version['api']   = $apiversion;
-            $this->pxml->stability['api'] = $stability;
+            $this->version['api']   = $apiversion;
+            $this->stability['api'] = $stability;
 
-            $this->pxml->notes = $this->pxml->notes .
+            $this->notes = $this->notes .
                 "\n\n" . file_get_contents($this->path . DIRECTORY_SEPARATOR . $apinotesfile);
 
-            if ($this->doCompatible) {
-                $this->pxml_compatible->version['api']   = $apiversion;
-                $this->pxml_compatible->stability['api'] = $stability;
-                $this->pxml_compatible->notes            = $this->pxml->notes;
-            }
         }
     }
 
@@ -416,5 +448,14 @@ class PEAR2SVN
             return $this->path;
         }
         return $this->pxml->$var;
+    }
+
+    function __call($method, $args)
+    {
+        $ret = call_user_func_array(array($this->pxml, $method), $args);
+        if ($this->doCompatible) {
+            call_user_func_array(array($this->pxml_compatible, $method), $args);
+        }
+        return $ret;
     }
 }

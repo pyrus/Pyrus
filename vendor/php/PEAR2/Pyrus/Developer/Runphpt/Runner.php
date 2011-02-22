@@ -220,6 +220,10 @@ class Runner
 
     function runTests($tests)
     {
+        if (empty($this->_php)) {
+            echo "Unable to run phpt no php_bin option found. (pyrus set php_bin <directory>)\n";
+            return false;
+        }
         if (!count($tests)) {
             $tests = array('.');
         }

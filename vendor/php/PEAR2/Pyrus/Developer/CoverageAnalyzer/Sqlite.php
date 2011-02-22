@@ -2,19 +2,20 @@
 namespace PEAR2\Pyrus\Developer\CoverageAnalyzer;
 class Sqlite
 {
-    protected $db;
-    protected $totallines = 0;
-    protected $coveredlines = 0;
-    protected $deadlines = 0;
-    protected $pathCovered = array();
-    protected $pathTotal = array();
-    protected $pathDead = array();
     public $codepath;
     public $testpath;
 
+    protected $db;
+    protected $totallines   = 0;
+    protected $coveredlines = 0;
+    protected $deadlines    = 0;
+    protected $pathCovered  = array();
+    protected $pathTotal    = array();
+    protected $pathDead     = array();
+
     private $statement;
-    private $lines = array();
-    private $files = array();
+    private $lines   = array();
+    private $files   = array();
     private $deleted = array();
 
     const COVERAGE_COVERED      = 1;
@@ -712,7 +713,12 @@ class Sqlite
                 include $file;
                 return true;
             }
-            return false;
+            $fake_class = '<?php class '.$class.' {}';
+            $fake_class_file = tempnam(sys_get_temp_dir(), 'pyrus_tmp');
+            file_put_contents($fake_class_file, $fake_class);
+            include $fake_class_file;
+            unlink($fake_class_file);
+            return true;
         });
 
         foreach ($this->files as $file) {

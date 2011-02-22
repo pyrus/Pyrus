@@ -76,23 +76,22 @@ if (!class_exists('\PEAR2\Autoload', false)) {
             if (strtolower(substr($class, 0, 6)) !== 'pear2\\') {
                 return false;
             }
+            $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
             foreach (self::$paths as $path) {
-                $file = str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
-                $fp = @fopen($path . DIRECTORY_SEPARATOR . $file, 'r', true);
-                if ($fp) {
-                    fclose($fp);
+                if (file_exists($path . DIRECTORY_SEPARATOR . $file)) {
                     require $path . DIRECTORY_SEPARATOR . $file;
                     if (!class_exists($class, false) && !interface_exists($class, false)) {
                         die(new \Exception('Class ' . $class . ' was not present in ' .
-                            $file . ' (include_path="' . get_include_path() .
-                            '") [PEAR2_Autoload version 1.1]'));
+                            $path . DIRECTORY_SEPARATOR . $file .
+                            '") [PEAR2_Autoload-0.2.3]'));
                     }
                     return true;
                 }
             }
             $e = new \Exception('Class ' . $class . ' could not be loaded from ' .
-                $file . ', file does not exist (include_path="' . get_include_path() .
-                '") [PEAR2_Autoload version 1.1]');
+                $file . ', file does not exist (registered paths="' .
+                implode(PATH_SEPARATOR, self::$paths) .
+                '") [PEAR2_Autoload-0.2.3]');
             $trace = $e->getTrace();
             if (isset($trace[2]) && isset($trace[2]['function']) &&
                   in_array($trace[2]['function'], array('class_exists', 'interface_exists'))) {

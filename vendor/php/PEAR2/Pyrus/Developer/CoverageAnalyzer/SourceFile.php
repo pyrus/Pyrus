@@ -67,6 +67,11 @@ class SourceFile
         return $this->aggregator->coveragePercentage($this->path);
     }
 
+    /**
+     * Get all the coverage info for this file
+     *
+     * @return array(covered, total, dead)
+     */
     function coverageInfo()
     {
         return $this->aggregator->coverageInfo($this->path);

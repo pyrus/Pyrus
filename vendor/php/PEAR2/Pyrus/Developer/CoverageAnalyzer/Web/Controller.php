@@ -1,79 +1,100 @@
 <?php
-namespace PEAR2\Pyrus\Developer\CoverageAnalyzer\Web {
+namespace PEAR2\Pyrus\Developer\CoverageAnalyzer\Web;
+use PEAR2\Pyrus\Developer\CoverageAnalyzer\SourceFile;
+
 class Controller {
     protected $view;
     protected $sqlite;
-    protected $rooturl;
+    public $actionable;
+    public static $rooturl;
+    public $options = array('view' => 'toc');
 
-    function __construct(View $view, $rooturl)
+    function __construct($options = array())
     {
-        $this->view = $view;
-        $view->setController($this);
-        $this->rooturl = $rooturl;
+        $this->options    = $options + $this->options;
+        $this->actionable = $this->route();
     }
 
     function route()
     {
-        if (!isset($_SESSION['fullpath']) || isset($_GET['restart'])) {
+        if (isset($this->options['restart'])) {
             unset($_SESSION['fullpath']);
-            if (isset($_GET['setdatabase'])) {
-                if (file_exists($_GET['setdatabase'])) {
-                    try {
-                        $this->sqlite = new Aggregator($_GET['setdatabase']);
-                        $_SESSION['fullpath'] = $_GET['setdatabase'];
-                        return $this->view->TOC($this->sqlite);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage() . '<br />';
-                        // fall through
-                    }
-                }
-            }
-            return $this->getDatabase();
-        } else {
-            try {
-                $this->sqlite = new Aggregator($_SESSION['fullpath']);
-                if (isset($_GET['test'])) {
-                    if ($_GET['test'] === 'TOC') {
-                        return $this->view->testTOC($this->sqlite);
-                    }
-                    if (isset($_GET['file'])) {
-                        return $this->view->fileCoverage($this->sqlite, $_GET['file'], $_GET['test']);
-                    }
-                    return $this->view->testTOC($this->sqlite, $_GET['test']);
-                }
-                if (isset($_GET['file'])) {
-                    if (isset($_GET['line'])) {
-                        return $this->view->fileLineTOC($this->sqlite, $_GET['file'], $_GET['line']);
-                    }
-                    return $this->view->fileCoverage($this->sqlite, $_GET['file']);
-                }
-            } catch (\Exception $e) {
-                echo $e->getMessage() . '<br \>';
-            }
-            return $this->view->TOC($this->sqlite);
+            unset($this->options['setdatabase']);
         }
+
+        if (!isset($this->options['setdatabase'])
+            && !isset($_SESSION['fullpath'])) {
+            return new SelectDatabase;
+        }
+
+        if (!isset($this->options['setdatabase'])) {
+            $this->options['setdatabase'] = $_SESSION['fullpath'];
+        }
+
+        $_SESSION['fullpath'] = $this->options['setdatabase'];
+
+        if (!file_exists($this->options['setdatabase'])) {
+            return new SelectDatabase;
+        }
+
+        $this->sqlite = new Aggregator($this->options['setdatabase']);
+
+        if (isset($this->options['file'])) {
+            if (isset($this->options['test'])) {
+                $source = new SourceFile\PerTest($this->options['file'], $this->sqlite, $this->sqlite->testpath, $this->sqlite->codepath, $this->options['test']);
+            } else {
+                $source = new SourceFile($this->options['file'], $this->sqlite, $this->sqlite->testpath, $this->sqlite->codepath);
+            }
+
+            if (isset($this->options['line'])) {
+                return new LineSummary($source, $this->options['line'], $this->sqlite->testpath);
+            }
+
+            return $source;
+        }
+
+        if (isset($this->options['test'])) {
+            if ($this->options['test'] === 'TOC') {
+                return new TestSummary($this->sqlite);
+            }
+            return new TestCoverage($this->sqlite, $this->options['test']);
+        }
+
+        if (isset($this->options['file'])) {
+            if (isset($this->options['line'])) {
+                return $this->view->fileLineTOC($this->sqlite, $this->options['file'], $this->options['line']);
+            }
+            return $this->view->fileCoverage($this->sqlite, $this->options['file']);
+        }
+
+        return new Summary($this->sqlite);
+    }
+
+    function getRootLink()
+    {
+        return self::$rooturl;
     }
 
     function getFileLink($file, $test = null, $line = null)
     {
         if ($line) {
-            return $this->rooturl . '?file=' . urlencode($file) . '&line=' . $line;
+            return self::$rooturl . '?file=' . urlencode($file) . '&line=' . $line;
         }
         if ($test) {
-            return $this->rooturl . '?file=' . urlencode($file) . '&test=' . $test;
+            return self::$rooturl . '?file=' . urlencode($file) . '&test=' . $test;
         }
-        return $this->rooturl . '?file=' . urlencode($file);
+        return self::$rooturl . '?file=' . urlencode($file);
     }
 
     function getTOCLink($test = false)
     {
         if ($test === true) {
-            return $this->rooturl . '?test=TOC';
+            return self::$rooturl . '?test=TOC';
         }
         if ($test) {
-            return $this->rooturl . '?test=' . urlencode($test);
+            return self::$rooturl . '?test=' . urlencode($test);
         }
-        return $this->rooturl;
+        return self::$rooturl;
     }
 
     function getLogoutLink()
@@ -86,5 +107,4 @@ class Controller {
         $this->sqlite = $this->view->getDatabase();
     }
 }
-}
-?>
+

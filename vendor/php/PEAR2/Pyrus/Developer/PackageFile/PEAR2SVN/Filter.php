@@ -2,10 +2,12 @@
 namespace PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN;
 class Filter extends \FilterIterator
 {
+    protected $ignore;
     protected $path;
     protected $role;
-    function __construct($path, $it, $role)
+    function __construct(array $ignore, $path, $it, $role)
     {
+        $this->ignore = $ignore;
         $this->path = $path;
         $this->role = $role;
         parent::__construct($it);
@@ -26,10 +28,20 @@ class Filter extends \FilterIterator
         if (preg_match('@/?\.svn/@', $path)) {
             return false;
         }
-        
+
+        foreach ($this->ignore as $testpath => $type) {
+            if ($type == 'file') {
+                $test = $path;
+            } elseif ($type == 'dir') {
+                $test = dirname($path);
+            }
+            if (strpos($test, $testpath) !== false) {
+                return false;
+            }
+        }
         switch($this->role) {
-        case 'test':
-            return $this->filterTestsDir();
+            case 'test':
+                return $this->filterTestsDir();
         }
         return true;
     }
