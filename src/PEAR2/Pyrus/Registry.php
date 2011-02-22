@@ -224,6 +224,19 @@ class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
         return $this->registries[0];
     }
 
+    /**
+     * Get a package object from the registry
+     * 
+     * @return \PEAR2\Pyrus\Package\Installed
+     */
+    function toPackage($package, $channel)
+    {
+        $v2         = $this->toPackageFile($package, $channel);
+        $file       = new \PEAR2\Pyrus\PackageFile($v2);
+        $package    = new \PEAR2\Pyrus\Package\Installed($file, null, $this);
+        return $package;
+    }
+
     public function toPackageFile($package, $channel, $onlyMain = false)
     {
         if ($this->exists($package, $channel, true)) {

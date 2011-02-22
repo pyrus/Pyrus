@@ -74,6 +74,11 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
         return true;
     }
 
+    function getFilePath()
+    {
+        return $this->reg->getPath();
+    }
+
     function setIteratorChannel($channel)
     {
         $this->iteratorChannel = $channel;

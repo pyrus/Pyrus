@@ -342,7 +342,7 @@ class Creator
                                         'a \PEAR2\Pyrus\Package object');
             }
 
-            if ($filename instanceof \PEAR2\Pyrus\Package) {
+            if ($filename instanceof \PEAR2\Pyrus\PackageInterface) {
                 foreach ($filename->packagingcontents as $path => $info) {
                     foreach ($this->_creators as $creator) {
                         $creator->mkdir(dirname($this->prepend . '/' . $path));

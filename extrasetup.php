@@ -2,17 +2,18 @@
 /**
  * This file generates the pyrus.phar file and PEAR2 package for Pyrus.
  */
-$lib_path = __DIR__ . '/..';
-$xml_path = 'package.xml';
 
-if (basename(__DIR__) == 'trunk') {
-    $lib_path .= '/..';
-    $xml_path = 'trunk/package.xml';
-}
+$current = \PEAR2\Pyrus\Config::current();
+$config = \PEAR2\Pyrus\Config::singleton(__DIR__ . '/vendor');
 
 $extrafiles = array(
-    new \PEAR2\Pyrus\Package($lib_path . '/HTTP_Request/'.$xml_path),
-    new \PEAR2\Pyrus\Package($lib_path . '/sandbox/Console_CommandLine/'.$xml_path),
-    new \PEAR2\Pyrus\Package($lib_path . '/MultiErrors/'.$xml_path),
-    new \PEAR2\Pyrus\Package($lib_path . '/Exception/'.$xml_path),
+    $config->registry->toPackage('PEAR2_HTTP_Request', 'pear2.php.net'),
+    $config->registry->toPackage('PEAR2_Console_CommandLine', 'pear2.php.net'),
+    $config->registry->toPackage('PEAR2_Exception', 'pear2.php.net'),
+    $config->registry->toPackage('PEAR2_MultiErrors', 'pear2.php.net')
 );
+
+
+
+\PEAR2\Pyrus\Config::setCurrent($current->path);
+

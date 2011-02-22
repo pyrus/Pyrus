@@ -262,7 +262,7 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
         }
 
         if ($asstream) {
-            $fp = @fopen($this->getFilePath($file), 'rb');
+            $fp = fopen($this->getFilePath($file), 'rb');
             if ($fp === false) {
                 throw new Exception('File ' . $this->getFilePath($file) . ' cannot be found/opened.');
             }
