@@ -45,7 +45,7 @@ class Installed extends \PEAR2\Pyrus\Package\Base
     {
         $role = \PEAR2\Pyrus\Installer\Role::factory($this->packagefile->getPackageType(), $this->packagefile->packagingcontents[$file]['attribs']['role']);
         list(, $path) = $role->getRelativeLocation($this->packagefile, new \PEAR2\Pyrus\PackageFile\v2Iterator\FileTag($this->packagefile->packagingcontents[$file], '', $this->packagefile), true);
-        $dir = \PEAR2\Pyrus\Config::current()->{$role->getLocationConfig()};
+        $dir = \PEAR2\Pyrus\Config::singleton($this->registry->getPath())->{$role->getLocationConfig()};
         return $dir . DIRECTORY_SEPARATOR . $path;
     }
     
