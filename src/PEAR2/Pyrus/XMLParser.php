@@ -28,7 +28,6 @@
  * @link       http://svn.php.net/viewvc/pear2/Pyrus/
  */
 namespace PEAR2\Pyrus;
-use \DOMDocument;
 class XMLParser extends \XMLReader
 {
     /**
