@@ -3,7 +3,8 @@ namespace PEAR2\Pyrus;
 
 use FilesystemIterator;
 
-abstract class Filesystem {
+abstract class Filesystem
+{
     /**
      * Replace forward and backward slashes with DIRECTORY_SEPARATOR.
      *
@@ -11,7 +12,8 @@ abstract class Filesystem {
      * @param string $path A file system path
      * @return string
      */
-    public static function path($path) {
+    public static function path($path)
+    {
         return str_replace(array('\\','/'), DIRECTORY_SEPARATOR, $path);
     }
 
@@ -21,11 +23,13 @@ abstract class Filesystem {
      * @static
      * @return string
      */
-    public static function combine() {
+    public static function combine()
+    {
         return implode(DIRECTORY_SEPARATOR, func_get_args());
     }
 
-    public static function explode($path) {
+    public static function explode($path)
+    {
         return explode(array('\\','/'), $path);
     }
 
