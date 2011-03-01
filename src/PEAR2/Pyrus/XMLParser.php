@@ -41,7 +41,7 @@ class XMLParser extends \XMLReader
     function parseString($string, $schema = false)
     {
         $this->XML($string);
-        return $this->_parse($string, $schema, false);
+        return $this->_parse($schema);
     }
 
     /**
@@ -71,7 +71,7 @@ class XMLParser extends \XMLReader
         if (@$this->open($file) === false) {
             throw new XMLParser\Exception('Cannot open ' . $file . ' for parsing');
         }
-        return $this->_parse($file, $schema, true);
+        return $this->_parse($schema);
     }
 
     /**
@@ -162,7 +162,7 @@ class XMLParser extends \XMLReader
         return $me;
     }
 
-    private function _parse($file, $schema, $isfile)
+    private function _parse($schema)
     {
         libxml_use_internal_errors(true);
         libxml_clear_errors();
