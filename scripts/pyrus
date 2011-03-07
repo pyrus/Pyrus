@@ -30,9 +30,9 @@ $autoload = '@php_dir@/PEAR2/Autoload.php';
 
 if (!file_exists($autoload)) {
     // We are not running from an install or .phar, probably a clone of the repo
-    if (file_exists(__DIR__ . '/../config.inc.php')) {
+    if (file_exists(__DIR__ . '/../autoload.php')) {
         // Aha, use this local config file
-        $autoload = __DIR__ . '/../config.inc.php';
+        $autoload = __DIR__ . '/../autoload.php';
     } else {
         // Just use the bundled dependencies in the vendor dir
         $autoload = __DIR__ . '/../vendor/php/PEAR2/Autoload.php';
