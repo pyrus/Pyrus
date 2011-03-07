@@ -2,4 +2,5 @@
 .DS_Store
 /.settings/
 /.project
-/.buildpath
+/.buildpath/config.inc.php
+/config.inc.php
