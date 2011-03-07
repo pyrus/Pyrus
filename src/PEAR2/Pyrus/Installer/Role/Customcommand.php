@@ -31,7 +31,7 @@ class Customcommand extends \PEAR2\Pyrus\Installer\Role\Data
         $parser = new \PEAR2\Pyrus\XMLParser;
         $schemapath = \PEAR2\Pyrus\Main::getDataPath();
         if (!file_exists(\PEAR2\Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd')) {
-            $schemapath = realpath(__DIR__ . '/../../../../data');
+            $schemapath = realpath(__DIR__ . '/../../../../../data');
         }
         $taskschema = $schemapath . '/customcommand-2.0.xsd';
         try {
