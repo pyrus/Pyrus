@@ -151,31 +151,45 @@ class Commands
         echo "done\n";
     }
 
+    /** @todo Consider simply injecting the Package object as appropriate */
     function package($frontend, $args, $options)
     {
-        $package = false;
-        if (!isset($args['packagexml'])) {
+        $path = getcwd() . DIRECTORY_SEPARATOR;
+        $package = new \PEAR2\Pyrus\Package(null);
+
+
+        if (!isset($args['packagexml']) && !file_exists($path . 'package.xml') && !file_exists($path . 'package2.xml')) {
+            throw new \PEAR2\Pyrus\PackageFile\Exception("No package.xml or package2.xml found in " . $path);
+        }
+
+        if (isset($args['packagexml'])) {
+            $package = new \PEAR2\Pyrus\Package($args['packagexml']);
+        } else {
             // first try ./package.xml
-            if (file_exists('package.xml')) {
+            if (file_exists($path . 'package.xml')) {
                 try {
-                    $package = new \PEAR2\Pyrus\Package(getcwd() . DIRECTORY_SEPARATOR . 'package.xml');
+                    $package = new \PEAR2\Pyrus\Package($path . 'package.xml');
                 } catch (\PEAR2\Pyrus\PackageFile\Exception $e) {
                     if ($e->getCode() != -3) {
                         throw $e;
                     }
 
-                    if (!file_exists('package2.xml')) {
+                    if (!file_exists($path . 'package2.xml')) {
                         throw $e;
                     }
 
-                    $package = new \PEAR2\Pyrus\Package(getcwd() . DIRECTORY_SEPARATOR . 'package2.xml');
+                    $package = new \PEAR2\Pyrus\Package($path . 'package2.xml');
                     // now the creator knows to do the magic of package2.xml/package.xml
                     $package->thisIsOldAndCrustyCompatible();
                 }
             }
-        } else {
-            $package = new \PEAR2\Pyrus\Package($args['packagexml']);
+
+            // Alternatively; there's only a package2.xml
+            if (file_exists($path . 'package2.xml') && !file_exists($path . 'package.xml')) {
+                $package = new \PEAR2\Pyrus\Package($path . 'package2.xml');
+            }
         }
+
         if ($package->isNewPackage()) {
             if (!$options['phar'] && !$options['zip'] && !$options['tar'] && !$options['tgz']) {
                 // try tgz first
