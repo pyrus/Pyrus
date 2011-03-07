@@ -39,10 +39,10 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-01-24</date>
- <time>15:01:45</time>
+ <date>2011-03-07</date>
+ <time>16:08:11</time>
  <version>
-  <release>2.0.0a2</release>
+  <release>2.0.0a3</release>
   <api>2.0.0a1</api>
  </version>
  <stability>
@@ -50,19 +50,9 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
- <notes>Second alpha release
+ <notes>Features:
 
-Additions:
-
- - If install fails due to unknown channel, ask to discover [saltybeagle]
-
-Bug Fixes:
-
- - Fixed minimum PHP version checks in Channel\RemotePackage [gauthierm]
- - Add SQLite3 as a required extension [saltybeagle]
- - Fix bin/pyrus script [saltybeagle]
- - Loop when discovering a channel twice [boekkooi]
- - Docs directory should use channel/package not package/channel [saltybeagle]
+ - Add object for interacting with installed packages [saltybeagle]
 
 Initial pyrus public API
 </notes>
@@ -2303,6 +2293,7 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/Package/Phar/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Package/Phar.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Package/InstalledException.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/Package/Installed.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Package/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Package/Dependency/Set/PackageTree.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Package/Dependency/Set/Exception.php"/>
@@ -2876,6 +2867,7 @@ Initial pyrus public API
    <install name="php/PEAR2/Pyrus/Package/Dependency/Set/Exception.php" as="PEAR2/Pyrus/Package/Dependency/Set/Exception.php"/>
    <install name="php/PEAR2/Pyrus/Package/Dependency/Set/PackageTree.php" as="PEAR2/Pyrus/Package/Dependency/Set/PackageTree.php"/>
    <install name="php/PEAR2/Pyrus/Package/Exception.php" as="PEAR2/Pyrus/Package/Exception.php"/>
+   <install name="php/PEAR2/Pyrus/Package/Installed.php" as="PEAR2/Pyrus/Package/Installed.php"/>
    <install name="php/PEAR2/Pyrus/Package/InstalledException.php" as="PEAR2/Pyrus/Package/InstalledException.php"/>
    <install name="php/PEAR2/Pyrus/Package/Phar.php" as="PEAR2/Pyrus/Package/Phar.php"/>
    <install name="php/PEAR2/Pyrus/Package/Phar/Exception.php" as="PEAR2/Pyrus/Package/Phar/Exception.php"/>
