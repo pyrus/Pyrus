@@ -29,9 +29,16 @@ if (version_compare(LIBXML_DOTTED_VERSION, '2.6.20', '<')) {
 $autoload = '@php_dir@/PEAR2/Autoload.php';
 
 if (!file_exists($autoload)) {
-    $autoload = __DIR__ . '/../vendor/php/PEAR2/Autoload.php';
-    require_once $autoload;
-    \PEAR2\Autoload::initialize(__DIR__.'/../src/');
+    // We are not running from an install or .phar, probably a clone of the repo
+    if (file_exists(__DIR__ . '/../autoload.php')) {
+        // Aha, use this local config file
+        $autoload = __DIR__ . '/../autoload.php';
+    } else {
+        // Just use the bundled dependencies in the vendor dir
+        $autoload = __DIR__ . '/../vendor/php/PEAR2/Autoload.php';
+        require_once $autoload;
+        \PEAR2\Autoload::initialize(__DIR__.'/../src/');
+    }
 }
 
 require_once $autoload;

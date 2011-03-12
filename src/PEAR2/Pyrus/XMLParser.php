@@ -174,13 +174,13 @@ class XMLParser extends \XMLReader
         $arr = $this->_recursiveParse();
         $this->close();
 
-        $causes = array();
+        $causes = new \PEAR2\MultiErrors;
         foreach (libxml_get_errors() as $error) {
-            $causes[] = new XMLParser\Exception("Line " .
+            $causes->E_ERROR[]= new XMLParser\Exception("Line " .
                  $error->line . ': ' . $error->message);
         }
 
-        if (count($causes)) {
+        if (count($causes->E_ERROR)) {
             throw new XMLParser\Exception('Invalid XML document', $causes);
         }
 

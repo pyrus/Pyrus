@@ -332,6 +332,14 @@ class PEAR2SVN
 
             $this->version['api']   = $apiversion;
             $this->stability['api'] = $apistability;
+            
+            if ($this->doCompatible) {
+                // __set will not work on arrays so set these manually for compatible
+                $this->pxml_compatible->version['release']   = $this->version['release'];
+                $this->pxml_compatible->version['api']       = $this->version['api'];
+                $this->pxml_compatible->stability['release'] = $this->stability['release'];
+                $this->pxml_compatible->stability['api']     = $this->stability['api'];
+            }
 
         }
     }
@@ -355,6 +363,12 @@ class PEAR2SVN
 
             $this->version['api']   = $apiversion;
             $this->stability['api'] = $stability;
+            
+            if ($this->doCompatible) {
+                // __set will not work on arrays so set these manually for compatible
+                $this->pxml_compatible->version['api']       = $this->version['api'];
+                $this->pxml_compatible->stability['api']     = $this->stability['api'];
+            }
 
             $this->notes = $this->notes .
                 "\n\n" . file_get_contents($this->path . DIRECTORY_SEPARATOR . $apinotesfile);
