@@ -200,7 +200,7 @@ class Creator
 
         $packagingloc = \PEAR2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
         if (file_exists($packagingloc)) {
-			\PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
+            \PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
         }
         mkdir($packagingloc, 0777, true);
 
@@ -287,7 +287,7 @@ class Creator
         foreach ($this->_creators as $creator) {
             $creator->close();
         }
-		\PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
+        \PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
     }
 
     protected function addPEAR2Stuff($alreadyPackaged)
