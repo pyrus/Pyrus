@@ -507,6 +507,13 @@ previous:
             }
         } catch (\Exception $e) {
 
+            if ($e instanceof \PEAR2\Pyrus\Channel\Exception
+                && strpos($arg, '/') === false) {
+                echo "Sorry there was an error retrieving "
+                    . \PEAR2\Pyrus\Config::current()->default_channel
+                    . "/{$arg} from the default channel\n";
+            }
+
             // If this is an undiscovered channel, handle it gracefully
             if ($e instanceof \PEAR2\Pyrus\Package\Exception
                 && $e->getPrevious() instanceof \PEAR2\Pyrus\ChannelRegistry\Exception

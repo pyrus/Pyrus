@@ -3,3 +3,4 @@ Features:
  - Add object for interacting with installed packages [saltybeagle]
  - Auto-channel discovery for channels off web root [saltybeagle]
  - Check if config options are set before re-setting during install [boekkooi]
+ - Improve missing package error message when no channel name is provided [saltybeagle]
