@@ -607,13 +607,13 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
     function getCategories()
     {
-    	return new RemotePackage\Categories($this->parent, $this);
+        return new RemotePackage\Categories($this->parent, $this);
     }
 
     function getPackageInfo($var)
     {
-    	$lowerpackage = strtolower($var);
-    	return $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+        $lowerpackage = strtolower($var);
+        return $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                     'p/' . $lowerpackage . '/info.xml');
     }
 
