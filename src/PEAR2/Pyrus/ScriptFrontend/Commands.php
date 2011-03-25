@@ -514,7 +514,7 @@ previous:
                 && $e->getPrevious()->getPrevious()->why == 'channel'
                 && strpos($arg, '/') !== false) {
 
-                $channel = strstr($arg, '/', true);
+                $channel = substr($arg, 0, strrpos($arg, '/'));
 
                 echo "Sorry, the channel \"{$channel}\" is unknown.\n";
 
