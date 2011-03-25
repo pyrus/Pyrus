@@ -256,6 +256,12 @@ class Role
             }
 
             foreach ($info['configvar'] as $configvar) {
+                if (($configvar['configtype'] == 'system' && in_array($configvar['name'], Config::current()->customsystemvars)) ||
+                    ($configvar['configtype'] == 'user' && in_array($configvar['name'], Config::current()->customuservars)) ||
+                    ($configvar['configtype'] == 'channel' && in_array($configvar['name'], Config::current()->customchannelvars))) {
+                    continue;
+                }
+
                 $default = $configvar['default'];
                 if (false !== strpos($default, '<?php')) {
                     $tmp = Config::current()->temp_dir . DIRECTORY_SEPARATOR . '.configdefault.php';
