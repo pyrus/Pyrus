@@ -534,7 +534,7 @@ previous:
             }
 
             $this->exceptionHandler($e);
-            exit -1;
+            exit(1);
         }
     }
 
@@ -723,7 +723,7 @@ previous:
         $chan = \PEAR2\Pyrus\Config::current()->channelregistry->get($args['channel'], false);
         if (count(\PEAR2\Pyrus\Config::current()->registry->listPackages($chan->name))) {
             echo "Cannot remove channel ", $chan->name, " packages are installed\n";
-            exit -1;
+            exit(1);
         }
         \PEAR2\Pyrus\Config::current()->channelregistry->delete($chan);
         echo "Deleting channel ", $chan->name, " successful\n";
@@ -733,7 +733,7 @@ previous:
     {
         if (!file_exists($args['path']) || !is_dir($args['path'])) {
             echo "Cannot upgrade registries at ", $args['path'], ", path does not exist or is not a directory\n";
-            exit -1;
+            exit(1);
         }
         echo "Upgrading registry at path ", $args['path'], "\n";
         $registries = \PEAR2\Pyrus\Registry::detectRegistries($args['path']);
@@ -823,7 +823,7 @@ previous:
             echo $conf->{$args['variable']} . PHP_EOL;
         } else {
             echo "Unknown config variable: $args[variable]\n";
-            exit -1;
+            exit(1);
         }
         if ($options['plugin']) {
             \PEAR2\Pyrus\Config::setCurrent($current->path);
@@ -849,7 +849,7 @@ previous:
             $conf->{$args['variable']} = $args['value'];
         } else {
             echo "Unknown config variable: $args[variable]\n";
-            exit -1;
+            exit(1);
         }
         $conf->saveConfig();
         if ($options['plugin']) {
