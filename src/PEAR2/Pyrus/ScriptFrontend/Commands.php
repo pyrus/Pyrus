@@ -693,12 +693,12 @@ previous:
      */
     function channelDiscover($args)
     {
-		try {
-			$channel = new \PEAR2\Pyrus\ChannelFile($args['channel'], false, true);
+        try {
+            $channel = new \PEAR2\Pyrus\ChannelFile($args['channel'], false, true);
         } catch (\Exception $e) {
-			echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage(), "\n";
-			return;
-		}
+            echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage(), "\n";
+            return;
+        }
 
         $chan = new \PEAR2\Pyrus\Channel($channel);
         \PEAR2\Pyrus\Config::current()->channelregistry->add($chan);
