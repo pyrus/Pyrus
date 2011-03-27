@@ -1,13 +1,31 @@
 How to generate a new version of pyrus
 ======================================
 
-0. Be sure to be in pear2/all/ svn directory
+This takes way too many steps right now, but I needed to document it
 
-1. Get the latest developer files
+1. Make sure you have the latest developer plugin
  $ php scripts/pyrus upgrade -p ../Pyrus_Developer/package.xml
 
-2. Update package.xml
- $ php scripts/pyrus make
+2. Create the release .phar .tgz .tar and .zip
+ $ php -dphar.readonly=0 scripts/pyrus make -pphar,tar,tgz,zip
 
-3. Create the phar
- $ php -dphar.readonly=0 scripts/pyrus package --phar
+3. Copy the release .phar to pyrus.phar
+ $ cp PEAR2_Pyrus-X.X.X.phar pyrus.phar
+
+4. Commit pyrus.phar
+ $ git add pyrus.phar && git commit -m "Add phar for X.X.X"
+
+5. Tag release
+ $ git tag -a PEAR2_Pyrus-X.X.X
+ $ git push origin master --tags
+
+6. Release it on the channel
+ $ cd /pear2.php.net/repo/www
+ $ git checkout master
+ $ pyrus scs-release /path/to/PEAR2_Pyrus-X.X.X.phar handle
+ $ git add .
+ $ git commit -m "Release PEAR2_Pyrus-X.X.X"
+ $ git push origin master
+ $ git checkout LIVE
+ $ git merge master
+ $ git push origin LIVE
