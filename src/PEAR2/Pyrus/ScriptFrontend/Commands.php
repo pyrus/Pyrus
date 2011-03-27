@@ -525,17 +525,34 @@ previous:
 
                 echo "Sorry, the channel \"{$channel}\" is unknown.\n";
 
-                if ('yes' === $this->ask('Do you want to add this channel and continue the install?', array('yes', 'no'), 'yes')) {
-                    $this->channelDiscover(array('channel' => $channel));
-                    $this->install($args, $options);
-                    return;
-                }
-                echo "Ok. I understand.\n";
+                return $this->installUnknownChannelExceptionHandler($args, $options, $e, $channel);
+            }
+
+            if ($e instanceof \PEAR2\Pyrus\ChannelRegistry\Exception
+                && $e->getPrevious() instanceof \PEAR2\Pyrus\ChannelRegistry\ParseException
+                && $e->getPrevious()->why == 'channel'
+                // @todo Ugh, fix this mess
+                && preg_match('/^unknown channel \"(.*)\" in \"(.*)\"$/', $e->getPrevious()->getMessage(), $matches)) {
+                echo "Sorry, $arg references an unknown channel {$matches[1]} for {$matches[2]}\n";
+
+                return $this->installUnknownChannelExceptionHandler($args, $options, $e, $matches[1]);
             }
 
             $this->exceptionHandler($e);
             exit(1);
         }
+    }
+
+    protected function installUnknownChannelExceptionHandler($args, $options, \Exception $e, $channel)
+    {
+        if ('yes' === $this->ask('Do you want to add this channel and continue?', array('yes', 'no'), 'yes')) {
+            $this->channelDiscover(array('channel' => $channel));
+            $this->install($args, $options);
+            return;
+        }
+        echo "Ok. I understand.\n";
+        $this->exceptionHandler($e);
+        exit(1);
     }
 
     /**
