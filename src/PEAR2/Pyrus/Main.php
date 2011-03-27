@@ -93,25 +93,21 @@ class Main
     }
 
     /**
-     * Efficiently Download a file through HTTP.  Returns downloaded file as a string in-memory
+     * Efficiently download a file through HTTP.  Returns downloaded file as a string in-memory
      * This is best used for small files
      *
      * If an HTTP proxy has been configured (http_proxy PEAR_Config
      * setting), the proxy will be used.
      *
      * @param string  $url       the URL to download
-     * @param string  $save_dir  directory to save file in
      * @param false|string|array $lastmodified header values to check against for caching
      *                           use false to return the header values from this download
      * @param false|array $accept Accept headers to send
-     * @return string|array  Returns the contents of the downloaded file or a PEAR
-     *                       error on failure.  If the error is caused by
-     *                       socket-related errors, the error object will
-     *                       have the fsockopen error code available through
-     *                       getCode().  If caching is requested, then return the header
-     *                       values.
+     * 
+     * @return PEAR2\HTTP\Request\Response Object representing the response
      *
      * @access public
+     * @throws PEAR2\HTTPException on download error
      */
     static function download($url, $lastmodified = null, $accept = false, $doprogress = false)
     {
@@ -183,10 +179,10 @@ class Main
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
         }
-		if($response->code === 0 && $response->body === false) {
+        if ($response->code === 0 && $response->body === false) {
             throw new HTTPException(
                 "File $url not valid (received a invalid response)", 500);
-		}
+        }
 
         return $response;
     }
