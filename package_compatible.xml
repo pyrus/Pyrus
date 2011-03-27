@@ -39,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-03-07</date>
- <time>16:08:11</time>
+ <date>2011-03-27</date>
+ <time>16:31:43</time>
  <version>
   <release>2.0.0a3</release>
   <api>2.0.0a1</api>
@@ -53,6 +53,19 @@ http://pear.php.net/manual/en/pyrus.php</description>
  <notes>Features:
 
  - Add object for interacting with installed packages [saltybeagle]
+ - Auto-channel discovery for channels off web root [saltybeagle]
+ - Improve missing package error message when no channel name is provided [saltybeagle]
+ - Support auto-discovery for dependencies on unknown channels [saltybeagle]
+ - Use setSchema for xsd validation, min libxml version 2.6.20 [boekkooi]
+
+Bug Fixes/Refactoring:
+ - Correct exit status codes [saltybeagle]
+ - Check if config options are set before re-setting during install [boekkooi]
+ - Load custom roles installed outside the phar [boekkooi]
+ - Added customsystemvars to the Replace task [boekkooi]
+ - RecursiveIteratorIterator returns path twice when in phar [boekkooi]
+ - Refactor AtomicFileTransaction [boekkooi]
+
 
 Initial pyrus public API
 </notes>
@@ -2403,6 +2416,7 @@ Initial pyrus public API
    <file role="php" name="php/PEAR2/Pyrus/ChannelFile/Exception.php"/>
    <file role="php" name="php/PEAR2/Pyrus/ChannelFile.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Channel/RemotePackages.php"/>
+   <file role="php" name="php/PEAR2/Pyrus/Channel/RemotePackage/Categories.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Channel/RemotePackage.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Channel/RemoteMaintainers.php"/>
    <file role="php" name="php/PEAR2/Pyrus/Channel/RemoteCategory.php"/>
@@ -2758,6 +2772,7 @@ Initial pyrus public API
    <install name="php/PEAR2/Pyrus/Channel/RemoteCategory.php" as="PEAR2/Pyrus/Channel/RemoteCategory.php"/>
    <install name="php/PEAR2/Pyrus/Channel/RemoteMaintainers.php" as="PEAR2/Pyrus/Channel/RemoteMaintainers.php"/>
    <install name="php/PEAR2/Pyrus/Channel/RemotePackage.php" as="PEAR2/Pyrus/Channel/RemotePackage.php"/>
+   <install name="php/PEAR2/Pyrus/Channel/RemotePackage/Categories.php" as="PEAR2/Pyrus/Channel/RemotePackage/Categories.php"/>
    <install name="php/PEAR2/Pyrus/Channel/RemotePackages.php" as="PEAR2/Pyrus/Channel/RemotePackages.php"/>
    <install name="php/PEAR2/Pyrus/ChannelFile.php" as="PEAR2/Pyrus/ChannelFile.php"/>
    <install name="php/PEAR2/Pyrus/ChannelFile/Exception.php" as="PEAR2/Pyrus/ChannelFile/Exception.php"/>

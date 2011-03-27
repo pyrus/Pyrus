@@ -39,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-03-07</date>
- <time>16:08:09</time>
+ <date>2011-03-27</date>
+ <time>16:31:42</time>
  <version>
   <release>2.0.0a3</release>
   <api>2.0.0a1</api>
@@ -53,6 +53,19 @@ http://pear.php.net/manual/en/pyrus.php</description>
  <notes>Features:
 
  - Add object for interacting with installed packages [saltybeagle]
+ - Auto-channel discovery for channels off web root [saltybeagle]
+ - Improve missing package error message when no channel name is provided [saltybeagle]
+ - Support auto-discovery for dependencies on unknown channels [saltybeagle]
+ - Use setSchema for xsd validation, min libxml version 2.6.20 [boekkooi]
+
+Bug Fixes/Refactoring:
+ - Correct exit status codes [saltybeagle]
+ - Check if config options are set before re-setting during install [boekkooi]
+ - Load custom roles installed outside the phar [boekkooi]
+ - Added customsystemvars to the Replace task [boekkooi]
+ - RecursiveIteratorIterator returns path twice when in phar [boekkooi]
+ - Refactor AtomicFileTransaction [boekkooi]
+
 
 Initial pyrus public API
 </notes>
@@ -227,6 +240,9 @@ Initial pyrus public API
        <file role="php" name="Transaction.php"/>
       </dir>
       <dir name="Channel">
+       <dir name="RemotePackage">
+        <file role="php" name="Categories.php"/>
+       </dir>
        <file role="php" name="Exception.php"/>
        <file role="php" name="MirrorInterface.php"/>
        <file role="php" name="RemoteCategories.php"/>
