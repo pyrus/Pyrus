@@ -25,6 +25,16 @@ if (version_compare(LIBXML_DOTTED_VERSION, '2.6.20', '<')) {
     exit -1;
 }
 
+// Make sure phar:// includes are available
+if (extension_loaded('suhosin')) {
+    if (strpos(ini_get('suhosin.executor.include.whitelist'), 'phar') === false
+        || strpos(ini_get('suhosin.executor.include.blacklist'), 'phar') !== false
+    ) {
+        echo "Pyrus requires phar:// includes to be enabled.\n";
+        exit -1;
+    }
+}
+
 try {
     Phar::mapPhar();
 } catch (Exception $e) {
