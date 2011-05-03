@@ -66,8 +66,8 @@ class License implements \ArrayAccess
             return;
         }
 
-        if ($var == 'path') {
-            unset($this->info['attribs']['path']);
+        if ($var == 'filesource') {
+            unset($this->info['attribs']['filesource']);
             if (!count($this->info['attribs'])) {
                 unset($this->info['attribs']);
                 if (isset($this->info['_content'])) {
@@ -90,9 +90,9 @@ class License implements \ArrayAccess
             return null;
         }
 
-        if ($var == 'path') {
-            if (is_array($this->info) && isset($this->info['attribs']) && isset($this->info['attribs']['path'])) {
-                return $this->info['attribs']['path'];
+        if ($var == 'filesource') {
+            if (is_array($this->info) && isset($this->info['attribs']) && isset($this->info['attribs']['filesource'])) {
+                return $this->info['attribs']['filesource'];
             }
 
             return null;
@@ -117,7 +117,7 @@ class License implements \ArrayAccess
             throw new License\Exception('Can only set license to string');
         }
 
-        if ($var == 'path' || $var == 'uri') {
+        if ($var == 'filesource' || $var == 'uri') {
             if (!is_array($this->info) || !isset($this->info['attribs'])) {
                 if (!is_array($this->info)) {
                     $this->info = array('_content' => $this->info);
@@ -151,8 +151,8 @@ class License implements \ArrayAccess
             return isset($this->info['attribs']) && isset($this->info['attribs']['uri']);
         }
 
-        if ($var == 'path') {
-            return isset($this->info['attribs']) && isset($this->info['attribs']['path']);
+        if ($var == 'filesource') {
+            return isset($this->info['attribs']) && isset($this->info['attribs']['filesource']);
         }
 
         if ($var == 'name') {
