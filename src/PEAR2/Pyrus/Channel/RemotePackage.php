@@ -266,6 +266,19 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         return $this->versionSet;
     }
 
+    /**
+     * Get the latest version of the package
+     * 
+     * @return RemotePackage
+     */
+    function getLatestVersion()
+    {
+        $version = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
+                                                    'r/' . strtolower($this->name) . '/latest.txt');
+        $this->setRawVersion(null, array('release' => $version));
+        return $this;
+    }
+
     function setUpgradeable()
     {
         $this->isUpgradeable = true;
