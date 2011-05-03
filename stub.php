@@ -4,7 +4,7 @@ if (version_compare(phpversion(), '5.3.1', '<')) {
     if (substr(phpversion(), 0, 5) != '5.3.1') {
         // this small hack is because of running RCs of 5.3.1
         echo "Pyrus requires PHP 5.3.1 or newer.\n";
-        exit -1;
+        exit(1);
     }
 }
 
@@ -14,15 +14,16 @@ foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'sqlit
         echo "The $ext extension is required.\n"
              . "You must compile PHP with $ext enabled, "
              . "or install the necessary extension for your distribution.\n";
-        exit -1;
+        exit(1);
     }
 }
 
 // Reject old libxml installations
+// moved to version 2.6.20 so XMLReader::setSchema can be used.
 if (version_compare(LIBXML_DOTTED_VERSION, '2.6.20', '<')) {
     echo "Pyrus requires libxml >= 2.6.20."
          . " Version detected: " . LIBXML_DOTTED_VERSION . "\n";
-    exit -1;
+    exit(1);
 }
 
 // Make sure phar:// includes are available
@@ -31,7 +32,7 @@ if (extension_loaded('suhosin')) {
         || strpos(ini_get('suhosin.executor.include.blacklist'), 'phar') !== false
     ) {
         echo "Pyrus requires phar:// includes to be enabled.\n";
-        exit -1;
+        exit(1);
     }
 }
 
@@ -40,7 +41,7 @@ try {
 } catch (Exception $e) {
     echo "Cannot process Pyrus phar:\n";
     echo $e->getMessage(), "\n";
-    exit -1;
+    exit(1);
 }
 
 function pyrus_autoload($class)
