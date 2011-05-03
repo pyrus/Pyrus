@@ -31,7 +31,8 @@ if (extension_loaded('suhosin')) {
     if (strpos(ini_get('suhosin.executor.include.whitelist'), 'phar') === false
         || strpos(ini_get('suhosin.executor.include.blacklist'), 'phar') !== false
     ) {
-        echo "Pyrus requires phar:// includes to be enabled.\n";
+        echo "Pyrus requires phar:// includes to be enabled.\n\n"
+             . "Add suhosin.executor.include.whitelist=\"phar\" to your php.ini.\n";
         exit(1);
     }
 }
