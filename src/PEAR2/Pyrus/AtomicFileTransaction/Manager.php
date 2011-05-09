@@ -201,7 +201,7 @@ class Manager
         $this->inTransaction = false;
 
         if (count($errs->E_WARNING)) {
-            throw new MultiException('Warning: no all backup directories have been removed', $errs);
+            throw new MultiException('Warning: not all backup directories have been removed', $errs);
         }
     }
 
