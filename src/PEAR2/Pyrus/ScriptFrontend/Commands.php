@@ -661,15 +661,20 @@ previous:
             foreach ($c as $channel) {
                 \PEAR2\Pyrus\Config::current()->default_channel = $channel->name;
                 foreach ($p->package as $package) {
-                    $packages[$channel->name][] = $package->name;
+                    $packages[$channel->name][$package->name] = $package;
                 }
             }
             asort($packages);
-            foreach ($packages as $channel => $stuff) {
+            foreach ($packages as $channel => $channel_packages) {
                 echo "[channel $channel]:\n";
-                sort($stuff);
-                foreach ($stuff as $package) {
-                    echo " $package\n";
+                ksort($channel_packages);
+                foreach ($channel_packages as $package) {
+                    $data = array($package->name,
+                                  $package->version['release'],
+                                  $package->stability['release'],
+                                  );
+                    // @TODO add CLI table output
+                    echo implode($data, ' ') . PHP_EOL;
                 }
             }
         }
