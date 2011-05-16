@@ -127,8 +127,16 @@ class Installer
         $fullPackageName = $package->channel . '/' . $package->name ;
         if ($package->isPlugin()) {
             if (!isset(Main::$options['install-plugins'])) {
-                Logger::log(0, 'Skipping plugin ' . $fullPackageName .
-                                     ', use install -p/upgrade -p to manage plugins');
+
+                // Check the plugin registry so we can provide more info
+                $command = 'install';
+                if (Config::current()->pluginregistry->exists($package->name, $package->channel)) {
+                    $command = 'upgrade';
+                }
+                Logger::log(0, 'Skipping plugin ' . $fullPackageName . 
+                               PHP_EOL . 'Plugins modify the installer and cannot be installed at the same time as regular packages.' .
+                               PHP_EOL . 'Add the -p option to manage plugins, for example:' .
+                               PHP_EOL . ' php pyrus.phar ' . $command . ' -p ' . $fullPackageName);
                 return;
             }
         }
@@ -270,8 +278,16 @@ class Installer
                 if ($package->isPlugin()) {
                     // check for downloaded packages
                     if (!isset(Main::$options['install-plugins'])) {
-                        Logger::log(0, 'Skipping plugin ' . $fullPackageName .
-                                        ', use install -p/upgrade -p to manage plugins');
+
+                        // Check the plugin registry so we can provide more info
+                        $command = 'install';
+                        if (Config::current()->pluginregistry->exists($package->name, $package->channel)) {
+                            $command = 'upgrade';
+                        }
+                        Logger::log(0, 'Skipping plugin ' . $fullPackageName . 
+                                       PHP_EOL . 'Plugins modify the installer and cannot be installed at the same time as regular packages.' .
+                                       PHP_EOL . 'Add the -p option to manage plugins, for example:' .
+                                       PHP_EOL . ' php pyrus.phar ' . $command . ' -p ' . $fullPackageName);
                         unset(static::$installPackages[$fullPackageName]);
                     }
                 }
