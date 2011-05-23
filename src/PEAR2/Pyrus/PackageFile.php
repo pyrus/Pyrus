@@ -40,7 +40,7 @@ class PackageFile implements PackageFileInterface
         if ($isString) {
             $data = $package;
         } else {
-            $data = file_exists($package) ? file_get_contents($package) : false;
+            $data = file_get_contents($package);
         }
 
         if ($data === false || empty($data)) {

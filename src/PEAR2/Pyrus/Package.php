@@ -201,6 +201,12 @@ class Package implements \PEAR2\Pyrus\PackageInterface
     function parsePackageDescription($package, $forceremote = false)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
+
+            if (substr($package, -4) == '.xml') {
+                // remote package.xml file
+                return array('PEAR2\Pyrus\Package\Xml', $package, false);
+            }
+
             return array('PEAR2\Pyrus\Package\Remote', $package, false);
         }
 
