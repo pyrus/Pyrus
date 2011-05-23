@@ -25,14 +25,14 @@ $test->assertEquals('Using PEAR installations found at ' . TESTDIR . PATH_SEPARA
                     . 'Listing installed packages [' . TESTDIR . ']:' . "\n"
                     . 'Listing installed packages [' . __DIR__ . DIRECTORY_SEPARATOR . 'listPackages.pear1' . ']:' . "\n"
                     . "[channel pear.php.net]:\n"
-                    . ' Archive_Tar
- Console_Getopt
- PEAR
- PHP_Archive
- Structures_Graph
- Text_Diff
- XML_Util
- xdebug',
+                    . 'Archive_Tar 1.3.3 stable
+Console_Getopt 1.2.3 stable
+PEAR 1.8.2 stable
+PHP_Archive 0.11.4 alpha
+Structures_Graph 1.0.2 stable
+Text_Diff 1.1.0 stable
+XML_Util 1.2.1 stable
+xdebug 2.0.0 stable',
                     $contents,
                     'list packages');
 ?>

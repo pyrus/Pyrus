@@ -37,7 +37,7 @@ ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                     . 'Listing installed packages [' . TESTDIR . ']:' . "\n"
                     . "[channel pear2.php.net]:\n"
-                    . " PEAR2_SimpleChannelServer\n",
+                    . "PEAR2_SimpleChannelServer 0.1.0 devel\n",
                     $contents,
                     'list packages');
 ?>
