@@ -9,6 +9,8 @@ $c = getTestConfig();
 require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(TESTDIR,
+                       'https://pear.unl.edu/');
+Internet::addDirectory(TESTDIR,
                        'http://pear.unl.edu/');
 \PEAR2\Pyrus\Main::$downloadClass = 'Internet';
 $test->assertEquals(false, isset(\PEAR2\Pyrus\Config::current()->channelregistry['pear.unl.edu']),
@@ -20,7 +22,7 @@ $cli->run($args = array (TESTDIR, 'channel-discover', 'pear.unl.edu'));
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
-                    . "Discovery of channel pear.unl.edu failed: Download of http://pear.unl.edu/channel.xml failed, file does not exist\n",
+                    . "Discovery of channel pear.unl.edu failed: Download of https://pear.unl.edu/channel.xml failed, file does not exist\n",
                      $contents,
                     'list packages');
 

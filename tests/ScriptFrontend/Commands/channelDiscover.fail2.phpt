@@ -22,7 +22,7 @@ $cli->run($args = array (TESTDIR, 'channel-discover', 'pear.unl.edu'));
 $contents = ob_get_contents();
 ob_end_clean();
 $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
-                    . "Discovery of channel pear.unl.edu failed: Download of http://pear.unl.edu/channel.xml failed, file does not exist\n",
+                    . "Discovery of channel pear.unl.edu failed: Download of https://pear.unl.edu/channel.xml failed, file does not exist\n",
                      $contents,
                     'list packages');
 
