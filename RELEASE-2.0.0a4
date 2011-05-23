@@ -1,7 +1,11 @@
 Features:
 
  - Add support for installing from a remote package.xml [saltybeagle]
+ - Display version and stability in list-packages [saltybeagle]
+ - Improve error when phar includes are disabled by suhosin [mfonda]
 
 Bug Fixes/Refactoring:
 
- - 
+ - Improve error message for plugin installation failures [saltybeagle]
+ - Correct exit codes when pyrus fails from CLI [saltybeagle]
+ - Packaged license files should use 'filesource' not 'path' [saltybeagle]
