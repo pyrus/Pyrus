@@ -140,8 +140,7 @@ class Transaction extends Transaction\TwoStage
                 throw new IOException('Unable to open ' . $relativePath . ' for writing in ' . $this->journalPath);
             }
 
-            // Intentional double equal, throw a exception when zero or false is returned
-            if (stream_copy_to_stream($contents, $fp) == false) {
+            if (false == stream_copy_to_stream($contents, $fp)) {
                 fclose($fp);
                 throw new IOException('Unable to copy to ' . $relativePath . ' in ' . $this->journalPath);
             }
