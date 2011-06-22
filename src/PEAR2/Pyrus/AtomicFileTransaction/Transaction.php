@@ -140,7 +140,7 @@ class Transaction extends Transaction\TwoStage
                 throw new IOException('Unable to open ' . $relativePath . ' for writing in ' . $this->journalPath);
             }
 
-            if (false == stream_copy_to_stream($contents, $fp)) {
+            if (false === stream_copy_to_stream($contents, $fp)) {
                 fclose($fp);
                 throw new IOException('Unable to copy to ' . $relativePath . ' in ' . $this->journalPath);
             }
