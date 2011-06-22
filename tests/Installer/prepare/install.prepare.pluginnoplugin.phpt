@@ -68,7 +68,10 @@ PEAR2\Pyrus\Logger::attach($log);
 b::begin();
 b::prepare($package);
 $test->assertEquals(0, count(b::$installPackages), 'should not prepare this plugin');
-$test->assertEquals(array('Skipping plugin pear2.php.net/testing2, use install -p/upgrade -p to manage plugins'),
+$test->assertEquals(array('Skipping plugin pear2.php.net/testing2
+Plugins modify the installer and cannot be installed at the same time as regular packages.
+Add the -p option to manage plugins, for example:
+ php pyrus.phar install -p pear2.php.net/testing2'),
                     $log::$log, 'log');
 b::rollback();
 ?>
