@@ -363,30 +363,31 @@ previous:
         $configclass = static::$configclass;
         if (!$configclass::userInitialized()) {
             echo "Pyrus: No user configuration file detected\n";
-            if ('yes' === $this->ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
-                echo "Great.  We will store your configuration in:\n  ",$configclass::getDefaultUserConfigFile(),"\n";
-previous:
-                $path = $this->ask("Where would you like to install packages by default?", null, getcwd());
-                echo "You have chosen:\n", $path, "\n";
-                if (!realpath($path)) {
-                    echo " this path does not yet exist\n";
-                    if ('yes' !== $this->ask("Create it?", array('yes', 'no'), 'yes')) {
-                        goto previous;
-                    }
-                } elseif (!is_dir($path)) {
-                    echo $path," exists, and is not a directory\n";
-                    goto previous;
-                }
 
-                $configclass = static::$configclass;
-                $config = $configclass::singleton($path);
-                $config->saveConfig();
-                echo "Thank you, enjoy using Pyrus\n";
-                echo "Documentation is at http://pear.php.net\n";
-            } else {
+            if ('yes' !== $this->ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
                 echo "OK, thank you, finishing execution now\n";
                 exit;
             }
+
+            echo "Great.  We will store your configuration in:\n  ",$configclass::getDefaultUserConfigFile(),"\n";
+previous:
+            $path = $this->ask("Where would you like to install packages by default?", null, getcwd());
+            echo "You have chosen:\n", $path, "\n";
+            if (!realpath($path)) {
+                echo " this path does not yet exist\n";
+                if ('yes' !== $this->ask("Create it?", array('yes', 'no'), 'yes')) {
+                    goto previous;
+                }
+            } elseif (!is_dir($path)) {
+                echo $path," exists, and is not a directory\n";
+                goto previous;
+            }
+
+            $configclass = static::$configclass;
+            $config = $configclass::singleton($path);
+            $config->saveConfig();
+            echo "Thank you, enjoy using Pyrus\n";
+            echo "Documentation is at http://pear.php.net\n";
         }
 
         $configclass = static::$configclass;
