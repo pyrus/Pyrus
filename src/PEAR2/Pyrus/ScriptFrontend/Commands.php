@@ -349,48 +349,21 @@ previous:
         return trim(fgets(STDIN, $amount));
     }
 
-    function _findPEAR(&$arr)
+    protected function _findPEAR(&$arr)
     {
+        $configclass = static::$configclass;
         if (isset($arr[0]) && @file_exists($arr[0]) && @is_dir($arr[0])) {
             $maybe = array_shift($arr);
             $maybe = realpath($maybe);
             echo "Using PEAR installation found at $maybe\n";
-            $configclass = static::$configclass;
             $config = $configclass::singleton($maybe);
             return;
         }
 
-        $configclass = static::$configclass;
         if (!$configclass::userInitialized()) {
-            echo "Pyrus: No user configuration file detected\n";
-
-            if ('yes' !== $this->ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
-                echo "OK, thank you, finishing execution now\n";
-                exit;
-            }
-
-            echo "Great.  We will store your configuration in:\n  ",$configclass::getDefaultUserConfigFile(),"\n";
-previous:
-            $path = $this->ask("Where would you like to install packages by default?", null, getcwd());
-            echo "You have chosen:\n", $path, "\n";
-            if (!realpath($path)) {
-                echo " this path does not yet exist\n";
-                if ('yes' !== $this->ask("Create it?", array('yes', 'no'), 'yes')) {
-                    goto previous;
-                }
-            } elseif (!is_dir($path)) {
-                echo $path," exists, and is not a directory\n";
-                goto previous;
-            }
-
-            $configclass = static::$configclass;
-            $config = $configclass::singleton($path);
-            $config->saveConfig();
-            echo "Thank you, enjoy using Pyrus\n";
-            echo "Documentation is at http://pear.php.net\n";
+            $this->_initializeConfiguration();
         }
 
-        $configclass = static::$configclass;
         $config = $configclass::singleton();
         $path = $config->path;
         if (strpos($path, PATH_SEPARATOR)) {
@@ -398,6 +371,36 @@ previous:
         } else {
             echo "Using PEAR installation found at $path\n";
         }
+    }
+
+    protected function _initializeConfiguration()
+    {
+        echo "Pyrus: No user configuration file detected\n";
+        
+        if ('yes' !== $this->ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
+            echo "OK, thank you, finishing execution now\n";
+            exit;
+        }
+
+        $configclass = static::$configclass;
+        echo "Great.  We will store your configuration in:\n  ",$configclass::getDefaultUserConfigFile(),"\n";
+        previous:
+        $path = $this->ask("Where would you like to install packages by default?", null, getcwd());
+        echo "You have chosen:\n", $path, "\n";
+        if (!realpath($path)) {
+            echo " this path does not yet exist\n";
+            if ('yes' !== $this->ask("Create it?", array('yes', 'no'), 'yes')) {
+                goto previous;
+            }
+        } elseif (!is_dir($path)) {
+            echo $path," exists, and is not a directory\n";
+            goto previous;
+        }
+        
+        $config = $configclass::singleton($path);
+        $config->saveConfig();
+        echo "Thank you, enjoy using Pyrus\n";
+        echo "Documentation is at http://pear.php.net\n";
     }
 
     function dummyStub($command)
