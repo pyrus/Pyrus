@@ -292,8 +292,13 @@ class Commands implements \PEAR2\Pyrus\LogInterface
             }
         } catch (\PEAR2\Console\CommandLine\Exception $e) {
             static::$commandParser->displayError($e->getMessage(), false);
-            static::$commandParser->displayUsage(false);
-
+            if (
+                   $e->getCode() == \PEAR2\Console\CommandLine\Exception::ARGUMENT_REQUIRED
+                || $e->getCode() == \PEAR2\Console\CommandLine\Exception::OPTION_UNKNOWN) {
+                $this->help(array('command' => $args[0]));
+            } else {
+                static::$commandParser->displayUsage(false);
+            }
         }
     }
 
