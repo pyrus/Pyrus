@@ -9,3 +9,5 @@ Bug Fixes/Refactoring:
  - Improve error message for plugin installation failures [saltybeagle]
  - Correct exit codes when pyrus fails from CLI [saltybeagle]
  - Packaged license files should use 'filesource' not 'path' [saltybeagle]
+ - Removed the PEAR2 namespace and made Pyrus the top level namespace.
+   This means all includes and classes need to drop the PEAR2 portion [helgi]
