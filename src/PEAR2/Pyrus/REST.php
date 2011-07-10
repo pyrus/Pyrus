@@ -4,8 +4,8 @@
  *
  * PHP versions 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
  * Intelligently retrieve data, following hyperlinks if necessary, and re-directing
  * as well
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class REST
 {
     protected $config;
@@ -44,7 +44,7 @@ class REST
      * @param string full URL to this resource
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
-     *                    parsed using PEAR2\Pyrus\XMLParser
+     *                    parsed using Pyrus\XMLParser
      *
      * @return string|array
      */
@@ -65,11 +65,11 @@ class REST
      * @param string full URL to this resource
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
-     *                    parsed using PEAR2\Pyrus\XMLParser
+     *                    parsed using Pyrus\XMLParser
      *
      * @return string|array
      *
-     * @throws PEAR2\Pyrus\REST\Exception If the xml cannot be parsed
+     * @throws Pyrus\REST\Exception If the xml cannot be parsed
      */
     function retrieveData($url, $accept = false, $forcestring = false)
     {
@@ -176,7 +176,7 @@ class REST
      *
      * @return string contents of file
      *
-     * @throws PEAR2\Pyrus\REST\Exception if no cache exists
+     * @throws Pyrus\REST\Exception if no cache exists
      */
     function getCache($url)
     {
@@ -199,7 +199,7 @@ class REST
      *
      * @return bool  Returns true on success, false on error
      *
-     * @throws PEAR2\Pyrus\REST\Exception
+     * @throws Pyrus\REST\Exception
      */
     function saveCache($url, $contents, $lastmodified, $nochange = false, $cacheid = null)
     {
@@ -259,7 +259,7 @@ class REST
      * Efficiently Download a file through HTTP.  Returns downloaded file as a string in-memory
      * This is best used for small files
      *
-     * If an HTTP proxy has been configured (http_proxy PEAR2\Pyrus\Config
+     * If an HTTP proxy has been configured (http_proxy Pyrus\Config
      * setting), the proxy will be used.
      *
      * @param string             $url          the URL to download
@@ -275,7 +275,7 @@ class REST
      *                       getCode().  If caching is requested, then return the header
      *                       values.
      *
-     * @throws PEAR2\Pyrus\REST\Exception if the url is invalid
+     * @throws Pyrus\REST\Exception if the url is invalid
      * @access public
      */
     function downloadHttp($url, $lastmodified = null, $accept = false)

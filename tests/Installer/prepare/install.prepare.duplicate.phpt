@@ -1,9 +1,9 @@
 --TEST--
-\PEAR2\Pyrus\Installer::prepare(), duplicate package
+\Pyrus\Installer::prepare(), duplicate package
 --FILE--
 <?php
 include __DIR__ . '/../setup.php.inc';
-class boo extends \PEAR2\Pyrus\Installer
+class boo extends \Pyrus\Installer
 {
     static $installPackages = array();
 }

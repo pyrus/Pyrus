@@ -2,4 +2,4 @@
 require __DIR__ . '/../../setup.php.inc';
 $c = getTestConfig();
 include __DIR__ . '/../../AllRegistries/setupPackageFile.php.inc';
-$reg = new \PEAR2\Pyrus\Registry\Xml(TESTDIR);
+$reg = new \Pyrus\Registry\Xml(TESTDIR);

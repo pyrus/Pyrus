@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Channel\RemotePackage with a channel that only supports REST1.0
+\Pyrus\Channel\RemotePackage with a channel that only supports REST1.0
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
@@ -11,17 +11,17 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/validzip',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
+\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \Pyrus\Config::current()->channelregistry['pear2.php.net'];
 unset($chan->protocols->rest['REST1.3']);
 
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage($chan,
+$remote = new \Pyrus\Channel\RemotePackage($chan,
                                                 'stable');
 $remote->name = 'GetMaintainers_Test';
 $remote = $remote['GetMaintainers_Test'];
-$test->assertEquals('PEAR2\Pyrus\Channel\RemotePackage', get_class($remote), 'right class');
+$test->assertEquals('Pyrus\Channel\RemotePackage', get_class($remote), 'right class');
 
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage($chan,
+$remote = new \Pyrus\Channel\RemotePackage($chan,
                                                 'stable');
 $remote->name = 'GetMaintainers_Test';
 

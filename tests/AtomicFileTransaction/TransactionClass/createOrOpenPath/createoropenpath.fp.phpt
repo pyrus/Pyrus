@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), return open file pointer
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), return open file pointer
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

@@ -6,7 +6,7 @@
 require __DIR__ . '/../../../../../autoload.php';
 
 set_include_path(__DIR__);
-$c = \PEAR2\Pyrus\Config::singleton(dirname(__DIR__), dirname(__DIR__) . '/pearconfig.xml');
+$c = \Pyrus\Config::singleton(dirname(__DIR__), dirname(__DIR__) . '/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/bin';
 restore_include_path();
 $c->saveConfig();
@@ -16,7 +16,7 @@ $scs = new PEAR2\SimpleChannelServer\Main($chan, __DIR__, dirname(__DIR__) . '/P
 
 $scs->saveChannel();
 
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 
 for ($i = 1; $i <= 6; $i++) {
     file_put_contents(__DIR__ . "/glooby$i", 'hi');
@@ -39,9 +39,9 @@ $pf->setPackagefile(__DIR__ . '/package.xml');
 $pf->files['glooby1'] = array('role' => 'php');
 file_put_contents(__DIR__ . '/package.xml', $pf);
 
-$package1 = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
+$package1 = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
 $package1->setInternalPackage($xml);
 $package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');

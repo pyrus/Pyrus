@@ -1,9 +1,9 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry\Pear1::channelFromAlias, uninitialized registry
+\Pyrus\ChannelRegistry\Pear1::channelFromAlias, uninitialized registry
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR . '/foo');
+$creg = new Pyrus\ChannelRegistry\Pear1(TESTDIR . '/foo');
 $test->assertEquals('pear.php.net', $creg->channelFromAlias('pear'), 'pear');
 $test->assertEquals('pear2.php.net', $creg->channelFromAlias('pear2'), 'pear2');
 $test->assertEquals('doc.php.net', $creg->channelFromAlias('phpdocs'), 'phpdocs');

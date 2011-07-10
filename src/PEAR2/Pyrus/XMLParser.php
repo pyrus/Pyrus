@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
  * @author     Helgi Þormar Þorbjörnsson <helgi@php.net>
@@ -18,8 +18,8 @@
 /**
  * Process an XML file, convert it to an array
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
  * @author     Helgi Þormar Þorbjörnsson <helgi@php.net>
@@ -27,7 +27,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class XMLParser extends \XMLReader
 {
     /**

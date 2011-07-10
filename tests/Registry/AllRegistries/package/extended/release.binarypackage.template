@@ -32,6 +32,6 @@ $test->assertEquals(false, isset($reg->release[0]->binarypackage['hi']), 'test h
 try {
     $reg->release[0]->binarypackage[] = 1;
     throw new Exception('= 1 worked and should not');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Can only set binarypackage to string', $e->getMessage(), 'message');
 }

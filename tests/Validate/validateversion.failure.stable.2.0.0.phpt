@@ -3,15 +3,15 @@ Validate::validatePackageName(), failure, stable 2.0.0, no extends
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 $pf->name = 'testing2';
 $pf->version['release'] = '2.0.0';
 $pf->stability['release'] = 'stable';
 $pf->date = '2009-05-10';
 
-$chan = new \PEAR2\Pyrus\ChannelFile\v1;
+$chan = new \Pyrus\ChannelFile\v1;
 $chan->setValidationPackage('notfoo', '1.2');
-$validate = new \PEAR2\Pyrus\Validate;
+$validate = new \Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 

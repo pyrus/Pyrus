@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Config::loadConfigFile() good systemfile
+\Pyrus\Config::loadConfigFile() good systemfile
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -33,7 +33,7 @@ $test->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, '/path/to/php'), $a->p
 $test->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, '/path/to/php.ini'), $a->php_ini, 'php_ini');
 try {
     $test->assertEquals('this should NOT execute, should go to exception', $a->unknown, 'unknown');
-} catch (\PEAR2\Pyrus\Config\Exception $e) {
+} catch (\Pyrus\Config\Exception $e) {
     echo "here\n";
     $test->assertEquals('Unknown configuration variable "unknown" in location ' .
             $a->path, $e->getMessage(), 'exception message');

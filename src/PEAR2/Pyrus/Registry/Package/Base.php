@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Registry\Package\Base
+ * \Pyrus\Registry\Package\Base
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,17 +16,17 @@
 /**
  * Registry package class base
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Registry\Package;
-use \PEAR2\Pyrus\Config as Config;
-abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
-                                                 implements \ArrayAccess, \PEAR2\Pyrus\PackageFileInterface, \Iterator
+namespace Pyrus\Registry\Package;
+use \Pyrus\Config as Config;
+abstract class Base extends \Pyrus\PackageFile\v2
+                                                 implements \ArrayAccess, \Pyrus\PackageFileInterface, \Iterator
 {
 
     protected $packagename;
@@ -36,7 +36,7 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
     protected $iteratorPackages;
     protected $iteratorChannel;
 
-    function __construct(\PEAR2\Pyrus\Registry\Base $cloner)
+    function __construct(\Pyrus\Registry\Base $cloner)
     {
         $this->reg = $cloner;
     }
@@ -84,7 +84,7 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
         $this->iteratorChannel = $channel;
     }
 
-    function fromPackageFile(\PEAR2\Pyrus\PackageFileInterface $package)
+    function fromPackageFile(\Pyrus\PackageFileInterface $package)
     {
         parent::fromPackageFile($package);
         // reconstruct filelist/baseinstalldirs
@@ -138,7 +138,7 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
 
     function toRaw()
     {
-        $info = new \PEAR2\Pyrus\PackageFile\v2;
+        $info = new \Pyrus\PackageFile\v2;
         $info->fromArray(array('package' => $this->packageInfo));
         return $info;
     }
@@ -146,7 +146,7 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
     function __get($var)
     {
         if (!isset($this->packagename)) {
-            throw new \PEAR2\Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
+            throw new \Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
         }
         return parent::__get($var);
@@ -155,7 +155,7 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
     function __set($var, $value)
     {
         if (!isset($this->packagename)) {
-            throw new \PEAR2\Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
+            throw new \Pyrus\Registry\Exception('Attempt to retrieve ' . $var .
                 ' from unknown package');
         }
         parent::__set($var, $value);
@@ -172,10 +172,10 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
      *
      * Iterate over dependencies and create edges from this package to those it
      * depends upon
-     * @param \PEAR2\Pyrus\DirectedGraph $graph
-     * @param array $packages channel/package indexed array of \PEAR2\Pyrus\Package objects
+     * @param \Pyrus\DirectedGraph $graph
+     * @param array $packages channel/package indexed array of \Pyrus\Package objects
      */
-    function makeUninstallConnections(\PEAR2\Pyrus\DirectedGraph $graph, array $packages)
+    function makeUninstallConnections(\Pyrus\DirectedGraph $graph, array $packages)
     {
         $graph->add($this);
         foreach (array('required', 'optional') as $required) {
@@ -207,9 +207,9 @@ abstract class Base extends \PEAR2\Pyrus\PackageFile\v2
         $ret = true;
         foreach ($uninstallPackages as $package) {
             foreach ($this->reg->getDependentPackages($package) as $deppackage) {
-                $dep = new \PEAR2\Pyrus\Dependency\Validator(
+                $dep = new \Pyrus\Dependency\Validator(
                     array('channel' => $deppackage->channel, 'package' => $deppackage->name),
-                    \PEAR2\Pyrus\Validate::UNINSTALLING, $errs);
+                    \Pyrus\Validate::UNINSTALLING, $errs);
                 foreach ($uninstallPackages as $test) {
                     if ($deppackage->isEqual($test)) {
                         // we are uninstalling both the package that is depended upon

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\DirectedGraph
+ * \Pyrus\DirectedGraph
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -19,14 +19,14 @@
  * This structure allows us to sort dependencies into the correct order for installation.
  * Iteration uses a depth-first search to perform a topological sort.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class DirectedGraph implements \Iterator
 {
     const WHITE = 0;
@@ -49,7 +49,7 @@ class DirectedGraph implements \Iterator
      * Add a data vertex
      *
      * @param object $data
-     * @return \PEAR2\Pyrus\DirectedGraph\Vertex
+     * @return \Pyrus\DirectedGraph\Vertex
      */
     function add($data)
     {
@@ -63,9 +63,9 @@ class DirectedGraph implements \Iterator
      * Connect two vertices in a directed graph
      *
      * This can be used with a fluent interface
-     * @param object|\PEAR2\Pyrus\DirectedGraph\Vertex $from
-     * @param object|\PEAR2\Pyrus\DirectedGraph\Vertex $to
-     * @return \PEAR2\Pyrus\DirectedGraph
+     * @param object|\Pyrus\DirectedGraph\Vertex $from
+     * @param object|\Pyrus\DirectedGraph\Vertex $to
+     * @return \Pyrus\DirectedGraph
      */
     function connect($from, $to)
     {

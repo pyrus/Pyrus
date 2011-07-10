@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\ChannelFile\v1
+ * \Pyrus\ChannelFile\v1
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Base class for a PEAR channel.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\ChannelFile;
-class v1 extends \PEAR2\Pyrus\ChannelFile implements \PEAR2\Pyrus\ChannelFileInterface
+namespace Pyrus\ChannelFile;
+class v1 extends \Pyrus\ChannelFile implements \Pyrus\ChannelFileInterface
 {
     /**
      * Supported channel.xml versions, for parsing
@@ -130,8 +130,8 @@ http://pear.php.net/dtd/channel-1.0.xsd'
             $this->__toString();
         }
 
-        $a = new \PEAR2\Pyrus\XMLParser;
-        $schema = \PEAR2\Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
+        $a = new \Pyrus\XMLParser;
+        $schema = \Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
             $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/channel-1.0.xsd';
@@ -141,7 +141,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
             $a->parseString($this->_xml, $schema);
             return true;
         } catch (\Exception $e) {
-            throw new \PEAR2\Pyrus\Channel\Exception('Invalid channel.xml', $e);
+            throw new \Pyrus\Channel\Exception('Invalid channel.xml', $e);
         }
     }
 
@@ -152,7 +152,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
      */
     function __toString()
     {
-        return $this->_xml = (string) new \PEAR2\Pyrus\XMLWriter(array('channel'=>$this->channelInfo));
+        return $this->_xml = (string) new \Pyrus\XMLWriter(array('channel'=>$this->channelInfo));
     }
 
     /**
@@ -203,13 +203,13 @@ http://pear.php.net/dtd/channel-1.0.xsd'
 
         switch($var) {
             case 'remotepackages':
-                return new \PEAR2\Pyrus\Channel\RemotePackages($this);
+                return new \Pyrus\Channel\RemotePackages($this);
             case 'remotepackage':
-                return new \PEAR2\Pyrus\Channel\RemotePackage($this, false);
+                return new \Pyrus\Channel\RemotePackage($this, false);
             case 'remotecategories':
-                return new \PEAR2\Pyrus\Channel\RemoteCategories($this);
+                return new \Pyrus\Channel\RemoteCategories($this);
             case 'remotemaintainers':
-                return new \PEAR2\Pyrus\Channel\RemoteMaintainers($this);
+                return new \Pyrus\Channel\RemoteMaintainers($this);
         }
 
         if (!isset($this->channelInfo[$var])) {
@@ -222,12 +222,12 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     /**
      * Returns the protocols supported by the primary server for this channel
      *
-     * @return \PEAR2\Pyrus\ChannelFile\v1\Servers\Protocols
+     * @return \Pyrus\ChannelFile\v1\Servers\Protocols
      */
     protected function getProtocols()
     {
         if (isset($this->channelInfo['name']) && $this->channelInfo['name'] == '__uri') {
-            throw new \PEAR2\Pyrus\Channel\Exception('__uri pseudo-channel has no protocols');
+            throw new \Pyrus\Channel\Exception('__uri pseudo-channel has no protocols');
         }
 
         if (!isset($this->channelInfo['servers']) || !isset($this->channelInfo['servers']['primary'])) {
@@ -240,7 +240,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     protected function getServers()
     {
         if ($this->channelInfo['name'] == '__uri') {
-            throw new \PEAR2\Pyrus\Channel\Exception('__uri pseudo-channel cannot have mirrors');
+            throw new \Pyrus\Channel\Exception('__uri pseudo-channel cannot have mirrors');
         }
 
         if (isset($this->channelInfo['servers'])) {
@@ -294,11 +294,11 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     protected function setName($name)
     {
         if (empty($name)) {
-            throw new \PEAR2\Pyrus\Channel\Exception('Primary server must be non-empty');
+            throw new \Pyrus\Channel\Exception('Primary server must be non-empty');
         }
 
         if (!$this->validChannelServer($name)) {
-            throw new \PEAR2\Pyrus\Channel\Exception('Primary server "' . $name .
+            throw new \Pyrus\Channel\Exception('Primary server "' . $name .
                 '" is not a valid channel server');
         }
 
@@ -368,9 +368,9 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     protected function setSummary($summary)
     {
         if (empty($summary)) {
-            throw new \PEAR2\Pyrus\Channel\Exception('Channel summary cannot be empty');
+            throw new \Pyrus\Channel\Exception('Channel summary cannot be empty');
         } elseif (strpos(trim($summary), "\n") !== false) {
-            throw new \PEAR2\Pyrus\Channel\Exception('Channel summary cannot be multi-line');
+            throw new \Pyrus\Channel\Exception('Channel summary cannot be multi-line');
         }
 
         $this->channelInfo['summary'] = $summary;
@@ -390,7 +390,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     protected function setAlias($alias, $local = false)
     {
         if (!$this->validChannelServer($alias)) {
-            throw new \PEAR2\Pyrus\Channel\Exception('Alias "' . $alias . '" is not a valid channel alias');
+            throw new \Pyrus\Channel\Exception('Alias "' . $alias . '" is not a valid channel alias');
         }
 
         $a = $local ? 'localalias' : 'suggestedalias';
@@ -494,22 +494,22 @@ http://pear.php.net/dtd/channel-1.0.xsd'
     /**
      * Retrieve the object that can be used for custom validation
      * @param string|false the name of the package to validate.  If the package is
-     *                     the channel validation package, \PEAR2\Pyrus\Validate
+     *                     the channel validation package, \Pyrus\Validate
      *                     is returned
-     * @return \PEAR2\Pyrus\Validate|false false is returned if the validation
+     * @return \Pyrus\Validate|false false is returned if the validation
      *         package cannot be located
      */
     function getValidationObject($package = false)
     {
         if (isset($this->channelInfo['validatepackage'])) {
             if ($package == $this->channelInfo['validatepackage']['_content']) {
-                // channel validation packages are always validated by \PEAR2\Pyrus\Validate
-                $val = new \PEAR2\Pyrus\Validate;
+                // channel validation packages are always validated by \Pyrus\Validate
+                $val = new \Pyrus\Validate;
                 return $val;
             }
 
             $vclass = str_replace(array('.', 'PEAR_', '_'),
-                                  array('\\', 'PEAR2\Pyrus\\', '\\'),
+                                  array('\\', 'Pyrus\\', '\\'),
                                   $this->channelInfo['validatepackage']['_content']);
             if (!class_exists($vclass, true)) {
                 throw new Exception(
@@ -519,7 +519,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
 
             $val = new $vclass;
         } else {
-            $val = new \PEAR2\Pyrus\Validate;
+            $val = new \Pyrus\Validate;
         }
 
         return $val;

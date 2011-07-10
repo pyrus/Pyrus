@@ -1,10 +1,10 @@
 --TEST--
-\PEAR2\Pyrus\Installer::prepare(), plugin package, plugin mode not enabled
+\Pyrus\Installer::prepare(), plugin package, plugin mode not enabled
 --FILE--
 <?php
-use PEAR2\Pyrus\Package;
+use Pyrus\Package;
 include __DIR__ . '/../setup.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
 $pf->channel = 'pear2.php.net';
@@ -20,9 +20,9 @@ $pf->files['Fronky/Wonky/Burm.php'] = array(
 );
 $pf->setPackagefile(TESTDIR . '/package.xml');
 
-$package = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
+$package = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 file_put_contents(TESTDIR . '/foobar', '<?xml version="1.0" encoding="UTF-8"?>
@@ -33,10 +33,10 @@ file_put_contents(TESTDIR . '/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 </task>');
 mkdir(TESTDIR . '/Fronky/Wonky', 0755, true);
 file_put_contents(TESTDIR . '/Fronky/Wonky/Burm.php', '<?php
-class Fronky_Wonky_Burm extends \PEAR2\Pyrus\Task\Common {
+class Fronky_Wonky_Burm extends \Pyrus\Task\Common {
     const TYPE = "simple";
-    const PHASE = \PEAR2\Pyrus\Task\Common::PACKAGEANDINSTALL;
-    static function validateXml(\PEAR2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
+    const PHASE = \Pyrus\Task\Common::PACKAGEANDINSTALL;
+    static function validateXml(\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         return true;
     }
@@ -47,12 +47,12 @@ class Fronky_Wonky_Burm extends \PEAR2\Pyrus\Task\Common {
     }
 }');
 
-class b extends \PEAR2\Pyrus\Installer
+class b extends \Pyrus\Installer
 {
     static $installPackages = array();
 }
 
-class mylog implements PEAR2\Pyrus\LogInterface
+class mylog implements Pyrus\LogInterface
 {
     static $log = array();
     function log($level, $message)
@@ -63,7 +63,7 @@ class mylog implements PEAR2\Pyrus\LogInterface
     }
 }
 $log = new mylog;
-PEAR2\Pyrus\Logger::attach($log);
+Pyrus\Logger::attach($log);
 
 b::begin();
 b::prepare($package);

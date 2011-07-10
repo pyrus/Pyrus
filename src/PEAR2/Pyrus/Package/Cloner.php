@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Package\Cloner
+ * \Pyrus\Package\Cloner
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Class for cloning (exact copies with hash intact if possible) packages
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-namespace PEAR2\Pyrus\Package;
+namespace Pyrus\Package;
 class Cloner
 {
     protected $hash;

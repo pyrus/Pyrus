@@ -1,10 +1,10 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::configShow()
+\Pyrus\ScriptFrontend\Commands::configShow()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 
-$a = \PEAR2\Pyrus\Config::singleton();
+$a = \Pyrus\Config::singleton();
 $a->ext_dir = TESTDIR . DIRECTORY_SEPARATOR . 'ext';
 $a->bin_dir = TESTDIR . DIRECTORY_SEPARATOR . 'bin';
 $a->my_pear_path = TESTDIR;

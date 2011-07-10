@@ -2,7 +2,7 @@
 <commands version="2.0" xmlns="http://pear2.php.net/dtd/customcommand-2.0">
  <command>
   <name>make</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
   <summary>Create or update a package.xml from a standard PEAR2 directory layout</summary>
   <shortcut>mk</shortcut>
@@ -100,7 +100,7 @@ such as --package=phar,tar,zip
  </command>
  <command>
   <name>pickle</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
   <summary>Create or update a package.xml and then package a PECL extension release</summary>
   <shortcut>pi</shortcut>
@@ -167,7 +167,7 @@ RELEASE-X.Y.Z is used as the release notes.
  </command>
  <command>
   <name>package</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
   <summary>Create a release from an existing package.xml</summary>
   <shortcut>p</shortcut>
@@ -243,7 +243,7 @@ directory as package.xml, it will be used for extra setup for all archives.
  </command>
  <command>
   <name>run-phpt</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
   <summary>Run PHPT tests</summary>
   <shortcut>rp</shortcut>
@@ -288,7 +288,7 @@ Coverage can be viewed in a web browser by opening pear2coverage.phar.php
  </command>
  <command>
   <name>generate-pear2</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
   <summary>Generate the subversion source layout for a new PEAR2 package</summary>
   <shortcut>gp</shortcut>
@@ -315,7 +315,7 @@ will reside in Subversion.  It creates everything needed except the source code.
  </command>
  <command>
   <name>generate-ext</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
   <summary>Generate the subversion source layout for a new PHP extension that is PECL-ready</summary>
   <shortcut>es</shortcut>

@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::install() --optionaldeps
+\Pyrus\ScriptFrontend\Commands::install() --optionaldeps
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -9,10 +9,10 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.optionaldeps',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\Pyrus\Main::$downloadClass = 'Internet';
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'install', '--optionaldeps', 'pear2/P1'));
 
 $contents = ob_get_contents();

@@ -6,16 +6,16 @@ require __DIR__ . '/setup.php.inc';
 try {
     $der->oops = 1;
     throw new Exception('worked and should not');
-} catch (PEAR2\Pyrus\DER\Exception $e) {
+} catch (Pyrus\DER\Exception $e) {
     $test->assertEquals('To access objects, use ArrayAccess when schema is not set',
                         $e->getMessage(), 'error');
 }
-$schema = new \PEAR2\Pyrus\DER\Schema;
+$schema = new \Pyrus\DER\Schema;
 $der->setSchema($schema);
 try {
     $der->oops = 1;
     throw new Exception('worked and should not');
-} catch (PEAR2\Pyrus\DER\Exception $e) {
+} catch (Pyrus\DER\Exception $e) {
     $test->assertEquals('schema has no element matching oops at ',
                         $e->getMessage(), 'error');
 }

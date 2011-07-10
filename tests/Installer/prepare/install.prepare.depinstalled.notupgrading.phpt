@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Installer::prepare(), dep already installed, not upgrading
+\Pyrus\Installer::prepare(), dep already installed, not upgrading
 --FILE--
 <?php
 /**
@@ -23,20 +23,20 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-class b extends \PEAR2\Pyrus\Installer
+\Pyrus\Main::$downloadClass = 'Internet';
+class b extends \Pyrus\Installer
 {
     static $installPackages = array();
 }
 
 // first, install P2 1.0.0 in the registry
-$a = new \PEAR2\Pyrus\PackageFile(__DIR__ .
+$a = new \Pyrus\PackageFile(__DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/rest/r/p2/package.1.0.0.xml');
-\PEAR2\Pyrus\Config::current()->registry->package[] = $a->info;
+\Pyrus\Config::current()->registry->package[] = $a->info;
 
 b::begin();
-b::prepare(new \PEAR2\Pyrus\Package('pear2/P1-beta'));
-b::prepare(new \PEAR2\Pyrus\Package('pear2/P3-1.0.0'));
+b::prepare(new \Pyrus\Package('pear2/P1-beta'));
+b::prepare(new \Pyrus\Package('pear2/P3-1.0.0'));
 b::preCommitDependencyResolve();
 $test->assertEquals(2, count(b::$installPackages), '2 packages should be installed');
 $pnames = array();

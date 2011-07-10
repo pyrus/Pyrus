@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), contents is stream
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), contents is stream
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

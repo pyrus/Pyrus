@@ -1,14 +1,14 @@
 --TEST--
-\PEAR2\Pyrus\Channel\Mirror set
+\Pyrus\Channel\Mirror set
 --FILE--
 <?php
 $thrown = false;
 require __DIR__ . '/setup.php.inc';
 
-$fake = new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
+$fake = new \Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 $fake->mirror['ugly.pear.php.net']->ssl = true;
 $fake->mirror['ugly.pear.php.net']->port = 5;
-$channel = new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
+$channel = new \Pyrus\ChannelFile(dirname(__DIR__).'/ChannelRegistry/sample_channel_complex.xml');
 
 // test setting to null
 $test->assertEquals(true, isset($channel->mirror['us.pear.php.net']), 'before');
@@ -18,9 +18,9 @@ $test->assertEquals(false, isset($channel->mirror['us.pear.php.net']), 'after');
 try {
     $channel->mirror['us.pear.php.net'] = 'hi';
     throw new Exception('setting to hi should have failed and did not');
-} catch (\PEAR2\Pyrus\ChannelFile\Exception $e) {
+} catch (\Pyrus\ChannelFile\Exception $e) {
     $test->assertEquals('Can only set mirror to a ' .
-                        '\PEAR2\Pyrus\ChannelFile\v1\Mirror object', $e->getMessage(), 'error');
+                        '\Pyrus\ChannelFile\v1\Mirror object', $e->getMessage(), 'error');
 }
 
 $channel->mirror['us.pear.php.net'] = $fake->mirror['ugly.pear.php.net'];

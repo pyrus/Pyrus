@@ -4,8 +4,8 @@ Dependency_Validator: package dependency, installed failure --nodeps
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-\PEAR2\Pyrus\Main::$options['nodeps'] = true;
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+\Pyrus\Main::$options['nodeps'] = true;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->package['pear2.php.net/foo']->min('1.2.0');
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo');

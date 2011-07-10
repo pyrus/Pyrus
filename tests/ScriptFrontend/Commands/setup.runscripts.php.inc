@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/setup.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 
 mkdir(TESTDIR . '/php');
 file_put_contents(TESTDIR . '/php/foobar', '<?php
@@ -19,9 +19,9 @@ $pf->files['foobar'] = array(
 $pf->files['glooby'] = array('role' => 'php');
 $pf->setPackagefile(TESTDIR . '/package.xml');
 
-$package = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
+$package = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
 class fake
@@ -58,4 +58,4 @@ $postinstall->paramgroup['third']->param['paramname2']->type('string')->prompt('
 $postinstall->paramgroup['fourth']->param['paramname']->type('string')->prompt('3 paramname');
 $postinstall->paramgroup['fourth']->param['paramname2']->type('string')->prompt('3 paramname2');
 
-\PEAR2\Pyrus\Config::current()->registry->package[] = $package;
+\Pyrus\Config::current()->registry->package[] = $package;

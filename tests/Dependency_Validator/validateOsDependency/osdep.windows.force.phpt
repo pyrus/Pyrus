@@ -3,8 +3,8 @@ Dependency_Validator: OS dependency windows --force
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-\PEAR2\Pyrus\Main::$options = array('force' => true);
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+\Pyrus\Main::$options = array('force' => true);
+$fake = new \Pyrus\PackageFile\v2;
 $os = $fake->dependencies['required']->os;
 $os->name = 'windows';
 $validator->os = 'Windows XP';

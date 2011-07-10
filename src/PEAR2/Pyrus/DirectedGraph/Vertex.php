@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\DirectedGraph\Vertex
+ * \Pyrus\DirectedGraph\Vertex
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,19 +16,19 @@
 /**
  * Class to represent vertices within the dependency directed graph.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\DirectedGraph;
+namespace Pyrus\DirectedGraph;
 class Vertex implements \ArrayAccess, \Countable, \Iterator
 {
-    const WHITE = \PEAR2\Pyrus\DirectedGraph::WHITE;
-    const GRAY = \PEAR2\Pyrus\DirectedGraph::GRAY;
-    const BLACK = \PEAR2\Pyrus\DirectedGraph::BLACK;
+    const WHITE = \Pyrus\DirectedGraph::WHITE;
+    const GRAY = \Pyrus\DirectedGraph::GRAY;
+    const BLACK = \Pyrus\DirectedGraph::BLACK;
     protected $color = self::WHITE;
     public $data;
     protected $connections = array();
@@ -50,7 +50,7 @@ class Vertex implements \ArrayAccess, \Countable, \Iterator
     /**
      * Connect to another vertex
      *
-     * @param \PEAR2\Pyrus\DirectedGraph\Vertex $to
+     * @param \Pyrus\DirectedGraph\Vertex $to
      */
     function connect(Vertex $to)
     {

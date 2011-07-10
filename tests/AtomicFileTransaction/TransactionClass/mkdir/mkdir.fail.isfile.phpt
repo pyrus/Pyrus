@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::mkdir() failure, directory exists and is a file
+\Pyrus\AtomicFileTransaction::mkdir() failure, directory exists and is a file
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

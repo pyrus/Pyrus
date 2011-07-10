@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::begin(), journal dir exists
+\Pyrus\AtomicFileTransaction::begin(), journal dir exists
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
 mkdir(TESTDIR . '/.journal-src');
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 $test->assertFileNotExists(TESTDIR . '/src/', 'before');
 $test->assertFileExists(TESTDIR . '/.journal-src/', 'before');

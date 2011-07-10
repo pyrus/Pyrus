@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Package\Creator
+ * \Pyrus\Package\Creator
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Create packages using provided renderers.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Package;
+namespace Pyrus\Package;
 class Creator
 {
     const VERSION = '@PACKAGE_VERSION@';
@@ -33,7 +33,7 @@ class Creator
     /**
      * Begin package creation
      *
-     * @param array|\PEAR2\Pyrus\Package\CreatorInterface $creators
+     * @param array|\Pyrus\Package\CreatorInterface $creators
      */
     function __construct($creators, $pear2ExceptionPath = false, $pear2AutoloadPath = false,
                          $pear2MultiErrorsPath = false)
@@ -129,12 +129,12 @@ class Creator
                     continue;
                 }
 
-                throw new Creator\Exception('Invalid PEAR2 package creator passed into \PEAR2\Pyrus\Package\Creator');
+                throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
             }
 
             $this->_creators = $creators;
         } else {
-            throw new Creator\Exception('Invalid PEAR2 package creator passed into \PEAR2\Pyrus\Package\Creator');
+            throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
         }
     }
 
@@ -146,10 +146,10 @@ class Creator
      *
      * All files in package.xml will have the string @PACKAGE_VERSION@
      * automatically replaced with the current package's version
-     * @param \PEAR2\Pyrus\Package $package
+     * @param \Pyrus\Package $package
      * @param array $extrafiles
      */
-    function render(\PEAR2\Pyrus\Package $package, array $extrafiles = array())
+    function render(\Pyrus\Package $package, array $extrafiles = array())
     {
         foreach ($this->_creators as $creator) {
             $creator->init();
@@ -177,7 +177,7 @@ class Creator
         }
 
         // get packaging package.xml
-        $packageingstr = (string) new \PEAR2\Pyrus\XMLWriter($package->toArray(true));
+        $packageingstr = (string) new \Pyrus\XMLWriter($package->toArray(true));
         foreach ($this->_creators as $creator) {
             $creator->addFile($packagexml, $packageingstr);
         }
@@ -198,9 +198,9 @@ class Creator
             }
         }
 
-        $packagingloc = \PEAR2\Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
+        $packagingloc = \Pyrus\Config::current()->temp_dir . DIRECTORY_SEPARATOR . 'pyrpackage';
         if (file_exists($packagingloc)) {
-            \PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
+            \Pyrus\Filesystem::rmrf($packagingloc, false, false);
         }
         mkdir($packagingloc, 0777, true);
 
@@ -214,7 +214,7 @@ class Creator
                           'type' => 'package-info'));
         foreach ($package->packagingcontents as $packageat => $info) {
             $role =
-                \PEAR2\Pyrus\Installer\Role::factory($package->getPackageType(), $info['attribs']['role']);
+                \Pyrus\Installer\Role::factory($package->getPackageType(), $info['attribs']['role']);
             try {
                 $role->packageTimeValidate($package, $info);
             } catch (\Exception $e) {
@@ -257,13 +257,13 @@ class Creator
                 }
             }
 
-            if (isset(\PEAR2\Pyrus\Config::current()->registry->package[$package->channel . '/' . $package->name])) {
-                $version = \PEAR2\Pyrus\Config::current()->registry->info($package->name, $package->channel, 'version');
+            if (isset(\Pyrus\Config::current()->registry->package[$package->channel . '/' . $package->name])) {
+                $version = \Pyrus\Config::current()->registry->info($package->name, $package->channel, 'version');
             } else {
                 $version = null;
             }
 
-            foreach (new Creator\TaskIterator($info, $package, \PEAR2\Pyrus\Task\Common::PACKAGE,
+            foreach (new Creator\TaskIterator($info, $package, \Pyrus\Task\Common::PACKAGE,
                                               $version) as $task) {
                 // do pre-processing of file contents
                 try {
@@ -287,7 +287,7 @@ class Creator
         foreach ($this->_creators as $creator) {
             $creator->close();
         }
-        \PEAR2\Pyrus\Filesystem::rmrf($packagingloc, false, false);
+        \Pyrus\Filesystem::rmrf($packagingloc, false, false);
     }
 
     protected function addPEAR2Stuff($alreadyPackaged)
@@ -323,10 +323,10 @@ class Creator
         foreach ($extrafiles as $path => $filename) {
             if (!is_object($filename)) {
                 throw new Exception('Invalid extra file object, must be ' .
-                                        'a \PEAR2\Pyrus\Package object');
+                                        'a \Pyrus\Package object');
             }
 
-            if ($filename instanceof \PEAR2\Pyrus\PackageInterface) {
+            if ($filename instanceof \Pyrus\PackageInterface) {
                 foreach ($filename->packagingcontents as $path => $info) {
                     foreach ($this->_creators as $creator) {
                         $creator->mkdir(dirname($this->prepend . '/' . $path));

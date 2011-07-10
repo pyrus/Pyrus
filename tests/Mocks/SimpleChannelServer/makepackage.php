@@ -3,20 +3,20 @@ error_reporting(E_ALL);
 ini_set('display_errors',true);
 require_once __DIR__.'/../../autoload.php';
 
-$a = new \PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN(__DIR__, 'PEAR2_SimpleChannelServer');
+$a = new \Pyrus\Developer\PackageFile\PEAR2SVN(__DIR__, 'PEAR2_SimpleChannelServer');
 
-$package = new \PEAR2\Pyrus\Package('package.xml');
+$package = new \Pyrus\Package('package.xml');
 $outfile = $package->name.'-'.$package->version['release'];
-$a = new \PEAR2\Pyrus\Package\Creator(array(
-                    //new \PEAR2\Pyrus\Developer\Creator\Tar($outfile.'.tar', 'none'),
-                    new \PEAR2\Pyrus\Developer\Creator\Phar($outfile.'.tgz', false, Phar::TAR, Phar::GZ),),
+$a = new \Pyrus\Package\Creator(array(
+                    //new \Pyrus\Developer\Creator\Tar($outfile.'.tar', 'none'),
+                    new \Pyrus\Developer\Creator\Phar($outfile.'.tgz', false, Phar::TAR, Phar::GZ),),
                     __DIR__.'/../../Exception/src',
 					__DIR__.'/../../Autoload/src',
 					__DIR__.'/../../MultiErrors/src');
 $a->render($package);
 
-$a = new \PEAR2\Pyrus\Package\Creator(array(
-                    new \PEAR2\Pyrus\Developer\Creator\Phar\PHPArchive(__DIR__ . '/pearscs.phar', '<?php
+$a = new \Pyrus\Package\Creator(array(
+                    new \Pyrus\Developer\Creator\Phar\PHPArchive(__DIR__ . '/pearscs.phar', '<?php
 function __autoload($class)
 {
     include \'phar://\' . PYRUS_PHAR_FILE . \'/php/\' . implode(\'/\', explode(\'_\', $class)) . \'.php\';
@@ -28,7 +28,7 @@ $cli->process();
                     __DIR__ . '/../../Exception/src',
                     __DIR__ . '/../../Autoload/src',
                     __DIR__ . '/../../MultiErrors/src');
-$b = new \PEAR2\Pyrus\Package(__DIR__ . '/package.xml');
+$b = new \Pyrus\Package(__DIR__ . '/package.xml');
 $rp = __DIR__ . '/../../HTTP_Request/src/HTTP';
 
 $additional_files = array(
@@ -41,9 +41,9 @@ $additional_files = array(
     'php/PEAR2/HTTP/Request/Response.php'          => $rp . '/Request/Response.php',
     'php/PEAR2/HTTP/Request/Uri.php'               => $rp . '/Request/Uri.php',
 );
-$pyrus = new \PEAR2\Pyrus\Package(__DIR__ . '/../../Pyrus/package.xml');
-$pyrus_developer = new \PEAR2\Pyrus\Package(__DIR__ . '/../../Pyrus_Developer/package.xml');
-$exception = new \PEAR2\Pyrus\Package(__DIR__ . '/../../Exception/package.xml');
+$pyrus = new \Pyrus\Package(__DIR__ . '/../../Pyrus/package.xml');
+$pyrus_developer = new \Pyrus\Package(__DIR__ . '/../../Pyrus_Developer/package.xml');
+$exception = new \Pyrus\Package(__DIR__ . '/../../Exception/package.xml');
 foreach (array('Pyrus'           => $pyrus,
                'Pyrus_Developer' => $pyrus_developer,
                'Exception'       => $exception) as $add_dir=>$add_package) {

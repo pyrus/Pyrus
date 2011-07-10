@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Task\Postinstallscript: setting paramgroup condition
+\Pyrus\Task\Postinstallscript: setting paramgroup condition
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';

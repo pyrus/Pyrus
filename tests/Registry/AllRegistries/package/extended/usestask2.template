@@ -1,7 +1,7 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $task = $fake->usestask['boo']->channel('pear2.php.net')->package('Boo');
 
 $test->assertEquals(false, isset($reg->usestask['boo']), 'isset before');

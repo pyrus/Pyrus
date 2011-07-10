@@ -1,5 +1,5 @@
 <?php
 include __DIR__ . '/../../test_framework.php.inc';
 $c = getTestConfig();
-$creg = new \PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR);
+$creg = new \Pyrus\ChannelRegistry\Pear1(TESTDIR);
 

@@ -12,9 +12,9 @@ require __DIR__ . '/setup.php.inc';
 $dir = TESTDIR . DIRECTORY_SEPARATOR;
 mkdir($dir . DIRECTORY_SEPARATOR . 'oops');
 chmod($dir, 0);
-$db = new PEAR2\Pyrus\Registry\Pear1\DependencyDB($dir . DIRECTORY_SEPARATOR . 'oops');
+$db = new Pyrus\Registry\Pear1\DependencyDB($dir . DIRECTORY_SEPARATOR . 'oops');
 $test->assertEquals(false, $db->hasWriteAccess(), 'basic test');
-$db = new PEAR2\Pyrus\Registry\Pear1\DependencyDB('cbcb$^$^#(#(');
+$db = new Pyrus\Registry\Pear1\DependencyDB('cbcb$^$^#(#(');
 $test->assertEquals(false, $db->hasWriteAccess(), 'basic test');
 ?>
 ===DONE===

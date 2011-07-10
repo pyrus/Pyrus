@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Package\Base
+ * \Pyrus\Package\Base
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Base class for representing a package in Pyrus
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Package;
-abstract class Base implements \PEAR2\Pyrus\PackageInterface
+namespace Pyrus\Package;
+abstract class Base implements \Pyrus\PackageInterface
 {
     protected $archive;
     protected $packagefile;
@@ -33,11 +33,11 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
      *
      * This is a chain documenting the steps it took to get this
      * package instantiated, for instance Tar->Abstract
-     * @var \PEAR2\Pyrus\PackageInterface
+     * @var \Pyrus\PackageInterface
      */
     protected $from;
 
-    function __construct(\PEAR2\Pyrus\PackageFile $packagefile, $parent = null)
+    function __construct(\Pyrus\PackageFile $packagefile, $parent = null)
     {
         $this->packagefile = $packagefile;
         $this->from = $parent;
@@ -61,15 +61,15 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
 
     function isUpgradeable()
     {
-        if (!isset(\PEAR2\Pyrus\Main::$options['upgrade'])) {
+        if (!isset(\Pyrus\Main::$options['upgrade'])) {
             // we don't attempt to upgrade a dep unless we're upgrading
             return false;
         }
 
-        $reg = \PEAR2\Pyrus\Config::current()->registry;
+        $reg = \Pyrus\Config::current()->registry;
         $version = $reg->info($this->name, $this->channel, 'version');
         if (version_compare($this->version['release'], $version, '<=')) {
-            return !isset(\PEAR2\Pyrus\Main::$options['force']);
+            return !isset(\Pyrus\Main::$options['force']);
         }
 
         return true;
@@ -99,7 +99,7 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
         return true;
     }
 
-    function setFrom(\PEAR2\Pyrus\PackageInterface $from)
+    function setFrom(\Pyrus\PackageInterface $from)
     {
         $this->from = $from;
     }
@@ -141,10 +141,10 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
      *
      * Iterate over dependencies and create edges from this package to those it
      * depends upon
-     * @param \PEAR2\Pyrus\DirectedGraph $graph
-     * @param array $packages channel/package indexed array of \PEAR2\Pyrus\Package objects
+     * @param \Pyrus\DirectedGraph $graph
+     * @param array $packages channel/package indexed array of \Pyrus\Package objects
      */
-    function makeConnections(\PEAR2\Pyrus\DirectedGraph $graph, array $packages)
+    function makeConnections(\Pyrus\DirectedGraph $graph, array $packages)
     {
         $graph->add($this->getFrom());
         foreach (array('required', 'optional') as $required) {
@@ -242,11 +242,11 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
         return $this->packagefile->__toString();
     }
 
-    function validate($state = \PEAR2\Pyrus\Validate::NORMAL)
+    function validate($state = \Pyrus\Validate::NORMAL)
     {
         $validator = $this->packagefile->getValidator();
         if (!$validator->validate($this, $state)) {
-            throw new \PEAR2\Pyrus\PackageFile\Exception('Invalid package.xml', $validator->getErrors());
+            throw new \Pyrus\PackageFile\Exception('Invalid package.xml', $validator->getErrors());
         }
     }
 
@@ -285,8 +285,8 @@ abstract class Base implements \PEAR2\Pyrus\PackageInterface
             $fileAttribs = $file;
         }
 
-        $taskclass = \PEAR2\Pyrus\Task\Common::getTask($name);
-        return new $taskclass($this, \PEAR2\Pyrus\Task\Common::PACKAGE, $fileAttribs,
+        $taskclass = \Pyrus\Task\Common::getTask($name);
+        return new $taskclass($this, \Pyrus\Task\Common::PACKAGE, $fileAttribs,
                               $fileAttribs['attribs'], null);
     }
 }

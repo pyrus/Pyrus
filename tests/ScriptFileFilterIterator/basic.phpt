@@ -18,7 +18,7 @@ $postinstall->paramgroup['fourth']->param['paramname']->type('string')->prompt('
 $postinstall->paramgroup['fourth']->param['paramname2']->type('string')->prompt('paramname');
 
 $files = array();
-foreach (new \PEAR2\Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator($package->getFilelist(), $package)
+foreach (new \Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator($package->getFilelist(), $package)
          as $file) {
     $files[] = $file;
 }

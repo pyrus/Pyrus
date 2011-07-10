@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Channel\RemotePackage
+ * \Pyrus\Channel\RemotePackage
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Remote REST iteration handler
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Channel;
+namespace Pyrus\Channel;
 class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
 {
     protected $parent;
@@ -32,7 +32,7 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
     protected $rest;
     protected $minimumStability;
 
-    function __construct(\PEAR2\Pyrus\ChannelFileInterface $channelinfo, $category, $packagesinfo)
+    function __construct(\Pyrus\ChannelFileInterface $channelinfo, $category, $packagesinfo)
     {
         $this->parent = $channelinfo;
         $this->category = $category;
@@ -47,8 +47,8 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
             return strnatcasecmp($a['p']['n'], $b['p']['n']);
         });
 
-        $this->rest = new \PEAR2\Pyrus\REST;
-        $this->minimumStability = \PEAR2\Pyrus\Config::current()->preferred_state;
+        $this->rest = new \Pyrus\REST;
+        $this->minimumStability = \Pyrus\Config::current()->preferred_state;
     }
 
     function __get($var)
@@ -123,7 +123,7 @@ class RemoteCategory implements \ArrayAccess, \Iterator, \Countable
         $pxml->license = $package['p']['l'];
         $pxml->summary = $package['p']['s'];
         $pxml->description = $package['p']['d'];
-        $reg = \PEAR2\Pyrus\Config::current()->registry;
+        $reg = \Pyrus\Config::current()->registry;
         if ($reg->exists($package['p']['n'], $package['p']['c'])) {
             $pxml->setExplicitState($version = $reg->info($package['p']['n'], $package['p']['c'], 'version'));
             $found = false;

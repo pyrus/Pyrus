@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::rmrf()
+\Pyrus\AtomicFileTransaction::rmrf()
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
@@ -17,14 +17,14 @@ $test->assertFileExists(TESTDIR . '/anothernew/dir', TESTDIR . '/another/dir');
 $test->assertFileExists(TESTDIR . '/anothernew/dir/file', TESTDIR . '/another/dir/file');
 
 try {
-    \PEAR2\Pyrus\Filesystem::rmrf(TESTDIR, true);
+    \Pyrus\Filesystem::rmrf(TESTDIR, true);
     throw new Exception('did not fail and should');
 } catch (RuntimeException $e) {
     $test->assertEquals('Unable to fully remove ' . TESTDIR .', directory is not empty',
                         $e->getMessage(), 'removal message');
 }
 
-\PEAR2\Pyrus\Filesystem::rmrf(TESTDIR);
+\Pyrus\Filesystem::rmrf(TESTDIR);
 
 $test->assertFileNotExists(TESTDIR, TESTDIR);
 $test->assertFileNotExists(TESTDIR . '/foo', TESTDIR . '/foo');

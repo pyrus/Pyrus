@@ -4,10 +4,10 @@ Dependency_Validator: Extension dependency, not downloading or installing
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->exclude('2.0.0');
 
-$validator = new test_Validator($package, \PEAR2\Pyrus\Validate::UNINSTALLING, $errs);
+$validator = new test_Validator($package, \Pyrus\Validate::UNINSTALLING, $errs);
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '2.0.1';
 

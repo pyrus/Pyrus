@@ -1,12 +1,12 @@
 <?php
 $test->assertEquals(array(), $reg->listPackages($info->channel), 'before');
 $reg->install($info);
-$info = new \PEAR2\Pyrus\PackageFile\v2;
+$info = new \Pyrus\PackageFile\v2;
 $info->name = 'HooHa';
 $info->channel = 'pear2.php.net';
 $info->files['one'] = array('role' => 'php');
 $reg->install($info);
-$info = new \PEAR2\Pyrus\PackageFile\v2;
+$info = new \Pyrus\PackageFile\v2;
 $info->name = 'HooHa2';
 $info->channel = 'pear2.php.net';
 $info->files['two'] = array('role' => 'php');

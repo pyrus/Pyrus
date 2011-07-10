@@ -7,10 +7,10 @@ $dir = TESTDIR . DIRECTORY_SEPARATOR;
 require __DIR__ . '/../../AllRegistries/listpackages/multiple.channels.template';
 
 $package = $reg->package['pear2.php.net/HooHa'];
-$graph = new \PEAR2\Pyrus\DirectedGraph;
+$graph = new \Pyrus\DirectedGraph;
 
 $packages = array();
-$info = new \PEAR2\Pyrus\PackageFile\v2;
+$info = new \Pyrus\PackageFile\v2;
 $info->name = 'foo';
 $info->channel = 'bar.poo';
 $packages['bar.poo/foo'] = clone $info;

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\ChannelRegistry
+ * \Pyrus\ChannelRegistry
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Base class for Pyrus.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
-class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \PEAR2\Pyrus\ChannelRegistryInterface
+namespace Pyrus;
+class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \Pyrus\ChannelRegistryInterface
 {
     /**
      * Class to instantiate for singleton.
@@ -32,12 +32,12 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \PEAR2\Pyrus\
      * This is useful for unit-testing and for extending the registry
      * @var string
      */
-    static public $className = 'PEAR2\Pyrus\ChannelRegistry';
+    static public $className = 'Pyrus\ChannelRegistry';
     /**
      * The parent registry
      *
      * This is used to implement cascading registries
-     * @var \PEAR2\Pyrus\ChannelRegistry
+     * @var \Pyrus\ChannelRegistry
      */
     protected $parent;
     protected $path;
@@ -52,7 +52,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \PEAR2\Pyrus\
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
-                $registry = 'PEAR2\Pyrus\ChannelRegistry\\' . $registry;
+                $registry = 'Pyrus\ChannelRegistry\\' . $registry;
                 if (!class_exists($registry, true)) {
                     $exceptions->E_ERROR[] = new ChannelRegistry\Exception(
                         'Unknown channel registry type: ' . $registry);
@@ -81,7 +81,7 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \PEAR2\Pyrus\
     /**
      * Add a channel to the registry.
      *
-     * @param \PEAR2\Pyrus\ChannelInterface $channel Channel to add.
+     * @param \Pyrus\ChannelInterface $channel Channel to add.
      */
     public function add(ChannelInterface $channel, $update = false, $lastmodified = false)
     {

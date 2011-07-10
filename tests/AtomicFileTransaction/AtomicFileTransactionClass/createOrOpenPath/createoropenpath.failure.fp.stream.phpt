@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened, contents is stream
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened, contents is stream
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::begin();
 
 mkdir(TESTDIR . '/.journal-src/foo/bar', 0777, true);
 file_put_contents(TESTDIR . '/blah', 'blah');

@@ -1,12 +1,12 @@
 <?php
 /**
- * PEAR2\Pyrus\Registry\Pear1\DependencyDB, advanced installed packages
+ * Pyrus\Registry\Pear1\DependencyDB, advanced installed packages
  * dependency database for Pear1 registry
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,8 +16,8 @@
 
 /**
  * Track dependency relationships between installed packages
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Tomas V.V.Cox <cox@idec.net.com>
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
@@ -25,8 +25,8 @@
  * @version   SVN: $Id$
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Registry\Pear1;
-use \PEAR2\Pyrus\Registry as Registry;
+namespace Pyrus\Registry\Pear1;
+use \Pyrus\Registry as Registry;
 class DependencyDB
 {
     /**
@@ -82,7 +82,7 @@ class DependencyDB
      * Get a list of installed packages that depend on this package
      * @return array
      */
-    function getDependentPackages(\PEAR2\Pyrus\PackageFileInterface $pkg)
+    function getDependentPackages(\Pyrus\PackageFileInterface $pkg)
     {
         $data = $this->_getDepDB();
 
@@ -95,7 +95,7 @@ class DependencyDB
     /**
      * Register dependencies of a package that is being installed or upgraded
      */
-    function installPackage(\PEAR2\Pyrus\PackageFileInterface $package)
+    function installPackage(\Pyrus\PackageFileInterface $package)
     {
         $data = $this->_getDepDB();
         $data = $this->_setPackageDeps($data, $package);
@@ -169,9 +169,9 @@ class DependencyDB
             // allow startup for read-only with older Registry
             return $depdb;
         }
-        $reg = \PEAR2\Pyrus\Config::current()->registry;
+        $reg = \Pyrus\Config::current()->registry;
 
-        foreach (\PEAR2\Pyrus\Config::current()->channelregistry as $channel) {
+        foreach (\Pyrus\Config::current()->channelregistry as $channel) {
             foreach ($reg->listPackages($channel->name) as $package) {
                 $package = $reg->package[$channel->name . '/' . $package];
                 $depdb = $this->_setPackageDeps($depdb, $package);
@@ -309,10 +309,10 @@ class DependencyDB
      * Register all dependencies from a package in the dependencies database, in essence
      * "installing" the package's dependency information
      * @param array the database
-     * @param \PEAR2\Pyrus\PackageFileInterface
+     * @param \Pyrus\PackageFileInterface
      * @access private
      */
-    function _setPackageDeps(array $data, \PEAR2\Pyrus\PackageFileInterface $pkg)
+    function _setPackageDeps(array $data, \Pyrus\PackageFileInterface $pkg)
     {
         $deps = $pkg->rawdeps;
 
@@ -417,12 +417,12 @@ class DependencyDB
 
     /**
      * @param array the database
-     * @param \PEAR2\Pyrus\PackageFileInterface
+     * @param \Pyrus\PackageFileInterface
      * @param array the specific dependency
      * @param required|optional whether this is a required or an optional dep
      * @param string|false dependency group this dependency is from, or false for ordinary dep
      */
-    function _registerDep(array $data, \PEAR2\Pyrus\PackageFileInterface $pkg, $dep, $type, $group = false)
+    function _registerDep(array $data, \Pyrus\PackageFileInterface $pkg, $dep, $type, $group = false)
     {
         $info = array(
             'dep'   => $dep,

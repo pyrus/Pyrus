@@ -1,14 +1,14 @@
 <?php
-namespace PEAR2\Pyrus\AtomicFileTransaction;
+namespace Pyrus\AtomicFileTransaction;
 
-use PEAR2\Pyrus\IOException;
+use Pyrus\IOException;
 
 /**
  * A transaction for use by a Manager instance.
  * This class also includes some file operation helper functions.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Warnar Boekkooi, Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -204,6 +204,6 @@ class Transaction extends Transaction\TwoStage
      */
     protected function getPath($relativePath)
     {
-        return \PEAR2\Pyrus\Filesystem::path($this->journalPath . '/' . (string)$relativePath);
+        return \Pyrus\Filesystem::path($this->journalPath . '/' . (string)$relativePath);
     }
 }

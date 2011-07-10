@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Channel\RemotePackages
+ * \Pyrus\Channel\RemotePackages
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Remote REST iteration handler for package listing
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Channel;
+namespace Pyrus\Channel;
 class RemotePackages implements \ArrayAccess, \Iterator
 {
     protected $parent;
@@ -38,14 +38,14 @@ class RemotePackages implements \ArrayAccess, \Iterator
      */
     protected $packageList;
 
-    function __construct(\PEAR2\Pyrus\ChannelInterface $channelinfo)
+    function __construct(\Pyrus\ChannelInterface $channelinfo)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
             throw new Exception('Cannot access remote packages without REST1.0 protocol');
         }
 
-        $this->rest = new \PEAR2\Pyrus\REST;
+        $this->rest = new \Pyrus\REST;
     }
 
     function offsetGet($var)
@@ -127,7 +127,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
         }
 
         // filter the package list for packages of this stability or better
-        $ok = \PEAR2\Pyrus\Installer::betterStates($this->stability, true);
+        $ok = \Pyrus\Installer::betterStates($this->stability, true);
         $releases = array();
         foreach ($info['r'] as $release) {
             if ($this->stability) {
@@ -177,7 +177,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
 
         if (isset($this->stability)) {
             // filter the package list for packages of this stability or better
-            $ok = \PEAR2\Pyrus\Installer::betterStates($this->stability, true);
+            $ok = \Pyrus\Installer::betterStates($this->stability, true);
             $filtered = array();
             foreach ($this->packageList as $lowerpackage) {
                 if (isset($this->parent->protocols->rest['REST1.3'])) {

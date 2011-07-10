@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::install(), --packagingroot test
+\Pyrus\ScriptFrontend\Commands::install(), --packagingroot test
 --SKIPIF--
 <?php
 if (substr(PHP_OS, 0, 3) === 'WIN') {
@@ -10,13 +10,13 @@ if (substr(PHP_OS, 0, 3) === 'WIN') {
 <?php
 require __DIR__ . '/setup.php.inc';
 set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/blah.xml');
+$c = \Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/blah.xml');
 $c->bin_dir = TESTDIR . '/bin';
 restore_include_path();
 $c->saveConfig();
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'install', __DIR__.'/../../Mocks/SimpleChannelServer/package.xml',
                          '--packagingroot=' . TESTDIR));
 
@@ -161,7 +161,7 @@ $test->assertEquals(array (
     'relativepath' => 'PEAR2/SimpleChannelServer/REST/Release.php',
     'configpath' => '' . TESTDIR . '/php',
   ),
-), \PEAR2\Pyrus\Config::current()->registry
+), \Pyrus\Config::current()->registry
                     ->info('PEAR2_SimpleChannelServer', 'pear2.php.net', 'installedfiles'), 'registered files');
 ?>
 ===DONE===

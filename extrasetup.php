@@ -3,8 +3,8 @@
  * This file generates the pyrus.phar file and PEAR2 package for Pyrus.
  */
 
-$current = \PEAR2\Pyrus\Config::current();
-$config = \PEAR2\Pyrus\Config::singleton(__DIR__ . '/vendor');
+$current = \Pyrus\Config::current();
+$config = \Pyrus\Config::singleton(__DIR__ . '/vendor');
 
 $extrafiles = array(
     $config->registry->toPackage('PEAR2_HTTP_Request', 'pear2.php.net'),
@@ -15,5 +15,5 @@ $extrafiles = array(
 
 
 
-\PEAR2\Pyrus\Config::setCurrent($current->path);
+\Pyrus\Config::setCurrent($current->path);
 

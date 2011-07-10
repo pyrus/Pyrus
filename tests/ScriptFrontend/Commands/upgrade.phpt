@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::upgrade(), basic test
+\Pyrus\ScriptFrontend\Commands::upgrade(), basic test
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -10,15 +10,15 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\Pyrus\Main::$downloadClass = 'Internet';
 
-\PEAR2\Pyrus\Installer::begin();
-\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package(__DIR__ .
+\Pyrus\Installer::begin();
+\Pyrus\Installer::prepare(new \Pyrus\Package(__DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P2-1.0.0.tar'));
-\PEAR2\Pyrus\Installer::commit();
+\Pyrus\Installer::commit();
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'upgrade', 'P2-beta'));
 
 $contents = ob_get_contents();

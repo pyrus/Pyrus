@@ -2,7 +2,7 @@
 /**
  * Basic requirement for implementing a packagefile
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 interface PackageFileInterface
 {
     function __get($var);

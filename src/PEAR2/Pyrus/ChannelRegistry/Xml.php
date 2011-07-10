@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\ChannelRegistry\Xml
+ * \Pyrus\ChannelRegistry\Xml
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * An implementation of a Pyrus channel registry within XML files.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\ChannelRegistry;
-use \PEAR2\Pyrus\Main as Main;
+namespace Pyrus\ChannelRegistry;
+use \Pyrus\Main as Main;
 class Xml extends Base
 {
     protected $channelpath;
@@ -67,13 +67,13 @@ class Xml extends Base
     /**
      * Get the filename to store a channel
      *
-     * @param \PEAR2\Pyrus\ChannelInterface|string $channel Channel to save
+     * @param \Pyrus\ChannelInterface|string $channel Channel to save
      *
      * @return string
      */
     protected function getChannelFile($channel)
     {
-        if ($channel instanceof \PEAR2\Pyrus\ChannelInterface) {
+        if ($channel instanceof \Pyrus\ChannelInterface) {
             $channel = $channel->name;
         }
 
@@ -136,7 +136,7 @@ class Xml extends Base
         return parent::exists($channel, $strict);
     }
 
-    function add(\PEAR2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
+    function add(\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new Exception('Cannot add channel, registry is read-only');
@@ -157,7 +157,7 @@ class Xml extends Base
         file_put_contents($this->getAliasFile($channel->alias), $channel->name);
     }
 
-    function update(\PEAR2\Pyrus\ChannelInterface $channel)
+    function update(\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new Exception('Cannot update channel, registry is read-only');
@@ -174,7 +174,7 @@ class Xml extends Base
         file_put_contents($this->getAliasFile($channel->alias), $channel->name);
     }
 
-    function delete(\PEAR2\Pyrus\ChannelInterface $channel)
+    function delete(\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new Exception('Cannot delete channel, registry is read-only');
@@ -211,7 +211,7 @@ class Xml extends Base
             return $this->getDefaultChannel($channel);
         }
 
-        $chan = new \PEAR2\Pyrus\ChannelFile($this->getChannelFile($channel));
+        $chan = new \Pyrus\ChannelFile($this->getChannelFile($channel));
         return new Channel($this, $chan->getArray());
     }
 

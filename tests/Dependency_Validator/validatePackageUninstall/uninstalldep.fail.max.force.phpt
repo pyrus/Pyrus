@@ -4,8 +4,8 @@ Dependency_Validator: uninstall package dependency, fail uninstall, max version 
 <?php
 require __DIR__ . '/../setup.uninstall.php.inc';
 
-\PEAR2\Pyrus\Main::$options['force'] = true;
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+\Pyrus\Main::$options['force'] = true;
+$fake = new \Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';

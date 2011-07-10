@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Config::constructDefaults() extension_dir from PHP_PEAR_EXTENSION_DIR
+\Pyrus\Config::constructDefaults() extension_dir from PHP_PEAR_EXTENSION_DIR
 --ENV--
 PATH=.
 PHP_PEAR_EXTENSION_DIR=somethingelse

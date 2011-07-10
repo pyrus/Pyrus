@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\ChannelRegistry\Pear1
+ * \Pyrus\ChannelRegistry\Pear1
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Gregory Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -17,14 +17,14 @@
  * This is the central registry, that is used for all installer options,
  * stored in .reg files for PEAR 1 compatibility
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Gregory Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus
  */
-namespace PEAR2\Pyrus\ChannelRegistry;
+namespace Pyrus\ChannelRegistry;
 class Pear1 extends Base
 {
     private $_channelPath;
@@ -37,8 +37,8 @@ class Pear1 extends Base
         }
 
         $this->path = $path;
-        if (isset(\PEAR2\Pyrus\Main::$options['packagingroot'])) {
-            $path = \PEAR2\Pyrus\Main::prepend(\PEAR2\Pyrus\Main::$options['packagingroot'], $path);
+        if (isset(\Pyrus\Main::$options['packagingroot'])) {
+            $path = \Pyrus\Main::prepend(\Pyrus\Main::$options['packagingroot'], $path);
         }
 
         $this->_channelPath = $path . DIRECTORY_SEPARATOR . '.channels';
@@ -100,7 +100,7 @@ class Pear1 extends Base
         return $alias;
     }
 
-    public function add(\PEAR2\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
+    public function add(\Pyrus\ChannelInterface $channel, $update = false, $lastmodified = false)
     {
         if ($this->readonly) {
             throw new Exception('Cannot add channel, registry is read-only');
@@ -154,7 +154,7 @@ class Pear1 extends Base
         }
 
         $info = (string) $channel;
-        $parser = new \PEAR2\Pyrus\XMLParser;
+        $parser = new \Pyrus\XMLParser;
         $info = $parser->parseString($info);
         $info = $info['channel'];
         if ($lastmodified) {
@@ -168,7 +168,7 @@ class Pear1 extends Base
         return true;
     }
 
-    public function update(\PEAR2\Pyrus\ChannelInterface $channel)
+    public function update(\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new Exception('Cannot update channel, registry is read-only');
@@ -177,7 +177,7 @@ class Pear1 extends Base
         return $this->add($channel, true);
     }
 
-    public function delete(\PEAR2\Pyrus\ChannelInterface $channel)
+    public function delete(\Pyrus\ChannelInterface $channel)
     {
         if ($this->readonly) {
             throw new Exception('Cannot delete channel, registry is read-only');

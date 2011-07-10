@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PluginRegistry
+ * \Pyrus\PluginRegistry
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -19,15 +19,15 @@
  * The plugin manager is a standard Pyrus registry, but also has
  * specialized commands to retrieve command plugins, custom roles/tasks, and scripts
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
-class PluginRegistry extends \PEAR2\Pyrus\Registry
+namespace Pyrus;
+class PluginRegistry extends \Pyrus\Registry
 {
     protected $path;
     static protected $config;

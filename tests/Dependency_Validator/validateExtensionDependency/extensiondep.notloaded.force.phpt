@@ -4,8 +4,8 @@ Dependency_Validator: Extension dependency, extension version, extension not loa
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-\PEAR2\Pyrus\Main::$options['force'] = true;
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+\Pyrus\Main::$options['force'] = true;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->min('1.0')->conflicts(true);
 $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo');
 

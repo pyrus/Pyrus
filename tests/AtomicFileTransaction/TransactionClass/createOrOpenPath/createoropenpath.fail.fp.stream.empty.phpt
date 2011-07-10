@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), failure, contents is empty stream
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), failure, contents is empty stream
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), contents is stream
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), contents is stream
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::begin();
 
 file_put_contents(TESTDIR . '/blah', 'blah');
 $fp = fopen(TESTDIR . '/blah', 'rb');
@@ -19,7 +19,7 @@ if (substr(PHP_OS, 0, 3) != 'WIN') {
 	$test->assertEquals(decoct(0664), decoct(0777 & fileperms(TESTDIR . '/.journal-src/foo')), 'perms set');
 }
 
-\PEAR2\Pyrus\AtomicFileTransaction::rollback();
+\Pyrus\AtomicFileTransaction::rollback();
 ?>
 ===DONE===
 --CLEAN--

@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Implements the replace file task.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Task;
+namespace Pyrus\Task;
 class Replace extends Common
 {
     const TYPE = 'simple';
@@ -48,10 +48,10 @@ class Replace extends Common
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws \PEAR2\Pyrus\Task\Exception\MissingAttribute
-     * @throws \PEAR2\Pyrus\Task\Exception\WrongAttributeValue
+     * @throws \Pyrus\Task\Exception\MissingAttribute
+     * @throws \Pyrus\Task\Exception\WrongAttributeValue
      */
-    static function validateXml(\PEAR2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
+    static function validateXml(\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if (!isset($xml['attribs'])) {
             throw new Exception\NoAttributes('replace', $file);
@@ -71,7 +71,7 @@ class Replace extends Common
             throw new Exception('Invalid replace task, multiple missing attributes', $errs);
         }
         if ($xml['attribs']['type'] == 'pear-config') {
-            $config = \PEAR2\Pyrus\Config::current();
+            $config = \Pyrus\Config::current();
             if (!in_array($xml['attribs']['to'], $config->systemvars) && !in_array($xml['attribs']['to'], $config->customsystemvars)) {
                 throw new Exception\WrongAttributeValue('replace',
                                                         'to', $xml['attribs']['to'],
@@ -118,7 +118,7 @@ class Replace extends Common
      * Do a package.xml 1.0 replacement, with additional package-info fields available
      *
      * See validateXml() source for the complete list of allowed fields
-     * @param \PEAR2\Pyrus\PackageInterface
+     * @param \Pyrus\PackageInterface
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false
@@ -134,9 +134,9 @@ class Replace extends Common
                 if ($this->installphase == Common::PACKAGE) {
                     return false;
                 }
-                $to = \PEAR2\Pyrus\Config::current()->{$a['to']};
+                $to = \Pyrus\Config::current()->{$a['to']};
                 if (is_null($to)) {
-                    \PEAR2\Pyrus\Logger::log(0, "$dest: invalid pear-config replacement: $a[to]");
+                    \Pyrus\Logger::log(0, "$dest: invalid pear-config replacement: $a[to]");
                     return false;
                 }
             } elseif ($a['type'] == 'php-const') {
@@ -146,7 +146,7 @@ class Replace extends Common
                 if (defined($a['to'])) {
                     $to = constant($a['to']);
                 } else {
-                    \PEAR2\Pyrus\Logger::log(0, "$dest: invalid php-const replacement: $a[to]");
+                    \Pyrus\Logger::log(0, "$dest: invalid php-const replacement: $a[to]");
                     return false;
                 }
             } else {
@@ -156,7 +156,7 @@ class Replace extends Common
                     }
                     $to = $t;
                 } else {
-                    \PEAR2\Pyrus\Logger::log(0, "$dest: invalid package-info replacement: $a[to]");
+                    \Pyrus\Logger::log(0, "$dest: invalid package-info replacement: $a[to]");
                     return false;
                 }
             }
@@ -165,7 +165,7 @@ class Replace extends Common
                 $subst_to[] = $to;
             }
         }
-        \PEAR2\Pyrus\Logger::log(3, "doing " . sizeof($subst_from) .
+        \Pyrus\Logger::log(3, "doing " . sizeof($subst_from) .
             " substitution(s) for $dest");
         if (sizeof($subst_from)) {
             $contents = str_replace($subst_from, $subst_to, $contents);

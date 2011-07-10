@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Installer\Role
+ * \Pyrus\Installer\Role
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Base class for installation roles for files.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Installer;
-use \PEAR2\Pyrus\Config as Config;
+namespace Pyrus\Installer;
+use \Pyrus\Config as Config;
 class Role
 {
     static private $_roles;
@@ -32,8 +32,8 @@ class Role
     /**
      * Set up any additional configuration variables that file roles require
      *
-     * Never call this directly, it is called by \PEAR2\Pyrus\Config constructor
-     * @param \PEAR2\Pyrus\Config
+     * Never call this directly, it is called by \Pyrus\Config constructor
+     * @param \Pyrus\Config
      * @access private
      * @static
      */
@@ -189,7 +189,7 @@ class Role
     static function registerRoles($dir = null)
     {
         self::$_roles = array();
-        $parser = new \PEAR2\Pyrus\XMLParser;
+        $parser = new \Pyrus\XMLParser;
         if ($dir === null) {
             $dir = __DIR__ . '/Role';
         }
@@ -203,7 +203,7 @@ class Role
             throw new Role\Exception("registerRoles: opendir($dir) failed");
         }
 
-        $schemapath = \PEAR2\Pyrus\Main::getDataPath() . '/customrole-2.0.xsd';
+        $schemapath = \Pyrus\Main::getDataPath() . '/customrole-2.0.xsd';
         if (!file_exists($schemapath)) {
             $schemapath = realpath(__DIR__ . '/../../../../data/customrole-2.0.xsd');
         }
@@ -289,7 +289,7 @@ class Role
     /**
      * Retrieve configuration information about a file role from its XML info
      *
-     * @param string $role Role Classname, as in "\PEAR2\Pyrus\Installer\Role\Data"
+     * @param string $role Role Classname, as in "\Pyrus\Installer\Role\Data"
      * @return array
      */
     static function getInfo($role)

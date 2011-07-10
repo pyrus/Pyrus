@@ -1,5 +1,5 @@
 <?php
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 
 /**
  * The exception that is thrown when an I/O error occurs.

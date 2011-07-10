@@ -1,6 +1,6 @@
 <?php
 $reg->install($info);
-$template = new \PEAR2\Pyrus\PackageFile\v2;
+$template = new \Pyrus\PackageFile\v2;
 $template->summary = 'hi';
 $template->description = 'hi';
 $template->maintainer['cellog']->role('lead')->name('Greg')->active('yes')->email('cellog@php.net');

@@ -5,6 +5,6 @@ $path = TESTDIR . DIRECTORY_SEPARATOR . 'dir';
 $journalPath = TESTDIR . DIRECTORY_SEPARATOR . '.journal-dir';
 $backupPath = TESTDIR . DIRECTORY_SEPARATOR . '.old-dir';
 
-$manager = \PEAR2\Pyrus\AtomicFileTransaction::singleton();
+$manager = \Pyrus\AtomicFileTransaction::singleton();
 $manager->begin();
 $instance = $manager->getTransaction($path);

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2\Release
+ * \Pyrus\PackageFile\v2\Release
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -46,14 +46,14 @@
  * $pf->release = null;
  * </code>
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2;
+namespace Pyrus\PackageFile\v2;
 class Release implements \ArrayAccess, \Countable
 {
     private $_parent;
@@ -285,7 +285,7 @@ class Release implements \ArrayAccess, \Countable
             return;
         }
 
-        throw new Release\Exception('Cannot set ' . $var . ' to non-\PEAR2\Pyrus\PackageFile\v2\Release');
+        throw new Release\Exception('Cannot set ' . $var . ' to non-\Pyrus\PackageFile\v2\Release');
     }
 
     /**

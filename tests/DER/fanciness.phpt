@@ -3,7 +3,7 @@ Pyrus DER: test chained construction of complex DER output
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$schema = new \PEAR2\Pyrus\DER\Schema;
+$schema = new \Pyrus\DER\Schema;
 $schema
     ->sequence('first')
         ->boolean('fbool', 0)

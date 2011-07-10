@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Installer::prepare(), installing package-beta with its dependencies
+\Pyrus\Installer::prepare(), installing package-beta with its dependencies
 --FILE--
 <?php
 /**
@@ -27,15 +27,15 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-class b extends \PEAR2\Pyrus\Installer
+\Pyrus\Main::$downloadClass = 'Internet';
+class b extends \Pyrus\Installer
 {
     static $installPackages = array();
 }
 
 b::begin();
-b::prepare(new \PEAR2\Pyrus\Package('pear2/P1-beta'));
-b::prepare(new \PEAR2\Pyrus\Package('pear2/P3'));
+b::prepare(new \Pyrus\Package('pear2/P1-beta'));
+b::prepare(new \Pyrus\Package('pear2/P3'));
 b::preCommitDependencyResolve();
 $test->assertEquals(3, count(b::$installPackages), '3 packages should be installed');
 $pnames = array();

@@ -4,8 +4,8 @@
  * will be.
  *
  */
-namespace PEAR2\Pyrus\Developer\Creator;
-class Xml implements \PEAR2\Pyrus\Package\CreatorInterface
+namespace Pyrus\Developer\Creator;
+class Xml implements \Pyrus\Package\CreatorInterface
 {
     private $_done;
     private $_path;
@@ -13,7 +13,7 @@ class Xml implements \PEAR2\Pyrus\Package\CreatorInterface
     function __construct($path)
     {
         if (!($this->_path = @fopen($path, 'w'))) {
-            throw new \PEAR2\Pyrus\Developer\Creator\Exception('Cannot open path ' .
+            throw new \Pyrus\Developer\Creator\Exception('Cannot open path ' .
                 $path . ' for writing');
         }
     }

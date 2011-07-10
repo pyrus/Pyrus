@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Parser for package.xml version 2.0
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\Parser;
-class v2 extends \PEAR2\Pyrus\XMLParser
+namespace Pyrus\PackageFile\Parser;
+class v2 extends \Pyrus\XMLParser
 {
     private $_inContents = false;
     private $_path = '';
@@ -86,12 +86,12 @@ class v2 extends \PEAR2\Pyrus\XMLParser
      * @param string       $data  data to parse
      * @param string|false $file  name of the archive this package.xml came from, if any
      * @param string       $class class name to instantiate and return.
-     *                            This must be PEAR2\Pyrus\PackageFile\v2 or a subclass
+     *                            This must be Pyrus\PackageFile\v2 or a subclass
      * @param int          $state what state we are currently in
      *
-     * @return \PEAR2\Pyrus\PackageFile\v2
+     * @return \Pyrus\PackageFile\v2
      */
-    function parse($data, $file = false, $class = 'PEAR2\Pyrus\PackageFile\v2', $state = \PEAR2\Pyrus\Validate::NORMAL)
+    function parse($data, $file = false, $class = 'Pyrus\PackageFile\v2', $state = \Pyrus\Validate::NORMAL)
     {
         $this->_inContents = false;
         $this->_path = '';
@@ -99,31 +99,31 @@ class v2 extends \PEAR2\Pyrus\XMLParser
         $this->_lastDepth = $this->_lastFileDepth = 0;
         $this->_inFile = 0;
         $ret = new $class;
-        if (!$ret instanceof \PEAR2\Pyrus\PackageFile\v2) {
-            throw new \PEAR2\Pyrus\PackageFile\Exception('Class ' . $class .
-                ' passed to parse() must be a child class of \PEAR2\Pyrus\PackageFile\v2');
+        if (!$ret instanceof \Pyrus\PackageFile\v2) {
+            throw new \Pyrus\PackageFile\Exception('Class ' . $class .
+                ' passed to parse() must be a child class of \Pyrus\PackageFile\v2');
         }
 
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
-            $schema = \PEAR2\Pyrus\Main::getDataPath() . '/package-2.1.xsd';
+            $schema = \Pyrus\Main::getDataPath() . '/package-2.1.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/data/package-2.1.xsd';
             }
         } elseif (preg_match('/<package[^>]+version="2.0"/', $data)) {
-            $schema = \PEAR2\Pyrus\Main::getDataPath() . '/package-2.0.xsd';
+            $schema = \Pyrus\Main::getDataPath() . '/package-2.0.xsd';
             // for running out of cvs
             if (!file_exists($schema)) {
                 $schema = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/data/package-2.0.xsd';
             }
         } else {
-            throw new \PEAR2\Pyrus\PackageFile\Exception('Cannot process package.xml version 1.0', -3);
+            throw new \Pyrus\PackageFile\Exception('Cannot process package.xml version 1.0', -3);
         }
 
         try {
             $ret->fromArray(parent::parseString($data, $schema));
         } catch (\Exception $e) {
-            throw new \PEAR2\Pyrus\PackageFile\Exception('Invalid package.xml', $e);
+            throw new \Pyrus\PackageFile\Exception('Invalid package.xml', $e);
         }
 
         $ret->setFileList($this->_files);
@@ -134,7 +134,7 @@ class v2 extends \PEAR2\Pyrus\XMLParser
 
     /**
      * Merge a tag into the array
-     * @see \PEAR2\Pyrus\XMLParser::mergeTag()
+     * @see \Pyrus\XMLParser::mergeTag()
      *
      * @param array  $arr     The array representation of the XML
      * @param string $tag     The tag name

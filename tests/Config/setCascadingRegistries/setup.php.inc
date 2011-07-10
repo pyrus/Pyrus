@@ -1,12 +1,12 @@
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
-class r extends \PEAR2\Pyrus\Registry
+class r extends \Pyrus\Registry
 {
     public $path;
 }
-class c extends \PEAR2\Pyrus\ChannelRegistry
+class c extends \Pyrus\ChannelRegistry
 {
     public $path;
 }
-\PEAR2\Pyrus\Registry::$className = 'r';
-\PEAR2\Pyrus\ChannelRegistry::$className = 'c';
+\Pyrus\Registry::$className = 'r';
+\Pyrus\ChannelRegistry::$className = 'c';

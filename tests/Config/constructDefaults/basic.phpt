@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Config::constructDefaults() basic test
+\Pyrus\Config::constructDefaults() basic test
 --ENV--
 PATH=.
 PHP_PEAR_BIN_DIR=
@@ -81,8 +81,8 @@ $phpini = tc::getTestDefaults();
 $test->assertRegex('/\.ini/', $phpini['php_ini'], 'php_ini');
 
 // increase code coverage
-$c = \PEAR2\Pyrus\Config::current();
-$test->assertSame($c, \PEAR2\Pyrus\Config::singleton(), 'current = singleton');
+$c = \Pyrus\Config::current();
+$test->assertSame($c, \Pyrus\Config::singleton(), 'current = singleton');
 ?>
 ===DONE===
 --EXPECT--

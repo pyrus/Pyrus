@@ -8,7 +8,7 @@ class InternetMaker
     function __construct($__DIR__)
     {
         set_include_path($__DIR__);
-        $c = \PEAR2\Pyrus\Config::singleton(dirname($__DIR__), dirname($__DIR__) . '/pearconfig.xml');
+        $c = \Pyrus\Config::singleton(dirname($__DIR__), dirname($__DIR__) . '/pearconfig.xml');
         $c->bin_dir = $__DIR__ . '/bin';
         restore_include_path();
         $c->saveConfig();
@@ -24,7 +24,7 @@ class InternetMaker
 
     function getPassablePf($name, $version, $state = 'stable')
     {
-        $pf = new \PEAR2\Pyrus\PackageFile\v2;
+        $pf = new \Pyrus\PackageFile\v2;
         $pf->name = $name;
         $pf->channel = 'pear2.php.net';
         $pf->summary = 'testing';
@@ -37,15 +37,15 @@ class InternetMaker
         return $pf;
     }
 
-    function makePackage(\PEAR2\Pyrus\PackageFile\v2 $pf)
+    function makePackage(\Pyrus\PackageFile\v2 $pf)
     {
         foreach ($pf->files as $name => $blah) {
             file_put_contents($this->__DIR__ . '/' . $name, 'hi');
         }
         file_put_contents($this->__DIR__ . '/package.xml', $pf);
-        $package1 = new \PEAR2\Pyrus\Package(false);
-        $xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-        $xml = new \PEAR2\Pyrus\Package\Xml($this->__DIR__ . '/package.xml', $package1, $xmlcontainer);
+        $package1 = new \Pyrus\Package(false);
+        $xmlcontainer = new \Pyrus\PackageFile($pf);
+        $xml = new \Pyrus\Package\Xml($this->__DIR__ . '/package.xml', $package1, $xmlcontainer);
         $package1->setInternalPackage($xml);
         $package1->archivefile = $this->__DIR__ . '/package.xml';
         $this->scs->saveRelease($package1, 'cellog');

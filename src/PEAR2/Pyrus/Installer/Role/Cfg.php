@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Installer\Role\Cfg
+ * \Pyrus\Installer\Role\Cfg
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,21 +16,21 @@
 /**
  * user-customizable configuration role
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Installer\Role;
-class Cfg extends \PEAR2\Pyrus\Installer\Role\Common
+namespace Pyrus\Installer\Role;
+class Cfg extends \Pyrus\Installer\Role\Common
 {
     protected $md5 = null;
     /**
      * Do any unusual setup here
-     * @param \PEAR2\Pyrus\Installer
-     * @param \PEAR2\Pyrus\PackageFileInterface
+     * @param \Pyrus\Installer
+     * @param \Pyrus\PackageFileInterface
      * @param array file attributes
      * @param string file name
      */
@@ -45,7 +45,7 @@ class Cfg extends \PEAR2\Pyrus\Installer\Role\Common
         }
     }
 
-    function getRelativeLocation(\PEAR2\Pyrus\PackageFileInterface $pkg, \PEAR2\Pyrus\PackageFile\v2Iterator\FileTag $file,
+    function getRelativeLocation(\Pyrus\PackageFileInterface $pkg, \Pyrus\PackageFile\v2Iterator\FileTag $file,
                                  $retDir = false)
     {
         if ($this->md5 === null) {
@@ -53,7 +53,7 @@ class Cfg extends \PEAR2\Pyrus\Installer\Role\Common
         }
 
         $info = parent::getRelativeLocation($pkg, $file, $retDir);
-        $path = \PEAR2\Pyrus\Config::current()->cfg_dir .
+        $path = \Pyrus\Config::current()->cfg_dir .
                     DIRECTORY_SEPARATOR;
 
         if ($retDir) {
@@ -81,7 +81,7 @@ class Cfg extends \PEAR2\Pyrus\Installer\Role\Common
                 // configfile.new-version
                 $old = $filepath;
                 $filepath .= '.new-' . $pkg->version['release'];
-                \PEAR2\Pyrus\Logger::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
+                \Pyrus\Logger::log(0, "WARNING: configuration file $old is being installed as $filepath, " .
                                     "you should manually merge in changes to the existing configuration file");
             }
         }

@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\Task\Postinstallscript::validateXml() failures 3
+\Pyrus\Task\Postinstallscript::validateXml() failures 3
 --FILE--
 <?php
 include dirname(__DIR__) . '/setup.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        \PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
+        \Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -29,7 +29,7 @@ interface::$hla;
 }
 ');
 
-$xmltest(array(), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Analysis of post-install script "glooby" failed: Parser error: invalid PHP found in file"', '\PEAR2\Pyrus\Task\Exception\Invalidtask');
+$xmltest(array(), array('role' => 'php', 'name' => 'glooby'), 'task <postinstallscript> in file filename is invalid because of "Analysis of post-install script "glooby" failed: Parser error: invalid PHP found in file"', '\Pyrus\Task\Exception\Invalidtask');
 
 ?>
 ===DONE===

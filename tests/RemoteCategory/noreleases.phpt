@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Channel\RemoteCategory: no releases for a package
+\Pyrus\Channel\RemoteCategory: no releases for a package
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
@@ -7,8 +7,8 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/noreleases',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
+\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
 $category = $chan->remotecategories['Default'];
 $test->assertEquals(array(array('package' => 'GetMaintainers_Test',

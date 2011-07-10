@@ -32,7 +32,7 @@ if (isset($_SERVER['argv'][1])) {
 skippy:
 function __autoload($c)
 {
-    $c = str_replace(array('PEAR2\Pyrus\Developer\CoverageAnalyzer\\',
+    $c = str_replace(array('Pyrus\Developer\CoverageAnalyzer\\',
                            '\\'), array('', '/'), $c);
     include __DIR__ . '/' . $c . '.php';
 }
@@ -46,7 +46,7 @@ $config = @PEAR_Config::singleton();
 $test = new PEAR_Command_Test($cli, $config);
 error_reporting($e);
 }
-namespace PEAR2\Pyrus\Developer\CoverageAnalyzer {
+namespace Pyrus\Developer\CoverageAnalyzer {
     $codepath = realpath('../../../../../Pyrus/src');
     $testpath = realpath('../../../../../Pyrus/tests');
     $sqlite = new Sqlite($testpath . '/pear2coverage.db', $codepath, $testpath);

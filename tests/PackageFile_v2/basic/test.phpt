@@ -4,7 +4,7 @@ PackageFile v2: test basic, simple methods
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$a = new \PEAR2\Pyrus\PackageFile\v2;
+$a = new \Pyrus\PackageFile\v2;
 $a->setPackageFile('foo/bar', 'bar');
 $test->assertEquals('foo/bar', $a->getPackageFile(), 'packagefile');
 $test->assertEquals('foo/bar', $a->packagefile, 'packagefile 2');
@@ -23,21 +23,21 @@ $test->assertEquals(array('role' => 'php'), $a->getFile('bar.php'), 'bar');
 try {
     $a->setFileAttribute('foo.php', 'noway', 'no');
     throw new \Exception('noway did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\Exception $e) {
+} catch (\Pyrus\PackageFile\Exception $e) {
     $test->assertEquals('Cannot set invalid attribute noway for file foo.php', $e->getMessage(), 'noway message');
 }
 
 try {
     $a->setFileAttribute('foo.php', 'name', 'no');
     throw new \Exception('name did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\Exception $e) {
+} catch (\Pyrus\PackageFile\Exception $e) {
     $test->assertEquals('Cannot change name of file foo.php', $e->getMessage(), 'name message');
 }
 
 try {
     $a->setFileAttribute('oops', 'role', 'test');
     throw new \Exception('oops did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\Exception $e) {
+} catch (\Pyrus\PackageFile\Exception $e) {
     $test->assertEquals('Cannot set attribute role for non-existent file oops', $e->getMessage(), 'oops message');
 }
 $i = 1;

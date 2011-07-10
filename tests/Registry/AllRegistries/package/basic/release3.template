@@ -1,9 +1,9 @@
 <?php
 // all registry tests must pass this (as must PackageFile objects)
 
-$test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Release', $reg->release, 'right class');
+$test->assertIsa('\Pyrus\PackageFile\v2\Release', $reg->release, 'right class');
 
-$foo = new \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition(false, array(), 'extension');
+$foo = new \Pyrus\PackageFile\v2\Release\InstallCondition(false, array(), 'extension');
 $foo = $foo['PDO'];
 $foo->min('1.0')->conflicts();
 
@@ -23,38 +23,38 @@ $test->assertEquals('2.0.0', $reg->release[0]->installconditions['extension']['p
 try {
     $reg->release[0]->installconditions['extension']['phar'] = 2;
     throw new Exception('phar 2 didn\'t fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot set extension to anything but a' .
-                        ' \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition object', $e->getMessage(), 'phar 2 message');
+                        ' \Pyrus\PackageFile\v2\Release\InstallCondition object', $e->getMessage(), 'phar 2 message');
 }
 
 try {
     $reg->release[0]->installconditions['foo'] = 2;
     throw new Exception('foo didn\'t fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Unknown install condition foo', $e->getMessage(), 'foo message');
 }
 
 try {
     $reg->release[0]->installconditions['extension'] = 2;
     throw new Exception('extension 2 didn\'t fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Set extension install condition by name', $e->getMessage(), 'extension 2 message');
 }
 
-$foo = new \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition(false, array('min' => null), 'php');
+$foo = new \Pyrus\PackageFile\v2\Release\InstallCondition(false, array('min' => null), 'php');
 
 try {
     $reg->release[0]->installconditions['extension']['phar'] = $foo;
     throw new Exception('phar php didn\'t fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot set extension phar to another install condition (php)', $e->getMessage(), 'phar php message');
 }
 
 try {
     $reg->release[0]->installconditions['arch'] = $foo;
     throw new Exception('arch php didn\'t fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Release\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Release\Exception $e) {
     $test->assertEquals('Cannot set arch to another install condition (php)', $e->getMessage(), 'arch php message');
 }
 
@@ -66,12 +66,12 @@ $foo->min('5.1.0');
 $reg->release[0]->installconditions['php'] = $foo;
 $test->assertEquals('5.1.0', $reg->release[0]->installconditions['php']->min, 'php min');
 
-$foo = new \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition(false, array('pattern' => null), 'arch');
+$foo = new \Pyrus\PackageFile\v2\Release\InstallCondition(false, array('pattern' => null), 'arch');
 $foo->pattern('hi');
 $reg->release[0]->installconditions['arch'] = $foo;
 $test->assertEquals('hi', $reg->release[0]->installconditions['arch']->pattern, 'arch pattern');
 
-$foo = new \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition(false, array('name' => null), 'os');
+$foo = new \Pyrus\PackageFile\v2\Release\InstallCondition(false, array('name' => null), 'os');
 $foo->name('boo');
 $reg->release[0]->installconditions['os'] = $foo;
 $test->assertEquals('boo', $reg->release[0]->installconditions['os']->name, 'os name');

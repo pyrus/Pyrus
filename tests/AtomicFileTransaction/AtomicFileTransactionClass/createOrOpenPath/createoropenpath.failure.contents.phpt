@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened, contents is string
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened, contents is string
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::begin();
 
 mkdir(TESTDIR . '/.journal-src/foo/bar', 0777, true);
 try {

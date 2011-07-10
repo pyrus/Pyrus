@@ -4,7 +4,7 @@ Dependency_Validator: OS dependency unix
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $os = $fake->dependencies['required']->os;
 $os->name = 'unix';
 $validator->os = $validator->sysname = 'Linux';

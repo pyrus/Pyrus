@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Installer::prepare(), duplicate remote package, different version
+\Pyrus\Installer::prepare(), duplicate remote package, different version
 --FILE--
 <?php
 /**
@@ -16,14 +16,14 @@
  *
  * and P1 1.3.0 exists
  */
-use PEAR2\Pyrus\Package;
+use Pyrus\Package;
 include __DIR__ . '/../setup.php.inc';
 require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.circulardep',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-class b extends \PEAR2\Pyrus\Installer
+\Pyrus\Main::$downloadClass = 'Internet';
+class b extends \Pyrus\Installer
 {
     static $installPackages = array();
 }
@@ -40,7 +40,7 @@ $test->assertEquals('1.1.0', b::$installPackages['pear2.php.net/P4']->version['r
 try {
     b::prepare(new Package('P4-1.0.0'));
     throw new Exception('should fail and did not');
-} catch (PEAR2\Pyrus\Installer\Exception $e) {
+} catch (Pyrus\Installer\Exception $e) {
     $test->assertEquals('Cannot install pear2.php.net/P4, two conflicting' .
             ' versions were requested (1.0.0 and 1.1.0)', $e->getMessage(), 'error');
 }

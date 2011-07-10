@@ -3,7 +3,7 @@ Custom command: basic test
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
-\PEAR2\Pyrus\Main::$options['install-plugins'] = true;
+\Pyrus\Main::$options['install-plugins'] = true;
 
 $test->assertTrue($package->isPlugin(), 'ensure the package registers as a plugin');
 
@@ -65,21 +65,21 @@ class Fronky_Wonky_Burm
     }
 }');
 
-\PEAR2\Pyrus\Installer::begin();
-\PEAR2\Pyrus\Installer::prepare($package);
-\PEAR2\Pyrus\Installer::commit();
+\Pyrus\Installer::begin();
+\Pyrus\Installer::prepare($package);
+\Pyrus\Installer::commit();
 
 
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands();
+$cli = new \Pyrus\ScriptFrontend\Commands();
 $cli->run($args = array (TESTDIR, 'foobar', '--force', '-r/hi/there', 'oof', 'da'));
 
 $contents = ob_get_contents();
 ob_end_clean();
 
 $test->assertEquals('Using PEAR installation found at ' . TESTDIR . '
-string(' . strlen('PEAR2\Pyrus\ScriptFrontend\Commands') . ') "PEAR2\Pyrus\ScriptFrontend\Commands"
+string(' . strlen('Pyrus\ScriptFrontend\Commands') . ') "Pyrus\ScriptFrontend\Commands"
 array(1) {
   ["package"]=>
   array(2) {
@@ -102,7 +102,7 @@ array(5) {
   NULL
 }
 ', $contents, 'command output');
-$reg = new \PEAR2\Pyrus\PluginRegistry(TESTDIR . '//plugins');
+$reg = new \Pyrus\PluginRegistry(TESTDIR . '//plugins');
 $test->assertTrue(isset($reg->package['pear2.php.net/testing2']), 'custom command installed');
 
 ?>

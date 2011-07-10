@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Implements the unix line endings file task.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Task;
-class Unixeol extends \PEAR2\Pyrus\Task\Common
+namespace Pyrus\Task;
+class Unixeol extends \Pyrus\Task\Common
 {
     const TYPE = 'simple';
     const PHASE = Common::PACKAGEANDINSTALL;
@@ -49,9 +49,9 @@ class Unixeol extends \PEAR2\Pyrus\Task\Common
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
      *
-     * @throws \PEAR2\Pyrus\Task\Exception\InvalidTask
+     * @throws \Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(\PEAR2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
+    static function validateXml(\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if (is_array($xml) && count($xml) || $xml !== '') {
             throw new Exception\InvalidTask('unixeol', $file, 'no attributes allowed');
@@ -63,7 +63,7 @@ class Unixeol extends \PEAR2\Pyrus\Task\Common
      * Replace all line endings with line endings customized for the current OS
      *
      * See validateXml() source for the complete list of allowed fields
-     * @param \PEAR2\Pyrus\PackageInterface
+     * @param \Pyrus\PackageInterface
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string
@@ -71,7 +71,7 @@ class Unixeol extends \PEAR2\Pyrus\Task\Common
     function startSession($fp, $dest)
     {
         $contents = stream_get_contents($fp);
-        \PEAR2\Pyrus\Logger::log(3, "replacing all line endings with \\n in $dest");
+        \Pyrus\Logger::log(3, "replacing all line endings with \\n in $dest");
         $contents = preg_replace("/\r\n|\n\r|\r|\n/", "\n", $contents);
         rewind($fp);
         ftruncate($fp, 0);

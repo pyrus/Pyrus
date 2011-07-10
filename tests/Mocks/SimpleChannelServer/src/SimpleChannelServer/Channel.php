@@ -8,7 +8,7 @@
  * @license  New BSD?
  * @link     http://svn.php.net/viewvc/pear2/sandbox/SimpleChannelServer/
  */
-class PEAR2_SimpleChannelServer_Channel extends \PEAR2\Pyrus\ChannelFile
+class PEAR2_SimpleChannelServer_Channel extends \Pyrus\ChannelFile
 {
     
     function __construct($name, $summary, $suggestedalias = null, $restpath = 'rest/')

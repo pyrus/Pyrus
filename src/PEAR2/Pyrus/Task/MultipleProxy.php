@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Task\MultipleProxy, container for multiple tasks to be executed
+ * \Pyrus\Task\MultipleProxy, container for multiple tasks to be executed
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -17,21 +17,21 @@
  *
  * This is used when a file contains multiple copies of the same task name,
  * such as multiple <tasks:replace> tags
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Task;
+namespace Pyrus\Task;
 class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObserver
 {
     protected $name;
     protected $parent;
     protected $fileattribs;
     /**
-     * @param \PEAR2\Pyrus\PackageInterface|\PEAR2\Pyrus\PackageFileInterface
+     * @param \Pyrus\PackageInterface|\Pyrus\PackageFileInterface
      * @param array a group of tasks
      */
     function __construct($parent, array $tasks, $fileattribs, $name)
@@ -55,7 +55,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
      * @param resource open file pointer, set to the beginning of the file
      * @param string the eventual final file location (informational only)
      * @return string|false false to skip this file, otherwise return the new contents
-     * @throws \PEAR2\Pyrus\Task\Exception on errors, throw this exception
+     * @throws \Pyrus\Task\Exception on errors, throw this exception
      * @abstract
      */
     function startSession($fp, $dest)
@@ -100,7 +100,7 @@ class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObse
     function add()
     {
         $c = Common::getTask($this->name);
-        $ret = new $c($this->parent, \PEAR2\Pyrus\Validate::NORMAL, array(), $this->fileattribs, null);
+        $ret = new $c($this->parent, \Pyrus\Validate::NORMAL, array(), $this->fileattribs, null);
         $this[] = $ret;
         $ret->attach($this);
         return $ret;

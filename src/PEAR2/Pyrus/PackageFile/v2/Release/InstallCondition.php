@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2\Releaseinstallcondition
+ * \Pyrus\PackageFile\v2\Releaseinstallcondition
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Manage a release's installation conditions in package.xml
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2\Release;
+namespace Pyrus\PackageFile\v2\Release;
 class InstallCondition implements \ArrayAccess
 {
     protected $parent;
@@ -195,7 +195,7 @@ class InstallCondition implements \ArrayAccess
         if (isset($this->installcondition) && $this->installcondition == 'extension') {
             if (!($value instanceof InstallCondition)) {
                 throw new Exception('Cannot set extension to anything but a' .
-                            ' \PEAR2\Pyrus\PackageFile\v2\Release\InstallCondition object');
+                            ' \Pyrus\PackageFile\v2\Release\InstallCondition object');
             }
         } else {
             switch ($var) {

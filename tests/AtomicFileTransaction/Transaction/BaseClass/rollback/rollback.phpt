@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::rollback()
+\Pyrus\AtomicFileTransaction::rollback()
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

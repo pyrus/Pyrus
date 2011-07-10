@@ -1,17 +1,17 @@
 <?php
-namespace PEAR2\Pyrus\AtomicFileTransaction\Transaction;
+namespace Pyrus\AtomicFileTransaction\Transaction;
 
-use PEAR2\Pyrus\IOException,
-    PEAR2\Pyrus\AtomicFileTransaction\RuntimeException,
-    PEAR2\Pyrus\Filesystem as FS;
+use Pyrus\IOException,
+    Pyrus\AtomicFileTransaction\RuntimeException,
+    Pyrus\Filesystem as FS;
 
 /**
  * A simple transaction class that uses a journal to save changes.
  * This transaction class created a journal directory of the path the transaction is for,
  * once committed it will remove the original path and replace it with the journal path.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Warnar Boekkooi
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -159,7 +159,7 @@ class Base
 
     protected function getMode($mode = null) {
         if ($mode === null) {
-            return 0777 & ~octdec(\PEAR2\Pyrus\Config::current()->umask);
+            return 0777 & ~octdec(\Pyrus\Config::current()->umask);
         }
         return $mode & 0777;
     }

@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), failure, contents is empty stream
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), failure, contents is empty stream
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::begin();
 
 file_put_contents(TESTDIR . '/blah', 'blah');
 $fp = fopen(TESTDIR . '/blah', 'rb');

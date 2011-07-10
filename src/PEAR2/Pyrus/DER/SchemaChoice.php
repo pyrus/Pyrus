@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\DER\SchemaChoice
+ * \Pyrus\DER\SchemaChoice
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -18,14 +18,14 @@
  *
  * This is used to name components and to retrieve context-specific types
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\DER;
+namespace Pyrus\DER;
 class SchemaChoice extends Schema
 {
     protected $options = array();
@@ -52,7 +52,7 @@ class SchemaChoice extends Schema
             if ($obj instanceof self) {
                 if ($test = $obj->findTag($tag)) {
                     if (!$test->class) {
-                        $test->setClass('PEAR2\Pyrus\DER\Choice');
+                        $test->setClass('Pyrus\DER\Choice');
                     }
 
                     return $test;

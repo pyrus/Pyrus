@@ -222,7 +222,7 @@ chdir(TESTDIR);
 
 function getTestConfig() {
     set_include_path(TESTDIR);
-    $c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+    $c = \Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
     $c->bin_dir = TESTDIR . '/bin';
     $c->ext_dir = TESTDIR . '/ext';
     restore_include_path();

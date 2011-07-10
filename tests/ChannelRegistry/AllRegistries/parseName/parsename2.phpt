@@ -1,9 +1,9 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry\Base::parseName() 2
+\Pyrus\ChannelRegistry\Base::parseName() 2
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';
-$creg = new \PEAR2\Pyrus\ChannelRegistry(TESTDIR);
+$creg = new \Pyrus\ChannelRegistry(TESTDIR);
 $chan = $creg['pear2.php.net']->toChannelFile();
 $chan->name = 'pear2.php.net/foo';
 $chan->alias = 'pfoo';

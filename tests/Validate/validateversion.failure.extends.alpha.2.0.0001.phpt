@@ -3,7 +3,7 @@ Validate::validateVersion(), failure, extends, alpha, version = 2.0.0001
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 $pf->name = 'testing2';
 $pf->extends = 'testing';
 $pf->version['release'] = '2.0.0001';
@@ -12,9 +12,9 @@ $pf->summary = 'hi';
 $pf->description = 'hi';
 $pf->date = '2009-05-10';
 
-$chan = new \PEAR2\Pyrus\ChannelFile\v1;
+$chan = new \Pyrus\ChannelFile\v1;
 $chan->setValidationPackage('notfoo', '1.2');
-$validate = new \PEAR2\Pyrus\Validate;
+$validate = new \Pyrus\Validate;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 

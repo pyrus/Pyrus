@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction\Manager::getTransaction(), cannot begin transaction twice.
+\Pyrus\AtomicFileTransaction\Manager::getTransaction(), cannot begin transaction twice.
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

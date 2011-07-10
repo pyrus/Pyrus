@@ -7,7 +7,7 @@ $testarr = array();
 foreach (array_keys($allmaintainers) as $role) {
     $testarr[$role] = array();
     foreach ($allmaintainers[$role] as $i => $obj) {
-        $test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Developer', $obj, $role . ' ' . $i . ' allmaintainers');
+        $test->assertIsa('\Pyrus\PackageFile\v2\Developer', $obj, $role . ' ' . $i . ' allmaintainers');
         $testarr[$role][] = $obj->toArray();
     }
 }
@@ -54,7 +54,7 @@ $testarr = array();
 foreach (array_keys($allmaintainers) as $role) {
     $testarr[$role] = array();
     foreach ($allmaintainers[$role] as $i => $obj) {
-        $test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Developer', $obj, $role . ' ' . $i . ' allmaintainers');
+        $test->assertIsa('\Pyrus\PackageFile\v2\Developer', $obj, $role . ' ' . $i . ' allmaintainers');
         $testarr[$role][] = $obj->toArray();
     }
 }

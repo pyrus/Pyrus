@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry::exists() basic test
+\Pyrus\ChannelRegistry::exists() basic test
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';
 $c = getTestConfig();
 
 $test->assertEquals(false, $c->channelregistry->exists('pear.unl.edu'), 'successfully added the channel');
-$chan = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
+$chan = new \Pyrus\Channel(new \Pyrus\ChannelFile(dirname(__DIR__).'/../sample_channel.xml'));
 $c->channelregistry->add($chan);
 $test->assertEquals(true, $c->channelregistry->exists('pear.unl.edu', false), 'successfully added the channel');
 $test->assertEquals(true, $c->channelregistry->exists('unl', false), 'successfully added the channel');

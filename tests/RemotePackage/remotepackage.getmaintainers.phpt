@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Channel\RemotePackage::getMaintainers()
+\Pyrus\Channel\RemotePackage::getMaintainers()
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
@@ -7,8 +7,8 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotepackage',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
+\Pyrus\Main::$downloadClass = 'Internet';
+$remote = new \Pyrus\Channel\RemotePackage(\Pyrus\Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['GetMaintainers_Test'];
 $remote->version['release'] = '1.0.0'; // choose the version we are accessing
@@ -52,8 +52,8 @@ $test->assertEquals(array (
 ), $res, 'maintainers REST1.2');
 
 // next, test with REST1.0
-unset(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net']->protocols->rest['REST1.2']);
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
+unset(\Pyrus\Config::current()->channelregistry['pear2.php.net']->protocols->rest['REST1.2']);
+$remote = new \Pyrus\Channel\RemotePackage(\Pyrus\Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['GetMaintainers_Test'];
 $remote->version['release'] = '1.0.0'; // choose the version we are accessing

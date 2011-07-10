@@ -1,6 +1,6 @@
 <?php
 
-class TransactionMock extends \PEAR2\Pyrus\AtomicFileTransaction\Transaction
+class TransactionMock extends \Pyrus\AtomicFileTransaction\Transaction
 {
     public static $failBegin;
     public static $failRollback;
@@ -8,7 +8,7 @@ class TransactionMock extends \PEAR2\Pyrus\AtomicFileTransaction\Transaction
     public static $failFinish;
     public static $failRevert;
 
-    public function __construct($path, \PEAR2\Pyrus\AtomicFileTransaction\Manager $manager)
+    public function __construct($path, \Pyrus\AtomicFileTransaction\Manager $manager)
     {
         parent::__construct($path, $manager);
     }

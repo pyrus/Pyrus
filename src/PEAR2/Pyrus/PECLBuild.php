@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PECLBuild
+ * \Pyrus\PECLBuild
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Class handling building of PECL packages
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class PECLBuild
 {
     protected $ui;
@@ -201,7 +201,7 @@ class PECLBuild
      * Build an extension from source.  Runs "phpize" in the source
      * directory, and compiles there.
      *
-     * @param \PEAR2\Pyrus\PackageInterface $pkg package object
+     * @param \Pyrus\PackageInterface $pkg package object
      *
      * @param mixed $callback callback function used to report output,
      * see PEAR_Builder::_runCommand for details

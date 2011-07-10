@@ -5,4 +5,4 @@ $path = TESTDIR . DIRECTORY_SEPARATOR . 'dir';
 $journalPath = TESTDIR . DIRECTORY_SEPARATOR . '.journal-dir';
 $backupPath = TESTDIR . DIRECTORY_SEPARATOR . '.old-dir';
 
-$instance = new \PEAR2\Pyrus\AtomicFileTransaction\Transaction\TwoStage($path);
+$instance = new \Pyrus\AtomicFileTransaction\Transaction\TwoStage($path);

@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction\Manager::getTransaction(), cannot begin transaction twice.
+\Pyrus\AtomicFileTransaction\Manager::getTransaction(), cannot begin transaction twice.
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
@@ -13,7 +13,7 @@ $instance->getTransaction(TESTDIR . '/foo');
 try {
     $instance->begin();
     throw new \Exception('Expected exception');
-} catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
+} catch (\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Unable to begin transaction', $e->getMessage(), 'begin failed');
 }
 ?>

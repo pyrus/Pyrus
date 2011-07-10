@@ -1,16 +1,16 @@
 <?php
-namespace PEAR2\Pyrus\AtomicFileTransaction\Transaction;
+namespace Pyrus\AtomicFileTransaction\Transaction;
 
-use PEAR2\Pyrus\IOException,
-    PEAR2\Pyrus\AtomicFileTransaction\RuntimeException,
-    PEAR2\Pyrus\Filesystem as FS;
+use Pyrus\IOException,
+    Pyrus\AtomicFileTransaction\RuntimeException,
+    Pyrus\Filesystem as FS;
  /**
  * A two stage transaction class that uses a journal to save changes, it also creates a backup on commit.
  * Using the finish function the backup will be removed,
  * on revert the backup will be place back and the journal will be destroyed.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Warnar Boekkooi
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -37,7 +37,7 @@ class TwoStage extends Base
      * Begin the file system transaction.
      * Create the journal path and copy all files to it from the original path.
      *
-     * @throws PEAR2\Pyrus\AtomicFileTransaction\RuntimeException Thrown when a old backup directory is found.
+     * @throws Pyrus\AtomicFileTransaction\RuntimeException Thrown when a old backup directory is found.
      * @return void
      */
     public function begin()

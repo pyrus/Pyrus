@@ -59,7 +59,7 @@ $sig = $phar->getSignature();
 define('PYRUS_SIG', $sig['hash']);
 define('PYRUS_SIGTYPE', $sig['hash_type']);
 
-$frontend = new \PEAR2\Pyrus\ScriptFrontend\Commands;
+$frontend = new \Pyrus\ScriptFrontend\Commands;
 @array_shift($_SERVER['argv']);
 $frontend->run($_SERVER['argv']);
 __HALT_COMPILER();

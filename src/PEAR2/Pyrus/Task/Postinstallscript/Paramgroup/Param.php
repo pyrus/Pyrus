@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -24,14 +24,14 @@
  *  ->param['paramname']->prompt('blah')->type('string')->defaultValue('hi');
  * </code>
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Task\Postinstallscript\Paramgroup;
+namespace Pyrus\Task\Postinstallscript\Paramgroup;
 class Param implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
@@ -105,7 +105,7 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function offsetGet($var)
     {
         if (isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access param properties');
+            throw new \Pyrus\Task\Exception('Use -> operator to access param properties');
         }
         $i = $this->locateParam($var);
         if (false === $i) {
@@ -127,18 +127,18 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function offsetSet($var, $value)
     {
         if (isset($this->index)) {
-            throw new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access param properties');
+            throw new \Pyrus\PackageFile\v2\Dependencies\Exception('Use -> operator to access param properties');
         }
         if (!($value instanceof self)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Can only set $param[\'' .
+            throw new \Pyrus\Task\Exception('Can only set $param[\'' .
                 $var .
-                '\'] to \PEAR2\Pyrus\Task\Postinstallscript\Paramgroup\Param object');
+                '\'] to \Pyrus\Task\Postinstallscript\Paramgroup\Param object');
         }
         if ($var === null) {
             $var = $value->id;
         }
         if ($value->id != $var) {
-            throw new \PEAR2\Pyrus\Task\Exception('Cannot set ' .
+            throw new \Pyrus\Task\Exception('Cannot set ' .
                 $var . ' to ' .
                 $value->id .
                 ', use $param[] to set a new value');
@@ -153,7 +153,7 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function offsetExists($var)
     {
         if (isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access param properties');
+            throw new \Pyrus\Task\Exception('Use -> operator to access param properties');
         }
         $i = $this->locateParam($var);
         return $i !== false;
@@ -162,7 +162,7 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function offsetUnset($var)
     {
         if (isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use -> operator to access param properties');
+            throw new \Pyrus\Task\Exception('Use -> operator to access param properties');
         }
         $i = $this->locateParam($var);
         if ($i === false) {
@@ -182,13 +182,13 @@ class Param implements \ArrayAccess, \Iterator, \Countable
             return $this->parent;
         }
         if (!isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access params');
+            throw new \Pyrus\Task\Exception('Use [] operator to access params');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \PEAR2\Pyrus\Task\Exception(
+            throw new \Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -198,13 +198,13 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function __isset($var)
     {
         if (!isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access paramgroups');
+            throw new \Pyrus\Task\Exception('Use [] operator to access paramgroups');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \PEAR2\Pyrus\Task\Exception(
+            throw new \Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -214,13 +214,13 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function __unset($var)
     {
         if (!isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access params');
+            throw new \Pyrus\Task\Exception('Use [] operator to access params');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \PEAR2\Pyrus\Task\Exception(
+            throw new \Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }
@@ -236,13 +236,13 @@ class Param implements \ArrayAccess, \Iterator, \Countable
     function __call($var, $args)
     {
         if (!isset($this->index)) {
-            throw new \PEAR2\Pyrus\Task\Exception('Use [] operator to access params');
+            throw new \Pyrus\Task\Exception('Use [] operator to access params');
         }
         if (!array_key_exists($this->tasksNs . $var, $this->info)) {
             $info = array_keys($this->info);
             $a = $this->tasksNs;
             array_walk($info, function(&$key) use ($a) {$key = str_replace($a, '', $key);});
-            throw new \PEAR2\Pyrus\Task\Exception(
+            throw new \Pyrus\Task\Exception(
                 'Unknown variable ' . $var . ', should be one of ' . implode(', ', $info)
             );
         }

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Dependency\Validator, advanced dependency validation
+ * \Pyrus\Dependency\Validator, advanced dependency validation
  *
  * PHP versions 4 and 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Dependency check for PEAR2 packages
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Dependency;
-use \PEAR2\Pyrus\Main as Main, \PEAR2\Pyrus\Config as Config, \PEAR2\Pyrus\Validate as Validate;
+namespace Pyrus\Dependency;
+use \Pyrus\Main as Main, \Pyrus\Config as Config, \Pyrus\Validate as Validate;
 class Validator
 {
     /**
@@ -33,26 +33,26 @@ class Validator
     protected $errs;
 
     /**
-     * One of the \PEAR2\Pyrus\Validate::* states
-     * @see \PEAR2\Pyrus\Validate::NORMAL
+     * One of the \Pyrus\Validate::* states
+     * @see \Pyrus\Validate::NORMAL
      * @var integer
      */
     var $_state;
 
     /**
-     * @var \PEAR2\Pyrus\OSGuess
+     * @var \Pyrus\OSGuess
      */
     var $_os;
 
     /**
      * Package to validate
-     * @var \PEAR2\Pyrus\Package
+     * @var \Pyrus\Package
      */
     var $_currentPackage;
 
     /**
-     * @param \PEAR2\Pyrus\Package
-     * @param int installation state (one of \PEAR2\Pyrus\Validate::*)
+     * @param \Pyrus\Package
+     * @param int installation state (one of \Pyrus\Validate::*)
      * @param \PEAR2\MultiErrors
      */
     function __construct($package, $state = Validate::INSTALLING, \PEAR2\MultiErrors $errs)
@@ -124,7 +124,7 @@ class Validator
      */
     function getsysname()
     {
-        $this->_os = new \PEAR2\Pyrus\OSGuess;
+        $this->_os = new \Pyrus\OSGuess;
         return $this->_os->getSysname();
     }
 
@@ -134,7 +134,7 @@ class Validator
      * There are two generic OS dependencies that will be the most common, unix and windows.
      * Other options are linux, freebsd, darwin (OS X), sunos, irix, hpux, aix
      */
-    function validateOsDependency(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
+    function validateOsDependency(\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
     {
         if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
@@ -219,7 +219,7 @@ class Validator
      */
     function matchSignature($pattern)
     {
-        $this->_os = new \PEAR2\Pyrus\OSGuess;
+        $this->_os = new \Pyrus\OSGuess;
         return $this->_os->matchSignature($pattern);
     }
 
@@ -281,7 +281,7 @@ class Validator
         return phpversion();
     }
 
-    function validateExtensionDependency(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $dep)
+    function validateExtensionDependency(\Pyrus\PackageFile\v2\Dependencies\Package $dep)
     {
         if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
@@ -427,7 +427,7 @@ conflict_error:
         return true;
     }
 
-    function validatePhpDependency(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
+    function validatePhpDependency(\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
     {
         if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
@@ -481,7 +481,7 @@ conflict_error:
         return '@PACKAGE_VERSION@' === '@'.'PACKAGE_VERSION@' ? '2.0.0' : '@PACKAGE_VERSION@';
     }
 
-    function validatePearinstallerDependency(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
+    function validatePearinstallerDependency(\Pyrus\PackageFile\v2\Dependencies\Dep $dep)
     {
         $pearversion = $this->getPEARVersion();
         $extra = $this->_getExtraString($dep);
@@ -521,7 +521,7 @@ conflict_error:
         return true;
     }
 
-    function validateSubpackageDependency(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
+    function validateSubpackageDependency(\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
     {
         return $this->validatePackageDependency($dep, $params);
     }
@@ -531,7 +531,7 @@ conflict_error:
      * @param boolean whether this is a required dependency
      * @param array a list of downloaded packages to be installed, if any
      */
-    function validatePackageDependency(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
+    function validatePackageDependency(\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
     {
         if ($this->_state != Validate::INSTALLING && $this->_state != Validate::DOWNLOADING) {
             return true;
@@ -543,7 +543,7 @@ conflict_error:
                 $req = $required ? 'required' : 'optional';
                 $info = $dep->getInfo();
                 $info['name'] = $info['providesextension'];
-                $subdep = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package(
+                $subdep = new \Pyrus\PackageFile\v2\Dependencies\Package(
                     $req, 'extension', null, $info, 0);
                 $ret = $this->validateExtensionDependency($subdep);
                 if ($ret === true) {
@@ -561,7 +561,7 @@ conflict_error:
         }
     }
 
-    function _validatePackageDownload(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
+    function _validatePackageDownload(\Pyrus\PackageFile\v2\Dependencies\Package $dep, $params)
     {
         $required = $dep->deptype === 'required';
         $depname = Config::parsedPackageNameToString(array('package' => $dep->name,
@@ -832,7 +832,7 @@ conflict_error:
      * @param array $params full list of packages to install
      * @return bool
      */
-    function validateDownloadedPackage(\PEAR2\Pyrus\PackageFileInterface $pkg, $params = array())
+    function validateDownloadedPackage(\Pyrus\PackageFileInterface $pkg, $params = array())
     {
         $me = $pkg->channel . '/' . $pkg->name;
         $reg = Config::current()->registry;
@@ -845,7 +845,7 @@ conflict_error:
                 foreach ($params as $packd) {
                     if (strtolower($packd->name) == strtolower($package->name) &&
                           $packd->channel == $package->channel) {
-                        \PEAR2\Pyrus\Logger::log(3, 'skipping installed package check of "' .
+                        \Pyrus\Logger::log(3, 'skipping installed package check of "' .
                                     Config::parsedPackageNameToString(
                                         array('channel' => $package->channel, 'package' => $package->name),
                                         true) .
@@ -859,7 +859,7 @@ conflict_error:
             }
 
             foreach ($actual as $package) {
-                $checker = new \PEAR2\Pyrus\Dependency\Validator(
+                $checker = new \Pyrus\Dependency\Validator(
                     array('channel' => $package->channel, 'package' => $package->name),
                     $this->_state, $this->errs);
                 foreach ($params as $packd) {

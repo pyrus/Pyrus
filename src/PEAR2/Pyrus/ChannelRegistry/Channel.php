@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\ChannelRegistry\Channel
+ * \Pyrus\ChannelRegistry\Channel
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,18 +16,18 @@
 /**
  * A class that represents individual channels within a channel registry
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-namespace PEAR2\Pyrus\ChannelRegistry;
-class Channel extends \PEAR2\Pyrus\ChannelFile\v1 implements \PEAR2\Pyrus\ChannelInterface
+namespace Pyrus\ChannelRegistry;
+class Channel extends \Pyrus\ChannelFile\v1 implements \Pyrus\ChannelInterface
 {
     private $_parent;
-    function __construct(\PEAR2\Pyrus\ChannelRegistryInterface $parent, $data)
+    function __construct(\Pyrus\ChannelRegistryInterface $parent, $data)
     {
         if (is_array($data) && !isset($data['channel']) && !isset($data['attribs'])) {
             $data = array_merge(array('attribs' =>  $this->rootAttributes), $data);
@@ -50,7 +50,7 @@ class Channel extends \PEAR2\Pyrus\ChannelFile\v1 implements \PEAR2\Pyrus\Channe
 
     function toChannelFile()
     {
-        $ret = new \PEAR2\Pyrus\ChannelFile\v1;
+        $ret = new \Pyrus\ChannelFile\v1;
         $ret->fromArray($this->getArray());
         return $ret;
     }

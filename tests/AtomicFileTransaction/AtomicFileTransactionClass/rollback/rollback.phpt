@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::rollback()
+\Pyrus\AtomicFileTransaction::rollback()
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
@@ -24,10 +24,10 @@ $test->assertFileNotExists(TESTDIR . '/.journal-src/sub/deep/deep/thing', TESTDI
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir', TESTDIR . '/.journal-src/another/dir before');
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir/file', TESTDIR . '/.journal-src/another/dir/file before');
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
-\PEAR2\Pyrus\AtomicFileTransaction::rollback();
+\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::rollback();
 
 $test->assertFileExists(TESTDIR . '/src', TESTDIR . '/src after');
 $test->assertFileExists(TESTDIR . '/src/foo', TESTDIR . '/src/foo after');

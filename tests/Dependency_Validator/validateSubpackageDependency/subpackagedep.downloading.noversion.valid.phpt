@@ -4,9 +4,9 @@ Dependency_Validator: Subpackage dependency, downloaded no version
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$validator = new test_Validator($package, \PEAR2\Pyrus\Validate::DOWNLOADING, $errs);
+$validator = new test_Validator($package, \Pyrus\Validate::DOWNLOADING, $errs);
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo'];

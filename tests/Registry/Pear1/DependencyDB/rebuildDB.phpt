@@ -6,17 +6,17 @@ require __DIR__ . '/setup.php.inc';
 $dir = TESTDIR . DIRECTORY_SEPARATOR;
 $stuffdir = realpath(__DIR__ . '/../../../Mocks/Internet/install.prepare.circulardep/get/') . '/';
 mkdir($dir . DIRECTORY_SEPARATOR . 'php');
-$reg = PEAR2\Pyrus\Config::current()->registry;
-$p = new PEAR2\Pyrus\Package($stuffdir . 'P1-1.2.0.tar');
+$reg = Pyrus\Config::current()->registry;
+$p = new Pyrus\Package($stuffdir . 'P1-1.2.0.tar');
 $reg->install($p->getPackagefileObject());
-$p = new PEAR2\Pyrus\Package($stuffdir . 'P2-1.0.0.tar');
+$p = new Pyrus\Package($stuffdir . 'P2-1.0.0.tar');
 $reg->install($p->getPackagefileObject());
-$p = new PEAR2\Pyrus\Package($stuffdir . 'P3-1.0.0.tar');
+$p = new Pyrus\Package($stuffdir . 'P3-1.0.0.tar');
 $reg->install($p->getPackagefileObject());
-$p = new PEAR2\Pyrus\Package($stuffdir . 'P4-1.0.0.tar');
+$p = new Pyrus\Package($stuffdir . 'P4-1.0.0.tar');
 $reg->install($p->getPackagefileObject());
 
-$db = new PEAR2\Pyrus\Registry\Pear1\DependencyDB($dir);
+$db = new Pyrus\Registry\Pear1\DependencyDB($dir);
 $db->rebuildDB();
 $test->assertEquals(array (
   '_version' => '1.0',

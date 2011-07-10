@@ -2,13 +2,13 @@
 Pyrus DirectedGraph: vertex coverage
 --FILE--
 <?php
-use PEAR2\Pyrus\DirectedGraph\Vertex;
+use Pyrus\DirectedGraph\Vertex;
 require __DIR__ . '/setup.php.inc';
 
 try {
     new Vertex('oops');
     throw new Exception('worked and should not');
-} catch (PEAR2\Pyrus\DirectedGraph\Exception $e) {
+} catch (Pyrus\DirectedGraph\Exception $e) {
     $test->assertEquals('data must be an object, was string',
                         $e->getMessage(), 'error');
 }

@@ -1,6 +1,6 @@
 <?php
-namespace PEAR2\Pyrus\Developer\Creator;
-class Phar implements \PEAR2\Pyrus\Package\CreatorInterface
+namespace Pyrus\Developer\Creator;
+class Phar implements \Pyrus\Package\CreatorInterface
 {
     /**
      * @var Phar
@@ -31,7 +31,7 @@ class Phar implements \PEAR2\Pyrus\Package\CreatorInterface
     function __construct($path, $stub = false, $fileformat = Phar::TAR, $compression = Phar::GZ, array $others = null)
     {
         if (!class_exists('Phar')) {
-            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+            throw new \Pyrus\Developer\Creator\Exception(
                 'Phar extension is not available');
         }
         if (!Phar::canWrite() || !Phar::isValidPharFilename($path, true)) {
@@ -100,7 +100,7 @@ class Phar implements \PEAR2\Pyrus\Package\CreatorInterface
                 $this->compression = $comp;
             }
         } catch (Exception $e) {
-            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+            throw new \Pyrus\Developer\Creator\Exception(
                 'Cannot open Phar archive ' . $this->path, $e
             );
         }

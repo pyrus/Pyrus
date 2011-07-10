@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Package\Remote
+ * \Pyrus\Package\Remote
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,25 +16,25 @@
 /**
  * Class representing a remote package
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Package;
-use \PEAR2\Pyrus\Config as Config;
-class Installed extends \PEAR2\Pyrus\Package\Base
+namespace Pyrus\Package;
+use \Pyrus\Config as Config;
+class Installed extends \Pyrus\Package\Base
 {
     /**
      * The registry this installed package comes from
      * 
-     * @var \PEAR2\Pyrus\Registry
+     * @var \Pyrus\Registry
      */
     protected $registry;
     
-    function __construct(\PEAR2\Pyrus\PackageFile $packagefile, $parent = null, \PEAR2\Pyrus\Registry $registry)
+    function __construct(\Pyrus\PackageFile $packagefile, $parent = null, \Pyrus\Registry $registry)
     {
         $this->registry = $registry;
         parent::__construct($packagefile, $parent);
@@ -43,9 +43,9 @@ class Installed extends \PEAR2\Pyrus\Package\Base
 
     function getFilePath($file)
     {
-        $role = \PEAR2\Pyrus\Installer\Role::factory($this->packagefile->getPackageType(), $this->packagefile->packagingcontents[$file]['attribs']['role']);
-        list(, $path) = $role->getRelativeLocation($this->packagefile, new \PEAR2\Pyrus\PackageFile\v2Iterator\FileTag($this->packagefile->packagingcontents[$file], '', $this->packagefile), true);
-        $dir = \PEAR2\Pyrus\Config::singleton($this->registry->getPath())->{$role->getLocationConfig()};
+        $role = \Pyrus\Installer\Role::factory($this->packagefile->getPackageType(), $this->packagefile->packagingcontents[$file]['attribs']['role']);
+        list(, $path) = $role->getRelativeLocation($this->packagefile, new \Pyrus\PackageFile\v2Iterator\FileTag($this->packagefile->packagingcontents[$file], '', $this->packagefile), true);
+        $dir = \Pyrus\Config::singleton($this->registry->getPath())->{$role->getLocationConfig()};
         return $dir . DIRECTORY_SEPARATOR . $path;
     }
     

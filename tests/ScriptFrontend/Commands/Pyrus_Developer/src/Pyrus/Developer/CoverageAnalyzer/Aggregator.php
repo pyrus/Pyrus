@@ -1,5 +1,5 @@
 <?php
-namespace PEAR2\Pyrus\Developer\CoverageAnalyzer {
+namespace Pyrus\Developer\CoverageAnalyzer {
 class Aggregator
 {
     protected $codepath;

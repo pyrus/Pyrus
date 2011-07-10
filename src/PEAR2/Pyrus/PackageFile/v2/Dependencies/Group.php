@@ -1,5 +1,5 @@
 <?php
-namespace PEAR2\Pyrus\PackageFile\v2\Dependencies;
+namespace Pyrus\PackageFile\v2\Dependencies;
 class Group implements \Iterator
 {
     protected $parent;
@@ -165,7 +165,7 @@ class Group implements \Iterator
 
                     if (!($value instanceof Package)) {
                         throw new Exception(
-                            'Can only set ' . $group . ' to \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object'
+                            'Can only set ' . $group . ' to \Pyrus\PackageFile\v2\Dependencies\Package object'
                         );
                     }
 

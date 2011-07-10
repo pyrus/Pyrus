@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Registry\Sqlite3
+ * \Pyrus\Registry\Sqlite3
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -23,19 +23,19 @@
  * - the files in each package
  * - known channels
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @author    Helgi Þormar Þorbjörnsson <helgi@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Registry;
-use \PEAR2\Pyrus\Main as Main,
-    \PEAR2\Pyrus\Config as Config,
-    \PEAR2\Pyrus\Installer\Role as Role;
-class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
+namespace Pyrus\Registry;
+use \Pyrus\Main as Main,
+    \Pyrus\Config as Config,
+    \Pyrus\Installer\Role as Role;
+class Sqlite3 extends \Pyrus\Registry\Base
 {
     /**
      * The database resources, stored by path
@@ -80,9 +80,9 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
     /**
      * Add an installed package to the registry
      *
-     * @param \PEAR2\Pyrus\PackageFileInterface $info
+     * @param \Pyrus\PackageFileInterface $info
      */
-    function install(\PEAR2\Pyrus\PackageFileInterface $info, $replace = false)
+    function install(\Pyrus\PackageFileInterface $info, $replace = false)
     {
         if ($this->readonly) {
             throw new Exception('Cannot install package, registry is read-only');
@@ -327,7 +327,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         $stmt = $database->prepare($sql);
         foreach (array('required', 'optional') as $required) {
             foreach ($info->dependencies[$required]->extension as $d) {
-                // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
+                // $d is a \Pyrus\PackageFile\v2\Dependencies\Package object
                 $req = ($required == 'required' ? 1 : 0);
                 $stmt->bindValue(':required', $req, SQLITE3_INTEGER);
                 $stmt->bindValue(':name', $n);
@@ -380,7 +380,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         foreach (array('required', 'optional') as $required) {
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($info->dependencies[$required]->$package as $d) {
-                    // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
+                    // $d is a \Pyrus\PackageFile\v2\Dependencies\Package object
                     $sub          = $package == 'subpackage';
 
                     if (!$first) {
@@ -579,7 +579,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
             $stmt = $database->prepare($sql);
             foreach ($group->extension as $d) {
-                // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
+                // $d is a \Pyrus\PackageFile\v2\Dependencies\Package object
 
                 $stmt->clear();
                 $stmt->bindValue(':name', $n);
@@ -629,7 +629,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             $stmt = $database->prepare($sql);
             foreach (array('package', 'subpackage') as $package) {
                 foreach ($group->$package as $d) {
-                    // $d is a \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package object
+                    // $d is a \Pyrus\PackageFile\v2\Dependencies\Package object
                     $sub          = $package == 'subpackage';
                     $ext          = $d->providesextension;
 
@@ -875,7 +875,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
 
     /**
      * Extract a packagefile object from the registry
-     * @return \PEAR2\Pyrus\PackageFile\v2
+     * @return \Pyrus\PackageFile\v2
      */
     function toPackageFile($package, $channel)
     {
@@ -888,7 +888,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                 'for package ' . $channel . '/' . $package . ', it is not installed');
         }
 
-        $ret = new \PEAR2\Pyrus\PackageFile\v2;
+        $ret = new \Pyrus\PackageFile\v2;
         $ret->name        = $this->info($package, $channel, 'name');
         $ret->channel     = $channel;
         $ret->summary     = $this->info($package, $channel, 'summary');
@@ -1004,7 +1004,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         return $ret;
     }
 
-    function fetchCompatible(\PEAR2\Pyrus\PackageFileInterface $ret)
+    function fetchCompatible(\Pyrus\PackageFileInterface $ret)
     {
         $database = static::getRegistry($this->_path);
         $package = $ret->name;
@@ -1034,7 +1034,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         }
     }
 
-    function fetchDeps(\PEAR2\Pyrus\PackageFileInterface $ret)
+    function fetchDeps(\Pyrus\PackageFileInterface $ret)
     {
         $database = static::getRegistry($this->_path);
         $package = strtolower($ret->name);
@@ -1171,7 +1171,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         return $ret;
     }
 
-    function fetchDepGroups(\PEAR2\Pyrus\PackageFileInterface $ret)
+    function fetchDepGroups(\Pyrus\PackageFileInterface $ret)
     {
         $database = static::getRegistry($this->_path);
         $package = strtolower($ret->name);
@@ -1191,7 +1191,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         return $ret;
     }
 
-    function fetchExtensionDeps(\PEAR2\Pyrus\PackageFileInterface $ret)
+    function fetchExtensionDeps(\Pyrus\PackageFileInterface $ret)
     {
         $database = static::getRegistry($this->_path);
         $package = strtolower($ret->name);
@@ -1246,14 +1246,14 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
         return $ret;
     }
 
-    public function getDependentPackages(\PEAR2\Pyrus\PackageFileInterface $package, $minimal = true)
+    public function getDependentPackages(\Pyrus\PackageFileInterface $package, $minimal = true)
     {
         if (!$this->_initialized) {
             return array();
         }
 
         if (!static::existsRegistry($this->_path)) {
-            throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
+            throw new \Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
         $database = static::getRegistry($this->_path);
 
@@ -1273,7 +1273,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
             try {
                 if ($minimal) {
                     // only retrieve package name and dependencies
-                    $pf = new \PEAR2\Pyrus\PackageFile\v2;
+                    $pf = new \Pyrus\PackageFile\v2;
                     $pf->name    = $this->info($res[1], $res[0], 'name');
                     $pf->channel = $res[0];
                     $this->fetchDeps($pf);
@@ -1282,7 +1282,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
                     $ret[] = $this->package[$res[0] . '/' . $res[1]];
                 }
             } catch (\Exception $e) {
-                throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Could not retrieve ' .
+                throw new \Pyrus\ChannelRegistry\Exception('Could not retrieve ' .
                     'dependent package ' . $res[0] . '/' . $res[1], $e);
             }
         }
@@ -1294,10 +1294,10 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
      * Detect any files already installed that would be overwritten by
      * files inside the package represented by $package
      */
-    public function detectFileConflicts(\PEAR2\Pyrus\PackageFileInterface $package)
+    public function detectFileConflicts(\Pyrus\PackageFileInterface $package)
     {
         if (!static::existsRegistry($this->_path)) {
-            throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
+            throw new \Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $this->_path);
         }
         $database = static::getRegistry($this->_path);
 
@@ -1402,7 +1402,7 @@ class Sqlite3 extends \PEAR2\Pyrus\Registry\Base
     {
         $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
         if (!static::existsRegistry($path)) {
-            throw new \PEAR2\Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $path);
+            throw new \Pyrus\ChannelRegistry\Exception('Error: no existing SQLite3 channel registry for ' . $path);
         }
         return static::$databases[$path];
     }

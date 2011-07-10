@@ -1,11 +1,11 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::mkdir() failure, directory exists and is a file
+\Pyrus\AtomicFileTransaction::mkdir() failure, directory exists and is a file
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+\Pyrus\AtomicFileTransaction::begin();
 
 $atomic->createOrOpenPath('oops', 'hi');
 

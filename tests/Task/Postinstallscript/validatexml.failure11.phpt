@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\Task\Postinstallscript::validateXml() failures 11
+\Pyrus\Task\Postinstallscript::validateXml() failures 11
 --FILE--
 <?php
 include dirname(__DIR__) . '/setup.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        \PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
+        \Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -40,7 +40,7 @@ $xmltest(array('tasks:paramgroup' => array(
                      'tasks:name' => 'foo::bar'))), array('role' => 'php', 'name' => 'glooby'),
          'task <postinstallscript> in file filename is invalid because of "Post-install script ' .
          '"glooby" <paramgroup> id "hi" must have a <conditiontype> tag containing either "=", ' .
-         '"!=", or "preg_match""', '\PEAR2\Pyrus\Task\Exception\Invalidtask');
+         '"!=", or "preg_match""', '\Pyrus\Task\Exception\Invalidtask');
 
 
 ?>

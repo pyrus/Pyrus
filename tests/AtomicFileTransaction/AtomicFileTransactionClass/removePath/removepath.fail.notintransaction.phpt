@@ -1,10 +1,10 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::removePath() failure, not in transaction
+\Pyrus\AtomicFileTransaction::removePath() failure, not in transaction
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 try {
     $atomic->removePath('foo');

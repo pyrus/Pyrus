@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction\Transaction\Base::__construct()
+\Pyrus\AtomicFileTransaction\Transaction\Base::__construct()
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

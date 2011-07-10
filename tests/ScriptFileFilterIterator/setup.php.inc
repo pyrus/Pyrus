@@ -1,6 +1,6 @@
 <?php
 include __DIR__ . '/../test_framework.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
 $pf->channel = 'pear2.php.net';
@@ -18,7 +18,7 @@ $pf->release[0]->installAs('foobar', 'blah/blah');
 $pf->release[0]->ignore('glooby');
 $pf->setPackagefile(TESTDIR . '/package.xml');
 
-$package = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
+$package = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);

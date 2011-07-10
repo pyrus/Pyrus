@@ -1,21 +1,21 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry\Pear1::get, exceptions
+\Pyrus\ChannelRegistry\Pear1::get, exceptions
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR, true);
+$creg = new Pyrus\ChannelRegistry\Pear1(TESTDIR, true);
 $fail = function($action, $expect) use ($test) {
     try {
         $action();
         throw new Exception($expect . ' should fail and did not');
-    } catch (PEAR2\Pyrus\ChannelRegistry\Exception $e) {
+    } catch (Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals($expect, $e->getMessage(), $expect);
     }
 };
 
 $fail(function() use($creg) {$creg->get('unknown');}, 'Channel unknown does not exist');
 
-class foo extends PEAR2\Pyrus\ChannelRegistry\Pear1
+class foo extends Pyrus\ChannelRegistry\Pear1
 {
     function channelFileName($channel) {return parent::channelFileName($channel);}
 }

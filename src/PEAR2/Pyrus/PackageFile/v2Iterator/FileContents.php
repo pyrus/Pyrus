@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2Iterator\FileContents
+ * \Pyrus\PackageFile\v2Iterator\FileContents
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,21 +16,21 @@
 /**
  * Traverse the current <dir> in the <contents> tag
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2Iterator;
+namespace Pyrus\PackageFile\v2Iterator;
 class FileContents extends \RecursiveArrayIterator
 {
     protected $tag;
     protected $dir = '';
     private $_packagefile;
 
-    function __construct($arr, $tag, \PEAR2\Pyrus\PackageFile\v2 $parent, $dir = '')
+    function __construct($arr, $tag, \Pyrus\PackageFile\v2 $parent, $dir = '')
     {
         $this->tag = $tag;
         $this->dir = $dir;

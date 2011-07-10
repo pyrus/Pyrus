@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::channelDiscover() failure
+\Pyrus\ScriptFrontend\Commands::channelDiscover() failure
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -12,11 +12,11 @@ Internet::addDirectory(TESTDIR,
                        'https://pear.unl.edu/');
 Internet::addDirectory(TESTDIR,
                        'http://pear.unl.edu/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$test->assertEquals(false, isset(\PEAR2\Pyrus\Config::current()->channelregistry['pear.unl.edu']),
+\Pyrus\Main::$downloadClass = 'Internet';
+$test->assertEquals(false, isset(\Pyrus\Config::current()->channelregistry['pear.unl.edu']),
                     'before discover of pear.unl.edu');
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'channel-discover', 'pear.unl.edu'));
 
 $contents = ob_get_contents();
@@ -26,7 +26,7 @@ $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                      $contents,
                     'list packages');
 
-$test->assertEquals(false, isset(\PEAR2\Pyrus\Config::current()->channelregistry['pear.unl.edu']),
+$test->assertEquals(false, isset(\Pyrus\Config::current()->channelregistry['pear.unl.edu']),
                     'after discover of pear.unl.edu');
 ?>
 ===DONE===

@@ -3,7 +3,7 @@ PackageFile v2: test package.xml dependencies property, Package class extra cove
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 $pf->fromArray(array('package' => array('dependencies' => array('required' => array('package' =>
                                         array('name' => 'try', 'channel' => 'first', 'exclude' => '1.2.0'))))));
 $test->assertEquals(array('1.2.0'), $pf->dependencies['required']->package['first/try']->exclude, 'exclude');

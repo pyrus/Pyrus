@@ -4,11 +4,11 @@ PackageFile v2: test package.xml isSubpackageOf()
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$pf1 = new \PEAR2\Pyrus\PackageFile\v2;
+$pf1 = new \Pyrus\PackageFile\v2;
 $pf1->name = 'P1';
 $pf1->uri = 'http://localhost';
 
-$pf2 = new \PEAR2\Pyrus\PackageFile\v2;
+$pf2 = new \Pyrus\PackageFile\v2;
 $pf2->name = 'P2';
 $pf2->uri = 'http://example.com';
 

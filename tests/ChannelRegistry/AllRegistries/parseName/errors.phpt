@@ -1,17 +1,17 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry\Base::parseName()
+\Pyrus\ChannelRegistry\Base::parseName()
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';
-$creg = new \PEAR2\Pyrus\ChannelRegistry(TESTDIR);
+$creg = new \Pyrus\ChannelRegistry(TESTDIR);
 $testit = function($name, $message, $why) use ($test, $creg) {
     try {
         $creg->parseName($name);
         throw new Exception($name . ' should have failed and did not');
-    } catch ( \PEAR2\Pyrus\ChannelRegistry\Exception $e) {
+    } catch ( \Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals('Unable to process package name', $e->getMessage(),
                             'exception message');
-        $test->assertEquals('PEAR2\Pyrus\ChannelRegistry\ParseException',
+        $test->assertEquals('Pyrus\ChannelRegistry\ParseException',
                             get_class($e->getPrevious()), 'cause class ' . $name);
         $test->assertEquals($message, $e->getPrevious()->getMessage(),
                             'message ' . $name);

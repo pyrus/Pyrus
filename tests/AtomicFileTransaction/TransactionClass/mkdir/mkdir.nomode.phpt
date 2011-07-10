@@ -1,17 +1,17 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::mkdir(), use default mode
+\Pyrus\AtomicFileTransaction::mkdir(), use default mode
 --FILE--
 <?php
 require __DIR__ . '/../../../test_framework.php.inc';
 getTestConfig();
 
 $old = umask(0444); // confirm this does not affect things
-\PEAR2\Pyrus\Config::current()->umask = 0002;
+\Pyrus\Config::current()->umask = 0002;
 
 $path = TESTDIR . DIRECTORY_SEPARATOR . 'dir';
 $journalPath = TESTDIR . DIRECTORY_SEPARATOR . '.journal-dir';
 
-$manager = \PEAR2\Pyrus\AtomicFileTransaction::singleton();
+$manager = \Pyrus\AtomicFileTransaction::singleton();
 $manager->begin();
 $instance = $manager->getTransaction($path);
 $instance->mkdir('good');

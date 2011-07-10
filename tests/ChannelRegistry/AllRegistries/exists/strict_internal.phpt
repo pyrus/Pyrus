@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry::exists() strict internal channel test
+\Pyrus\ChannelRegistry::exists() strict internal channel test
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';

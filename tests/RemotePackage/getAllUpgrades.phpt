@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Channel\RemotePackage::getAllUpgrades
+\Pyrus\Channel\RemotePackage::getAllUpgrades
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
@@ -11,10 +11,10 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/installer.prepare.dep.versionconflict',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$chan = \PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'];
+\Pyrus\Main::$downloadClass = 'Internet';
+$chan = \Pyrus\Config::current()->channelregistry['pear2.php.net'];
 
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage($chan,
+$remote = new \Pyrus\Channel\RemotePackage($chan,
                                                 'stable');
 $remote->name = 'P2';
 $test->assertEquals(array(

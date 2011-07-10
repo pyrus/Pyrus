@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Installer::prepare(), composite dep conflict 3
+\Pyrus\Installer::prepare(), composite dep conflict 3
 --FILE--
 <?php
 /**
@@ -15,19 +15,19 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/installer.prepare.depconflict2',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-\PEAR2\Pyrus\Installer::begin();
-\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P3-1.0.0'));
-\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P1-1.0.0'));
+\Pyrus\Main::$downloadClass = 'Internet';
+\Pyrus\Installer::begin();
+\Pyrus\Installer::prepare(new \Pyrus\Package('pear2/P3-1.0.0'));
+\Pyrus\Installer::prepare(new \Pyrus\Package('pear2/P1-1.0.0'));
 try {
-    \PEAR2\Pyrus\Installer::preCommitDependencyResolve();
+    \Pyrus\Installer::preCommitDependencyResolve();
     throw new Exception('should have failed, did not');
-} catch (\PEAR2\Pyrus\Package\Exception $e) {
+} catch (\Pyrus\Package\Exception $e) {
     $test->assertEquals('Cannot install pear2.php.net/P2, two dependencies conflict (' .
                         'different recommended values for pear2.php.net/P1 and pear2.php.net/P3)', $e->getMessage(),
                         'right cause message');
 }
-\PEAR2\Pyrus\Installer::rollback();
+\Pyrus\Installer::rollback();
 ?>
 ===DONE===
 --CLEAN--

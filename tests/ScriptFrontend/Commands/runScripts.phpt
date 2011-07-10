@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::runScripts
+\Pyrus\ScriptFrontend\Commands::runScripts
 --FILE--
 <?php
 require __DIR__ . '/setup.runscripts.php.inc';

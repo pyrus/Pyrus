@@ -1,6 +1,6 @@
 <?php
-namespace PEAR2\Pyrus\Developer\Creator;
-class Tar implements \PEAR2\Pyrus\Package\CreatorInterface
+namespace Pyrus\Developer\Creator;
+class Tar implements \Pyrus\Package\CreatorInterface
 {
     /**
      * Path to archive file
@@ -20,11 +20,11 @@ class Tar implements \PEAR2\Pyrus\Package\CreatorInterface
     {
         $this->compress = $compress;
         if ($compress === 'bz2' && !function_exists('bzopen')) {
-            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+            throw new \Pyrus\Developer\Creator\Exception(
                 'bzip2 extension not available');
         }
         if ($compress === 'zlib' && !function_exists('gzopen')) {
-            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+            throw new \Pyrus\Developer\Creator\Exception(
                 'zlib extension not available');
         }
         $this->path = $path;
@@ -67,7 +67,7 @@ class Tar implements \PEAR2\Pyrus\Package\CreatorInterface
 
         $filePrefix = '';
         if (strlen($path) > 255) {
-            throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+            throw new \Pyrus\Developer\Creator\Exception(
                 "$path is too long, must be 255 characters or less"
             );
         } else if (strlen($path) > 100) {
@@ -145,7 +145,7 @@ class Tar implements \PEAR2\Pyrus\Package\CreatorInterface
                 $this->tmp = fopen($this->path, 'wb');
                 break;
             default :
-                throw new \PEAR2\Pyrus\Developer\Creator\Exception(
+                throw new \Pyrus\Developer\Creator\Exception(
                     'unknown compression type ' . $this->compress);
         }
     }

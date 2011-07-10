@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Registry
+ * \Pyrus\Registry
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -23,15 +23,15 @@
  *  - saved original channel.xml for each discovered channel
  *  - configuration values at package installation time
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
-class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
+namespace Pyrus;
+class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
 {
     static protected $allRegistries = array();
     /**
@@ -40,12 +40,12 @@ class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
      * This is useful for unit-testing and for extending the registry
      * @var string
      */
-    static public $className = 'PEAR2\Pyrus\Registry';
+    static public $className = 'Pyrus\Registry';
     /**
      * The parent registry
      *
      * This is used to implement cascading registries
-     * @var \PEAR2\Pyrus\Registry
+     * @var \Pyrus\Registry
      */
     protected $parent;
 
@@ -94,7 +94,7 @@ class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
         foreach ($registries as $registry) {
             try {
                 $registry = ucfirst($registry);
-                $registry = 'PEAR2\Pyrus\Registry\\' . $registry;
+                $registry = 'Pyrus\Registry\\' . $registry;
                 if (!class_exists($registry, true)) {
                     $exceptions->E_ERROR[] =
                             new Registry\Exception('Unknown registry type: ' . $registry);
@@ -227,13 +227,13 @@ class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
     /**
      * Get a package object from the registry
      * 
-     * @return \PEAR2\Pyrus\Package\Installed
+     * @return \Pyrus\Package\Installed
      */
     function toPackage($package, $channel)
     {
         $v2         = $this->toPackageFile($package, $channel);
-        $file       = new \PEAR2\Pyrus\PackageFile($v2);
-        $package    = new \PEAR2\Pyrus\Package\Installed($file, null, $this);
+        $file       = new \Pyrus\PackageFile($v2);
+        $package    = new \Pyrus\Package\Installed($file, null, $this);
         return $package;
     }
 
@@ -321,7 +321,7 @@ class Registry implements \PEAR2\Pyrus\RegistryInterface, \IteratorAggregate
         }
 
         foreach ($registries as $reg) {
-            $class = 'PEAR2\Pyrus\Registry\\' . ucfirst(strtolower($reg));
+            $class = 'Pyrus\Registry\\' . ucfirst(strtolower($reg));
             $class::removeRegistry($path);
         }
     }

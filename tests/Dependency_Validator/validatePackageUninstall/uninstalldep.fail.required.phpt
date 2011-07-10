@@ -4,7 +4,7 @@ Dependency_Validator: uninstall package dependency, required dependency failure
 <?php
 require __DIR__ . '/../setup.uninstall.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2Iterator\PackagingFilterBase
+ * \Pyrus\PackageFile\v2Iterator\PackagingFilterBase
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -17,14 +17,14 @@
  * base class for filtering packaging contents to modify the files used from
  * a package.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2Iterator;
+namespace Pyrus\PackageFile\v2Iterator;
 abstract class PackagingFilterBase extends \FilterIterator
 {
     function __construct(PackagingIterator $iterator)

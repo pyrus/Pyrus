@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -19,15 +19,15 @@
  * Note that post-install scripts are handled separately from installation, by the
  * "pyrus run-scripts" command
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Task;
-use \PEAR2\Pyrus\Logger as Logger;
+namespace Pyrus\Task;
+use \Pyrus\Logger as Logger;
 class Postinstallscript extends Common
 {
     const TYPE = 'script';
@@ -54,9 +54,9 @@ class Postinstallscript extends Common
      * @param array
      * @param array the entire parsed <file> tag
      * @param string the filename of the package.xml
-     * @throws \PEAR2\Pyrus\Task\Exception\InvalidTask
+     * @throws \Pyrus\Task\Exception\InvalidTask
      */
-    static function validateXml(\PEAR2\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
+    static function validateXml(\Pyrus\PackageInterface $pkg, $xml, $fileXml, $file)
     {
         if ($fileXml['role'] != 'php') {
             throw new Exception\InvalidTask('postinstallscript', $file,
@@ -255,13 +255,13 @@ class Postinstallscript extends Common
     /**
      * Unlike other tasks, the installed file name is passed in instead of the file contents,
      * because this task is handled post-installation
-     * @param \PEAR2\Pyrus\PackageInterface
+     * @param \Pyrus\PackageInterface
      * @param string path to the post-install script
      * @return bool false to skip this file
      */
     function setupPostInstall()
     {
-        $files = \PEAR2\Pyrus\Config::current()->registry->info($this->pkg->name, $this->pkg->channel,
+        $files = \Pyrus\Config::current()->registry->info($this->pkg->name, $this->pkg->channel,
                                                                'installedfiles');
         foreach ($files as $path => $info) {
             if ($info['name'] == $this->_filename) {

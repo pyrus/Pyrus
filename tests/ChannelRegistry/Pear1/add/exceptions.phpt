@@ -1,21 +1,21 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry\Pear1::add, exceptions
+\Pyrus\ChannelRegistry\Pear1::add, exceptions
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR, true);
+$creg = new Pyrus\ChannelRegistry\Pear1(TESTDIR, true);
 $fail = function($action, $expect) use ($test) {
     try {
         $action();
         throw new Exception($expect . ' should fail and did not');
-    } catch (PEAR2\Pyrus\ChannelRegistry\Exception $e) {
+    } catch (Pyrus\ChannelRegistry\Exception $e) {
         $test->assertEquals($expect, $e->getMessage(), $expect);
     }
 };
 $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
       'Cannot add channel, registry is read-only');
 
-$creg = new PEAR2\Pyrus\ChannelRegistry\Pear1(TESTDIR);
+$creg = new Pyrus\ChannelRegistry\Pear1(TESTDIR);
 // the chmod is not working on windows so let's skip it
 if (substr(PHP_OS, 0, 3) !== 'WIN') {
     $p = fileperms(TESTDIR . '/php/.channels');
@@ -30,10 +30,10 @@ $fail(function() use($creg) {$creg->add($creg->get('pear.php.net'));},
 
 $chan = $creg->get('pear.php.net')->toChannelFile();
 $chan->name = 'unknown';
-$fail(function() use($creg, $chan) {$creg->update(new PEAR2\Pyrus\Channel($chan));},
+$fail(function() use($creg, $chan) {$creg->update(new Pyrus\Channel($chan));},
       'Error: channel unknown is unknown');
 
-class foo extends PEAR2\Pyrus\ChannelRegistry\Pear1
+class foo extends Pyrus\ChannelRegistry\Pear1
 {
     function channelFileName($channel) {return parent::channelFileName($channel);}
     function channelAliasFileName($channel) {return parent::channelAliasFileName($channel);}

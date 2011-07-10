@@ -12,19 +12,19 @@ if (!isset($package)) {
 }
 switch ($state) {
     case 'INSTALLING' :
-        $state = \PEAR2\Pyrus\Validate::INSTALLING;
+        $state = \Pyrus\Validate::INSTALLING;
         break;
     case 'DOWNLOADING' :
-        $state = \PEAR2\Pyrus\Validate::DOWNLOADING;
+        $state = \Pyrus\Validate::DOWNLOADING;
         break;
     case 'UNINSTALLING' :
-        $state = \PEAR2\Pyrus\Validate::UNINSTALLING;
+        $state = \Pyrus\Validate::UNINSTALLING;
         break;
     case 'NORMAL' :
-        $state = \PEAR2\Pyrus\Validate::NORMAL;
+        $state = \Pyrus\Validate::NORMAL;
         break;
     case 'PACKAGING' :
-        $state = \PEAR2\Pyrus\Validate::PACKAGING;
+        $state = \Pyrus\Validate::PACKAGING;
         break;
 }
 $validator = new test_Validator($package, $state, $errs);

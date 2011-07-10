@@ -55,7 +55,7 @@ $reg->usesrole['two']->channel('pear2.php.net')->package('Hi2');
 
 $testarr = array();
 foreach ($reg->usesrole as $name => $info) {
-    $test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\UsesRoleTask', $info, 'check class');
+    $test->assertIsa('\Pyrus\PackageFile\v2\UsesRoleTask', $info, 'check class');
     $testarr[$name] = $info->getInfo();
 }
 $test->assertEquals(array(

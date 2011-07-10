@@ -26,14 +26,14 @@
  * }
  * </code>
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2;
+namespace Pyrus\PackageFile\v2;
 class Compatible implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;
@@ -137,7 +137,7 @@ class Compatible implements \ArrayAccess, \Iterator, \Countable
 
         if (!($value instanceof self)) {
             throw new Compatible\Exception('Can only set $pf->compatible[\'' .
-                $var . '\'] to \PEAR2\Pyrus\PackageFile\v2\Compatible object');
+                $var . '\'] to \Pyrus\PackageFile\v2\Compatible object');
         }
 
         if ($var === null) {

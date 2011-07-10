@@ -4,8 +4,8 @@ Dependency_Validator: Extension dependency, max bounds failure --force
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-\PEAR2\Pyrus\Main::$options['force'] = true;
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+\Pyrus\Main::$options['force'] = true;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo']->max('2.0.0');
 $validator->extensions['foo'] = true;
 $validator->versions['foo'] = '2.2.3';

@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\Config::configSnapshot()
+\Pyrus\Config::configSnapshot()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 $a = $configclass::singleton($testpath, $testpath . '/blah');
 $oldext = $a->ext_dir;
 
-$snap = new PEAR2\Pyrus\Config\Snapshot('2009-01-02 12:00:00', $a);
+$snap = new Pyrus\Config\Snapshot('2009-01-02 12:00:00', $a);
 $test->assertEquals($oldext, $snap->ext_dir, 'snap pre-anything');
 $a->ext_dir = 'in between';
 
@@ -17,13 +17,13 @@ rename($cdir . '/configsnapshot-' . $date . '.xml',
 $a->ext_dir = 'new';
 $test->assertEquals('configsnapshot-' . $date . '.xml', $a->configSnapshot(), 2);
 
-$snap = new PEAR2\Pyrus\Config\Snapshot($date, $a);
+$snap = new Pyrus\Config\Snapshot($date, $a);
 $test->assertEquals('new', $snap->ext_dir, 'snap new');
 
-$snap = new PEAR2\Pyrus\Config\Snapshot('2009-01-02 12-00-00', $a);
+$snap = new Pyrus\Config\Snapshot('2009-01-02 12-00-00', $a);
 $test->assertEquals('in between', $snap->ext_dir, 'snap in between');
 
-$snap = new PEAR2\Pyrus\Config\Snapshot('2008-12-13 12:00:00', $a);
+$snap = new Pyrus\Config\Snapshot('2008-12-13 12:00:00', $a);
 $test->assertEquals($oldext, $snap->ext_dir, 'snap old');
 ?>
 ===DONE===

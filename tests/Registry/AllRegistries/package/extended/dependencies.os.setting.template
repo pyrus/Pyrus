@@ -5,7 +5,7 @@
 $reg->dependencies = null;
 
 // for regular arch deps
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $os = $fake->dependencies['required']->os;
 $os['windows'] = false;
 $os['OS/2'] = false;

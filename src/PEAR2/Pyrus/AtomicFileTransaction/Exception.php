@@ -1,4 +1,4 @@
 <?php
-namespace PEAR2\Pyrus\AtomicFileTransaction;
+namespace Pyrus\AtomicFileTransaction;
 
 interface Exception {}

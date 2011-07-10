@@ -17,14 +17,14 @@ $test->assertEquals(true, isset($reg->files['src/SimpleChannelServer.php']), 'is
 try {
     $reg->files['poop'] = new stdClass;
     throw new Exception('setting non-array should not happen');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Files\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Files\Exception $e) {
     $test->assertEquals('File must be an array of '
                 . 'attributes and tasks', $e->getMessage(), 'message');
 }
 try {
     $reg->files['poop'] = array('oops');
     throw new Exception('setting array with non-attribs should not happen');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Files\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Files\Exception $e) {
     $test->assertEquals('File role must be set for' .
                 ' file poop', $e->getMessage(), 'message 2');
 }

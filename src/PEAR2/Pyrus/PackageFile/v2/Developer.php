@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2\Developer
+ * \Pyrus\PackageFile\v2\Developer
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -30,14 +30,14 @@
  * unset($pf->maintainer['cellog']); // remove from package.xml
  * </code>
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2;
+namespace Pyrus\PackageFile\v2;
 class Developer implements \ArrayAccess, \Iterator
 {
     protected $parent;
@@ -232,7 +232,7 @@ class Developer implements \ArrayAccess, \Iterator
 
         if (!($value instanceof Developer)) {
             throw new Developer\Exception(
-                'Can only set a developer to a \PEAR2\Pyrus\PackageFile\v2\Developer object'
+                'Can only set a developer to a \Pyrus\PackageFile\v2\Developer object'
             );
         }
 

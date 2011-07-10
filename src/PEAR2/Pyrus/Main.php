@@ -4,8 +4,8 @@
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Base class for Pyrus.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class Main
 {
     const VERSION = '@PACKAGE_VERSION@';
@@ -50,7 +50,7 @@ class Main
     /**
      * For frontends to control
      */
-    static public $downloadListener = 'PEAR2\Pyrus\DownloadProgressListener';
+    static public $downloadListener = 'Pyrus\DownloadProgressListener';
 
     static public $paranoid;
 

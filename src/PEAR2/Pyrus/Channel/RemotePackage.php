@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Channel\RemotePackage
+ * \Pyrus\Channel\RemotePackage
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,16 +16,16 @@
 /**
  * Remote REST iteration handler
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Channel;
-use \PEAR2\Pyrus\Logger as Logger, \PEAR2\Pyrus\Config as Config;
-class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess, \Iterator
+namespace Pyrus\Channel;
+use \Pyrus\Logger as Logger, \Pyrus\Config as Config;
+class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iterator
 {
     /**
      * openssl CA authorities whose certs we have
@@ -176,7 +176,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
      */
     protected $isUpgradeable = null;
 
-    function __construct(\PEAR2\Pyrus\ChannelFileInterface $channelinfo, $releases = null)
+    function __construct(\Pyrus\ChannelFileInterface $channelinfo, $releases = null)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.0'])) {
@@ -185,7 +185,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
         // instruct parent::__set() to call $this->setRawVersion() when setting rawversion
         $this->rawMap['rawversion'] = array('setRawVersion');
-        $this->rest = new \PEAR2\Pyrus\REST;
+        $this->rest = new \Pyrus\REST;
         $this->releaseList = $releases;
         $this->minimumStability = Config::current()->preferred_state;
         $this->explicitVersion = false;
@@ -198,7 +198,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
             return $authorities;
         }
 
-        $d = \PEAR2\Pyrus\Main::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
+        $d = \Pyrus\Main::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
         // for running out of svn
         if (!file_exists($d)) {
             $d = realpath(__DIR__ . '/../../../../data/x509rootcerts');
@@ -239,8 +239,8 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
      */
     function setExplicitState($stability)
     {
-        $states = \PEAR2\Pyrus\Installer::betterStates($this->minimumStability);
-        $newstates = \PEAR2\Pyrus\Installer::betterStates($stability);
+        $states = \Pyrus\Installer::betterStates($this->minimumStability);
+        $newstates = \Pyrus\Installer::betterStates($stability);
         if (count($newstates) > count($states)) {
             $this->minimumStability = $stability;
         }
@@ -322,7 +322,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if (!$this->versionSet) {
             // this happens when doing a simple download outside of an install
             $this->rewind();
-            $ok = \PEAR2\Pyrus\Installer::betterStates($this->minimumStability, true);
+            $ok = \Pyrus\Installer::betterStates($this->minimumStability, true);
             foreach ($this->releaseList as $versioninfo) {
                 if (isset($versioninfo['m'])) {
                     // minimum PHP version required
@@ -331,7 +331,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                     }
                 }
 
-                if (!in_array($versioninfo['s'], $ok) && !isset(\PEAR2\Pyrus\Main::$options['force'])) {
+                if (!in_array($versioninfo['s'], $ok) && !isset(\Pyrus\Main::$options['force'])) {
                     // release is not stable enough
                     continue;
                 }
@@ -353,17 +353,17 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         if (extension_loaded('openssl')) {
             // try to download openssl x509 signature certificate for our release
             try {
-                $cert = \PEAR2\Pyrus\Main::download($url . '.pem');
+                $cert = \Pyrus\Main::download($url . '.pem');
                 $cert = $cert->body;
                 $certdownloaded = true;
-            } catch (\PEAR2\Pyrus\HTTPException $e) {
+            } catch (\Pyrus\HTTPException $e) {
                 // file does not exist, ignore
             }
 
             if ($certdownloaded) {
                 $info = openssl_x509_parse($cert);
                 if (!$info) {
-                    throw new \PEAR2\Pyrus\Package\Exception(
+                    throw new \Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is not a certificate');
@@ -371,7 +371,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
                 if (true !== openssl_x509_checkpurpose($cert, X509_PURPOSE_SSL_SERVER,
                                                        self::authorities())) {
-                    throw new \PEAR2\Pyrus\Package\Exception(
+                    throw new \Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate is invalid');
@@ -380,7 +380,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 // now verify that this cert is in fact the releasing maintainer's certificate
                 // by verifying that alternate name is the releaser's email address
                 if (!isset($info['subject']) || !isset($info['subject']['emailAddress'])) {
-                    throw new \PEAR2\Pyrus\Package\Exception(
+                    throw new \Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate does not contain' .
@@ -389,7 +389,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 // retrieve releaser's email address
 
                 if ($info['subject']['emailAddress'] != $this->maintainer[$this->remoteAbridgedInfo['m']]->email) {
-                    throw new \PEAR2\Pyrus\Package\Exception(
+                    throw new \Pyrus\Package\Exception(
                         'Invalid abstract package ' .
                         $this->channel . '/' .
                         $this->name . ' - releasing maintainer\'s certificate ' .
@@ -416,7 +416,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                                       DIRECTORY_SEPARATOR . basename($url) . $ext . '.pubkey', $key);
                 }
 
-                $ret = new \PEAR2\Pyrus\Package\Remote($url . $ext);
+                $ret = new \Pyrus\Package\Remote($url . $ext);
                 if ($certdownloaded) {
                     if ($ext == '.tar' || $ext == '.tgz') {
                         if (phpversion() == '5.3.0') {
@@ -429,7 +429,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                     }
                 }
                 return $ret;
-            } catch (\PEAR2\Pyrus\HTTPException $e) {
+            } catch (\Pyrus\HTTPException $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
                     unlink($pubkey);
                 }
@@ -441,7 +441,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 }
 
                 $errs->E_ERROR[] = $e;
-                throw new \PEAR2\Pyrus\Package\Exception(
+                throw new \Pyrus\Package\Exception(
                     'Invalid abstract package ' .
                     $this->channel . '/' .
                     $this->name, $errs);
@@ -450,17 +450,17 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
         try {
             // phar does not support signatures for zip archives
-            $ret = new \PEAR2\Pyrus\Package\Remote($url . '.zip');
+            $ret = new \Pyrus\Package\Remote($url . '.zip');
             return $ret;
-        } catch (\PEAR2\Pyrus\HTTPException $e) {
+        } catch (\Pyrus\HTTPException $e) {
             $errs->E_ERROR[] = $e;
-            throw new \PEAR2\Pyrus\Package\Exception(
+            throw new \Pyrus\Package\Exception(
                 'Could not download abstract package ' .
                 $this->channel . '/' .
                 $this->name, $errs);
         } catch (\Exception $e) {
             $errs->E_ERROR[] = $e;
-            throw new \PEAR2\Pyrus\Package\Exception(
+            throw new \Pyrus\Package\Exception(
                 'Invalid abstract package ' .
                 $this->channel . '/' .
                 $this->name, $errs);
@@ -477,7 +477,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         }
 
         if (is_string($this->releaseList)) {
-            $ok = \PEAR2\Pyrus\Installer::betterStates($this->releaseList, true);
+            $ok = \Pyrus\Installer::betterStates($this->releaseList, true);
             if (isset($this->parent->protocols->rest['REST1.3'])) {
                 $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
                                                         'r/' . $lowerpackage . '/allreleases2.xml');
@@ -646,7 +646,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         }
 
         if (!$this->explicitVersion) {
-            $fakedep = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package(
+            $fakedep = new \Pyrus\PackageFile\v2\Dependencies\Package(
                 'required', 'package', null, array('name' => $this->name, 'channel' => $this->channel, 'uri' => null,
                                             'min' => null, 'max' => null,
                                             'recommended' => null, 'exclude' => null,
@@ -673,7 +673,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
     {
         // set up release list if not done yet
         $this->rewind();
-        $ok = \PEAR2\Pyrus\Installer::betterStates($this->minimumStability, true);
+        $ok = \Pyrus\Installer::betterStates($this->minimumStability, true);
         $ret = array();
         foreach ($this->releaseList as $versioninfo) {
             if (isset($versioninfo['m'])) {
@@ -700,17 +700,17 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
 
     /**
      * Figure out which version is best, and use this, or error out if none work
-     * @param \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep
+     * @param \Pyrus\PackageFile\v2\Dependencies\Package $compositeDep
      *        the composite of all dependencies on this package, as calculated
-     *        by {@link \PEAR2\Pyrus\Package\Dependency::getCompositeDependency()}
+     *        by {@link \Pyrus\Package\Dependency::getCompositeDependency()}
      */
-    function figureOutBestVersion(\PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep,
+    function figureOutBestVersion(\Pyrus\PackageFile\v2\Dependencies\Package $compositeDep,
                                   $versions = null,
-                                  \PEAR2\Pyrus\PackageFile\v2\Dependencies\Package $compositeConflictingDep = null)
+                                  \Pyrus\PackageFile\v2\Dependencies\Package $compositeConflictingDep = null)
     {
         // set up release list if not done yet
         $this->rewind();
-        $ok = \PEAR2\Pyrus\Installer::betterStates($this->minimumStability, true);
+        $ok = \Pyrus\Installer::betterStates($this->minimumStability, true);
         $v = $this->explicitVersion;
         $n = $this->channel . '/' . $this->name;
         $failIfExplicit = function($versioninfo) use ($v, $n) {
@@ -721,7 +721,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
         };
 
         foreach ($this->releaseList as $versioninfo) {
-            if (isset(\PEAR2\Pyrus\Main::$options['force'])) {
+            if (isset(\Pyrus\Main::$options['force'])) {
                 // found one
                 if ($this->versionSet && $versioninfo['v'] != $this->version['release']) {
                     // inform the installer we need to reset dependencies
@@ -737,7 +737,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 continue;
             }
 
-            if (!isset(\PEAR2\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
+            if (!isset(\Pyrus\Main::$options['force']) && isset($versioninfo['m'])) {
                 // minimum PHP version required
                 if (version_compare($versioninfo['m'], $this->getPHPVersion(), '>')) {
                     $failIfExplicit($versioninfo);
@@ -745,7 +745,7 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 }
             }
 
-            if (!in_array($versioninfo['s'], $ok) && !isset(\PEAR2\Pyrus\Main::$options['force'])) {
+            if (!in_array($versioninfo['s'], $ok) && !isset(\Pyrus\Main::$options['force'])) {
                 // release is not stable enough
                 continue;
             }
@@ -764,10 +764,10 @@ class RemotePackage extends \PEAR2\Pyrus\PackageFile\v2 implements \ArrayAccess,
                 continue;
             }
 
-            $paranoia = \PEAR2\Pyrus\Main::getParanoiaLevel();
+            $paranoia = \Pyrus\Main::getParanoiaLevel();
             if (!$this->explicitVersion && $paranoia > 1) {
                 // first, we check to see if we are upgrading
-                if (isset(\PEAR2\Pyrus\Main::$options['upgrade'])) {
+                if (isset(\Pyrus\Main::$options['upgrade'])) {
                     // now we check to see if we are installed
                     if (isset(Config::current()->registry->package[$n])) {
                         $installed = Config::current()

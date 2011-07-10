@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\ScriptRunner
+ * \Pyrus\ScriptRunner
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -20,14 +20,14 @@
  * determining what questions to ask, and then passes the information to the
  * actual class.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class ScriptRunner
 {
     protected $frontend;
@@ -69,7 +69,7 @@ class ScriptRunner
     }
 
     /**
-     * @param \PEAR2\Pyrus\Task\Postinstallscript $info contents of postinstallscript tag
+     * @param \Pyrus\Task\Postinstallscript $info contents of postinstallscript tag
      * @param object $script post-installation script
      * @param string install|upgrade
      */

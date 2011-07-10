@@ -4,7 +4,7 @@ Dependency_Validator: Extension dependency, no extension version
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->extension['foo'];
 $validator->extensions['foo'] = true;
 $test->assertEquals(true, $validator->validateExtensionDependency($foo), 'foo');

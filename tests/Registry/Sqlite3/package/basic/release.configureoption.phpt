@@ -9,13 +9,13 @@ $info->type = 'extsrc';
 $info->installrelease->configureoption['foo']->prompt('prompt 1')->default('yes');
 $info->installrelease->configureoption['bar']->prompt('prompt 2');
 
-$reg = new \PEAR2\Pyrus\Registry\Sqlite3(TESTDIR);
+$reg = new \Pyrus\Registry\Sqlite3(TESTDIR);
 $reg->replace($info);
 $inf = $reg->package[$info->channel . '/' . $info->name];
 
 $stuff = array();
 foreach ($inf->installrelease->configureoption as $key => $option) {
-    $test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Release\ConfigureOption', $option, 'right class');
+    $test->assertIsa('\Pyrus\PackageFile\v2\Release\ConfigureOption', $option, 'right class');
     $stuff[$key] = $option->getInfo();
 }
 ksort($stuff);

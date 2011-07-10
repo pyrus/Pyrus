@@ -4,7 +4,7 @@ Dependency_Validator: package dependency, conflicts, installed failure
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $fake->name = 'foo';
 $fake->channel = 'pear2.php.net';
 $fake->version['release'] = '1.2.3';
@@ -12,7 +12,7 @@ $fake->files['foo'] = array('role' => 'php');
 $fake->notes = 'hi';
 $fake->summary = 'hi';
 $fake->description = 'hi';
-\PEAR2\Pyrus\Config::current()->registry->install($fake);
+\Pyrus\Config::current()->registry->install($fake);
 
 $foo = $fake->dependencies['required']->package['pear2.php.net/foo']->conflicts(true);
 
@@ -23,9 +23,9 @@ $test->assertEquals('channel://pear2.php.net/test conflicts with package "channe
 
 // reset multierrors
 $errs = new \PEAR2\MultiErrors;
-$validator = new test_Validator($package, \PEAR2\Pyrus\Validate::DOWNLOADING, $errs);
+$validator = new test_Validator($package, \Pyrus\Validate::DOWNLOADING, $errs);
 
-\PEAR2\Pyrus\Config::current()->registry->uninstall('foo', 'pear2.php.net');
+\Pyrus\Config::current()->registry->uninstall('foo', 'pear2.php.net');
 
 $test->assertEquals(false, $validator->validatePackageDependency($foo, array($fake)), 'foo downloading');
 $test->assertEquals(1, count($errs->E_ERROR), 'foo downloading count');

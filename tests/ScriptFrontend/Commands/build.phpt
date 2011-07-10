@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::build(), basic test (this actually builds an extension)
+\Pyrus\ScriptFrontend\Commands::build(), basic test (this actually builds an extension)
 --SKIPIF--
 <?php
 if (!is_writable(ini_get('extension_dir'))) {
@@ -19,7 +19,7 @@ require __DIR__ . '/setup.php.inc';
 $c = getTestConfig();
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'install', __DIR__.'/build/docblock-0.2.0.tar'));
 
 $contents = ob_get_contents();
@@ -29,9 +29,9 @@ $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                     . " ==> To build this PECL package, use the build command\n",
                     $contents,
                     'installation');
-$testpackage = new \PEAR2\Pyrus\Package(__DIR__.'/build/docblock-0.2.0.tar');
+$testpackage = new \Pyrus\Package(__DIR__.'/build/docblock-0.2.0.tar');
 $test->assertEquals('1.4.3', $testpackage->dependencies['required']->pearinstaller->min, 'tar pearinstaller dep');
-$test->assertEquals('1.4.3', \PEAR2\Pyrus\Config::current()->registry->package['pecl/docblock']
+$test->assertEquals('1.4.3', \Pyrus\Config::current()->registry->package['pecl/docblock']
                                ->dependencies['required']->pearinstaller->min, 'same after installation');
 
 ob_start();
@@ -50,7 +50,7 @@ Configuring for:';
 
 $end = '@running: make INSTALL_ROOT="' . TESTDIR . '/src/docblock/\.install" install 2>&1
 Installing shared extensions:     ' . TESTDIR . '/src/docblock/\.install' .
-    \PEAR2\Pyrus\Config::current()->defaultValue('ext_dir') . '/
+    \Pyrus\Config::current()->defaultValue('ext_dir') . '/
 \d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .
     '/testit/src/docblock/\.install/usr
 \d+   \d drwxr\-xr\-x 3 \w+ \w+\s+4096 \d{4}\-\d{2}\-\d{2} \d{2}:\d{2} ' . __DIR__ .

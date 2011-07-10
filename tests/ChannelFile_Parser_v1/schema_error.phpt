@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ChannelFile\Parser\v1: Test xsd validation.
+\Pyrus\ChannelFile\Parser\v1: Test xsd validation.
 --FILE--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
@@ -15,7 +15,7 @@ try {
 </channel>');
 	
     throw new Exception('invalid xml worked and should not');
-} catch (\PEAR2\Pyrus\ChannelFile\Exception $e) {
+} catch (\Pyrus\ChannelFile\Exception $e) {
     $test->assertEquals('Invalid channel.xml',
                 $e->getMessage(), 'invalid xml');
 }

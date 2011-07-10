@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction\Manager::getTransaction(), cannot begin transaction twice.
+\Pyrus\AtomicFileTransaction\Manager::getTransaction(), cannot begin transaction twice.
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
@@ -14,7 +14,7 @@ $instance->begin();
 try {
     $instance->rollback();
     throw new \Exception('Expected exception');
-} catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
+} catch (\Pyrus\AtomicFileTransaction\Exception $e) {
     $test->assertEquals('Warning: rollback did not succeed for all transactions', $e->getMessage(), 'rollback failed');
 }
 ?>

@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Installer: install remote packages with dependency groups
+\Pyrus\Installer: install remote packages with dependency groups
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';
@@ -7,12 +7,12 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../Mocks/Internet/install.depgroup',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-\PEAR2\Pyrus\Installer::begin();
-\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P1'));
-\PEAR2\Pyrus\Installer::prepare(new \PEAR2\Pyrus\Package('pear2/P2#group'));
-\PEAR2\Pyrus\Installer::commit();
-$reg = \PEAR2\Pyrus\Config::current()->registry;
+\Pyrus\Main::$downloadClass = 'Internet';
+\Pyrus\Installer::begin();
+\Pyrus\Installer::prepare(new \Pyrus\Package('pear2/P1'));
+\Pyrus\Installer::prepare(new \Pyrus\Package('pear2/P2#group'));
+\Pyrus\Installer::commit();
+$reg = \Pyrus\Config::current()->registry;
 for ($i = 1; $i <= 4; $i++) {
     $test->assertTrue(isset($reg->package["P$i"]), "installed P$i");
 }

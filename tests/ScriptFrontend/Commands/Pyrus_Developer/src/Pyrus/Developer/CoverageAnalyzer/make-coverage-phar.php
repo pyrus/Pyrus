@@ -32,7 +32,7 @@ $phar['cover.css'] = '.ln {background-color:yellow;}
 .ok {background-color:yellow;white-space:pre;font-family:courier;}
 .good {background-color:green;white-space:pre;font-family:courier;}';
 $phar['index.php'] = '<?php
-namespace PEAR2\Pyrus\Developer\CoverageAnalyzer {
+namespace Pyrus\Developer\CoverageAnalyzer {
 session_start();
 $view = new Web\View;
 $rooturl = parse_url($_SERVER["REQUEST_URI"]);

@@ -3,17 +3,17 @@
 
 try {
     $foo = array();
-    $oops = new \PEAR2\Pyrus\PackageFile\v2\Developer(null, $foo);
+    $oops = new \Pyrus\PackageFile\v2\Developer(null, $foo);
     $a = $oops->name;
     throw new Exception('oops did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Cannot access developer info for unknown developer', $e->getMessage(), 'no dev set');
 }
 
 try {
     $oops->name('hi');
     throw new Exception('oops 3 did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Cannot set developer info for unknown developer', $e->getMessage(), 'no dev set 3');
 }
 
@@ -21,54 +21,54 @@ $greg = $reg->maintainer['cellog'];
 try {
     $test->assertEquals(null, $greg->nonexisting, 'non-existing');
     throw new Exception('nonexisting did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Unknown variable nonexisting, should be one of name, email, active', $e->getMessage(), 'nonexisting');
 }
 
 try {
     $a = $reg->maintainer['cellog']['greg'];
     throw new Exception('double did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Use -> to access properties of a developer', $e->getMessage(), 'double dev set');
 }
 
 try {
     $a = $reg->maintainer[0];
     throw new Exception('numeric did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Developer handle cannot be numeric', $e->getMessage(), 'numeric');
 }
 
 try {
     $reg->maintainer[0] = array();
     throw new Exception('numeric 2 did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Developer handle cannot be numeric', $e->getMessage(), 'numeric 2');
 }
 
 try {
     $greg->flurb('blah');
     throw new Exception('flurb did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Cannot set unknown value flurb', $e->getMessage(), 'flurb');
 }
 
 try {
     $greg->name('blah', 'foo');
     throw new Exception('double name did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Can only set name to 1 value', $e->getMessage(), 'double name');
 }
 
 try {
     $greg->name(array());
     throw new Exception('array name did not fail');
-} catch (\PEAR2\Pyrus\PackageFile\v2\Developer\Exception $e) {
+} catch (\Pyrus\PackageFile\v2\Developer\Exception $e) {
     $test->assertEquals('Invalid value for name, must be a string', $e->getMessage(), 'array name');
 }
 
 $a = $greg->name('Foo Bar');
-$test->assertIsa('\PEAR2\Pyrus\PackageFile\v2\Developer', $a, 'right class');
+$test->assertIsa('\Pyrus\PackageFile\v2\Developer', $a, 'right class');
 $test->assertEquals('Foo Bar', $greg->name, 'after setting name');
 
 $reg->maintainer['foo']->name('Blah Blah');

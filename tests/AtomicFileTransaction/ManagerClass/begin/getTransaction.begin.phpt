@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction\Manager::getTransaction(), begin transaction when manager begin() was called.
+\Pyrus\AtomicFileTransaction\Manager::getTransaction(), begin transaction when manager begin() was called.
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

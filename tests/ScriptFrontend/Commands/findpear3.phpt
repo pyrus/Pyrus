@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::_findPEAR test 3: no userfile detected, decline creation
+\Pyrus\ScriptFrontend\Commands::_findPEAR test 3: no userfile detected, decline creation
 --FILE--
 <?php
 require __DIR__ . '/setup.minimal.php.inc';

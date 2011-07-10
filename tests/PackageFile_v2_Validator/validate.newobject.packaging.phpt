@@ -4,7 +4,7 @@ package.xml v2.0 validator: validating from-object (not from parsed package.xml)
 <?php
 require __DIR__ . '/setup.php.inc';
 @mkdir(TESTDIR);
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 
 $pf->name = 'testing2';
 $pf->{'extends'} = 'testing';
@@ -50,12 +50,12 @@ function foo(){}
 ');
 file_put_contents(TESTDIR . '/glooby', 'foo');
 
-$package = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
+$package = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(TESTDIR . '/package.xml', $package, $xmlcontainer);
 $package->setInternalPackage($xml);
 
-$test->assertEquals(\PEAR2\Pyrus\Validate::PACKAGING, $pf->getValidator()->validate($package, \PEAR2\Pyrus\Validate::PACKAGING), 'validate');
+$test->assertEquals(\Pyrus\Validate::PACKAGING, $pf->getValidator()->validate($package, \Pyrus\Validate::PACKAGING), 'validate');
 ?>
 ===DONE===
 --CLEAN--

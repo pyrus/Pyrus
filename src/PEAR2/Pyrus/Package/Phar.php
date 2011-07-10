@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Package\Phar
+ * \Pyrus\Package\Phar
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Class for phar packages
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.pear.php.net/PEAR2/Pyrus/
  */
-namespace PEAR2\Pyrus\Package;
-class Phar extends \PEAR2\Pyrus\Package\Base
+namespace Pyrus\Package;
+class Phar extends \Pyrus\Package\Base
 {
     static private $_tempfiles = array();
     private $_tmpdir;
@@ -33,7 +33,7 @@ class Phar extends \PEAR2\Pyrus\Package\Base
     /**
      * @param string $package path to package file
      */
-    function __construct($package, \PEAR2\Pyrus\Package $parent)
+    function __construct($package, \Pyrus\Package $parent)
     {
         $package = realpath($package);
         if (!$package) {
@@ -99,8 +99,8 @@ class Phar extends \PEAR2\Pyrus\Package\Base
                 $package, $e);
         }
 
-        parent::__construct(new \PEAR2\Pyrus\PackageFile($pxml,
-                                                       'PEAR2\Pyrus\PackageFile\v2'),
+        parent::__construct(new \Pyrus\PackageFile($pxml,
+                                                       'Pyrus\PackageFile\v2'),
                             $parent);
     }
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Config
+ * \Pyrus\Config
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -34,8 +34,8 @@
  * - local settings directory on windows for the current user.
  * - current directory
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -43,7 +43,7 @@
  * @todo      Add support for restrictive config variable sets
  * @todo      Add support for documentation for config vars
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class Config
 {
     /**
@@ -77,13 +77,13 @@ class Config
     /**
      * channel registry for this {@link $pearDir} value
      *
-     * @var \PEAR2\Pyrus\Channel\Registry
+     * @var \Pyrus\Channel\Registry
      */
     protected $mychannelRegistry;
     /**
      * registry for plugins, which are kept in the plugin_dir directory
      *
-     * @var \PEAR2\Pyrus\PluginRegistry
+     * @var \Pyrus\PluginRegistry
      */
     protected $mypluginregistry;
 
@@ -117,7 +117,7 @@ class Config
     /**
      * The last instantiated configuration
      *
-     * @var \PEAR2\Pyrus\Config
+     * @var \Pyrus\Config
      */
     static protected $current;
 
@@ -411,7 +411,7 @@ class Config
      *
      * @param string $pearDirectory
      * @param string $userfile
-     * @return \PEAR2\Pyrus\Config
+     * @return \Pyrus\Config
      */
     static public function singleton($pearDirectory = false, $userfile = false)
     {
@@ -545,7 +545,7 @@ class Config
 
     /**
      * Retrieve the currently active primary configuration
-     * @return \PEAR2\Pyrus\Config
+     * @return \Pyrus\Config
      */
     static public function current()
     {
@@ -791,8 +791,8 @@ class Config
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
-     * in, \PEAR2\Pyrus\Config will attempt to guess at the config file location as
-     * documented in the class docblock {@link \PEAR2\Pyrus\Config}.
+     * in, \Pyrus\Config will attempt to guess at the config file location as
+     * documented in the class docblock {@link \Pyrus\Config}.
      * @param string $pearDirectory
      * @param string|false $userfile
      */

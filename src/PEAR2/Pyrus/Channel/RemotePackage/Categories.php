@@ -1,14 +1,14 @@
 <?php
-namespace PEAR2\Pyrus\Channel\RemotePackage;
-use PEAR2\Pyrus\Channel;
+namespace Pyrus\Channel\RemotePackage;
+use Pyrus\Channel;
 class Categories extends Channel\RemoteCategories
 {
 	/**
-	 * @var PEAR2\Pyrus\Channel\RemotePackage
+	 * @var Pyrus\Channel\RemotePackage
 	 */
 	protected $package;
 
-	function __construct(\PEAR2\Pyrus\ChannelInterface $channelinfo, Channel\RemotePackage $package)
+	function __construct(\Pyrus\ChannelInterface $channelinfo, Channel\RemotePackage $package)
 	{
 		$this->package = $package;
 		parent::__construct($channelinfo);

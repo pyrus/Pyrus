@@ -1,15 +1,15 @@
 <?php
-namespace PEAR2\Pyrus\AtomicFileTransaction;
+namespace Pyrus\AtomicFileTransaction;
 
 use PEAR2\MultiErrors,
-    PEAR2\Pyrus\Filesystem as FS;
+    Pyrus\Filesystem as FS;
 
 /**
  * A Atomic file transaction manager class.
  * This class helps manage multiple transactions
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Warnar Boekkooi, Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -32,7 +32,7 @@ class Manager
      * This is useful for unit-testing and for extensions.
      * @var string
      */
-    protected $className = 'PEAR2\Pyrus\AtomicFileTransaction\Transaction';
+    protected $className = 'Pyrus\AtomicFileTransaction\Transaction';
 
     /**
      * Indicated if the manager has active transactions.
@@ -47,13 +47,13 @@ class Manager
     /**
      * Get/Create a transaction.
      *
-     * @param string|PEAR2\Pyrus\Installer\Role\Common $path The directory path.
-     * @return Transaction A PEAR2\Pyrus\AtomicFileTransaction\Transaction instance
+     * @param string|Pyrus\Installer\Role\Common $path The directory path.
+     * @return Transaction A Pyrus\AtomicFileTransaction\Transaction instance
      */
     public function getTransaction($path)
     {
-        if ($path instanceof \PEAR2\Pyrus\Installer\Role\Common) {
-            $path = \PEAR2\Pyrus\Config::current()->{$path->getLocationConfig()};
+        if ($path instanceof \Pyrus\Installer\Role\Common) {
+            $path = \Pyrus\Config::current()->{$path->getLocationConfig()};
         }
         $path = FS::path((string)$path);
 

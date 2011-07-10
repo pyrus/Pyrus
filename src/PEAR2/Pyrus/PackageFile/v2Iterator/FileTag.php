@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2Iterator\FileTag
+ * \Pyrus\PackageFile\v2Iterator\FileTag
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -22,19 +22,19 @@
  * - $file->name      as object member, to access attributes
  * - $file->tasks     as pseudo-object, to access each task
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2Iterator;
+namespace Pyrus\PackageFile\v2Iterator;
 class FileTag extends \ArrayObject
 {
     public $dir;
     /**
-     * @var \PEAR2\Pyrus\PackageFile\v2
+     * @var \Pyrus\PackageFile\v2
      */
     private $_packagefile;
     function __construct($a, $t, $parent)
@@ -116,13 +116,13 @@ class FileTag extends \ArrayObject
     {
         if (strpos($var, $this->_packagefile->getTasksNs()) === 0) {
             // setting a file task
-            if ($value instanceof \PEAR2\Pyrus\Task\Common) {
+            if ($value instanceof \Pyrus\Task\Common) {
                 $this->_packagefile->setFileAttribute($this->dir . $this['attribs']['name'], $var, $value);
                 return;
             }
 
-            throw new \PEAR2\Pyrus\PackageFile\Exception('Cannot set ' . $var . ' to non-' .
-                '\PEAR2\Pyrus\Task\Common object in file ' . $this->dir .
+            throw new \Pyrus\PackageFile\Exception('Cannot set ' . $var . ' to non-' .
+                '\Pyrus\Task\Common object in file ' . $this->dir .
                 $this['attribs']['name']);
         }
 

@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::listPackages(), packages installed
+\Pyrus\ScriptFrontend\Commands::listPackages(), packages installed
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -7,7 +7,7 @@ require __DIR__ . '/setup.php.inc';
 $c = getTestConfig();
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'install', __DIR__.'/../../Mocks/SimpleChannelServer/package.xml'));
 
 $contents = ob_get_contents();
@@ -29,7 +29,7 @@ $test->assertFileExists(TESTDIR . '/php/PEAR2/SimpleChannelServer.php', 'src/PEA
 $test->assertEquals(file_get_contents(__DIR__.'/../../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
                     file_get_contents(TESTDIR . '/php/PEAR2/SimpleChannelServer.php'), 'files match');
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'list-packages'));
 
 $contents = ob_get_contents();

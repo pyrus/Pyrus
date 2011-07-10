@@ -4,7 +4,7 @@ FileInstallationFilter: verify installconditions modifies files correctly
 <?php
 include __DIR__ . '/../test_framework.php.inc';
 
-$package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/SimpleApp/package.xml');
+$package = new \Pyrus\Package(__DIR__.'/../Mocks/SimpleApp/package.xml');
 
 $files = array();
 foreach ($package->getInstallContents() as $file) {

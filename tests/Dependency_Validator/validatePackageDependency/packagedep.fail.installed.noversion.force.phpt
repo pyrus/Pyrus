@@ -4,8 +4,8 @@ Dependency_Validator: package dependency, no version, installed failure --force
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-\PEAR2\Pyrus\Main::$options['force'] = true;
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+\Pyrus\Main::$options['force'] = true;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->package['pear2.php.net/foo'];
 
 $test->assertEquals(true, $validator->validatePackageDependency($foo, array()), 'foo');

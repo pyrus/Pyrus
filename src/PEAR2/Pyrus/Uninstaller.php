@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Uninstaller
+ * \Pyrus\Uninstaller
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Pyrus Uninstaller class
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class Uninstaller
 {
     /**
@@ -87,7 +87,7 @@ class Uninstaller
      *
      * This function checks to see if an identical package is already being downloaded,
      * and manages removing duplicates or erroring out on a conflict
-     * @param \PEAR2\Pyrus\Package $package
+     * @param \Pyrus\Package $package
      */
     static function prepare($packageName)
     {
@@ -205,7 +205,7 @@ class Uninstaller
      * Uninstall a package
      *
      * Remove files
-     * @param \PEAR2\Pyrus\Package $package
+     * @param \Pyrus\Package $package
      */
     function uninstall(PackageFileInterface $package, RegistryInterface $reg)
     {

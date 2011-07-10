@@ -1,9 +1,9 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry\Base extra coverage
+\Pyrus\ChannelRegistry\Base extra coverage
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
-$creg = new \PEAR2\Pyrus\ChannelRegistry\Sqlite3(TESTDIR);
+$creg = new \Pyrus\ChannelRegistry\Sqlite3(TESTDIR);
 
 $test->assertEquals(TESTDIR, $creg->getPath(), 'getPath');
 

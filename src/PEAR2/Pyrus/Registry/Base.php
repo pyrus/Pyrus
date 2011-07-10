@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Registry\Base
+ * \Pyrus\Registry\Base
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,15 +16,15 @@
 /**
  * Base class for a Pyrus Registry
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Registry;
-abstract class Base implements \PEAR2\Pyrus\RegistryInterface
+namespace Pyrus\Registry;
+abstract class Base implements \Pyrus\RegistryInterface
 {
     protected $packagename;
     protected $packageList = array();
@@ -32,7 +32,7 @@ abstract class Base implements \PEAR2\Pyrus\RegistryInterface
     /**
      * Used by the registry package classes to update info in an installed package
      */
-    public function replace(\PEAR2\Pyrus\PackageFileInterface $info)
+    public function replace(\Pyrus\PackageFileInterface $info)
     {
         return $this->install($info, true);
     }
@@ -41,7 +41,7 @@ abstract class Base implements \PEAR2\Pyrus\RegistryInterface
     {
         try {
             $packageiterator = $registry->package;
-            foreach (\PEAR2\Pyrus\Config::current()->channelregistry->listChannels() as $channel) {
+            foreach (\Pyrus\Config::current()->channelregistry->listChannels() as $channel) {
                 $packageiterator->setIteratorChannel($channel);
                 foreach ($packageiterator as $package) {
                     if ($this->exists($package->name, $package->channel)) {

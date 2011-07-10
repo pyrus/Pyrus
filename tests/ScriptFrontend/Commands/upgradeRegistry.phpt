@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::upgradeRegistry()
+\Pyrus\ScriptFrontend\Commands::upgradeRegistry()
 --SKIPIF--
 <?php
 if (!($f = @fopen('PEAR.php', 'r', true))) {
@@ -13,13 +13,13 @@ require __DIR__ . '/setup.minimal.php.inc';
 
 include __DIR__ . '/setup.pearinstall.php.inc';
 
-$test->assertEquals(array('Pear1'), \PEAR2\Pyrus\Registry::detectRegistries(TESTDIR),
+$test->assertEquals(array('Pear1'), \Pyrus\Registry::detectRegistries(TESTDIR),
                     'after install, verify Pear1 registry exists');
 
 // now for the Pyrus portion of this test
 set_include_path(TESTDIR);
 
-$a = \PEAR2\Pyrus\Config::singleton(TESTDIR, str_replace('/', DIRECTORY_SEPARATOR, TESTDIR . '/plugins/pearconfig.xml'));
+$a = \Pyrus\Config::singleton(TESTDIR, str_replace('/', DIRECTORY_SEPARATOR, TESTDIR . '/plugins/pearconfig.xml'));
 $a->ext_dir = TESTDIR . DIRECTORY_SEPARATOR . 'ext';
 $a->bin_dir = TESTDIR . DIRECTORY_SEPARATOR . 'bin';
 mkdir(TESTDIR . DIRECTORY_SEPARATOR . 'plugins');
@@ -42,7 +42,7 @@ $test->assertEquals($help1 . $help2,
                     'upgrade-registries output');
 
 
-$test->assertEquals(array('Sqlite3', 'Xml', 'Pear1'), \PEAR2\Pyrus\Registry::detectRegistries(TESTDIR),
+$test->assertEquals(array('Sqlite3', 'Xml', 'Pear1'), \Pyrus\Registry::detectRegistries(TESTDIR),
                     'verify registry upgrade');
 ?>
 ===DONE===

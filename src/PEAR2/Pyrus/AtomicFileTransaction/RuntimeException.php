@@ -1,5 +1,5 @@
 <?php
-namespace PEAR2\Pyrus\AtomicFileTransaction;
+namespace Pyrus\AtomicFileTransaction;
 
 /**
  * Atomic file transaction runtime exception.

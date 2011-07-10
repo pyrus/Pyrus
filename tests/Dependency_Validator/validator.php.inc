@@ -1,5 +1,5 @@
 <?php
-class test_Validator extends \PEAR2\Pyrus\Dependency\Validator
+class test_Validator extends \Pyrus\Dependency\Validator
 {
     public $os = 'linux';
     public $sysname = 'linux';

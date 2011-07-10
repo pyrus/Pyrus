@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::commit()
+\Pyrus\AtomicFileTransaction::commit()
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
@@ -26,9 +26,9 @@ $test->assertFileNotExists(TESTDIR . '/.journal-src/sub/deep/deep/thing', TESTDI
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir', TESTDIR . '/.journal-src/another/dir before');
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir/file', TESTDIR . '/.journal-src/another/dir/file before');
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::begin();
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 $test->assertFileExists(TESTDIR . '/src', TESTDIR . '/src after');
 $test->assertFileExists(TESTDIR . '/src/foo', TESTDIR . '/src/foo after');
@@ -61,7 +61,7 @@ $test->assertFileExists(TESTDIR . '/.journal-src/newfile', TESTDIR . '/.journal-
 $test->assertFileExists(TESTDIR . '/src/foo', TESTDIR . '/.journal-src/foo after erase 2');
 $test->assertFileNotExists(TESTDIR . '/src/newfile', TESTDIR . '/.journal-src/newfile after create 2');
 
-\PEAR2\Pyrus\AtomicFileTransaction::commit();
+\Pyrus\AtomicFileTransaction::commit();
 
 $test->assertFileExists(TESTDIR . '/src', TESTDIR . '/src after commit');
 $test->assertFileNotExists(TESTDIR . '/src/foo', TESTDIR . '/src/foo after commit');
@@ -87,7 +87,7 @@ $test->assertFileNotExists(TESTDIR . '/.journal-src/sub/deep/deep/thing', TESTDI
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir', TESTDIR . '/.journal-src/another/dir after commit');
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir/file', TESTDIR . '/.journal-src/another/dir/file after commit');
 
-\PEAR2\Pyrus\AtomicFileTransaction::removeBackups();
+\Pyrus\AtomicFileTransaction::removeBackups();
 
 $test->assertFileNotExists(TESTDIR . '/.old-src', TESTDIR . '/.old-src after commit');
 $test->assertFileNotExists(TESTDIR . '/.old-src/foo', TESTDIR . '/.old-src/foo after commit');

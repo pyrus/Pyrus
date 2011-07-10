@@ -4,7 +4,7 @@ Dependency_Validator: subpackage dependency, no version, installed failure
 <?php
 require __DIR__ . '/../setup.registry.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $foo = $fake->dependencies['required']->subpackage['pear2.php.net/foo'];
 
 $test->assertEquals(false, $validator->validateSubpackageDependency($foo, array()), 'foo');

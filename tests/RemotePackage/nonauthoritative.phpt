@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Channel\RemotePackage::download(), certificate is not signed by a cert authority
+\Pyrus\Channel\RemotePackage::download(), certificate is not signed by a cert authority
 --SKIPIF--
 <?php
 if (!extension_loaded('openssl')) die('SKIP openssl required');
@@ -11,15 +11,15 @@ require __DIR__ . '/../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/nonauthoritative',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
-$remote = new \PEAR2\Pyrus\Channel\RemotePackage(\PEAR2\Pyrus\Config::current()->channelregistry['pear2.php.net'],
+\Pyrus\Main::$downloadClass = 'Internet';
+$remote = new \Pyrus\Channel\RemotePackage(\Pyrus\Config::current()->channelregistry['pear2.php.net'],
                                                 'stable');
 $remote = $remote['P1'];
 $remote->version['release'] = '1.0.0';
 try {
     $remote->download();
     throw new Exception('should fail and did not');
-} catch (PEAR2\Pyrus\Package\Exception $e) {
+} catch (Pyrus\Package\Exception $e) {
     $test->assertEquals('Invalid abstract package ' .
                         'pear2.php.net/P1 - releasing maintainer\'s certificate is invalid',
                         $e->getMessage(), 'message');

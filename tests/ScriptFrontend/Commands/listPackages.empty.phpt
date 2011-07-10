@@ -1,14 +1,14 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::listPackages(), no packages installed
+\Pyrus\ScriptFrontend\Commands::listPackages(), no packages installed
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 
 set_include_path(TESTDIR);
-\PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
+\Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
 restore_include_path();
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'list-packages'));
 
 $contents = ob_get_contents();

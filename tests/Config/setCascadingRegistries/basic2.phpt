@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Config::setCascading Registries() basic test 2
+\Pyrus\Config::setCascading Registries() basic test 2
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -11,7 +11,7 @@ require __DIR__ . '/setup.php.inc';
 $fake = new Sqlite3(TESTDIR . DIRECTORY_SEPARATOR . 'something' . DIRECTORY_SEPARATOR . '.pear2registry');
 $fake->close();
 unset($fake);
-$unused = new \PEAR2\Pyrus\Registry(TESTDIR . '/something');
+$unused = new \Pyrus\Registry(TESTDIR . '/something');
 set_include_path(TESTDIR . DIRECTORY_SEPARATOR . 'something2' .
                  DIRECTORY_SEPARATOR . 'php' . PATH_SEPARATOR . TESTDIR . DIRECTORY_SEPARATOR . 'something/php');
 chdir(TESTDIR . DIRECTORY_SEPARATOR . 'something2');

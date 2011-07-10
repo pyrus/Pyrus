@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::download()
+\Pyrus\ScriptFrontend\Commands::download()
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -9,12 +9,12 @@ require __DIR__ . '/../../Mocks/Internet.php';
 
 Internet::addDirectory(__DIR__ . '/../../Mocks/Internet/install.prepare.explicitstate',
                        'http://pear2.php.net/');
-\PEAR2\Pyrus\Main::$downloadClass = 'Internet';
+\Pyrus\Main::$downloadClass = 'Internet';
 
 mkdir(TESTDIR . '/oksavehere');
 chdir(TESTDIR . '/oksavehere');
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'download', __DIR__ .
                                 '/../../Mocks/Internet/install.prepare.explicitstate/get/P1-1.1.0RC1.tar',
                                 'P2-beta', 'P1', 'unknown', 'P3-1.1.0RC2'));

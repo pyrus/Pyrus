@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::removePath(), path doesn't exist
+\Pyrus\AtomicFileTransaction::removePath(), path doesn't exist
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

@@ -1,11 +1,11 @@
 <?php
 /**
- * The \PEAR2\Pyrus\OSGuess class
+ * The \Pyrus\OSGuess class
  *
  * PHP version 5
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @author     Stig Bakken <ssb@php.net>
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2007 The PHP Group
@@ -91,7 +91,7 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class OSGuess
 {
     var $sysname;

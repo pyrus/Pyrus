@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\Task\Postinstallscript::validateXml()
+\Pyrus\Task\Postinstallscript::validateXml()
 --FILE--
 <?php
 include dirname(__DIR__) . '/setup.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        \PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
+        \Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -28,7 +28,7 @@ class glooby_postinstall {
 }
 ');
 
-$test->assertTrue(\PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, array('tasks:paramgroup' => array(
+$test->assertTrue(\Pyrus\Task\Postinstallscript::validateXml($package, array('tasks:paramgroup' => array(
                array('tasks:id' => 'foo',
                      'tasks:param' => array(
                             'tasks:name' => 'bar',
@@ -44,7 +44,7 @@ $test->assertTrue(\PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, arr
                         'tasks:type' => 'string',
                             )))), array('role' => 'php', 'name' => 'glooby'), 'filename'), 'success 1');
 
-$test->assertTrue(\PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, array(), array('role' => 'php', 'name' => 'glooby'), 'filename'), 'success 2');
+$test->assertTrue(\Pyrus\Task\Postinstallscript::validateXml($package, array(), array('role' => 'php', 'name' => 'glooby'), 'filename'), 'success 2');
 
 
 ?>

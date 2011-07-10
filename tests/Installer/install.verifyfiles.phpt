@@ -1,13 +1,13 @@
 --TEST--
-\PEAR2\Pyrus\Installer::install() verify files installed correctly
+\Pyrus\Installer::install() verify files installed correctly
 --FILE--
 <?php
 include __DIR__ . '/../test_framework.php.inc';
-$package = new \PEAR2\Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
+$package = new \Pyrus\Package(__DIR__.'/../Mocks/SimpleChannelServer/package.xml');
 $c = getTestConfig();
-\PEAR2\Pyrus\Installer::begin();
-\PEAR2\Pyrus\Installer::prepare($package);
-\PEAR2\Pyrus\Installer::commit();
+\Pyrus\Installer::begin();
+\Pyrus\Installer::prepare($package);
+\Pyrus\Installer::commit();
 $test->assertFileExists(TESTDIR . '/bin/pearscs', 'bin/pearscs');
 
 // chmod is not fully supported on windows

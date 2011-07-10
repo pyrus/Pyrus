@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::mkdir(), use default mode
+\Pyrus\AtomicFileTransaction::mkdir(), use default mode
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

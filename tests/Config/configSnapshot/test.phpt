@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Config::configSnapshot()
+\Pyrus\Config::configSnapshot()
 --SKIPIF--
 <?php die('Skipped: for coverage'); ?>
 --FILE--

@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::removePath() failure, strict
+\Pyrus\AtomicFileTransaction::removePath() failure, strict
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';

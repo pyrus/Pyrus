@@ -1,6 +1,6 @@
 <?php
-namespace PEAR2\Pyrus\Developer\CoverageAnalyzer\Web {
-use PEAR2\Pyrus\Developer\CoverageAnalyzer;
+namespace Pyrus\Developer\CoverageAnalyzer\Web {
+use Pyrus\Developer\CoverageAnalyzer;
 class Aggregator extends CoverageAnalyzer\Aggregator
 {
     public $codepath;

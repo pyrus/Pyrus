@@ -1,5 +1,5 @@
 <?php
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 
 use FilesystemIterator;
 

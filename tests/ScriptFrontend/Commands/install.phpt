@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::install(), basic test
+\Pyrus\ScriptFrontend\Commands::install(), basic test
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 $c = getTestConfig();
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'install', __DIR__.'/../../Mocks/SimpleChannelServer/package.xml'));
 
 $contents = ob_get_contents();

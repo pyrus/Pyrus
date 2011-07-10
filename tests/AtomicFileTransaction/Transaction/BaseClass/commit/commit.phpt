@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::commit()
+\Pyrus\AtomicFileTransaction::commit()
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';

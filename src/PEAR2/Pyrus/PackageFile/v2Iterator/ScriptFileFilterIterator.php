@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator
+ * \Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,20 +16,20 @@
 /**
  * Class which iterates over all files, only returning those that contain script tasks.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2Iterator;
+namespace Pyrus\PackageFile\v2Iterator;
 class ScriptFileFilterIterator extends \FilterIterator
 {
     private $_inner;
     private $_parent;
     private $_tasksNs;
-    function __construct(array $arr, \PEAR2\Pyrus\PackageFileInterface $parent)
+    function __construct(array $arr, \Pyrus\PackageFileInterface $parent)
     {
         $this->_parent = $parent;
         $this->_tasksNs = $this->_parent->getTasksNs();
@@ -48,7 +48,7 @@ class ScriptFileFilterIterator extends \FilterIterator
                 continue;
             }
 
-            $class = \PEAR2\Pyrus\Task\Common::getTask($key);
+            $class = \Pyrus\Task\Common::getTask($key);
             if (!class_exists($class, true)) {
                 continue;
             }

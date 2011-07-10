@@ -3,12 +3,12 @@ test current returns singleton registry object
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$test->assertEquals('PEAR2\Pyrus\Config',
-                    get_class(\PEAR2\Pyrus\Config::current()),
+$test->assertEquals('Pyrus\Config',
+                    get_class(\Pyrus\Config::current()),
                     'test config');
 
-$test->assertEquals('PEAR2\Pyrus\Registry',
-                    get_class(\PEAR2\Pyrus\Config::current()->registry),
+$test->assertEquals('Pyrus\Registry',
+                    get_class(\Pyrus\Config::current()->registry),
                     'test registry');
 ?>
 ===DONE===

@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Package::parsePackageDescription()
+\Pyrus\Package::parsePackageDescription()
 --FILE--
 <?php
 include __DIR__ . '/setup.minimal.php.inc';
@@ -7,32 +7,32 @@ include __DIR__ . '/setup.minimal.php.inc';
 file_put_contents($d . '/foob', '<?xml version="1.0" ?>
                   <package version="2.0">');
 
-$test->assertEquals(array('PEAR2\Pyrus\Package\Xml', $d . '/foob', false),
-                    \PEAR2\Pyrus\Package::parsePackageDescription($d . '/foob'),
+$test->assertEquals(array('Pyrus\Package\Xml', $d . '/foob', false),
+                    \Pyrus\Package::parsePackageDescription($d . '/foob'),
                     'no extension, xml');
 
 file_put_contents($d . '/foob', 'not xml');
 
-$test->assertEquals(array('PEAR2\Pyrus\Package\Phar', $d . '/foob', false),
-                    \PEAR2\Pyrus\Package::parsePackageDescription($d . '/foob'),
+$test->assertEquals(array('Pyrus\Package\Phar', $d . '/foob', false),
+                    \Pyrus\Package::parsePackageDescription($d . '/foob'),
                     'no extension, not xml');
 
-$test->assertEquals(array('PEAR2\Pyrus\Package\Remote', 'http://blah', false),
-                    \PEAR2\Pyrus\Package::parsePackageDescription('http://blah'),
+$test->assertEquals(array('Pyrus\Package\Remote', 'http://blah', false),
+                    \Pyrus\Package::parsePackageDescription('http://blah'),
                     'http');
 
-$test->assertEquals(array('PEAR2\Pyrus\Package\Remote', 'https://blah', false),
-                    \PEAR2\Pyrus\Package::parsePackageDescription('https://blah'),
+$test->assertEquals(array('Pyrus\Package\Remote', 'https://blah', false),
+                    \Pyrus\Package::parsePackageDescription('https://blah'),
                     'https');
 
-$test->assertEquals(array('PEAR2\Pyrus\Package\Remote', 'foob', false),
-                    \PEAR2\Pyrus\Package::parsePackageDescription('foob', true),
+$test->assertEquals(array('Pyrus\Package\Remote', 'foob', false),
+                    \Pyrus\Package::parsePackageDescription('foob', true),
                     'force remote');
 
 try {
-    \PEAR2\Pyrus\Package::parsePackageDescription('Yorng/$%#');
+    \Pyrus\Package::parsePackageDescription('Yorng/$%#');
     throw new Exception('should have failed');
-} catch (\PEAR2\Pyrus\Package\Exception $e) {
+} catch (\Pyrus\Package\Exception $e) {
     $test->assertEquals('package "Yorng/$%#" is unknown', $e->getMessage(), 'Yorng/$%%#');
     $test->assertEquals('Unable to process package name', $e->getPrevious()->getMessage(), 'name parse error');
 }

@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\Task\Postinstallscript::validateXml() failures 2
+\Pyrus\Task\Postinstallscript::validateXml() failures 2
 --FILE--
 <?php
 include dirname(__DIR__) . '/setup.php.inc';
 $xmltest = function($xml, $filexml, $message, $exception) use ($package, $test)
 {
     try {
-        \PEAR2\Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
+        \Pyrus\Task\Postinstallscript::validateXml($package, $xml, $filexml, 'filename');
         throw new Exception('should have failed');
     } catch (Exception $e) {
         $test->assertIsa($exception, $e, 'wrong exception class ' . $message);
@@ -22,7 +22,7 @@ $causetest = function($message, $severity, $exception, $index, $errs) use ($test
 };
 
 $xmltest(array(), array('role' => 'php', 'name' => 'foo'), 'task <postinstallscript> in file filename is invalid because of ' .
-         '"Post-install script "foo" is not valid: file foo is not in this package"', '\PEAR2\Pyrus\Task\Exception\Invalidtask');
+         '"Post-install script "foo" is not valid: file foo is not in this package"', '\Pyrus\Task\Exception\Invalidtask');
 
 ?>
 ===DONE===

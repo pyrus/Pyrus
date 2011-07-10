@@ -4,7 +4,7 @@ Dependency_Validator: Pear installer dependency
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$fake = new \PEAR2\Pyrus\PackageFile\v2;
+$fake = new \Pyrus\PackageFile\v2;
 $pear = $fake->dependencies['required']->pearinstaller;
 $pear->min('5.3.0')->max('5.4.0')->exclude('5.3.1');
 $validator->pearversion = '5.3.0';
@@ -52,7 +52,7 @@ foreach ($errs->E_ERROR as $error) {
                         '5.3.1 fail message');
 }
 
-\PEAR2\Pyrus\Main::$options = array('force' => true);
+\Pyrus\Main::$options = array('force' => true);
 
 // reset multierrors
 $errs = new \PEAR2\MultiErrors;

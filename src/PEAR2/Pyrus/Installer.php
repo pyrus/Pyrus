@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Installer
+ * \Pyrus\Installer
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,14 +16,14 @@
 /**
  * Pyrus Installer class
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class Installer
 {
     /**
@@ -120,7 +120,7 @@ class Installer
      *
      * This function checks to see if an identical package is already being downloaded,
      * and manages removing duplicates or erroring out on a conflict
-     * @param \PEAR2\Pyrus\Package $package
+     * @param \Pyrus\Package $package
      */
     static function prepare(PackageInterface $package)
     {
@@ -142,7 +142,7 @@ class Installer
         }
 
         if (!isset(static::$installPackages[$fullPackageName])) {
-            // checking of validity for upgrade is done by \PEAR2\Pyrus\Package\Dependency::retrieve(),
+            // checking of validity for upgrade is done by \Pyrus\Package\Dependency::retrieve(),
             // so all deps that make it this far can be added
             if (Config::current()->registry->exists($package->name, $package->channel)) {
                 if (!$package->isUpgradeable() && !isset(Main::$options['force'])) {
@@ -446,11 +446,11 @@ class Installer
     /**
      * Install a fully downloaded package
      *
-     * Using \PEAR2\Pyrus\FileTransactions and the PEAR2\Pyrus\Installer\Role* to
+     * Using \Pyrus\FileTransactions and the Pyrus\Installer\Role* to
      * group files in appropriate locations, the install() method then passes
-     * on the registration of installation to \PEAR2\Pyrus\Registry.  If necessary,
+     * on the registration of installation to \Pyrus\Registry.  If necessary,
      * Config will update the install-time snapshots of configuration
-     * @param \PEAR2\Pyrus\Package $package
+     * @param \Pyrus\Package $package
      */
     function install(PackageInterface $package)
     {

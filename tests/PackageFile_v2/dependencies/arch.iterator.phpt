@@ -3,7 +3,7 @@ PackageFile v2: test package.xml dependencies property, arch iterator
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 $pf->dependencies['required']->arch['hi'] = true;
 $pf->dependencies['required']->arch['bye'] = false;
 $pf->dependencies['required']->arch['last'] = true;

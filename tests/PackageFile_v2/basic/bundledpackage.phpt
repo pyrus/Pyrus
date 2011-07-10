@@ -3,7 +3,7 @@ PackageFile v2: test SimpleProperty
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
-$package = new \PEAR2\Pyrus\PackageFile\v2;
+$package = new \Pyrus\PackageFile\v2;
 
 $package->fromArray(array('package' => array('contents' => array(
     'bundledpackage' => 'test'))));
@@ -42,7 +42,7 @@ foreach ($package->bundledpackage as $name => $name2) {
 try {
     $package->bundledpackage[] = 1;
     throw new Exception('[] = 1 worked and should not');
-} catch (\PEAR2\Pyrus\PackageFile\Exception $e) {
+} catch (\Pyrus\PackageFile\Exception $e) {
     $test->assertEquals('Can only set bundledpackage to string', $e->getMessage(),
         '[] = 1');
 }

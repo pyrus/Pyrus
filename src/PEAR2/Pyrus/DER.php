@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\DER
+ * \Pyrus\DER
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -20,15 +20,15 @@
  * used by Pyrus to validate a package's OpenSSL public key to implement
  * native package signing.
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  * @link      http://www.oss.com/asn1/dubuisson.html
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class DER implements \ArrayAccess
 {
     const SEQUENCE = 0x30;
@@ -48,24 +48,24 @@ class DER implements \ArrayAccess
     protected $value;
     protected $objs = array();
     protected $tagMap = array(
-        DER\BitString::TAG => 'PEAR2\Pyrus\DER\BitString',
-        DER\BMPString::TAG => 'PEAR2\Pyrus\DER\BMPString',
-        DER\Boolean::TAG => 'PEAR2\Pyrus\DER\Boolean',
-        DER\Enumerated::TAG => 'PEAR2\Pyrus\DER\Enumerated',
-        DER\GeneralizedTime::TAG => 'PEAR2\Pyrus\DER\GeneralizedTime',
-        DER\IA5String::TAG => 'PEAR2\Pyrus\DER\IA5String',
-        DER\Integer::TAG => 'PEAR2\Pyrus\DER\Integer',
-        DER\Null::TAG => 'PEAR2\Pyrus\DER\Null',
-        DER\NumericString::TAG => 'PEAR2\Pyrus\DER\NumericString',
-        DER\ObjectIdentifier::TAG => 'PEAR2\Pyrus\DER\ObjectIdentifier',
-        DER\OctetString::TAG => 'PEAR2\Pyrus\DER\OctetString',
-        DER\PrintableString::TAG => 'PEAR2\Pyrus\DER\PrintableString',
-        DER\Sequence::TAG => 'PEAR2\Pyrus\DER\Sequence',
-        DER\Set::TAG => 'PEAR2\Pyrus\DER\Set',
-        DER\UniversalString::TAG => 'PEAR2\Pyrus\DER\UniversalString',
-        DER\UTCTime::TAG => 'PEAR2\Pyrus\DER\UTCTime',
-        DER\UTF8String::TAG => 'PEAR2\Pyrus\DER\UTF8String',
-        DER\VisibleString::TAG => 'PEAR2\Pyrus\DER\VisibleString',
+        DER\BitString::TAG => 'Pyrus\DER\BitString',
+        DER\BMPString::TAG => 'Pyrus\DER\BMPString',
+        DER\Boolean::TAG => 'Pyrus\DER\Boolean',
+        DER\Enumerated::TAG => 'Pyrus\DER\Enumerated',
+        DER\GeneralizedTime::TAG => 'Pyrus\DER\GeneralizedTime',
+        DER\IA5String::TAG => 'Pyrus\DER\IA5String',
+        DER\Integer::TAG => 'Pyrus\DER\Integer',
+        DER\Null::TAG => 'Pyrus\DER\Null',
+        DER\NumericString::TAG => 'Pyrus\DER\NumericString',
+        DER\ObjectIdentifier::TAG => 'Pyrus\DER\ObjectIdentifier',
+        DER\OctetString::TAG => 'Pyrus\DER\OctetString',
+        DER\PrintableString::TAG => 'Pyrus\DER\PrintableString',
+        DER\Sequence::TAG => 'Pyrus\DER\Sequence',
+        DER\Set::TAG => 'Pyrus\DER\Set',
+        DER\UniversalString::TAG => 'Pyrus\DER\UniversalString',
+        DER\UTCTime::TAG => 'Pyrus\DER\UTCTime',
+        DER\UTF8String::TAG => 'Pyrus\DER\UTF8String',
+        DER\VisibleString::TAG => 'Pyrus\DER\VisibleString',
     );
 
     static function factory()
@@ -208,7 +208,7 @@ class DER implements \ArrayAccess
             return $this->_null();
         }
 
-        $class = 'PEAR2\Pyrus\DER\\' . ucfirst($func);
+        $class = 'Pyrus\DER\\' . ucfirst($func);
         if (!class_exists($class, 1)) {
             throw new DER\Exception('Unknown type ' . $func);
         }
@@ -234,7 +234,7 @@ class DER implements \ArrayAccess
         if (!isset($this->objs[$index])) {
             // essentially use this as an array of values
             $this->objs[$index] = $obj;
-        } elseif (get_class($this->objs[$index]) != 'PEAR2\Pyrus\DER') {
+        } elseif (get_class($this->objs[$index]) != 'Pyrus\DER') {
             $current = $this->objs[$index];
             $this->objs[$index] = new DER;
             $this->objs[$index]->setDepth($this->depth);
@@ -271,7 +271,7 @@ class DER implements \ArrayAccess
 
     function type()
     {
-        return substr(get_class($this), strlen('PEAR2\Pyrus\DER\\'));
+        return substr(get_class($this), strlen('Pyrus\DER\\'));
     }
 
     function isType($tag)
@@ -373,14 +373,14 @@ class DER implements \ArrayAccess
             if (isset($this->schema)) {
                 if ($this->schema->name) {
                     $ret = str_repeat(' ', $this->depth) . $this->schema->name . " [";
-                    $ret.= lcfirst(str_replace('PEAR2\Pyrus\DER\\', '', get_class($this))) . "]: ";
+                    $ret.= lcfirst(str_replace('Pyrus\DER\\', '', get_class($this))) . "]: ";
                 } else {
                     $ret = '';
                 }
-            } elseif (get_class($this) != 'PEAR2\Pyrus\DER') {
+            } elseif (get_class($this) != 'Pyrus\DER') {
                 $ret = str_repeat(' ', $this->depth);
                 $ret .=
-                    lcfirst(str_replace('PEAR2\Pyrus\DER\\', '', get_class($this))) .
+                    lcfirst(str_replace('Pyrus\DER\\', '', get_class($this))) .
                     ": ";
             } else {
                 $ret = str_repeat(' ', $this->depth) . '(multiple): ';
@@ -397,11 +397,11 @@ class DER implements \ArrayAccess
             if (isset($this->schema)) {
                 $ret .= str_repeat(' ', $this->depth) .
                     "end " . $this->schema->name . "\n";
-            } elseif (get_class($this) === 'PEAR2\Pyrus\DER') {
+            } elseif (get_class($this) === 'Pyrus\DER') {
                 $ret .= str_repeat(' ', $this->depth) . "end (multiple)\n";
             } else {
                 $ret .= str_repeat(' ', $this->depth) .
-                    "end " . lcfirst(str_replace('PEAR2\Pyrus\DER\\', '', get_class($this))) . "\n";
+                    "end " . lcfirst(str_replace('Pyrus\DER\\', '', get_class($this))) . "\n";
             }
 
             return $ret;
@@ -409,16 +409,16 @@ class DER implements \ArrayAccess
 
         if (isset($this->schema)) {
             return str_repeat(' ', $this->depth) . $this->schema->name . ' [' .
-                lcfirst(str_replace('PEAR2\Pyrus\DER\\', '', get_class($this))) . '] ' .
+                lcfirst(str_replace('Pyrus\DER\\', '', get_class($this))) . '] ' .
                 '(' . $this->valueToString() . ')';
         }
 
-        if (get_class($this) === 'PEAR2\Pyrus\DER') {
+        if (get_class($this) === 'Pyrus\DER') {
             return str_repeat(' ', $this->depth) . '[]';
         }
 
         return str_repeat(' ', $this->depth) .
-            lcfirst(str_replace('PEAR2\Pyrus\DER\\', '', get_class($this))) .
+            lcfirst(str_replace('Pyrus\DER\\', '', get_class($this))) .
             '(' . $this->valueToString() . ')';
     }
 

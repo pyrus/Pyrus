@@ -1,5 +1,5 @@
 <?php
-namespace PEAR2\Pyrus\Developer\PackageFile\PEAR2SVN;
+namespace Pyrus\Developer\PackageFile\PEAR2SVN;
 class Filter extends \FilterIterator
 {
     protected $path;

@@ -36675,8 +36675,8 @@ class PEAR2_Pyrus_Validate
  *
  * PHP version 5
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2008 The PEAR Group
@@ -36688,8 +36688,8 @@ class PEAR2_Pyrus_Validate
 /**
  * Process an XML file, convert it to an array
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2008 The PEAR Group
@@ -36941,8 +36941,8 @@ class PEAR2_Pyrus_XMLParser
 /**
  * Process an array, and serialize it into XML
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2008 The PEAR Group

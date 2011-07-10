@@ -1,12 +1,12 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::upgrade(), --force test, plugin
+\Pyrus\ScriptFrontend\Commands::upgrade(), --force test, plugin
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 $c = getTestConfig();
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'install', '-p',
                          __DIR__.'/Pyrus_Developer/package.xml'));
 
@@ -139,13 +139,13 @@ foreach($eq as $k => $v) {
     $expectedRes[str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $k)] = $v;
 }
 
-$test->assertEquals($expectedRes, \PEAR2\Pyrus\Config::current()->pluginregistry->info('PEAR2_Pyrus_Developer',
+$test->assertEquals($expectedRes, \Pyrus\Config::current()->pluginregistry->info('PEAR2_Pyrus_Developer',
                                                                                  'pear2.php.net',
                                                                                  'installedfiles'), 'file installed');
 
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'upgrade', '-f', '-p',
                          __DIR__.'/Pyrus_Developer/package.xml'));
 

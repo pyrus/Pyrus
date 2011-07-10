@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\XMLWriter
+ * \Pyrus\XMLWriter
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @author    Helgi Þormar Þorbjörnsson <helgi@php.net>
  * @copyright 2010 The PEAR Group
@@ -17,8 +17,8 @@
 /**
  * Process an array, and serialize it into XML
  *
- * @category   PEAR2
- * @package    PEAR2_Pyrus
+ * @category   Pyrus
+ * @package    Pyrus
  * @subpackage XML
  * @author     Greg Beaver <cellog@php.net>
  * @author     Helgi Þormar Þorbjörnsson <helgi@php.net>
@@ -26,7 +26,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class XMLWriter extends \XMLWriter
 {
     private $_array;
@@ -47,7 +47,7 @@ class XMLWriter extends \XMLWriter
      * Construct a new xml writer object.
      * <code>
      * $xmlarray = array('channel'=>array('name'=>'pear2.php.net'));
-     * $channel = new \PEAR2\Pyrus\XMLWriter($xmlarray);
+     * $channel = new \Pyrus\XMLWriter($xmlarray);
      * </code>
      *
      * @param array $array Array representing the XML data.
@@ -278,7 +278,7 @@ class XMLWriter extends \XMLWriter
                 }
             }
 
-            $this->_lastkey = array_filter($this->_lastkey, array('PEAR2\Pyrus\XMLWriter', '_filter'));
+            $this->_lastkey = array_filter($this->_lastkey, array('Pyrus\XMLWriter', '_filter'));
             $lastdepth = $depth;
             if ($this->_type !== 'Attribs') {
                 if ($key === '_content') {

@@ -5,7 +5,7 @@ class PEAR2_SimpleChannelServer_CLI
     /**
      * Channel object
      *
-     * @var \PEAR2\Pyrus\Channel
+     * @var \Pyrus\Channel
      */
     protected $channel;
     
@@ -22,7 +22,7 @@ class PEAR2_SimpleChannelServer_CLI
     {
         $channel_file = getcwd() . '/channel.xml';
         if (file_exists($channel_file)) {
-            $this->channel = new \PEAR2\Pyrus\Channel(new \PEAR2\Pyrus\ChannelFile($channel_file));
+            $this->channel = new \Pyrus\Channel(new \Pyrus\ChannelFile($channel_file));
         }
         $this->dir = getcwd();
     }
@@ -75,7 +75,7 @@ class PEAR2_SimpleChannelServer_CLI
                 && !$file->isDir()
                 && substr($file->getFilename(), -3) != 'tar'
                 && substr($file->getFilename(), 0, 1) != '.') {
-                $scs->saveRelease(new \PEAR2\Pyrus\Package($dirname.$file->getFilename()), $_SERVER['argv'][2]);
+                $scs->saveRelease(new \Pyrus\Package($dirname.$file->getFilename()), $_SERVER['argv'][2]);
             }
         }
     }
@@ -87,7 +87,7 @@ class PEAR2_SimpleChannelServer_CLI
             return;
         }
         $scs = new PEAR2_SimpleChannelServer($this->channel, $this->dir, $this->pyruspath);
-        $scs->saveRelease(new \PEAR2\Pyrus\Package($_SERVER['argv'][2]), $_SERVER['argv'][3]);
+        $scs->saveRelease(new \Pyrus\Package($_SERVER['argv'][2]), $_SERVER['argv'][3]);
         echo 'Release successfully saved.'.PHP_EOL;
     }
     

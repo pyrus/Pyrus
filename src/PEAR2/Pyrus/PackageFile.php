@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile
+ * \Pyrus\PackageFile
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,19 +16,19 @@
 /**
  * Base class for a PEAR2 package file
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class PackageFile implements PackageFileInterface
 {
     public $info;
     public $path;
-    function __construct($package, $class = 'PEAR2\Pyrus\PackageFile\v2', $isString = false)
+    function __construct($package, $class = 'Pyrus\PackageFile\v2', $isString = false)
     {
         if ($package instanceof PackageFileInterface) {
             $this->path = $package->getFilePath();

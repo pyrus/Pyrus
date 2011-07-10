@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::begin() with copy to journal directory
+\Pyrus\AtomicFileTransaction::begin() with copy to journal directory
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
@@ -29,11 +29,11 @@ $test->assertFileNotExists(TESTDIR . '/.journal-php/anothernew/dir',
 $test->assertFileNotExists(TESTDIR . '/.journal-php/anothernew/dir/file',
                            TESTDIR . '/.journal-php/another/dir/file before');
 
-$role = new \PEAR2\Pyrus\Installer\Role\Php(\PEAR2\Pyrus\Config::current(),
-                                            \PEAR2\Pyrus\Installer\Role::getInfo('php'));
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject($role);
+$role = new \Pyrus\Installer\Role\Php(\Pyrus\Config::current(),
+                                            \Pyrus\Installer\Role::getInfo('php'));
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject($role);
 
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\AtomicFileTransaction::begin();
 
 $test->assertFileExists(TESTDIR . '/php', TESTDIR . '/php after');
 $test->assertFileExists(TESTDIR . '/php/foo', TESTDIR . '/php/foo after');

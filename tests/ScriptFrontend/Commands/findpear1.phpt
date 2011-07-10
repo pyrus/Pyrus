@@ -1,11 +1,11 @@
 --TEST--
-\PEAR2\Pyrus\ScriptFrontend\Commands::_findPEAR test 1: explicit config path
+\Pyrus\ScriptFrontend\Commands::_findPEAR test 1: explicit config path
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
 
 ob_start();
-$cli = new \PEAR2\Pyrus\ScriptFrontend\Commands(true);
+$cli = new \Pyrus\ScriptFrontend\Commands(true);
 $cli->run($args = array (TESTDIR, 'help'));
 
 $contents = ob_get_contents();

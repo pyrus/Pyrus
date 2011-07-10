@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\ChannelRegistry::exists() basic test
+\Pyrus\ChannelRegistry::exists() basic test
 --FILE--
 <?php
 require dirname(__DIR__) . '/../setup.php.inc';

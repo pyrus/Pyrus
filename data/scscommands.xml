@@ -2,7 +2,7 @@
 <commands version="2.0" xmlns="http://pear2.php.net/dtd/customcommand-2.0">
  <command>
   <name>scs-update</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
   <summary>Simple channel server: Update all releases of a within the get/ directory.</summary>
   <shortcut>su</shortcut>
@@ -20,7 +20,7 @@ In addition, the handle configuration variable must be set to your handle
  </command>
  <command>
   <name>scs-create</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
   <summary>Simple channel server: Create a channel.xml, get/ and rest/ directory for a channel</summary>
   <shortcut>sc</shortcut>
@@ -58,7 +58,7 @@ specified by the location of the channel.xml file.
  </command>
  <command>
   <name>scs-add-maintainer</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
   <summary>Simple Channel Server: Add a new maintaing developer to the channel</summary>
   <shortcut>sam</shortcut>
@@ -90,7 +90,7 @@ to be listed prior to making their first release.
  </command>
  <command>
   <name>scs-add-category</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
   <summary>Simple Channel Server: Add a new category to the channel</summary>
   <shortcut>sac</shortcut>
@@ -116,7 +116,7 @@ command to create a new category.
  </command>
  <command>
   <name>scs-categorize</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
   <summary>Simple Channel Server: Categorize a package</summary>
   <shortcut>scat</shortcut>
@@ -141,7 +141,7 @@ Use this command to add a package to a category.
  </command>
  <command>
   <name>scs-release</name>
-  <class>PEAR2\Pyrus\ScriptFrontend\Commands</class>
+  <class>Pyrus\ScriptFrontend\Commands</class>
   <function>scsDummyStub</function>
   <summary>Simple Channel Server: Release a package</summary>
   <shortcut>sr</shortcut>

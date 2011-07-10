@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Channel\RemoteCategories
+ * \Pyrus\Channel\RemoteCategories
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,28 +16,28 @@
 /**
  * Remote REST iteration handler for category listing
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Channel;
+namespace Pyrus\Channel;
 class RemoteCategories implements \ArrayAccess, \Iterator
 {
     protected $parent;
     protected $rest;
     protected $categoryList;
 
-    function __construct(\PEAR2\Pyrus\ChannelInterface $channelinfo)
+    function __construct(\Pyrus\ChannelInterface $channelinfo)
     {
         $this->parent = $channelinfo;
         if (!isset($this->parent->protocols->rest['REST1.1'])) {
             throw new Exception('Cannot access remote categories without REST1.1 protocol');
         }
 
-        $this->rest = new \PEAR2\Pyrus\REST;
+        $this->rest = new \Pyrus\REST;
     }
 
     function offsetGet($var)

@@ -1,18 +1,18 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::mkdir(), use default mode
+\Pyrus\AtomicFileTransaction::mkdir(), use default mode
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
 getTestConfig();
 
 $old = umask(0444); // confirm this does not affect things
-\PEAR2\Pyrus\Config::current()->umask = 0002;
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
-\PEAR2\Pyrus\AtomicFileTransaction::begin();
+\Pyrus\Config::current()->umask = 0002;
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+\Pyrus\AtomicFileTransaction::begin();
 
 $atomic->mkdir('good');
 
-\PEAR2\Pyrus\AtomicFileTransaction::commit();
+\Pyrus\AtomicFileTransaction::commit();
 
 $test->assertFileExists(TESTDIR . '/src/good', TESTDIR . '/src/good should exist');
 

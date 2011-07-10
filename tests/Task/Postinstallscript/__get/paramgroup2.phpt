@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Task\Postinstallscript: accessing paramgroups 2
+\Pyrus\Task\Postinstallscript: accessing paramgroups 2
 --FILE--
 <?php
 include __DIR__ . '/setup.php.inc';

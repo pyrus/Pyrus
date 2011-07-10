@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Validate
+ * \Pyrus\Validate
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -15,14 +15,14 @@
 /**
  * Validation class for package.xml - channel-level advanced validation
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus;
+namespace Pyrus;
 class Validate
 {
 /**#@+
@@ -37,17 +37,17 @@ class Validate
 
     var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
     /**
-     * @var \PEAR2\Pyrus\PackageFileInterface
+     * @var \Pyrus\PackageFileInterface
      */
     var $_packagexml;
 
     /**
-     * @var \PEAR2\Pyrus\ChannelFileInterface
+     * @var \Pyrus\ChannelFileInterface
      */
     var $channel;
 
     /**
-     * @var int one of the \PEAR2\Pyrus\Validate::* constants
+     * @var int one of the \Pyrus\Validate::* constants
      */
     var $_state = Validate::NORMAL;
 
@@ -130,7 +130,7 @@ class Validate
     }
 
     /**
-     * @param \PEAR2\Pyrus\PackageFileInterface
+     * @param \Pyrus\PackageFileInterface
      */
     function setPackageFile(PackageFileInterface $pf)
     {
@@ -164,7 +164,7 @@ class Validate
     }
 
     /**
-     * @param int one of the \PEAR2\Pyrus\Validate::* constants
+     * @param int one of the \Pyrus\Validate::* constants
      */
     function validate($state = null)
     {

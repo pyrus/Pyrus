@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::commit() failure, can't create backup dir
+\Pyrus\AtomicFileTransaction::commit() failure, can't create backup dir
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.empty.php.inc';
@@ -26,7 +26,7 @@ $test->assertFileNotExists(TESTDIR . '/.journal-src/sub/deep/deep/thing', TESTDI
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir', TESTDIR . '/.journal-src/another/dir before');
 $test->assertFileNotExists(TESTDIR . '/.journal-src/anothernew/dir/file', TESTDIR . '/.journal-src/another/dir/file before');
 
-$atomic = \PEAR2\Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
+$atomic = \Pyrus\AtomicFileTransaction::getTransactionObject(TESTDIR . '/src');
 
 $atomic->begin();
 
@@ -63,9 +63,9 @@ $test->assertFileNotExists(TESTDIR . '/src/newfile', TESTDIR . '/.journal-src/ne
 
 mkdir(TESTDIR . '/.old-src');
 try {
-    \PEAR2\Pyrus\AtomicFileTransaction::commit();
+    \Pyrus\AtomicFileTransaction::commit();
     throw new Exception('Expected exception.');
-} catch (\PEAR2\Pyrus\AtomicFileTransaction\Exception $e) {
+} catch (\Pyrus\AtomicFileTransaction\Exception $e) {
     $cause = array();
     $e->getCauseMessage($cause);
     $test->assertEquals('CRITICAL - unable to complete transaction, rename of actual to backup path failed', $cause[1]['message'], 'error');

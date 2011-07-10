@@ -1,14 +1,14 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction\Manager::getTransaction(), string SplFileInfo
+\Pyrus\AtomicFileTransaction\Manager::getTransaction(), string SplFileInfo
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
 
-$role = new \PEAR2\Pyrus\Installer\Role\Php(\PEAR2\Pyrus\Config::current(), \PEAR2\Pyrus\Installer\Role::getInfo('php'));
+$role = new \Pyrus\Installer\Role\Php(\Pyrus\Config::current(), \Pyrus\Installer\Role::getInfo('php'));
 $transaction = $instance->getTransaction($role);
 
 $test->assertSame($transaction, $instance->getTransaction($role), 'must return the same instance');
-$test->assertIsa('PEAR2\Pyrus\AtomicFileTransaction\Transaction', $transaction, 'must be a Transaction instance');
+$test->assertIsa('Pyrus\AtomicFileTransaction\Transaction', $transaction, 'must be a Transaction instance');
 ?>
 ===DONE===
 --CLEAN--

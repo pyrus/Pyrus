@@ -3,7 +3,7 @@
 require __DIR__ . '/../../../../../autoload.php';
 
 set_include_path(__DIR__);
-$c = \PEAR2\Pyrus\Config::singleton(dirname(__DIR__), dirname(__DIR__) . '/pearconfig.xml');
+$c = \Pyrus\Config::singleton(dirname(__DIR__), dirname(__DIR__) . '/pearconfig.xml');
 $c->bin_dir = __DIR__ . '/bin';
 restore_include_path();
 $c->saveConfig();
@@ -13,7 +13,7 @@ $scs = new PEAR2\SimpleChannelServer\Main($chan, __DIR__, dirname(__DIR__) . '/P
 
 $scs->saveChannel();
 
-$pf = new \PEAR2\Pyrus\PackageFile\v2;
+$pf = new \Pyrus\PackageFile\v2;
 
 for ($i = 1; $i <= 4; $i++) {
     file_put_contents(__DIR__ . "/glooby$i", 'hi');
@@ -38,9 +38,9 @@ $pf->dependencies['group']->default->hint = 'default install group';
 $pf->dependencies['group']->default->package['pear2.php.net/P3']->save();
 
 file_put_contents(__DIR__ . '/package.xml', $pf);
-$package1 = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
+$package1 = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
 $package1->setInternalPackage($xml);
 $package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');
@@ -53,9 +53,9 @@ $pf->dependencies['group']->group->package['pear2.php.net/P4']->save();
 file_put_contents(__DIR__ . '/package.xml', $pf);
 
 file_put_contents(__DIR__ . '/package.xml', $pf);
-$package1 = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
+$package1 = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
 $package1->setInternalPackage($xml);
 $package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');
@@ -65,9 +65,9 @@ $pf->name = 'P3';
 $pf->files['glooby3'] = array('role' => 'php');
 file_put_contents(__DIR__ . '/package.xml', $pf);
 
-$package1 = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
+$package1 = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
 $package1->setInternalPackage($xml);
 $package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');
@@ -76,9 +76,9 @@ $pf = clone $save;
 $pf->name = 'P4';
 $pf->files['glooby4'] = array('role' => 'php');
 file_put_contents(__DIR__ . '/package.xml', $pf);
-$package1 = new \PEAR2\Pyrus\Package(false);
-$xmlcontainer = new \PEAR2\Pyrus\PackageFile($pf);
-$xml = new \PEAR2\Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
+$package1 = new \Pyrus\Package(false);
+$xmlcontainer = new \Pyrus\PackageFile($pf);
+$xml = new \Pyrus\Package\Xml(__DIR__ . '/package.xml', $package1, $xmlcontainer);
 $package1->setInternalPackage($xml);
 $package1->archivefile = __DIR__ . '/package.xml';
 $scs->saveRelease($package1, 'cellog');

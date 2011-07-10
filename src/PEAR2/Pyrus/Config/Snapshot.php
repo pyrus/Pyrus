@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\Config
+ * \Pyrus\Config
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -32,15 +32,15 @@
  * - local settings directory on windows for the current user.
  * - current directory
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\Config;
-class Snapshot extends \PEAR2\Pyrus\Config
+namespace Pyrus\Config;
+class Snapshot extends \Pyrus\Config
 {
     /**
      * parse a configuration for a PEAR2 installation
@@ -49,11 +49,11 @@ class Snapshot extends \PEAR2\Pyrus\Config
      *                              PATH_SEPARATOR-separated list of directories
      * @param string $userfile
      */
-    public function __construct($snapshot, \PEAR2\Pyrus\Config $config = null)
+    public function __construct($snapshot, \Pyrus\Config $config = null)
     {
         self::constructDefaults();
         if (!$config) {
-            $config = \PEAR2\Pyrus\Config::current();
+            $config = \Pyrus\Config::current();
         }
 
         $this->loadConfigFile($config->location, $snapshot);
@@ -74,8 +74,8 @@ class Snapshot extends \PEAR2\Pyrus\Config
      * Only 1 user configuration file is allowed, and contains user-specific
      * settings, including the locations where to download package releases
      * and where to cache files downloaded from the internet.  If false is passed
-     * in, \PEAR2\Pyrus\Config will attempt to guess at the config file location as
-     * documented in the class docblock {@link \PEAR2\Pyrus\Config}.
+     * in, \Pyrus\Config will attempt to guess at the config file location as
+     * documented in the class docblock {@link \Pyrus\Config}.
      * @param string $pearDirectory
      * @param string|false $userfile
      */
@@ -146,7 +146,7 @@ class Snapshot extends \PEAR2\Pyrus\Config
             }
         }
 
-        \PEAR2\Pyrus\Logger::log(5, 'Loading configuration snapshot ' .
+        \Pyrus\Logger::log(5, 'Loading configuration snapshot ' .
                              $snapshotfile . ' for ' . $pearDirectory);
         try {
             $this->helperLoadConfigFile($pearDirectory, $snapshotfile, 'snapshot');

@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\DER\Schema
+ * \Pyrus\DER\Schema
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -18,15 +18,15 @@
  *
  * This is used to name components and to retrieve context-specific types
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\DER;
-class Schema extends \PEAR2\Pyrus\DER
+namespace Pyrus\DER;
+class Schema extends \Pyrus\DER
 {
     static protected $types = array();
 
@@ -118,7 +118,7 @@ class Schema extends \PEAR2\Pyrus\DER
                 }
             }
         } else {
-            $class = 'PEAR2\Pyrus\DER\\' . ucfirst($func);
+            $class = 'Pyrus\DER\\' . ucfirst($func);
             if (!class_exists($class, 1)) {
                 throw new Exception('Unknown type ' . $func . ' at ' . $this->path());
             }
@@ -154,10 +154,10 @@ class Schema extends \PEAR2\Pyrus\DER
         if ($this instanceof SchemaChoice) {
             return true;
         }
-        if ($this->class === 'PEAR2\Pyrus\DER\Sequence') {
+        if ($this->class === 'Pyrus\DER\Sequence') {
             return true;
         }
-        if ($this->class === 'PEAR2\Pyrus\DER\Set') {
+        if ($this->class === 'Pyrus\DER\Set') {
             return true;
         }
         return false;
@@ -260,7 +260,7 @@ class Schema extends \PEAR2\Pyrus\DER
             }
             if (!$obj->optional()) {
                 if (isset($this->tagMap[$tag])) {
-                    $tag = '"' . str_replace('PEAR2\Pyrus\DER\\', '', $this->tagMap[$tag]) .
+                    $tag = '"' . str_replace('Pyrus\DER\\', '', $this->tagMap[$tag]) .
                         '" (0x' . dechex($tag) . ')';
                 } else {
                     $tag = dechex($tag);
@@ -272,7 +272,7 @@ class Schema extends \PEAR2\Pyrus\DER
             }
         }
         if (isset($this->tagMap[$tag])) {
-            $tag = '"' . str_replace('PEAR2\Pyrus\DER\\', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
+            $tag = '"' . str_replace('Pyrus\DER\\', '', $this->tagMap[$tag]) . '" (0x' . dechex($tag) . ')';
         } else {
             $tag = dechex($tag);
         }

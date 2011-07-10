@@ -1,11 +1,11 @@
 <?php
 /**
- * \PEAR2\Pyrus\PackageFile\v2Iterator\FileInstallationFilter
+ * \Pyrus\PackageFile\v2Iterator\FileInstallationFilter
  *
  * PHP version 5
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
@@ -16,27 +16,27 @@
 /**
  * filtered iterator for file installation
  *
- * @category  PEAR2
- * @package   PEAR2_Pyrus
+ * @category  Pyrus
+ * @package   Pyrus
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      http://svn.php.net/viewvc/pear2/Pyrus/
  */
-namespace PEAR2\Pyrus\PackageFile\v2Iterator;
+namespace Pyrus\PackageFile\v2Iterator;
 class FileInstallationFilter extends \FilterIterator
 {
     static private $_parent;
     static private $_installGroup;
 
-    static function setParent(\PEAR2\Pyrus\PackageFile\v2 $parent)
+    static function setParent(\Pyrus\PackageFile\v2 $parent)
     {
         self::$_parent = $parent;
         $errs = new \PEAR2\MultiErrors;
-        $depchecker = new \PEAR2\Pyrus\Dependency\Validator(
+        $depchecker = new \Pyrus\Dependency\Validator(
             array('channel' => self::$_parent->channel,
                   'package' => self::$_parent->name),
-            \PEAR2\Pyrus\Validate::INSTALLING, $errs);
+            \Pyrus\Validate::INSTALLING, $errs);
         foreach (self::$_parent->installGroup as $instance) {
             try {
                 if (isset($instance['installconditions'])) {
@@ -48,7 +48,7 @@ class FileInstallationFilter extends \FilterIterator
                             }
 
                             foreach ($conditions as $condition) {
-                                $condition = new \PEAR2\Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
+                                $condition = new \Pyrus\PackageFile\v2\Dependencies\Dep(null, $condition, $type);
                                 if (false === $depchecker->{"validate{$type}Dependency"}($condition)) {
                                     throw new \Exception('Cannot use this release.', null, $errs);
                                 }

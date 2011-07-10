@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\Config::constructDefaults() extension_dir from php.ini
+\Pyrus\Config::constructDefaults() extension_dir from php.ini
 --SKIPIF--
 <?php if (!ini_get('extension_dir')) die("skip extension_dir not set"); ?>
 --ENV--

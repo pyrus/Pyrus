@@ -2,13 +2,13 @@
 include __DIR__ . '/../test_framework.php.inc';
 mkdir(TESTDIR);
 set_include_path(TESTDIR);
-$c = \PEAR2\Pyrus\Config::singleton(TESTDIR, TESTDIR .
+$c = \Pyrus\Config::singleton(TESTDIR, TESTDIR .
                                    DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . 'foo.xml');
 $c->bin_dir = TESTDIR . '/bin';
 restore_include_path();
 $c->saveConfig();
 
-class test_Config extends \PEAR2\Pyrus\Config
+class test_Config extends \Pyrus\Config
 {
     static function getDefaultUserConfigFile()
     {
@@ -16,7 +16,7 @@ class test_Config extends \PEAR2\Pyrus\Config
     }
 }
 
-class test_scriptfrontend extends \PEAR2\Pyrus\ScriptFrontend\Commands
+class test_scriptfrontend extends \Pyrus\ScriptFrontend\Commands
 {
     public static $configclass = 'test_Config';
     public static $stdin = array();

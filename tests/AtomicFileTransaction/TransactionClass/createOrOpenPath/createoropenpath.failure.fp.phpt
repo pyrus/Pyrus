@@ -1,5 +1,5 @@
 --TEST--
-\PEAR2\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened
+\Pyrus\AtomicFileTransaction::createOrOpenPath(), path can't be opened
 --FILE--
 <?php
 require dirname(__DIR__) . '/setup.php.inc';
