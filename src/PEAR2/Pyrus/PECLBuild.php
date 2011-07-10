@@ -174,6 +174,7 @@ class PECLBuild
         } else {
             $extReplace = '****';
         }
+
         $built_files = array();
         foreach (new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($dirname,
@@ -243,25 +244,38 @@ class PECLBuild
         } else {
             $dir = $config->src_dir . DIRECTORY_SEPARATOR . $pkg->name;
         }
+
+        // Find config. outside of normal path - e.g. config.m4
+        foreach (array_keys($pkg->installcontents) as $item) {
+          if (stristr(basename($item), 'config.m4')) {
+            $dir .= DIRECTORY_SEPARATOR . dirname($item);
+            break;
+          }
+        }
+
         $this->buildDirectory = $dir;
         $old_cwd = getcwd();
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
             throw new PECLBuild\Exception('could not chdir to package directory ' . $dir);
         }
+
         if (!is_writable($dir)) {
             throw new PECLBuild\Exception('cannot build in package directory ' . $dir .
                                                       ', directory not writable');
         }
+
         $path = $config->bin_dir;
         if ($env_path = getenv('PATH')) {
             $path .= ':' . $env_path;
         }
+
         $this->log(0, "cleaning build directory $dir");
         $this->_runCommand($config->php_prefix
                                 . "phpize" .
                                 $config->php_suffix . ' --clean',
                                 null,
                                 array('PATH' => $path));
+
         $this->log(0, "building in $dir");
         if (!$this->_runCommand($config->php_prefix
                                 . "phpize" .
@@ -314,7 +328,7 @@ class PECLBuild
         // this next line is modified by the installer at packaging time
         if ('@PEAR-VER@' == '@'.'PEAR-VER@') {
             // we're running from svn
-            $env['PHP_PEAR_VERSION'] = '2.0.0a1';
+            $env['PHP_PEAR_VERSION'] = '2.0.0a4';
         } else {
             $env['PHP_PEAR_VERSION'] = '@PEAR-VER@';
         }
@@ -335,11 +349,13 @@ class PECLBuild
             chdir($old_cwd);
             throw new PECLBuild\Exception("no `modules' directory found");
         }
+
         $built_files = array();
         $prefix = exec($config->php_prefix
                         . "php-config" .
                        $config->php_suffix . " --prefix");
         $built_files = $this->harvestInstDir($prefix, $inst_dir . DIRECTORY_SEPARATOR . $prefix, $inst_dir);
+
         chdir($old_cwd);
         return $built_files;
     }
