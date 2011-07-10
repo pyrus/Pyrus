@@ -1,3 +1,3 @@
 API notes for 2.0.0a4:
 
- - Add PEAR2\Pyrus\Channel\RemotePackage::getLatestVersion() [saltybeagle]
+ - Add Pyrus\Channel\RemotePackage::getLatestVersion() [saltybeagle]
