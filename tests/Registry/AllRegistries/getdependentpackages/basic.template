@@ -2,24 +2,28 @@
 $test->assertEquals(array(), $reg->listPackages('pear2.php.net'), 'before pear2');
 $test->assertEquals(array(), $reg->listPackages('pear.php.net'), 'before pear');
 $reg->install($info);
+
 $template = new \Pyrus\PackageFile\v2;
 $template->summary = 'hi';
 $template->description = 'hi';
 $template->maintainer['cellog']->role('lead')->name('Greg')->active('yes')->email('cellog@php.net');
 $template->date = '2009-03-29';
 $template->notes = 'hi';
+
 $info = clone $template;
 $info->name = 'HooHa';
 $info->channel = 'pear2.php.net';
 $info->files['one'] = array('role' => 'php');
 $info->dependencies['required']->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
 $reg->install($info);
+
 $info = clone $template;
 $info->name = 'HooHa2';
 $info->channel = 'pear2.php.net';
 $info->files['two'] = array('role' => 'php');
 $info->dependencies['optional']->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
 $reg->install($info);
+
 $info = clone $template;
 $info->name = 'HooHa2';
 $info->channel = 'pear.php.net';
@@ -27,14 +31,17 @@ $info->files['three'] = array('role' => 'php');
 $info->dependencies['group']->groupone->hint = 'hi';
 $info->dependencies['group']->groupone->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
 $reg->install($info);
+
 $info->channel = 'pear2.php.net';
 $info->name = 'PEAR2_SimpleChannelServer';
 $packages = $reg->getDependentPackages($info);
+
 $names = array();
 foreach ($packages as $i => $package) {
     $test->assertIsa('\Pyrus\PackageFileInterface', $package, 'class ' . $i);
     $names[] = $package->channel . '/' . $package->name;
 }
+
 sort($names);
 $test->assertEquals(array('pear.php.net/HooHa2', 'pear2.php.net/HooHa', 'pear2.php.net/HooHa2'), $names, 'names');
 ?>
