@@ -32,6 +32,7 @@ $info->dependencies['group']->groupone->hint = 'hi';
 $info->dependencies['group']->groupone->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
 $reg->install($info);
 
+$info = new \Pyrus\PackageFile\v2;
 $info->channel = 'pear2.php.net';
 $info->name = 'PEAR2_SimpleChannelServer';
 $packages = $reg->getDependentPackages($info);
