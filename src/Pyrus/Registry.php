@@ -226,7 +226,7 @@ class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
 
     /**
      * Get a package object from the registry
-     * 
+     *
      * @return \Pyrus\Package\Installed
      */
     function toPackage($package, $channel)
