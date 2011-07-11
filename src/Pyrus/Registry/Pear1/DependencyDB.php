@@ -11,7 +11,7 @@
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.php.net/viewvc/pear2/Pyrus/
+ * @link      https://github.com/pyrus/Pyrus
  */
 
 /**
@@ -23,7 +23,7 @@
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   SVN: $Id$
- * @link      http://svn.php.net/viewvc/pear2/Pyrus/
+ * @link      https://github.com/pyrus/Pyrus
  */
 namespace Pyrus\Registry\Pear1;
 use \Pyrus\Registry as Registry;

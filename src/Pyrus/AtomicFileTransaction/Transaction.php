@@ -12,7 +12,7 @@ use Pyrus\IOException;
  * @author    Warnar Boekkooi, Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.php.net/viewvc/pear2/Pyrus/
+ * @link      https://github.com/pyrus/Pyrus
  */
 class Transaction extends Transaction\TwoStage
 {

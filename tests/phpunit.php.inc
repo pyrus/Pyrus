@@ -5,10 +5,10 @@ require_once 'PHP/CodeCoverage.php';
 // Setup autoloader
 function pyrus_autoload($class)
 {
-    if (strpos($class, 'PEAR2\\Pyrus\\') === false) {
+    if (strpos($class, 'Pyrus\\') === false) {
         return false;
     }
-    $class = str_replace(array('PEAR2\\', '_', '\\'), '/', $class);
+    $class = str_replace(array('', '_', '\\'), '/', $class);
 
     $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . $class . '.php';
     if (file_exists($path)) {

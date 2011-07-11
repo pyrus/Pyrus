@@ -18,7 +18,7 @@ Installed pear2.php.net/PEAR2_Pyrus_Developer-0.1.0' . "\n",
                     $contents,
                     'list packages');
 
-$test->assertFileExists(TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
+$test->assertFileExists(TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/PEAR2SVN.php',
                         'PEAR2SVN.php not installed properly');
 $eq = array (
   TESTDIR . '/plugins/data/pear2.php.net/PEAR2_Pyrus_Developer/commands.xml' =>
@@ -39,93 +39,93 @@ $eq = array (
     'relativepath' => 'pear2.php.net/PEAR2_Pyrus_Developer/phartemplate.php',
     'configpath' => TESTDIR . '/plugins/data',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Exception.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Exception.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Exception.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Exception.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Exception.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Exception.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Phar.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Phar.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Phar.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Phar.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Phar/PHPArchive.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Phar/PHPArchive.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Phar/PHPArchive.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Phar/PHPArchive.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Tar.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Tar.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Tar.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Tar.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Tar.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Tar.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Xml.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Xml.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Xml.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Xml.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Xml.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Xml.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Zip.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Zip.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/Creator/Zip.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/Creator/Zip.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/Creator/Zip.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/Creator/Zip.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/Commands.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/Commands.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/Commands.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/Commands.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/Commands.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/Commands.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/PEAR2SVN.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/PEAR2SVN.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/PEAR2SVN.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/PEAR2SVN/Filter.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),
-  TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/v2.php' =>
+  TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/v2.php' =>
   array (
     'role' => 'php',
     'name' => 'src/Pyrus/Developer/PackageFile/v2.php',
     'baseinstalldir' => 'PEAR2',
-    'installed_as' => TESTDIR . '/plugins/php/PEAR2/Pyrus/Developer/PackageFile/v2.php',
+    'installed_as' => TESTDIR . '/plugins/php/Pyrus/Developer/PackageFile/v2.php',
     'relativepath' => 'PEAR2/Pyrus/Developer/PackageFile/v2.php',
     'configpath' => TESTDIR . '/plugins/php',
   ),

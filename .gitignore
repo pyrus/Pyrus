@@ -5,4 +5,5 @@
 /.buildpath
 /autoload.php
 /PEAR2_Pyrus-*.*
+/Pyrus-*.*
 *.komodoproject

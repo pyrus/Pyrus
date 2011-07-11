@@ -30,7 +30,7 @@ try {
     $c->foo();
     throw new Exception('Expected exception.');
 } catch (Exception $e) {
-    $test->assertEquals('unknown method: PEAR2\\Pyrus\\ChannelFile::foo', $e->getMessage(), 'error 2');
+    $test->assertEquals('unknown method: Pyrus\\ChannelFile::foo', $e->getMessage(), 'error 2');
 }
 
 ?>
