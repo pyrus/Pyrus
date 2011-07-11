@@ -289,7 +289,7 @@ abstract class Base
     {
         $xml = \Pyrus\Main::getDataPath() . '/default_channels/' . $channel . '.xml';
         if (!file_exists($xml)) {
-            $xml = dirname(dirname(dirname(dirname(__DIR__)))).'/data/default_channels/' . $channel . '.xml';
+            $xml = dirname(dirname(dirname(__DIR__))).'/data/default_channels/' . $channel . '.xml';
         }
         $parser = new \Pyrus\ChannelFile\Parser\v1;
         $info = $parser->parse($xml, true);
