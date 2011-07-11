@@ -201,7 +201,7 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
         $d = \Pyrus\Main::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
         // for running out of svn
         if (!file_exists($d)) {
-            $d = realpath(__DIR__ . '/../../../../data/x509rootcerts');
+            $d = realpath(__DIR__ . '/../../../data/x509rootcerts');
         } else {
             if (strpos($d, 'phar://') === 0) {
                 if (!file_exists($temp = Config::current()->temp_dir .

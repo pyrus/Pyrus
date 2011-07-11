@@ -134,7 +134,7 @@ http://pear.php.net/dtd/channel-1.0.xsd'
         $schema = \Pyrus\Main::getDataPath() . '/channel-1.0.xsd';
         // for running out of svn
         if (!file_exists($schema)) {
-            $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/channel-1.0.xsd';
+            $schema = dirname(dirname(dirname(__DIR__))) . '/data/channel-1.0.xsd';
         }
 
         try {

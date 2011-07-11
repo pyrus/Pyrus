@@ -60,7 +60,7 @@ class PluginRegistry extends \Pyrus\Registry
         $parser = new XMLParser;
         $schemapath = Main::getDataPath();
         if (!file_exists(Main::getDataPath() . '/channel-1.0.xsd')) {
-            $schemapath = realpath(__DIR__ . '/../../../data');
+            $schemapath = realpath(__DIR__ . '/../../data');
         }
 
         $roleschema    = $schemapath . '/customrole-2.0.xsd';

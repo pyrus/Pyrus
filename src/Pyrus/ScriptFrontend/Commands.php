@@ -68,19 +68,21 @@ class Commands implements \Pyrus\LogInterface
         if (!$debugging) {
             set_exception_handler(array($this, 'exceptionHandler'));
         }
+
         \Pyrus\Logger::attach($this);
         if (!isset(static::$commandParser)) {
             $schemapath = \Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
             $defaultcommands = \Pyrus\Main::getDataPath() . '/built-in-commands.xml';
             if (!file_exists($schemapath)) {
-                $schemapath = realpath(__DIR__ . '/../../../../data/customcommand-2.0.xsd');
-                $defaultcommands = realpath(__DIR__ . '/../../../../data/built-in-commands.xml');
+                $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
+                $defaultcommands = realpath(__DIR__ . '/../../../data/built-in-commands.xml');
             }
+
             $parser = new \Pyrus\XMLParser;
             $commands = $parser->parse($defaultcommands, $schemapath);
             $commands = $commands['commands']['command'];
             if ('@PACKAGE_VERSION@' == '@'.'PACKAGE_VERSION@') {
-                $version = '2.0.0a1'; // running from svn
+                $version = '2.0.0a4'; // running from svn
             } else {
                 $version = '@PACKAGE_VERSION@';
             }
@@ -219,8 +221,8 @@ class Commands implements \Pyrus\LogInterface
         $schemapath = \Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
         $defaultcommands = \Pyrus\Main::getDataPath() . '/' . $type . 'commands.xml';
         if (!file_exists($schemapath)) {
-            $schemapath = realpath(__DIR__ . '/../../../../data/customcommand-2.0.xsd');
-            $defaultcommands = realpath(__DIR__ . '/../../../../data/' . $type . 'commands.xml');
+            $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
+            $defaultcommands = realpath(__DIR__ . '/../../../data/' . $type . 'commands.xml');
         }
         $parser = new \Pyrus\XMLParser;
         $commands = $parser->parse($defaultcommands, $schemapath);
@@ -381,7 +383,7 @@ previous:
     protected function _initializeConfiguration()
     {
         echo "Pyrus: No user configuration file detected\n";
-        
+
         if ('yes' !== $this->ask("It appears you have not used Pyrus before, welcome!  Initialize install?", array('yes', 'no'), 'yes')) {
             echo "OK, thank you, finishing execution now\n";
             exit;
@@ -401,7 +403,7 @@ previous:
             echo $path," exists, and is not a directory\n";
             goto previous;
         }
-        
+
         $config = $configclass::singleton($path);
         $config->saveConfig();
         echo "Thank you, enjoy using Pyrus\n";

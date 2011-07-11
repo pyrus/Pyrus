@@ -205,7 +205,7 @@ class Role
 
         $schemapath = \Pyrus\Main::getDataPath() . '/customrole-2.0.xsd';
         if (!file_exists($schemapath)) {
-            $schemapath = realpath(__DIR__ . '/../../../../data/customrole-2.0.xsd');
+            $schemapath = realpath(__DIR__ . '/../../../data/customrole-2.0.xsd');
         }
 
         while ($entry = readdir($dp)) {
