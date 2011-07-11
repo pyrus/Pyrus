@@ -1,5 +1,7 @@
 --TEST--
 
+--SKIPIF--
+skip
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
