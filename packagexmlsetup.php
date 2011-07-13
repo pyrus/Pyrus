@@ -19,3 +19,6 @@ $package->files['scripts/pyrus'] = array(
                              array('from' => '@php_dir@', 'to' => 'php_dir', 'type' => 'pear-config'))
 );
 
+if (isset($package->files['data/local-developer-commands.xml'])) {
+    unset($package->files['data/local-developer-commands.xml']);
+}
