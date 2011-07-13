@@ -73,14 +73,31 @@ class Commands implements \Pyrus\LogInterface
         if (!isset(static::$commandParser)) {
             $schemapath = \Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
             $defaultcommands = \Pyrus\Main::getDataPath() . '/built-in-commands.xml';
+
+            $localcommands = false;
+
             if (!file_exists($schemapath)) {
+                // We're running from source
                 $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
                 $defaultcommands = realpath(__DIR__ . '/../../../data/built-in-commands.xml');
+
+                // Check for a local-developer-commands.xml file
+                if (file_exists(__DIR__ . '/../../../data/local-developer-commands.xml')) {
+                    $localcommands = realpath(__DIR__ . '/../../../data/local-developer-commands.xml');
+                }
+
             }
 
             $parser = new \Pyrus\XMLParser;
             $commands = $parser->parse($defaultcommands, $schemapath);
             $commands = $commands['commands']['command'];
+
+            if ($localcommands) {
+                // Add in local commands
+                $localcommands = $parser->parse($localcommands, $schemapath);
+                $commands = array_merge($commands, $localcommands['commands']['command']);
+            }
+
             if ('@PACKAGE_VERSION@' == '@'.'PACKAGE_VERSION@') {
                 $version = '2.0.0a4'; // running from svn
             } else {

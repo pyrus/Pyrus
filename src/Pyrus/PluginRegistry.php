@@ -149,6 +149,10 @@ class PluginRegistry extends \Pyrus\Registry
                 return;
             }
         } else {
+            if (self::$config == null) {
+                // We have no known config, running from dev
+                return;
+            }
             $fullPath = realpath(self::$config->php_dir . DIRECTORY_SEPARATOR . $autoloadPath);
         }
 
