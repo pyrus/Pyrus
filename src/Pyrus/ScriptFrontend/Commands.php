@@ -432,7 +432,7 @@ previous:
         if ('yes' === $this->ask('The "' . $command->command_name .
                                  '" command is in the developer tools.  Install developer tools?',
                     array('yes', 'no'), 'no')) {
-            return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
+            return $this->upgrade(array('package' => array('pear2.php.net/Pyrus_Developer-alpha')),
                            array('plugin' => true, 'force' => false, 'optionaldeps' => false));
         }
     }
@@ -470,7 +470,7 @@ previous:
                                                      '" command is in the developer tools.  Install developer tools?',
                                         array('yes', 'no'), 'no')) {
                                 return $this->upgrade(array('package' =>
-                                                            array('pear2.php.net/PEAR2_Pyrus_Developer-alpha')),
+                                                            array('pear2.php.net/Pyrus_Developer-alpha')),
                                                array('plugin' => true, 'force' => false, 'optionaldeps' => false));
                             }
                         default :
