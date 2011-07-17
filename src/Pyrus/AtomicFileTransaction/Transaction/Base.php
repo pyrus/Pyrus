@@ -47,7 +47,7 @@ class Base
         $this->path = FS::path($path);
 
         $parentPath = dirname($path);
-        $this->journalPath = FS::combine($parentPath, '.journal-' . basename($path));
+        $this->journalPath = $parentPath . DIRECTORY_SEPARATOR . '.journal-' . basename($path);
     }
 
     /**

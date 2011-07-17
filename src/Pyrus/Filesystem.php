@@ -17,26 +17,9 @@ abstract class Filesystem
         return str_replace(array('\\','/'), DIRECTORY_SEPARATOR, $path);
     }
 
-    /**
-     * Combine the arguments of the function into a file path.
-     *
-     * @static
-     * @return string
-     */
-    public static function combine()
-    {
-        return implode(DIRECTORY_SEPARATOR, func_get_args());
-    }
-
-    public static function explode($path)
-    {
-        return explode(array('\\','/'), $path);
-    }
-
     public static function rmrf($path, $onlyEmptyDirs = false, $strict = true)
     {
-        $paths = array();
-        $oldPerms = array();
+        $oldPerms = $paths = array();
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path),
             \RecursiveIteratorIterator::SELF_FIRST);
         while ($iterator->valid()) {
@@ -44,18 +27,15 @@ abstract class Filesystem
                 $iterator->next();
                 continue;
             }
+
             $pathName = $iterator->current()->getPathName();
             $paths[] = $pathName;
             if ($strict) {
                 $oldPerms[$pathName] = fileperms($pathName);
             }
 
-            if (is_dir($pathName)) {
-                chmod($pathName, 0777);
-            } else {
-                chmod($pathName, 0666);
-            }
-
+            $chmod = is_dir($pathName) ? 0777 : 0666;
+            chmod($pathName, $chmod);
             $iterator->next();
         }
 
@@ -63,9 +43,10 @@ abstract class Filesystem
         try {
             foreach ($paths as $filePath) {
                 if (is_dir($filePath)) {
-                    if (rmdir($filePath)) {
+                    if (@rmdir($filePath)) {
                         continue;
                     }
+
                     if (!$strict) {
                         continue;
                     }
@@ -82,7 +63,7 @@ abstract class Filesystem
                         'Unable to fully remove ' . $path . ', directory is not empty');
                 }
 
-                if (!unlink($filePath)) {
+                if (!@unlink($filePath)) {
                     throw new IOException(
                         'Unable to fully remove ' . $path);
                 }
@@ -100,7 +81,7 @@ abstract class Filesystem
 
         // ensure rmdir works
         chmod($path, 0777);
-        if (!rmdir($path) && $strict) {
+        if (!@rmdir($path) && $strict) {
             throw new IOException('Unable to fully remove ' . $path);
         }
     }
@@ -129,6 +110,7 @@ abstract class Filesystem
                 if (isset($done[$targetPath])) {
                     continue;
                 }
+
                 $done[$targetPath] = true;
 
                 // Copy directory or file
@@ -142,6 +124,7 @@ abstract class Filesystem
                         'Unable to copy directory, failed to copy the file');
 
                 }
+
                 if (!chmod($targetPath, $file->getPerms())) {
                     throw new IOException(
                         'Unable to copy directory, failed to set permissions');

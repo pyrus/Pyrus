@@ -30,7 +30,7 @@ class TwoStage extends Base
     public function __construct($path)
     {
         parent::__construct($path);
-        $this->backupPath = FS::combine(dirname($this->path), '.old-' . basename($path));
+        $this->backupPath = dirname($this->path) . DIRECTORY_SEPARATOR . '.old-' . basename($path);
     }
 
     /**
