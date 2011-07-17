@@ -10,7 +10,7 @@ require_once __DIR__ . '/../vendor/php/PEAR2/Autoload.php';
 @include_once 'Text/Diff/Renderer.php';
 @include_once 'Text/Diff/Renderer/unified.php';
 error_reporting($__e);
-class PEAR2_PHPT
+class Pyrus_PHPT
 {
     var $_diffonly;
     function __construct($diffonly = false)
@@ -210,7 +210,7 @@ class PEAR2_PHPT
         $this->_diffonly = false;
     }
 }
-$test = new PEAR2_PHPT();
+$test = new Pyrus_PHPT;
 
 // Setup work directory
 define('TESTDIR', __DIR__ . DIRECTORY_SEPARATOR . 'testit');
