@@ -32,7 +32,9 @@ $info->dependencies['group']->groupone->hint = 'hi';
 $info->dependencies['group']->groupone->package['pear2.php.net/PEAR2_SimpleChannelServer']->min('0.1.0');
 $reg->install($info);
 
-$info = new \Pyrus\PackageFile\v2;
+$test->assertEquals(array('HooHa', 'HooHa2', 'PEAR2_SimpleChannelServer'), $reg->listPackages('pear2.php.net'), 'after pear2');
+$test->assertEquals(array('HooHa2'), $reg->listPackages('pear.php.net'), 'after pear');
+
 $info->channel = 'pear2.php.net';
 $info->name = 'PEAR2_SimpleChannelServer';
 $packages = $reg->getDependentPackages($info);
