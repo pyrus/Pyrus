@@ -221,6 +221,7 @@ mkdir(TESTDIR);
 chdir(TESTDIR);
 
 function getTestConfig() {
+    \PEAR2\Autoload::initialize(TESTDIR);
     set_include_path(TESTDIR);
     $c = \Pyrus\Config::singleton(TESTDIR, TESTDIR . '/plugins/pearconfig.xml');
     $c->bin_dir = TESTDIR . '/bin';
