@@ -28,20 +28,20 @@ $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                     $contents,
                     'installation info');
 
-$test->assertFileExists(TESTDIR . '/' . TESTDIR . '/bin/pearscs', 'bin/pearscs');
-$test->assertEquals(decoct(0755), decoct(0777 & fileperms(TESTDIR . '/' . TESTDIR . '/bin/pearscs')), 'bin/pearscs perms');
-$test->assertFileExists(TESTDIR . TESTDIR . '/php/PEAR2/SimpleChannelServer.php',
-                        'src/PEAR2/SimpleChannelServer.php');
+$test->assertFileExists(TESTDIR . '/bin/pearscs', 'bin/pearscs');
+$test->assertEquals(decoct(0755), decoct(0777 & fileperms(TESTDIR . '/bin/pearscs')), 'bin/pearscs perms');
+
+$test->assertFileExists(TESTDIR . '/php/PEAR2/SimpleChannelServer.php', 'src/PEAR2/SimpleChannelServer.php');
 $test->assertEquals(file_get_contents(__DIR__.'/../../Mocks/SimpleChannelServer/src/SimpleChannelServer.php'),
-                    file_get_contents(TESTDIR . '/' . TESTDIR . '/php/PEAR2/SimpleChannelServer.php'), 'files match');
+                    file_get_contents(TESTDIR . '/php/PEAR2/SimpleChannelServer.php'), 'files match');
 
 $test->assertEquals(array (
-  '' . TESTDIR . '/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php' =>
+  '' . TESTDIR . '/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php' =>
   array (
     'role' => 'doc',
     'name' => 'examples/update_channel.php',
-    'installed_as' => '' . TESTDIR . '/docs/PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
-    'relativepath' => 'PEAR2_SimpleChannelServer/pear2.php.net/examples/update_channel.php',
+    'installed_as' => '' . TESTDIR . '/docs/pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
+    'relativepath' => 'pear2.php.net/PEAR2_SimpleChannelServer/examples/update_channel.php',
     'configpath' => '' . TESTDIR . '/docs',
   ),
   TESTDIR . '/bin/pearscs' =>
