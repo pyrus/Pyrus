@@ -9,7 +9,6 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version   SVN: $Id$
  * @link      https://github.com/pyrus/Pyrus
  */
 
@@ -61,7 +60,7 @@ class Main
             return $val;
         }
 
-        $val = dirname(dirname(dirname(__DIR__))) . '/data/pear2.php.net/PEAR2_Pyrus';
+        $val = dirname(dirname(dirname(__DIR__))) . '/data/pear2.php.net/Pyrus';
         return $val;
     }
 
@@ -103,7 +102,7 @@ class Main
      * @param false|string|array $lastmodified header values to check against for caching
      *                           use false to return the header values from this download
      * @param false|array $accept Accept headers to send
-     * 
+     *
      * @return PEAR2\HTTP\Request\Response Object representing the response
      *
      * @access public
@@ -179,6 +178,7 @@ class Main
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
         }
+
         if ($response->code === 0 && $response->body === false) {
             throw new HTTPException(
                 "File $url not valid (received a invalid response)", 500);
