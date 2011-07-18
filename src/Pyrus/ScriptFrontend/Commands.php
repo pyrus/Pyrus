@@ -9,7 +9,6 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version   SVN: $Id$
  * @link      https://github.com/pyrus/Pyrus
  */
 
@@ -252,7 +251,7 @@ class Commands implements \Pyrus\LogInterface
      * correct command/method.
      *
      * <code>
-     * $cli = \Pyrus\ScriptFrontend\Commands();
+     * $cli = \Pyrus\ScriptFrontend\Commands;
      * $cli->run($args = array (0 => 'install',
      *                          1 => 'PEAR2/Pyrus_Developer/package.xml'));
      * </code>
@@ -824,7 +823,7 @@ previous:
      * Display pyrus configuration vars
      *
      */
-    function configShow($args, $options)
+    protected function configShow($args, $options)
     {
         $conf = $current = \Pyrus\Config::current();
         if ($options['plugin']) {
@@ -864,17 +863,25 @@ previous:
      */
     function get($args, $options)
     {
+        if (empty($args['variable'])) {
+            return $this->configShow($args, $options);
+        }
+
         $conf = $current = \Pyrus\Config::current();
         if ($options['plugin']) {
             $conf = \Pyrus\Config::singleton(\Pyrus\Config::current()->plugins_dir);
         }
-        if (in_array($args['variable'], $conf->uservars)
-            || in_array($args['variable'], $conf->systemvars)) {
+
+        if (
+            in_array($args['variable'], $conf->uservars)
+            || in_array($args['variable'], $conf->systemvars)
+        ) {
             echo $conf->{$args['variable']} . PHP_EOL;
         } else {
             echo "Unknown config variable: $args[variable]\n";
             exit(1);
         }
+
         if ($options['plugin']) {
             \Pyrus\Config::setCurrent($current->path);
         }

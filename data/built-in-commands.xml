@@ -426,26 +426,6 @@ for answers to queries posed by the post-install script, and executes
 based on the answers provided.</doc>
  </command>
  <command>
-  <name>config-show</name>
-  <class>Pyrus\ScriptFrontend\Commands</class>
-  <function>configShow</function>
-  <summary>Show all configuration values</summary>
-  <shortcut>cs</shortcut>
-  <options>
-   <option>
-    <name>plugin</name>
-    <shortopt>p</shortopt>
-    <type><bool/></type>
-    <doc>List plugin configuration only</doc>
-   </option>
-  </options>
-  <arguments/>
-  <doc>List all configuration values.
-
-This lists configuration values, organized by system configuration settings and
-user configuration settings.</doc>
- </command>
- <command>
   <name>set</name>
   <class>Pyrus\ScriptFrontend\Commands</class>
   <function>set</function>
@@ -482,7 +462,7 @@ php pyrus.phar set download_dir /home/blah/downloads</doc>
   <name>get</name>
   <class>Pyrus\ScriptFrontend\Commands</class>
   <function>get</function>
-  <summary>Get a configuration value</summary>
+  <summary>Get configuration value(s). Leave blank for all values</summary>
   <shortcut>get</shortcut>
   <options>
    <option>
@@ -496,11 +476,11 @@ php pyrus.phar set download_dir /home/blah/downloads</doc>
    <argument>
     <name>variable</name>
     <multiple>0</multiple>
-    <optional>0</optional>
+    <optional>1</optional>
     <doc>Configuration variable name.  This can be a system or user variable.</doc>
    </argument>
   </arguments>
-  <doc>Get a configuration variable.
+  <doc>Fetches all configuration variables or a single one.
 
 For example:
 php pyrus.phar get download_dir</doc>
