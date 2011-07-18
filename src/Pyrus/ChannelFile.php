@@ -9,7 +9,6 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version   SVN: $Id$
  * @link      https://github.com/pyrus/Pyrus
  */
 
@@ -33,13 +32,20 @@ class ChannelFile implements \Pyrus\ChannelFileInterface
      * Take a local channel.xml and parse it.
      * @param string file name, or xml string
      */
-    function __construct($file, $isxml = false, $isremote = false)
+    function __construct($file)
     {
+        if (is_string($file)) {
+            $file = trim($file);
+        }
+
+        $data = false;
         $this->path = $file;
         $parser = new ChannelFile\Parser\v1;
-        if ($isxml) {
+        if (is_string($file) && substr($file, 0, 5) === '<?xml') {
             $data = $file;
-        } elseif ($isremote) {
+        } elseif (is_string($file) && file_exists($file)) { // Local
+            $data = $file;
+        } elseif (is_string($file)) {
             if (strpos($file, 'http://') === 0 || strpos($file, 'https://') === 0) {
                 $data = $this->_fromURL($file);
             } else {
@@ -57,10 +63,6 @@ class ChannelFile implements \Pyrus\ChannelFileInterface
                     }
                 }
             }
-        } else {
-            // Add extra check because of allow_url_fopen
-            $schema = strtolower(parse_url($file, PHP_URL_SCHEME));
-            $data = (!in_array($schema, array('https','http','ftp', 'sftp')) ? @file_get_contents($file) : false);
         }
 
         if ($data === false || empty($data)) {
