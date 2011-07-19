@@ -44,14 +44,13 @@ Commands:
                       l)
   list-channels       List all discovered channels (alias: lc)
   channel-discover    Discover a new channel (alias: di)
-  channel-add         Add a new channel to the registry (alias: ca)
   channel-del         Remove a channel from the registry (alias: cd)
   upgrade-registry    Upgrade an old PEAR installation to the new registry
                       format (alias: ur)
   run-scripts         Run all post-install scripts for a package (alias: r)
-  config-show         Show all configuration values (alias: cs)
   set                 Set a configuration value (alias: set)
-  get                 Get a configuration value (alias: get)
+  get                 Get configuration value(s). Leave blank for all
+                      values (alias: get)
   mypear              Set a configuration value (alias: m)
   help                Get help on a particular command, or all commands
                       (alias: h)

@@ -1,5 +1,5 @@
 --TEST--
-\Pyrus\ScriptFrontend\Commands::configShow()
+\Pyrus\ScriptFrontend\Commands::get() with no args (emulate config-show)
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -11,7 +11,7 @@ $a->my_pear_path = TESTDIR;
 
 ob_start();
 $cli = new test_scriptfrontend();
-$cli->run($args = array (0 => 'config-show'));
+$cli->run($args = array (0 => 'get'));
 
 $contents = ob_get_contents();
 ob_end_clean();

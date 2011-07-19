@@ -735,10 +735,12 @@ previous:
     }
 
     /**
-     * remotely connect to a channel server and grab the channel information,
-     * then add it to the current pyrus managed repo
+     * This command can remotely connect to a channel server and grab the
+     * channel information then add it to the current pyrus managed repo.
+     * Also work from local paths, raw channel.xml and full URLs
      *
-     * @param array $args $args[0] should be the channel name, eg:pear.unl.edu
+     * @param array $args $args[0] can be a channel name (eg:pear.unl.edu),
+     *                    full url and local path
      */
     function channelDiscover($args)
     {
@@ -752,19 +754,6 @@ previous:
         $chan = new \Pyrus\Channel($channel);
         \Pyrus\Config::current()->channelregistry->add($chan);
         echo "Discovery of channel ", $chan->name, " successful\n";
-    }
-
-    /**
-     * add a channel to the current pyrus managed path using the raw channel.xml
-     *
-     * @param array $args $args[0] should be the channel.xml filename
-     */
-    function channelAdd($args)
-    {
-        echo "Adding channel from channel.xml:\n";
-        $chan = new \Pyrus\Channel(new \Pyrus\ChannelFile($args['channelfile']));
-        \Pyrus\Config::current()->channelregistry->add($chan);
-        echo "Adding channel ", $chan->name, " successful\n";
     }
 
     function channelDel($args)

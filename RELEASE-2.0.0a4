@@ -3,6 +3,9 @@ Features:
  - Add support for installing from a remote package.xml [saltybeagle]
  - Display version and stability in list-packages [saltybeagle]
  - Improve error when phar includes are disabled by suhosin [mfonda]
+ - Replace config-show with allowing people to call the get command without any arguments to achieve the same result.
+   "php pyrus.phar get" and php "pyrus.phar config-show" are the same
+
 
 Bug Fixes/Refactoring:
 

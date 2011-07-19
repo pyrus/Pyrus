@@ -329,32 +329,13 @@ to add a new channel.</doc>
   <doc>Discover a new channel.
 
 This command searches for a channel.xml first at a secure and then unsecured http address.
+It can also take full URLs, local paths and raw channel.xml
 
 Examples:
 php pyrus.phar channel-discover pear.example.com
   This tries to locate https://pear.example.com/channel.xml and if that fails,
   http://pear.example.com/channel.xml, and then adds the channel to the registry.
-
-Use channel-add to add a local channel.xml to the registry</doc>
- </command>
- <command>
-  <name>channel-add</name>
-  <class>Pyrus\ScriptFrontend\Commands</class>
-  <function>channelAdd</function>
-  <summary>Add a new channel to the registry</summary>
-  <shortcut>ca</shortcut>
-  <options/>
-  <arguments>
-   <argument>
-    <name>channelfile</name>
-    <multiple>0</multiple>
-    <optional>0</optional>
-    <doc>Path to local channel.xml file</doc>
-   </argument>
-  </arguments>
-  <doc>Add a new channel to the registry.
-
-Use channel-discover to add a remote channel to the registry.</doc>
+</doc>
  </command>
  <command>
   <name>channel-del</name>
