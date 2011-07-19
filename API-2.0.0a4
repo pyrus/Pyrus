@@ -1,3 +1,5 @@
 API notes for 2.0.0a4:
 
  - Add Pyrus\Channel\RemotePackage::getLatestVersion() [saltybeagle]
+ - removed the second ($isxml) and third ($isremote) from the Pyrus\ChannelFile
+   __construct as it can ascertain that information automagically
