@@ -5,7 +5,7 @@ Features:
  - Improve error when phar includes are disabled by suhosin [mfonda]
  - Replace config-show with allowing people to call the get command without any arguments to achieve the same result.
    "php pyrus.phar get" and php "pyrus.phar config-show" are the same
-
+ - Dropped the channel-add command in favor of channel-discover as they were doing the same thing.
 
 Bug Fixes/Refactoring:
 
