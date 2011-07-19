@@ -9,29 +9,13 @@ Internet::addDirectory(__DIR__ . '/../Mocks/Internet/remotechannel',
                        'http://pear.php.net/');
 \Pyrus\Main::$downloadClass = 'Internet';
 
-// From file_get_contents
-try {
-	$channel = new \Pyrus\ChannelFile('http://pear.php.net/channel.xml');
-	throw new Exception("Expected exception");
-} catch (\Pyrus\ChannelFile\Exception $e) {
-    $test->assertEquals('Unable to open channel xml file http://pear.php.net/channel.xml or file was empty.', $e->getMessage(), 'Did not set isRemote argument.');
-}
-
-// From channel.xml url
-try {
-	$channel = new \Pyrus\ChannelFile('http://pear.php.net/channel.xml', false);
-	throw new Exception("Expected exception");
-} catch (\Pyrus\ChannelFile\Exception $e) {
-    $test->assertEquals('Unable to open channel xml file http://pear.php.net/channel.xml or file was empty.', $e->getMessage(), 'Did not set isRemote argument.');
-}
-
-// From channel.xml with is_remote = true
-$channel = new \Pyrus\ChannelFile('http://pear.php.net/channel.xml', false, true);
+// From channel.xml
+$channel = new \Pyrus\ChannelFile('http://pear.php.net/channel.xml');
 // $channel should be set up!
 require __DIR__ . '/../ChannelRegistry/AllRegistries/info/basic.template';
 
-// From channel name, with is_remote = true
-$channel = new \Pyrus\ChannelFile('pear.php.net', false, true);
+// From channel name
+$channel = new \Pyrus\ChannelFile('pear.php.net');
 // $channel should be set up!
 require __DIR__ . '/../ChannelRegistry/AllRegistries/info/basic.template';
 

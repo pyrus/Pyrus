@@ -4,7 +4,7 @@ ChannelFile: random channelfile tests 2
 <?php
 require __DIR__ . '/../setup.php.inc';
 
-$c = new \Pyrus\ChannelFile(file_get_contents(__DIR__ . '/../../ChannelRegistry/sample_channel.xml'), true);
+$c = new \Pyrus\ChannelFile(file_get_contents(__DIR__ . '/../../ChannelRegistry/sample_channel.xml'));
 
 $c->fromArray(array('validatepackage' => 'foo', '_lastmodified' => 'hi'));
 $test->assertEquals(false, $c->name, 'setting name to unset value');

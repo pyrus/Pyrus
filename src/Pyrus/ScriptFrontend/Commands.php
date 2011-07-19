@@ -743,7 +743,7 @@ previous:
     function channelDiscover($args)
     {
         try {
-            $channel = new \Pyrus\ChannelFile($args['channel'], false, true);
+            $channel = new \Pyrus\ChannelFile($args['channel']);
         } catch (\Exception $e) {
             echo "Discovery of channel ", $args['channel'], " failed: ", $e->getMessage(), "\n";
             return;

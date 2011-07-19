@@ -239,12 +239,10 @@ class Remote extends \Pyrus\Package
                 try {
                     try {
                         $chan = new \Pyrus\Channel(
-                                    new \Pyrus\ChannelFile('https://' . $e->params['channel'] . '/channel.xml',
-                                                                false, true));
+                                    new \Pyrus\ChannelFile('https://' . $e->params['channel'] . '/channel.xml'));
                     } catch (\Exception $e) {
                         $chan = new \Pyrus\Channel(
-                                    new \Pyrus\ChannelFile('http://' . $e->params['channel'] . '/channel.xml',
-                                                                false, true));
+                                    new \Pyrus\ChannelFile('http://' . $e->params['channel'] . '/channel.xml'));
                     }
                 } catch (\Exception $e) {
                     throw new Exception('Cannot auto-discover channel ' . $e->params['channel'], $e);

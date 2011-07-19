@@ -319,7 +319,7 @@ abstract class Base implements \Pyrus\ChannelRegistryInterface, \Iterator
         }
 
         $parser = new \Pyrus\ChannelFile\Parser\v1;
-        $info = $parser->parse($xml, true);
+        $info = $parser->parse($xml);
         return new Channel($this, $info->getArray());
     }
 

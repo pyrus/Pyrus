@@ -35,7 +35,7 @@ class Xml extends \Pyrus\ChannelFile\v1\Mirror
 
     public function toChannelObject()
     {
-        $chan = new \Pyrus\Channel(new \Pyrus\ChannelFile((string) $this->parentChannel, true));
+        $chan = new \Pyrus\Channel(new \Pyrus\ChannelFile((string) $this->parentChannel));
         return $chan;
     }
 

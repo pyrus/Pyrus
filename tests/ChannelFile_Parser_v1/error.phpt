@@ -4,7 +4,7 @@
 <?php
 require __DIR__ . '/setup.php.inc';
 try {
-    $parser->parse('', false, 'stdClass');
+    $parser->parse('', 'stdClass');
     throw new Exception('stdClass worked and should not');
 } catch (\Pyrus\ChannelFile\Exception $e) {
     $test->assertEquals('Class stdClass' .
