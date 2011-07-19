@@ -9,7 +9,7 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/PEAR2/Pyrus/
+ * @link      https://github.com/pyrus/Pyrus
  */
 
 /**
@@ -20,7 +20,7 @@
  * @author    Greg Beaver <cellog@php.net>
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @link      http://svn.pear.php.net/PEAR2/Pyrus/
+ * @link      https://github.com/pyrus/Pyrus
  */
 namespace Pyrus\Package;
 class Cloner
