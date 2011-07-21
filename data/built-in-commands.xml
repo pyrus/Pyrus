@@ -417,6 +417,12 @@ based on the answers provided.</doc>
     <type><bool/></type>
     <doc>Manage plugin configuration only</doc>
    </option>
+   <option>
+    <name>channel</name>
+    <shortopt>c</shortopt>
+    <type><string/></type>
+    <doc>Set the value only for that specific channel</doc>
+   </option>
   </options>
   <arguments>
    <argument>
@@ -449,6 +455,12 @@ php pyrus.phar set download_dir /home/blah/downloads</doc>
     <shortopt>p</shortopt>
     <type><bool/></type>
     <doc>Get plugin configuration only</doc>
+   </option>
+   <option>
+     <name>channel</name>
+     <shortopt>c</shortopt>
+     <type><string/></type>
+     <doc>Get the value for a specific channel</doc>
    </option>
   </options>
   <arguments>
