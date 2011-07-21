@@ -94,6 +94,7 @@ class Curl extends Request\Adapter
         if ($this->fp !== false) {
             fclose($this->fp);
         }
+        $this->_notify('disconnect');
 
         $details = $this->uri->toArray();
 
