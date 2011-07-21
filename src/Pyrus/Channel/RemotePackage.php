@@ -354,8 +354,11 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
             // try to download openssl x509 signature certificate for our release
             try {
                 $cert = \Pyrus\Main::download($url . '.pem');
-                $cert = $cert->body;
-                $certdownloaded = true;
+                // ensure this is supposed to be a valid certificate
+                if ($cert->headers['Content-Type'] == 'application/x-x509-ca-cert') {
+                    $cert = $cert->body;
+                    $certdownloaded = true;
+                }
             } catch (\Pyrus\HTTPException $e) {
                 // file does not exist, ignore
             }
@@ -429,22 +432,12 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
                     }
                 }
                 return $ret;
-            } catch (\Pyrus\HTTPException $e) {
-                if ($certdownloaded && file_exists($pubkey)) {
-                    unlink($pubkey);
-                }
-
-                $errs->E_ERROR[] = $e;
             } catch (\Exception $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
                     unlink($pubkey);
                 }
 
                 $errs->E_ERROR[] = $e;
-                throw new \Pyrus\Package\Exception(
-                    'Invalid abstract package ' .
-                    $this->channel . '/' .
-                    $this->name, $errs);
             }
         }
 
