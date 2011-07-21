@@ -11,11 +11,11 @@
  * through the world-wide-web at the following URI:
  * http://opensource.org/licenses/mit-license.php
  *
- * @category  Console 
+ * @category  Console
  * @package   PEAR2_Console_CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     File available since release 0.1.0
  */
@@ -27,7 +27,7 @@
  * @package   PEAR2_Console_CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     Class available since release 0.1.0
@@ -46,7 +46,7 @@ class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
         $usage = $this->parser->message_provider->get('USAGE_WORD') . ":\n";
         $ret   = $usage . '  ' . $this->name();
         if (count($this->parser->options) > 0) {
-            $ret .= ' [/path/to/pear] [' 
+            $ret .= ' [/path/to/pyrus] ['
                 . strtolower($this->parser->message_provider->get('OPTION_WORD'))
                 . ']';
         }
@@ -71,12 +71,41 @@ class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
         }
         $ret = '  ' . $this->name();
         if (count($this->parser->options) > 0) {
-            $ret .= ' [/path/to/pear] [' 
+            $ret .= ' [/path/to/pyrus] ['
                 . strtolower($this->parser->message_provider->get('OPTION_WORD'))
                 . ']';
         }
         //XXX
         $ret .= " <command> [options] [args]";
         return $this->columnWrap($ret, 2);
+    }
+
+    /**
+     * Render the command list that will be displayed to the user, you can
+     * override this method if you want to change the look of the list.
+     *
+     * @return string The formatted subcommand list
+     */
+    protected function commandList()
+    {
+
+        $commands = array();
+        $col      = 0;
+        foreach ($this->parser->commands as $cmdname=>$command) {
+            $cmdname    = '  ' . $cmdname;
+            $commands[] = array($cmdname, $command->description, $command->aliases);
+            $ln         = strlen($cmdname);
+            if ($col < $ln) {
+                $col = $ln;
+            }
+        }
+
+        $ret = $this->parser->message_provider->get('COMMAND_WORD') . ":";
+        foreach ($commands as $command) {
+            $text = str_pad($command[0], $col) . '  ' . $command[1];
+            $ret .= "\n" . $this->columnWrap($text, $col+2);
+        }
+
+        return $ret;
     }
 }
