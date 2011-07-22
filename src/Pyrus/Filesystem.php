@@ -30,7 +30,8 @@ abstract class Filesystem
 
     public static function explode($path)
     {
-        return explode(array('\\','/'), $path);
+        return explode(DIRECTORY_SEPARATOR, str_replace(
+            array('\\','/'), DIRECTORY_SEPARATOR, $path));
     }
 
     public static function rmrf($path, $onlyEmptyDirs = false, $strict = true)
