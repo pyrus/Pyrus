@@ -148,9 +148,7 @@ php pyrus.phar install PackageName-1.2.0
     <doc>channel/PackageName of packages to uninstall</doc>
    </argument>
   </arguments>
-  <doc>Uninstall a package
-
-Uninstalls packages.
+  <doc>Uninstalls packages from a given setup.
 
 Example:
 php pyrus.phar uninstall PackageName
