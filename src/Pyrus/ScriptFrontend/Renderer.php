@@ -108,4 +108,33 @@ class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
 
         return $ret;
     }
+
+    /**
+     * Wraps the text passed to the method at the specified width.
+     *
+     * @param string $text The text to wrap
+     * @param int    $cw   The wrap width
+     *
+     * @return string The wrapped text
+     */
+    protected function columnWrap($text, $cw)
+    {
+        $tokens = explode("\n", $this->wrap($text));
+        $ret    = $tokens[0];
+        $text   = trim(substr($text, strlen($ret)));
+        if (empty($text)) {
+            return $ret;
+        }
+
+        $chunks = $this->wrap($text, $this->line_width - $cw);
+        $tokens = explode("\n", $chunks);
+        foreach ($tokens as $token) {
+            if (!empty($token)) {
+                $ret .= "\n" . str_repeat(' ', $cw) . $token;
+            } else {
+                $ret .= "\n";
+            }
+        }
+        return $ret;
+    }
 }
