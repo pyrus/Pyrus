@@ -110,15 +110,15 @@ php pyrus.phar install http://www.example.com/PackageName-1.2.0.tgz
 
 Examples of an abstract package:
 php pyrus.phar install PackageName
- installs PackageName from the default channel with stability preferred_state
+  installs PackageName from the default channel with stability preferred_state
 php pyrus.phar pear/PackageName
- installs PackageName from the pear.php.net channel with stability preferred_state
+  installs PackageName from the pear.php.net channel with stability preferred_state
 php pyrus.phar install channel://doc.php.net/PackageName
- installs PackageName from the doc.php.net channel with stability preferred_state
+  installs PackageName from the doc.php.net channel with stability preferred_state
 php pyrus.phar install PackageName-beta
- installs PackageName from the default channel, beta or stable stability
+  installs PackageName from the default channel, beta or stable stability
 php pyrus.phar install PackageName-1.2.0
- installs PackageName from the default channel, version 1.2.0</doc>
+  installs PackageName from the default channel, version 1.2.0</doc>
  </command>
  <command>
   <name>uninstall</name>
