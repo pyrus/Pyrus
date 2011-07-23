@@ -68,8 +68,8 @@ $help2 =
 Pyrus, the installer for PEAR2
 
 Usage:
-  php findpear2.php [/path/to/pear] [options]
-  php findpear2.php [/path/to/pear] [options] <command> [options] [args]
+  php findpear2.php [/path/to/pyrus] [options]
+  php findpear2.php [/path/to/pyrus] [options] <command> [options] [args]
 
 Options:
   -v, --verbose   increase verbosity
@@ -79,55 +79,50 @@ Options:
 
 Commands:
   install             Install a package.  Use install --plugin to install
-                      plugins (alias: i)
+                      plugins
   upgrade             Upgrade a package.  Use upgrade --plugin to upgrade
-                      plugins (alias: up)
+                      plugins
   uninstall           Uninstall a package.  Use uninstall --plugin to
-                      uninstall plugins (alias: un)
-  info                Display information about a package (alias: in)
+                      uninstall plugins
+  info                Display information about a package
   build               Build a PHP extension package from source and install
-                      the compiled extension (alias: b)
-  list-upgrades       List packages with upgrades available (alias: lu)
+                      the compiled extension
+  list-upgrades       List packages with upgrades available
   remote-list         List all remote packages in a channel, organized by
-                      category (alias: rd)
+                      category
   download            Download a remote package to the current directory
-                      (alias: d)
-  list-packages       List all installed packages in all channels (alias:
-                      l)
-  list-channels       List all discovered channels (alias: lc)
-  channel-discover    Discover a new channel (alias: di)
-  channel-del         Remove a channel from the registry (alias: cd)
+  list-packages       List all installed packages in all channels
+  list-channels       List all discovered channels
+  channel-discover    Discover a new channel
+  channel-del         Remove a channel from the registry
   upgrade-registry    Upgrade an old PEAR installation to the new registry
-                      format (alias: ur)
-  run-scripts         Run all post-install scripts for a package (alias: r)
-  set                 Set a configuration value (alias: set)
+                      format
+  run-scripts         Run all post-install scripts for a package
+  set                 Set a configuration value
   get                 Get configuration value(s). Leave blank for all
-                      values (alias: get)
-  mypear              Set a configuration value (alias: m)
+                      values
+  mypear              Set a configuration value
   help                Get help on a particular command, or all commands
-                      (alias: h)
   make                Create or update a package.xml from a standard PEAR2
-                      directory layout (alias: mk)
+                      directory layout
   pickle              Create or update a package.xml and then package a
-                      PECL extension release (alias: pi)
-  package             Create a release from an existing package.xml (alias:
-                      p)
-  run-phpt            Run PHPT tests (alias: rp)
+                      PECL extension release
+  package             Create a release from an existing package.xml
+  run-phpt            Run PHPT tests
   generate-pear2      Generate the subversion source layout for a new PEAR2
-                      package (alias: gp)
+                      package
   generate-ext        Generate the subversion source layout for a new PHP
-                      extension that is PECL-ready (alias: es)
+                      extension that is PECL-ready
   scs-update          Simple channel server: Update all releases of a
-                      within the get/ directory. (alias: su)
+                      within the get/ directory.
   scs-create          Simple channel server: Create a channel.xml, get/ and
-                      rest/ directory for a channel (alias: sc)
+                      rest/ directory for a channel
   scs-add-maintainer  Simple Channel Server: Add a new maintaing developer
-                      to the channel (alias: sam)
+                      to the channel
   scs-add-category    Simple Channel Server: Add a new category to the
-                      channel (alias: sac)
-  scs-categorize      Simple Channel Server: Categorize a package (alias:
-                      scat)
-  scs-release         Simple Channel Server: Release a package (alias: sr)
+                      channel
+  scs-categorize      Simple Channel Server: Categorize a package
+  scs-release         Simple Channel Server: Release a package
 
 ';
 $test->assertEquals($help1 . $help2,
