@@ -222,8 +222,7 @@ class Uninstaller
 
         $configpaths = array();
         foreach (Installer\Role::getValidRoles($package->getPackageType()) as $role) {
-            // set up a list of file role => configuration variable
-            // for storing in the registry
+            // set up a list of file role => configuration variable for storing in the registry
             $roleobj = Installer\Role::factory($package->getPackageType(), $role);
             $configpaths[$role] = $config->{$roleobj->getLocationConfig()};
         }

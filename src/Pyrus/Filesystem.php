@@ -131,8 +131,7 @@ abstract class Filesystem
                 }
 
                 if (!touch($targetPath, $file->getMTime(), $file->getATime())) {
-                    throw new IOException(
-                        'Unable to copy directory, touch failed');
+                    throw new IOException('Unable to copy directory, touch failed');
                 }
             }
         } catch (\UnexpectedValueException $e) {

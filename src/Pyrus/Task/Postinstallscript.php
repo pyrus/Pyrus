@@ -63,6 +63,7 @@ class Postinstallscript extends Common
                                                              $fileXml['name'] . '" must be role="php"');
         }
         try {
+
             $filecontents = $pkg->getFileContents($fileXml['name']);
         } catch (\Exception $e) {
             throw new Exception\InvalidTask('postinstallscript', $file,
