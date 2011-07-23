@@ -42,6 +42,7 @@ class ScriptFrontend extends \PEAR2\Console\CommandLine
             }
         }
 
+        $command->accept($params['renderer']);
         $command->parent                = $this;
         $this->commands[$command->name] = $command;
         return $command;

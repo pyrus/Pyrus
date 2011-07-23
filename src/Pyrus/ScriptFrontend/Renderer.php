@@ -45,16 +45,26 @@ class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
     {
         $usage = $this->parser->message_provider->get('USAGE_WORD') . ":\n";
         $ret   = $usage . '  ' . $this->name();
+
         if (count($this->parser->options) > 0) {
             $ret .= ' [/path/to/pyrus] ['
                 . strtolower($this->parser->message_provider->get('OPTION_WORD'))
                 . ']';
         }
+
         if (count($this->parser->args) > 0) {
             foreach ($this->parser->args as $name=>$arg) {
-                $ret .= ' <' . $arg->help_name . ($arg->multiple?'...':'') . '>';
+                $arg_str = $arg->help_name;
+                if ($arg->multiple) {
+                    $arg_str .= '1 ' . $arg->help_name . '2 ...';
+                }
+                if ($arg->optional) {
+                    $arg_str = '[' . $arg_str . ']';
+                }
+                $ret .= ' ' . $arg_str;
             }
         }
+
         return $this->columnWrap($ret, 2);
     }
 
@@ -69,12 +79,14 @@ class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
         if (count($this->parser->commands) == 0) {
             return '';
         }
+
         $ret = '  ' . $this->name();
         if (count($this->parser->options) > 0) {
             $ret .= ' [/path/to/pyrus] ['
                 . strtolower($this->parser->message_provider->get('OPTION_WORD'))
                 . ']';
         }
+
         //XXX
         $ret .= " <command> [options] [args]";
         return $this->columnWrap($ret, 2);
@@ -106,6 +118,37 @@ class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
             $ret .= "\n" . $this->columnWrap($text, $col+2);
         }
 
+        return $ret;
+    }
+
+    /**
+     * Returns the full usage message for a given command.
+     *
+     * @return string The usage message
+     */
+    public function commandUsage($doc)
+    {
+        $ret = $this->parser->name;
+        if (!empty($this->parser->aliases)) {
+          $ret .= ' (' . implode(', ', $this->parser->aliases) . ')';
+        }
+        $ret .= ': ' . $this->description() . "\n";
+
+        $ret .= $this->usageLine() . "\n";
+
+        if (!empty($doc)) {
+          $ret .= $this->columnWrap("\n" . $doc, 2) . "\n";
+        }
+
+        if (count($this->parser->options) > 0) {
+            $ret .= "\n" . $this->optionList() . "\n";
+        }
+
+        if (count($this->parser->args) > 0) {
+            $ret .= "\n" . $this->argumentList() . "\n";
+        }
+
+        $ret .= "\n";
         return $ret;
     }
 

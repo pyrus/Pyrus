@@ -36,8 +36,8 @@ class Command extends \PEAR2\Console\CommandLine\Command
      * @return void
      * @access public
      */
-    public function displayUsage($exitCode = 1)
+    public function displayUsage($exitCode = 1, $doc)
     {
-        echo "\n", $this->renderer->usage();
+        echo "\n", $this->renderer->commandUsage($doc);
     }
 }

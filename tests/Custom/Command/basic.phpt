@@ -54,6 +54,7 @@ file_put_contents(TESTDIR . '/foobar', '<?xml version="1.0" encoding="UTF-8"?>
 Is Pretty Sweet.</doc>
  </command>
 </commands>');
+
 define('MYDIR', __DIR__);
 mkdir(TESTDIR . '/Fronky/Wonky', 0755, true);
 file_put_contents(TESTDIR . '/Fronky/Wonky/Burm.php', '<?php
@@ -69,10 +70,8 @@ class Fronky_Wonky_Burm
 \Pyrus\Installer::prepare($package);
 \Pyrus\Installer::commit();
 
-
-
 ob_start();
-$cli = new \Pyrus\ScriptFrontend\Commands();
+$cli = new \Pyrus\ScriptFrontend\Commands;
 $cli->run($args = array (TESTDIR, 'foobar', '--force', '-r/hi/there', 'oof', 'da'));
 
 $contents = ob_get_contents();
@@ -102,6 +101,7 @@ array(5) {
   NULL
 }
 ', $contents, 'command output');
+
 $reg = new \Pyrus\PluginRegistry(TESTDIR . '//plugins');
 $test->assertTrue(isset($reg->package['pear2.php.net/testing2']), 'custom command installed');
 

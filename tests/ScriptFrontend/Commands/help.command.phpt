@@ -13,11 +13,36 @@ ob_end_clean();
 restore_include_path();
 $help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $help2 =
-'
-Install a package.  Use install --plugin to install plugins
-
+'install (i): Install a package.  Use install --plugin to install plugins
 Usage:
-  php help.command.php [options] install [options] <package...>
+  php help.command.php [options] install [/path/to/pyrus] [options]
+  package1 package2 ...
+
+  Installs listed packages.
+
+  local package.xml example:
+  php pyrus.phar install package.xml
+
+  local package archive example:
+  php pyrus.phar install PackageName-1.2.0.tar
+
+  remote package archive example:
+  php pyrus.phar install http://www.example.com/PackageName-1.2.0.tgz
+
+  Examples of an abstract package:
+  php pyrus.phar install PackageName
+    installs PackageName from the default channel with stability
+  preferred_state
+  php pyrus.phar pear/PackageName
+    installs PackageName from the pear.php.net channel with stability
+  preferred_state
+  php pyrus.phar install channel://doc.php.net/PackageName
+    installs PackageName from the doc.php.net channel with stability
+  preferred_state
+  php pyrus.phar install PackageName-beta
+    installs PackageName from the default channel, beta or stable stability
+  php pyrus.phar install PackageName-1.2.0
+    installs PackageName from the default channel, version 1.2.0
 
 Options:
   -p, --plugin                                     Manage plugin
@@ -37,30 +62,6 @@ Options:
 Arguments:
   package  package.xml, local package archive, remove package archive, or
            abstract package.
-
-
-Installs listed packages.
-
-local package.xml example:
-php pyrus.phar install package.xml
-
-local package archive example:
-php pyrus.phar install PackageName-1.2.0.tar
-
-remote package archive example:
-php pyrus.phar install http://www.example.com/PackageName-1.2.0.tgz
-
-Examples of an abstract package:
-php pyrus.phar install PackageName
- installs PackageName from the default channel with stability preferred_state
-php pyrus.phar pear/PackageName
- installs PackageName from the pear.php.net channel with stability preferred_state
-php pyrus.phar install channel://doc.php.net/PackageName
- installs PackageName from the doc.php.net channel with stability preferred_state
-php pyrus.phar install PackageName-beta
- installs PackageName from the default channel, beta or stable stability
-php pyrus.phar install PackageName-1.2.0
- installs PackageName from the default channel, version 1.2.0
 
 ';
 $test->assertEquals($help1 . $help2,

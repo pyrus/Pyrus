@@ -82,6 +82,7 @@ class Transaction extends Transaction\TwoStage
             if (@rmdir($path)) {
                 return true;
             }
+
             if ($strict) {
                 throw new IOException('Cannot remove directory ' . $relativePath . ' in ' . $this->journalPath);
             }
@@ -89,10 +90,12 @@ class Transaction extends Transaction\TwoStage
             if (@unlink($path)) {
                 return true;
             }
+
             if ($strict) {
                 throw new IOException('Cannot remove file ' . $relativePath . ' in ' . $this->journalPath);
             }
         }
+
         return false;
     }
 

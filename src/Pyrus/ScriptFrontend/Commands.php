@@ -102,14 +102,17 @@ class Commands implements \Pyrus\LogInterface
             } else {
                 $version = '@PACKAGE_VERSION@';
             }
+
             static::$commandParser = new \Pyrus\ScriptFrontend(array(
                     'version' => $version,
                     'description' => 'Pyrus, the installer for PEAR2',
                     'name' => 'php ' . basename($_SERVER['argv'][0])
                 )
             );
+
             // set up our custom renderer for help options
             static::$commandParser->accept(new \Pyrus\ScriptFrontend\Renderer(static::$commandParser));
+
             // set up command-less options and argument
             static::$commandParser->addOption('verbose', array(
                 'short_name'  => '-v',
@@ -117,15 +120,18 @@ class Commands implements \Pyrus\LogInterface
                 'action'      => 'Counter',
                 'description' => 'increase verbosity'
             ));
+
             static::$commandParser->addOption('paranoid', array(
                 'short_name'  => '-p',
                 'long_name'   => '--paranoid',
                 'action'      => 'Counter',
                 'description' => 'set or increase paranoia level'
             ));
+
             \Pyrus\PluginRegistry::registerFrontend($this);
             \Pyrus\PluginRegistry::addCommand($commands);
         }
+
         $term = getenv('TERM');
         if (function_exists('posix_isatty') && !posix_isatty(1)) {
             // output is being redirected to a file or through a pipe
@@ -145,12 +151,15 @@ class Commands implements \Pyrus\LogInterface
         $command = static::$commandParser->addCommand($commandinfo['name'], array(
             'description' => $commandinfo['summary'],
             'aliases' => array($commandinfo['shortcut']),
+            'renderer' => new \Pyrus\ScriptFrontend\Renderer,
         ));
+
         if (isset($commandinfo['options']['option'])) {
             $options = $commandinfo['options']['option'];
             if (!isset($options[0])) {
                 $options = array($options);
             }
+
             foreach ($options as $option) {
                 switch (key($option['type'])) {
                     case 'bool' :
@@ -182,18 +191,22 @@ class Commands implements \Pyrus\LogInterface
                         settype($choice, 'array');
                         break;
                 }
+
                 $info = array(
                     'short_name' => empty($option['shortopt']) ? null : '-' . $option['shortopt'],
                     'long_name' => empty($option['name']) ? null : '--' . $option['name'],
                     'description' => $option['doc'],
                     'action' => $action,
                 );
+
                 if ($action == 'Callback') {
                     $info['callback'] = $callback;
                 }
+
                 if (isset($option['default'])) {
                     $info['default'] = $option['default'];
                 }
+
                 if (isset($choice)) {
                     $info['choices'] = $choice;
                     $choice = null;
@@ -208,11 +221,13 @@ class Commands implements \Pyrus\LogInterface
                 }
             }
         }
+
         if (isset($commandinfo['arguments']['argument'])) {
             $args = $commandinfo['arguments']['argument'];
             if (!isset($args[0])) {
                 $args = array($args);
             }
+
             foreach ($args as $arg) {
                 $command->addArgument($arg['name'], array(
                     'description' => $arg['doc'],
@@ -479,8 +494,7 @@ previous:
                 echo "Unknown command: $args[command]\n";
                 static::$commandParser->displayUsage();
             } else {
-                static::$commandParser->commands[$args['command']]->displayUsage();
-                echo "\n", $info['doc'], "\n";
+                static::$commandParser->commands[$args['command']]->displayUsage(false, $info['doc']);
             }
         }
     }
