@@ -225,7 +225,7 @@ class Package implements \Pyrus\PackageInterface
                 $info = pathinfo($package);
                 if (!isset($info['extension']) || !strlen($info['extension'])) {
                     // guess based on first 5 characters
-                    $f = @fopen($package, 'r');
+                    $f = @fopen($package, 'rb');
                     if ($f) {
                         $first5 = fread($f, 5);
                         fclose($f);
