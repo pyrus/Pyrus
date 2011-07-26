@@ -70,21 +70,6 @@ class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
      */
     protected $channelRegistry;
 
-    public function setChannelRegistry(ChannelRegistry $reg)
-    {
-        $this->channelRegistry = $reg;
-    }
-
-    function getChannelRegistry()
-    {
-        return $this->channelRegistry;
-    }
-
-    public function setParent(Registry $parent = null)
-    {
-        $this->parent = $parent;
-    }
-
     public function __construct($path, $registries = array('Sqlite3', 'Xml'), $readonly = false)
     {
         $this->path     = $path;
@@ -113,6 +98,21 @@ class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
 
         $channelregistry_class = ChannelRegistry::$className;
         $this->channelRegistry = new $channelregistry_class($path, $registries, $readonly);
+    }
+
+    public function setChannelRegistry(ChannelRegistry $reg)
+    {
+        $this->channelRegistry = $reg;
+    }
+
+    function getChannelRegistry()
+    {
+        return $this->channelRegistry;
+    }
+
+    public function setParent(Registry $parent = null)
+    {
+        $this->parent = $parent;
     }
 
     public function replace(PackageFileInterface $info)
