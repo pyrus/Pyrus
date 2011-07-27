@@ -509,4 +509,21 @@ This is a convenience alias to the set command with my_pear_path.</doc>
   </arguments>
   <doc>Get detailed help on a command.</doc>
  </command>
+ <command>
+  <name>search</name>
+  <class>Pyrus\ScriptFrontend\Commands</class>
+  <function>search</function>
+  <summary>Search a registry of PEAR channels for packages</summary>
+  <shortcut>s</shortcut>
+  <options/>
+  <arguments>
+   <argument>
+    <name>query</name>
+    <multiple>0</multiple>
+    <optional>0</optional>
+    <doc>Query to search for</doc>
+   </argument>
+  </arguments>
+  <doc>Search for available packages.</doc>
+ </command>
 </commands>
