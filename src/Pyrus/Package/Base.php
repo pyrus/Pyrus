@@ -231,13 +231,13 @@ abstract class Base implements \Pyrus\PackageInterface
         return $this->packagefile;
     }
 
-    function getFileContents($file, $asstream = false)
+    function getFileContents($file, $asStream = false)
     {
         if (!isset($this[$file])) {
             throw new Exception('file ' . $file . ' is not in this package');
         }
 
-        if ($asstream) {
+        if ($asStream) {
             $fp = fopen($this->getFilePath($file), 'rb');
             if ($fp === false) {
                 throw new Exception('File ' . $this->getFilePath($file) . ' cannot be found/opened.');
