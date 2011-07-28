@@ -61,6 +61,12 @@ class Main
         }
 
         $val = dirname(dirname(dirname(__DIR__))) . '/data/pear2.php.net/Pyrus';
+        if (!file_exists($val)) {
+          // running out of git
+          $val = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'data';
+        }
+
+        $val = realpath($val);
         return $val;
     }
 

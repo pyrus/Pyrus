@@ -76,17 +76,10 @@ class Validator
             $a = $pf->toArray();
             if ($a['package']['attribs']['version'] == '2.1') {
                 $schema = \Pyrus\Main::getDataPath() . '/package-2.1.xsd';
-                // for running out of cvs
-                if (!file_exists($schema)) {
-                    $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/package-2.1.xsd';
-                }
             } else {
                 $schema = \Pyrus\Main::getDataPath() . '/package-2.0.xsd';
-                // for running out of cvs
-                if (!file_exists($schema)) {
-                    $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/package-2.0.xsd';
-                }
             }
+
             $dom->schemaValidate($schema);
             $causes = array();
             foreach (libxml_get_errors() as $error) {

@@ -314,10 +314,6 @@ abstract class Base implements \Pyrus\ChannelRegistryInterface, \Iterator
     protected function getDefaultChannel($channel)
     {
         $xml = \Pyrus\Main::getDataPath() . '/default_channels/' . $channel . '.xml';
-        if (!file_exists($xml)) {
-            $xml = dirname(dirname(dirname(__DIR__))).'/data/default_channels/' . $channel . '.xml';
-        }
-
         $parser = new \Pyrus\ChannelFile\Parser\v1;
         $info = $parser->parse($xml);
         return new Channel($this, $info->getArray());
