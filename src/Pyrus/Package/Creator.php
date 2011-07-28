@@ -38,7 +38,7 @@ class Creator
                          $pear2MultiErrorsPath = false)
     {
         if (!$pear2ExceptionPath) {
-            if (!($pear2Exception = @fopen('PEAR2/Exception.php', 'r', true))) {
+            if (!($pear2Exception = @fopen('PEAR2/Exception.php', 'rb', true))) {
                 throw new Exception('Cannot locate PEAR2/Exception.php, please' .
                                     ' pass in the path to the constructor');
             }
@@ -51,13 +51,13 @@ class Creator
                 $pear2ExceptionPath .= '/';
             }
 
-            if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'r'))) {
+            if (!($pear2Exception = @fopen($pear2ExceptionPath . 'Exception.php', 'rb'))) {
                 throw new Exception('Cannot locate PEAR2/Exception.php in ' . $pear2ExceptionPath);
             }
         }
 
         if (!$pear2AutoloadPath) {
-            if (!($pear2Autoload = @fopen('PEAR2/Autoload.php', 'r', true))) {
+            if (!($pear2Autoload = @fopen('PEAR2/Autoload.php', 'rb', true))) {
                 fclose($pear2Exception);
                 throw new Exception('Cannot locate PEAR2/Autoload.php, please' .
                                     ' pass in the path to the constructor');
@@ -71,21 +71,21 @@ class Creator
                 $pear2AutoloadPath .= '/';
             }
 
-            if (!($pear2Autoload = @fopen($pear2AutoloadPath . 'Autoload.php', 'r'))) {
+            if (!($pear2Autoload = @fopen($pear2AutoloadPath . 'Autoload.php', 'rb'))) {
                 fclose($pear2Exception);
                 throw new Exception('Cannot locate PEAR2/Autoload.php in ' . $pear2AutoloadPath);
             }
         }
 
         if (!$pear2MultiErrorsPath) {
-            if (!($pear2MultiErrors = @fopen('PEAR2/MultiErrors.php', 'r', true))) {
+            if (!($pear2MultiErrors = @fopen('PEAR2/MultiErrors.php', 'rb', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 throw new Exception('Cannot locate PEAR2/MultiErrors.php, please' .
                                     ' pass in the path to the constructor');
             }
 
-            if (!($pear2MultiErrorsException = @fopen('PEAR2/MultiErrors/Exception.php', 'r', true))) {
+            if (!($pear2MultiErrorsException = @fopen('PEAR2/MultiErrors/Exception.php', 'rb', true))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);
@@ -101,13 +101,13 @@ class Creator
                 $pear2MultiErrorsPath .= '/';
             }
 
-            if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'r'))) {
+            if (!($pear2MultiErrors = @fopen($pear2MultiErrorsPath . 'MultiErrors.php', 'rb'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 throw new Exception('Cannot locate PEAR2/MultiErrors.php in ' . $pear2MultiErrorsPath . 'MultiErrors.php');
             }
 
-            if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'r'))) {
+            if (!($pear2MultiErrorsException = @fopen($pear2MultiErrorsPath . 'MultiErrors/Exception.php', 'rb'))) {
                 fclose($pear2Exception);
                 fclose($pear2Autoload);
                 fclose($pear2MultiErrors);
