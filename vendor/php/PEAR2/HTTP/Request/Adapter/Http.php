@@ -53,6 +53,7 @@ class Http extends Request\Adapter
         }
 
         $request->send();
+        $this->_notify('disconnect');
         $response = $request->getResponseMessage();
         $body = $response->getBody();
 

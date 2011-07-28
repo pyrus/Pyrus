@@ -42,8 +42,13 @@ class DownloadProgressListener extends \PEAR2\HTTP\Request\Listener
     {
         switch ($event) {
             case 'connect' :
-                $this->preview = "Connected...\n";
+                $this->preview = "";
                 $this->done = false;
+                break;
+            case 'disconnect' :
+                // Length of meter "[==...=>]" + " 100% (/ kb)" + twice the filesize.
+                $length = 103 + 12 + strlen(sprintf("%2d", $this->filesize/1024)) * 2;
+                Logger::log(0, str_repeat("\010", $length) . "\r");
                 break;
             case 'redirect' :
                 $this->preview .= 'Redirected to ' . $data . "\n";
@@ -58,7 +63,7 @@ class DownloadProgressListener extends \PEAR2\HTTP\Request\Listener
                 // borrowed from fetch.php in php-src
                 if ($data > 0) {
                     if ($this->preview) {
-                        Logger::log(0, $this->preview);
+                        Logger::log(0, rtrim($this->preview, "\n"));
                         $this->preview = '';
                     }
 
