@@ -10,7 +10,8 @@ $pf->version['release'] = '2.0.0';
 
 $chan = new \Pyrus\ChannelFile\v1;
 $chan->setValidationPackage('notfoo', '1.2');
-$validate = new \Pyrus\Validate;
+
+$validate = new Validate_Test;
 $validate->setPackageFile($pf);
 $validate->setChannel($chan);
 $test->assertEquals(true, $validate->validatePackageName(), 'test 1');

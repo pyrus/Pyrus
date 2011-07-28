@@ -60,7 +60,6 @@ class Validate
      * Override this method to handle validation of normal package names
      * @param string
      * @return bool
-     * @access protected
      */
     protected function _validPackageName($name)
     {
@@ -70,9 +69,8 @@ class Validate
     /**
      * @param string package name to validate
      * @param string name of channel-specific validation package
-     * @final
      */
-    final function validPackageName($name, $validateName = false)
+    final public function validPackageName($name, $validateName = false)
     {
         if ($validateName && strtolower($name) == strtolower($validateName)) {
             return (bool) preg_match('/^[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)*$/', $name);
@@ -85,10 +83,8 @@ class Validate
      * This validates a bundle name, and bundle names must conform
      * to the PEAR naming convention, so the method is final and static.
      * @param string
-     * @final
-     * @static
      */
-    static final function validGroupName($name)
+    static final public function validGroupName($name)
     {
         return (bool) preg_match('/^[A-Za-z][a-zA-Z0-9_]+$/', $name);
     }
@@ -97,10 +93,8 @@ class Validate
      * Determine whether $state represents a valid stability level
      * @param string
      * @return bool
-     * @static
-     * @final
      */
-    static final function validState($state)
+    static final public function validState($state)
     {
         return in_array($state, array('snapshot', 'devel', 'alpha', 'beta', 'stable'));
     }
@@ -108,10 +102,8 @@ class Validate
     /**
      * Get a list of valid stability levels
      * @return array
-     * @static
-     * @final
      */
-    static final function getValidStates()
+    static final public function getValidStates()
     {
         return array('snapshot', 'devel', 'alpha', 'beta', 'stable');
     }
@@ -121,10 +113,8 @@ class Validate
      * by version_compare
      * @param string
      * @return bool
-     * @static
-     * @final
      */
-    static final function validVersion($ver)
+    static final public function validVersion($ver)
     {
         return (bool) preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/', $ver);
     }
@@ -132,33 +122,27 @@ class Validate
     /**
      * @param \Pyrus\PackageFileInterface
      */
-    function setPackageFile(PackageFileInterface $pf)
+    public function setPackageFile(PackageFileInterface $pf)
     {
         $this->_packagexml = $pf;
     }
 
-    function setChannel(ChannelFileInterface $chan)
+    public function setChannel(ChannelFileInterface $chan)
     {
         $this->channel = $chan;
     }
 
-    /**
-     * @access private
-     */
     protected function _addFailure($field, $reason)
     {
         $this->failures->E_ERROR[] = new Validate\Exception($reason, $field);
     }
 
-    /**
-     * @access private
-     */
     protected function _addWarning($field, $reason)
     {
         $this->failures->E_WARNING[] = new Validate\Exception($reason, $field);
     }
 
-    function getFailures()
+    public function getFailures()
     {
         return $this->failures;
     }
@@ -166,7 +150,7 @@ class Validate
     /**
      * @param int one of the \Pyrus\Validate::* constants
      */
-    function validate($state = null)
+    public function validate($state = null)
     {
         if (!isset($this->_packagexml)) {
             return false;
@@ -195,10 +179,7 @@ class Validate
         return !((bool) count($this->failures->E_ERROR));
     }
 
-    /**
-     * @access protected
-     */
-    function validatePackageName()
+    protected function validatePackageName()
     {
         if ($this->_state == Validate::PACKAGING || $this->_state == Validate::NORMAL) {
             if ($this->_packagexml->extends) {
@@ -241,10 +222,7 @@ class Validate
         return false;
     }
 
-    /**
-     * @access protected
-     */
-    function validateVersion()
+    protected function validateVersion()
     {
         if ($this->_packagexml->stability['release'] == 'snapshot') {
             // allow any version
@@ -436,20 +414,14 @@ class Validate
         }
     }
 
-    /**
-     * @access protected
-     */
-    function validateMaintainers()
+    protected function validateMaintainers()
     {
         // maintainers can only be truly validated server-side for most channels
         // but allow this customization for those who wish it
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateDate()
+    protected function validateDate()
     {
         if ($this->_state == Validate::NORMAL || $this->_state == Validate::PACKAGING) {
 
@@ -470,10 +442,7 @@ class Validate
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateTime()
+    protected function validateTime()
     {
         if (!$this->_packagexml->time) {
             // default of no time value set
@@ -496,14 +465,10 @@ class Validate
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateStability()
+    protected function validateStability()
     {
         $ret = true;
         $packagestability = $this->_packagexml->stability['release'];
-        $apistability = $this->_packagexml->stability['api'];
         if (!self::validState($packagestability)) {
             $this->_addFailure('state', 'invalid release stability "' .
                 $this->_packagexml->stability['release'] . '", must be one of: ' .
@@ -511,6 +476,7 @@ class Validate
             $ret = false;
         }
 
+        $apistability = $this->_packagexml->stability['api'];
         $apistates = self::getValidStates();
         array_shift($apistates); // snapshot is not allowed
         if (!in_array($apistability, $apistates)) {
@@ -523,69 +489,51 @@ class Validate
         return $ret;
     }
 
-    /**
-     * @access protected
-     */
-    function validateSummary()
+    protected function validateSummary()
     {
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateDescription()
+    protected function validateDescription()
     {
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateLicense()
+    protected function validateLicense()
     {
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateNotes()
+    protected function validateNotes()
     {
         return true;
     }
 
     /**
      * for package.xml 2.0 only - channels can't use package.xml 1.0
-     * @access protected
      */
-    function validateDependencies()
+    protected function validateDependencies()
     {
         return true;
     }
 
     /**
      * for package.xml 2.0 only
-     * @access protected
      */
-    function validateMainFilelist()
+    protected function validateMainFilelist()
     {
         return true; // placeholder for now
     }
 
     /**
      * for package.xml 2.0 only
-     * @access protected
      */
-    function validateReleaseFilelist()
+    protected function validateReleaseFilelist()
     {
         return true; // placeholder for now
     }
 
-    /**
-     * @access protected
-     */
-    function validateChangelog()
+    protected function validateChangelog()
     {
         return true;
     }
