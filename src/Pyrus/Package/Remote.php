@@ -160,7 +160,7 @@ class Remote extends \Pyrus\Package
         if ($internal->channel != $this->channel) {
             throw new Exception('SECURITY ERROR: package is claiming to be from ' .
                                 'channel ' . $internal->channel . ', but we are ' .
-                                'channel ' . $this->name);
+                                'channel ' . $this->channel);
         }
 
         $internal->setFrom($this->internal);
