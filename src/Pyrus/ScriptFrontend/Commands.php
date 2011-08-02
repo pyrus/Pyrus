@@ -26,6 +26,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 namespace Pyrus\ScriptFrontend;
+use Pyrus\ScriptFrontend;
+
 class Commands implements \Pyrus\LogInterface
 {
     public $commands = array();
@@ -460,6 +462,30 @@ previous:
             return $this->upgrade(array('package' => array('pear2.php.net/PEAR2_SimpleChannelServer-alpha')),
                            array('plugin' => true, 'force' => false, 'optionaldeps' => false));
         }
+    }
+
+    /**
+     * Search for known packages matching a query
+     *
+     * @param array $args Array of command line arguments
+     */
+    function search($args)
+    {
+        echo 'Searching for '.$args['query'].PHP_EOL;
+
+        $search = new Commands\Search();
+        $results = $search->query($args['query']);
+
+        if (false === $results) {
+            echo 'No results found.'.PHP_EOL;
+            return;
+        }
+
+        echo count($results) . ' packages found:'.PHP_EOL;
+        foreach ($results as $name=>$result) {
+            echo $name.PHP_EOL;
+        }
+        echo PHP_EOL.'For information on a specific package, type: pyrus info channel/PackageName'.PHP_EOL;
     }
 
     /**
