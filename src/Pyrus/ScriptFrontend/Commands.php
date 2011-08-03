@@ -91,14 +91,14 @@ class Commands implements \Pyrus\LogInterface
             }
 
             if ('@PACKAGE_VERSION@' == '@'.'PACKAGE_VERSION@') {
-                $version = '2.0.0a4'; // running from svn
+                $version = '2.0.0a4'; // running from git
             } else {
                 $version = '@PACKAGE_VERSION@';
             }
 
             static::$commandParser = new \Pyrus\ScriptFrontend(array(
                     'version' => $version,
-                    'description' => 'Pyrus, the installer for PEAR2',
+                    'description' => 'Pyrus, the PHP manager',
                     'name' => 'php ' . basename($_SERVER['argv'][0])
                 )
             );
