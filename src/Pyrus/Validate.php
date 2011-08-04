@@ -456,7 +456,7 @@ class Validate
                 return false;
             }
 
-            if (strtotime($this->_packagexml->time) == -1) {
+            if (strtotime($this->_packagexml->time) === false) {
                 $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
                 return false;
             }
