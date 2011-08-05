@@ -245,9 +245,9 @@ class PECLBuild
         }
 
         // Find config. outside of normal path - e.g. config.m4
-        foreach (array_keys($pkg->installcontents) as $item) {
-          if (stristr(basename($item), 'config.m4')) {
-            $dir .= DIRECTORY_SEPARATOR . dirname($item);
+        foreach ($pkg->installcontents as $file) {
+          if (stristr(basename($file->name), 'config.m4')) {
+            $dir .= DIRECTORY_SEPARATOR . dirname($file->name);
             break;
           }
         }
