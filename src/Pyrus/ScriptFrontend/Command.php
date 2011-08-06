@@ -27,6 +27,7 @@
 namespace Pyrus\ScriptFrontend;
 class Command extends \PEAR2\Console\CommandLine\Command
 {
+    public $doc = '';
 
     /**
      * Display the usage help message to the user, but don't exit
@@ -36,8 +37,8 @@ class Command extends \PEAR2\Console\CommandLine\Command
      * @return void
      * @access public
      */
-    public function displayUsage($exitCode = 1, $doc)
+    public function displayUsage($exitCode = 1)
     {
-        echo "\n", $this->renderer->commandUsage($doc);
+        echo "\n", $this->renderer->commandUsage($this->doc);
     }
 }

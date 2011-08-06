@@ -484,7 +484,8 @@ previous:
                 echo "Unknown command: $args[command]\n";
                 static::$commandParser->displayUsage();
             } else {
-                static::$commandParser->commands[$args['command']]->displayUsage(false, $info['doc']);
+                static::$commandParser->commands[$args['command']]->doc = $info['doc'];
+                static::$commandParser->commands[$args['command']]->displayUsage(false);
             }
         }
     }
