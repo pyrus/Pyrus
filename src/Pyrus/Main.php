@@ -162,7 +162,7 @@ class Main
             $request->setHeader('If-Modified-Since', $lastmodified);
         }
 
-        $request->setHeader('User-Agent', 'PEAR2_Pyrus/@PACKAGE_VERSION@/PHP/' . PHP_VERSION);
+        $request->setHeader('User-Agent', 'Pyrus/@PACKAGE_VERSION@/PHP/' . PHP_VERSION);
         $username = Config::current()->username;
         $password = Config::current()->password;
         if ($username && $password) {
