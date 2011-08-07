@@ -95,9 +95,11 @@ class Validator
                 }
                 $tmpschema = $temp . DIRECTORY_SEPARATOR . basename($schema);
                 copy($schema, $tmpschema);
+                $dom->schemaValidate($tmpschema);
+            } else {
+                $dom->schemaValidate($schema);
             }
 
-            $dom->schemaValidate($tmpschema);
             $causes = array();
             foreach (libxml_get_errors() as $error) {
                 $this->errors->E_ERROR[] = new \Pyrus\PackageFile\Exception("Line " .
