@@ -16,3 +16,4 @@ Bug Fixes/Refactoring:
    This means all includes and classes need to drop the PEAR2 portion [helgi]
  - Use the channel name instead of package name when giving the security error of when a package claims
    to be from channel X but really is Y (pyrus/Pyrus#50) [xc]
+ - DOMDocument::schemaValidate doesn't support phar:// stream [tyrael]
