@@ -229,51 +229,43 @@ class Validate
             return true;
         }
 
-        if ($this->_state != Validate::PACKAGING) {
-            if (!$this->validVersion($this->_packagexml->version['release'])) {
-                $this->_addFailure('version',
-                    'Invalid version number "' . $this->_packagexml->version['release'] . '"');
-                return false;
-            }
+        $version = $this->_packagexml->version['release'];
+        if ($this->_state != Validate::PACKAGING && !$this->validVersion($version)) {
+            $this->_addFailure('version', 'Invalid version number "' . $version . '"');
+            return false;
         }
 
-        $version = $this->_packagexml->version['release'];
         $versioncomponents = explode('.', $version);
-        if (count($versioncomponents) != 3) {
-            $this->_addWarning('version',
-                'A version number should have 3 decimals (x.y.z)');
+        if (count($versioncomponents) !== 3) {
+            $this->_addWarning('version', 'A version number should have 3 decimals (x.y.z)');
             return true;
         }
 
         $name = $this->_packagexml->name;
         // version must be based upon state
         switch ($this->_packagexml->stability['release']) {
-            case 'devel' :
+            case 'devel':
                 if ($versioncomponents[0] . 'a' == '0a') {
                     return true;
                 }
 
                 if ($versioncomponents[0] == 0) {
                     $versioncomponents[0] = '0';
-                    $this->_addWarning('version',
-                        'version "' . $version . '" should be "' .
-                        implode('.' ,$versioncomponents) . '"');
+                    $this->_addWarning('version', 'version "' . $version . '" should be "' .
+                        implode('.' , $versioncomponents) . '"');
                 } else {
-                    $this->_addWarning('version',
-                        'packages with devel stability must be < version 1.0.0');
+                    $this->_addWarning('version', 'packages with devel stability must be < version 1.0.0');
                 }
+
                 return true;
-            break;
-            case 'alpha' :
-            case 'beta' :
+            case 'alpha':
+            case 'beta':
                 // check for a package that extends a package,
                 // like Foo and Foo2
-                if ($this->_state == Validate::PACKAGING) {
-                    if (substr($versioncomponents[2], 1, 2) == 'rc') {
-                        $this->_addFailure('version', 'Release Candidate versions ' .
+                if ($this->_state == Validate::PACKAGING && substr($versioncomponents[2], 1, 2) == 'rc') {
+                    $this->_addFailure('version', 'Release Candidate versions ' .
                             'must have capital RC, not lower-case rc');
-                        return false;
-                    }
+                    return false;
                 }
 
                 if (!$this->_packagexml->extends) {
@@ -367,22 +359,21 @@ class Validate
                             implode('.' ,$versioncomponents) . '"');
                     }
                 }
+
                 return true;
-            break;
-            case 'stable' :
+            case 'stable':
                 if ($versioncomponents[0] == '0') {
                     $this->_addWarning('version', 'versions less than 1.0.0 cannot ' .
                     'be stable');
                     return true;
                 }
 
-                if (!is_numeric($versioncomponents[2])) {
-                    if (preg_match('/\d+(rc|a|alpha|b|beta)\d*/i',
-                          $versioncomponents[2])) {
-                        $this->_addWarning('version', 'version "' . $version . '" or any ' .
+                if (!is_numeric($versioncomponents[2]) &&
+                    preg_match('/\d+(rc|a|alpha|b|beta)\d*/i', $versioncomponents[2])
+                ) {
+                    $this->_addWarning('version', 'version "' . $version . '" or any ' .
                             'RC/beta/alpha version cannot be stable');
-                        return true;
-                    }
+                    return true;
                 }
 
                 // check for a package that extends a package,
@@ -407,10 +398,8 @@ class Validate
                 }
 
                 return true;
-            break;
-            default :
+            default:
                 return false;
-            break;
         }
     }
 
@@ -424,40 +413,41 @@ class Validate
     protected function validateDate()
     {
         if ($this->_state == Validate::NORMAL || $this->_state == Validate::PACKAGING) {
-
-            if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/',
-                  $this->_packagexml->date, $res) ||
-                  count($res) < 4
-                  || !checkdate($res[2], $res[3], $res[1])
+            $date = $this->_packagexml->date;
+            if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/', $date, $res) ||
+                count($res) < 4 ||
+                !checkdate($res[2], $res[3], $res[1])
             ) {
-                $this->_addFailure('date', 'invalid release date "' . $this->_packagexml->date . '"');
+                $this->_addFailure('date', 'invalid release date "' . $date . '"');
                 return false;
             }
 
 
-            if ($this->_state == Validate::PACKAGING && $this->_packagexml->date != date('Y-m-d')) {
-                $this->_addWarning('date', 'Release Date "' . $this->_packagexml->date . '" is not today');
+            if ($this->_state == Validate::PACKAGING && $date != date('Y-m-d')) {
+                $this->_addWarning('date', 'Release Date "' . $date . '" is not today');
             }
         }
+
         return true;
     }
 
     protected function validateTime()
     {
-        if (!$this->_packagexml->time) {
+        $time = $this->_packagexml->time;
+        if (!$time) {
             // default of no time value set
             return true;
         }
 
         // packager automatically sets time, so only validate if pear validate is called
         if ($this->_state = Validate::NORMAL) {
-            if (!preg_match('/\d\d:\d\d:\d\d/', $this->_packagexml->time)) {
-                $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
+            if (!preg_match('/\d\d:\d\d:\d\d/', $time)) {
+                $this->_addFailure('time', 'invalid release time "' . $time . '"');
                 return false;
             }
 
-            if (strtotime($this->_packagexml->time) === false) {
-                $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
+            if (strtotime($time) === false) {
+                $this->_addFailure('time', 'invalid release time "' . $time . '"');
                 return false;
             }
         }
@@ -468,21 +458,19 @@ class Validate
     protected function validateStability()
     {
         $ret = true;
-        $packagestability = $this->_packagexml->stability['release'];
-        if (!self::validState($packagestability)) {
+        $stability = $this->_packagexml->stability['release'];
+        if (!self::validState($stability)) {
             $this->_addFailure('state', 'invalid release stability "' .
-                $this->_packagexml->stability['release'] . '", must be one of: ' .
-                implode(', ', self::getValidStates()));
+                $stability . '", must be one of: ' . implode(', ', self::getValidStates()));
             $ret = false;
         }
 
-        $apistability = $this->_packagexml->stability['api'];
+        $stability = $this->_packagexml->stability['api'];
         $apistates = self::getValidStates();
         array_shift($apistates); // snapshot is not allowed
-        if (!in_array($apistability, $apistates)) {
+        if (!in_array($stability, $apistates)) {
             $this->_addFailure('state', 'invalid API stability "' .
-                $this->_packagexml->stability['api'] . '", must be one of: ' .
-                implode(', ', $apistates));
+                $stability. '", must be one of: ' . implode(', ', $apistates));
             $ret = false;
         }
 
