@@ -14,7 +14,7 @@ restore_include_path();
 $help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $help2 =
 '
-Pyrus, the installer for PEAR2
+Pyrus, the PHP manager
 
 Usage:
   php help.php [/path/to/pyrus] [options]
@@ -100,7 +100,7 @@ Error: Command "fooburp" is not valid.
 Type "php help.php --help" to get help.
 Type "php help.php <command> --help" to get help on specific command.
 
-Pyrus, the installer for PEAR2
+Pyrus, the PHP manager
 
 Usage:
   php help.php [/path/to/pyrus] [options]

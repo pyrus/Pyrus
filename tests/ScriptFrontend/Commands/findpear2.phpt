@@ -65,7 +65,7 @@ TESTDIR . DIRECTORY_SEPARATOR . "testit\n" .
 ;
 $help2 =
 '
-Pyrus, the installer for PEAR2
+Pyrus, the PHP manager
 
 Usage:
   php findpear2.php [/path/to/pyrus] [options]

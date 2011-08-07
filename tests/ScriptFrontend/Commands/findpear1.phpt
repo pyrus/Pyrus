@@ -13,7 +13,7 @@ ob_end_clean();
 $help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $help2 =
 '
-Pyrus, the installer for PEAR2
+Pyrus, the PHP manager
 
 Usage:
   php findpear1.php [/path/to/pyrus] [options]
