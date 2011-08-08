@@ -105,16 +105,8 @@ class v2 extends \Pyrus\XMLParser
 
         if (preg_match('/<package[^>]+version="2.1"/', $data)) {
             $schema = \Pyrus\Main::getDataPath() . '/package-2.1.xsd';
-            // for running out of cvs
-            if (!file_exists($schema)) {
-                $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/package-2.1.xsd';
-            }
         } elseif (preg_match('/<package[^>]+version="2.0"/', $data)) {
             $schema = \Pyrus\Main::getDataPath() . '/package-2.0.xsd';
-            // for running out of cvs
-            if (!file_exists($schema)) {
-                $schema = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/package-2.0.xsd';
-            }
         } else {
             throw new \Pyrus\PackageFile\Exception('Cannot process package.xml version 1.0', -3);
         }

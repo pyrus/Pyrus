@@ -75,19 +75,12 @@ class Commands implements \Pyrus\LogInterface
             $schemapath = \Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
             $defaultcommands = \Pyrus\Main::getDataPath() . '/built-in-commands.xml';
 
+            // Check for a local-developer-commands.xml file
             $localcommands = false;
-
-            if (!file_exists($schemapath)) {
-                // We're running from source
-                $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
-                $defaultcommands = realpath(__DIR__ . '/../../../data/built-in-commands.xml');
-
-                // Check for a local-developer-commands.xml file
-                if (file_exists(__DIR__ . '/../../../data/local-developer-commands.xml')) {
-                    $localcommands = realpath(__DIR__ . '/../../../data/local-developer-commands.xml');
-                }
-
+            if (file_exists(\Pyrus\Main::getDataPath() . '/local-developer-commands.xml')) {
+                $localcommands = realpath(\Pyrus\Main::getDataPath() . '/local-developer-commands.xml');
             }
+
 
             $parser = new \Pyrus\XMLParser;
             $commands = $parser->parse($defaultcommands, $schemapath);
@@ -100,14 +93,14 @@ class Commands implements \Pyrus\LogInterface
             }
 
             if ('@PACKAGE_VERSION@' == '@'.'PACKAGE_VERSION@') {
-                $version = '2.0.0a4'; // running from svn
+                $version = '2.0.0a4'; // running from git
             } else {
                 $version = '@PACKAGE_VERSION@';
             }
 
             static::$commandParser = new \Pyrus\ScriptFrontend(array(
                     'version' => $version,
-                    'description' => 'Pyrus, the installer for PEAR2',
+                    'description' => 'Pyrus, the PHP manager',
                     'name' => 'php ' . basename($_SERVER['argv'][0])
                 )
             );
@@ -253,10 +246,7 @@ class Commands implements \Pyrus\LogInterface
     {
         $schemapath = \Pyrus\Main::getDataPath() . '/customcommand-2.0.xsd';
         $defaultcommands = \Pyrus\Main::getDataPath() . '/' . $type . 'commands.xml';
-        if (!file_exists($schemapath)) {
-            $schemapath = realpath(__DIR__ . '/../../../data/customcommand-2.0.xsd');
-            $defaultcommands = realpath(__DIR__ . '/../../../data/' . $type . 'commands.xml');
-        }
+
         $parser = new \Pyrus\XMLParser;
         $commands = $parser->parse($defaultcommands, $schemapath);
         $commands = $commands['commands']['command'];
@@ -520,7 +510,8 @@ previous:
                 echo "Unknown command: $args[command]\n";
                 static::$commandParser->displayUsage();
             } else {
-                static::$commandParser->commands[$args['command']]->displayUsage(false, $info['doc']);
+                static::$commandParser->commands[$args['command']]->doc = $info['doc'];
+                static::$commandParser->commands[$args['command']]->displayUsage(false);
             }
         }
     }

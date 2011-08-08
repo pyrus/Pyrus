@@ -60,7 +60,6 @@ class Validate
      * Override this method to handle validation of normal package names
      * @param string
      * @return bool
-     * @access protected
      */
     protected function _validPackageName($name)
     {
@@ -70,9 +69,8 @@ class Validate
     /**
      * @param string package name to validate
      * @param string name of channel-specific validation package
-     * @final
      */
-    final function validPackageName($name, $validateName = false)
+    final public function validPackageName($name, $validateName = false)
     {
         if ($validateName && strtolower($name) == strtolower($validateName)) {
             return (bool) preg_match('/^[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)*$/', $name);
@@ -85,10 +83,8 @@ class Validate
      * This validates a bundle name, and bundle names must conform
      * to the PEAR naming convention, so the method is final and static.
      * @param string
-     * @final
-     * @static
      */
-    static final function validGroupName($name)
+    static final public function validGroupName($name)
     {
         return (bool) preg_match('/^[A-Za-z][a-zA-Z0-9_]+$/', $name);
     }
@@ -97,10 +93,8 @@ class Validate
      * Determine whether $state represents a valid stability level
      * @param string
      * @return bool
-     * @static
-     * @final
      */
-    static final function validState($state)
+    static final public function validState($state)
     {
         return in_array($state, array('snapshot', 'devel', 'alpha', 'beta', 'stable'));
     }
@@ -108,10 +102,8 @@ class Validate
     /**
      * Get a list of valid stability levels
      * @return array
-     * @static
-     * @final
      */
-    static final function getValidStates()
+    static final public function getValidStates()
     {
         return array('snapshot', 'devel', 'alpha', 'beta', 'stable');
     }
@@ -121,10 +113,8 @@ class Validate
      * by version_compare
      * @param string
      * @return bool
-     * @static
-     * @final
      */
-    static final function validVersion($ver)
+    static final public function validVersion($ver)
     {
         return (bool) preg_match('/^\d+(?:\.\d+)*(?:[a-zA-Z]+\d*)?$/', $ver);
     }
@@ -132,33 +122,27 @@ class Validate
     /**
      * @param \Pyrus\PackageFileInterface
      */
-    function setPackageFile(PackageFileInterface $pf)
+    public function setPackageFile(PackageFileInterface $pf)
     {
         $this->_packagexml = $pf;
     }
 
-    function setChannel(ChannelFileInterface $chan)
+    public function setChannel(ChannelFileInterface $chan)
     {
         $this->channel = $chan;
     }
 
-    /**
-     * @access private
-     */
     protected function _addFailure($field, $reason)
     {
         $this->failures->E_ERROR[] = new Validate\Exception($reason, $field);
     }
 
-    /**
-     * @access private
-     */
     protected function _addWarning($field, $reason)
     {
         $this->failures->E_WARNING[] = new Validate\Exception($reason, $field);
     }
 
-    function getFailures()
+    public function getFailures()
     {
         return $this->failures;
     }
@@ -166,7 +150,7 @@ class Validate
     /**
      * @param int one of the \Pyrus\Validate::* constants
      */
-    function validate($state = null)
+    public function validate($state = null)
     {
         if (!isset($this->_packagexml)) {
             return false;
@@ -195,10 +179,7 @@ class Validate
         return !((bool) count($this->failures->E_ERROR));
     }
 
-    /**
-     * @access protected
-     */
-    function validatePackageName()
+    protected function validatePackageName()
     {
         if ($this->_state == Validate::PACKAGING || $this->_state == Validate::NORMAL) {
             if ($this->_packagexml->extends) {
@@ -241,61 +222,50 @@ class Validate
         return false;
     }
 
-    /**
-     * @access protected
-     */
-    function validateVersion()
+    protected function validateVersion()
     {
         if ($this->_packagexml->stability['release'] == 'snapshot') {
             // allow any version
             return true;
         }
 
-        if ($this->_state != Validate::PACKAGING) {
-            if (!$this->validVersion($this->_packagexml->version['release'])) {
-                $this->_addFailure('version',
-                    'Invalid version number "' . $this->_packagexml->version['release'] . '"');
-                return false;
-            }
+        $version = $this->_packagexml->version['release'];
+        if ($this->_state != Validate::PACKAGING && !$this->validVersion($version)) {
+            $this->_addFailure('version', 'Invalid version number "' . $version . '"');
+            return false;
         }
 
-        $version = $this->_packagexml->version['release'];
         $versioncomponents = explode('.', $version);
-        if (count($versioncomponents) != 3) {
-            $this->_addWarning('version',
-                'A version number should have 3 decimals (x.y.z)');
+        if (count($versioncomponents) !== 3) {
+            $this->_addWarning('version', 'A version number should have 3 decimals (x.y.z)');
             return true;
         }
 
         $name = $this->_packagexml->name;
         // version must be based upon state
         switch ($this->_packagexml->stability['release']) {
-            case 'devel' :
+            case 'devel':
                 if ($versioncomponents[0] . 'a' == '0a') {
                     return true;
                 }
 
                 if ($versioncomponents[0] == 0) {
                     $versioncomponents[0] = '0';
-                    $this->_addWarning('version',
-                        'version "' . $version . '" should be "' .
-                        implode('.' ,$versioncomponents) . '"');
+                    $this->_addWarning('version', 'version "' . $version . '" should be "' .
+                        implode('.' , $versioncomponents) . '"');
                 } else {
-                    $this->_addWarning('version',
-                        'packages with devel stability must be < version 1.0.0');
+                    $this->_addWarning('version', 'packages with devel stability must be < version 1.0.0');
                 }
+
                 return true;
-            break;
-            case 'alpha' :
-            case 'beta' :
+            case 'alpha':
+            case 'beta':
                 // check for a package that extends a package,
                 // like Foo and Foo2
-                if ($this->_state == Validate::PACKAGING) {
-                    if (substr($versioncomponents[2], 1, 2) == 'rc') {
-                        $this->_addFailure('version', 'Release Candidate versions ' .
+                if ($this->_state == Validate::PACKAGING && substr($versioncomponents[2], 1, 2) == 'rc') {
+                    $this->_addFailure('version', 'Release Candidate versions ' .
                             'must have capital RC, not lower-case rc');
-                        return false;
-                    }
+                    return false;
                 }
 
                 if (!$this->_packagexml->extends) {
@@ -389,22 +359,21 @@ class Validate
                             implode('.' ,$versioncomponents) . '"');
                     }
                 }
+
                 return true;
-            break;
-            case 'stable' :
+            case 'stable':
                 if ($versioncomponents[0] == '0') {
                     $this->_addWarning('version', 'versions less than 1.0.0 cannot ' .
                     'be stable');
                     return true;
                 }
 
-                if (!is_numeric($versioncomponents[2])) {
-                    if (preg_match('/\d+(rc|a|alpha|b|beta)\d*/i',
-                          $versioncomponents[2])) {
-                        $this->_addWarning('version', 'version "' . $version . '" or any ' .
+                if (!is_numeric($versioncomponents[2]) &&
+                    preg_match('/\d+(rc|a|alpha|b|beta)\d*/i', $versioncomponents[2])
+                ) {
+                    $this->_addWarning('version', 'version "' . $version . '" or any ' .
                             'RC/beta/alpha version cannot be stable');
-                        return true;
-                    }
+                    return true;
                 }
 
                 // check for a package that extends a package,
@@ -429,66 +398,56 @@ class Validate
                 }
 
                 return true;
-            break;
-            default :
+            default:
                 return false;
-            break;
         }
     }
 
-    /**
-     * @access protected
-     */
-    function validateMaintainers()
+    protected function validateMaintainers()
     {
         // maintainers can only be truly validated server-side for most channels
         // but allow this customization for those who wish it
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateDate()
+    protected function validateDate()
     {
         if ($this->_state == Validate::NORMAL || $this->_state == Validate::PACKAGING) {
-
-            if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/',
-                  $this->_packagexml->date, $res) ||
-                  count($res) < 4
-                  || !checkdate($res[2], $res[3], $res[1])
+            $date = $this->_packagexml->date;
+            if (!preg_match('/(\d\d\d\d)\-(\d\d)\-(\d\d)/', $date, $res) ||
+                count($res) < 4 ||
+                !checkdate($res[2], $res[3], $res[1])
             ) {
-                $this->_addFailure('date', 'invalid release date "' . $this->_packagexml->date . '"');
+                $this->_addFailure('date', 'invalid release date "' . $date . '"');
                 return false;
             }
 
 
-            if ($this->_state == Validate::PACKAGING && $this->_packagexml->date != date('Y-m-d')) {
-                $this->_addWarning('date', 'Release Date "' . $this->_packagexml->date . '" is not today');
+            if ($this->_state == Validate::PACKAGING && $date != date('Y-m-d')) {
+                $this->_addWarning('date', 'Release Date "' . $date . '" is not today');
             }
         }
+
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateTime()
+    protected function validateTime()
     {
-        if (!$this->_packagexml->time) {
+        $time = $this->_packagexml->time;
+        if (!$time) {
             // default of no time value set
             return true;
         }
 
         // packager automatically sets time, so only validate if pear validate is called
         if ($this->_state = Validate::NORMAL) {
-            if (!preg_match('/\d\d:\d\d:\d\d/', $this->_packagexml->time)) {
-                $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
+            if (!preg_match('/\d\d:\d\d:\d\d/', $time)) {
+                $this->_addFailure('time', 'invalid release time "' . $time . '"');
                 return false;
             }
 
-            if (strtotime($this->_packagexml->time) == -1) {
-                $this->_addFailure('time', 'invalid release time "' . $this->_packagexml->time . '"');
+            if (strtotime($time) === false) {
+                $this->_addFailure('time', 'invalid release time "' . $time . '"');
                 return false;
             }
         }
@@ -496,96 +455,73 @@ class Validate
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateStability()
+    protected function validateStability()
     {
         $ret = true;
-        $packagestability = $this->_packagexml->stability['release'];
-        $apistability = $this->_packagexml->stability['api'];
-        if (!self::validState($packagestability)) {
+        $stability = $this->_packagexml->stability['release'];
+        if (!self::validState($stability)) {
             $this->_addFailure('state', 'invalid release stability "' .
-                $this->_packagexml->stability['release'] . '", must be one of: ' .
-                implode(', ', self::getValidStates()));
+                $stability . '", must be one of: ' . implode(', ', self::getValidStates()));
             $ret = false;
         }
 
+        $stability = $this->_packagexml->stability['api'];
         $apistates = self::getValidStates();
         array_shift($apistates); // snapshot is not allowed
-        if (!in_array($apistability, $apistates)) {
+        if (!in_array($stability, $apistates)) {
             $this->_addFailure('state', 'invalid API stability "' .
-                $this->_packagexml->stability['api'] . '", must be one of: ' .
-                implode(', ', $apistates));
+                $stability. '", must be one of: ' . implode(', ', $apistates));
             $ret = false;
         }
 
         return $ret;
     }
 
-    /**
-     * @access protected
-     */
-    function validateSummary()
+    protected function validateSummary()
     {
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateDescription()
+    protected function validateDescription()
     {
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateLicense()
+    protected function validateLicense()
     {
         return true;
     }
 
-    /**
-     * @access protected
-     */
-    function validateNotes()
+    protected function validateNotes()
     {
         return true;
     }
 
     /**
      * for package.xml 2.0 only - channels can't use package.xml 1.0
-     * @access protected
      */
-    function validateDependencies()
+    protected function validateDependencies()
     {
         return true;
     }
 
     /**
      * for package.xml 2.0 only
-     * @access protected
      */
-    function validateMainFilelist()
+    protected function validateMainFilelist()
     {
         return true; // placeholder for now
     }
 
     /**
      * for package.xml 2.0 only
-     * @access protected
      */
-    function validateReleaseFilelist()
+    protected function validateReleaseFilelist()
     {
         return true; // placeholder for now
     }
 
-    /**
-     * @access protected
-     */
-    function validateChangelog()
+    protected function validateChangelog()
     {
         return true;
     }

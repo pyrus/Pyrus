@@ -29,9 +29,6 @@ class Customrole extends \Pyrus\Installer\Role\Data
     {
         $parser = new \Pyrus\XMLParser;
         $schemapath = \Pyrus\Main::getDataPath();
-        if (!file_exists(\Pyrus\Main::getDataPath() . '/customrole-2.0.xsd')) {
-            $schemapath = realpath(__DIR__ . '/../../../data');
-        }
         $taskschema = $schemapath . '/customrole-2.0.xsd';
         try {
             $taskinfo = $parser->parse($package->getFilePath($file['attribs']['name']), $taskschema);

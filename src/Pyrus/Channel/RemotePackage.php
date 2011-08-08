@@ -198,25 +198,20 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
         }
 
         $d = \Pyrus\Main::getDataPath() . DIRECTORY_SEPARATOR . 'x509rootcerts';
-        // for running out of svn
-        if (!file_exists($d)) {
-            $d = realpath(__DIR__ . '/../../../data/x509rootcerts');
-        } else {
-            if (strpos($d, 'phar://') === 0) {
-                if (!file_exists($temp = Config::current()->temp_dir .
-                                 DIRECTORY_SEPARATOR . 'x509rootcerts')
-                ) {
-                    mkdir($temp, 0755, true);
-                }
-
-                // openssl can't process these from within a phar (pity)
-                foreach (static::$authorities as $i => $authority) {
-                    copy($d . DIRECTORY_SEPARATOR . $authority, $temp . DIRECTORY_SEPARATOR . $authority);
-                    $authorities[$i] = $temp . DIRECTORY_SEPARATOR . $authority;
-                }
-
-                return $authorities;
+        if (strpos($d, 'phar://') === 0) {
+            if (!file_exists($temp = Config::current()->temp_dir .
+                             DIRECTORY_SEPARATOR . 'x509rootcerts')
+            ) {
+                mkdir($temp, 0755, true);
             }
+
+            // openssl can't process these from within a phar (pity)
+            foreach (static::$authorities as $i => $authority) {
+                copy($d . DIRECTORY_SEPARATOR . $authority, $temp . DIRECTORY_SEPARATOR . $authority);
+                $authorities[$i] = $temp . DIRECTORY_SEPARATOR . $authority;
+            }
+
+            return $authorities;
         }
 
         $authorities = static::$authorities;
@@ -267,7 +262,7 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
 
     /**
      * Get the latest version of the package
-     * 
+     *
      * @return RemotePackage
      */
     function getLatestVersion()
