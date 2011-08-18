@@ -411,17 +411,6 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
                 }
 
                 $ret = new \Pyrus\Package\Remote($url . $ext);
-                if ($certdownloaded) {
-                    if ($ext == '.tar' || $ext == '.tgz') {
-                        if (phpversion() == '5.3.0') {
-                            Logger::log(0, 'WARNING: ' . $url . $ext . ' may not be installable ' .
-                                                                    'with PHP version 5.3.0, the PHP extension phar ' .
-                                                                    'has a bug verifying openssl signatures for ' .
-                                                                    'tar and tgz files.  Either upgrade to PHP 5.3.1 ' .
-                                                                    'or install the .zip version');
-                        }
-                    }
-                }
                 return $ret;
             } catch (\Pyrus\HTTPException $e) {
                 if ($certdownloaded && file_exists($pubkey)) {
