@@ -39,11 +39,11 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-03-27</date>
- <time>16:31:43</time>
+ <date>2011-08-18</date>
+ <time>13:26:13</time>
  <version>
-  <release>2.0.0a3</release>
-  <api>2.0.0a1</api>
+  <release>2.0.0a4</release>
+  <api>2.0.0a4</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -52,23 +52,29 @@ http://pear.php.net/manual/en/pyrus.php</description>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>Features:
 
- - Add object for interacting with installed packages [saltybeagle]
- - Auto-channel discovery for channels off web root [saltybeagle]
- - Improve missing package error message when no channel name is provided [saltybeagle]
- - Support auto-discovery for dependencies on unknown channels [saltybeagle]
- - Use setSchema for xsd validation, min libxml version 2.6.20 [boekkooi]
+ - Add support for installing from a remote package.xml [saltybeagle]
+ - Display version and stability in list-packages [saltybeagle]
+ - Improve error when phar includes are disabled by suhosin [mfonda]
+ - Replace config-show with allowing people to call the get command without any arguments to achieve the same result.
+   &quot;php pyrus.phar get&quot; and php &quot;pyrus.phar config-show&quot; are the same
+ - Dropped the channel-add command in favor of channel-discover as they were doing the same thing.
 
 Bug Fixes/Refactoring:
- - Correct exit status codes [saltybeagle]
- - Check if config options are set before re-setting during install [boekkooi]
- - Load custom roles installed outside the phar [boekkooi]
- - Added customsystemvars to the Replace task [boekkooi]
- - RecursiveIteratorIterator returns path twice when in phar [boekkooi]
- - Refactor AtomicFileTransaction [boekkooi]
 
+ - Improve error message for plugin installation failures [saltybeagle]
+ - Correct exit codes when pyrus fails from CLI [saltybeagle]
+ - Packaged license files should use 'filesource' not 'path' [saltybeagle]
+ - Removed the PEAR2 namespace and made Pyrus the top level namespace.
+   This means all includes and classes need to drop the PEAR2 portion [helgi]
+ - Use the channel name instead of package name when giving the security error of when a package claims
+   to be from channel X but really is Y (pyrus/Pyrus#50) [xc]
+ - DOMDocument::schemaValidate doesn't support phar:// stream [tyrael]
 
-Initial pyrus public API
-</notes>
+API notes for 2.0.0a4:
+
+ - Add Pyrus\Channel\RemotePackage::getLatestVersion() [saltybeagle]
+ - removed the second ($isxml) and third ($isremote) from the Pyrus\ChannelFile
+   __construct as it can ascertain that information automagically</notes>
  <contents>
   <dir name="/">
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/XMLWriter/XMLWriter/siblingtags.phpt"/>
@@ -123,9 +129,15 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.alpha.extends.2.0.0a1.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.alpha.0.3.4.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatetime.failure2.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatetime.failure1.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatestability.failure.release.invalidstate.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatestability.failure.api.invalidstate.snapshot.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatestability.failure.api.invalidstate.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatepackagename.failure.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatepackagename.extends.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatepackagename.extends.failure.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatedate.failure.invaliddate.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/setup.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Uninstaller/Uninstaller/uninstall.rollback.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Uninstaller/Uninstaller/uninstall.basic.phpt"/>
@@ -206,7 +218,6 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDiscover.fail2.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDiscover.fail.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDel.phpt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelAdd.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/build.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/v2.php"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/PEAR2SVN.php"/>
@@ -259,7 +270,7 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/pecl.txt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/pear.txt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/foo.txt"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/oauth-1.2.2.tar"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/RemotePackages/RemotePackages/singlerelease.phpt"/>
@@ -1797,6 +1808,8 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.depgroup.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.badmd5sum.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ignorexdebug.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Filesystem/Filesystem/setup.inc.php"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Filesystem/Filesystem/path.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/FileInstallationFilter/FileInstallationFilter/installconditions.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/setup.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/progress.phpt"/>
@@ -1994,6 +2007,7 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/setup.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/registry/Config/registry/getIterator.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/setup.php.inc"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.saveconfig.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.phpt"/>
@@ -2064,6 +2078,7 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel_complex2.xml"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel_complex.xml"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel.xml"/>
+   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/bug_35.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt"/>
@@ -2172,8 +2187,6 @@ Initial pyrus public API
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.intransaction.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/AtomicFileTransaction/ManagerClass/setup.php.inc"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.php"/>
-   <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.php"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback2.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.phpt"/>
    <file role="test" name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.fail.notintransaction.phpt"/>
@@ -2588,7 +2601,7 @@ Initial pyrus public API
    <package>
     <name>PEAR2_Autoload</name>
     <channel>pear2.php.net</channel>
-    <min>0.2.0</min>
+    <min>0.2.4</min>
    </package>
    <package>
     <name>PEAR2_Exception</name>
@@ -2608,7 +2621,7 @@ Initial pyrus public API
    <package>
     <name>PEAR2_Console_CommandLine</name>
     <channel>pear2.php.net</channel>
-    <min>0.1.0</min>
+    <min>0.2.0</min>
    </package>
   </required>
  </dependencies>
@@ -3015,8 +3028,6 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.fail.notintransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.fail.notintransaction.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback2.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/AtomicFileTransactionClass/rollback/AtomicFileTransaction/AtomicFileTransactionClass/rollback/rollback2.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.php" as="PEAR2_Pyrus/AtomicFileTransaction/begin/AtomicFileTransaction/begin/begin.fail.php"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.php" as="PEAR2_Pyrus/AtomicFileTransaction/createOrOpenPath/AtomicFileTransaction/createOrOpenPath/createoropenpath.fail.fp.stream.empty.php"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/AtomicFileTransaction/ManagerClass/setup.php.inc" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/AtomicFileTransaction/ManagerClass/setup.php.inc"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.intransaction.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.intransaction.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.phpt" as="PEAR2_Pyrus/AtomicFileTransaction/ManagerClass/begin/AtomicFileTransaction/ManagerClass/begin/begin.fail.phpt"/>
@@ -3125,6 +3136,7 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt" as="PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt" as="PEAR2_Pyrus/ChannelRegistry/AllRegistries/update/ChannelRegistry/AllRegistries/update/update.readonly.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt" as="PEAR2_Pyrus/ChannelRegistry/AllRegistries/__construct/ChannelRegistry/AllRegistries/__construct/errors.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/bug_35.phpt" as="PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/bug_35.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel.xml" as="PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel.xml"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel_complex.xml" as="PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel_complex.xml"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel_complex2.xml" as="PEAR2_Pyrus/ChannelRegistry/ChannelRegistry/sample_channel_complex2.xml"/>
@@ -3195,6 +3207,7 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.phpt" as="PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.saveconfig.phpt" as="PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/gooduserfile.saveconfig.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/setup.php.inc" as="PEAR2_Pyrus/Config/loadConfigFile/Config/loadConfigFile/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Config/registry/Config/registry/getIterator.phpt" as="PEAR2_Pyrus/Config/registry/Config/registry/getIterator.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt" as="PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt" as="PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/basic2.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/setup.php.inc" as="PEAR2_Pyrus/Config/setCascadingRegistries/Config/setCascadingRegistries/setup.php.inc"/>
@@ -3392,6 +3405,8 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/progress.phpt" as="PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/progress.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/setup.php.inc" as="PEAR2_Pyrus/DownloadProgressListener/DownloadProgressListener/setup.php.inc"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/FileInstallationFilter/FileInstallationFilter/installconditions.phpt" as="PEAR2_Pyrus/FileInstallationFilter/FileInstallationFilter/installconditions.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Filesystem/Filesystem/path.phpt" as="PEAR2_Pyrus/Filesystem/Filesystem/path.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Filesystem/Filesystem/setup.inc.php" as="PEAR2_Pyrus/Filesystem/Filesystem/setup.inc.php"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ignorexdebug.php" as="PEAR2_Pyrus/ignorexdebug.php"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.badmd5sum.phpt" as="PEAR2_Pyrus/Installer/Installer/install.badmd5sum.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Installer/Installer/install.depgroup.phpt" as="PEAR2_Pyrus/Installer/Installer/install.depgroup.phpt"/>
@@ -4929,7 +4944,7 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/RemotePackages/RemotePackages/singlerelease.phpt" as="PEAR2_Pyrus/RemotePackages/RemotePackages/singlerelease.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt" as="PEAR2_Pyrus/ScriptFileFilterIterator/ScriptFileFilterIterator/basic.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc" as="PEAR2_Pyrus/ScriptFileFilterIterator/ScriptFileFilterIterator/setup.php.inc"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar" as="PEAR2_Pyrus/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/docblock-0.2.0.tar"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/oauth-1.2.2.tar" as="PEAR2_Pyrus/ScriptFrontend/Commands/build/ScriptFrontend/Commands/build/oauth-1.2.2.tar"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/foo.txt" as="PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/foo.txt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/pear.txt" as="PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/pear.txt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/pecl.txt" as="PEAR2_Pyrus/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/ScriptFrontend/Commands/listPackages.pear1/php/.channels/.alias/pecl.txt"/>
@@ -4982,7 +4997,6 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/PEAR2SVN.php" as="PEAR2_Pyrus/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/PEAR2SVN.php"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/v2.php" as="PEAR2_Pyrus/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/ScriptFrontend/Commands/Pyrus_Developer/src/Pyrus/Developer/PackageFile/v2.php"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/build.phpt" as="PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/build.phpt"/>
-   <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelAdd.phpt" as="PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelAdd.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDel.phpt" as="PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDel.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDiscover.fail.phpt" as="PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDiscover.fail.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDiscover.fail2.phpt" as="PEAR2_Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/channelDiscover.fail2.phpt"/>
@@ -5063,9 +5077,15 @@ Initial pyrus public API
    <install name="test/pear2.php.net/PEAR2_Pyrus/Uninstaller/Uninstaller/uninstall.basic.phpt" as="PEAR2_Pyrus/Uninstaller/Uninstaller/uninstall.basic.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Uninstaller/Uninstaller/uninstall.rollback.phpt" as="PEAR2_Pyrus/Uninstaller/Uninstaller/uninstall.rollback.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/setup.php.inc" as="PEAR2_Pyrus/Validate/Validate/setup.php.inc"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatedate.failure.invaliddate.phpt" as="PEAR2_Pyrus/Validate/Validate/validatedate.failure.invaliddate.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatepackagename.extends.failure.phpt" as="PEAR2_Pyrus/Validate/Validate/validatepackagename.extends.failure.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatepackagename.extends.phpt" as="PEAR2_Pyrus/Validate/Validate/validatepackagename.extends.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatepackagename.failure.phpt" as="PEAR2_Pyrus/Validate/Validate/validatepackagename.failure.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatestability.failure.api.invalidstate.phpt" as="PEAR2_Pyrus/Validate/Validate/validatestability.failure.api.invalidstate.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatestability.failure.api.invalidstate.snapshot.phpt" as="PEAR2_Pyrus/Validate/Validate/validatestability.failure.api.invalidstate.snapshot.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatestability.failure.release.invalidstate.phpt" as="PEAR2_Pyrus/Validate/Validate/validatestability.failure.release.invalidstate.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatetime.failure1.phpt" as="PEAR2_Pyrus/Validate/Validate/validatetime.failure1.phpt"/>
+   <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validatetime.failure2.phpt" as="PEAR2_Pyrus/Validate/Validate/validatetime.failure2.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.alpha.0.3.4.phpt" as="PEAR2_Pyrus/Validate/Validate/validateversion.alpha.0.3.4.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.alpha.extends.2.0.0a1.phpt" as="PEAR2_Pyrus/Validate/Validate/validateversion.alpha.extends.2.0.0a1.phpt"/>
    <install name="test/pear2.php.net/PEAR2_Pyrus/Validate/Validate/validateversion.failure.00.0.0.phpt" as="PEAR2_Pyrus/Validate/Validate/validateversion.failure.00.0.0.phpt"/>
