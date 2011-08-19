@@ -1397,6 +1397,13 @@ class Sqlite3 extends \Pyrus\Registry\Base
         return isset(static::$databases[$path]);
     }
 
+    /**
+     * Returns the registry database object for the given registry file path
+     *
+     * @param string $path Path to the registry file
+     *
+     * @return SQLite3 Database object
+     */
     static public function getRegistry($path)
     {
         $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
