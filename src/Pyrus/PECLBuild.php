@@ -454,7 +454,7 @@ class PECLBuild
                 break;
             } else if ($n === 0) {
                 /* timed out */
-                proc_terminate($proc);
+                proc_terminate($proc, 9);
                 throw new PECLBuild\Exception('Error: Process timed out');
             } else if ($n > 0) {
                 $called = false;
