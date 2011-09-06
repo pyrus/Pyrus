@@ -324,6 +324,10 @@ class PECLBuild
             throw new PECLBuild\Exception('could not chdir to ' . $dir);
         }
         $env = $_ENV;
+        if (count($env) == 0) {
+            //variables_order may not include E
+            $env['PATH'] = getenv('PATH');
+        }
         // this next line is modified by the installer at packaging time
         if ('@PEAR-VER@' == '@'.'PEAR-VER@') {
             // we're running from svn

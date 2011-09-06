@@ -200,18 +200,25 @@ class Sqlite3 extends \Pyrus\Registry\Base
               (packages_name, packages_channel, name, prompt, defaultValue)
             VALUES(:name, :channel, :oname, :prompt, :default)';
 
+        \Pyrus\Logger::log(4, 'Preparing SQL: ' . $sql);
         $stmt = $database->prepare($sql);
 
         $stmt->bindValue(':name',     $n);
+        \Pyrus\Logger::log(4, 'Binding SQL parameter :name: ' . var_export($n, true));
         $stmt->bindValue(':channel',  $c);
+        \Pyrus\Logger::log(4, 'Binding SQL parameter :channel: ' . var_export($c, true));
 
         foreach ($info->installrelease->configureoption as $option) {
             $stmt->bindValue(':oname', $option->name);
+            \Pyrus\Logger::log(4, 'Binding SQL parameter :oname: ' . var_export($option->name, true));
             $stmt->bindValue(':prompt', $option->prompt);
+            \Pyrus\Logger::log(4, 'Binding SQL parameter :prompt: ' . var_export($option->prompt, true));
             if ($option->default === null) {
                 $stmt->bindValue(':default', null, SQLITE3_NULL);
+                \Pyrus\Logger::log(4, 'Binding SQL parameter :default: NULL');
             } else {
                 $stmt->bindValue(':default', $option->default);
+                \Pyrus\Logger::log(4, 'Binding SQL parameter :default: ' . var_export($option->default, true));
             }
             $stmt->execute();
         }
@@ -1397,6 +1404,13 @@ class Sqlite3 extends \Pyrus\Registry\Base
         return isset(static::$databases[$path]);
     }
 
+    /**
+     * Returns the registry database object for the given registry file path
+     *
+     * @param string $path Path to the registry file
+     *
+     * @return SQLite3 Database object
+     */
     static public function getRegistry($path)
     {
         $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
