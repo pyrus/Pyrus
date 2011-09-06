@@ -15,7 +15,7 @@ foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'sqlit
         $missing_extensions[] = $ext;
     }
 }
-if($missing_extensions) {
+if ($missing_extensions) {
     echo "You must compile PHP with the following extensions enabled:\n",
         implode(', ', $missing_extensions), "\n",
         "or install the necessary extensions for your distribution.\n";
