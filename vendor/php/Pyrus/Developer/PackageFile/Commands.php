@@ -250,7 +250,7 @@ class Commands
         if (0 !== strpos($sourcepath, 'phar://')) {
             // running from svn, assume we're in a standard package layout with a vendor dir
             // TODO: Improve this to automatically find latest releases from pear2.php.net
-            $exceptionpath = $autoloadpath = $multierrorspath = realpath($sourcepath . '/../../vendor/php') .
+            $exceptionpath = $autoloadpath = $multierrorspath = realpath($sourcepath . '/../vendor/php') .
                 '/PEAR2';
             if (!file_exists($exceptionpath . '/Exception.php')) {
                 throw new \Pyrus\Developer\Creator\Exception(
