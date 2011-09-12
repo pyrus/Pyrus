@@ -618,7 +618,7 @@ __HALT_COMPILER();
             $ret['mainNamespace'] = implode('\\', $package);
             $ret['mainClass']     = implode('\\', $package) . '\\Main';
             $ret['mainPath']      = implode('/', $path);
-            $ret['svn']           = 'http://svn.php.net/repository/pear2/' . $ret['package'];
+            $ret['svn']           = 'https://github.com/pear2/' . $ret['package'];
         } else {
             $ret['path']          = implode('_', $package);
             $ret['package']       = implode('_', $package);
