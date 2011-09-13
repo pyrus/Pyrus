@@ -718,6 +718,7 @@ previous:
             $packages = array();
             foreach ($c as $channel) {
                 \Pyrus\Config::current()->default_channel = $channel->name;
+                $packages[$channel->name] = array();
                 foreach ($p->package as $package) {
                     $packages[$channel->name][$package->name] = $package;
                 }
@@ -725,6 +726,10 @@ previous:
             asort($packages);
             foreach ($packages as $channel => $channel_packages) {
                 echo "[channel $channel]:\n";
+                if (!count($channel_packages)) {
+                    echo '(no packages installed in channel ' . $channel . ')' . PHP_EOL;
+                    continue;
+                }
                 ksort($channel_packages);
                 foreach ($channel_packages as $package) {
                     $data = array($package->name,
