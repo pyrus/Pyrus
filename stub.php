@@ -8,15 +8,20 @@ if (version_compare(phpversion(), '5.3.1', '<')) {
     }
 }
 
+$missing_extensions = array();
 foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'sqlite3')
          as $ext) {
     if (!extension_loaded($ext)) {
-        echo "The $ext extension is required.\n"
-             . "You must compile PHP with $ext enabled, "
-             . "or install the necessary extension for your distribution.\n";
-        exit(1);
+        $missing_extensions[] = $ext;
     }
 }
+if ($missing_extensions) {
+    echo "You must compile PHP with the following extensions enabled:\n",
+        implode(', ', $missing_extensions), "\n",
+        "or install the necessary extensions for your distribution.\n";
+    exit(1);
+}
+unset($missing_extensions);
 
 // Reject old libxml installations
 // moved to version 2.6.20 so XMLReader::setSchema can be used.

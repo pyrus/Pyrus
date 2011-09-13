@@ -26,6 +26,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 namespace Pyrus\ScriptFrontend;
+use Pyrus\ScriptFrontend;
+
 class Commands implements \Pyrus\LogInterface
 {
     public $commands = array();
@@ -453,6 +455,30 @@ previous:
     }
 
     /**
+     * Search for known packages matching a query
+     *
+     * @param array $args Array of command line arguments
+     */
+    function search($args)
+    {
+        echo 'Searching for '.$args['query'].PHP_EOL;
+
+        $search = new Commands\Search();
+        $results = $search->query($args['query']);
+
+        if (false === $results) {
+            echo 'No results found.'.PHP_EOL;
+            return;
+        }
+
+        echo count($results) . ' packages found:'.PHP_EOL;
+        foreach ($results as $name=>$result) {
+            echo $name.PHP_EOL;
+        }
+        echo PHP_EOL.'For information on a specific package, type: pyrus info channel/PackageName'.PHP_EOL;
+    }
+
+    /**
      * Display the help dialog and list all commands supported.
      *
      * @param array $args Array of command line arguments
@@ -692,6 +718,7 @@ previous:
             $packages = array();
             foreach ($c as $channel) {
                 \Pyrus\Config::current()->default_channel = $channel->name;
+                $packages[$channel->name] = array();
                 foreach ($p->package as $package) {
                     $packages[$channel->name][$package->name] = $package;
                 }
@@ -699,6 +726,10 @@ previous:
             asort($packages);
             foreach ($packages as $channel => $channel_packages) {
                 echo "[channel $channel]:\n";
+                if (!count($channel_packages)) {
+                    echo '(no packages installed in channel ' . $channel . ')' . PHP_EOL;
+                    continue;
+                }
                 ksort($channel_packages);
                 foreach ($channel_packages as $package) {
                     $data = array($package->name,

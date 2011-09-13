@@ -84,6 +84,10 @@ class PECLBuild
                 $this->log(3, "+ mkdir $copydir");
             }
 
+            // keep track of the user's track_errors setting
+            $track_errors = ini_get('track_errors');
+
+            ini_set('track_errors', true);
             if (!@copy($ext['file'], $copyto)) {
                 throw new PECLBuild\Exception("failed to write $copyto ($php_errormsg)");
             }
@@ -93,6 +97,9 @@ class PECLBuild
                 $this->log(0, "failed to change mode of $copyto ($php_errormsg)");
             }
             umask($oldmode);
+
+            // restore track_errors
+            ini_set('track_errors', $track_errors);
 
             $pkg->files[$ext['file']] = array('attribs' => array(
                 'role' => $role,
@@ -324,6 +331,10 @@ class PECLBuild
             throw new PECLBuild\Exception('could not chdir to ' . $dir);
         }
         $env = $_ENV;
+        if (count($env) == 0) {
+            //variables_order may not include E
+            $env['PATH'] = getenv('PATH');
+        }
         // this next line is modified by the installer at packaging time
         if ('@PEAR-VER@' == '@'.'PEAR-VER@') {
             // we're running from svn
