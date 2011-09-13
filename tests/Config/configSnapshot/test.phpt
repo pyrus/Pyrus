@@ -1,7 +1,5 @@
 --TEST--
 \Pyrus\Config::configSnapshot()
---SKIPIF--
-<?php die('Skipped: for coverage'); ?>
 --FILE--
 <?php
 require __DIR__ . '/setup.php.inc';
@@ -33,7 +31,8 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H-i-s') . '.xml'), 'contents 1');
+', file_get_contents($cdir . 'configsnapshot-' . date('Y-m-d H-i-s') . '.xml'), 'contents 1');
+
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
     $a->php_dir . '</php_dir><ext_dir>' .
@@ -47,7 +46,8 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H-i-s') . '.1.xml'), 'contents 2');
+', file_get_contents($cdir . 'configsnapshot-' . date('Y-m-d H-i-s') . '.1.xml'), 'contents 2');
+
 $test->assertEquals('<?xml version="1.0"?>
 <pearconfig version="1.0"><php_dir>' .
     $a->php_dir . '</php_dir><ext_dir>' .
@@ -61,7 +61,7 @@ $test->assertEquals('<?xml version="1.0"?>
     $a->src_dir . '</src_dir><php_bin>' .
     $a->php_bin . '</php_bin><php_ini>' .
     $a->php_ini . '</php_ini><php_prefix></php_prefix><php_suffix></php_suffix></pearconfig>
-', file_get_contents($cdir . '/configsnapshot-' . date('Y-m-d H-i-s') . '.1.1.xml'), 'contents 3');
+', file_get_contents($cdir . 'configsnapshot-' . date('Y-m-d H-i-s') . '.1.1.xml'), 'contents 3');
 ?>
 ===DONE===
 --CLEAN--

@@ -290,7 +290,7 @@ Coverage can be viewed in a web browser by opening pear2coverage.phar.php
   <name>generate-pear2</name>
   <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
-  <summary>Generate the subversion source layout for a new PEAR2 package</summary>
+  <summary>Generate the source layout for a new Pyrus-installable package</summary>
   <shortcut>gp</shortcut>
   <options/>
   <arguments>
@@ -307,17 +307,18 @@ Coverage can be viewed in a web browser by opening pear2coverage.phar.php
     <doc>Channel name, defaults to pear2.php.net</doc>
    </argument>
   </arguments>
-  <doc>Create the subversion source layout for a new PEAR2 package.
+  <doc>Create the source layout for a new Pyrus-installable package.
 
-This command is used to create a bare skeleton for a new PEAR2 package as it
-will reside in Subversion.  It creates everything needed except the source code.
+This command is used to create a bare skeleton for a new Pyrus-installable
+package as it will reside in a version control system.  It creates
+everything needed except the source code.
   </doc>
  </command>
  <command>
   <name>generate-ext</name>
   <class>Pyrus\ScriptFrontend\Commands</class>
   <function>dummyStub</function>
-  <summary>Generate the subversion source layout for a new PHP extension that is PECL-ready</summary>
+  <summary>Generate the source layout for a new PHP extension that is PECL-ready</summary>
   <shortcut>es</shortcut>
   <options>
    <option>
@@ -341,10 +342,10 @@ will reside in Subversion.  It creates everything needed except the source code.
     <doc>Extension name</doc>
    </argument>
   </arguments>
-  <doc>Create the subversion source layout for a new PHP extension package.
+  <doc>Create the source layout for a new PHP extension package.
 
 This command is used to create a bare skeleton for a new PECL package or PHP extension as it
-will reside in Subversion.  This is designed to provide all of the functionality of
+will reside in a version control system.  This is designed to provide all of the functionality of
 the ext_skel command but also generates a package.xml and other files that can be used
 to automatically update for a release.
 
