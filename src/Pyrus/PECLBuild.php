@@ -210,7 +210,7 @@ class PECLBuild
      * @param \Pyrus\PackageInterface $pkg package object
      *
      * @param mixed $callback callback function used to report output,
-     * see PEAR_Builder::_runCommand for details
+     * see PEAR_Builder::runCommand for details
      *
      * @return array an array of associative arrays with built files,
      * format:
@@ -222,7 +222,7 @@ class PECLBuild
      *
      * @access public
      *
-     * @see PEAR_Builder::_runCommand
+     * @see PEAR_Builder::runCommand
      */
     function build(Registry\Package\Base $pkg, $callback = null)
     {
@@ -253,9 +253,9 @@ class PECLBuild
 
         // Find config. outside of normal path - e.g. config.m4
         foreach ($pkg->installcontents as $file) {
-          if (stristr(basename($file->name), 'config.m4')) {
-            $dir .= DIRECTORY_SEPARATOR . dirname($file->name);
-            break;
+            if (stristr(basename($file->name), 'config.m4')) {
+                $dir .= DIRECTORY_SEPARATOR . dirname($file->name);
+                break;
           }
         }
 
@@ -276,14 +276,14 @@ class PECLBuild
         }
 
         $this->log(0, "cleaning build directory $dir");
-        $this->_runCommand($config->php_prefix
+        $this->runCommand($config->php_prefix
                                 . "phpize" .
                                 $config->php_suffix . ' --clean',
                                 null,
                                 array('PATH' => $path));
 
         $this->log(0, "building in $dir");
-        if (!$this->_runCommand($config->php_prefix
+        if (!$this->runCommand($config->php_prefix
                                 . "phpize" .
                                 $config->php_suffix,
                                 null, /*array($this, 'phpizeCallback'),*/
@@ -293,7 +293,7 @@ class PECLBuild
         }
 
         // {{{ start of interactive part
-        $configure_command = "$dir/configure"
+        $configure = "$dir/configure"
                            . " --with-php-config="
                            . $config->php_prefix
                            . "php-config"
@@ -303,9 +303,9 @@ class PECLBuild
                 list($r) = $this->ui->ask($o->prompt, array(), $o->default);
                 if (substr($o->name, 0, 5) == 'with-' &&
                     ($r == 'yes' || $r == 'autodetect')) {
-                    $configure_command .= ' --' . $o->name;
+                    $configure .= ' --' . $o->name;
                 } else {
-                    $configure_command .= ' --' . $o->name . '=' . trim($r);
+                    $configure .= ' --' . $o->name . '=' . trim($r);
                 }
             }
         }
@@ -317,19 +317,17 @@ class PECLBuild
             throw new PECLBuild\Exception('could not create temporary install dir: ' . $inst_dir);
         }
 
-        if (getenv('MAKE')) {
-            $make_command = getenv('MAKE');
-        } else {
-            $make_command = 'make';
-        }
+
+        $make = getenv('MAKE') ? getenv('MAKE') : 'make';
         $to_run = array(
-            $configure_command,
-            $make_command,
-            "$make_command INSTALL_ROOT=\"$inst_dir\" install",
+            $configure,
+            $make,
+            "$make INSTALL_ROOT=\"$inst_dir\" install",
             );
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
             throw new PECLBuild\Exception('could not chdir to ' . $dir);
         }
+
         $env = $_ENV;
         if (count($env) == 0) {
             //variables_order may not include E
@@ -342,9 +340,10 @@ class PECLBuild
         } else {
             $env['PHP_PEAR_VERSION'] = '@PEAR-VER@';
         }
+
         foreach ($to_run as $cmd) {
             try {
-                if (!$this->_runCommand($cmd, $callback, $env)) {
+                if (!$this->runCommand($cmd, $callback, $env)) {
                     throw new PECLBuild\Exception("`$cmd' failed");
                 }
             } catch (\Exception $e) {
@@ -415,13 +414,10 @@ class PECLBuild
      *
      * @return bool whether the command was successful (exit code 0
      * means success, any other means failure)
-     *
-     * @access private
      */
-    function _runCommand($command, $callback = null, $env = null)
+    private function runCommand($command, $callback = null, $env = null)
     {
         $this->log(1, "running: $command 2>&1");
-
         $exitcode = $this->system_with_timeout($command . ' 2>&1', $this->buildDirectory, $callback, $env);
         return ($exitcode == 0);
     }
