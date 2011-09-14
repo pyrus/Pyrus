@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
- <name>PEAR2_Pyrus</name>
- <channel>pear2.php.net</channel>
+ <name>Pyrus</name>
+ <channel>pyrus.net</channel>
  <summary>Pyrus is the package manager and installer for PHP 5.3 or newer
 </summary>
  <description>
@@ -39,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-08-18</date>
- <time>13:26:11</time>
+ <date>2011-09-14</date>
+ <time>09:40:42</time>
  <version>
   <release>2.0.0a4</release>
   <api>2.0.0a4</api>
@@ -231,7 +231,7 @@ API notes for 2.0.0a4:
      <tasks:replace from="@php_dir@" to="php_dir" type="pear-config"/>
     </file>
    </dir>
-   <dir name="src" baseinstalldir="PEAR2">
+   <dir name="src" baseinstalldir="/">
     <dir name="Pyrus">
      <dir name="AtomicFileTransaction">
       <dir name="Transaction">
@@ -480,6 +480,9 @@ API notes for 2.0.0a4:
       <file role="php" name="Exception.php"/>
      </dir>
      <dir name="ScriptFrontend">
+      <dir name="Commands">
+       <file role="php" name="Search.php"/>
+      </dir>
       <file role="php" name="Command.php"/>
       <file role="php" name="Commands.php"/>
       <file role="php" name="Exception.php"/>
@@ -613,6 +616,12 @@ API notes for 2.0.0a4:
       </dir>
       <file role="test" name="setup.empty.php.inc"/>
       <file role="test" name="setup.php.inc"/>
+     </dir>
+     <dir name="begin">
+      <file role="test" name="begin.fail.php"/>
+     </dir>
+     <dir name="createOrOpenPath">
+      <file role="test" name="createoropenpath.fail.fp.stream.empty.php"/>
      </dir>
      <dir name="ManagerClass">
       <dir name="begin">
@@ -877,7 +886,6 @@ API notes for 2.0.0a4:
       </dir>
       <file role="test" name="setup.php.inc"/>
      </dir>
-     <file role="test" name="bug_35.phpt"/>
      <file role="test" name="sample_channel.xml"/>
      <file role="test" name="sample_channel_complex.xml"/>
      <file role="test" name="sample_channel_complex2.xml"/>
@@ -1169,10 +1177,6 @@ API notes for 2.0.0a4:
     <dir name="FileInstallationFilter">
      <file role="test" name="installconditions.phpt"/>
     </dir>
-    <dir name="Filesystem">
-     <file role="test" name="path.phpt"/>
-     <file role="test" name="setup.inc.php"/>
-    </dir>
     <dir name="Installer">
      <dir name="prepare">
       <file role="test" name="install.prepare.circulardep.phpt"/>
@@ -1213,7 +1217,7 @@ API notes for 2.0.0a4:
     </dir>
     <dir name="Mocks">
      <dir name="badmd5sum">
-      <dir name="src" baseinstalldir="PEAR2">
+      <dir name="src" baseinstalldir="/">
        <file role="test" name="foo.php"/>
       </dir>
       <file role="test" name="package.xml"/>
@@ -2758,7 +2762,7 @@ API notes for 2.0.0a4:
       <dir name="scripts" baseinstalldir="/">
        <file role="test" name="pearscs"/>
       </dir>
-      <dir name="src" baseinstalldir="PEAR2">
+      <dir name="src" baseinstalldir="/">
        <dir name="SimpleChannelServer">
         <dir name="Categories">
          <file role="test" name="Exception.php"/>
@@ -3473,7 +3477,7 @@ API notes for 2.0.0a4:
     <dir name="ScriptFrontend">
      <dir name="Commands">
       <dir name="build">
-       <file role="test" name="oauth-1.2.2.tar"/>
+       <file role="test" name="docblock-0.2.0.tar"/>
       </dir>
       <dir name="listPackages.pear1">
        <dir name="php">
@@ -3514,7 +3518,7 @@ API notes for 2.0.0a4:
        <dir name="data" baseinstalldir="/">
         <file role="test" name="phartemplate.php"/>
        </dir>
-       <dir name="src" baseinstalldir="PEAR2">
+       <dir name="src" baseinstalldir="/">
         <dir name="Pyrus">
          <dir name="Developer">
           <dir name="CoverageAnalyzer">
