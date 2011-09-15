@@ -11,6 +11,7 @@ $test->assertEquals('pear.php.net', $chan->get('pear.php.net')->name, 'pear');
 $test->assertEquals('pear2.php.net', $chan->get('pear2.php.net')->name, 'pear2');
 $test->assertEquals('pecl.php.net', $chan->get('pecl.php.net')->name, 'pecl');
 $test->assertEquals('doc.php.net', $chan->get('doc.php.net')->name, 'doc');
+$test->assertEquals('pyrus.net', $chan->get('pyrus.net')->name, 'pyrus');
 $test->assertEquals('__uri', $chan->get('__uri')->name, '__uri');
 
 Pyrus\ChannelRegistry\Foo::$throw = true;

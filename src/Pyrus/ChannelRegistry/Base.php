@@ -286,6 +286,11 @@ abstract class Base implements \Pyrus\ChannelRegistryInterface, \Iterator
         $this->channelList = $this->listChannels();
     }
 
+    public function getPyrusChannel()
+    {
+        return $this->getDefaultChannel('pyrus.net');
+    }
+
     public function getPearChannel()
     {
         return $this->getDefaultChannel('pear.php.net');
@@ -324,11 +329,13 @@ abstract class Base implements \Pyrus\ChannelRegistryInterface, \Iterator
      */
     protected function initDefaultChannels()
     {
+        $pyrus = $this->getPyrusChannel();
         $pear = $this->getPearChannel();
         $pear2 = $this->getPear2Channel();
         $pecl = $this->getPeclChannel();
         $__uri = $this->getUriChannel();
         $doc = $this->getDocChannel();
+        $this->add($pyrus);
         $this->add($pear);
         $this->add($pear2);
         $this->add($pecl);
@@ -367,12 +374,12 @@ abstract class Base implements \Pyrus\ChannelRegistryInterface, \Iterator
 
     function getDefaultChannels()
     {
-        return array('__uri', 'pear2.php.net', 'pear.php.net', 'pecl.php.net', 'doc.php.net');
+        return array('__uri', 'pear2.php.net', 'pear.php.net', 'pecl.php.net', 'doc.php.net', 'pyrus.net');
     }
 
     function getDefaultChannelAliases()
     {
-        return array('__uri', 'pear2', 'pear', 'pecl', 'phpdocs');
+        return array('__uri', 'pear2', 'pear', 'pecl', 'phpdocs', 'pyrus');
     }
 
     public function getPath()

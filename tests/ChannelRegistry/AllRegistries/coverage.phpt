@@ -18,6 +18,7 @@ $test->assertEquals(array (
   'pear.php.net' => 'pear.php.net',
   'pear2.php.net' => 'pear2.php.net',
   'pecl.php.net' => 'pecl.php.net',
+  'pyrus.net' => 'pyrus.net',
 ), $inf, 'iteration');
 ?>
 ===DONE===

@@ -14,6 +14,7 @@ $test->assertEquals(array(
     'pear.php.net',
     'pear2.php.net',
     'pecl.php.net',
+    'pyrus.net',
 ), $chans, 'listChannels');
 ?>
 ===DONE===

@@ -127,6 +127,8 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \Pyrus\Channe
         } catch (\Exception $e) {
             // don't fail on the default channels, these should always exist
             switch ($channel) {
+                case 'pyrus.net' :
+                    return $this->_registries[0]->getPyrusChannel();
                 case 'pear.php.net' :
                     return $this->_registries[0]->getPearChannel();
                 case 'pear2.php.net' :

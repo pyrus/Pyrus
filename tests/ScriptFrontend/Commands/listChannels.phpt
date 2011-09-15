@@ -26,7 +26,8 @@ $test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
                     . 'doc.php.net (phpdocs)' . "\n"
                     . 'pear.php.net (pear)' . "\n"
                     . 'pear2.php.net (pear2)' . "\n"
-                    . 'pecl.php.net (pecl)' . "\n",
+                    . 'pecl.php.net (pecl)' . "\n"
+                    . 'pyrus.net (pyrus)' . "\n",
                     $contents,
                     'list channels');
 ?>
