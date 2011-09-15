@@ -34,10 +34,21 @@ $cli->run($args = array (TESTDIR, 'list-packages'));
 
 $contents = ob_get_contents();
 ob_end_clean();
-$test->assertEquals('Using PEAR installation found at ' . TESTDIR . "\n"
-                    . 'Listing installed packages [' . TESTDIR . ']:' . "\n"
-                    . "[channel pear2.php.net]:\n"
-                    . "PEAR2_SimpleChannelServer 0.1.0 devel\n",
+$test->assertEquals('Using PEAR installation found at ' . TESTDIR . '
+Listing installed packages [' . TESTDIR . ']:
+[channel pyrus.net]:
+(no packages installed in channel pyrus.net)
+[channel pecl.php.net]:
+(no packages installed in channel pecl.php.net)
+[channel pear.php.net]:
+(no packages installed in channel pear.php.net)
+[channel doc.php.net]:
+(no packages installed in channel doc.php.net)
+[channel __uri]:
+(no packages installed in channel __uri)
+[channel pear2.php.net]:
+PEAR2_SimpleChannelServer 0.1.0 devel
+',
                     $contents,
                     'list packages');
 ?>
