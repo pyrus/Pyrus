@@ -66,7 +66,6 @@ class Main
           $val = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'data';
         }
 
-        $val = realpath($val);
         return $val;
     }
 
