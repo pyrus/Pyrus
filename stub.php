@@ -53,8 +53,8 @@ try {
 function pyrus_autoload($class)
 {
     $class = str_replace(array('_','\\'), '/', $class);
-    if (file_exists('phar://' . __FILE__ . '/PEAR2_Pyrus-@PACKAGE_VERSION@/php/' . $class . '.php')) {
-        include 'phar://' . __FILE__ . '/PEAR2_Pyrus-@PACKAGE_VERSION@/php/' . $class . '.php';
+    if (file_exists('phar://' . __FILE__ . '/Pyrus-@PACKAGE_VERSION@/php/' . $class . '.php')) {
+        include 'phar://' . __FILE__ . '/Pyrus-@PACKAGE_VERSION@/php/' . $class . '.php';
     }
 }
 
