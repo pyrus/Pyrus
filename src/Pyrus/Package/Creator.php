@@ -320,23 +320,24 @@ class Creator
     function addExtraFiles($extrafiles)
     {
         foreach ($extrafiles as $path => $filename) {
-            if (!is_object($filename)) {
+            if (is_object($filename)) {
+                if ($filename instanceof \Pyrus\PackageInterface) {
+                    foreach ($filename->packagingcontents as $path => $info) {
+                        foreach ($this->_creators as $creator) {
+                            $creator->mkdir(dirname($this->prepend . '/' . $path));
+                            $fp = $filename->getFileContents($info['attribs']['name'], true);
+                            $creator->addFile($this->prepend . '/' . $path, $fp);
+                            fclose($fp);
+                        }
+                    }
+                    continue;
+                }
+
                 throw new Exception('Invalid extra file object, must be ' .
                                         'a \Pyrus\Package object');
             }
 
-            if ($filename instanceof \Pyrus\PackageInterface) {
-                foreach ($filename->packagingcontents as $path => $info) {
-                    foreach ($this->_creators as $creator) {
-                        $creator->mkdir(dirname($this->prepend . '/' . $path));
-                        $fp = $filename->getFileContents($info['attribs']['name'], true);
-                        $creator->addFile($this->prepend . '/' . $path, $fp);
-                        fclose($fp);
-                    }
-                }
-                continue;
-            }
-
+            // $extrafiles may also contain string => string entries.
             $path = str_replace(array('\\', '//'), '/', $path);
             if ($path[0] === '/' ||
                   (strlen($path) > 2 && ($path[1] === ':' && $path[2] == '/'))) {
