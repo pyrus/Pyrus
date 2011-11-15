@@ -928,27 +928,32 @@ previous:
     function set($args, $options)
     {
         $conf = $current = \Pyrus\Config::current();
-        
+
         if ($options['plugin']) {
             $conf = \Pyrus\Config::singleton(\Pyrus\Config::current()->plugins_dir);
         }
-        if ($options['channel']) {
-            $oldDefaultChannel = $conf->default_channel;
-            $channel = $conf->channelregistry->get($options['channel'], false);
-            $conf->default_channel = $channel->name;
-        }
-        if (in_array($args['variable'], $conf->uservars)) {
+        if (in_array($args['variable'], $conf->channelvars)) {
+            if ($options['channel']) {
+                $oldDefaultChannel = $conf->default_channel;
+                $channel = $conf->channelregistry->get($options['channel'], false);
+                $conf->default_channel = $channel->name;
+            }
+
             echo "Setting $args[variable] for channel " . $conf->default_channel . " in " . $conf->userfile . "\n";
             $conf->{$args['variable']} = $args['value'];
+
+            if ($options['channel']) {
+                $conf->default_channel = $oldDefaultChannel;
+            }
+        } elseif (in_array($args['variable'], $conf->uservars)) {
+            echo "Setting $args[variable] in " . $conf->userfile . "\n";
+            $conf->{$args['variable']} = $args['value'];
         } elseif (in_array($args['variable'], $conf->systemvars)) {
-            echo "Setting $args[variable] for channel " . $conf->default_channel . " in system paths\n";
+            echo "Setting $args[variable] in system paths\n";
             $conf->{$args['variable']} = $args['value'];
         } else {
             echo "Unknown config variable: $args[variable]\n";
             exit(1);
-        }
-        if ($options['channel']) {
-            $conf->default_channel = $oldDefaultChannel;
         }
         $conf->saveConfig();
         if ($options['plugin']) {
