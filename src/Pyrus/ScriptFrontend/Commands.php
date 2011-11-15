@@ -949,11 +949,14 @@ previous:
             echo "Setting $args[variable] in " . $conf->userfile . "\n";
             $conf->{$args['variable']} = $args['value'];
         } elseif (in_array($args['variable'], $conf->systemvars)) {
-            echo "Setting $args[variable] in system paths\n";
+            echo "Setting $args[variable] for channel " . $conf->default_channel . " in system paths\n";
             $conf->{$args['variable']} = $args['value'];
         } else {
             echo "Unknown config variable: $args[variable]\n";
             exit(1);
+        }
+        if ($options['channel']) {
+            $conf->default_channel = $oldDefaultChannel;
         }
         $conf->saveConfig();
         if ($options['plugin']) {
