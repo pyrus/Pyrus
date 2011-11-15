@@ -955,9 +955,6 @@ previous:
             echo "Unknown config variable: $args[variable]\n";
             exit(1);
         }
-        if ($options['channel']) {
-            $conf->default_channel = $oldDefaultChannel;
-        }
         $conf->saveConfig();
         if ($options['plugin']) {
             \Pyrus\Config::setCurrent($current->path);
