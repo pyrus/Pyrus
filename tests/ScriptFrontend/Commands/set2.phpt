@@ -17,7 +17,7 @@ $contents = ob_get_contents();
 ob_end_clean();
 $help1 = 'Using PEAR installation found at ' . TESTDIR . "\n";
 $d = DIRECTORY_SEPARATOR;
-$help2 = "Setting handle for channel pecl.php.net in " . TESTDIR . "/plugins/foo.xml\n";
+$help2 = "Setting handle for pecl.php.net in " . TESTDIR . "/plugins/foo.xml\n";
 
 $test->assertEquals($help1 . $help2,
                     $contents,
