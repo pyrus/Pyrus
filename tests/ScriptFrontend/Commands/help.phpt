@@ -52,16 +52,17 @@ Commands:
                       values
   mypear              Set a configuration value
   help                Get help on a particular command, or all commands
+  search              Search a registry of PEAR channels for packages
   make                Create or update a package.xml from a standard PEAR2
                       directory layout
   pickle              Create or update a package.xml and then package a
                       PECL extension release
   package             Create a release from an existing package.xml
   run-phpt            Run PHPT tests
-  generate-pear2      Generate the subversion source layout for a new PEAR2
-                      package
-  generate-ext        Generate the subversion source layout for a new PHP
-                      extension that is PECL-ready
+  generate-pear2      Generate the source layout for a new
+                      Pyrus-installable package
+  generate-ext        Generate the source layout for a new PHP extension
+                      that is PECL-ready
   scs-update          Simple channel server: Update all releases of a
                       within the get/ directory.
   scs-create          Simple channel server: Create a channel.xml, get/ and
@@ -138,16 +139,17 @@ Commands:
                       values
   mypear              Set a configuration value
   help                Get help on a particular command, or all commands
+  search              Search a registry of PEAR channels for packages
   make                Create or update a package.xml from a standard PEAR2
                       directory layout
   pickle              Create or update a package.xml and then package a
                       PECL extension release
   package             Create a release from an existing package.xml
   run-phpt            Run PHPT tests
-  generate-pear2      Generate the subversion source layout for a new PEAR2
-                      package
-  generate-ext        Generate the subversion source layout for a new PHP
-                      extension that is PECL-ready
+  generate-pear2      Generate the source layout for a new
+                      Pyrus-installable package
+  generate-ext        Generate the source layout for a new PHP extension
+                      that is PECL-ready
   scs-update          Simple channel server: Update all releases of a
                       within the get/ directory.
   scs-create          Simple channel server: Create a channel.xml, get/ and
