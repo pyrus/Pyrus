@@ -35,7 +35,7 @@ class Validate
     const PACKAGING = 7;
 /**#@-*/
 
-    var $packageregex = '[A-Za-z][a-zA-Z0-9_]+';
+    var $packageregex = '[A-Za-z][a-zA-Z0-9_.]+';
     /**
      * @var \Pyrus\PackageFileInterface
      */
