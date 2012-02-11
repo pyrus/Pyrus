@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env php -d detect_unicode=0
 <?php
 if (version_compare(phpversion(), '5.3.1', '<')) {
     if (substr(phpversion(), 0, 5) != '5.3.1') {
