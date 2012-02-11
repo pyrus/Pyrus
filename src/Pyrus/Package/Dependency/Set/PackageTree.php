@@ -124,7 +124,13 @@ class PackageTree
             return;
         }
 
-        throw new Exception('Unable to find a compatible release for ' . $this->name);
+        throw new Exception(
+              'After examining the ' . count($this->allVersions)
+            . ' releases for ' . $this->name
+            . ', we were unable to find a compatible release.' . PHP_EOL
+            . 'Usually this means no releases match your preferred state ('
+            . Config::current()->preferred_state . ')'
+        );
     }
 
     static function setLocalPackages(array $packages)
