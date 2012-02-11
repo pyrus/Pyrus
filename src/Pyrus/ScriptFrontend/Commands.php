@@ -310,7 +310,7 @@ class Commands implements \Pyrus\LogInterface
                     }
                 } else {
                     $class = new $info['class'];
-                    $class->{$info['function']}($this, $result->command->args, $result->command->options);
+                    exit((int)!$class->{$info['function']}($this, $result->command->args, $result->command->options));
                 }
             } else {
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
