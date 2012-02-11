@@ -603,7 +603,8 @@ previous:
 
     protected function installUnknownChannelExceptionHandler($args, $options, \Exception $e, $channel)
     {
-        if ('yes' === $this->ask('Do you want to add this channel and continue?', array('yes', 'no'), 'yes')) {
+        if (\Pyrus\Config::current()->auto_discover
+            || 'yes' === $this->ask('Do you want to add this channel and continue?', array('yes', 'no'), 'yes')) {
             $this->channelDiscover(array('channel' => $channel));
             $this->install($args, $options);
             return;
