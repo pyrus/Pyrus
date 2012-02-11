@@ -161,13 +161,23 @@ class XMLParser extends \XMLReader
         return $me;
     }
 
+    /**
+     * Parse XML into an array
+     *
+     * @param string $schema Filename of xsd schema file
+     *
+     * @return array
+     *
+     * @throws XMLParser\Exception
+     */
     private function _parse($schema)
     {
         libxml_use_internal_errors(true);
         libxml_clear_errors();
 
         if ($schema) {
-            $this->setSchema($schema);
+            // Workaround to avoid XMLReader wanting to URL-encode schema paths
+            $this->setSchema('data://application/xsd;base64,'.base64_encode(file_get_contents($schema)));
         }
 
         $arr = $this->_recursiveParse();
