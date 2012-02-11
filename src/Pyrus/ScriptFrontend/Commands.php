@@ -490,6 +490,16 @@ previous:
         } else {
             $info = \Pyrus\PluginRegistry::getCommandInfo($args['command']);
             if (!$info) {
+                // This command is not known, but it could be an alias
+                foreach (static::$commandParser->commands as $command) {
+                    foreach ($command->aliases as $alias) {
+                        if ($args['command'] == $alias) {
+                            // Found a match
+                            $args['command'] = $command->name;
+                            return $this->help($args);
+                        }
+                    }
+                }
                 foreach ($args as $arg) {
                     switch ($arg) {
                         case 'package' :
