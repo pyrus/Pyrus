@@ -39,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-09-14</date>
- <time>09:40:44</time>
+ <date>2012-02-18</date>
+ <time>20:10:22</time>
  <version>
   <release>2.0.0a4</release>
   <api>2.0.0a4</api>
@@ -69,6 +69,8 @@ Bug Fixes/Refactoring:
  - Use the channel name instead of package name when giving the security error of when a package claims
    to be from channel X but really is Y (pyrus/Pyrus#50) [xc]
  - DOMDocument::schemaValidate doesn't support phar:// stream [tyrael]
+ - Upgrade to PEAR2_HTTP_Request-0.3.1 with proxy fix [saltybeagle]
+
 
 API notes for 2.0.0a4:
 
@@ -90,6 +92,7 @@ API notes for 2.0.0a4:
    <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/siblingtags.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/setup.php.inc"/>
    <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/recursivetag.phpt"/>
+   <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/phar_schema_with_space.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/parse_open_fail.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/empty.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/XMLParser/XMLParser/childtag_sibling_attribs.phpt"/>
@@ -190,6 +193,7 @@ API notes for 2.0.0a4:
    <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.php.inc"/>
    <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.pearinstall.php.inc"/>
    <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.minimal.php.inc"/>
+   <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/set2.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/set.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/runScripts.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listPackages.pear1.phpt"/>
@@ -705,6 +709,7 @@ API notes for 2.0.0a4:
    <file role="test" name="test/pyrus.net/Pyrus/Package/Package/setup.php.inc"/>
    <file role="test" name="test/pyrus.net/Pyrus/Package/Package/setup.minimal.php.inc"/>
    <file role="test" name="test/pyrus.net/Pyrus/Package/Package/parsePackageDescription.phpt"/>
+   <file role="test" name="test/pyrus.net/Pyrus/Package/Package/extrafiles.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/Package/Package/arrayaccess.phpt"/>
    <file role="test" name="test/pyrus.net/Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Release.php"/>
    <file role="test" name="test/pyrus.net/Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Package.php"/>
@@ -2580,6 +2585,7 @@ API notes for 2.0.0a4:
    <file role="data" name="data/pyrus.net/Pyrus/local-developer-commands.xml"/>
    <file role="data" name="data/pyrus.net/Pyrus/developercommands.xml"/>
    <file role="data" name="data/pyrus.net/Pyrus/default_channels/default_channels/__uri.xml"/>
+   <file role="data" name="data/pyrus.net/Pyrus/default_channels/default_channels/pyrus.net.xml"/>
    <file role="data" name="data/pyrus.net/Pyrus/default_channels/default_channels/pecl.php.net.xml"/>
    <file role="data" name="data/pyrus.net/Pyrus/default_channels/default_channels/pear2.php.net.xml"/>
    <file role="data" name="data/pyrus.net/Pyrus/default_channels/default_channels/pear.php.net.xml"/>
@@ -2637,6 +2643,7 @@ API notes for 2.0.0a4:
    <install name="data/pyrus.net/Pyrus/default_channels/default_channels/pear.php.net.xml" as="Pyrus/default_channels/default_channels/pear.php.net.xml"/>
    <install name="data/pyrus.net/Pyrus/default_channels/default_channels/pear2.php.net.xml" as="Pyrus/default_channels/default_channels/pear2.php.net.xml"/>
    <install name="data/pyrus.net/Pyrus/default_channels/default_channels/pecl.php.net.xml" as="Pyrus/default_channels/default_channels/pecl.php.net.xml"/>
+   <install name="data/pyrus.net/Pyrus/default_channels/default_channels/pyrus.net.xml" as="Pyrus/default_channels/default_channels/pyrus.net.xml"/>
    <install name="data/pyrus.net/Pyrus/default_channels/default_channels/__uri.xml" as="Pyrus/default_channels/default_channels/__uri.xml"/>
    <install name="data/pyrus.net/Pyrus/developercommands.xml" as="Pyrus/developercommands.xml"/>
    <install name="data/pyrus.net/Pyrus/local-developer-commands.xml" as="Pyrus/local-developer-commands.xml"/>
@@ -4512,6 +4519,7 @@ API notes for 2.0.0a4:
    <install name="test/pyrus.net/Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Package.php" as="Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Package.php"/>
    <install name="test/pyrus.net/Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Release.php" as="Pyrus/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Mocks/SimpleChannelServer/src/SimpleChannelServer/REST/Release.php"/>
    <install name="test/pyrus.net/Pyrus/Package/Package/arrayaccess.phpt" as="Pyrus/Package/Package/arrayaccess.phpt"/>
+   <install name="test/pyrus.net/Pyrus/Package/Package/extrafiles.phpt" as="Pyrus/Package/Package/extrafiles.phpt"/>
    <install name="test/pyrus.net/Pyrus/Package/Package/parsePackageDescription.phpt" as="Pyrus/Package/Package/parsePackageDescription.phpt"/>
    <install name="test/pyrus.net/Pyrus/Package/Package/setup.minimal.php.inc" as="Pyrus/Package/Package/setup.minimal.php.inc"/>
    <install name="test/pyrus.net/Pyrus/Package/Package/setup.php.inc" as="Pyrus/Package/Package/setup.php.inc"/>
@@ -5027,6 +5035,7 @@ API notes for 2.0.0a4:
    <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listPackages.pear1.phpt" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/listPackages.pear1.phpt"/>
    <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/runScripts.phpt" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/runScripts.phpt"/>
    <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/set.phpt" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/set.phpt"/>
+   <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/set2.phpt" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/set2.phpt"/>
    <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.minimal.php.inc" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.minimal.php.inc"/>
    <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.pearinstall.php.inc" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.pearinstall.php.inc"/>
    <install name="test/pyrus.net/Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.php.inc" as="Pyrus/ScriptFrontend/Commands/ScriptFrontend/Commands/setup.php.inc"/>
@@ -5127,6 +5136,7 @@ API notes for 2.0.0a4:
    <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/childtag_sibling_attribs.phpt" as="Pyrus/XMLParser/XMLParser/childtag_sibling_attribs.phpt"/>
    <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/empty.phpt" as="Pyrus/XMLParser/XMLParser/empty.phpt"/>
    <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/parse_open_fail.phpt" as="Pyrus/XMLParser/XMLParser/parse_open_fail.phpt"/>
+   <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/phar_schema_with_space.phpt" as="Pyrus/XMLParser/XMLParser/phar_schema_with_space.phpt"/>
    <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/recursivetag.phpt" as="Pyrus/XMLParser/XMLParser/recursivetag.phpt"/>
    <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/setup.php.inc" as="Pyrus/XMLParser/XMLParser/setup.php.inc"/>
    <install name="test/pyrus.net/Pyrus/XMLParser/XMLParser/siblingtags.phpt" as="Pyrus/XMLParser/XMLParser/siblingtags.phpt"/>

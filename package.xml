@@ -39,8 +39,8 @@ http://pear.php.net/manual/en/pyrus.php</description>
   <email>helgi@php.net</email>
   <active>yes</active>
  </lead>
- <date>2011-09-14</date>
- <time>09:40:42</time>
+ <date>2012-02-18</date>
+ <time>20:10:20</time>
  <version>
   <release>2.0.0a4</release>
   <api>2.0.0a4</api>
@@ -69,6 +69,8 @@ Bug Fixes/Refactoring:
  - Use the channel name instead of package name when giving the security error of when a package claims
    to be from channel X but really is Y (pyrus/Pyrus#50) [xc]
  - DOMDocument::schemaValidate doesn't support phar:// stream [tyrael]
+ - Upgrade to PEAR2_HTTP_Request-0.3.1 with proxy fix [saltybeagle]
+
 
 API notes for 2.0.0a4:
 
@@ -83,6 +85,7 @@ API notes for 2.0.0a4:
      <file role="data" name="pear.php.net.xml"/>
      <file role="data" name="pear2.php.net.xml"/>
      <file role="data" name="pecl.php.net.xml"/>
+     <file role="data" name="pyrus.net.xml"/>
      <file role="data" name="__uri.xml"/>
     </dir>
     <dir name="x509rootcerts">
@@ -2794,6 +2797,7 @@ API notes for 2.0.0a4:
     </dir>
     <dir name="Package">
      <file role="test" name="arrayaccess.phpt"/>
+     <file role="test" name="extrafiles.phpt"/>
      <file role="test" name="parsePackageDescription.phpt"/>
      <file role="test" name="setup.minimal.php.inc"/>
      <file role="test" name="setup.php.inc"/>
@@ -3597,6 +3601,7 @@ API notes for 2.0.0a4:
       <file role="test" name="listPackages.pear1.phpt"/>
       <file role="test" name="runScripts.phpt"/>
       <file role="test" name="set.phpt"/>
+      <file role="test" name="set2.phpt"/>
       <file role="test" name="setup.minimal.php.inc"/>
       <file role="test" name="setup.pearinstall.php.inc"/>
       <file role="test" name="setup.php.inc"/>
@@ -3721,6 +3726,7 @@ API notes for 2.0.0a4:
      <file role="test" name="childtag_sibling_attribs.phpt"/>
      <file role="test" name="empty.phpt"/>
      <file role="test" name="parse_open_fail.phpt"/>
+     <file role="test" name="phar_schema_with_space.phpt"/>
      <file role="test" name="recursivetag.phpt"/>
      <file role="test" name="setup.php.inc"/>
      <file role="test" name="siblingtags.phpt"/>
