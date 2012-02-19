@@ -8,3 +8,4 @@
 /Pyrus-*.*
 *.komodoproject
 /data/local-developer-commands.xml
+/tests/pear2coverage.db
