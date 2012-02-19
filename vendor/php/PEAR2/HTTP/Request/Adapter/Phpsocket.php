@@ -89,6 +89,7 @@ class Phpsocket extends Request\Adapter
         $this->_stream->write($payload);
 
         $this->parse();
+        $this->_notify('disconnect');
 
         $details['code'] = $this->code;
         $details['httpVersion'] = $this->httpVersion;

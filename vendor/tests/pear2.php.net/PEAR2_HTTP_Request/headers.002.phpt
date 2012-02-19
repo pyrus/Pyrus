@@ -1,5 +1,5 @@
 --TEST--
-Test of arrau access for PEAR2\HTTP\Request\Headers
+Test of array access for PEAR2\HTTP\Request\Headers
 --FILE--
 <?php
 require_once dirname(__FILE__).'/_setup.php';

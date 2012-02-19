@@ -5,11 +5,13 @@ class Curl extends Request\Adapter
 {
     static public $whichOne;
     protected $sentFilesize = false;
+    protected $sentConnect = false;
+    protected $sentContentType = false;
 
     protected $curl = false;
     protected $fp = false;
 
-    public function sendRequest() 
+    public function sendRequest()
     {
         $this->_setupRequest();
 
@@ -30,7 +32,7 @@ class Curl extends Request\Adapter
      * @todo error checking
      * @implement put
      */
-    protected function _setupRequest() 
+    protected function _setupRequest()
     {
         $this->curl = curl_init($this->uri->url);
         // check error here
@@ -59,7 +61,7 @@ class Curl extends Request\Adapter
                 curl_setopt($this->curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_NONE);
                 break;
         }
-        
+
         // http verb
         if (strtoupper($this->verb) == 'PUT') {
             throw new Exception("HTTP put not implmented for Curl yet");
@@ -67,7 +69,11 @@ class Curl extends Request\Adapter
         curl_setopt($this->curl,CURLOPT_CUSTOMREQUEST,$this->verb);
 
         // headers
-        curl_setopt($this->curl,CURLOPT_HTTPHEADER,$this->headers);
+        $headers = array();
+        foreach ($this->headers as $field => $value) {
+            $headers[] = $field . ': ' . $value;
+        }
+        curl_setopt($this->curl,CURLOPT_HTTPHEADER,$headers);
 
         // general stuff
         curl_setopt($this->curl,CURLOPT_BINARYTRANSFER,true);
@@ -89,12 +95,19 @@ class Curl extends Request\Adapter
     protected function _sendRequest()
     {
         $body = curl_exec($this->curl);
+        $this->_notify('disconnect');
+
+        if (false === $body) {
+            throw new Request\Exception(
+                'Curl ' . curl_error($this->curl) . ' (' . curl_errno($this->curl) . ')'
+            );
+        }
+
         $this->sentFilesize = false;
 
         if ($this->fp !== false) {
             fclose($this->fp);
         }
-        $this->_notify('disconnect');
 
         $details = $this->uri->toArray();
 
@@ -120,14 +133,26 @@ class Curl extends Request\Adapter
         if ($code > 200) {
             return;
         }
-        if (!$this->sentFilesize) {
-            $this->sentFilesize = true;
+        if (!$this->sentConnect) {
+            $this->sentConnect = true;
             $this->_notify('connect');
+        }
+        if (!$this->sentContentType) {
             $content_type = curl_getinfo($this->curl, CURLINFO_CONTENT_TYPE);
             if ($content_type) {
+                $this->sentContentType = true;
                 $this->_notify('mime-type', $content_type);
             }
-            $this->_notify('filesize', $dltotal);
+        }
+        if (!$this->sentFilesize) {
+            $filesize = curl_getinfo($this->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+            // $filesize will be -1 until the "Content-Length" header
+            // has been processed, if there is one in the response.
+            // After that, $filesize == $dltotal.
+            if ($filesize != -1) {
+                $this->sentFilesize = true;
+                $this->_notify('filesize', $filesize);
+            }
         }
         $this->_notify('downloadprogress', $dlnow);
     }

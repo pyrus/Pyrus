@@ -54,6 +54,7 @@ class Filesystem extends Request\Adapter
             $body = file_get_contents($actualfile);
             $details['code'] = '200';
         }
+        $this->_notify('disconnect');
         // $this->verb is GET/POST/etc.
         // $this->uri is PEAR2\HTTP\Request\Uri
         // $this->headers is array of headers
