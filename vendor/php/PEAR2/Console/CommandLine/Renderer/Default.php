@@ -11,11 +11,11 @@
  * through the world-wide-web at the following URI:
  * http://opensource.org/licenses/mit-license.php
  *
- * @category  Console 
+ * @category  Console
  * @package   PEAR2\Console\CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007-2009 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   SVN: $Id$
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     File available since release 0.1.0
@@ -28,7 +28,7 @@
  * @package   PEAR2\Console\CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007-2009 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     Class available since release 0.1.0
@@ -69,7 +69,7 @@ class Renderer_Default implements Renderer
      *
      * @return void
      */
-    public function __construct($parser = false) 
+    public function __construct($parser = false)
     {
         $this->parser = $parser;
     }
@@ -85,7 +85,7 @@ class Renderer_Default implements Renderer
     public function usage()
     {
         $ret = '';
-        if (!empty($this->parser->description)) { 
+        if (!empty($this->parser->description)) {
             $ret .= $this->description() . "\n\n";
         }
         $ret .= $this->usageLine() . "\n";
@@ -159,9 +159,9 @@ class Renderer_Default implements Renderer
         $parent = $this->parser->parent;
         while ($parent) {
             if (count($parent->options) > 0) {
-                $name = '[' 
+                $name = '['
                     . strtolower($this->parser->message_provider->get('OPTION_WORD',
-                          array('plural' => 's'))) 
+                          array('plural' => 's')))
                     . '] ' . $name;
             }
             $name = $parent->name . ' ' . $name;
@@ -196,13 +196,20 @@ class Renderer_Default implements Renderer
         $usage = $this->parser->message_provider->get('USAGE_WORD') . ":\n";
         $ret   = $usage . '  ' . $this->name();
         if (count($this->parser->options) > 0) {
-            $ret .= ' [' 
+            $ret .= ' ['
                 . strtolower($this->parser->message_provider->get('OPTION_WORD'))
                 . ']';
         }
         if (count($this->parser->args) > 0) {
             foreach ($this->parser->args as $name=>$arg) {
-                $ret .= ' <' . $arg->help_name . ($arg->multiple?'...':'') . '>';
+                $arg_str = $arg->help_name;
+                if ($arg->multiple) {
+                    $arg_str .= '1 ' . $arg->help_name . '2 ...';
+                }
+                if ($arg->optional) {
+                    $arg_str = '[' . $arg_str . ']';
+                }
+                $ret .= ' ' . $arg_str;
             }
         }
         return $this->columnWrap($ret, 2);
@@ -223,7 +230,7 @@ class Renderer_Default implements Renderer
         }
         $ret = '  ' . $this->name();
         if (count($this->parser->options) > 0) {
-            $ret .= ' [' 
+            $ret .= ' ['
                 . strtolower($this->parser->message_provider->get('OPTION_WORD'))
                 . ']';
         }
@@ -234,7 +241,7 @@ class Renderer_Default implements Renderer
             if (!$hasArgs && count($command->args) > 0) {
                 $hasArgs = true;
             }
-            if (!$hasOptions && ($command->add_help_option || 
+            if (!$hasOptions && ($command->add_help_option ||
                 $command->add_version_option || count($command->options) > 0)) {
                 $hasOptions = true;
             }
@@ -252,7 +259,7 @@ class Renderer_Default implements Renderer
     // argumentList() {{{
 
     /**
-     * Render the arguments list that will be displayed to the user, you can 
+     * Render the arguments list that will be displayed to the user, you can
      * override this method if you want to change the look of the list.
      *
      * @return string The formatted argument list
@@ -281,7 +288,7 @@ class Renderer_Default implements Renderer
     // optionList() {{{
 
     /**
-     * Render the options list that will be displayed to the user, you can 
+     * Render the options list that will be displayed to the user, you can
      * override this method if you want to change the look of the list.
      *
      * @return string The formatted option list
@@ -324,7 +331,7 @@ class Renderer_Default implements Renderer
     // commandList() {{{
 
     /**
-     * Render the command list that will be displayed to the user, you can 
+     * Render the command list that will be displayed to the user, you can
      * override this method if you want to change the look of the list.
      *
      * @return string The formatted subcommand list
@@ -397,7 +404,7 @@ class Renderer_Default implements Renderer
     {
         $tokens = explode("\n", $this->wrap($text));
         $ret    = $tokens[0];
-        $chunks = $this->wrap(trim(substr($text, strlen($ret))), 
+        $chunks = $this->wrap(trim(substr($text, strlen($ret))),
             $this->line_width - $cw);
         $tokens = explode("\n", $chunks);
         foreach ($tokens as $token) {

@@ -38,8 +38,6 @@ array(4) {
     NULL
     ["action"]=>
     string(11) "StoreString"
-    ["default"]=>
-    NULL
     ["choices"]=>
     array(0) {
     }
@@ -60,6 +58,8 @@ array(4) {
     string(4) "opt1"
     ["description"]=>
     NULL
+    ["default"]=>
+    NULL
     ["messages"]=>
     array(0) {
     }
@@ -72,8 +72,6 @@ array(4) {
     string(5) "--foo"
     ["action"]=>
     string(8) "StoreInt"
-    ["default"]=>
-    int(2)
     ["choices"]=>
     array(3) {
       [0]=>
@@ -100,6 +98,8 @@ array(4) {
     string(3) "bar"
     ["description"]=>
     string(19) "description of opt2"
+    ["default"]=>
+    int(2)
     ["messages"]=>
     array(0) {
     }
@@ -112,8 +112,6 @@ array(4) {
     string(11) "--list-opt2"
     ["action"]=>
     string(4) "List"
-    ["default"]=>
-    NULL
     ["choices"]=>
     array(0) {
     }
@@ -143,6 +141,8 @@ array(4) {
     string(9) "list_opt2"
     ["description"]=>
     string(35) "lists valid choices for option opt2"
+    ["default"]=>
+    NULL
     ["messages"]=>
     array(0) {
     }
@@ -155,8 +155,6 @@ array(4) {
     string(5) "--bar"
     ["action"]=>
     string(11) "StoreString"
-    ["default"]=>
-    NULL
     ["choices"]=>
     array(0) {
     }
@@ -177,6 +175,8 @@ array(4) {
     string(4) "opt3"
     ["description"]=>
     string(19) "description of opt3"
+    ["default"]=>
+    NULL
     ["messages"]=>
     array(0) {
     }

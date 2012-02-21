@@ -13,7 +13,7 @@ $parser->addArgument('arg2', array(
 ));
 $arg3 = new PEAR2\Console\CommandLine\Argument('arg3', array(
     'multiple' => true,
-    'description' => 'description of arg3'    
+    'description' => 'description of arg3'
 ));
 $parser->addArgument($arg3);
 $parser->addArgument('arg4', array('optional' => true));
@@ -27,7 +27,7 @@ $parser->addArgument('Some invalid name');
 --EXPECTF--
 array(4) {
   ["arg1"]=>
-  object(PEAR2\Console\CommandLine\Argument)#6 (6) {
+  object(PEAR2\Console\CommandLine\Argument)#6 (7) {
     ["multiple"]=>
     bool(false)
     ["optional"]=>
@@ -38,12 +38,14 @@ array(4) {
     string(4) "arg1"
     ["description"]=>
     NULL
+    ["default"]=>
+    NULL
     ["messages"]=>
     array(0) {
     }
   }
   ["arg2"]=>
-  object(PEAR2\Console\CommandLine\Argument)#7 (6) {
+  object(PEAR2\Console\CommandLine\Argument)#7 (7) {
     ["multiple"]=>
     bool(true)
     ["optional"]=>
@@ -54,12 +56,14 @@ array(4) {
     string(4) "arg2"
     ["description"]=>
     string(19) "description of arg2"
+    ["default"]=>
+    NULL
     ["messages"]=>
     array(0) {
     }
   }
   ["arg3"]=>
-  object(PEAR2\Console\CommandLine\Argument)#8 (6) {
+  object(PEAR2\Console\CommandLine\Argument)#8 (7) {
     ["multiple"]=>
     bool(true)
     ["optional"]=>
@@ -70,12 +74,14 @@ array(4) {
     string(4) "arg3"
     ["description"]=>
     string(19) "description of arg3"
+    ["default"]=>
+    NULL
     ["messages"]=>
     array(0) {
     }
   }
   ["arg4"]=>
-  object(PEAR2\Console\CommandLine\Argument)#9 (6) {
+  object(PEAR2\Console\CommandLine\Argument)#9 (7) {
     ["multiple"]=>
     bool(false)
     ["optional"]=>
@@ -85,6 +91,8 @@ array(4) {
     ["help_name"]=>
     string(4) "arg4"
     ["description"]=>
+    NULL
+    ["default"]=>
     NULL
     ["messages"]=>
     array(0) {

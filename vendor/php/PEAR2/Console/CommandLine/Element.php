@@ -11,11 +11,11 @@
  * through the world-wide-web at the following URI:
  * http://opensource.org/licenses/mit-license.php
  *
- * @category  Console 
+ * @category  Console
  * @package   PEAR2\Console\CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007-2009 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   SVN: $Id$
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     File available since release 0.1.0
@@ -29,7 +29,7 @@
  * @package   PEAR2\Console\CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007-2009 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     Class available since release 0.1.0
@@ -47,7 +47,7 @@ abstract class Element
     public $name;
 
     /**
-     * The name of variable displayed in the usage message, if no set it 
+     * The name of variable displayed in the usage message, if no set it
      * defaults to the "name" property.
      *
      * @var string $help_name Element "help" variable name
@@ -60,6 +60,12 @@ abstract class Element
      * @var string $description Element description
      */
     public $description;
+     /**
+     * The default value of the element if not provided on the command line.
+     *
+     * @var mixed $default Default value of the option.
+     */
+    public $default;
 
     /**
      * Custom errors messages for this element
@@ -101,7 +107,7 @@ abstract class Element
      *
      * @return void
      */
-    public function __construct($name = null, $params = array()) 
+    public function __construct($name = null, $params = array())
     {
         $this->name = $name;
         foreach ($params as $attr => $value) {

@@ -11,11 +11,11 @@
  * through the world-wide-web at the following URI:
  * http://opensource.org/licenses/mit-license.php
  *
- * @category  Console 
+ * @category  Console
  * @package   PEAR2\Console\CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007-2009 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   SVN: $Id$
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     File available since release 0.1.0
@@ -29,7 +29,7 @@
  * @package   PEAR2\Console\CommandLine
  * @author    David JEAN LOUIS <izimobil@gmail.com>
  * @copyright 2007-2009 David JEAN LOUIS
- * @license   http://opensource.org/licenses/mit-license.php MIT License 
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     Class available since release 0.1.0
@@ -64,14 +64,7 @@ class Option extends Element
     public $action = 'StoreString';
 
     /**
-     * The default value of the option if not provided on the command line.
-     *
-     * @var mixed $default Default value of the option.
-     */
-    public $default;
-
-    /**
-     * An array of possible values for the option. If this array is not empty 
+     * An array of possible values for the option. If this array is not empty
      * and the value passed is not in the array an exception is raised.
      * This only make sense for actions that accept values of course.
      *
@@ -80,10 +73,10 @@ class Option extends Element
     public $choices = array();
 
     /**
-     * The callback function (or method) to call for an action of type 
-     * Callback, this can be any callable supported by the php function 
+     * The callback function (or method) to call for an action of type
+     * Callback, this can be any callable supported by the php function
      * call_user_func.
-     * 
+     *
      * Example:
      *
      * <code>
@@ -100,8 +93,8 @@ class Option extends Element
     public $callback;
 
     /**
-     * An associative array of additional params to pass to the class 
-     * corresponding to the action, this array will also be passed to the 
+     * An associative array of additional params to pass to the class
+     * corresponding to the action, this array will also be passed to the
      * callback defined for an action of type Callback, Example:
      *
      * <code>
@@ -116,7 +109,7 @@ class Option extends Element
      * // if the user type:
      * // $ <yourprogram> -m spam
      * // in your MyCustomAction class the execute() method will be called
-     * // with the value 'spam' as first parameter and 
+     * // with the value 'spam' as first parameter and
      * // array('foo'=>true, 'bar'=>false) as second parameter
      * </code>
      *
@@ -125,7 +118,7 @@ class Option extends Element
     public $action_params = array();
 
     /**
-     * For options that expect an argument, this property tells the parser if 
+     * For options that expect an argument, this property tells the parser if
      * the option argument is optional and can be ommited.
      *
      * @var bool $argumentOptional Whether the option arg is optional or not
@@ -134,7 +127,7 @@ class Option extends Element
 
     /**
      * For options that uses the "choice" property only.
-     * Adds a --list-<choice> option to the parser that displays the list of 
+     * Adds a --list-<choice> option to the parser that displays the list of
      * choices for the option.
      *
      * @var bool $add_list_option Whether to add a list option or not
@@ -162,11 +155,11 @@ class Option extends Element
      *
      * @return void
      */
-    public function __construct($name = null, $params = array()) 
+    public function __construct($name = null, $params = array())
     {
         parent::__construct($name, $params);
         if ($this->action == 'Password') {
-            // special case for Password action, password can be passed to the 
+            // special case for Password action, password can be passed to the
             // commandline or prompted by the parser
             $this->argument_optional = true;
         }
@@ -207,7 +200,7 @@ class Option extends Element
     // expectsArgument() {{{
 
     /**
-     * Returns true if the option requires one or more argument and false 
+     * Returns true if the option requires one or more argument and false
      * otherwise.
      *
      * @return bool Whether the option expects an argument or not
@@ -226,7 +219,7 @@ class Option extends Element
     // dispatchAction() {{{
 
     /**
-     * Formats the value $value according to the action of the option and 
+     * Formats the value $value according to the action of the option and
      * updates the passed PEAR2\Console\CommandLine_Result object.
      *
      * @param mixed                            $value  The value to format
@@ -286,20 +279,20 @@ class Option extends Element
                 E_USER_ERROR, array('{$name}' => $this->name));
         }
         // check if the option short_name is valid
-        if ($this->short_name != null && 
+        if ($this->short_name != null &&
             !(preg_match('/^\-[a-zA-Z]{1}$/', $this->short_name))) {
             Console\CommandLine::triggerError('option_bad_short_name',
                 E_USER_ERROR, array(
-                    '{$name}' => $this->name, 
+                    '{$name}' => $this->name,
                     '{$short_name}' => $this->short_name
                 ));
         }
         // check if the option long_name is valid
-        if ($this->long_name != null && 
+        if ($this->long_name != null &&
             !preg_match('/^\-\-[a-zA-Z]+[a-zA-Z0-9_\-]*$/', $this->long_name)) {
             Console\CommandLine::triggerError('option_bad_long_name',
                 E_USER_ERROR, array(
-                    '{$name}' => $this->name, 
+                    '{$name}' => $this->name,
                     '{$long_name}' => $this->long_name
                 ));
         }
@@ -328,7 +321,7 @@ class Option extends Element
     /**
      * Set the default value according to the configured action.
      *
-     * Note that for backward compatibility issues this method is only called 
+     * Note that for backward compatibility issues this method is only called
      * when the 'force_options_defaults' is set to true, it will become the
      * default behaviour in the next major release of PEAR2\Console\CommandLine.
      *

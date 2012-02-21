@@ -19,7 +19,7 @@ $parser->parse();
 Description of our parser goes here...
 
 Usage:
-  some_program [options] <simple> <multiple...>
+  some_program [options] simple [multiple1 multiple2 ...]
 
 Options:
   -t

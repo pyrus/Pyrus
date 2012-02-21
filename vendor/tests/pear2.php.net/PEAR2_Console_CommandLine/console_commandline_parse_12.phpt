@@ -17,7 +17,7 @@ $result = $parser->parse();
 install given package
 
 Usage:
-  some_program [options] install [options] <package>
+  some_program [options] install [options] package
 
 Options:
   -f, --force  force installation
