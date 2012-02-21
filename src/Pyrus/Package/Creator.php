@@ -322,11 +322,11 @@ class Creator
         foreach ($extrafiles as $path => $filename) {
             if (is_object($filename)) {
                 if ($filename instanceof \Pyrus\PackageInterface) {
-                    foreach ($filename->packagingcontents as $path => $info) {
+                    foreach ($filename->packagingcontents as $info) {
                         foreach ($this->_creators as $creator) {
-                            $creator->mkdir(dirname($this->prepend . '/' . $path));
+                            $creator->mkdir(dirname($this->prepend . '/' . $info['attribs']['name']));
                             $fp = $filename->getFileContents($info['attribs']['name'], true);
-                            $creator->addFile($this->prepend . '/' . $path, $fp);
+                            $creator->addFile($this->prepend . '/' . $info['attribs']['name'], $fp);
                             fclose($fp);
                         }
                     }
