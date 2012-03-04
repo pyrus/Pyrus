@@ -87,6 +87,9 @@ class Internet_Adapter extends \PEAR2\HTTP\Request\Adapter
                 case 'txt' :
                     $headers['content-type'] = 'text/plain';
                     break;
+                case 'pem' :
+                    $headers['content-type'] = 'application/x-x509-ca-cert';
+                    break;
                 default :
                     $headers['content-type'] = 'application/octet-stream';
             }
