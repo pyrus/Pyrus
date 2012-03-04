@@ -348,10 +348,16 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
             // try to download openssl x509 signature certificate for our release
             try {
                 $cert = \Pyrus\Main::download($url . '.pem');
+
                 // ensure this is supposed to be a valid certificate
-                if ($cert->headers['Content-Type'] == 'application/x-x509-ca-cert') {
-                    $cert = $cert->body;
-                    $certdownloaded = true;
+                $contentType = $cert->headers['content-type'];
+                if (null !== $contentType) {
+                    // ignore parameters during comparison.
+                    $contentType = (string) substr($contentType, 0, strcspn($contentType, ';'));
+                    if (!strcasecmp($contentType, 'application/x-x509-ca-cert')) {
+                        $cert = $cert->body;
+                        $certdownloaded = true;
+                    }
                 }
             } catch (\Pyrus\HTTPException $e) {
                 // file does not exist, ignore
