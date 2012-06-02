@@ -210,6 +210,11 @@ class v2 implements \Pyrus\PackageFileInterface
         $this->_archiveFile = $archive ? $archive : $file;
     }
 
+    function hasConcreteVersion()
+    {
+        return false;
+    }
+
     function getReleaseToInstall($var, $reset = false)
     {
         if (!$reset && isset($this->releaseIndex)) {
