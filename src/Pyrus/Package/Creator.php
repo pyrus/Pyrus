@@ -84,6 +84,7 @@ class Creator
         $pear2AutoloadPath = false,
         $pear2MultiErrorsPath = false
     ) {
+/*
         if (!$pear2ExceptionPath) {
             if (!($pear2Exception = @fopen('PEAR2/Exception.php', 'rb', true))) {
                 throw new Exception('Cannot locate PEAR2/Exception.php, please' .
@@ -102,10 +103,11 @@ class Creator
                 throw new Exception('Cannot locate PEAR2/Exception.php in ' . $pear2ExceptionPath);
             }
         }
+*/
 
         if (!$pear2AutoloadPath) {
             if (!($pear2Autoload = @fopen('PEAR2/Autoload.php', 'rb', true))) {
-                fclose($pear2Exception);
+                //fclose($pear2Exception);
                 throw new Exception('Cannot locate PEAR2/Autoload.php, please' .
                                     ' pass in the path to the constructor');
             }
@@ -124,6 +126,7 @@ class Creator
             }
         }
 
+/*
         if (!$pear2MultiErrorsPath) {
             if (!($pear2MultiErrors = @fopen('PEAR2/MultiErrors.php', 'rb', true))) {
                 fclose($pear2Exception);
@@ -162,11 +165,12 @@ class Creator
                                     ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
             }
         }
+*/
 
         $this->_handles['php/PEAR2/Autoload.php'] = $pear2Autoload;
-        $this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
-        $this->_handles['php/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
-        $this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
+        //$this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
+        //$this->_handles['php/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
+        //$this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
     }
 
     /**
