@@ -155,7 +155,14 @@ class ChannelRegistry implements \ArrayAccess, \IteratorAggregate, \Pyrus\Channe
      */
     public function exists($channel, $strict = true)
     {
-        return $this->_registries[0]->exists($channel, $strict);
+        $status = $this->_registries[0]->exists($channel, $strict);
+        if (is_bool($status)) {
+            return $status;
+        }
+        if (1 === $status) {
+            return true;
+        }
+        return false;
     }
 
     public function parseName($name, $defaultChannel = 'pear2.php.net')
