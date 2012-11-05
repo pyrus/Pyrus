@@ -2,7 +2,7 @@
 /**
  * \Pyrus\Package\Creator
  *
- * PHP version 5
+ * PHP version 5.3
  *
  * @category  Pyrus
  * @package   Pyrus
@@ -38,24 +38,36 @@ class Creator
     function __construct($creators, $pear2ExceptionPath = false, $pear2AutoloadPath = false,
                          $pear2MultiErrorsPath = false)
     {
+        $this->setCreators($creators)
+            ->bundleMinimumDeps($pear2ExceptionPath, $pear2AutoloadPath, $pear2MultiErrorsPath);
+    }
+
+    /**
+     * Set/inject creators.
+     *
+     * @param mixed $creators CreatorInterface or an array of CreatorInterface.
+     *
+     * @return $this
+     * @throws Creator\Exception On invalid argument.
+     */
+    public function setCreators($creators)
+    {
         if ($creators instanceof CreatorInterface) {
             $this->_creators = array($creators);
-        } elseif (is_array($creators)) {
+            return $this;
+        }
+
+        if (is_array($creators)) {
             foreach ($creators as $creator) {
                 if ($creator instanceof CreatorInterface) {
                     continue;
                 }
                 throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
             }
-
             $this->_creators = $creators;
-        } else {
-            throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
+            return $this;
         }
-
-
-        $this->bundleMinimumDeps($pear2ExceptionPath, $pear2AutoloadPath, $pear2MultiErrorsPath);
-
+        throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
     }
 
     /**
