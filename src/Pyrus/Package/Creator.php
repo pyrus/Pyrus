@@ -29,6 +29,7 @@ class Creator
     private $_creators;
     private $_handles = array();
     protected $prepend;
+
     /**
      * Begin package creation
      *
@@ -37,6 +38,40 @@ class Creator
     function __construct($creators, $pear2ExceptionPath = false, $pear2AutoloadPath = false,
                          $pear2MultiErrorsPath = false)
     {
+        if ($creators instanceof CreatorInterface) {
+            $this->_creators = array($creators);
+        } elseif (is_array($creators)) {
+            foreach ($creators as $creator) {
+                if ($creator instanceof CreatorInterface) {
+                    continue;
+                }
+                throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
+            }
+
+            $this->_creators = $creators;
+        } else {
+            throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
+        }
+
+
+        $this->bundleMinimumDeps($pear2ExceptionPath, $pear2AutoloadPath, $pear2MultiErrorsPath);
+
+    }
+
+    /**
+     * Bundle the minimum required dependencies for a package.
+     *
+     * @param boolean $pear2ExceptionPath
+     * @param boolean $pear2AutoloadPath
+     * @param boolean $pear2MultiErrorsPath
+     *
+     * @return void
+     */
+    protected function bundleMinimumDeps(
+        $pear2ExceptionPath = false,
+        $pear2AutoloadPath = false,
+        $pear2MultiErrorsPath = false
+    ) {
         if (!$pear2ExceptionPath) {
             if (!($pear2Exception = @fopen('PEAR2/Exception.php', 'rb', true))) {
                 throw new Exception('Cannot locate PEAR2/Exception.php, please' .
@@ -120,21 +155,6 @@ class Creator
         $this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
         $this->_handles['php/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
         $this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
-        if ($creators instanceof CreatorInterface) {
-            $this->_creators = array($creators);
-        } elseif (is_array($creators)) {
-            foreach ($creators as $creator) {
-                if ($creator instanceof CreatorInterface) {
-                    continue;
-                }
-
-                throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
-            }
-
-            $this->_creators = $creators;
-        } else {
-            throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
-        }
     }
 
     /**
