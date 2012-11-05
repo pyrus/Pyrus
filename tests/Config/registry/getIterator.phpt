@@ -1,7 +1,5 @@
 --TEST--
-
---SKIPIF--
-skip
+Confirm: GH-23
 --FILE--
 <?php
 require __DIR__ . '/../setup.php.inc';
