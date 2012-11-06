@@ -50,4 +50,8 @@ require_once $autoload;
 
 $frontend = new \Pyrus\ScriptFrontend\Commands;
 @array_shift($_SERVER['argv']);
-$frontend->run($_SERVER['argv']);
+$exitCode = $frontend->run($_SERVER['argv']);
+if (null === $exitCode || !is_numeric($exitCode)) {
+    $exitCode = (int) $exitCode;
+}
+exit($exitCode);
