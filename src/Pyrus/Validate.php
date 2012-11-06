@@ -184,8 +184,9 @@ class Validate
         if ($this->_state == Validate::PACKAGING || $this->_state == Validate::NORMAL) {
             if ($this->_packagexml->extends) {
                 $version = $this->_packagexml->version['release'] . '';
-                $name = $this->_packagexml->name;
-                $test = array_shift($a = explode('.', $version));
+                $name    = $this->_packagexml->name;
+                $vArray  = explode('.', $version);
+                $test = array_shift($vArray);
                 if ($test == '0') {
                     return true;
                 }

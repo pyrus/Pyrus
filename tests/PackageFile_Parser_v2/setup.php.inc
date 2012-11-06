@@ -8,17 +8,17 @@ class Mockv2 extends \Pyrus\PackageFile\v2
     public $baseinstalls;
     public $packagefile;
 
-    function setFilelist($list)
+    function setFilelist(array $list)
     {
         $this->filelist = $list;
     }
 
-    function setBaseInstallDirs($dirs)
+    function setBaseInstallDirs(array $list)
     {
-        $this->baseinstalls = $dirs;
+        $this->baseinstalls = $list;
     }
 
-    function setPackageFile($file)
+    function setPackageFile($file, $archive = false)
     {
         $this->packagefile = $file;
     }
