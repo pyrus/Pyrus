@@ -50,7 +50,7 @@ class Package implements \Pyrus\PackageInterface
             return;
         }
 
-        list($class, $packagedescription, $depgroup) = $this->parsePackageDescription($packagedescription, $forceremote);
+        list($class, $packagedescription, $depgroup) = self::parsePackageDescription($packagedescription, $forceremote);
         $this->internal = new $class($packagedescription, $this);
         if ($depgroup) {
             $this->internal->requestedGroup = $depgroup;
@@ -197,7 +197,7 @@ class Package implements \Pyrus\PackageInterface
         $this->internal->copyTo($where);
     }
 
-    function parsePackageDescription($package, $forceremote = false)
+    public static function parsePackageDescription($package, $forceremote = false)
     {
         if (strpos($package, 'http://') === 0 || strpos($package, 'https://') === 0) {
 
