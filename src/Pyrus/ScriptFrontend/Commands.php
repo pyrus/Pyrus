@@ -267,7 +267,7 @@ class Commands implements \Pyrus\LogInterface
      *
      * @param array $args An array of command line arguments.
      *
-     * @return void
+     * @return int
      */
     function run($args)
     {
@@ -310,7 +310,7 @@ class Commands implements \Pyrus\LogInterface
                     }
                 } else {
                     $class = new $info['class'];
-                    exit((int)!$class->{$info['function']}($this, $result->command->args, $result->command->options));
+                    return (int)!$class->{$info['function']}($this, $result->command->args, $result->command->options);
                 }
             } else {
                 $this->help(array('command' => isset($args[0]) ? $args[0] : null));
