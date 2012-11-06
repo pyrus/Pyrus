@@ -6,6 +6,7 @@ require __DIR__ . '/../setup.php.inc';
 
 $fake = new \Pyrus\PackageFile\v2;
 $arch = $fake->dependencies['required']->arch;
+$os          = new \stdClass;
 $os->pattern = 'goo';
 $validator = new test_Validator($package, \Pyrus\Validate::UNINSTALLING, $errs);
 // verify that we pass even with a conflict if we aren't installing or downloading
