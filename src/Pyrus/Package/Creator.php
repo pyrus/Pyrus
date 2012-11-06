@@ -2,7 +2,7 @@
 /**
  * \Pyrus\Package\Creator
  *
- * PHP version 5
+ * PHP version 5.3
  *
  * @category  Pyrus
  * @package   Pyrus
@@ -29,6 +29,7 @@ class Creator
     private $_creators;
     private $_handles = array();
     protected $prepend;
+
     /**
      * Begin package creation
      *
@@ -37,6 +38,53 @@ class Creator
     function __construct($creators, $pear2ExceptionPath = false, $pear2AutoloadPath = false,
                          $pear2MultiErrorsPath = false)
     {
+        $this->setCreators($creators)
+            ->bundleMinimumDeps($pear2ExceptionPath, $pear2AutoloadPath, $pear2MultiErrorsPath);
+    }
+
+    /**
+     * Set/inject creators.
+     *
+     * @param mixed $creators CreatorInterface or an array of CreatorInterface.
+     *
+     * @return $this
+     * @throws Creator\Exception On invalid argument.
+     */
+    public function setCreators($creators)
+    {
+        if ($creators instanceof CreatorInterface) {
+            $this->_creators = array($creators);
+            return $this;
+        }
+
+        if (is_array($creators)) {
+            foreach ($creators as $creator) {
+                if ($creator instanceof CreatorInterface) {
+                    continue;
+                }
+                throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
+            }
+            $this->_creators = $creators;
+            return $this;
+        }
+        throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
+    }
+
+    /**
+     * Bundle the minimum required dependencies for a package.
+     *
+     * @param boolean $pear2ExceptionPath
+     * @param boolean $pear2AutoloadPath
+     * @param boolean $pear2MultiErrorsPath
+     *
+     * @return void
+     */
+    protected function bundleMinimumDeps(
+        $pear2ExceptionPath = false,
+        $pear2AutoloadPath = false,
+        $pear2MultiErrorsPath = false
+    ) {
+/*
         if (!$pear2ExceptionPath) {
             if (!($pear2Exception = @fopen('PEAR2/Exception.php', 'rb', true))) {
                 throw new Exception('Cannot locate PEAR2/Exception.php, please' .
@@ -55,10 +103,11 @@ class Creator
                 throw new Exception('Cannot locate PEAR2/Exception.php in ' . $pear2ExceptionPath);
             }
         }
+*/
 
         if (!$pear2AutoloadPath) {
             if (!($pear2Autoload = @fopen('PEAR2/Autoload.php', 'rb', true))) {
-                fclose($pear2Exception);
+                //fclose($pear2Exception);
                 throw new Exception('Cannot locate PEAR2/Autoload.php, please' .
                                     ' pass in the path to the constructor');
             }
@@ -77,6 +126,7 @@ class Creator
             }
         }
 
+/*
         if (!$pear2MultiErrorsPath) {
             if (!($pear2MultiErrors = @fopen('PEAR2/MultiErrors.php', 'rb', true))) {
                 fclose($pear2Exception);
@@ -115,26 +165,12 @@ class Creator
                                     ' in ' . $pear2MultiErrorsPath . 'MultiErrors/Exception.php');
             }
         }
+*/
 
         $this->_handles['php/PEAR2/Autoload.php'] = $pear2Autoload;
-        $this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
-        $this->_handles['php/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
-        $this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
-        if ($creators instanceof CreatorInterface) {
-            $this->_creators = array($creators);
-        } elseif (is_array($creators)) {
-            foreach ($creators as $creator) {
-                if ($creator instanceof CreatorInterface) {
-                    continue;
-                }
-
-                throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
-            }
-
-            $this->_creators = $creators;
-        } else {
-            throw new Creator\Exception('Invalid PEAR2 package creator passed into \Pyrus\Package\Creator');
-        }
+        //$this->_handles['php/PEAR2/MultiErrors.php'] = $pear2MultiErrors;
+        //$this->_handles['php/PEAR2/MultiErrors/Exception.php'] = $pear2MultiErrorsException;
+        //$this->_handles['php/PEAR2/Exception.php'] = $pear2Exception;
     }
 
     /**
