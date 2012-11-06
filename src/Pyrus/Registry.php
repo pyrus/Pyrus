@@ -30,6 +30,7 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 namespace Pyrus;
+
 class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
 {
     static protected $allRegistries = array();
@@ -220,7 +221,7 @@ class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
     // TODO: fix to support cascading
     public function getIterator()
     {
-        return $this->registries[0];
+        return new \ArrayIterator($this->registries);
     }
 
     /**
