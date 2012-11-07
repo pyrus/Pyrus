@@ -8,6 +8,9 @@ if (!is_writable(ini_get('extension_dir'))) {
 if (substr(PHP_OS, 0, 3) === 'WIN') {
     die('skip requires unix to work');
 }
+if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+    die("skip test doesn't run on PHP 5.4 because the extension (docblock) is not fit for it");
+}
 ?>
 --ENV--
 return <<<END
