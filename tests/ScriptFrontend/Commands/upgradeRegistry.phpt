@@ -1,5 +1,7 @@
 --TEST--
 \Pyrus\ScriptFrontend\Commands::upgradeRegistry()
+--INI--
+error_reporting = 0;
 --SKIPIF--
 <?php
 if (!($f = @fopen('PEAR.php', 'r', true))) {
