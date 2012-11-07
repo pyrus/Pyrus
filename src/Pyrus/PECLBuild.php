@@ -493,7 +493,7 @@ class PECLBuild
 
     function log($level, $msg)
     {
-        if ($this->current_callback) {
+        if (isset($this->current_callback)) {
             call_user_func($this->current_callback, 'output', $msg);
             return;
         }
