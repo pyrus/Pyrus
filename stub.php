@@ -9,7 +9,7 @@ if (version_compare(phpversion(), '5.3.1', '<')) {
 }
 
 $missing_extensions = array();
-foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'sqlite3')
+foreach (array('phar', 'spl', 'pcre', 'simplexml', 'libxml', 'xmlreader', 'xmlwriter', 'sqlite3')
          as $ext) {
     if (!extension_loaded($ext)) {
         $missing_extensions[] = $ext;
