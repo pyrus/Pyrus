@@ -293,12 +293,14 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
         if (isset($this->parent->protocols->rest['REST1.3'])) {
             $a = $this->remoteAbridgedInfo = $this->rest->retrieveCacheFirst(
                                                         $this->parent->protocols->rest['REST1.3']->baseurl .
-                                                        'r/' . strtolower($this->name) . '/v2.' . $value['release'] . '.xml');
+                                                        'r/' . strtolower($this->name) . '/v2.' . $value['release'] . '.xml', 
+            											false, false, 'text/xml');
             $this->packageInfo['version']['api'] = $a['a'];
         } else {
             $a = $this->remoteAbridgedInfo = $this->rest->retrieveCacheFirst(
                                                         $this->parent->protocols->rest['REST1.0']->baseurl .
-                                                        'r/' . strtolower($this->name) . '/' . $value['release'] . '.xml');
+                                                        'r/' . strtolower($this->name) . '/' . $value['release'] . '.xml', 
+            											false, false, 'text/xml');
         }
 
         $this->packageInfo['version'] = $value;
@@ -462,10 +464,12 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
             $ok = \Pyrus\Installer::betterStates($this->releaseList, true);
             if (isset($this->parent->protocols->rest['REST1.3'])) {
                 $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
-                                                        'r/' . $lowerpackage . '/allreleases2.xml');
+                                                        'r/' . $lowerpackage . '/allreleases2.xml', 
+                										false, false, 'text/xml');
             } else {
                 $rinfo = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                        'r/' . $lowerpackage . '/allreleases.xml');
+                                                        'r/' . $lowerpackage . '/allreleases.xml', 
+                										false, false, 'text/xml');
             }
 
             if (!isset($rinfo['r'][0])) {
@@ -562,10 +566,12 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
 
         if (isset($this->parent->protocols->rest['REST1.3'])) {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
-                                                    'r/' . strtolower($this->name) . '/allreleases2.xml');
+                                                    'r/' . strtolower($this->name) . '/allreleases2.xml', 
+            										false, false, 'text/xml');
         } else {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'r/' . strtolower($this->name) . '/allreleases.xml');
+                                                    'r/' . strtolower($this->name) . '/allreleases.xml', 
+            										false, false, 'text/xml');
         }
 
         $this->releaseList = $info['r'];
@@ -609,7 +615,8 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
     {
         $lowerpackage = strtolower($var);
         return $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'p/' . $lowerpackage . '/info.xml');
+                                                    'p/' . $lowerpackage . '/info.xml', 
+        											false, false, 'text/xml');
     }
 
     function getPackagefileObject()
@@ -638,7 +645,8 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
 
         $pxml = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
                                                 'r/' . strtolower($this->name) . '/package.' .
-                                                $this->version['release'] . '.xml');
+                                                $this->version['release'] . '.xml', 
+        										false, false, 'text/xml');
         $this->fromArray(array('package' => $pxml));
         $this->fullPackagexml = true;
     }
@@ -767,7 +775,8 @@ class RemotePackage extends \Pyrus\PackageFile\v2 implements \ArrayAccess, \Iter
                         if (isset($this->parent->protocols->rest['REST1.3'])) {
                             $api = $this->rest->retrieveCacheFirst(
                                 $this->parent->protocols->rest['REST1.3']->baseurl .
-                                'r/' . strtolower($this->name) . '/v2.' . $versioninfo['v'] . '.xml');
+                                'r/' . strtolower($this->name) . '/v2.' . $versioninfo['v'] . '.xml', 
+                            	false, false, 'text/xml');
                         } else {
                             throw new Exception('Channel ' . $this->channel .
                                                 ' does not support ' .
