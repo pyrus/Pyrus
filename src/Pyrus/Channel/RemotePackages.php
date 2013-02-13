@@ -94,7 +94,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
         $lowerpackage = strtolower($lowerpackage);
 
         $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
-        $info = $this->rest->retrieveCacheFirst($url);
+        $info = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
 
         if (isset($releases)) {
             $pxml = new RemotePackage($this->parent, $releases);
@@ -115,10 +115,12 @@ class RemotePackages implements \ArrayAccess, \Iterator
         $lowerpackage = strtolower($package);
         if (isset($this->parent->protocols->rest['REST1.3'])) {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
-                                                    'r/' . $lowerpackage . '/allreleases2.xml');
+                                                    'r/' . $lowerpackage . '/allreleases2.xml', 
+            										false, false, 'text/xml');
         } else {
             $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                    'r/' . $lowerpackage . '/allreleases.xml');
+                                                    'r/' . $lowerpackage . '/allreleases.xml', 
+            										false, false, 'text/xml');
         }
 
         if (!isset($info['r'][0])) {
@@ -143,7 +145,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
         }
 
         $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/' . $lowerpackage . '/info.xml';
-        $info = $this->rest->retrieveCacheFirst($url);
+        $info = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
 
         $pxml = new RemotePackage($this->parent, $releases);
 
@@ -168,7 +170,7 @@ class RemotePackages implements \ArrayAccess, \Iterator
     function rewind()
     {
         $url = $this->parent->protocols->rest['REST1.0']->baseurl . 'p/packages.xml';
-        $this->packageList = $this->rest->retrieveCacheFirst($url);
+        $this->packageList = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         $this->packageList = $this->packageList['p'];
         if (!is_array($this->packageList)) {
             $this->packageList = array($this->packageList);
@@ -181,10 +183,12 @@ class RemotePackages implements \ArrayAccess, \Iterator
             foreach ($this->packageList as $lowerpackage) {
                 if (isset($this->parent->protocols->rest['REST1.3'])) {
                     $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.3']->baseurl .
-                                                            'r/' . $lowerpackage . '/allreleases2.xml');
+                                                            'r/' . $lowerpackage . '/allreleases2.xml', 
+                    										false, false, 'text/xml');
                 } else {
                     $info = $this->rest->retrieveCacheFirst($this->parent->protocols->rest['REST1.0']->baseurl .
-                                                            'r/' . $lowerpackage . '/allreleases.xml');
+                                                            'r/' . $lowerpackage . '/allreleases.xml', 
+                    										false, false, 'text/xml');
                 }
 
                 if (!isset($info['r'][0])) {
