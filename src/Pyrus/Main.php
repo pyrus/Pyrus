@@ -174,6 +174,7 @@ class Main
 
         $request->setHeader('Connection', 'close');
         $response = $request->sendRequest();
+        
         if ($response->code >= 400) {
             if ($response->code == 404) {
                 throw new HTTPException(
@@ -182,6 +183,13 @@ class Main
 
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
+            
+        }elseif($response->code == 301 && isset($response->headers['location'])){
+            // handle HTTP redirect's
+            
+            $location = $response->headers['location'];
+            
+            return self::download($location, $lastmodified, $accept, $doprogress);
         }
 
         if ($response->code === 0 && $response->body === false) {
