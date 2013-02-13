@@ -113,7 +113,7 @@ class Main
      * @access public
      * @throws PEAR2\HTTPException on download error
      */
-    static function download($url, $lastmodified = null, $accept = false, $doprogress = false)
+    static function download($url, $lastmodified = null, $accept = false, $doprogress = false, $retryCount = 3)
     {
         $info = parse_url($url);
         $class = static::$downloadClass;
@@ -174,6 +174,9 @@ class Main
 
         $request->setHeader('Connection', 'close');
         $response = $request->sendRequest();
+        
+        $retryCount = (int)$retryCount;
+        
         if ($response->code >= 400) {
             if ($response->code == 404) {
                 throw new HTTPException(
@@ -182,6 +185,13 @@ class Main
 
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
+            
+        }elseif(in_array($response->code, array(301, 302, 303, 307)) && isset($response->headers['location']) && $retryCount >= 1){
+            // handle HTTP redirects
+            
+            $location = $response->headers['location'];
+            
+            return self::download($location, $lastmodified, $accept, $doprogress, $retryCount-1);
         }
 
         if ($response->code === 0 && $response->body === false) {
