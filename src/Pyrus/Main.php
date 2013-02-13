@@ -176,6 +176,7 @@ class Main
         $response = $request->sendRequest();
         
         $retryCount = (int)$retryCount;
+        $responseCodeString = (string)$response->code;
         
         if ($response->code >= 400) {
             if ($response->code == 404) {
@@ -186,7 +187,7 @@ class Main
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
             
-        }elseif($response->code[0] == 3 && isset($response->headers['location']) && $retryCount >= 1){
+        }elseif($responseCodeString[0] == 3 && isset($response->headers['location']) && $retryCount >= 1){
             // handle HTTP redirects
             
             $location = $response->headers['location'];
