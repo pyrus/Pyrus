@@ -111,7 +111,7 @@ class REST
         }
 
         // handle HTTP-redirects
-        if(isset($headers['location']) && $headers['location'] !== $url){
+        if (isset($headers['location']) && $headers['location'] !== $url) {
         	$content = $this->retrieveData($headers['location'], $accept, $forcestring, $forceContentType);
         }
         
@@ -120,14 +120,14 @@ class REST
             return $content;
         }
         
-        if(isset($headers['location']) && $headers['location'] !== $url){
+        if (isset($headers['location']) && $headers['location'] !== $url) {
         	return $content;
         }
 
-        if(is_string($forceContentType)){
+        if (is_string($forceContentType)) {
         	$ct = $forceContentType;
         	
-        }else{
+        } else {
         	
 	        // Default to XML if no content-type is provided
 	        //TODO: Deal with text as well, look at PEAR 1.9/1.8
