@@ -186,7 +186,7 @@ class Main
             throw new HTTPException(
                 "File $url not valid (received: {$response->body})", $response->code);
             
-        }elseif($response->code == 301 && isset($response->headers['location']) && $retryCount >= 1){
+        }elseif($response->code[0] == 3 && isset($response->headers['location']) && $retryCount >= 1){
             // handle HTTP redirects
             
             $location = $response->headers['location'];
