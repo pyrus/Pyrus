@@ -43,7 +43,7 @@ class RemoteMaintainers implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'm/' . urlencode($var) . '/info.xml';
-        $info = $this->rest->retrieveCacheFirst($url);
+        $info = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         return $info;
     }
 
@@ -76,7 +76,7 @@ class RemoteMaintainers implements \ArrayAccess, \Iterator
     {
         $handle = $this->key();
         $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'm/' . urlencode($handle) . '/info.xml';
-        $info = $this->rest->retrieveCacheFirst($url);
+        $info = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         return $info['m'];
     }
 
@@ -94,7 +94,7 @@ class RemoteMaintainers implements \ArrayAccess, \Iterator
     function rewind()
     {
         $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'm/allmaintainers.xml';
-        $this->maintainerList = $this->rest->retrieveCacheFirst($url);
+        $this->maintainerList = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         $this->maintainerList = $this->maintainerList['h'];
         if (!isset($this->maintainerList[0])) {
             $this->maintainerList = array($this->maintainerList);

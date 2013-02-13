@@ -42,7 +42,7 @@ class RemoteCategories implements \ArrayAccess, \Iterator
     function offsetGet($var)
     {
         $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'c/' . urlencode($var) . '/packagesinfo.xml';
-        $info = $this->rest->retrieveCacheFirst($url);
+        $info = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         return new RemoteCategory($this->parent, $var, $info);
     }
 
@@ -70,7 +70,7 @@ class RemoteCategories implements \ArrayAccess, \Iterator
     {
         $category = $this->key();
         $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'c/' . urlencode($category) . '/packagesinfo.xml';
-        $info = $this->rest->retrieveCacheFirst($url);
+        $info = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         return new RemoteCategory($this->parent, $category, $info);
     }
 
@@ -88,7 +88,7 @@ class RemoteCategories implements \ArrayAccess, \Iterator
     function rewind()
     {
         $url = $this->parent->protocols->rest['REST1.1']->baseurl . 'c/categories.xml';
-        $this->categoryList = $this->rest->retrieveCacheFirst($url);
+        $this->categoryList = $this->rest->retrieveCacheFirst($url, false, false, 'text/xml');
         $this->categoryList = $this->categoryList['c'];
         if (!isset($this->categoryList[0])) {
             $this->categoryList = array($this->categoryList);

@@ -48,7 +48,7 @@ class REST
      *
      * @return string|array
      */
-    function retrieveCacheFirst($url, $accept = false, $forcestring = false)
+    function retrieveCacheFirst($url, $accept = false, $forcestring = false, $forceContentType=false)
     {
         $cachefile = $this->config->cache_dir . DIRECTORY_SEPARATOR .
             md5($url) . 'rest.cachefile';
@@ -56,7 +56,7 @@ class REST
             return unserialize(implode('', file($cachefile)));
         }
 
-        return $this->retrieveData($url, $accept, $forcestring);
+        return $this->retrieveData($url, $accept, $forcestring, $forceContentType);
     }
 
     /**
@@ -66,12 +66,13 @@ class REST
      * @param array|false contents of the accept-encoding header
      * @param boolean     if true, xml will be returned as a string, otherwise, xml will be
      *                    parsed using Pyrus\XMLParser
+     * @param string|false if string, this will override the recieved content-type and can enforce a parser.
      *
      * @return string|array
      *
      * @throws Pyrus\REST\Exception If the xml cannot be parsed
      */
-    function retrieveData($url, $accept = false, $forcestring = false)
+    function retrieveData($url, $accept = false, $forcestring = false, $forceContentType=false)
     {
         $cacheId = $this->getCacheId($url);
         if ($ret = $this->useLocalCache($url, $cacheId)) {
@@ -109,14 +110,30 @@ class REST
             $headers      = array();
         }
 
+        // handle HTTP-redirects
+        if(isset($headers['location']) && $headers['location'] !== $url){
+        	$content = $this->retrieveData($headers['location'], $accept, $forcestring, $forceContentType);
+        }
+        
         if ($forcestring) {
             $this->saveCache($url, $content, $lastmodified, false, $cacheId);
             return $content;
         }
+        
+        if(isset($headers['location']) && $headers['location'] !== $url){
+        	return $content;
+        }
 
-        // Default to XML if no content-type is provided
-        //TODO: Deal with text as well, look at PEAR 1.9/1.8
-        $ct = isset($headers['content-type']) ? $headers['content-type'] : 'text/xml';
+        if(is_string($forceContentType)){
+        	$ct = $forceContentType;
+        	
+        }else{
+        	
+	        // Default to XML if no content-type is provided
+	        //TODO: Deal with text as well, look at PEAR 1.9/1.8
+	        $ct = isset($headers['content-type']) ? $headers['content-type'] : 'text/xml';
+        }
+        
         switch ($ct) {
             case 'text/xml' :
             case 'application/xml' :
