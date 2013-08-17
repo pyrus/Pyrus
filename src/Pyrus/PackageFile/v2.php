@@ -11,6 +11,36 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
+namespace Pyrus\PackageFile;
+
+use ArrayIterator;
+use ArrayObject;
+use PEAR2\MultiErrors;
+use Pyrus\Dependency\Validator as Validator2;
+use Pyrus\PackageFile\v2\BundledPackage;
+use Pyrus\PackageFile\v2\Compatible;
+use Pyrus\PackageFile\v2\Configureoption;
+use Pyrus\PackageFile\v2\Dependencies;
+use Pyrus\PackageFile\v2\Dependencies\Dep;
+use Pyrus\PackageFile\v2\Developer;
+use Pyrus\PackageFile\v2\Files;
+use Pyrus\PackageFile\v2\License;
+use Pyrus\PackageFile\v2\Release;
+use Pyrus\PackageFile\v2\SimpleProperty;
+use Pyrus\PackageFile\v2\UsesRoleTask;
+use Pyrus\PackageFile\v2\Validator;
+use Pyrus\PackageFile\v2Iterator\File;
+use Pyrus\PackageFile\v2Iterator\FileAttribsFilter;
+use Pyrus\PackageFile\v2Iterator\FileContents;
+use Pyrus\PackageFile\v2Iterator\FileInstallationFilter;
+use Pyrus\PackageFile\v2Iterator\PackagingFilterBase;
+use Pyrus\PackageFile\v2Iterator\PackagingIterator;
+use Pyrus\PackageFile\v2Iterator\ScriptFileFilterIterator;
+use Pyrus\PackageFileInterface;
+use Pyrus\Task\Common;
+use Pyrus\Validate;
+use Pyrus\XMLWriter;
+use RecursiveIteratorIterator;
 
 /**
  * File representing a package.xml file version 2.1
@@ -21,10 +51,123 @@
  * @copyright 2010 The PEAR Group
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
+ * 
+ * @property string                        $channel           Alias of
+ *     {@link getChannel()} when getting, alias of {@link setChannel()} when
+ *     setting.
+ * @property File                          $contents          Alias of
+ *     {@link getContents()} when getting, alias of {@link setContents()} when
+ *     setting.
+ * @property string                        $date              Alias of
+ *     {@link tag()} with 'date' as an argument when getting, alias of
+ *     {@link setTag()} with 'date' as the first argument when setting.
+ * @property string                        $description       Alias of
+ *     {@link tag()} with 'description' as an argument when getting, alias of
+ *     {@link setTag() with 'description' as the first argument when setting.
+ * @property string                        $filepath          Alias of
+ *     {@link getFilePath()} when getting, alias of {@link setFilePath()} when
+ *     setting.
+ * @property License                       $license           Alias of
+ *     {@link getLicense()} when getting, alias of {@link setLicense()} when
+ *     setting.
+ * @property string                        $name              Alias of
+ *     {@link tag()} with 'name' as an argument when getting, alias of
+ *     {@link setTag()} with 'name' as the first argument when setting.
+ * @property string                   $notes             Alias of
+ *     {@link tag()} with 'notes' as an argument when getting, alias of
+ *     {@link setTag()} with 'notes' as the first argument when setting.
+ * @property string                        $packagefile       Alias of
+ *     {@link getPackageFile()} when getting, alias of {@link setPackageFile()}
+ *     when setting.
+ * @property array                         $providesextension Alias of
+ *     {@link tag()} with 'providesextension' as an argument when getting,
+ *     alias of {@link setTag()} with 'providesextension' as the first argument
+ *     when setting.
+ * @property string                        $requestedGroup    Alias of
+ *     {@link getRequestedGroup()} when getting, alias of
+ *     {@link setRequestedGroup()} when setting.
+ * @property array[]                       $sourcepackage     Alias of
+ *     {@link getSourcePackage()} when getting, alias of
+ *     {@link setSourcePackage()} when setting.
+ * @property array                         $srcpackage        Alias of
+ *     {@link tag()} with 'srcpackage' as an argument when getting, alias of
+ *     {@link setTag()} with 'srcpackage' as an argument when setting.
+ * @property string                        $srcchannel        Alias of
+ *     {@link tag()} with 'srcchannel' as an argument when getting, alias of
+ *     {@link setTag()} with 'srcchannel' as an argument when setting.
+ * @property string                        $srcuri            Alias of
+ *     {@link tag()} with 'srcuri' as an argument when getting, alias of
+ *     {@link setTag()} with 'srcuri' as an argument when setting.
+ * @property string                        $stability         Alias of
+ *     {@link tag()} with 'stability' as an argument when getting, alias of
+ *     {@link setTag()} with 'stability' as an argument when setting.
+ * @property string|bool                   $state             Alias of
+ *     {@link getState()} when getting, alias of {@link setState()} when
+ *     setting.
+ * @property string                        $summary           Alias of
+ *     {@link tag()} with 'summary' as an argument when getting, alias of
+ *     {@link setTag()} with 'summary' as an argument when setting.
+ * @property int                           $time              Alias of
+ *     {@link tag()} with 'time' as an argument when getting, alias of
+ *     {@link setTag()} with 'time' as an argument when setting.
+ * @property string                        $type              Alias of
+ *     {@link getPackageType()} when getting, alias of {@link setPackageType()}
+ *     when setting.
+ * @property string                        $version           Alias of
+ *     {@link tag()} with 'version' as an argument when getting, alias of
+ *     {@link setTag()} with 'version' as an argument when setting.
+ * 
+ * @property-read array[]                  $allmaintainers    Alias of
+ *     {@link getAllMaintainers()}.
+ * @property-read string                   $api-version       Alias of
+ *     {@link getApiVersion()}.
+ * @property-read string                   $api-state         Alias of
+ *     {@link getApiState()}.
+ * @property-read BundledPackage           $bundledpackage    Alias of
+ *     {@link getBundledPackage()}.
+ * @property-read Compatible               $compatible        Alias of
+ *     {@link getCompatible()}.
+ * @property-read Dependencies             $dependencies      Alias of
+ *     {@link getDependencies()}.
+ * @property-read Files                    $files             Alias of
+ *     {@link getFiles()}.
+ * @property-read FileInstallationFilter   $installcontents   Alias of
+ *     {@link getInstallContents()}.
+ * @property-read array                    $installGroup      Alias of
+ *     {@link getInstallGroup()}.
+ * @property-read Release                  $installrelease    Alias of
+ *     {@link getReleaseToInstall()}.
+ * @property-read Developer                $maintainer        Alias of
+ *     {@link getMaintainer()}.
+ * @property-read PackagingIterator        $packagingcontents Alias of
+ *     {@link getPackagingContents()}.
+ * @property-read array[]                  $rawdeps           Alias of
+ *     {@link getRawDeps()}.
+ * @property-read Release                  $release           Alias of
+ *     {@link getRelease()}.
+ * @property-read string                   $release-version   Alias of
+ *     {@link getReleaseVersion()}.
+ * @property-read array[]                  $releases          Alias of
+ *     {@link getReleases()}.
+ * @property-read bool                     $schemaOK          Alias of
+ *     {@link getSchemaOK()}.
+ * @property-read ScriptFileFilterIterator $scriptfiles       Alias of
+ *     {@link getScriptFiles()}.
+ * @property-read UsesRoleTask             $usesrole          Alias of
+ *     {@link getUsesRoleTask()}.
+ * @property-read UsesRoleTask             $usestask          Alias of
+ *     {@link getUsesRoleTask()}.
+ * 
+ * @property-write string                  $packagerversion   Alias of
+ *     {@link setPackagerVersion()}.
+ * @property-write string                  $uri               Alias of
+ *     {@link setTag()} with 'uri' as the first argument.
  */
-namespace Pyrus\PackageFile;
-class v2 implements \Pyrus\PackageFileInterface
+class v2 implements PackageFileInterface
 {
+    /**
+     * @var string[string]
+     */
     public $rootAttributes = array(
                                  'version' => '2.1',
                                  'xmlns' => 'http://pear.php.net/dtd/package-2.1',
@@ -39,8 +182,8 @@ class v2 implements \Pyrus\PackageFileInterface
      * Parsed package information
      *
      * For created-from-scratch packagefiles, set some basic information needed.
+     * 
      * @var array
-     * @access private
      */
     protected $packageInfo = array('attribs' => array(
         'version' => '2.1',
@@ -77,7 +220,7 @@ class v2 implements \Pyrus\PackageFileInterface
     /**
      * Set if the XML has been validated against schema
      *
-     * @var unknown_type
+     * @var bool TRUE if validated, FALSE otherwise.
      */
     private $_schemaValidated = false;
 
@@ -87,38 +230,21 @@ class v2 implements \Pyrus\PackageFileInterface
 
     /**
      * Mapping of __get variables to method handlers
-     * @var array
+     * 
+     * @var string[string]
      */
     protected $getMap = array(
-        'allmaintainers' => 'getAllMaintainers',
-        'api-version' => 'getApiVersion',
-        'api-state' => 'getApiState',
-        'bundledpackage' => 'getBundledPackage',
         'channel' => 'getChannel',
-        'compatible' => 'getCompatible',
         'contents' => 'getContents',
         'date' => 'tag',
-        'dependencies' => 'getDependencies',
         'description' => 'tag',
         'filepath' => 'getFilePath',
-        'files' => 'getFiles',
-        'installcontents' => 'getInstallContents',
-        'installGroup' => 'getInstallGroup',
-        'installrelease' => 'getReleaseToInstall',
         'license' => 'getLicense',
-        'maintainer' => 'getMaintainer',
         'name' => 'tag',
         'notes' => 'tag',
         'packagefile' => 'getPackageFile',
-        'packagingcontents' => 'getPackagingContents',
         'providesextension' => 'tag',
-        'rawdeps' => 'getRawDeps',
-        'release' => 'getRelease',
-        'release-version' => 'getReleaseVersion',
-        'releases' => 'getReleases',
         'requestedGroup' => 'getRequestedGroup',
-        'schemaOK' => 'getSchemaOK',
-        'scriptfiles' => 'getScriptFiles',
         'sourcepackage' => 'getSourcePackage',
         'srcpackage' => 'tag',
         'srcchannel' => 'tag',
@@ -128,35 +254,60 @@ class v2 implements \Pyrus\PackageFileInterface
         'summary' => 'tag',
         'time' => 'tag',
         'type' => 'getPackageType',
+        'version' => 'tag',
+
+        'allmaintainers' => 'getAllMaintainers',
+        'api-version' => 'getApiVersion',
+        'api-state' => 'getApiState',
+        'bundledpackage' => 'getBundledPackage',
+        'compatible' => 'getCompatible',
+        'dependencies' => 'getDependencies',
+        'files' => 'getFiles',
+        'installcontents' => 'getInstallContents',
+        'installGroup' => 'getInstallGroup',
+        'installrelease' => 'getReleaseToInstall',
+        'maintainer' => 'getMaintainer',
+        'packagingcontents' => 'getPackagingContents',
+        'rawdeps' => 'getRawDeps',
+        'release' => 'getRelease',
+        'release-version' => 'getReleaseVersion',
+        'releases' => 'getReleases',
+        'schemaOK' => 'getSchemaOK',
+        'scriptfiles' => 'getScriptFiles',
         'usesrole' => 'getUsesRoleTask',
         'usestask' => 'getUsesRoleTask',
-        'version' => 'tag',
     );
 
+    /**
+     * Mapping of __set variables to method handlers
+     * 
+     * @var string[string]
+     */
     protected $setMap = array(
-        'packagefile' => 'setPackageFile',
-        'filepath' => 'setFilePath',
-        'contents' => 'setContents',
         'channel' => 'setTag',
-        'uri' => 'setTag',
-        'state' => 'setState',
-        'sourcepackage' => 'setSourcePackage',
+        'contents' => 'setContents',
+        'date' => 'setTag',
+        'description' => 'setTag',
+        'extends' => 'setTag',
+        'filepath' => 'setFilePath',
         'license' => 'setLicense',
-        'version' => 'setVersion',
-        'stability' => 'setStability',
+        'name' => 'setTag',
+        'notes' => 'setTag',
+        'packagefile' => 'setPackageFile',
         'providesextension' => 'setTag',
+        'requestedGroup' => 'setRequestedGroup',
+        'sourcepackage' => 'setSourcePackage',
         'srcpackage' => 'setTag',
         'srcuri' => 'setTag',
-        'name' => 'setTag',
+        'stability' => 'setStability',
+        'state' => 'setState',
         'summary' => 'setTag',
-        'description' => 'setTag',
-        'date' => 'setTag',
         'time' => 'setTag',
-        'notes' => 'setTag',
-        'extends' => 'setTag',
         'type' => 'setType',
+        'version' => 'setVersion',
+
         'packagerversion' => 'setPackagerVersion',
-        'requestedGroup' => 'setRequestedGroup',
+        'uri' => 'setTag',
     );
 
     protected $rawMap = array(
@@ -177,30 +328,35 @@ class v2 implements \Pyrus\PackageFileInterface
     );
 
     /**
-     * path to package.xml or false if this is an abstract parsed-from-string xml
+     * path to package.xml or false if this is an abstract parsed-from-string
+     * xml
+     * 
      * @var string|false
-     * @access private
      */
     protected $_packageFile = false;
 
     /**
-     * path to archive containing this package file, or false if this is a package.xml
-     * or abstract parsed-from-string xml
+     * path to archive containing this package file, or false if this is a
+     * package.xml or abstract parsed-from-string xml.
+     * 
      * @var string|false
-     * @access private
      */
     protected $_archiveFile = false;
 
     /**
-     * Optional Dependency group requested for installation
+     * Optional Dependency group requested for installation.
+     * 
      * @var string
      */
     protected $requestedGroup = false;
 
     /**
-     * Namespace prefix used for tasks in this package.xml - use tasks: whenever possible
+     * Namespace prefix used for tasks in this package.xml - use "tasks:"
+     * whenever possible.
+     * 
+     * @var string
      */
-    var $_tasksNs;
+    public $_tasksNs;
 
     static protected $packagingFilterPrototype = array();
 
@@ -210,6 +366,9 @@ class v2 implements \Pyrus\PackageFileInterface
         $this->_archiveFile = $archive ? $archive : $file;
     }
 
+    /**
+     * @return boolean FALSE, always.
+     */
     function hasConcreteVersion()
     {
         return false;
@@ -221,11 +380,11 @@ class v2 implements \Pyrus\PackageFileInterface
             return $this->release[$this->releaseIndex];
         }
 
-        $errs = new \PEAR2\MultiErrors;
-        $depchecker = new \Pyrus\Dependency\Validator(
+        $errs = new MultiErrors;
+        $depchecker = new Validator2(
             array('channel' => $this->channel,
                   'package' => $this->name),
-            \Pyrus\Validate::INSTALLING, $errs);
+            Validate::INSTALLING, $errs);
         foreach ($this->installGroup as $index => $instance) {
             try {
                 if (isset($instance['installconditions'])) {
@@ -237,7 +396,7 @@ class v2 implements \Pyrus\PackageFileInterface
                             }
 
                             foreach ($conditions as $condition) {
-                                $condition = new v2\Dependencies\Dep(null, $condition, $type);
+                                $condition = new Dep(null, $condition, $type);
                                 $ret = $depchecker->{"validate{$type}Dependency"}($condition);
                             }
                         }
@@ -253,6 +412,9 @@ class v2 implements \Pyrus\PackageFileInterface
         }
     }
 
+    /**
+     * @return boolean|BundledPackage
+     */
     function getBundledPackage()
     {
         if ($this->getPackageType() !== 'bundle') {
@@ -267,7 +429,7 @@ class v2 implements \Pyrus\PackageFileInterface
             $this->packageInfo['contents']['bundledpackage'] = array();
         }
 
-        return new v2\BundledPackage($this, $this->packageInfo['contents']['bundledpackage']);
+        return new BundledPackage($this, $this->packageInfo['contents']['bundledpackage']);
     }
 
     /**
@@ -280,29 +442,34 @@ class v2 implements \Pyrus\PackageFileInterface
      *      $file->installed_as = 'hi';
      * }
      * </code>
+     * 
+     * @return File
      */
     function getContents()
     {
-        return new v2Iterator\File(
-                new v2Iterator\FileAttribsFilter(
-                new v2Iterator\FileContents(
+        return new File(
+                new FileAttribsFilter(
+                new FileContents(
                     $this->packageInfo['contents'], 'contents', $this)),
-                    \RecursiveIteratorIterator::LEAVES_ONLY);
+                    RecursiveIteratorIterator::LEAVES_ONLY);
     }
 
+    /**
+     * @return FileInstallationFilter
+     */
     function getInstallContents()
     {
-        v2Iterator\FileInstallationFilter::setParent($this);
-        return new v2Iterator\FileInstallationFilter(new \ArrayIterator($this->filelist));
+        FileInstallationFilter::setParent($this);
+        return new FileInstallationFilter(new ArrayIterator($this->filelist));
     }
 
     function setPackagingFilter($filter)
     {
         if (is_string($filter)) {
-            $filter = new $filter(new v2Iterator\PackagingIterator($this->filelist));
+            $filter = new $filter(new PackagingIterator($this->filelist));
         }
 
-        if (!($filter instanceof v2Iterator\PackagingFilterBase)) {
+        if (!($filter instanceof PackagingFilterBase)) {
             throw new Exception('Can only set packaging filter to a child of ' .
                                 'Pyrus\PackageFile\v2Iterator\PackagingFilterBase');
         }
@@ -310,27 +477,39 @@ class v2 implements \Pyrus\PackageFileInterface
         self::$packagingFilterPrototype[$this->channel . '/' . $this->name] = $filter;
     }
 
+    /**
+     * @return PackagingIterator
+     */
     function getPackagingContents()
     {
-        v2Iterator\PackagingIterator::setParent($this);
+        PackagingIterator::setParent($this);
         if (isset(self::$packagingFilterPrototype[$this->channel . '/' . $this->name])) {
-            $iterator = new v2Iterator\PackagingIterator($this->filelist);
+            $iterator = new PackagingIterator($this->filelist);
             return self::$packagingFilterPrototype[$this->channel . '/' . $this->name]->getIterator($iterator);
         }
 
-        return new v2Iterator\PackagingIterator($this->filelist);
+        return new PackagingIterator($this->filelist);
     }
 
+    /**
+     * @return ScriptFileFilterIterator
+     */
     function getScriptFiles()
     {
-        return new v2Iterator\ScriptFileFilterIterator($this->filelist, $this);
+        return new ScriptFileFilterIterator($this->filelist, $this);
     }
 
+    /**
+     * @return string
+     */
     function getPackageFile()
     {
         return $this->_packageFile;
     }
 
+    /**
+     * @return string
+     */
     function getFilePath()
     {
         return dirname($this->_packageFile);
@@ -349,6 +528,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $ret;
     }
 
+    /**
+     * @return string
+     */
     function getChannel()
     {
         if (isset($this->packageInfo['uri'])) {
@@ -358,6 +540,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->tag('channel');
     }
 
+    /**
+     * @return string|bool The release state, or FALSE if it's not set.
+     */
     function getState()
     {
         if (!isset($this->packageInfo['stability']) ||
@@ -369,6 +554,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->packageInfo['stability']['release'];
     }
 
+    /**
+     * @return string|bool The API version, or FALSE if it's not set.
+     */
     function getApiVersion()
     {
         if (!isset($this->packageInfo['version']) ||
@@ -380,6 +568,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->packageInfo['version']['api'];
     }
 
+    /**
+     * @return string|bool The release version, or FALSE if it's not set.
+     */
     function getReleaseVersion()
     {
         if (!isset($this->packageInfo['version']) ||
@@ -391,6 +582,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->packageInfo['version']['release'];
     }
 
+    /**
+     * @return string|bool The API state, or FALSE if it's not set.
+     */
     function getApiState()
     {
         if (!isset($this->packageInfo['stability']) ||
@@ -426,6 +620,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return false;
     }
 
+    /**
+     * @return boolean|array
+     */
     function getSourcePackage()
     {
         if (isset($this->packageInfo['extbinrelease']) ||
@@ -438,24 +635,35 @@ class v2 implements \Pyrus\PackageFileInterface
         return false;
     }
 
+    /**
+     * @return License
+     */
     function getLicense()
     {
         if (!isset($this->packageInfo['license'])) {
             $this->packageInfo['license'] = array();
         }
 
-        return new v2\License($this, $this->packageInfo['license']);
+        return new License($this, $this->packageInfo['license']);
     }
 
+    /**
+     * @return Files
+     */
     function getFiles()
     {
-        return new v2\Files($this, $this->filelist);
+        return new Files($this, $this->filelist);
     }
 
+    /**
+     * @param string $var
+     * 
+     * @return UsesRoleTask
+     */
     function getUsesRoleTask($var)
     {
         if (!isset($this->packageInfo[$var])) {
-            return new v2\UsesRoleTask($this, array(), str_replace('uses', '', $var));
+            return new UsesRoleTask($this, array(), str_replace('uses', '', $var));
         }
 
         $info = $this->packageInfo[$var];
@@ -463,9 +671,12 @@ class v2 implements \Pyrus\PackageFileInterface
             $info = array($info);
         }
 
-        return new v2\UsesRoleTask($this, $info, str_replace('uses', '', $var));
+        return new UsesRoleTask($this, $info, str_replace('uses', '', $var));
     }
 
+    /**
+     * @return Developer
+     */
     function getMaintainer()
     {
         $info = array();
@@ -480,7 +691,7 @@ class v2 implements \Pyrus\PackageFileInterface
             }
         }
 
-        return new v2\Developer($this, $info);
+        return new Developer($this, $info);
     }
 
     function getRawDeps()
@@ -489,15 +700,21 @@ class v2 implements \Pyrus\PackageFileInterface
             $this->packageInfo['dependencies'] : false;
     }
 
+    /**
+     * @return Dependencies
+     */
     function getDependencies()
     {
         if (!isset($this->packageInfo['dependencies'])) {
             $this->packageInfo['dependencies'] = array();
         }
 
-        return new v2\Dependencies($this, $this->packageInfo['dependencies']);
+        return new Dependencies($this, $this->packageInfo['dependencies']);
     }
 
+    /**
+     * @return Release
+     */
     function getRelease()
     {
         $t = $this->getPackageType();
@@ -514,9 +731,12 @@ class v2 implements \Pyrus\PackageFileInterface
             $this->packageInfo[$t] = array();
         }
 
-        return new v2\Release($this, $this->packageInfo[$t], $this->filelist);
+        return new Release($this, $this->packageInfo[$t], $this->filelist);
     }
 
+    /**
+     * @return Compatible
+     */
     function getCompatible()
     {
         $compatible = array();
@@ -524,9 +744,12 @@ class v2 implements \Pyrus\PackageFileInterface
             $compatible = $this->packageInfo['compatible'];
         }
 
-        return new v2\Compatible($this, $compatible);
+        return new Compatible($this, $compatible);
     }
 
+    /**
+     * @return Configureoption
+     */
     function getConfigureOption()
     {
         $configureoption = array();
@@ -537,9 +760,12 @@ class v2 implements \Pyrus\PackageFileInterface
             }
         }
 
-        return new v2\Configureoption($this, $configureoption);
+        return new Configureoption($this, $configureoption);
     }
 
+    /**
+     * @return bool TRUE if validated, FALSE otherwise.
+     */
     function getSchemaOK()
     {
         return $this->_schemaValidated;
@@ -550,6 +776,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->_archiveFile;
     }
 
+    /**
+     * @return string
+     */
     function getRequestedGroup()
     {
         return $this->requestedGroup;
@@ -563,9 +792,11 @@ class v2 implements \Pyrus\PackageFileInterface
     /**
      * Directly set the array that defines this packagefile
      *
-     * WARNING: no validation.  This should only be performed by internal methods
-     * inside Pyrus or by inputting an array saved from an existing Pyrus\PackageFile\v2
-     * @param array
+     * WARNING: no validation.  This should only be performed by internal
+     * methods inside Pyrus or by inputting an array saved from an existing
+     * Pyrus\PackageFile\v2.
+     * 
+     * @param array $pinfo
      */
     function fromArray($pinfo)
     {
@@ -573,7 +804,7 @@ class v2 implements \Pyrus\PackageFileInterface
         $this->packageInfo = $pinfo['package'];
     }
 
-    function fromPackageFile(\Pyrus\PackageFileInterface $package)
+    function fromPackageFile(PackageFileInterface $package)
     {
         $this->fromArray($package->toArray());
         $this->setFilelist($package->getFileList());
@@ -636,7 +867,7 @@ class v2 implements \Pyrus\PackageFileInterface
         if (!in_array($attr, array('role', 'name', 'baseinstalldir', 'install-as', 'md5sum'), true)) {
             // check to see if this is a task
             if ($this->isValidTask($attr)) {
-                if ($value instanceof \Pyrus\Task\Common) {
+                if ($value instanceof Common) {
                     $value = $value->getInfo();
                 }
 
@@ -667,6 +898,11 @@ class v2 implements \Pyrus\PackageFileInterface
         $this->filelist[$filename]['attribs'][$attr] = $value;
     }
 
+    /**
+     * @param string $name
+     * 
+     * @return boolean TRUE on sucess, FALSE on failure.
+     */
     function isValidTask($name)
     {
         $tasksns = $this->getTasksNs();
@@ -685,6 +921,7 @@ class v2 implements \Pyrus\PackageFileInterface
 
     /**
      * Used by uninstallation to set directory locations to erase
+     * 
      * @param string $path
      */
     function setDirtree($path)
@@ -697,6 +934,9 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->_dirtree;
     }
 
+    /**
+     * @return bool
+     */
     function isNewPackage()
     {
         return version_compare($this->dependencies['required']->pearinstaller->min,
@@ -711,9 +951,10 @@ class v2 implements \Pyrus\PackageFileInterface
      * version tag in a package or subpackage dependency on the package
      * represented by $pf, as no check is done to see whether $this
      * depends on $pf
+     * 
      * @return boolean
      */
-    function isCompatible(\Pyrus\PackageFileInterface $pf)
+    function isCompatible(PackageFileInterface $pf)
     {
         if (!isset($this->packageInfo['compatible']) || !isset($this->packageInfo['channel'])) {
             return false;
@@ -748,7 +989,12 @@ class v2 implements \Pyrus\PackageFileInterface
         return false;
     }
 
-    function isSubpackageOf(\Pyrus\PackageFileInterface $p)
+    /**
+     * @param PackageFileInterface $p
+     * 
+     * @return bool
+     */
+    function isSubpackageOf(PackageFileInterface $p)
     {
         return $p->isSubpackage($this);
     }
@@ -757,9 +1003,10 @@ class v2 implements \Pyrus\PackageFileInterface
      * Determines whether the passed in package is a subpackage of this package.
      *
      * No version checking is done, only name verification.
+     * 
      * @return bool
      */
-    function isSubpackage(\Pyrus\PackageFileInterface $p)
+    function isSubpackage(PackageFileInterface $p)
     {
         $package = strtolower($p->name);
         foreach (array('required', 'optional', 'group') as $type) {
@@ -795,7 +1042,13 @@ class v2 implements \Pyrus\PackageFileInterface
         return false;
     }
 
-    function isEqual(\Pyrus\PackageFileInterface $pkg)
+    /**
+     * 
+     * @param PackageFileInterface $pkg
+     * 
+     * @return bool
+     */
+    function isEqual(PackageFileInterface $pkg)
     {
         if ($this->channel === '__uri') {
             return $pkg->name === $this->name && $pkg->uri === $this->uri;
@@ -805,9 +1058,12 @@ class v2 implements \Pyrus\PackageFileInterface
     }
 
     /**
-     * Returns true if any dependency, optional or required, exists on the package specified
+     * @param PackageFileInterface $pkg
+     * 
+     * @return bool Returns TRUE if any dependency, optional or required, exists
+     *     on the package specified.
      */
-    function dependsOn(\Pyrus\PackageFileInterface $pkg)
+    function dependsOn(PackageFileInterface $pkg)
     {
         $uri = $pkg->uri;
         $package = strtolower($pkg->name);
@@ -848,7 +1104,8 @@ class v2 implements \Pyrus\PackageFileInterface
     }
 
     /**
-     * @return php|extsrc|extbin|zendextsrc|zendextbin|bundle|false
+     * @return string|bool One of "php", "extsrc", "extbin", "zendextsrc",
+     *     "zendextbin", "bundle" or FALSE.
      */
     function getPackageType()
     {
@@ -879,11 +1136,17 @@ class v2 implements \Pyrus\PackageFileInterface
         return false;
     }
 
+    /**
+     * @return bool TRUE on success, FALSE on failure.
+     */
     function hasDeps()
     {
         return isset($this->packageInfo['dependencies']);
     }
 
+    /**
+     * @return string
+     */
     function getPackagexmlVersion()
     {
         if (isset($this->packageInfo['zendextsrcrelease'])) {
@@ -902,12 +1165,12 @@ class v2 implements \Pyrus\PackageFileInterface
      * and environment (php version, OS, architecture, enabled extensions)
      *
      * @param array $toInstall an array of \Pyrus\Package objects
-     * @param \PEAR2\MultiErrors $errs
+     * @param MultiErrors $errs
      */
-    function validateDependencies(array $toInstall, \PEAR2\MultiErrors $errs)
+    function validateDependencies(array $toInstall, MultiErrors $errs)
     {
-        $dep = new \Pyrus\Dependency\Validator($this->packageInfo['channel'] . '/' . $this->packageInfo['name'],
-            \Pyrus\Validate::DOWNLOADING, $errs);
+        $dep = new Validator2($this->packageInfo['channel'] . '/' . $this->packageInfo['name'],
+            Validate::DOWNLOADING, $errs);
         $dep->validatePhpDependency($this->dependencies['required']->php);
         $dep->validatePearinstallerDependency($this->dependencies['required']->pearinstaller);
         foreach (array('required', 'optional') as $required) {
@@ -933,11 +1196,14 @@ class v2 implements \Pyrus\PackageFileInterface
         }
     }
 
-    function getValidator($state = \Pyrus\Validate::NORMAL)
+    function getValidator($state = Validate::NORMAL)
     {
-        return new v2\Validator;
+        return new Validator;
     }
 
+    /**
+     * @return string
+     */
     function getTasksNs()
     {
         if (!isset($this->_tasksNs) && isset($this->packageInfo['attribs'])) {
@@ -952,6 +1218,11 @@ class v2 implements \Pyrus\PackageFileInterface
         return $this->_tasksNs;
     }
 
+    /**
+     * @param string $file
+     * 
+     * @return string|boolean The base install dir, or FALSE on failure.
+     */
     function getBaseInstallDir($file)
     {
         $file = dirname($file);
@@ -1003,7 +1274,7 @@ class v2 implements \Pyrus\PackageFileInterface
 
     function setLicense($var, $value)
     {
-        if ($value instanceof v2\License) {
+        if ($value instanceof License) {
             return $this->rawlicense = $value->getInfo();
         }
 
@@ -1137,8 +1408,11 @@ class v2 implements \Pyrus\PackageFileInterface
     }
 
     /**
-     * Return the contents of a tag
+     * Return the contents of a tag.
+     * 
      * @param string $name
+     * 
+     * @return mixed
      */
     protected function tag($name)
     {
@@ -1164,7 +1438,7 @@ class v2 implements \Pyrus\PackageFileInterface
                     $info['api'] = null;
                 }
 
-                return new v2\SimpleProperty($this, $info, $name);
+                return new SimpleProperty($this, $info, $name);
         }
 
         if (!isset($this->packageInfo[$name])) {
@@ -1175,12 +1449,14 @@ class v2 implements \Pyrus\PackageFileInterface
     }
 
     /**
-     * Update the changelog based on the current information
+     * Update the changelog based on the current information.
+     * 
+     * @return void
      */
     function updateChangelog()
     {
         $license = $this->license;
-        if ($license instanceof \ArrayObject) {
+        if ($license instanceof ArrayObject) {
             $license = $license->getArrayCopy();
         }
 
@@ -1207,20 +1483,31 @@ class v2 implements \Pyrus\PackageFileInterface
         }
     }
 
+    /**
+     * @return string
+     */
     function __toString()
     {
         $this->packageInfo['attribs'] = $this->rootAttributes;
         $this->packageInfo['date'] = date('Y-m-d');
         $this->packageInfo['time'] = date('H:i:s');
         $arr = $this->toArray();
-        return (string) new \Pyrus\XMLWriter($arr);
+        return (string) new XMLWriter($arr);
     }
 
+    /**
+     * @return $this
+     */
     function toRaw()
     {
         return $this;
     }
 
+    /**
+     * @param bool $forpackaging
+     * 
+     * @return array
+     */
     function toArray($forpackaging = false)
     {
         $this->packageInfo['contents'] = array(
@@ -1232,8 +1519,8 @@ class v2 implements \Pyrus\PackageFileInterface
         uksort($this->filelist, 'strnatcasecmp');
         $a = array_reverse($this->filelist, 1);
         if ($forpackaging) {
-            v2Iterator\PackagingIterator::setParent($this);
-            $a = new v2Iterator\PackagingIterator($a);
+            PackagingIterator::setParent($this);
+            $a = new PackagingIterator($a);
         }
 
         $temp = array();
