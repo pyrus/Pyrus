@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * Pyrus's master configuration manager
  *
@@ -41,8 +43,54 @@
  * @link      https://github.com/pyrus/Pyrus
  * @todo      Add support for restrictive config variable sets
  * @todo      Add support for documentation for config vars
+ * 
+ * @property string $php_dir          The directory with packages'
+ *     PHP files.
+ * @property string $ext_dir          The directory with PECL extensions.
+ * @property string $cfg_dir          The directory with packages'
+ *     configuration files.
+ * @property string $doc_dir          The directory with packages'
+ *     documentation files.
+ * @property string $bin_dir          The directory with packages'
+ *     binary files.
+ * @property string $data_dir         The directory with packages'
+ *     configuration files.
+ * @property string $www_dir          The directory with packages'
+ *     web files.
+ * @property string $test_dir         The directory with packages'
+ *     test files.
+ * @property string $src_dir          The directory with packages'
+ *     binary source files.
+ * @property string $php_bin          Path to the PHP binary.
+ * @property string $php_cgi_bin      Path to the PHP (F)CGI binary.
+ * @property string $php_ini          Path to the php.ini file.
+ * @property string $php_prefix       
+ * @property string $php_suffix       
+ * @property string $default_channel  Default channel.
+ * @property string $preferred_mirror Preferred channel mirror.
+ * @property bool   $auto_discover    Auto-discover new channels from command
+ *     line or dependencies
+ * @property string $http_proxy       An optional HTTP proxy address (host:port) used when downloading packages
+ * @property string $cache_dir        Cache directory.
+ * @property string $temp_dir         Temporary files directory.
+ * @property string $download_dir     Downloads directory.
+ * @property string $username         PEAR username (used by maintainers).
+ * @property string $password         PEAR password (used by maintainers).
+ * @property int    $verbose          Debug log level: 0-3
+ *     where 3 is full debug mode.
+ * @property int    $paranoia         
+ * @property string $preferred_state  
+ * @property string $umask            umask used when creating files
+ *     (Unix-like systems only).
+ * @property int    $cache_ttl        Number of seconds that the local cache is
+ *     used, and not updated (Time To Live).
+ * @property string $openssl_cert     
+ * @property string $handle           
+ * @property string $my_pear_path     PATH_SEPARATOR separated list of
+ *     base folders where packages reside.
+ * @property string $plugins_dir      The base folder where this installation's
+ *     plugins are installed.
  */
-namespace Pyrus;
 class Config
 {
     /**
@@ -145,6 +193,7 @@ class Config
             'test_dir' => '@php_dir@/tests',
             'src_dir' => '@php_dir@/src',
             'php_bin' => '',
+            'php_cgi_bin' => '',
             'php_prefix' => '',
             'php_suffix' => '',
             'php_ini' => '',
@@ -194,6 +243,7 @@ class Config
             'test_dir',
             'src_dir',
             'php_bin',
+            'php_cgi_bin',
             'php_ini',
             'php_prefix',
             'php_suffix',
@@ -366,14 +416,28 @@ class Config
             Logger::log(5, 'used PHP_BINDIR for bin_dir default');
         }
 
-        // construct php_bin
-        $bin = strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ? 'php.exe' : 'php';
-        if (file_exists(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin)) {
+        // construct php_bin and php_cgi_bin
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            $bin = 'php.exe';
+            $cgi_bin = 'php-cgi.exe';
+        } else {
+            $bin = 'php';
+            $cgi_bin = 'php-cgi';
+        }
+        if (is_file(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin)) {
             self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin;
-        } elseif (isset($_ENV['PATH'])) {
+        }
+        if (is_file(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $cgi_bin)) {
+            self::$defaults['php_cgi_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $cgi_bin;
+        }
+        
+        if ((self::$defaults['php_bin'] === '' || self::$defaults['php_cgi_bin'] === '') && isset($_ENV['PATH'])) {
             foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
-                if (file_exists($path . DIRECTORY_SEPARATOR . $bin)) {
+                if (self::$defaults['php_bin'] === '' && is_file($path . DIRECTORY_SEPARATOR . $bin)) {
                     self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . $bin;
+                }
+                if (self::$defaults['php_cgi_bin'] === '' && is_file($path . DIRECTORY_SEPARATOR . $cgi_bin)) {
+                    self::$defaults['php_cgi_bin'] = $path . DIRECTORY_SEPARATOR . $cgi_bin;
                 }
             }
         }
