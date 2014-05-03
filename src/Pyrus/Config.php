@@ -19,9 +19,9 @@ namespace Pyrus;
  *
  * Unlike PEAR version 1.x, the new Pyrus configuration manager is tightly bound
  * to include_path, and will search through include_path for system configuration
- * Pyrus installations.  In addition, the configuration is minimal.  If no changes
- * have been made since instantiation, no attempt is made to write out the configuration
- * file
+ * Pyrus installations.  In addition, the configuration is minimal. If no changes
+ * have been made since instantiation, no attempt is made to write out the
+ * configuration file.
  *
  * The User configuration file will be looked for in these locations:
  *
@@ -44,8 +44,22 @@ namespace Pyrus;
  * @todo      Add support for restrictive config variable sets
  * @todo      Add support for documentation for config vars
  * 
- * @property string $php_dir          The directory with packages'
- *     PHP files.
+ * @property-read Registry                $registry        
+ * @property-read \Pyrus\Channel\Registry $channelregistry 
+ * @property-read PluginRegistry          $pluginregistry  
+ * @property-read string[]                $systemvars      
+ * @property-read string[]                $uservars        
+ * @property-read string[]                $mainsystemvars  
+ * @property-read string[]                $mainuservars    
+ * @property-read string                  $userfile        Location of
+ *     user-specific configuration file.
+ * @property-read string                  $path            Locations of
+ *     all PEAR installations separated by PATH_SEPARATOR.
+ * @property-read string                  $php_dir         The directory with
+ *     packages' PHP files.
+ * @property-read string                  $data_dir        The directory with
+ *     packages' configuration files.
+ * 
  * @property string $ext_dir          The directory with PECL extensions.
  * @property string $cfg_dir          The directory with packages'
  *     configuration files.
@@ -53,8 +67,6 @@ namespace Pyrus;
  *     documentation files.
  * @property string $bin_dir          The directory with packages'
  *     binary files.
- * @property string $data_dir         The directory with packages'
- *     configuration files.
  * @property string $www_dir          The directory with packages'
  *     web files.
  * @property string $test_dir         The directory with packages'
@@ -70,7 +82,8 @@ namespace Pyrus;
  * @property string $preferred_mirror Preferred channel mirror.
  * @property bool   $auto_discover    Auto-discover new channels from command
  *     line or dependencies
- * @property string $http_proxy       An optional HTTP proxy address (host:port) used when downloading packages
+ * @property string $http_proxy       An optional HTTP proxy address (host:port)
+ *     used when downloading packages
  * @property string $cache_dir        Cache directory.
  * @property string $temp_dir         Temporary files directory.
  * @property string $download_dir     Downloads directory.
@@ -181,8 +194,8 @@ class Config
      * PEAR2 configuration location
      * @var array
      */
-    static protected $defaults =
-        array(
+    static protected $defaults
+        = array(
             'php_dir' => '@php_dir@/php', // pseudo-value in this implementation
             'ext_dir' => '@php_dir@/ext',
             'doc_dir' => '@php_dir@/docs',
@@ -275,16 +288,18 @@ class Config
             'preferred_state',
             'umask',
             'cache_ttl',
-            'my_pear_path', // PATH_SEPARATOR-separated list of PEAR repositories to manage
-            'plugins_dir', // full path to location where pyrus plugins are installed
+            //PATH_SEPARATOR-separated list of PEAR repositories to manage
+            'my_pear_path',
+            //full path to location where pyrus plugins are installed
+            'plugins_dir',
         );
 
     /**
      * Configuration variable names that are channel-specific
      * @var array
      */
-    static protected $channelSpecificNames =
-        array(
+    static protected $channelSpecificNames
+        = array(
             'username',
             'password',
             'preferred_mirror',
@@ -333,16 +348,18 @@ class Config
      *
      * @param string $pearDirectory This can be either a single path, or a
      *                              PATH_SEPARATOR-separated list of directories
-     * @param string $userfile
+     * @param string $userfile      
      */
     protected function __construct($pearDirectory = false, $userfile = false)
     {
         self::$initializing = true;
         self::constructDefaults();
         if ($pearDirectory) {
-            $pearDirectory = str_replace(array('\\', '//', '/'),
-                                         array('/',  '/', DIRECTORY_SEPARATOR),
-                                         $pearDirectory);
+            $pearDirectory = str_replace(
+                array('\\', '//', '/'),
+                array('/',  '/', DIRECTORY_SEPARATOR),
+                $pearDirectory
+            );
         }
 
         $this->loadUserSettings($pearDirectory, $userfile);
@@ -366,6 +383,8 @@ class Config
      *
      * The ext_dir variable, bin_dir variable, and php_ini are set up in
      * this method.
+     * 
+     * @return void
      */
     protected static function constructDefaults()
     {
@@ -402,15 +421,21 @@ class Config
             if ($path) {
                 $paths = explode(';', $path);
                 foreach ($paths as $path) {
-                    if ($path != '.' && is_writable($path) && file_exists($path . DIRECTORY_SEPARATOR . 'php.exe')) {
+                    if ($path != '.'
+                        && is_writable($path)
+                        && file_exists($path . DIRECTORY_SEPARATOR . 'php.exe')
+                    ) {
                         Logger::log(5, 'used ' . $path . ' for default bin_dir');
                         self::$defaults['bin_dir'] = $path;
                     }
                 }
             }
 
-            if (self::$defaults['bin_dir'] === PHP_BINDIR){
-                Logger::log(5, 'used PHP_BINDIR on windows for bin_dir default');
+            if (self::$defaults['bin_dir'] === PHP_BINDIR) {
+                Logger::log(
+                    5,
+                    'used PHP_BINDIR on windows for bin_dir default'
+                );
             }
         } else {
             Logger::log(5, 'used PHP_BINDIR for bin_dir default');
@@ -425,33 +450,52 @@ class Config
             $cgi_bin = 'php-cgi';
         }
         if (is_file(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin)) {
-            self::$defaults['php_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin;
+            self::$defaults['php_bin']
+                = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $bin;
         }
         if (is_file(self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $cgi_bin)) {
-            self::$defaults['php_cgi_bin'] = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $cgi_bin;
+            self::$defaults['php_cgi_bin']
+                = self::$defaults['bin_dir'] . DIRECTORY_SEPARATOR . $cgi_bin;
         }
         
-        if ((self::$defaults['php_bin'] === '' || self::$defaults['php_cgi_bin'] === '') && isset($_ENV['PATH'])) {
+        if ((self::$defaults['php_bin'] === ''
+            || self::$defaults['php_cgi_bin'] === '')
+            && isset($_ENV['PATH'])
+        ) {
             foreach (explode(PATH_SEPARATOR, $_ENV['PATH']) as $path) {
-                if (self::$defaults['php_bin'] === '' && is_file($path . DIRECTORY_SEPARATOR . $bin)) {
-                    self::$defaults['php_bin'] = $path . DIRECTORY_SEPARATOR . $bin;
+                if (self::$defaults['php_bin'] === ''
+                    && is_file($path . DIRECTORY_SEPARATOR . $bin)
+                ) {
+                    self::$defaults['php_bin']
+                        = $path . DIRECTORY_SEPARATOR . $bin;
                 }
-                if (self::$defaults['php_cgi_bin'] === '' && is_file($path . DIRECTORY_SEPARATOR . $cgi_bin)) {
-                    self::$defaults['php_cgi_bin'] = $path . DIRECTORY_SEPARATOR . $cgi_bin;
+                if (self::$defaults['php_cgi_bin'] === ''
+                    && is_file($path . DIRECTORY_SEPARATOR . $cgi_bin)
+                ) {
+                    self::$defaults['php_cgi_bin']
+                        = $path . DIRECTORY_SEPARATOR . $cgi_bin;
                 }
             }
         }
 
-        foreach (array_merge(self::$pearConfigNames,
-                             self::$userConfigNames,
-                             self::$channelSpecificNames) as $name) {
+        foreach (array_merge(
+            self::$pearConfigNames,
+            self::$userConfigNames,
+            self::$channelSpecificNames
+        ) as $name) {
             // make sure we've got valid paths for the underlying OS
-            self::$defaults[$name] = str_replace('/', DIRECTORY_SEPARATOR,
-                                                 self::$defaults[$name]);
+            self::$defaults[$name] = str_replace(
+                '/',
+                DIRECTORY_SEPARATOR,
+                self::$defaults[$name]
+            );
         }
 
         self::$defaults['php_ini'] = php_ini_loaded_file();
-        Logger::log(5, 'Used ' . self::$defaults['php_ini'] . ' for php.ini location');
+        Logger::log(
+            5,
+            'Used ' . self::$defaults['php_ini'] . ' for php.ini location'
+        );
     }
 
     static function initializing()
@@ -474,6 +518,7 @@ class Config
      *
      * @param string $pearDirectory
      * @param string $userfile
+     * 
      * @return \Pyrus\Config
      */
     static public function singleton($pearDirectory = false, $userfile = false)
@@ -526,6 +571,10 @@ class Config
 
     /**
      * set the paths to scan for pyrus installations
+     * 
+     * @param string $path The paths to set.
+     * 
+     * @return void
      */
     public function setCascadingRegistries($path)
     {
@@ -550,7 +599,11 @@ class Config
                 }
 
                 $registry_class   = Registry::$className;
-                $registry         = new $registry_class($path, $registries, $readonly);
+                $registry         = new $registry_class(
+                    $path,
+                    $registries,
+                    $readonly
+                );
                 $channel_registry = $registry->getChannelRegistry();
 
                 if (!$readonly) {
@@ -576,8 +629,9 @@ class Config
             } catch (\Exception $e) {
                 if (!$readonly) {
                     throw new Config\Exception(
-                        'Cannot initialize primary registry in path ' .
-                        $path, $e);
+                        'Cannot initialize primary registry in path ' . $path,
+                        $e
+                    );
                 } else {
                     // silently skip this registry
                     continue;
@@ -587,7 +641,11 @@ class Config
     }
 
     /**
-     * @var string path to the configuration to set as the current config
+     * Sets a path as the current config.
+     * 
+     * @param string $path Path to the configuration to set as current.
+     * 
+     * @return void
      */
     static public function setCurrent($path)
     {
@@ -600,6 +658,8 @@ class Config
 
     /**
      * Call to reset the registries after setting or resetting a packagingroot
+     * 
+     * @return void
      */
     function resetForPackagingRoot()
     {
@@ -608,6 +668,7 @@ class Config
 
     /**
      * Retrieve the currently active primary configuration
+     * 
      * @return \Pyrus\Config
      */
     static public function current()
@@ -621,13 +682,16 @@ class Config
 
     /**
      * Can be used to determine whether this user has ever run pyrus before
+     * 
+     * @return bool TRUE if the user has ran Pyrus before, FALSE otherwise.
      */
     static public function userInitialized()
     {
         $userfile = static::getDefaultUserConfigFile();
         if (isset(self::$current)) {
             if (self::$current->userfile != $userfile) {
-                // an explicit userfile was specified, so we assume this was intentional
+                // an explicit userfile was specified,
+                // so we assume this was intentional
                 return true;
             }
         }
@@ -636,13 +700,19 @@ class Config
             // try cwd, this could work
             $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
             if ($test && file_exists($test)) {
-                Logger::log(5, 'User is initialized, found user configuration file in current directory' .
-                    $userfile);
+                Logger::log(
+                    5,
+                    'User is initialized, found user configuration file in '
+                    . 'current directory' . $userfile
+                );
                 return true;
             }
         } else {
-            Logger::log(5, 'User is initialized, found default user configuration file ' .
-                $userfile);
+            Logger::log(
+                5,
+                'User is initialized, found default user configuration file ' .
+                $userfile
+            );
             return true;
         }
         // no way to tell, must be explicit
@@ -664,6 +734,7 @@ class Config
      *
      * On unix, this is ~user/ or a location in /tmp based on the current directory.
      * On windows, this is your Documents and Settings folder.
+     * 
      * @return string
      */
     static protected function locateLocalSettingsDirectory()
@@ -695,6 +766,7 @@ class Config
      * Load the user configuration file
      *
      * This loads exclusively the user config
+     * 
      * @return string path to the PEAR installation we are using
      */
     protected function loadUserSettings($pearDirectory, $userfile = false)
@@ -710,8 +782,11 @@ class Config
             if (!file_exists($userfile)) {
                 $test = realpath(getcwd() . DIRECTORY_SEPARATOR . 'pearconfig.xml');
                 if ($test && file_exists($test)) {
-                    Logger::log(5, 'Found user configuration file in current directory' .
-                        $userfile);
+                    Logger::log(
+                        5,
+                        'Found user configuration file in current directory' .
+                        $userfile
+                    );
                     $userfile = $test;
                 }
             } else {
@@ -745,13 +820,21 @@ class Config
 
             libxml_clear_errors();
             throw new Config\Exception(
-                'Unable to parse invalid user PEAR configuration at "' . $userfile . '"',
-                $e);
+                'Unable to parse invalid user PEAR configuration at "'
+                . $userfile . '"',
+                $e
+            );
         }
 
-        $unsetvalues = array_diff(array_keys((array) $x),
-                                  array_merge(self::$userConfigNames, self::$customUserConfigNames,
-                                              self::$channelSpecificNames, self::$customChannelSpecificNames));
+        $unsetvalues = array_diff(
+            array_keys((array) $x),
+            array_merge(
+                self::$userConfigNames,
+                self::$customUserConfigNames,
+                self::$channelSpecificNames,
+                self::$customChannelSpecificNames
+            )
+        );
         // remove values that are not recognized user config variables
         foreach ($unsetvalues as $value) {
             if ($value == '@attributes') {
