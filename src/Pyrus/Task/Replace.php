@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Task;
+
 /**
  * Implements the replace file task.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Task;
 class Replace extends Common
 {
     const TYPE = 'simple';

@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * Implements Distinguished Encoding Rules serialization and unserialization.
  *
@@ -27,7 +29,6 @@
  * @link      https://github.com/pyrus/Pyrus
  * @link      http://www.oss.com/asn1/dubuisson.html
  */
-namespace Pyrus;
 class DER implements \ArrayAccess
 {
     const SEQUENCE = 0x30;

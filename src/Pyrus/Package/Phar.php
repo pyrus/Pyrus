@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Package;
+
 /**
  * Class for phar packages
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Package;
 class Phar extends \Pyrus\Package\Base
 {
     static private $_tempfiles = array();

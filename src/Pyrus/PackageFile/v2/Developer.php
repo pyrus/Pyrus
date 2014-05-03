@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\PackageFile\v2;
+
 /**
  * Manage an individual maintainer in package.xml
  *
@@ -36,7 +38,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\PackageFile\v2;
 class Developer implements \ArrayAccess, \Iterator
 {
     protected $parent;

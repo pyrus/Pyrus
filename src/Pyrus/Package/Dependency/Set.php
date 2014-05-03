@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Package\Dependency;
+
 /**
  * Implements a set of dependency trees, and manipulates the trees to combine
  * them into a unique set of package releases to download
@@ -27,7 +29,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Package\Dependency;
 class Set
 {
     protected $packageTrees = array();

@@ -11,6 +11,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
+namespace Pyrus\Task;
+
 /**
  * A container for multiple tasks
  *
@@ -23,7 +25,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Task;
 class MultipleProxy extends \ArrayObject implements \IteratorAggregate, \SplObserver
 {
     protected $name;

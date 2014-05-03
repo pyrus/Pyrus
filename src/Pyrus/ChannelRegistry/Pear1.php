@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\ChannelRegistry;
+
 /**
  * This is the central registry, that is used for all installer options,
  * stored in .reg files for PEAR 1 compatibility
@@ -23,7 +25,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\ChannelRegistry;
 class Pear1 extends Base
 {
     private $_channelPath;

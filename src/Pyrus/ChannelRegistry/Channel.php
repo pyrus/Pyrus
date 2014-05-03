@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\ChannelRegistry;
+
 /**
  * A class that represents individual channels within a channel registry
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\ChannelRegistry;
 class Channel extends \Pyrus\ChannelFile\v1 implements \Pyrus\ChannelInterface
 {
     private $_parent;

@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\ChannelRegistry\Mirror;
+
 /**
  * A class for handling mirrors within an xml based channel registry.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\ChannelRegistry\Mirror;
 class Xml extends \Pyrus\ChannelFile\v1\Mirror
 {
     private $_parent;

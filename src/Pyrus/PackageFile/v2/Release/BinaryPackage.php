@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\PackageFile\v2\Release;
+
 /**
  * Represents a binarypackage tag in an extsrcrelease or zendextsrcrelease tag
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\PackageFile\v2\Release;
 class BinaryPackage implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;

@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\DER;
+
 /**
  * Represents a Distinguished Encoding Rule IASN.1 schema
  *
@@ -24,7 +26,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\DER;
 class OCSPRequest extends \Pyrus\DER
 {
     protected function __construct($developerCert)

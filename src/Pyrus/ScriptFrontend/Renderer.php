@@ -20,6 +20,8 @@
  * @since     File available since release 0.1.0
  */
 
+namespace Pyrus\ScriptFrontend;
+
 /**
  * PEAR2_Console_CommandLine default renderer.
  *
@@ -32,7 +34,6 @@
  * @link      http://pear.php.net/package/Console_CommandLine
  * @since     Class available since release 0.1.0
  */
-namespace Pyrus\ScriptFrontend;
 class Renderer extends \PEAR2\Console\CommandLine\Renderer_Default
 {
     /**

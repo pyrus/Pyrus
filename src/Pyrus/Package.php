@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * Abstract representation of a package
  *
@@ -29,7 +31,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus;
 class Package implements \Pyrus\PackageInterface
 {
     /**

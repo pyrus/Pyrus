@@ -76,6 +76,8 @@
  * - define endianness, to allow matchSignature("bigend") etc.
  */
 
+namespace Pyrus;
+
 /**
  * Retrieves information about the current operating system
  *
@@ -91,7 +93,6 @@
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
-namespace Pyrus;
 class OSGuess
 {
     var $sysname;

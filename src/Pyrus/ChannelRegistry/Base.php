@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\ChannelRegistry;
+
 /**
  * Base class for Pyrus managed channel registries
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\ChannelRegistry;
 abstract class Base implements \Pyrus\ChannelRegistryInterface, \Iterator
 {
     protected $path;

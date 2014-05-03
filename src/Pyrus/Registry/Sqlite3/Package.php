@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Registry\Sqlite3;
+
 /**
  * Package within the sqlite3 registry
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Registry\Sqlite3;
 class Package extends \Pyrus\Registry\Package\Base
 {
     public $dirty = false;

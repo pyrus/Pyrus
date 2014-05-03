@@ -11,6 +11,8 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
+namespace Pyrus\Task;
+
 /**
  * A task is an operation that manipulates the contents of a file.
  *
@@ -40,7 +42,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Task;
 abstract class Common extends \ArrayObject implements \SplSubject
 {
     static protected $customtasks = array();

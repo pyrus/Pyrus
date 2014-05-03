@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Package\Dependency\Set;
+
 /**
  * Class to represent vertices within the dependency directed graph.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Package\Dependency\Set;
 class Exception extends \PEAR2\Exception
 {
     

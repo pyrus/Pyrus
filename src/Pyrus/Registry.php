@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * Registry manager
  *
@@ -29,8 +31,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus;
-
 class Registry implements \Pyrus\RegistryInterface, \IteratorAggregate
 {
     static protected $allRegistries = array();

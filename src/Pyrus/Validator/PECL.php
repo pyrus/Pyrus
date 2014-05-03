@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Validator;
+
 /**
  * Channel Validator for the pecl.php.net channel
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Validator;
 class PECL extends \Pyrus\Validate
 {
     function validateVersion()

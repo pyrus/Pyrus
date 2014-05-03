@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\DirectedGraph;
+
 /**
  * Class to represent vertices within the dependency directed graph.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\DirectedGraph;
 class Vertex implements \ArrayAccess, \Countable, \Iterator
 {
     const WHITE = \Pyrus\DirectedGraph::WHITE;

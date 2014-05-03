@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Channel;
+
 /**
  * Remote REST iteration handler for category listing
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Channel;
 class RemoteCategories implements \ArrayAccess, \Iterator
 {
     protected $parent;

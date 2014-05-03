@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Task\Postinstallscript;
+
 /**
  * Implements the postinstallscript file task <paramgroup> tag
  *
@@ -30,7 +32,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Task\Postinstallscript;
 class Paramgroup implements \ArrayAccess, \Iterator, \Countable
 {
     protected $info;

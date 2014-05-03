@@ -13,6 +13,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * Process an array, and serialize it into XML
  *
@@ -25,7 +27,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link       https://github.com/pyrus/Pyrus
  */
-namespace Pyrus;
 class XMLWriter extends \XMLWriter
 {
     private $_array;

@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\PackageFile\v2Iterator;
+
 /**
  * Store the path to the current file recursively
  *
@@ -28,7 +30,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\PackageFile\v2Iterator;
 class FileTag extends \ArrayObject
 {
     public $dir;

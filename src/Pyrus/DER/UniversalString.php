@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\DER;
+
 /**
  * Represents a Distinguished Encoding Rule UniversalString
  *
@@ -24,7 +26,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\DER;
 class UniversalString extends String
 {
     const TAG = 0x1C;
