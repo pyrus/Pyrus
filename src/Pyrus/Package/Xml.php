@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Package;
+
 /**
  * Package represented just by the package.xml file
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Package;
 class Xml extends \Pyrus\Package\Base
 {
     function __construct($package, \Pyrus\Package $parent, \Pyrus\PackageFile $info = null)

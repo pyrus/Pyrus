@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Package\Creator;
+
 /**
  * Class which iterates over all the tasks to perform for package creation.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Package\Creator;
 class TaskIterator extends \FilterIterator
 {
     private $_inner;

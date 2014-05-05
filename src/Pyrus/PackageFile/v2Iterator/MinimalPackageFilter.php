@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\PackageFile\v2Iterator;
+
 /**
  * packaging filter for generating a package without any role=test or role=doc
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\PackageFile\v2Iterator;
 class MinimalPackageFilter extends PackagingFilterBase
 {
     function accept()

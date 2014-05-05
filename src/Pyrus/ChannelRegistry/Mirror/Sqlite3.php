@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\ChannelRegistry\Mirror;
+
 /**
  * Represents a mirror within a Sqlite3 channel registry.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\ChannelRegistry\Mirror;
 class Sqlite3 extends \Pyrus\ChannelRegistry\Sqlite3
     implements \Pyrus\Channel\MirrorInterface
 {

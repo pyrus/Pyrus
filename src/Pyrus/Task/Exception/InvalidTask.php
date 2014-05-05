@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Task\Exception;
+
 /**
  * Exception class for Pyrus Tasks that are invalid for other reasons
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Task\Exception;
 class InvalidTask extends \Pyrus\Task\Exception
 {
     function __construct($task, $file, $reason)

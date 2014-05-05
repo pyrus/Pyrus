@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Registry\Pear1;
+
 /**
  * Package within the PEAR 1.x registry
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Registry\Pear1;
 class Package extends \Pyrus\Registry\Package\Base
 {
     function fromPackageFile(\Pyrus\PackageFileInterface $package)

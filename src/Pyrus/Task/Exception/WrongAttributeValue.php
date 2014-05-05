@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Task\Exception;
+
 /**
  * Exception class for Pyrus Tasks that are invalid because the attribute value is invalid
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Task\Exception;
 class WrongAttributeValue extends \PEAR2\Exception
 {
     function __construct($task, $attribute, $wrongvalue, $file, array $validvalues)

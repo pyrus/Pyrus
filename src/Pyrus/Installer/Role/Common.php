@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Installer\Role;
+
 /**
  * Base class for all installation roles.
  *
@@ -26,7 +28,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Installer\Role;
 class Common
 {
     /**

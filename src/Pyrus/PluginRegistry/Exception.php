@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\PluginRegistry;
+
 /**
  * Exception for a Pyrus PECL package builder.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\PluginRegistry;
 class Exception extends \PEAR2\Exception
 {
 }

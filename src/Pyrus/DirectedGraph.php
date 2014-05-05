@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * Implements a graph data type, used for topological sorting of packages.
  *
@@ -25,7 +27,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus;
 class DirectedGraph implements \Iterator
 {
     const WHITE = 0;

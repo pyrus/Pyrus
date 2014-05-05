@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\ChannelFile;
+
 /**
  * Base class for a PEAR channel.
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\ChannelFile;
 class v1 extends \Pyrus\ChannelFile implements \Pyrus\ChannelFileInterface
 {
     /**

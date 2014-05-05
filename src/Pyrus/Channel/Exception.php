@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Channel;
+
 /**
  * Exception for channels
  *
@@ -22,5 +24,4 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Channel;
 class Exception extends \PEAR2\Exception {}

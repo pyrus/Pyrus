@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Installer\Role;
+
 /**
  * Custom task xml file role
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Installer\Role;
 class Customcommand extends \Pyrus\Installer\Role\Data
 {
     function validate(\Pyrus\PackageInterface $package, array $file)

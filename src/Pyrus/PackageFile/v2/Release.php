@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\PackageFile\v2;
+
 /**
  * Manage a release in package.xml
  *
@@ -52,7 +54,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\PackageFile\v2;
 class Release implements \ArrayAccess, \Countable
 {
     private $_parent;

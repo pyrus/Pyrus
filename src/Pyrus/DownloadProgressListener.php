@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * This PEAR2_HTTP_Request listener implements a download progress bar
  *
@@ -22,8 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-
-namespace Pyrus;
 class DownloadProgressListener extends \PEAR2\HTTP\Request\Listener
 {
     protected $filesize;

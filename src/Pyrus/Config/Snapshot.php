@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus\Config;
+
 /**
  * Pyrus's master configuration manager
  *
@@ -38,7 +40,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus\Config;
 class Snapshot extends \Pyrus\Config
 {
     /**

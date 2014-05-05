@@ -12,6 +12,8 @@
  * @link      https://github.com/pyrus/Pyrus
  */
 
+namespace Pyrus;
+
 /**
  * This class serves one purpose, removing the exit() call from displayUsage()
  *
@@ -22,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @link      https://github.com/pyrus/Pyrus
  */
-namespace Pyrus;
 class ScriptFrontend extends \PEAR2\Console\CommandLine
 {
     public function addCommand($name, $params = array(), $overrideOK = false)
